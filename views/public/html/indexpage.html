@@ -627,7 +627,7 @@ id='logout'>
                 <div class="container-fluid">
                       <h5 class="text-center mt-5">Candidate Status on <span id="datetime" class="text-primary"></span></h5>
               
-                      
+
                        <div class=" text-center d-flex justify-content-center  ">
                             <div class="col-md-6 mt-3">
                                 <div class="candidate-status card p-5">
@@ -715,7 +715,7 @@ id='logout'>
                     const token = localStorage.getItem('token');
               
                     // Fetch discussion counts
-                    const discussionCountsResponse = await fetch('http://localhost:3000/candidate/discussion-count', {
+                    const discussionCountsResponse = await fetch('http://nemonode.ivistaz.co:8000/candidate/discussion-count', {
                       headers: { "Authorization": token }
                     });
                     const discussionCountsData = await discussionCountsResponse.json();
@@ -726,7 +726,7 @@ id='logout'>
 
               
                     // Fetch call count
-                    const callCountResponse = await fetch('http://localhost:3000/candidate/call-count', {
+                    const callCountResponse = await fetch('http://nemonode.ivistaz.co:8000/candidate/call-count', {
                       headers: { "Authorization": token }
                     });
                     const callCountData = await callCountResponse.json();

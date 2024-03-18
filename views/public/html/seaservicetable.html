@@ -778,7 +778,7 @@ id='logout'>
                 async function fetchAndDisplaySeaService(candidateId) {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await axios.get(`http://localhost:3000/candidate/get-sea-service/${candidateId}`, {
+                        const response = await axios.get(`http://nemonode.ivistaz.co:8000/candidate/get-sea-service/${candidateId}`, {
                             headers: { "Authorization": token }
                         });
             
@@ -821,7 +821,7 @@ id='logout'>
                     if (confirm('Are you sure you want to delete this sea service record?')) {
                         try {
                             const token = localStorage.getItem('token');
-                            await axios.delete(`http://localhost:3000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+                            await axios.delete(`http://nemonode.ivistaz.co:8000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
                             // Remove the corresponding row from the table
                             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
                             seaServiceRow.remove();
@@ -859,7 +859,7 @@ id='logout'>
         try {
             const token = localStorage.getItem('token');
             const id = localStorage.getItem('memId');
-            const response = await axios.post(`http://localhost:3000/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://nemonode.ivistaz.co:8000/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response.data);
             alert('Sea Service record added successfully!');
             seaServiceForm.reset();

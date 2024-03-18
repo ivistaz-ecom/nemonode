@@ -611,6 +611,7 @@ id='logout'>
                                 <th>Reminder Set</th>
                                 <th>Candidate ID</th>
                                 <th>Reminder text</th>
+                                <th>Reminder Status</th>
                             </tr>
                         </thead>
                         <tbody id="discussionRanksBody"></tbody>
@@ -618,7 +619,6 @@ id='logout'>
                 </div>
             </div>
         
-            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -637,7 +637,7 @@ id='logout'>
                     async function fetchData(selectedDate) {
                         try {
                             const token = localStorage.getItem('token');
-                            const response = await axios.get('http://localhost:3000/candidate/reminder', {
+                            const response = await axios.get('http://nemonode.ivistaz.co:8000/candidate/reminder', {
                                 headers: { "Authorization": token },
                                 params: { date: selectedDate }
                             });
@@ -649,37 +649,55 @@ id='logout'>
                     }
             
                     function renderDiscussionRanks(discussionRanks) {
-                        const today = new Date();
-                        const discussionRanksRows = discussionRanks.map(({ reminder_date, candidateId, reminder_text }, index) => {
-                            const reminderDate = new Date(reminder_date);
-                            let badgeClass = '';
-                            let badgeText = '';
-            
-                            if (reminderDate.toDateString() === today.toDateString()) {
-                                badgeClass = 'badge bg-primary';
-                                badgeText = 'Today';
-                            } else if (reminderDate < today) {
-                                badgeClass = 'badge bg-danger';
-                                badgeText = 'Ended';
-                            } else {
-                                badgeClass = 'badge bg-success';
-                                badgeText = 'Upcoming';
-                            }
-            
-                            return `
-                                <tr>
-                                    <td>${reminder_date}</td>
-                                    <td>${candidateId}</td>
-                                    <td>
-                                        <span class="${badgeClass}">${badgeText}</span>
-                                        ${reminder_text}
-                                    </td>
-                                </tr>
-                            `;
-                        }).join('');
-            
-                        discussionRanksBody.innerHTML = discussionRanksRows;
-                    }
+        const today = new Date();
+        const sortedRanks = discussionRanks.sort((a, b) => {
+    const dateA = new Date(a.reminder_date);
+    const dateB = new Date(b.reminder_date);
+
+    if (dateA.toDateString() === today.toDateString()) {
+        if (dateB.toDateString() === today.toDateString()) {
+            return 0; // Both are today, keep their relative order
+        } else {
+            return -1; // A is today, so it comes before B
+        }
+    } else if (dateB.toDateString() === today.toDateString()) {
+        return 1; // B is today, so it comes before A
+    }
+
+    if (dateA < today && dateB >= today) return 1; // Ended comes last
+    if (dateA > today && dateB < today) return -1; // Upcoming comes before ended
+    return dateA - dateB; // Sort other dates chronologically
+});
+
+
+        const discussionRanksRows = sortedRanks.map(({ reminder_date, candidateId, reminder_text }) => {
+            const reminderDate = new Date(reminder_date);
+            let badgeClass = '';
+            let badgeText = '';
+
+            if (reminderDate.toDateString() === today.toDateString()) {
+                badgeClass = 'badge bg-primary';
+                badgeText = 'Today';
+            } else if (reminderDate < today) {
+                badgeClass = 'badge bg-danger';
+                badgeText = 'Ended';
+            } else {
+                badgeClass = 'badge bg-success';
+                badgeText = 'Upcoming';
+            }
+
+            return `
+                <tr>
+                    <td>${reminder_date}</td>
+                    <td>${candidateId}</td>
+                    <td>${reminder_text}</td>
+                    <td><span class="${badgeClass}">${badgeText}</span></td>
+                </tr>
+            `;
+        }).join('');
+
+        discussionRanksBody.innerHTML = discussionRanksRows;
+    }
                 });
             </script>
             

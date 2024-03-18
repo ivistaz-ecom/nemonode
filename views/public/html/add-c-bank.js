@@ -75,7 +75,7 @@ if (hasUserManagement) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:3000/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://nemonode.ivistaz.co:8000/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -192,8 +192,9 @@ async function handleBankDetailsForm(event) {
         nriPassbookFile
     };
 
+
     try {
-        const response = await axios.post(`http://localhost:3000/candidate/bank-details/${currentCandidateId}`, bankDetails, {
+        const response = await axios.post(`http://nemonode.ivistaz.co:8000/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'

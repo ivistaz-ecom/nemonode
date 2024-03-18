@@ -40,7 +40,7 @@ if (hasUserManagement) {
 
             try {
                 // Make an Axios request to your backend API to add travel details
-                const response = await axios.post(`http://localhost:3000/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
+                const response = await axios.post(`http://nemonode.ivistaz.co:8000/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
 
                 // Handle success response from the server
                 console.log('Travel details added successfully:', response.data);
@@ -55,7 +55,7 @@ if (hasUserManagement) {
         async function fetchAndDisplayTravelDetails() {
             try {
                 // Make an Axios request to your backend API to get travel details
-                const response = await axios.get(`http://localhost:3000/candidate/get-travel-details/${id}`, {
+                const response = await axios.get(`http://nemonode.ivistaz.co:8000/candidate/get-travel-details/${id}`, {
                     headers: { "Authorization": token }
                 });
 
@@ -94,7 +94,7 @@ if (hasUserManagement) {
             }
         }
 
-        const portAgentResponse = await axios.get("http://localhost:3000/others/view-port-agent", { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -188,7 +188,7 @@ async function deleteTravel(travelId) {
 
     try {
         // Make an Axios request to your backend API to delete the travel entry
-        const response = await axios.delete(`http://localhost:3000/candidate/delete-travel/${travelId}`, {
+        const response = await axios.delete(`http://nemonode.ivistaz.co:8000/candidate/delete-travel/${travelId}`, {
             headers: { "Authorization": token }
         });
 
