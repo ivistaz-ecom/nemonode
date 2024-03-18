@@ -669,7 +669,7 @@ id='logout'>
     console.log(id)
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:3000/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
         console.log(response)
         const seaService = response.data.editSea[0];
         console.log("edit response", response.data)
@@ -720,7 +720,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Send PUT request to update sea service data
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:3000/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`http://localhost:4000/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response);
             alert('Sea Service record updated successfully!');
             // editSeaServiceForm.reset();

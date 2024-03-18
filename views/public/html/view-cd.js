@@ -3,7 +3,7 @@ const candidateId = localStorage.getItem('cmemId'); // Retrieve candidateId from
 
 async function fetchData() {
     try {
-        const response = await axios.get(`http://localhost:3000/candidate/get-c-candidate/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-c-candidate/${candidateId}`, {
             headers: { "Authorization": token }
         });
 

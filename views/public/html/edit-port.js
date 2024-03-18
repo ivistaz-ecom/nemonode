@@ -5,7 +5,7 @@ let currentPage = 1; // Initialize current page
 async function displayPort(page = 1, limit = 10) {
     try {
         // Fetch ports from the server with pagination parameters
-        const portResponse = await axios.get(`http://localhost:3000/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const portResponse = await axios.get(`http://localhost:4000/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Port Response:', portResponse);
 
         const portTable = document.getElementById("port-table");
@@ -137,7 +137,7 @@ async function deletePort(portId, event) {
     event.preventDefault();
 
     const id = portId;
-    const url = `http://localhost:3000/others/delete-port/${id}`;
+    const url = `http://localhost:4000/others/delete-port/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
