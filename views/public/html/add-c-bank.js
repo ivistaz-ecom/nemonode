@@ -191,6 +191,7 @@ async function handleBankDetailsForm(event) {
         nriAddress,
         nriPassbookFile
     };
+    
 
     try {
         const response = await axios.post(`http://localhost:4000/candidate/bank-details/${currentCandidateId}`, bankDetails, {
