@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search</title>
+</head>
+<body>
+  <div class="p-5">
+    <div>
+      <h2>All Queries</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Categories</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Reply</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="query-table-body">
+          <!-- Query rows will be dynamically added using JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="p-5">
+      <h2>Add Query</h2>
+      <form id="add-query-form">
+        <label for="categories">Select categories</label>
+        <input id="categories" type="text" required>
+        <label for="description">Enter description</label>
+        <input id="description" type="text" required>
+        <label for="status">Status</label>
+        <input id="status" type="text" required>
+        <label for="query_file">Query File</label>
+        <input id="query_file" type="text" required>
+        <button type="submit">Add Query</button>
+      </form>
+    </div>
+
+    <div id="edit-query-section" class="p-5" style="display: none;">
+      <h2>Edit Query</h2>
+      <form id="edit-query-form">
+        <label for="edit_categories">Select categories</label>
+        <input id="edit_categories" type="text" required>
+        <label for="edit_description">Enter description</label>
+        <input id="edit_description" type="text" required>
+        <label for="edit_status">Status</label>
+        <input id="edit_status" type="text" required>
+        <label for="edit_query_file">Query File</label>
+        <input id="edit_query_file" type="text" required>
+        <label for="edit_reply">Reply</label>
+        <input id="edit_reply" type="text">
+        <button type="submit">Edit Query</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/cjs/jwt-decode.min.js"></script>
+  <script>
+    let queries; // Define queries variable outside fetchQueries function
+
+    // Function to fetch queries from the server
+    const fetchQueries = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:3000/others/query-fetch', {
+          headers: {
+            'Authorization': token
+          }
+        });
+        queries = response.data; // Assign fetched data to queries variable
+
+        // Clear previous query rows
+        const queryTableBody = document.getElementById('query-table-body');
+        queryTableBody.innerHTML = '';
+
+        // Populate table with fetched queries
+        queries.forEach(query => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${query.categories}</td>
+            <td>${query.description}</td>
+            <td>${query.status}</td>
+            <td>${query.reply}</td>
+            <td>
+              <button onclick="handleEdit(${query.id})">Reply to Query</button>
+            </td>
+          `;
+          queryTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching queries:', error);
+      }
+    };
+
+    // Rest of the code remains the same
+
+    // Event listener for adding a new query
+    const addQueryForm = document.getElementById('add-query-form');
+    addQueryForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const categories = document.getElementById('categories').value;
+      const description = document.getElementById('description').value;
+      const status = document.getElementById('status').value;
+      const query_file = document.getElementById('query_file').value;
+
+      try {
+        const token = localStorage.getItem('token');
+        await axios.post('http://localhost:3000/others/query', {
+          categories,
+          description,
+          status,
+          query_file
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+
+        // Refresh query list
+        fetchQueries();
+
+        // Clear form fields
+        addQueryForm.reset();
+      } catch (error) {
+        console.error('Error adding query:', error);
+      }
+    });
+
+    // Function to handle editing a query
+    const editQueryForm = document.getElementById('edit-query-form');
+    const editQuerySection = document.getElementById('edit-query-section');
+    let queryId; // Variable to store the queryId being edited
+
+    const handleEdit = (id) => {
+      queryId = id; // Set the queryId to the id of the query being edited
+
+      // Show the edit query section
+      editQuerySection.style.display = 'block';
+
+      // Fetch the query data to pre-fill the edit form
+      const query = queries.find(q => q.id === id);
+      if (query) {
+        document.getElementById('edit_categories').value = query.categories;
+        document.getElementById('edit_description').value = query.description;
+        document.getElementById('edit_status').value = query.status;
+        document.getElementById('edit_query_file').value = query.query_file;
+        document.getElementById('edit_reply').value = query.reply || '';
+      }
+    };
+
+    // Event listener for editing a query
+    editQueryForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const editCategories = document.getElementById('edit_categories').value;
+      const editDescription = document.getElementById('edit_description').value;
+      const editStatus = document.getElementById('edit_status').value;
+      const editQueryFile = document.getElementById('edit_query_file').value;
+      const editReply = document.getElementById('edit_reply').value;
+
+      try {
+        const token = localStorage.getItem('token');
+        await axios.put(`http://localhost:3000/others/query/${queryId}`, {
+          categories: editCategories,
+          description: editDescription,
+          status: editStatus,
+          query_file: editQueryFile,
+          reply: editReply
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+
+        // Hide the edit query section
+        editQuerySection.style.display = 'none';
+
+        // Refresh query list
+        fetchQueries();
+      } catch (error) {
+        console.error('Error editing query:', error);
+      }
+    });
+
+    // Initial fetch of queries
+    fetchQueries();
+  </script>
+</body>
+</html>

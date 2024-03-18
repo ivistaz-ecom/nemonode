@@ -60,6 +60,11 @@ router.delete('/delete-document/:id', userAuthentication.authenticate, candidate
 router.delete('/delete-contract/:id', userAuthentication.authenticate, candidateControllers.delete_contract);
 router.delete('/delete-discussionplus/:id', userAuthentication.authenticate, candidateControllers.delete_discussionplus);
 
+router.delete('/delete-sea-service/:id', userAuthentication.authenticate, candidateControllers.deleteSeaService);
+router.put('/edit-sea-service/:id',userAuthentication.authenticate,candidateControllers.editSeaService)
+router.post('/sea-service/:id',userAuthentication.authenticate,candidateControllers.createSeaService)
+router.get('/get-sea-service/:id',userAuthentication.authenticate,candidateControllers.getAllSeaService)
+router.get('/get-sea/:id',userAuthentication.authenticate,candidateControllers.getSea)
 
 router.post('/reports/view-new-profile',userAuthentication.authenticate,candidateControllers.new_profile)
 router.get('/birthday',userAuthentication.authenticate,candidateControllers.birthday)

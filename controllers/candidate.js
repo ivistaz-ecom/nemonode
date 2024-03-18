@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const sequelize = require('../util/database')
 const {Op} = require('sequelize')
 const validate = (inputString) => inputString !== undefined && inputString.length !== 0;
-
+const SeaService = require('../models/seaservice')
 const Calls = require('../models/todaysCalls')
 
 const add_candidate = async (req, res) => {
@@ -620,13 +620,36 @@ const createSeaService = async (req, res) => {
 
 const getAllSeaService = async (req, res) => {
     try {
-        const seaServices = await SeaService.findAll();
+        const id = req.params.id;
+        const seaServices = await SeaService.findAll(
+            {
+                where:{candidateId:id}
+            }
+        );
         res.json(seaServices);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+const getSea = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const sea = await SeaService.findAll({
+            where: {
+                id: id
+            }
+        });
+        res.status(200).json({
+            editSea: sea,
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 
 const deleteSeaService = async (req, res) => {
     const seaServiceId = req.params.id;
@@ -1488,47 +1511,60 @@ const reportAll = async(req,res)=>{
 
 const checkExpiry = async (req, res) => {
     try {
-      const expiringSoonDocuments = await checkExpiryDates();
-      res.status(200).json(expiringSoonDocuments);
-    } catch (error) {
-      console.error('Error checking expiry dates:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-  
-  const checkExpiryDates = async () => {
-    try {
-      console.log('Working...');
-  
-      // Get current date
-      const currentDate = new Date();
-      
-      // Calculate the future date (e.g., 30 days from now)
-      const futureDate = new Date();
-      futureDate.setDate(futureDate.getDate() + 30); // Change 30 to the desired timeframe
-  
-      // Find documents with expiry dates approaching within the timeframe
-      const documents = await Documents.findAll({
-        where: {
-          expiry_date: {
-            [Op.between]: [currentDate, futureDate]
-          }
+        let expiringSoonDocuments;
+        const { date } = req.query; // Extract date from request query parameters
+
+        if (date) {
+            // If date is present in the request, filter documents by expiry date matching the date input
+            expiringSoonDocuments = await checkExpiryDates(date);
+        } else {
+            // If no date is present in the request, retrieve all documents ordered by expiry date
+            expiringSoonDocuments = await checkExpiryDates();
         }
-      });
-  
-      // Filter documents that are expiring soon (e.g., within 7 days)
-      const expiringSoonDocuments = documents.filter(document => {
-        const timeDifference = document.expiry_date.getTime() - currentDate.getTime();
-        const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-        return daysDifference <= 30; // Adjust the threshold as needed
-      });
-  
-      return expiringSoonDocuments;
+
+        res.status(200).json(expiringSoonDocuments);
     } catch (error) {
-      console.error('Error checking expiry dates:', error);
-      throw error;
+        console.error('Error checking expiry dates:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  };
+};
+
+const checkExpiryDates = async (date = null) => {
+    try {
+        console.log('Working...');
+
+        // Define options for finding documents
+        const options = {
+            order: [['expiry_date', 'ASC']], // Order by expiry_date in ascending order
+        };
+
+        // If date is provided, add a condition to filter documents by expiry date matching the input date
+        if (date) {
+            // To properly match the date, we need to consider the time as well
+            const startDate = new Date(date);
+            const endDate = new Date(date);
+            endDate.setDate(endDate.getDate() + 1); // Add one day to get the next day
+            options.where = {
+                expiry_date: {
+                    [Op.gte]: startDate, // Greater than or equal to the input date
+                    [Op.lt]: endDate,    // Less than the next day
+                }
+            };
+        }
+
+        // Find documents based on the defined options
+        const documents = await Documents.findAll(options);
+
+        return documents;
+    } catch (error) {
+        console.error('Error checking expiry dates:', error);
+        throw error;
+    }
+};
+
+
+
+
   const Reminder = async (req, res) => {
     try {
         const currentDate = new Date();
@@ -1663,5 +1699,6 @@ module.exports = {
     Reminder,
     getCallCount,
     countOperations,
-    calls_made
+    calls_made,
+    getSea
 };

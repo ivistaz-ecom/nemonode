@@ -1956,9 +1956,11 @@ const createQueries = async (req, res) => {
 
 const editQueries = async (req, res) => {
   try {
+    console.log('------------------HI')
     const userId = req.user.id;
-    const { id, categories, description, status, reply } = req.body;
-
+    const id = req.params.id
+    const { categories, description, status, reply } = req.body;
+    console.log(id,userId , categories,description,status,reply)
     const user = await User.findByPk(userId);
     const userGroup = user ? user.userGroup : null;
 

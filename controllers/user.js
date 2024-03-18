@@ -13,10 +13,12 @@ function generateAccessToken(id, userName,userEmail,
   Write,
   imports ,
   exports,
+  reports,
+  reports_all,
   userManagement ,
   vendorManagement,
   reports,master_create) {
-  return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,userManagement:userManagement,vendorManagement:vendorManagement,reports:reports,master_create:master_create}, 'secretkey');
+  return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,userManagement:userManagement,vendorManagement:vendorManagement,reports:reports,reports_all:reports_all,master_create:master_create}, 'secretkey');
 }
 
 
@@ -253,7 +255,7 @@ const login = async (req, res, next) => {
 
         if (passwordMatch) {
           // Password is correct, generate JWT token
-          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.master_create);
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create);
           console.log(token);
           return res.status(200).json({
             success: true,

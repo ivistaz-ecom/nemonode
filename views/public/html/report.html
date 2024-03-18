@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html
+  lang="en"
+  class="light-style"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Reports | Nsnemo</title>
+
+    <meta name="description" content="" />
+
+    
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="../assets/vendor/css/pages/page-misc.css" />
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
+  </head>
+
+  <body>
+    <!-- Content -->
+
+    <!--Under Maintenance -->
+    <!-- <div class="container-xxl container-p-y">
+      <div class="misc-wrapper">
+        <h2 class="mb-2 mx-2">Under Maintenance!</h2>
+        <p class="mb-4 mx-2">Sorry for the inconvenience but we're performing some maintenance at the moment</p>
+        <a href="indexpage.html" class="btn btn-primary">Back to home</a>
+        <div class="mt-4">
+          <img
+            src="../assets/img/illustrations/girl-doing-yoga-light.png"
+            alt="girl-doing-yoga-light"
+            width="500"
+            class="img-fluid"
+            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+            data-app-light-img="illustrations/girl-doing-yoga-light.png"
+          />
+        </div>
+      </div>
+    </div> -->
+    <!-- /Under Maintenance -->
+
+    <!-- / Content -->
+     <div class="container p-5">
+      <h1>Reports</h1>
+      <form id="reportForm">
+          <div class="mb-3">
+              <label for="reportType" class="form-label">Select Report</label>
+              <select id="reportType" class="form-select">
+                  <option value="">Select Report</option>
+                  <option value="New Profile">New Profile</option>
+                  <option value="Another Report">Another Report</option>
+              </select>
+          </div>
+          
+          <!-- New Profile Fields -->
+          <div id="newProfileFields" style="display: none;">
+            <h2>New Profile Fields</h2>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
+                <label class="form-check-label" for="candidateId">Candidate ID</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="fname" name="fname">
+                <label class="form-check-label" for="fname">First Name</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
+                <label class="form-check-label" for="c_rank">Rank</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
+                <label class="form-check-label" for="c_vessel">Vessel Type</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c_ad1" name="c_ad1">
+                <label class="form-check-label" for="c_ad1">Address</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c_city" name="c_city">
+                <label class="form-check-label" for="c_city">City</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
+                <label class="form-check-label" for="nationality">Nationality</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c_mobi1" name="c_mobi1">
+                <label class="form-check-label" for="c_mobi1">Contact Number</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="last_company" name="last_company">
+                <label class="form-check-label" for="last_company">Previous Company</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="email1" name="email1">
+                <label class="form-check-label" for="email1">Email</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="last_salary" name="last_salary">
+                <label class="form-check-label" for="last_salary">Last Salary</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="experience" name="experience">
+                <label class="form-check-label" for="experience">Experience</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="dob" name="dob">
+                <label class="form-check-label" for="dob">Date of Birth</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
+                <label class="form-check-label" for="avb_date">Availability</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="height" name="height">
+                <label class="form-check-label" for="height">Height</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="weight" name="weight">
+                <label class="form-check-label" for="weight">Weight</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="safety_shoe_size" name="safety_shoe_size">
+                <label class="form-check-label" for="safety_shoe_size">Safety Shoe Size</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="boiler_suit_size" name="boiler_suit_size">
+                <label class="form-check-label" for="boiler_suit_size">Boiler Suit Size</label>
+            </div>
+        </div>
+  
+  
+          <div id="anotherReportFields" style="display: none;">
+              <!-- Include Another Report Fields here -->
+          </div>
+  
+          <div class="text-end mt-3">
+              <button id="generateReport" type="button" class="btn btn-primary">
+                  Generate Report
+              </button>
+          </div>
+          <a href='./indexpage.html'> > Back Home</a>
+  
+          <div id="reportTable" class="mt-5"></div>
+      </form>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const selectedFields = {
+              candidateId: false,
+              fname: false,
+              c_rank: false,
+              c_vessel: false,
+              c_ad1: false,
+              c_city: false,
+              nationality: false,
+              c_mobi1: false,
+              last_company: false,
+              email1: false,
+              last_salary: false,
+              experience: false,
+              dob: false,
+              avb_date: false,
+              height: false,
+              weight: false,
+              safety_shoe_size: false,
+              boiler_suit_size: false
+          };
+  
+          const handleDropdownChange = function (e) {
+              const selectedOption = e.target.value;
+              const newProfileFields = document.getElementById('newProfileFields');
+              if (selectedOption === 'New Profile') {
+                  newProfileFields.style.display = 'block';
+              } else {
+                  newProfileFields.style.display = 'none';
+              }
+          };
+  
+          const handleCheckboxChange = function (e) {
+              const id = e.target.id;
+              const checked = e.target.checked;
+              selectedFields[id] = checked;
+          };
+  
+          const handleGenerateReport = async function () {
+              try {
+                  if (!Object.values(selectedFields).some(Boolean)) {
+                      throw new Error('Please select at least one field.');
+                  }
+  
+                  const endpoint = 'http://localhost:3000/candidate/reports/view-new-profile';
+                  const token = localStorage.getItem('token');
+                  const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
+  
+                  if (!response.data || !response.data.candidates) {
+                      throw new Error('Error generating report');
+                  }
+  
+                  const filteredData = response.data.candidates.map(candidate => {
+                      const filteredCandidate = {};
+                      Object.keys(selectedFields).forEach(field => {
+                          if (selectedFields[field]) {
+                              filteredCandidate[field] = candidate[field];
+                          }
+                      });
+                      return filteredCandidate;
+                  });
+  
+                  renderTable(filteredData);
+              } catch (error) {
+                  console.error('Error generating report:', error.message);
+              }
+          };
+  
+          const renderTable = function (data) {
+              const reportTableDiv = document.getElementById('reportTable');
+              reportTableDiv.innerHTML = '';
+  
+              if (data.length === 0) {
+                  reportTableDiv.innerHTML = '<div>No data to display</div>';
+                  return;
+              }
+  
+              const table = document.createElement('table');
+              table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover');
+              const thead = document.createElement('thead');
+              const tbody = document.createElement('tbody');
+  
+              const columns = Object.keys(data[0]);
+  
+              const headerRow = document.createElement('tr');
+              columns.forEach((column) => {
+                  const th = document.createElement('th');
+                  th.textContent = column;
+                  headerRow.appendChild(th);
+              });
+              thead.appendChild(headerRow);
+  
+              data.forEach((rowData) => {
+                  const row = document.createElement('tr');
+                  columns.forEach((column) => {
+                      const td = document.createElement('td');
+                      td.textContent = rowData[column];
+                      row.appendChild(td);
+                  });
+                  tbody.appendChild(row);
+              });
+  
+              table.appendChild(thead);
+              table.appendChild(tbody);
+  
+              reportTableDiv.appendChild(table);
+  
+              // Add Export to Excel button
+              const exportButton = document.createElement('button');
+              exportButton.textContent = 'Export to Excel';
+              exportButton.className='btn btn-success'
+              exportButton.addEventListener('click', function () {
+                  exportToExcel(data);
+              });
+              reportTableDiv.appendChild(exportButton);
+          };
+  
+          const exportToExcel = function (data) {
+              const worksheet = XLSX.utils.json_to_sheet(data);
+              const workbook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
+              XLSX.writeFile(workbook, 'report.xlsx');
+          };
+  
+          document.getElementById('reportType').addEventListener('change', handleDropdownChange);
+          document.getElementById('generateReport').addEventListener('click', handleGenerateReport);
+  
+          const checkboxes = document.querySelectorAll('.form-check-input');
+          checkboxes.forEach((checkbox) => {
+              checkbox.addEventListener('change', handleCheckboxChange);
+          });
+      });
+  </script>
+  
+   
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="report.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
