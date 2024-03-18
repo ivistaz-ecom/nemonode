@@ -51,7 +51,7 @@ const token = localStorage.getItem('token')
         };
     
         try {
-            const response = await axios.put(`http://nemonode.ivistaz.co:8000/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
+            const response = await axios.put(`http://nemonode.ivistaz.co/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
             console.log('Response:', response.data);
             alert("Hospital Updated Successfully!");
             window.location.href="./edit-hospital.html";

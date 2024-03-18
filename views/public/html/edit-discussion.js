@@ -23,7 +23,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
 
     try {
         // Send form data to the backend using Axios
-        const response = await axios.put(`http://nemonode.ivistaz.co:8000/candidate/update-candidate/${currentCandidateId}`, formData,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://nemonode.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData,{headers:{"Authorization":token}});
         console.log("Response:", response.data);
         // Handle the response as needed
     } catch(error) {
@@ -153,7 +153,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
     }
 
     try {
-        const response = await axios.post(`http://nemonode.ivistaz.co:8000/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+        const response = await axios.post(`http://nemonode.ivistaz.co/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -170,8 +170,8 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
 
 // async function fetchSpecialComments(candidateId, token) {
-//     const specialCommentsUrl = `http://nemonode.ivistaz.co:8000/candidate/get-discussionplus-details/${candidateId}`;
-//     const candidateUrl = `http://nemonode.ivistaz.co:8000/candidate/get-candidate/${candidateId}`;
+//     const specialCommentsUrl = `http://nemonode.ivistaz.co/candidate/get-discussionplus-details/${candidateId}`;
+//     const candidateUrl = `http://nemonode.ivistaz.co/candidate/get-candidate/${candidateId}`;
 //     try {
 //         const response = await axios.get(specialCommentsUrl, { headers: { 'Authorization': token } });
 //         const candidateResponse = await axios.get(candidateUrl, { headers: { 'Authorization': token } });
@@ -274,7 +274,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -289,7 +289,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-vsl", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vsls;
 
         // Get the select element
@@ -320,7 +320,7 @@ async function fetchAndDisplayVessels() {
 async function fetchAndDisplayCompanies() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("http://nemonode.ivistaz.co:8000/company/view-company", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
         const companies = serverResponse.data.company;
 
         // Get the select element
