@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 async function displayExperiences(page = 1, limit = 10) {
     try {
         // Fetch experiences from the server with pagination parameters
-        const expResponse = await axios.get(`http://nemonode.ivistaz.co/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const expResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Experience Response:', expResponse);
 
         const expTable = document.getElementById("exp-table");
@@ -124,7 +124,7 @@ async function deleteExperience(expId, event) {
     event.preventDefault();
 
     const id = expId;
-    const url = `http://nemonode.ivistaz.co/others/delete-experience/${id}`;
+    const url = `https://nemonode.ivistaz.co/others/delete-experience/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -158,7 +158,7 @@ updateExperienceButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`http://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Experience Updated Successfully!");
         displayExperiences();

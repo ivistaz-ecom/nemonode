@@ -69,7 +69,7 @@ const permission = decodedToken.reports_all
 console.log(decodedToken)
         document.getElementById('exportCandidatesButton').addEventListener('click', async () => {
             try {
-                const endpoint = 'http://nemonode.ivistaz.co/candidate/view-candidate';
+                const endpoint = 'https://nemonode.ivistaz.co/candidate/view-candidate';
                 const token = localStorage.getItem('token');
                 const response = await axios.get(endpoint, { headers: { "Authorization": token } });
 
@@ -93,7 +93,7 @@ console.log(decodedToken)
 
         const handleGenerateAllCandidatesReport = async () => {
             try {
-                const endpoint = 'http://nemonode.ivistaz.co/candidate/view-candidate';
+                const endpoint = 'https://nemonode.ivistaz.co/candidate/view-candidate';
                 const token = localStorage.getItem('token');
                 const response = await axios.get(endpoint, { headers: { "Authorization": token } });
 

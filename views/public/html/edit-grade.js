@@ -4,7 +4,7 @@ let currentPage = 1; // Initialize current page
 async function displayGrade(page = 1, limit = 10) {
     try {
         // Fetch grades from the server with pagination parameters
-        const gradeResponse = await axios.get(`http://nemonode.ivistaz.co/others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const gradeResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Grade Response:', gradeResponse);
 
         const gradeTable = document.getElementById("grade-table");
@@ -122,7 +122,7 @@ async function deleteGrade(gradeId, event) {
     event.preventDefault();
 
     const id = gradeId;
-    const url = `http://nemonode.ivistaz.co/others/delete-grade/${id}`;
+    const url = `https://nemonode.ivistaz.co/others/delete-grade/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
