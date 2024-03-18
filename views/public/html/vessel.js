@@ -6,7 +6,7 @@ document.getElementById("vessel-form").addEventListener("submit", async (e) => {
 
     try {
         // Add a new vessel
-        await axios.post("http://nemonode.ivistaz.co/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
+        await axios.post("https://nemonode.ivistaz.co/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
         console.log('Vessel added successfully');
         // Refresh the vessel list after adding a new vessel
     } catch (error) {
@@ -23,7 +23,7 @@ document.getElementById("vsl-form").addEventListener("submit", async (e) => {
     const vesselFlag = document.getElementById("vessel_flag").value;
 
     try {
-        const serverResponse = await axios.post("http://nemonode.ivistaz.co/others/create-vsl", {
+        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-vsl", {
             vesselName,
             vesselType,
             vsl_company,

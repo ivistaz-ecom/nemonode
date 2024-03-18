@@ -75,7 +75,7 @@ if (hasUserManagement) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`http://nemonode.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ async function handleBankDetailsForm(event) {
 
 
     try {
-        const response = await axios.post(`http://nemonode.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
+        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'

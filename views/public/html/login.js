@@ -24,9 +24,9 @@ async function login(e) {
         console.log(loginCredentials);
 
         const response = await axios.post(
-            "http://nemonode.ivistaz.co/user/login",
+            "https://nemonode.ivistaz.co/user/login",
             loginCredentials
-        );x
+        );
         console.log("Response:", response.data);
 
         if (response.data.success) {

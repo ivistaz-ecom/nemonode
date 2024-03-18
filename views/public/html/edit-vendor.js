@@ -46,7 +46,7 @@ function getURLParameter(name) {
 
       // Send data to the server using Axios with async/await
       const token = localStorage.getItem('token');
-      const response = await axios.put(`http://nemonode.ivistaz.co/others/update-vendor/${vendorId}`, formData, {
+      const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vendor/${vendorId}`, formData, {
         headers: { "Authorization": token }
       });
 
