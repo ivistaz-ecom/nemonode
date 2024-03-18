@@ -11,7 +11,7 @@ document.getElementById("hospital-form").addEventListener("submit", async (e) =>
     const doctorUpload = document.getElementById("doctor-upload").value.trim();
 
     try {
-        const serverResponse = await axios.post("http://nemonode.ivistaz.co:8000/others/create-hospital", {
+        const serverResponse = await axios.post("http://nemonode.ivistaz.co/others/create-hospital", {
             hospitalName,
             doctorName,
             doctorAddress,

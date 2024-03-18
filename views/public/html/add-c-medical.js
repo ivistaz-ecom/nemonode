@@ -21,7 +21,7 @@ if (hasUserManagement) {
 }
 
         try {
-            const response = await axios.get(`http://nemonode.ivistaz.co:8000/candidate/get-hospital-details/${id}`, {
+            const response = await axios.get(`http://nemonode.ivistaz.co/candidate/get-hospital-details/${id}`, {
                 headers: {
                     'Authorization': token,
                 },
@@ -72,7 +72,7 @@ if (hasUserManagement) {
         });
     }
       
-        const hospitalResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-hospital", { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get("http://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
         console.log(hospitalResponse)
         const hospitals = hospitalResponse.data.hospitals;
         const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
@@ -156,7 +156,7 @@ if (hasUserManagement) {
         };
           console.log(formData)
           // Send data to the server using Axios with async/await
-          const response = await axios.post(`http://nemonode.ivistaz.co:8000/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
+          const response = await axios.post(`http://nemonode.ivistaz.co/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
     
           // Handle success
           console.log('Data sent successfully:', response.data);

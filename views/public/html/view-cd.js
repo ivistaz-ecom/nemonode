@@ -3,7 +3,7 @@ const candidateId = localStorage.getItem('cmemId'); // Retrieve candidateId from
 
 async function fetchData() {
     try {
-        const response = await axios.get(`http://nemonode.ivistaz.co:8000/candidate/get-c-candidate/${candidateId}`, {
+        const response = await axios.get(`http://nemonode.ivistaz.co/candidate/get-c-candidate/${candidateId}`, {
             headers: { "Authorization": token }
         });
 

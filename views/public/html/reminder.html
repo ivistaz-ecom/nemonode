@@ -637,7 +637,7 @@ id='logout'>
                     async function fetchData(selectedDate) {
                         try {
                             const token = localStorage.getItem('token');
-                            const response = await axios.get('http://nemonode.ivistaz.co:8000/candidate/reminder', {
+                            const response = await axios.get('http://nemonode.ivistaz.co/candidate/reminder', {
                                 headers: { "Authorization": token },
                                 params: { date: selectedDate }
                             });

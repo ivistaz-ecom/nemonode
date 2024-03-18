@@ -11,7 +11,7 @@ document.getElementById("port-agent-form").addEventListener("submit", async (e) 
     const country = document.getElementById("port-agent-country").value.trim();
 
     try {
-        const serverResponse = await axios.post("http://nemonode.ivistaz.co:8000/others/create-port-agent", {
+        const serverResponse = await axios.post("http://nemonode.ivistaz.co/others/create-port-agent", {
             portAgentName,
             contactPerson,
             address,

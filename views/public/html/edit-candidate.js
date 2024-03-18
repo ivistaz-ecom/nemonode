@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 
 async function fetchData() {
     try {
-        const response = await axios.get('http://nemonode.ivistaz.co:8000/candidate/view-candidate', {
+        const response = await axios.get('http://nemonode.ivistaz.co/candidate/view-candidate', {
             headers: { "Authorization": token }
         });
 
@@ -126,7 +126,7 @@ async function deleteCandidate(candidateId, event) {
 
     if (confirmDelete) {
         try {
-            const response = await axios.delete(`http://nemonode.ivistaz.co:8000/candidate/delete-candidate/${candidateId}`, {
+            const response = await axios.delete(`http://nemonode.ivistaz.co/candidate/delete-candidate/${candidateId}`, {
                 headers: { "Authorization": token }
             });
 
