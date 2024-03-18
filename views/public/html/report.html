@@ -227,7 +227,7 @@
                       throw new Error('Please select at least one field.');
                   }
   
-                  const endpoint = 'http://nemonode.ivistaz.co:8000/candidate/reports/view-new-profile';
+                  const endpoint = 'http://nemonode.ivistaz.co/candidate/reports/view-new-profile';
                   const token = localStorage.getItem('token');
                   const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
   
