@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 
 async function createCompanyDropdown() {
 
-    const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("http://nemonode.ivistaz.co:8000/company/view-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.company;
         console.log(companyOptions)
         const companyNames = companyOptions.map(company => company.company_name);
@@ -84,7 +84,7 @@ const hasUserManagement = decodedToken.userManagement;
 //     console.log(formData);
 
 //     try {
-//         const response = await axios.post('http://localhost:4000/user/create-user', formData, { headers: { "Authorization": token } });
+//         const response = await axios.post('http://nemonode.ivistaz.co:8000/user/create-user', formData, { headers: { "Authorization": token } });
 //         // Handle the server response here
 //         console.log(response.data);
 //     } catch (error) {
@@ -97,7 +97,7 @@ const hasUserManagement = decodedToken.userManagement;
 })
 async function createVendorDropdown() {
     try {
-        const vendorResponse = await axios.get("http://localhost:4000/others/view-vendor", { headers: { "Authorization": token } });
+        const vendorResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-vendor", { headers: { "Authorization": token } });
         const vendorOptions = vendorResponse.data.vendors;
         console.log(vendorOptions);
         
@@ -136,7 +136,7 @@ async function displayUsers() {
     try {
 
         const userEmail = getUserEmail();        // Fetch users from the server
-        const response = await axios.get("http://localhost:4000/user/view-user", { headers: { "Authorization": token,"userEmail": userEmail } });
+        const response = await axios.get("http://nemonode.ivistaz.co:8000/user/view-user", { headers: { "Authorization": token,"userEmail": userEmail } });
         const users = response.data.users;
 
         const userList = document.getElementById("user-list");
@@ -206,7 +206,7 @@ console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGrou
         if (confirm("Are you sure you want to delete this user?")) {
             try {
                 // Send a request to your server to delete the user with the specified ID
-                const response = await axios.delete(`http://localhost:4000/user/delete-user/${id}`, { headers: { "Authorization": token } });
+                const response = await axios.delete(`http://nemonode.ivistaz.co:8000/user/delete-user/${id}`, { headers: { "Authorization": token } });
     
                 if (response.data.success) {
                     console.log('User deleted successfully');

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             
             document.getElementById('travel_amount').value = travel_amount;
     
-            const portAgentResponse = await axios.get("http://localhost:4000/others/view-port-agent", { headers: { "Authorization": token } });
+            const portAgentResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -131,7 +131,7 @@ function formatDate(dateString) {
           };
 
           // Make a request to update the travel data
-          const updateResponse = await axios.put(`http://localhost:4000/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
+          const updateResponse = await axios.put(`http://nemonode.ivistaz.co:8000/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
           
           // Handle the response, e.g., show a success message or redirect to another page
           console.log(updateResponse);

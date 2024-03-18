@@ -105,7 +105,7 @@ if (hasUserManagement) {
         defaultOption.text = '-- Select Rank --';
         rankDropdown.appendChild(defaultOption);
     
-        const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
+        const rankResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-rank", { headers: { "Authorization": token } });
         const rankOptions = rankResponse.data.ranks;
         const rankNames = rankOptions.map(rank => rank.rank);
     
@@ -130,7 +130,7 @@ if (hasUserManagement) {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-vsl", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vsls;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
@@ -161,7 +161,7 @@ if (hasUserManagement) {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("http://localhost:4000/others/view-vessels", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-vessels", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
@@ -184,7 +184,7 @@ if (hasUserManagement) {
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("http://localhost:4000/others/view-port", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("http://nemonode.ivistaz.co:8000/others/view-port", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -231,7 +231,7 @@ async function fetchAndDisplayCompanies() {
     try {
         // Fetch ports from the server
         // Fetch companies from the server
-        const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("http://nemonode.ivistaz.co:8000/company/view-company", { headers: { "Authorization": token } });
         const companies = companyResponse.data.company;
         console.log(companies)
         // Get the company select element
@@ -409,7 +409,7 @@ function formatDate(dateString) {
         // }
 
         // Send a PUT request to update the contract in the database
-        const response = await axios.put(`http://localhost:4000/candidate/update-contract-details/${contractId}`, formData, config);
+        const response = await axios.put(`http://nemonode.ivistaz.co:8000/candidate/update-contract-details/${contractId}`, formData, config);
 
         // Handle the response from the server, e.g., show a success message
         console.log('Contract updated successfully:', response.data);

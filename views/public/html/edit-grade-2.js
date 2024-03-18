@@ -24,7 +24,7 @@ updateGradeButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`http://localhost:4000/others/update-grade/${gradeId}`, updatedGradeDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://nemonode.ivistaz.co:8000/others/update-grade/${gradeId}`, updatedGradeDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Grade Updated Successfully!");
         window.location.href="./edit-grade.html"

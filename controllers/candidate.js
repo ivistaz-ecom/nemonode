@@ -1565,27 +1565,65 @@ const checkExpiryDates = async (date = null) => {
 
 
 
-  const Reminder = async (req, res) => {
+//   const Reminder = async (req, res) => {
+//     try {
+//         const currentDate = new Date();
+//         let whereCondition = {};
+
+//         // Check if a date is provided in the query parameters
+//         if (req.query.date) {
+//             // If date is provided, filter reminders based on that date
+//             const selectedDate = new Date(req.query.date);
+//             whereCondition.reminder_date = { [Op.eq]: selectedDate};
+//         } else {
+//             // If no date is provided, filter reminders based on today's date
+//             const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+//             const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 30);
+//             whereCondition.reminder_date = { [Op.gte]: startDate, [Op.lt]: endDate };
+//         }
+
+//         const discussionRanks = await Discussion_plus.findAll({
+//             where: whereCondition,
+//             order: [['reminder_date', 'ASC']] // Order by reminder_date in descending order
+//         });
+
+//         res.status(200).json({
+//             discussionRanks: discussionRanks,
+//             success: true
+//         });
+//     } catch (error) {
+//         console.error('Error fetching discussion ranks:', error);
+//         res.status(500).json({ error: 'Internal server error', success: false });
+//     }
+// };
+
+const Reminder = async (req, res) => {
     try {
-        const currentDate = new Date();
-        let whereCondition = {};
+        let discussionRanks;
+        const { date } = req.query;
 
-        // Check if a date is provided in the query parameters
-        if (req.query.date) {
-            // If date is provided, filter reminders based on that date
-            const selectedDate = new Date(req.query.date);
-            whereCondition.reminder_date = { [Op.eq]: selectedDate};
+        if (date) {
+            const formattedDate = new Date(date); // Convert date string to Date object
+            const startDate = new Date(formattedDate.getFullYear(), formattedDate.getMonth(), formattedDate.getDate()); // Start of the day
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + 1); // End of the day
+            
+            // Fetch reminders for the specific date
+            discussionRanks = await Discussion_plus.findAll({
+                where: { 
+                    reminder_date: {
+                        [Op.gte]: startDate,
+                        [Op.lt]: endDate
+                    }
+                },
+                order: [['reminder_date', 'ASC']]
+            });
         } else {
-            // If no date is provided, filter reminders based on today's date
-            const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-            const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 30);
-            whereCondition.reminder_date = { [Op.gte]: startDate, [Op.lt]: endDate };
+            // Fetch all reminders
+            discussionRanks = await Discussion_plus.findAll({
+                order: [['reminder_date', 'ASC']]
+            });
         }
-
-        const discussionRanks = await Discussion_plus.findAll({
-            where: whereCondition,
-            order: [['reminder_date', 'ASC']] // Order by reminder_date in descending order
-        });
 
         res.status(200).json({
             discussionRanks: discussionRanks,
