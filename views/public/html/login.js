@@ -41,7 +41,7 @@ async function login(e) {
                 localStorage.setItem("userId", response.data.userId);
 
                 window.location.href = "./indexpage.html";
-                redirect('/user-managment')
+                // redirect('/user-managment')
 
 
 
