@@ -74,7 +74,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`http://nemonode.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Vessel Updated Successfully!");
         window.location.href = "./edit-vessel.html";
@@ -98,7 +98,7 @@ updateVesselTypeFormButton.addEventListener('submit',async(e)=>{
     console.log(updatedVesselTypeDetails)
 
     try {
-        const response = await axios.put(`http://nemonode.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { 'Authorization': token } });
+        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { 'Authorization': token } });
         console.log('Response:', response.data);
         alert('Vessel Type Updated Successfully!');
         window.location.href = './edit-vessel.html';

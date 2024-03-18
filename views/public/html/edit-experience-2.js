@@ -42,7 +42,7 @@ const updatedExperienceDetails = {
 };
 console.log(updatedExperienceDetails)
 try {
-    const response = await axios.put(`http://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
+    const response = await axios.put(`https://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
     console.log('Response:', response.data);
     alert("Experience Updated Successfully!");
     window.location.href="./edit-experience.html"
