@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 async function displayPortagent(page = 1, limit = 10) {
     try {
         // Fetch port agents from the server with pagination parameters
-        const portAgentResponse = await axios.get(`http://localhost:3000/others/view-port-agent?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get(`http://nemonode.ivistaz.co:8000/others/view-port-agent?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const portAgentTable = document.getElementById("port-agent-table");
 
         // Clear existing rows
@@ -134,7 +134,7 @@ async function deletePortagent(portAgentId, event) {
     event.preventDefault();
 
     const id = portAgentId;
-    const url = `http://localhost:3000/others/delete-port-agent/${id}`;
+    const url = `http://nemonode.ivistaz.co:8000/others/delete-port-agent/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});

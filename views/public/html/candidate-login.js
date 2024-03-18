@@ -13,7 +13,7 @@ document.getElementById('candidate_login').addEventListener('submit', async func
     };
 
     // Send data to the server using Axios
-    const response = await axios.post('http://localhost:3000/candidate/login', formData);
+    const response = await axios.post('http://nemonode.ivistaz.co:8000/candidate/login', formData);
 
     console.log(response.data);
     const token = response.data.token;
