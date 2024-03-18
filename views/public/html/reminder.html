@@ -619,18 +619,21 @@ id='logout'>
             </div>
         
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const reminderForm = document.getElementById('reminderForm');
                     const dateInput = document.getElementById('date');
                     const discussionRanksBody = document.getElementById('discussionRanksBody');
-        
+            
                     reminderForm.addEventListener('submit', async function (event) {
                         event.preventDefault();
                         const selectedDate = dateInput.value;
                         fetchData(selectedDate);
                     });
-                    fetchData()
+            
+                    fetchData();
+            
                     async function fetchData(selectedDate) {
                         try {
                             const token = localStorage.getItem('token');
@@ -638,28 +641,48 @@ id='logout'>
                                 headers: { "Authorization": token },
                                 params: { date: selectedDate }
                             });
-        
+            
                             renderDiscussionRanks(response.data.discussionRanks);
                         } catch (error) {
                             console.error('Error fetching discussion ranks:', error);
                         }
                     }
-        
+            
                     function renderDiscussionRanks(discussionRanks) {
+                        const today = new Date();
                         const discussionRanksRows = discussionRanks.map(({ reminder_date, candidateId, reminder_text }, index) => {
+                            const reminderDate = new Date(reminder_date);
+                            let badgeClass = '';
+                            let badgeText = '';
+            
+                            if (reminderDate.toDateString() === today.toDateString()) {
+                                badgeClass = 'badge bg-primary';
+                                badgeText = 'Today';
+                            } else if (reminderDate < today) {
+                                badgeClass = 'badge bg-danger';
+                                badgeText = 'Ended';
+                            } else {
+                                badgeClass = 'badge bg-success';
+                                badgeText = 'Upcoming';
+                            }
+            
                             return `
                                 <tr>
                                     <td>${reminder_date}</td>
                                     <td>${candidateId}</td>
-                                    <td>${reminder_text}</td>
+                                    <td>
+                                        <span class="${badgeClass}">${badgeText}</span>
+                                        ${reminder_text}
+                                    </td>
                                 </tr>
                             `;
                         }).join('');
-        
+            
                         discussionRanksBody.innerHTML = discussionRanksRows;
                     }
                 });
             </script>
+            
                            <a href='./indexpage.html'> > Back Home</a>
 
           </div>
@@ -702,7 +725,6 @@ id='logout'>
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
-    <script src ="./edit-vessel.js"></script>
     <!-- Page JS -->
     <script src="../assets/js/pages-account-settings-account.js"></script>
 
