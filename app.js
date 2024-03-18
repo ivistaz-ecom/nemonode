@@ -2,6 +2,8 @@ const express = require("express")
 require('dotenv').config()
 const PORT = process.env.PORT || 3000;
 const app = express()
+const path = require('path'); // Add this line to import the path module
+
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
@@ -81,7 +83,7 @@ Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
 
 
 app.get('/', async (req, res) => {
-res.send("welcome")});
+res.redirect("/views/public/html/loginpage.html")});
 
 app.post('/search', async (req, res) => {
     const searchValue = req.body.search;
@@ -373,6 +375,21 @@ const cForgotpassword = require('./models/c_forgotpassword');
 Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
+
+app.use((req, res, next) => {
+    const viewPath = path.join(__dirname, req.path);
+    res.sendFile(viewPath, (err) => {
+        if (err) {
+            console.error('Error serving file:', err);
+            console.error('Requested URL:', req.url);
+            console.error('Resolved File Path:', viewPath);
+            res.status(err.status || 500).send('Internal Server Error');
+        } else {
+            console.log('File sent successfully:', viewPath);
+        }
+    });
+});
+
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
