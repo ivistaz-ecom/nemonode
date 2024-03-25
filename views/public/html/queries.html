@@ -1,20 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search</title>
+  <title>Login | Nsnemo</title>
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap">
+  <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <style>
+    .spinner-border {
+        animation-duration: 0.25s; /* Adjust the duration to slow down or speed up the spinner */
+    }
+  </style>
 </head>
 <body>
   <div class="p-5">
     <div>
       <h2>All Queries</h2>
-      <table>
+
+      <table class="table">
         <thead>
           <tr>
             <th>Categories</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Query File</th>
+            <th>Created By</th>
             <th>Reply</th>
             <th>Action</th>
           </tr>
@@ -25,71 +46,77 @@
       </table>
     </div>
 
-    <div class="p-5">
-      <h2>Add Query</h2>
-      <form id="add-query-form">
-        <label for="categories">Select categories</label>
-        <input id="categories" type="text" required>
-        <label for="description">Enter description</label>
-        <input id="description" type="text" required>
-        <label for="status">Status</label>
-        <input id="status" type="text" required>
-        <label for="query_file">Query File</label>
-        <input id="query_file" type="text" required>
-        <button type="submit">Add Query</button>
-      </form>
-    </div>
+    <div class="p-5 border border-secondary">
+      <div class="p-5" style="background-color: #f8f9fa; border-radius: 10px;">
+        <h2 style="color: #007bff;">Add Query</h2>
+        <form id="add-query-form">
+          <div class="mb-3">
+            <label for="categories" class="form-label">Select categories</label>
+            <input id="categories" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Enter description</label>
+            <input id="description" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <input id="status" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="query_file" class="form-label">Query File</label>
+            <input id="query_file" type="text" class="form-control" required>
+          </div>
+          <button class="btn btn-success" type="submit">Add Query</button>
+        </form>
+      </div>
 
-    <div id="edit-query-section" class="p-5" style="display: none;">
-      <h2>Edit Query</h2>
-      <form id="edit-query-form">
-        <label for="edit_categories">Select categories</label>
-        <input id="edit_categories" type="text" required>
-        <label for="edit_description">Enter description</label>
-        <input id="edit_description" type="text" required>
-        <label for="edit_status">Status</label>
-        <input id="edit_status" type="text" required>
-        <label for="edit_query_file">Query File</label>
-        <input id="edit_query_file" type="text" required>
-        <label for="edit_reply">Reply</label>
-        <input id="edit_reply" type="text">
-        <button type="submit">Edit Query</button>
-      </form>
+      <div id="edit-query-section" class="p-5 mt-4" style="display: none; background-color: #f8f9fa; border-radius: 10px;">
+        <h2 style="color: #007bff;">Edit Query</h2>
+        <form id="edit-query-form">
+          <div class="mb-3">
+            <label for="edit_categories" class="form-label">Select categories</label>
+            <input id="edit_categories" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit_description" class="form-label">Enter description</label>
+            <input id="edit_description" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit_status" class="form-label">Status</label>
+            <input id="edit_status" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit_query_file" class="form-label">Query File</label>
+            <input id="edit_query_file" type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit_reply" class="form-label">Reply</label>
+            <input id="edit_reply" type="text" class="form-control">
+          </div>
+          <button class="btn btn-primary" type="submit">Edit Query</button>
+        </form>
+      </div>
     </div>
+    <a class="d-flex justify-content-center p-5" href="./indexpage.html">Back Home</a>
+
   </div>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/cjs/jwt-decode.min.js"></script>
   <script>
-     document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    localStorage.clear();
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-});
     let queries; // Define queries variable outside fetchQueries function
 
     // Function to fetch queries from the server
     const fetchQueries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:4000/others/query-fetch', {
+        const response = await axios.get('https://nemonode.ivistaz.co/others/query-fetch', {
           headers: {
             'Authorization': token
           }
         });
         queries = response.data; // Assign fetched data to queries variable
-
+        console.log(queries)
         // Clear previous query rows
         const queryTableBody = document.getElementById('query-table-body');
         queryTableBody.innerHTML = '';
@@ -101,9 +128,12 @@
             <td>${query.categories}</td>
             <td>${query.description}</td>
             <td>${query.status}</td>
+            <td>${query.query_file}</td>
+            <td>${query.created_by}</td>
             <td>${query.reply}</td>
             <td>
-              <button onclick="handleEdit(${query.id})">Reply to Query</button>
+              <button class
+              ='btn btn-primary' onclick="handleEdit(${query.id})">Reply to Query</button>
             </td>
           `;
           queryTableBody.appendChild(row);
@@ -113,7 +143,17 @@
       }
     };
 
-    // Rest of the code remains the same
+    const token = localStorage.getItem('token');
+
+    function decodeToken(token) {
+      // Implementation depends on your JWT library
+      // Here, we're using a simple base64 decode
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse(atob(base64));
+    }
+
+    const decodedToken = decodeToken(token);
 
     // Event listener for adding a new query
     const addQueryForm = document.getElementById('add-query-form');
@@ -123,14 +163,15 @@
       const description = document.getElementById('description').value;
       const status = document.getElementById('status').value;
       const query_file = document.getElementById('query_file').value;
-
+      const created_by = decodedToken.userId;
       try {
         const token = localStorage.getItem('token');
-        await axios.post('http://localhost:4000/others/query', {
+        await axios.post('https://nemonode.ivistaz.co/others/query', {
           categories,
           description,
           status,
-          query_file
+          query_file,
+          created_by,
         }, {
           headers: {
             'Content-Type': 'application/json',
@@ -181,7 +222,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.put(`http://localhost:4000/others/query/${queryId}`, {
+        await axios.put(`https://nemonode.ivistaz.co/others/query/${queryId}`, {
           categories: editCategories,
           description: editDescription,
           status: editStatus,

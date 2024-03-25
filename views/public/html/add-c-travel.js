@@ -39,7 +39,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
             try {
                 // Make an Axios request to your backend API to add travel details
-                const response = await axios.post(`http://localhost:4000/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
+                const response = await axios.post(`https://nemonode.ivistaz.co/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
 
                 // Handle success response from the server
                 console.log('Travel details added successfully:', response.data);
@@ -54,7 +54,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         async function fetchAndDisplayTravelDetails() {
             try {
                 // Make an Axios request to your backend API to get travel details
-                const response = await axios.get(`http://localhost:4000/candidate/get-travel-details/${id}`, {
+                const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-travel-details/${id}`, {
                     headers: { "Authorization": token }
                 });
 
@@ -93,7 +93,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             }
         }
 
-        const portAgentResponse = await axios.get("http://localhost:4000/others/view-port-agent", { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -194,7 +194,7 @@ async function deleteTravel(travelId) {
 
     try {
         // Make an Axios request to your backend API to delete the travel entry
-        const response = await axios.delete(`http://localhost:4000/candidate/delete-travel/${travelId}`, {
+        const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-travel/${travelId}`, {
             headers: { "Authorization": token }
         });
 

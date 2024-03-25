@@ -31,6 +31,9 @@ const Queries = sequelize.define('Queries', {
   reply:{
     type:DataTypes.STRING
   },
+  query_file:{
+    type:DataTypes.STRING
+  },
 }, {
   tableName: 'queries',
   timestamps: false, // disable automatic timestamp columns (createdAt, updatedAt)
