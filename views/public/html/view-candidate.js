@@ -451,14 +451,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
-        if (hasUserManagement) {
-          document.getElementById('userManagementSection').style.display = 'block';
-          document.getElementById('userManagementSections').style.display = 'block';
-    
+        if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+            document.getElementById('userManagementSection').style.display = 'block';
+            document.getElementById('userManagementSections').style.display = 'block';
         }
         if (vendorManagement) {
-          document.getElementById('vendorManagement').style.display = 'block';
-          document.getElementById('vendorManagementSections').style.display = 'block';
+            document.getElementById('vendorManagementSection').style.display = 'block';
+            document.getElementById('vendorManagementSections').style.display = 'block';
     
         }
         // You can call loadContent function here if needed
@@ -733,8 +732,13 @@ async function fetchAndDisplaySeaService(candidateId) {
                     <td>${seaService.total_MMDD}</td>
                     <td>${seaService.reason_for_sign_off}</td>
                     <td>
-                        <button onclick="editSeaService('${seaService.id}')">Edit</button>
-                        <button onclick="deleteSeaService('${seaService.id}')">Delete</button>
+                      
+                        <button class="btn border-0 m-0 p-0" onclick="editSeaService('${seaService.id}')">
+                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn border-0 m-0 p-0" onclick="deleteSeaService('${seaService.id}',event)">
+                        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                    </button>
                     </td>
                 `;
                 seaServiceList.appendChild(seaServiceRow);

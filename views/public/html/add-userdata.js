@@ -59,11 +59,10 @@ const user_id = decodedToken.userId;
 console.log(user_id)
 
    console.log(hasUserManagement)
-   if (hasUserManagement) {
-     document.getElementById('userManagementSection').style.display = 'block';
-     document.getElementById('userManagementSections').style.display = 'block';
-
-   }
+   if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
+}
    console.log(hasVendorManagement)
    if (hasVendorManagement) {
      document.getElementById('vendorManagementSection').style.display = 'block';

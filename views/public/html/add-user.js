@@ -32,18 +32,22 @@ async function createCompanyDropdown() {
 document.addEventListener('DOMContentLoaded', async function () {
 // await createCompanyDropdown()
 // await createVendorDropdown()
-await displayUsers()
 const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
+    const userGroup = decodedToken.userGroup;
+    console.log(userGroup)
+    const Write = decodedToken.Write;
+    console.log(Write)
+    await displayUsers(Write)
 
+    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+        document.getElementById('userManagementSection').style.display = 'block';
+        document.getElementById('userManagementSections').style.display = 'block';
     }
     if (vendorManagement) {
-      document.getElementById('vendorManagement').style.display = 'block';
-      document.getElementById('vendorManagementSections').style.display = 'block';
+        document.getElementById('vendorManagementSection').style.display = 'block';
+        document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 
@@ -138,69 +142,67 @@ const getUserEmail=() =>{
     }
 
 
-async function displayUsers() {
-    try {
-
-        const userEmail = getUserEmail();        // Fetch users from the server
-        const response = await axios.get("https://nemonode.ivistaz.co/user/view-user", { headers: { "Authorization": token,"userEmail": userEmail } });
-        const users = response.data.users;
-
-        const userList = document.getElementById("user-list");
-        userList.innerHTML = "";
-        let sno = 1;
-
-        users.forEach(user => {
-            const isCurrentUser = decodedToken.userId === user.id;
-
-            const row = document.createElement("tr");
-            // if (user.userGroup === 'admin') {
-            //     row.classList.add('table-primary');
-            // } else if (user.userGroup === 'vendor') {
-            //     row.classList.add('table-secondary');
-            // }
-
-            row.innerHTML = `
-                <td style="font-size:12px">${sno}</td>
-                <td style="font-size:12px">${user.id}</td>
-                <td style="font-size:12px">${user.userName}</td>
-                <td style="font-size:12px">${user.lastName}</td>
-                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userEmail}</td>
-                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userPassword}</td>
-                <td style="font-size:12px">${user.userPhone}</td>
-                <td style="font-size:12px">${user.userGroup}</td>
-                <td style="font-size:12px">${user.userVendor}</td>
-                <td style="font-size:12px">${user.userClient}</td>
-                <td style="font-size:12px;">${user.createdBy}</td>
-                <td style="font-size:12px">${user.master_create}</td>
-                <td style ='font-size:12px">${user.reports}</td>
-                <td style ='font-size:12px">${user.reports_all}</td>
-                <td style="font-size:12px">${user.disableUser}</td>
+    async function displayUsers(Write) {
+        try {   
+            console.log('WRITE:',Write)
+            const writePermission = Write
+            const userEmail = getUserEmail();
+            const response = await axios.get("https://nemonode.ivistaz.co/user/view-user", { headers: { "Authorization": token, "userEmail": userEmail } });
+            const users = response.data.users;
+    
+            const userList = document.getElementById("user-list");
+            userList.innerHTML = "";
+            let sno = 1;
+    
+            users.forEach(user => {
+                if (decodedToken.userGroup === 'admin' || user.userGroup === 'vendor') { // Check if userGroup is 'vendor' or if current user is admin
+                    const isCurrentUser = decodedToken.userId === user.id;
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td style="font-size:12px">${sno}</td>
+                        <td style="font-size:12px">${user.id}</td>
+                        <td style="font-size:12px">${user.userName}</td>
+                        <td style="font-size:12px">${user.lastName}</td>
+                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userEmail}</td>
+                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userPassword}</td>
+                        <td style="font-size:12px">${user.userPhone}</td>
+                        <td style="font-size:12px">${user.userGroup}</td>
+                        <td style="font-size:12px">${user.userVendor}</td>
+                        <td style="font-size:12px">${user.userClient}</td>
+                        <td style="font-size:12px;">${user.createdBy}</td>
+                        <td style="font-size:12px">${user.master_create}</td>
+                        <td style ='font-size:12px">${user.reports}</td>
+                        <td style ='font-size:12px">${user.reports_all}</td>
+                        <td style="font-size:12px">${user.disableUser}</td>
+                        <td>
+                        <button class="btn btn-sm m-0 p-0" ${!writePermission ? 'disabled' : ''} onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}' )">
+                            <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                        </button>
+                        ${!isCurrentUser ? 
+                            `<button class="btn btn-sm m-0 p-0" ${!writePermission ? 'disabled' : ''} onclick="deleteUser(${user.id})">
+                                <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                            </button>`
+                        : ''} 
+                    </td>
+                    `;
+                    const userGroupCell = row.querySelector('td:nth-child(8)');
+                    if (userGroupCell) {
+                        userGroupCell.innerHTML = `<span class="badge ${user.userGroup === 'admin' ? 'bg-primary' : 'bg-warning'}">${user.userGroup}</span>`;
+                    }
+    
+                    userList.appendChild(row);
+                    sno++;
+                }
                 
-                <td>
-    <button class="btn btn-sm m-0 p-0" onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}' )">
-        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-    </button>
-    ${!isCurrentUser ? // Render delete button if the current user is not the logged-in user
-    `<button class="btn btn-sm m-0 p-0" onclick="deleteUser(${user.id})">
-        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-    </button>`
-: ''} 
-</td>
-
-            `;
-            const userGroupCell = row.querySelector('td:nth-child(8)'); // Assuming userGroup is the 8th column
-            if (userGroupCell) {
-                userGroupCell.innerHTML = `<span class="badge ${user.userGroup === 'admin' ? 'bg-primary' : 'bg-warning'}">${user.userGroup}</span>`;
-            }
-
-            userList.appendChild(row);
-            sno++;
-        });
-
-    } catch (error) {
-        console.error('Error:', error);
+            });
+            
+            
+    
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
-}
+    
 
 
 
@@ -223,9 +225,8 @@ console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGrou
                 const response = await axios.delete(`https://nemonode.ivistaz.co/user/delete-user/${id}`, { headers: { "Authorization": token } });
     
                 if (response.data.success) {
-                    console.log('User deleted successfully');
+                    alert('User deleted successfully');
                     // Optionally, you can reload the user list or update the UI accordingly
-                    await displayUsers();
                 } else {
                     console.error('Error deleting user:', response.data.error);
                 }

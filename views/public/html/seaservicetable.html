@@ -840,8 +840,8 @@
                                     <td>${seaService.total_MMDD}</td>
                                     <td>${seaService.reason_for_sign_off}</td>
                                     <td>
-                                        <button onclick="editSeaService('${seaService.id}')">Edit</button>
-                                        <button onclick="deleteSeaService('${seaService.id}')">Delete</button>
+                                        <button class='btn btn-warning' onclick="editSeaService('${seaService.id}')">Edit</button>
+                                        <button class='btn btn-danger' onclick="deleteSeaService('${seaService.id}')">Delete</button>
                                     </td>
                                 `;
                                 seaServiceList.appendChild(seaServiceRow);

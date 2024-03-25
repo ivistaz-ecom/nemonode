@@ -14,10 +14,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
-if (hasUserManagement) {
-  document.getElementById('userManagementSection').style.display = 'block';
-  document.getElementById('userManagementSections').style.display = 'block';
-
+if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
 }
 
         try {

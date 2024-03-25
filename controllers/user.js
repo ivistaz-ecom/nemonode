@@ -29,8 +29,8 @@ const create_user = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     // Get user information from the authenticated user
-const id = req.params.id;
-console.log(id)
+    const id = req.params.id;
+    console.log(id);
     const {
       userName,
       lastName,
@@ -52,62 +52,51 @@ console.log(id)
       userManagement,
       vendorManagement,
       userGroup
-
     } = req.body;
 
     console.log(req.body);
     const saltrounds = 10;
 
-    const user = await User.findByPk(id)
-    console.log(user)
-    let userGroups = user.dataValues.userGroup
-    let userManagements = user.dataValues.userManagement
+    bcrypt.hash(userPassword, saltrounds, async (err, hash) => {
+      if (err) {
+        console.error("Error hashing password:", err);
+        return res.status(500).json({ message: "Error hashing password" });
+      }
 
-    // Authorization logic based on the user's own attributes
-    if (userGroups === 'admin' || (userGroups === 'vendor' && userManagements)) {
-      bcrypt.hash(userPassword, saltrounds, async (err, hash) => {
-        if (err) {
-          console.error("Error hashing password:", err);
-          return res.status(500).json({ message: "Error hashing password" });
-        }
-
-        try {
-          const newUser = await User.create({
-            userName,
-            lastName,
-            userEmail,
-            userPassword: hash,
-            userCPassword,
-            userPhone,
-            userGroup,
-            userVendor,
-            userClient,
-            createdBy,
-            master_create,
-            disableUser,
-            readOnly,
-            Write,
-            imports,
-            exports,
-            userManagement,
-            vendorManagement,
-            reports,
-            reports_all,
-          },{transaction:t});
-          await t.commit();
-          res.status(201).json({ message: "Successfully Created New User", user: newUser });
-        } catch (err) {
-          await t.rollback();
-          console.error("Error creating user:", err);
-          res.status(500).json({
-            message: "Error creating user",
-            error: err
-          });
-        }
-      });
-    } else {
-      res.status(403).json({ message: "Unauthorized" });
-    }
+      try {
+        const newUser = await User.create({
+          userName,
+          lastName,
+          userEmail,
+          userPassword: hash,
+          userCPassword,
+          userPhone,
+          userGroup,
+          userVendor,
+          userClient,
+          createdBy,
+          master_create,
+          disableUser,
+          readOnly,
+          Write,
+          imports,
+          exports,
+          userManagement,
+          vendorManagement,
+          reports,
+          reports_all,
+        },{transaction:t});
+        await t.commit();
+        res.status(201).json({ message: "Successfully Created New User", user: newUser });
+      } catch (err) {
+        await t.rollback();
+        console.error("Error creating user:", err);
+        res.status(500).json({
+          message: "Error creating user",
+          error: err
+        });
+      }
+    });
   } catch (err) {
     console.error("Unexpected error:", err);
     res.status(500).json({
@@ -116,6 +105,7 @@ console.log(id)
     });
   }
 };
+
 
 
   // Endpoint to edit a user
@@ -314,130 +304,94 @@ const get_user = async(req,res)=>{
   }
 
 
-const view_user = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const userEmail = req.user.userEmail;
-    console.log(userId);
-    console.log('User Email:', userEmail);
-    let userGroup;
-
-    // Fetch user data by ID
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found', success: false });
-    }
-
-    userGroup = user.dataValues.userGroup;
-    readOnly = user.dataValues.readOnly
-    console.log('User Group:', userGroup);
-
-    let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
-    let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
-
-    // Calculate the offset based on the page and limit
-    let offset = (page - 1) * limit;
-
-    if (userGroup === 'admin' ) {
-      // If the user is an admin, fetch only their own data (excluding disabled users) with pagination
-      const allUsers = await User.findAll({
-        offset,
-        limit,
-        where: {
-          [Op.or]: [
-            { id: userId },
-            { master_create: { [Op.like]: `%${userEmail}%` } }
-          ],
-          disableUser: false
-        }
-      });
-
-      const totalCount = await User.count({
-        where: {
-          disableUser: false
-        }
-      });
-
-      res.status(200).json({ users: allUsers, totalCount, totalPages: Math.ceil(totalCount / limit), currentPage: page, success: true });
-    } else if (userGroup === 'vendor' && readOnly) {
-      // If the user is a vendor, fetch either their own data by ID or by master_create containing userEmail with pagination
-      const allUsers = await User.findAll({
-        offset,
-        limit,
-        where: {
-          [Op.or]: [
-            { id: userId },
-            { master_create: { [Op.like]: `%${userEmail}%` } }
-          ],
-          disableUser: false
-        }
-      });
-
-      const totalCount = await User.count({
-        where: {
-          [Op.or]: [
-            { id: userId },
-            { master_create: { [Op.like]: `%${userEmail}%` } }
-          ],
-          disableUser: false
-        }
-      });
-
-      res.status(200).json({ users: allUsers, totalCount, totalPages: Math.ceil(totalCount / limit), currentPage: page, success: true });
-    } else if (userGroup === 'SA') {
-      // If the user is SA, fetch all users (including disabled) with master_create containing userEmail with pagination
-      const allUsers = await User.findAll({
-        offset,
-        limit
-      });
-
-      const totalCount = await User.count();
-
-      res.status(200).json({ users: allUsers, totalCount, totalPages: Math.ceil(totalCount / limit), currentPage: page, success: true });
-    } else {
-      // Handle other user groups or restrict access as needed
-      res.status(403).json({ message: 'Access forbidden', success: false });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err, message: 'Internal Server Error', success: false });
-  }
-};
-
-
-
-
-
-
-
-const delete_user = async (req, res) => {
-  const id = req.params.id;
-  try {
-      // Check user's authorization
-const user = await User.findByPk(id)
-let userGroup = user.dataValues.userGroup
-let Write = user.dataValues.Write
-      // Only allow deletion if user is an admin or a vendor with Write permission
-      if (userGroup === 'admin' || (userGroup === 'vendor' && Write)) {
-          // Delete user with the specified id
-          const deletedUser = await User.destroy({ where: { id: id } });
-
-          // Check if the user was deleted
-          if (deletedUser > 0) {
-              res.status(200).json({ success: true });
-          } else {
-              res.status(404).json({ error: 'User not found', success: false });
-          }
-      } else {
-          res.status(403).json({ error: 'Unauthorized', success: false });
+  const view_user = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      console.log(userId);
+      let userGroup;
+  
+      // Fetch user data by ID
+      const user = await User.findByPk(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found', success: false });
       }
-  } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error', success: false });
-  }
-};
+  
+      userGroup = user.dataValues.userGroup;
+      console.log('User Group:', userGroup);
+  
+      if (userGroup === 'admin') {
+        // If the user is an admin, fetch only their own data (excluding disabled users)
+        const allUsers = await User.findAll({
+          where: {
+            disableUser: false // Exclude users with disableUser set to true
+          }
+        });
+  
+        res.status(200).json({ users: allUsers, success: true });
+      }
+       else if (userGroup === 'vendor') {
+        // If the user is a vendor, fetch only the users associated with them
+        const allUsers = await User.findAll({
+          where: {
+            id:userId,
+            disableUser: false // Exclude users with disableUser set to true
+          }
+        });
+  
+        res.status(200).json({ users: allUsers, success: true });
+      }
+       else if (userGroup === 'SA') {
+        // If the user is SA, fetch all users (including disabled)
+        const allUsers = await User.findAll();
+  
+        res.status(200).json({ users: allUsers, success: true });
+      } else {
+        // Handle other user groups or restrict access as needed
+        res.status(403).json({ message: 'Access forbidden', success: false });
+      }
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: err, message: 'Internal Server Error', success: false });
+    }
+  };
+  
 
+
+
+
+
+
+
+  const delete_user = async (req, res) => {
+    const id = req.params.id;
+    try {
+      // Fetch user data by ID
+      const user = await User.findByPk(id);
+  
+      // Check if user exists
+      if (!user) {
+        return res.status(404).json({ error: 'User not found', success: false });
+      }
+  
+      // Delete user with the specified id
+      const deletedUser = await User.destroy({ where: { id: id } });
+  
+      // Check if the user was deleted
+      if (deletedUser > 0) {
+        return res.status(200).json({ success: true });
+      } else {
+        return res.status(404).json({ error: 'User not found', success: false });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error', success: false });
+    }
+  };
+  
+  
 
 
   

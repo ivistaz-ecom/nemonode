@@ -9,13 +9,12 @@ document.addEventListener('DOMContentLoaded', async function () {
    const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-
+    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+        document.getElementById('userManagementSection').style.display = 'block';
+        document.getElementById('userManagementSections').style.display = 'block';
     }
     if (vendorManagement) {
-      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSection').style.display = 'block';
       document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
@@ -196,6 +195,7 @@ async function fetchAndDisplayNationalities() {
         const token = localStorage.getItem('token');
         const response = await axios.get("https://nemonode.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
+        console.log(countries)
         return countries; // Return the fetched countries
     } catch (error) {
         console.error('Error fetching countries:', error);
