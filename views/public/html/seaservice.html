@@ -763,6 +763,23 @@
                     </form>
                   </div>
                   <script>
+                     document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    localStorage.clear();
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+                    
                                         async function editSeaService(id) {
                             try {
                                 const token = localStorage.getItem('token');

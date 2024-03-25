@@ -36,12 +36,12 @@ document.getElementById("logout").addEventListener("click", function() {
   // Change the message and spinner after a delay
   setTimeout(function() {
       document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-  }, 2000);
+  }, 1000);
 
   // Redirect after another delay
   setTimeout(function() {
       window.location.href = "loginpage.html";
-  }, 4000);
+  }, 2000);
 });
 
 

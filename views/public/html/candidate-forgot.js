@@ -35,8 +35,9 @@ document.getElementById('cand-form').addEventListener('submit', async function s
 });
 
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

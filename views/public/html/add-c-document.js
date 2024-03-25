@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
-if (hasUserManagement) {
-  document.getElementById('userManagementSection').style.display = 'block';
-  document.getElementById('userManagementSections').style.display = 'block';
-
+if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
 }
     const candidateId = localStorage.getItem('memId');
     fetchAndDisplayDocumentDetails(candidateId);
@@ -165,8 +164,9 @@ documentForm.addEventListener('submit', async function (event) {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

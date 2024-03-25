@@ -64,11 +64,9 @@ switch (userRole) {
         break;
     case 'vendor':
         document.getElementById('vendorSection').style.display = 'block';
-        if (hasUserManagement) {
-            const userLink = document.createElement('a');
-            userLink.href = '../user/user.html';
-            userLink.innerHTML = '<i class="fas fa-user-plus"></i> &nbsp; Create User';
-            document.getElementById('vendorSection').appendChild(userLink);
+        if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+            document.getElementById('userManagementSection').style.display = 'block';
+            document.getElementById('userManagementSections').style.display = 'block';
         }
         if (hasReport) {
             const userLink = document.createElement('a');

@@ -126,14 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-
+    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+        document.getElementById('userManagementSection').style.display = 'block';
+        document.getElementById('userManagementSections').style.display = 'block';
     }
     if (vendorManagement) {
-      document.getElementById('vendorManagement').style.display = 'block';
-      document.getElementById('vendorManagementSections').style.display = 'block';
+        document.getElementById('vendorManagementSection').style.display = 'block';
+        document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 });
@@ -202,8 +201,9 @@ async function deleteVendor(vendorId) {
     }
 }
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

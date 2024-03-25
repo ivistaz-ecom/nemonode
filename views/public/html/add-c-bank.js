@@ -213,11 +213,7 @@ const bankDetailsForm = document.getElementById('bankForm');
 bankDetailsForm.addEventListener('submit', handleBankDetailsForm);
 
 
-document.getElementById('logout').addEventListener('click',async function(e){
-    e.preventDefault();
-    localStorage.clear()
-    window.location.href='./loginpage.html'
-})
+
 
 const storedName = localStorage.getItem('username');
 
