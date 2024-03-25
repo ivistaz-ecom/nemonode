@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`http://localhost:4000/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
 
             // Handle success
             console.log('NKD data updated successfully:', response.data);
@@ -103,16 +103,22 @@ document.addEventListener("DOMContentLoaded", function() {
     // Now the form fields are populated with the retrieved values
 });
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

@@ -46,11 +46,49 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <style>
+      .spinner-border {
+          animation-duration: 0.25s; /* Adjust the duration to slow down or speed up the spinner */
+      }
+  </style>
+  
   </head>
 
-  <body>
-    <!-- Content -->
-
+<body>
+ <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
+            </div>
+            <div class="modal-body text-center mb-4">
+                <p id="logoutMessage">Logging you out...</p>
+                <div class="spinner-border text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   <!-- Content -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title text-dark" id="welcomeModalLabel">NSNEMO</h5>
+              </div>
+              <div class="modal-body text-center mb-4">
+                  <p id="welcomeMessage" class="fs-4"> Logged in as : <span id="welcomeUsername" class="text-primary fw-bolder"></span></p>
+                  <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>  
+                  </div>
+                  
+                  
+                
+              </div>
+          </div>
+      </div>
+  </div>
+  
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">

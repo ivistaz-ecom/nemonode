@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 let currentPage=1;
 async function displayDocument(page = 1, limit = 10) {
     try {
-        const documentResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-document?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const documentResponse = await axios.get(`http://localhost:4000/others/view-document?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Document Response:', documentResponse);
 
         const documentTable = document.getElementById("document-table");
@@ -96,10 +96,16 @@ async function displayDocument(page = 1, limit = 10) {
 window.onload=async function(){
     displayDocument();
     const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 }
@@ -108,7 +114,7 @@ async function deleteDocument(documentId, event) {
     event.preventDefault();
 
     const id = documentId;
-    const url = `https://nemonode.ivistaz.co/others/delete-document/${id}`;
+    const url = `http://localhost:4000/others/delete-document/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -138,16 +144,22 @@ async function editDocument(id, doctype, expirydate, event) {
 
 
 // Add event listener for updating Document Type
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
    
 

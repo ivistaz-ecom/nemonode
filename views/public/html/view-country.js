@@ -4,7 +4,7 @@ const countryTable = document.getElementById("country-code-table");
 const token = localStorage.getItem('token')
 async function displayCountryCodes() {
     try {
-        const response = await axios.get('https://nemonode.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});
+        const response = await axios.get('http://localhost:4000/others/country-codes',{headers:{"Authorization":token}});
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {
@@ -32,13 +32,19 @@ async function displayCountryCodes() {
 
 window.onload = async function () {
      await displayCountryCodes();
-    const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-
-    }
+     const hasUserManagement = decodedToken.userManagement;
+     const vendorManagement = decodedToken.vendorManagement;
+     console.log(vendorManagement);
+     if (hasUserManagement) {
+       document.getElementById('userManagementSection').style.display = 'block';
+       document.getElementById('userManagementSections').style.display = 'block';
+ 
+     }
+     if (vendorManagement) {
+       document.getElementById('vendorManagement').style.display = 'block';
+       document.getElementById('vendorManagementSections').style.display = 'block';
+ 
+     }
 };
 
 
@@ -54,16 +60,22 @@ function decodeToken(token) {
 const decodedToken = decodeToken(token);
 
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

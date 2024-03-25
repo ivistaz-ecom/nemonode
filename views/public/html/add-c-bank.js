@@ -75,7 +75,7 @@ if (hasUserManagement) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ async function handleBankDetailsForm(event) {
 
 
     try {
-        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
+        const response = await axios.post(`http://localhost:4000/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -225,16 +225,22 @@ const storedName = localStorage.getItem('username');
     const userInfoElement = document.getElementById('userInfo');
     userInfoElement.querySelector('.fw-semibold').textContent = storedName;
 
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+   document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-        // For example, redirect to a login page
-        window.location.href = './loginpage.html';
-    });
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+
 
 
 function updateDateTime() {

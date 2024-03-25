@@ -76,7 +76,7 @@ if (hasUserManagement) {
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`http://localhost:4000/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -165,16 +165,22 @@ documentForm.addEventListener('submit', async function (event) {
     }
 });
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

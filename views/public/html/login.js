@@ -1,14 +1,10 @@
+// JavaScript code (login.js)
+
 const user_id = document.getElementById("user_id");
 const user_pass = document.getElementById("user_pass");
 const form = document.getElementById("login-form");
-
-function decodeToken(token) {
-    // Implementation depends on your JWT library
-    // Here, we're using a simple base64 decode
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
-}
+const welcomeUsername = document.getElementById("welcomeUsername");
+const welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'));
 
 form.addEventListener("submit", login);
 
@@ -21,47 +17,41 @@ async function login(e) {
             userPassword: user_pass.value.trim(),
         };
 
-        console.log(loginCredentials);
-
         const response = await axios.post(
-            "https://nemonode.ivistaz.co/user/login",
+            "http://localhost:4000/user/login",
             loginCredentials
         );
-        console.log("Response:", response.data);
 
         if (response.data.success) {
+            const username = response.data.username;
             const token = response.data.token;
-            const decodedToken = decodeToken(token);
-            if (decodedToken.disableUser) {
-                console.error("User account is disabled. Cannot login.");
-                // Handle the disabled account scenario, e.g., display an error message to the user
-            } else {
-                localStorage.setItem("token", token);
-                localStorage.setItem("username", response.data.username);
-                localStorage.setItem("userId", response.data.userId);
 
+            // Display the welcome message and loading spinner
+            welcomeUsername.textContent = username;
+            welcomeModal.show();
+
+            // Save token and other data to localStorage
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", username);
+            localStorage.setItem("userId", response.data.userId);
+
+            // Redirect to index page after a short delay (e.g., 2 seconds)
+            setTimeout(() => {
                 window.location.href = "./indexpage.html";
-                // redirect('/user-managment')
-
-
-
-            }
+            },850);
         } else {
             console.error("Login failed:", response.data.message);
-            // Handle the error here, e.g., display an error message to the user
+            // Handle login failure
+            // Display an error message to the user
         }
     } catch (error) {
         console.error("Error during login:", error.message);
-        // Handle network errors or other unexpected issues here
+        // Handle network errors or other unexpected issues
         // Display an error message to the user
     }
 }
 
-
-const user_p = document.getElementById("user_pass");
-
 function togglePassword() {
-    const inputType = user_p.type === "password" ? "text" : "password";
-    user_p.type = inputType;
+    const inputType = user_pass.type === "password" ? "text" : "password";
+    user_pass.type = inputType;
 }
-

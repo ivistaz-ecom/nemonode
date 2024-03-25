@@ -21,7 +21,7 @@ if (hasUserManagement) {
 }
 
         try {
-            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-hospital-details/${id}`, {
+            const response = await axios.get(`http://localhost:4000/candidate/get-hospital-details/${id}`, {
                 headers: {
                     'Authorization': token,
                 },
@@ -72,7 +72,7 @@ if (hasUserManagement) {
         });
     }
       
-        const hospitalResponse = await axios.get("https://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get("http://localhost:4000/others/view-hospital", { headers: { "Authorization": token } });
         console.log(hospitalResponse)
         const hospitals = hospitalResponse.data.hospitals;
         const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
@@ -156,7 +156,7 @@ if (hasUserManagement) {
         };
           console.log(formData)
           // Send data to the server using Axios with async/await
-          const response = await axios.post(`https://nemonode.ivistaz.co/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
+          const response = await axios.post(`http://localhost:4000/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
     
           // Handle success
           console.log('Data sent successfully:', response.data);
@@ -179,16 +179,22 @@ if (hasUserManagement) {
         window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${expiry_date}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${upload}`;
     }
 
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+   document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-        // For example, redirect to a login page
-        window.location.href = './loginpage.html';
-    });
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+
 
 
 function updateDateTime() {

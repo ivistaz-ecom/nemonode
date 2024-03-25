@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>User Management | Nsnemo</title>
+    <title>Vendor Add | Nsnemo</title>
 
     <meta name="description" content="" />
 
@@ -31,7 +31,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Company - Nsnemo</title>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -56,8 +55,22 @@
     <script src="../assets/js/config.js"></script>
   </head>
 
-  <body>
-    <!-- Layout wrapper -->
+<body>
+ <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
+            </div>
+            <div class="modal-body text-center mb-4">
+                <p id="logoutMessage">Logging you out...</p>
+                <div class="spinner-border text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
@@ -375,6 +388,30 @@
 
 
 
+             <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Vendor Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Vendor</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-vendor.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="add-user.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+
+
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Candidate Management</span>
             </li>
@@ -596,11 +633,10 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" 
-id='logout'>
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
+                      <a class="dropdown-item" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="bx bx-power-off me-2"></i>
+   <span class="align-middle">Log Out</span>
+</a>
                     </li>
                   </ul>
                 </li>
@@ -622,7 +658,7 @@ id='logout'>
                     
         
               <div class="card-body">
-                <h5 class="card-title mb-4 pb-2">Add User</h5>
+                <h5 class="card-title mb-4 pb-2">Add Vendor</h5>
         
                 <form id="user-form">
                   <div class="row g-3">
@@ -773,6 +809,16 @@ id='logout'>
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                          <div class="col-6">
+                              <label class="form-check-label" for="u_reports_all">Reports All</label>
+                          </div>
+                          <div class="col-6">
+                              <div class="form-check">
+                                  <input type="checkbox" id="u_reports_all" name="u_reports_all" class="form-check-input">
+                              </div>
+                          </div>
+                      </div>
                     </div>
                     <div class="col-md-6">
                         <div class="row mb-3">
@@ -812,13 +858,13 @@ id='logout'>
             
                 <div class="col-4 border rounded-3 p-3 mb-3" style="width: 200px;height:58px">
                     <div class="form-check ">
-                        <input type="checkbox" id="disable_user">  Disable User?
+                        <input type="checkbox" id="disable_user">  Disable Vendor?
                     </div>
                 </div>
             
                 <div class="card-footer text-end pt-0 pe-0 pb-1">
 
-                  <button class="btn btn-success" type="submit">Add User</button>
+                  <button class="btn btn-success" type="submit">Add Vendor</button>
                 </div>
               </form>
               

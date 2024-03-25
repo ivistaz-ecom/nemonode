@@ -18,6 +18,7 @@
   <!-- <link rel="stylesheet" href="../../staticfiles/style/assets/vendor/fonts/boxicons.css"> -->
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,7 +50,22 @@
   <script src="../assets/js/config.js"></script>
 </head>
 
-  <body>
+<body>
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
+            </div>
+            <div class="modal-body text-center mb-4">
+                <p id="logoutMessage">Logging you out...</p>
+                <div class="spinner-border text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -374,7 +390,28 @@
               </ul>
             </span>
 
-
+            <li class="menu-header small text-uppercase" id="vendorManagement" style="display: none;">
+              <span class="menu-header-text">Vendor Management</span>
+            </li>
+            <li class="menu-item" id="vendorManagementSections" style="display: none;">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Vendor</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-vendor.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="add-user.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
 
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Candidate Management</span>
@@ -401,7 +438,7 @@
 
             <li class="menu-header small text-uppercase" id="userManagementSection" style="display: none;">
               <span class="menu-header-text">User Management</span>
-            </span>
+            </li>
             
             <li class="menu-item" id="userManagementSections" style="display: none;">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -554,7 +591,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block" id="user_name"></span>
+                            <span class="fw-semibold d-block fw-bolder text-primary" id="user_name"></span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
@@ -588,11 +625,10 @@
                       <div class="dropdown-divider"></div>
                     </span>
                     <span>
-                      <a class="dropdown-item" 
-id='logout'>
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
+                      <a class="dropdown-item" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="bx bx-power-off me-2"></i>
+   <span class="align-middle">Log Out</span>
+</a>
                     </span>
                   </ul>
                 </span>
@@ -625,71 +661,91 @@ id='logout'>
                 </div>
               </div> -->
                 <div class="container-fluid">
-                      <h5 class="text-center mt-5">Candidate Status on <span id="datetime" class="text-primary"></span></h5>
               
+                  <div class="card mt-3"> 
+                    <div class="d-flex justify-content-between p-2 ps-4 pe-4">
+                                              <span><a href="./birthday.html">Birthday Reminder</a></span>
+                    <span><a href="./reminder-document.html">Renewal Reminder</a></span>
+                    <span><a href="./reminder.html">Discussion Reminder</a></span>
+                    <span><a href="./availableCandidates.html">Available Candidates</a></span>
+                    <span><a href="./reportsAll.html">Export All</a></span>
+                    <span><a href="./report.html">Report</a></span>
 
+
+
+                    </div>
+                     
+                    </div>
                        <div class=" text-center d-flex justify-content-center  ">
-                            <div class="col-md-6 mt-3">
-                                <div class="candidate-status card p-5">
-                                    <!-- <h4 class="text-primary">Candidate Status</h4> -->
-                                    <div class="">
-                                    <table class="table table-sm table-bordered mb-4">
+                            <div class=" mt-3  ">
+                              
+                                <div class="candidate-status card me-3 rounded-3  p-5 pt-0">
+                                  <h6 class="text-center pt-5  fw-bolder">Candidate Status on<br><br> <span id="datetime" style="font-size: 10px;" class="text-primary"></span></h6><hr class="bg-dark">
+                                    <div class=""  >
+                                    <div class="border border-dark  rounded-3 pb-0 " >
+                                    <table class="table table-border-bottom-0 pb-0 mb-0 " >
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="bg-primary text-white">Proposed</th>
-                                                <th scope="col" class="bg-primary text-white">Approved</th>
-                                                <th scope="col" class="bg-primary text-white">Joined</th>
+                                                <th scope="col" style="font-size: 8px;">Proposed</th>
+                                                <th scope="col" style="font-size: 8px;">Approved</th>
+                                                <th scope="col" style="font-size: 8px;">Joined</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><span id="proposedCount"></span></td>
-                                                <td bg-><span id="approvedCount"></span></td>
-                                                <td class="bg-success text-white"><span id="joinedCount"></span></td>
+                                                <td class="mt-2 mb-0 "  ><span id="proposedCount" ></span></td>
+                                                <td class="mt-2 mb-0 " ><span id="approvedCount" ></span></td>
+                                                <td ><span id="joinedCount"  class="badge bg-primary text-white "></span></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     </div>
-                                    <div class="row justify-content-center mb-4">
-                                      <div class="col-md-6">
-                                          <table class="table table-bordered text-center table-sm">
-                                              <thead class="thead-dark">
+                                    </div>
+                                    <div class="mb-0 mt-3">
+                                      <div class="border border-dark rounded-3  pb-0 " >
+                                          <table class="table  text-center table-border-bottom-0 pb-0 mb-0" >
+                                              <thead class="">
                                                   <tr>
-                                                      <th scope="col" class="col-1 fw-bolder bg-primary text-white">Active</th>
-                                                      <th scope="col" class="col-1 fw-bolder bg-primary text-white">Inactive</th>
+                                                      <th scope="col" style="font-size: 8px;" >Active</th>
+                                                      <th scope="col" style="font-size: 8px;" >Inactive</th>
                                                   </tr>
                                               </thead>
                                               <tbody>
                                                   <tr>
-                                                      <td class=""><span id="activeCount" ></span></td>
-                                                      <td class="bg-danger"><span id="inactiveCount" class=" text-white "></span></td>
+                                                      <td class=""><span id="activeCount" class=""></span></td>
+                                                      <td ><span id="inactiveCount" class="badge bg-warning text-white " ></span></td>
                                                   </tr>
                                               </tbody>
                                           </table>
                                       </div>
                                   </div>
-                              
-                                    <div class="todays-call">
-                                      <span class="mb-4 fw-bolder ">Todays Calls :</span>
+                                    <div class="todays-call mt-4 ">
+                                      <div class="d-flex justify-content-sm-center  p-2 pb-5">
+                                      <span class="  me-3 fw-bolder text-dark mt-1" style="font-size: 12px;">Todays Calls :</span>
                                       <span><span id="callCount"></span></span>
+                                      </div>
                                   </div>
                                 </div>
                                   
                               
                                 
+                            </div>  
+                            <div class="card p-5  mt-3 w-100">
+                              <h6 class="fw-bolder ">Top available candidates</h6>
+                            <div id="rankCharts" ></div>
+                            <p class="mt-3 mb-0 pb-0"><a href="availableCandidates.html">Click here for detailed data</a></p>
+
                             </div>
-                        
+                            
+
                             
                         </div>
-                        <div class="d-flex justify-content-between p-5">
-                                                  <span><a href="./birthday.html">Birthday Reminder</a></span>
-                        <span><a href="./reminder-document.html">Renewal Reminder</a></span>
-                        <span><a href="./reminder.html">Discussion Reminder</a></span>
-                        <span><a href="./report.html">Report</a></span>
-                        <span><a href="./reportsAll.html">Export All</a></span>
+                        
+                        <div class="d-flex justify-content-center mt-4">
+                          <span class="fw-bolder">Nautilus Shipping & Nemo</span>
 
-                        </div>
-
+                      </div>
+                    
               </div>
               
                      
@@ -715,7 +771,7 @@ id='logout'>
                     const token = localStorage.getItem('token');
               
                     // Fetch discussion counts
-                    const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
+                    const discussionCountsResponse = await fetch('http://localhost:4000/candidate/discussion-count', {
                       headers: { "Authorization": token }
                     });
                     const discussionCountsData = await discussionCountsResponse.json();
@@ -726,7 +782,7 @@ id='logout'>
 
               
                     // Fetch call count
-                    const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
+                    const callCountResponse = await fetch('http://localhost:4000/candidate/call-count', {
                       headers: { "Authorization": token }
                     });
                     const callCountData = await callCountResponse.json();
@@ -737,16 +793,149 @@ id='logout'>
                 </script>
          <!--/ Layout Demo -->
             </div>
+           
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // Function to fetch candidate data and populate the table
+      async function populateCandidatesTable() {
+          try {
+              const token = localStorage.getItem('token');
+              const response = await axios.get('http://localhost:4000/candidate/view-candidate', {
+                  headers: { "Authorization": token }
+              });
+              const responseData = response.data;
+              let candidates = responseData.candidates; // Accessing the candidates array
+              // Sort candidates based on availability status
+              
+              // Generate doughnut charts for ranks
+              generateDoughnutCharts(candidates.slice(0, 6)); // Display only the first 5 ranks
+          } catch (error) {
+              console.error(error);
+          }
+      }
+  
+      // Function to generate doughnut charts for ranks
+      function generateDoughnutCharts(candidates) {
+          const ranksData = {};
+          candidates.forEach(candidate => {
+              if (ranksData[candidate.c_rank]) {
+                  ranksData[candidate.c_rank]++;
+              } else {
+                  ranksData[candidate.c_rank] = 1;
+              }
+          });
+  
+          const rankLabels = Object.keys(ranksData);
+          const rankCounts = Object.values(ranksData);
+  
+          const rankChartsContainer = document.getElementById('rankCharts');
+          rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
+  
+          const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
+  
+          new Chart(rankDoughnutChartCanvas, {
+              type: 'doughnut',
+              data: {
+                  labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
+                  datasets: [{
+                      data: rankCounts,
+                      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500', '#008080', '#20B2AA']
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  legend: {
+                      display: true,
+                      position: 'right',
+                      labels: {
+                          generateLabels: function(chart) {
+                              const data = chart.data;
+                              if (data.labels.length && data.datasets.length) {
+                                  return data.labels.map(function(label, i) {
+                                      const color = data.datasets[0].backgroundColor[i];
+                                      return {
+                                          text: label,
+                                          fillStyle: color,
+                                          strokeStyle: color,
+                                          lineWidth: 2,
+                                          hidden: false,
+                                          index: i
+                                      };
+                                  });
+                              }
+                              return [];
+                          }
+                      }
+                  },
+                  title: {
+                      display: true,
+                      text: 'Top 5 Candidate Ranks Distribution'
+                  }
+              }
+          });
+      }
+  
+      // Function to determine the status order
+      function getStatusOrder(avb_date) {
+          const today = new Date();
+          const avbDate = new Date(avb_date);
+          const diffTime = avbDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+          if (diffDays === 0) {
+              return 1; // Available
+          } else if (diffDays < 0) {
+              return 3; // Not available
+          } else {
+              return 2; // Available in __ days
+          }
+      }
+  
+      // Function to determine the status based on avb_date
+      function getStatus(avb_date) {
+          const today = new Date();
+          const avbDate = new Date(avb_date);
+          const diffTime = avbDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+          if (diffDays === 0) {
+              return "Available";
+          } else if (diffDays < 0) {
+              return "Not available";
+          } else {
+              return `Available in ${diffDays} days`;
+          }
+      }
+  
+      // Function to determine the Bootstrap badge class based on avb_date
+      function getStatusBadgeClass(avb_date) {
+          const today = new Date();
+          const avbDate = new Date(avb_date);
+          const diffTime = avbDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+          if (diffDays === 0) {
+              return "bg-success";
+          } else if (diffDays < 0) {
+              return "bg-danger";
+          } else {
+              return "bg-primary";
+          }
+      }
+  
+      // Call the function to populate the table when the page loads
+      populateCandidatesTable();
+  </script>
+  
+ 
+ 
+  
+
+
             <!-- / Content -->
 
             <!-- Footer -->
              <footer class="footer mt-auto py-3 bg-footer-theme">
-        <div class="container">
-            <div class="d-flex justify-content-between">
-                <span id="datetime"></span>
-                <span>Nautilus Shipping</span>
-            </div>
-        </div>
+      
     </footer>
             <!-- / Footer -->
 

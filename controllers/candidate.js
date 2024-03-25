@@ -244,7 +244,7 @@ const getAllCandidates = async (req, res) => {
                 limit,
                 offset,
             });
-        } else if(userGroup==='vendor' && Write){
+        } else if(userGroup==='vendor' && readOnly){
             // If the user is not an admin, fetch candidates associated with the user with pagination
             allCandidates = await Candidate.findAndCountAll({
                 where: {
@@ -276,39 +276,35 @@ const birthday = async (req, res) => {
     try {
         const userId = req.user.id;
         const user = await User.findByPk(userId);
-        console.log(req.query.date)
+
         if (!user) {
             return res.status(404).json({ message: 'User not found', success: false });
         }
-
+        const readOnly = user.dataValues.readOnly
         const userGroup = user.dataValues.userGroup;
         console.log('User Group:', userGroup);
 
         let whereCondition = {};
         // Check if a date is provided in the request body
-        if (req.query.date ) {
-            // If date is provided, filter candidates based on that date
+        if (req.query.date) {
+            // If date is provided, filter s based on that date
             const selectedDate = new Date(req.query.date);
+            console.log(selectedDate)
             whereCondition.dob = { [Op.eq]: selectedDate };
-        } else {
-            // If no date is provided, filter candidates based on today's date and a 30-day range
-            const today = new Date();
-            const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
-            whereCondition.dob = { [Op.gte]: startDate, [Op.lt]: endDate };
         }
 
         let allCandidates;
         if (userGroup === 'admin') {
             allCandidates = await Candidate.findAll({
-                attributes: ['fname', 'lname','c_rank','dob', 'candidateId', 'c_mobi1', 'email1'], // Fetch necessary attributes
+                attributes: ['fname', 'lname', 'c_rank', 'dob', 'candidateId', 'c_mobi1', 'email1'], // Fetch necessary attributes
                 where: whereCondition, // Apply filter condition
                 order: [['dob', 'ASC']] // Order by date of birth in ascending order
             });
-        } else if (userGroup === 'vendor') {
+        } else if (userGroup === 'vendor' && readOnly) {
+            // For vendor, apply additional condition based on userId
             allCandidates = await Candidate.findAll({
                 where: { userId: userId, ...whereCondition }, // Apply filter condition
-                attributes: ['fname', 'lname','c_rank', 'dob', 'candidateId', 'c_mobi1', 'email1'], // Fetch necessary attributes
+                attributes: ['fname', 'lname', 'c_rank', 'dob', 'candidateId', 'c_mobi1', 'email1'], // Fetch necessary attributes
                 order: [['dob', 'ASC']] // Order by date of birth in ascending order
             });
         }
@@ -322,6 +318,7 @@ const birthday = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
+
 
 
 
@@ -1508,59 +1505,77 @@ const reportAll = async(req,res)=>{
         res.status(500).json({success:false,message:'Not Authorized, Contact Administrator'})
     }
 }
-
 const checkExpiry = async (req, res) => {
     try {
-        let expiringSoonDocuments;
-        const { date } = req.query; // Extract date from request query parameters
+        const userId = req.params.id;
+        const user = await User.findByPk(userId);
 
-        if (date) {
-            // If date is present in the request, filter documents by expiry date matching the date input
-            expiringSoonDocuments = await checkExpiryDates(date);
-        } else {
-            // If no date is present in the request, retrieve all documents ordered by expiry date
-            expiringSoonDocuments = await checkExpiryDates();
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        res.status(200).json(expiringSoonDocuments);
-    } catch (error) {
-        console.error('Error checking expiry dates:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
+        const userGroup = user.userGroup;
+        const readOnly = user.readOnly;
 
-const checkExpiryDates = async (date = null) => {
-    try {
-        console.log('Working...');
+        const { date } = req.query;
 
-        // Define options for finding documents
         const options = {
-            order: [['expiry_date', 'ASC']], // Order by expiry_date in ascending order
+            order: [['expiry_date', 'ASC']],
+            where: {} // Initialize where condition object
         };
 
-        // If date is provided, add a condition to filter documents by expiry date matching the input date
+        // Filter out documents with null expiry_date
+        options.where.expiry_date = {
+            [Op.ne]: null
+        };
+
         if (date) {
-            // To properly match the date, we need to consider the time as well
             const startDate = new Date(date);
             const endDate = new Date(date);
-            endDate.setDate(endDate.getDate() + 1); // Add one day to get the next day
-            options.where = {
-                expiry_date: {
-                    [Op.gte]: startDate, // Greater than or equal to the input date
-                    [Op.lt]: endDate,    // Less than the next day
-                }
-            };
+            endDate.setDate(endDate.getDate() + 1);
+
+            // Merge date condition with existing conditions
+            options.where.expiry_date[Op.gte] = startDate;
+            options.where.expiry_date[Op.lt] = endDate;
         }
 
-        // Find documents based on the defined options
-        const documents = await Documents.findAll(options);
+        if (userGroup === 'admin') {
+            const expiringSoonDocuments = await Documents.findAll(options);
+            return res.status(200).json(expiringSoonDocuments);
+        } else if (userGroup === 'vendor' && readOnly) {
+            const candidates = await Candidate.findAll({
+                where: { userId: userId }
+            });
+            const candidateIds = candidates.map(candidate => candidate.dataValues.candidateId);
 
-        return documents;
+            const documents = [];
+
+            for (const candidateId of candidateIds) {
+                const candidateDocuments = await Documents.findAll({
+                    where: {
+                        candidateId: candidateId,
+                        ...options.where // Include other conditions
+                    }
+                });
+                documents.push(...candidateDocuments);
+            }
+
+            return res.status(200).json(documents);
+        } else {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
     } catch (error) {
         console.error('Error checking expiry dates:', error);
-        throw error;
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
+
+
+
+
+
 
 
 
@@ -1599,8 +1614,20 @@ const checkExpiryDates = async (date = null) => {
 
 const Reminder = async (req, res) => {
     try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+
+        const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+
         let discussionRanks;
         const { date } = req.query;
+
+        let whereCondition = {};
 
         if (date) {
             const formattedDate = new Date(date); // Convert date string to Date object
@@ -1608,21 +1635,28 @@ const Reminder = async (req, res) => {
             const endDate = new Date(startDate);
             endDate.setDate(endDate.getDate() + 1); // End of the day
             
-            // Fetch reminders for the specific date
+            // Set the condition for reminder date
+            whereCondition.reminder_date = {
+                [Op.gte]: startDate,
+                [Op.lt]: endDate
+            };
+        }
+
+        if (userGroup === 'admin') {
+            // If admin, fetch all reminders without applying any additional conditions
             discussionRanks = await Discussion_plus.findAll({
-                where: { 
-                    reminder_date: {
-                        [Op.gte]: startDate,
-                        [Op.lt]: endDate
-                    }
-                },
+                where: whereCondition,
+                order: [['reminder_date', 'ASC']]
+            });
+        } else if (userGroup === 'vendor' && readOnly) {
+            // If vendor with readOnly access, fetch reminders only for the specific user
+            discussionRanks = await Discussion_plus.findAll({
+                where: { userId: userId, ...whereCondition },
                 order: [['reminder_date', 'ASC']]
             });
         } else {
-            // Fetch all reminders
-            discussionRanks = await Discussion_plus.findAll({
-                order: [['reminder_date', 'ASC']]
-            });
+            // For unauthorized access, return Forbidden error
+            return res.status(403).json({ error: 'Forbidden', success: false });
         }
 
         res.status(200).json({
@@ -1634,6 +1668,7 @@ const Reminder = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 
 
@@ -1733,7 +1768,6 @@ module.exports = {
     getAllSeaService,
     deleteSeaService,
     reportAll,
-    checkExpiryDates,
     checkExpiry,
     Reminder,
     getCallCount,

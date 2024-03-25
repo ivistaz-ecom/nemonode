@@ -9,7 +9,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -32,7 +32,7 @@ const displayVesselDropdown = async function () {
         defaultOption.text = '-- Select Vessel --';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vsls;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -62,7 +62,7 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '-- Select Vessel Type --';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vessels", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:4000/others/view-vessels", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vessels;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -80,12 +80,18 @@ const displayVesselTypeDropdown = async function () {
 document.addEventListener('DOMContentLoaded', function () {
 
     const hasUserManagement = decodedToken.userManagement;
-  console.log(hasUserManagement)
-  if (hasUserManagement) {
-    document.getElementById('userManagementSection').style.display = 'block';
-    document.getElementById('userManagementSections').style.display = 'block';
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
+    if (hasUserManagement) {
+      document.getElementById('userManagementSection').style.display = 'block';
+      document.getElementById('userManagementSections').style.display = 'block';
 
-  }
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
+
+    }
     displayDropdown()
     displayVesselDropdown()
     displayVesselTypeDropdown()
@@ -146,7 +152,7 @@ const displayCountryDropdown = async function () {
         countryDropdown.appendChild(defaultOption);
 
         // Assuming the country data is an array of objects with the property "country"
-        const countryResponse = await axios.get("https://nemonode.ivistaz.co/others/country-codes", { headers: { "Authorization": token } });
+        const countryResponse = await axios.get("http://localhost:4000/others/country-codes", { headers: { "Authorization": token } });
         const countries = countryResponse.data.countryCodes; // Assuming the array is directly returned
 
         for (let i = 0; i < countries.length; i++) {
@@ -191,7 +197,7 @@ const addCrewPlanner = async (e) => {
 
     try {
         // Send data to the server using Axios
-        const response = await axios.post('https://nemonode.ivistaz.co/others/add-crew-planner', formData, { headers: { "Authorization": token } });
+        const response = await axios.post('http://localhost:4000/others/add-crew-planner', formData, { headers: { "Authorization": token } });
 
         // Handle the response as needed
         console.log(response.data);
@@ -208,7 +214,7 @@ document.getElementById('addCrewForm').addEventListener('submit', addCrewPlanner
 
 async function fetchAndDisplayCrewPlannerDetails() {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/others/view-crew-planner`, {
+        const response = await axios.get(`http://localhost:4000/others/view-crew-planner`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -280,7 +286,7 @@ function deleteCrewPlanner(crewPlannerId) {
 
 async function createCompanyDropdown() {
 
-    const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.company;
         const companyNames = companyOptions.map(company => company.company_name);
 
@@ -305,16 +311,22 @@ async function createCompanyDropdown() {
     }
 }
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 
