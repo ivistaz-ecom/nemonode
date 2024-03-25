@@ -5,7 +5,7 @@ document.getElementById("document-form").addEventListener("submit", async (e) =>
     const hideExpiryDate = document.getElementById("hide-expiry-date").checked;
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-document", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-document", {
             documentType,
             hideExpiryDate,
         },{headers:{"Authorization":token}});
@@ -15,8 +15,9 @@ document.getElementById("document-form").addEventListener("submit", async (e) =>
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

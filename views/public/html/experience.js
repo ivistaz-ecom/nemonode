@@ -5,7 +5,7 @@ document.getElementById("exp-form").addEventListener("submit", async (e) => {
     const experience = document.getElementById("exp").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-experience", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-experience", {
             experience,
         },{headers:{"Authorization":token}});
 
@@ -19,8 +19,9 @@ document.getElementById("exp-form").addEventListener("submit", async (e) => {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

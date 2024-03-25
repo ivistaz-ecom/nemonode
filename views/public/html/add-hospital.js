@@ -12,7 +12,7 @@ document.getElementById("hospital-form").addEventListener("submit", async (e) =>
     console.log(doctorUpload)
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-hospital", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-hospital", {
             hospitalName,
             doctorName,
             doctorAddress,
@@ -29,8 +29,9 @@ document.getElementById("hospital-form").addEventListener("submit", async (e) =>
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

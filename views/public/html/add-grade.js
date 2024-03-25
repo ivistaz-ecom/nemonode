@@ -4,15 +4,16 @@ document.getElementById("grade-form").addEventListener("submit", async (e) => {
     const gradeExp = document.getElementById("grade_exp").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-grade", { gradeExp },{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("http://localhost:4000/others/create-grade", { gradeExp },{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
     } catch (error) {
         console.error('Error:', error);
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

@@ -4,7 +4,7 @@ let currentPage = 1; // Initialize current page
 async function displayRank(page = 1, limit = 10) {
     try {
         // Fetch ranks from the server with pagination parameters
-        const rankResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-rank?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const rankResponse = await axios.get(`http://localhost:4000/others/view-rank?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Rank Response:', rankResponse);
 
         const rankTable = document.getElementById("rank-table");
@@ -131,7 +131,7 @@ async function deleteRank(rankId, event) {
     event.preventDefault();
 
     const id = rankId;
-    const url = `https://nemonode.ivistaz.co/others/delete-rank/${id}`;
+    const url = `http://localhost:4000/others/delete-rank/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -159,8 +159,9 @@ async function editRank(rankId, rank, rankOrder, category, event) {
     // Redirect to the editUrl
     window.location.href = editUrl;
 }
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

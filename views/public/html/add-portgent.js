@@ -11,7 +11,7 @@ document.getElementById("port-agent-form").addEventListener("submit", async (e) 
     const country = document.getElementById("port-agent-country").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-port-agent", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-port-agent", {
             portAgentName,
             contactPerson,
             address,
@@ -27,8 +27,9 @@ document.getElementById("port-agent-form").addEventListener("submit", async (e) 
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

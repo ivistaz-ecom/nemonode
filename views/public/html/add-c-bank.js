@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
-if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-    document.getElementById('userManagementSection').style.display = 'block';
-    document.getElementById('userManagementSections').style.display = 'block';
+if (hasUserManagement) {
+  document.getElementById('userManagementSection').style.display = 'block';
+  document.getElementById('userManagementSections').style.display = 'block';
+
 }
     const candidateId = localStorage.getItem('memId');
     fetchAndDisplayBankDetails(candidateId);
@@ -212,11 +213,7 @@ const bankDetailsForm = document.getElementById('bankForm');
 bankDetailsForm.addEventListener('submit', handleBankDetailsForm);
 
 
-document.getElementById('logout').addEventListener('click',async function(e){
-    e.preventDefault();
-    localStorage.clear()
-    window.location.href='./loginpage.html'
-})
+
 
 const storedName = localStorage.getItem('username');
 

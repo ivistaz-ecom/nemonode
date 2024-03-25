@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function  fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -88,7 +88,7 @@ const decodedToken = decodeToken(token);
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-grade", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
@@ -119,7 +119,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vsls;
 
         // Get the select element
@@ -178,7 +178,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -193,7 +193,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayNationalities() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("https://nemonode.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
+        const response = await axios.get("http://localhost:4000/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
         console.log(countries)
         return countries; // Return the fetched countries
@@ -293,7 +293,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
       };
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("http://localhost:4000/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         // addcandidateButton.reset();
         alert("Candidate Added Successfully!");
@@ -324,8 +324,9 @@ addcandidateButton.addEventListener("submit", async(e) =>{
   
 //   // Example usage of the function
 //   findStudentsWithUpcomingBirthdays()
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

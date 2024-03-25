@@ -6,7 +6,7 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
     const category = document.getElementById("category").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-rank", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-rank", {
             rank,
             rankOrder,
             category,
@@ -17,8 +17,9 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

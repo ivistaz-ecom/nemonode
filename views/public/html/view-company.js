@@ -30,7 +30,7 @@ function decodeToken(token) {
 
 async function displayCompanies(page = 1, limit = 10) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const companies = response.data.company;
         const companyList = document.getElementById("company-list");
         companyList.innerHTML = "";
@@ -114,7 +114,7 @@ async function deleteCompany(companyId, event) {
     event.preventDefault();
     let id = companyId;
     console.log(id);
-    const url = `https://nemonode.ivistaz.co/company/delete-company/${id}`;
+    const url = `http://localhost:4000/company/delete-company/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -170,7 +170,19 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-document.getElementById('logout').addEventListener('click', function () {
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
     localStorage.clear();
-    window.location.href = './loginpage.html';
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });

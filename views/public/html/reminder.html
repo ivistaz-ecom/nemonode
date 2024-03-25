@@ -634,6 +634,22 @@
         
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script>
+               document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    localStorage.clear();
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
                 document.addEventListener('DOMContentLoaded', function () {
                     const reminderForm = document.getElementById('reminderForm');
                     const dateInput = document.getElementById('date');
@@ -650,7 +666,7 @@
                     async function fetchData(selectedDate) {
                         try {
                             const token = localStorage.getItem('token');
-                            const response = await axios.get('https://nemonode.ivistaz.co/candidate/reminder', {
+                            const response = await axios.get('http://localhost:4000/candidate/reminder', {
                                 headers: { "Authorization": token },
                                 params: { date: selectedDate }
                             });

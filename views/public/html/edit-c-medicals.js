@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     document.getElementById('hospital_amount').value = amount;
     // document.getElementById('hospital_upload').value = upload;
 
-    const hospitalResponse = await axios.get("https://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
+    const hospitalResponse = await axios.get("http://localhost:4000/others/view-hospital", { headers: { "Authorization": token } });
     console.log(hospitalResponse)
     const hospitals = hospitalResponse.data.hospitals;
     const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
@@ -122,7 +122,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
         console.log(formData);
 
         // Send data to the server using Axios with async/await
-        const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-c-hospital/${med_id}`, formData, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/candidate/update-c-hospital/${med_id}`, formData, { headers: { "Authorization": token } });
 
         console.log(response);
 
@@ -137,8 +137,9 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

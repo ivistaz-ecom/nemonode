@@ -18,7 +18,7 @@ document.getElementById('cand-form').addEventListener('submit', async function s
       };
 
       // Use Axios to send a POST request to the server
-      const response = await axios.post(`https://nemonode.ivistaz.co/candidate-password/forgotpassword`, data);
+      const response = await axios.post(`http://localhost:4000/candidate-password/forgotpassword`, data);
       console.log(response.data)
       // Check the response from the server
       if (response.data.success) {
@@ -35,8 +35,9 @@ document.getElementById('cand-form').addEventListener('submit', async function s
 });
 
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

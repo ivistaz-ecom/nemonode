@@ -47,7 +47,7 @@ const updatedExperienceDetails = {
 };
 console.log(updatedExperienceDetails)
 try {
-    const response = await axios.put(`https://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
+    const response = await axios.put(`http://localhost:4000/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
     console.log('Response:', response.data);
     alert("Experience Updated Successfully!");
     window.location.href="./edit-experience.html"
@@ -86,8 +86,9 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

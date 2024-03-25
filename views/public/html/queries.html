@@ -61,13 +61,29 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/cjs/jwt-decode.min.js"></script>
   <script>
+     document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    localStorage.clear();
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
     let queries; // Define queries variable outside fetchQueries function
 
     // Function to fetch queries from the server
     const fetchQueries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://nemonode.ivistaz.co/others/query-fetch', {
+        const response = await axios.get('http://localhost:4000/others/query-fetch', {
           headers: {
             'Authorization': token
           }
@@ -110,7 +126,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.post('https://nemonode.ivistaz.co/others/query', {
+        await axios.post('http://localhost:4000/others/query', {
           categories,
           description,
           status,
@@ -165,7 +181,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.put(`https://nemonode.ivistaz.co/others/query/${queryId}`, {
+        await axios.put(`http://localhost:4000/others/query/${queryId}`, {
           categories: editCategories,
           description: editDescription,
           status: editStatus,

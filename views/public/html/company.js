@@ -31,7 +31,7 @@ addCompanyButton.addEventListener("submit", async (e) => {
 
     console.log(company_details);
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/company/create-company", company_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("http://localhost:4000/company/create-company", company_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         alert("Company Added Successfully!");
     } catch (error) {
@@ -107,8 +107,9 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

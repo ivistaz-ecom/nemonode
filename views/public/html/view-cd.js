@@ -3,7 +3,7 @@ const candidateId = localStorage.getItem('cmemId'); // Retrieve candidateId from
 
 async function fetchData() {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-c-candidate/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-c-candidate/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -62,8 +62,9 @@ function updateFields(candidate) {
 
 document.addEventListener('DOMContentLoaded', fetchData);
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

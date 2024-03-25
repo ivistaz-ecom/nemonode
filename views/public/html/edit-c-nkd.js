@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`http://localhost:4000/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
 
             // Handle success
             console.log('NKD data updated successfully:', response.data);
@@ -103,8 +103,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Now the form fields are populated with the retrieved values
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

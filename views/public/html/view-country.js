@@ -4,7 +4,7 @@ const countryTable = document.getElementById("country-code-table");
 const token = localStorage.getItem('token')
 async function displayCountryCodes() {
     try {
-        const response = await axios.get('https://nemonode.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});
+        const response = await axios.get('http://localhost:4000/others/country-codes',{headers:{"Authorization":token}});
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {
@@ -59,8 +59,9 @@ function decodeToken(token) {
 const decodedToken = decodeToken(token);
 
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

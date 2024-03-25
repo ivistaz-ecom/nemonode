@@ -75,7 +75,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`http://localhost:4000/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -164,8 +164,9 @@ documentForm.addEventListener('submit', async function (event) {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

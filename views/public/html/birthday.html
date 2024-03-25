@@ -696,7 +696,7 @@
                   error.style.display = 'none';
                   tableContainer.style.display = 'none';
       
-                  axios.get('https://nemonode.ivistaz.co/candidate/birthday', {
+                  axios.get('http://localhost:4000/candidate/birthday', {
                       params: { date },
                       headers: { "Authorization": token }
                   })

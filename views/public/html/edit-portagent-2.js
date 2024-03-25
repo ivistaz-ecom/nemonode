@@ -63,7 +63,7 @@ updatePortAgentButton.addEventListener("submit", async (e) => {
 
     console.log(updatedPortAgentDetails)
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-port-agent/${portAgentId}`, updatedPortAgentDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://localhost:4000/others/update-port-agent/${portAgentId}`, updatedPortAgentDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Port Agent Updated Successfully!");
         window.location.href="./edit-portagent.html"
@@ -72,8 +72,9 @@ updatePortAgentButton.addEventListener("submit", async (e) => {
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

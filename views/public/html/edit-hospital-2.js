@@ -56,7 +56,7 @@ const token = localStorage.getItem('token')
         };
     
         try {
-            const response = await axios.put(`https://nemonode.ivistaz.co/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
+            const response = await axios.put(`http://localhost:4000/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
             console.log('Response:', response.data);
             alert("Hospital Updated Successfully!");
             window.location.href="./edit-hospital.html";
@@ -65,8 +65,9 @@ const token = localStorage.getItem('token')
         }
     });
 
-   document.getElementById("logout").addEventListener("click", function() {
+    document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 
