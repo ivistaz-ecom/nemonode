@@ -3,10 +3,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const userDisplay = document.getElementById("user_name");
     userDisplay.innerHTML += localStorage.getItem('username');
     const hasUserManagement = decodedToken.userManagement;
-
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
   
@@ -30,6 +36,7 @@ const hasUserManagement = decodedToken.userManagement; // Assuming userManagemen
 const hasReport = decodedToken.reports
 const ReadOnly = decodedToken.readOnly
 const WriteOnly = decodedToken.Write
+const master_create = decodedToken.master_create
 console.log(decodedToken)
 console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
 // switch (userRole) {
@@ -58,39 +65,27 @@ console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
 //         console.error('Unknown user role:', userRole);
 // }
 
-function updateDateTime() {
-    const dateTimeElement = document.getElementById('datetime');
-    const now = new Date();
 
-    const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        month: 'short',
-        day: 'numeric',
-        ordinal: 'numeric',
-    };
-
-    const dateTimeString = now.toLocaleString('en-US', options);
-
-    dateTimeElement.textContent = dateTimeString;
-}
 
 // Update date and time initially and every second
-updateDateTime();
-setInterval(updateDateTime, 1000);
 
-document.getElementById('logout').addEventListener('click', function() {
-  // Clear local storage
-  localStorage.clear();
 
-  // Perform logout actions
-  // You may want to redirect to a login page or perform other logout-related tasks
+document.getElementById("logout").addEventListener("click", function() {
+  // Display the modal with initial message
+  var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+  myModal.show();
 
-  // For example, redirect to a login page
-  window.location.href = './loginpage.html';
+  // Change the message and spinner after a delay
+  setTimeout(function() {
+      document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+  }, 1000);
+
+  // Redirect after another delay
+  setTimeout(function() {
+      window.location.href = "loginpage.html";
+  }, 2000);
 });
+
 
 function updateDateTime() {
   const dateTimeElement = document.getElementById('datetime');
@@ -99,11 +94,11 @@ function updateDateTime() {
   const options = {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit',
+      // second: '2-digit',
       hour12: true,
-      month: 'short',
+      month: 'long',
       day: 'numeric',
-      ordinal: 'numeric',
+      // ordinal: 'numeric',
   };
 
   const dateTimeString = now.toLocaleString('en-US', options);
@@ -120,7 +115,7 @@ setInterval(updateDateTime, 1000);
 
 const fetchCandidates = async () => {
   try {
-    const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
+    const response = await axios.get(`http://localhost:4000/candidate/view-candidate`, { headers: { "Authorization": token } });
     const candidateData = response.data;
 
     // Filter candidates based on company_status and count active and inactive candidates

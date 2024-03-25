@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidates</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+</head>
+<body class="p-5">
+    <h2>Candidates Details</h2>
+    <a href="./indexpage.html" class="float-end me-5 text-decoration-underline">Back to Dashboard</a>
+
+    <table class="table table-bordered bg-white">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rank</th>
+                <th>Available Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="candidatesTableBody">
+            <!-- Table rows will be dynamically added here -->
+        </tbody>
+    </table>
+    <div class="border p-5 pb-2">
+    <!-- List group for rank names and counts -->
+    <div class="list-group p-5 " id="rankListGroup">
+        <!-- Rank names and counts will be dynamically added here -->
+    </div>
+    <p class="text-center ">Candidate Ranks</p>
+
+    </div>
+    
+    <script>
+        // Function to fetch candidate data and populate the table
+        async function populateCandidatesTable() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get('http://localhost:4000/candidate/view-candidate', {
+                    headers: { "Authorization": token }
+                });
+                const responseData = response.data;
+                let candidates = responseData.candidates; // Accessing the candidates array
+                // Sort candidates based on availability status
+                candidates.sort((a, b) => getStatusOrder(a.avb_date) - getStatusOrder(b.avb_date));
+                const tableBody = document.getElementById('candidatesTableBody');
+                tableBody.innerHTML = ''; // Clear previous data
+                candidates.forEach(candidate => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${candidate.fname}</td>
+                        <td>${candidate.c_rank}</td>
+                        <td>${candidate.avb_date}</td>
+                        <td><span class="badge ${getStatusBadgeClass(candidate.avb_date)}">${getStatus(candidate.avb_date)}</span></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                populateRankListGroup(candidates); // Populate rank list group
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Function to populate list group with rank names and counts
+        function populateRankListGroup(candidates) {
+            const ranksData = {};
+            candidates.forEach(candidate => {
+                ranksData[candidate.c_rank] = ranksData[candidate.c_rank] ? ranksData[candidate.c_rank] + 1 : 1;
+            });
+
+            const rankListGroup = document.getElementById('rankListGroup');
+            rankListGroup.innerHTML = ''; // Clear existing data
+
+            for (const rank in ranksData) {
+                const button = document.createElement('button');
+                button.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'btn', 'btn-primary');
+                button.innerHTML = `${rank} : ${ranksData[rank]}`;
+                button.addEventListener('click', () => filterCandidatesByRank(rank, candidates));
+                button.style.textAlign = 'left'; // Align button text to the left
+                button.style.width = '100%'; // Make button width 100%
+                button.style.marginBottom = '5px'; // Add some margin to separate buttons
+                rankListGroup.appendChild(button);
+            }
+        }
+
+        // Function to filter candidates by rank
+        function filterCandidatesByRank(rank, candidates) {
+            const filteredCandidates = candidates.filter(candidate => candidate.c_rank === rank);
+            const tableBody = document.getElementById('candidatesTableBody');
+            tableBody.innerHTML = ''; // Clear previous data
+            filteredCandidates.forEach(candidate => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${candidate.fname}</td>
+                    <td>${candidate.c_rank}</td>
+                    <td>${candidate.avb_date}</td>
+                    <td><span class="badge ${getStatusBadgeClass(candidate.avb_date)}">${getStatus(candidate.avb_date)}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to determine the status order
+        function getStatusOrder(avb_date) {
+            const today = new Date();
+            const avbDate = new Date(avb_date);
+            const diffTime = avbDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+            if (diffDays === 0) {
+                return 1; // Available
+            } else if (diffDays < 0) {
+                return 3; // Not available
+            } else {
+                return 2; // Available in __ days
+            }
+        }
+
+        // Function to determine the status based on avb_date
+        function getStatus(avb_date) {
+            const today = new Date();
+            const avbDate = new Date(avb_date);
+            const diffTime = avbDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+            if (diffDays === 0) {
+                return "Available";
+            } else if (diffDays < 0) {
+                return "Not available";
+            } else {
+                return `Available in ${diffDays} days`;
+            }
+        }
+
+        // Function to determine the Bootstrap badge class based on avb_date
+        function getStatusBadgeClass(avb_date) {
+            const today = new Date();
+            const avbDate = new Date(avb_date);
+            const diffTime = avbDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+            if (diffDays === 0) {
+                return "bg-success";
+            } else if (diffDays < 0) {
+                return "bg-danger";
+            } else {
+                return "bg-primary";
+            }
+        }
+
+        // Call the function to populate the table when the page loads
+        populateCandidatesTable();
+    </script>
+</body>
+</html>

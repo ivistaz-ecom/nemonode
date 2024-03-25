@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 async function displayExperiences(page = 1, limit = 10) {
     try {
         // Fetch experiences from the server with pagination parameters
-        const expResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const expResponse = await axios.get(`http://localhost:4000/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Experience Response:', expResponse);
 
         const expTable = document.getElementById("exp-table");
@@ -100,10 +100,16 @@ async function displayExperiences(page = 1, limit = 10) {
 window.onload = async function () {
     displayExperiences();
     const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 };
@@ -124,7 +130,7 @@ async function deleteExperience(expId, event) {
     event.preventDefault();
 
     const id = expId;
-    const url = `https://nemonode.ivistaz.co/others/delete-experience/${id}`;
+    const url = `http://localhost:4000/others/delete-experience/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -158,7 +164,7 @@ updateExperienceButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Experience Updated Successfully!");
         displayExperiences();
@@ -196,14 +202,20 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 

@@ -6,7 +6,7 @@ document.getElementById("vessel-form").addEventListener("submit", async (e) => {
 
     try {
         // Add a new vessel
-        await axios.post("https://nemonode.ivistaz.co/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
+        await axios.post("http://localhost:4000/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
         console.log('Vessel added successfully');
         // Refresh the vessel list after adding a new vessel
     } catch (error) {
@@ -23,7 +23,7 @@ document.getElementById("vsl-form").addEventListener("submit", async (e) => {
     const vesselFlag = document.getElementById("vessel_flag").value;
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-vsl", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-vsl", {
             vesselName,
             vesselType,
             vsl_company,
@@ -38,23 +38,35 @@ document.getElementById("vsl-form").addEventListener("submit", async (e) => {
 
 
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 window.onload = async function () {
     const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 };

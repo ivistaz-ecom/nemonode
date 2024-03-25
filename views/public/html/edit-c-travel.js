@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             
             document.getElementById('travel_amount').value = travel_amount;
     
-            const portAgentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
+            const portAgentResponse = await axios.get("http://localhost:4000/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -131,7 +131,7 @@ function formatDate(dateString) {
           };
 
           // Make a request to update the travel data
-          const updateResponse = await axios.put(`https://nemonode.ivistaz.co/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
+          const updateResponse = await axios.put(`http://localhost:4000/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
           
           // Handle the response, e.g., show a success message or redirect to another page
           console.log(updateResponse);
@@ -139,16 +139,22 @@ function formatDate(dateString) {
           console.error(err);
   }})
 
-  document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+  document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

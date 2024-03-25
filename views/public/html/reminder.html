@@ -56,8 +56,22 @@
     <script src="../assets/js/config.js"></script>
   </head>
 
-  <body>
-    <!-- Layout wrapper -->
+<body>
+ <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
+            </div>
+            <div class="modal-body text-center mb-4">
+                <p id="logoutMessage">Logging you out...</p>
+                <div class="spinner-border text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
@@ -578,11 +592,10 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" 
-id='logout'>
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
+                      <a class="dropdown-item" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="bx bx-power-off me-2"></i>
+   <span class="align-middle">Log Out</span>
+</a>
                     </li>
                   </ul>
                 </li>
@@ -637,7 +650,7 @@ id='logout'>
                     async function fetchData(selectedDate) {
                         try {
                             const token = localStorage.getItem('token');
-                            const response = await axios.get('https://nemonode.ivistaz.co/candidate/reminder', {
+                            const response = await axios.get('http://localhost:4000/candidate/reminder', {
                                 headers: { "Authorization": token },
                                 params: { date: selectedDate }
                             });

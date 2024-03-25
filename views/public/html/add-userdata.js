@@ -8,7 +8,7 @@ function addOption(selectElement, value) {
 }
 // async function createCompanyDropdown() {
 
-//     const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+//     const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
 //         const companyOptions = companyResponse.data.company;
 //         console.log(companyOptions)
 //         const companyNames = companyOptions.map(company => company.company_name);
@@ -70,6 +70,7 @@ console.log(user_id)
      document.getElementById('vendorManagementSections').style.display = 'block';
 
    }
+   console.log(decodedToken)
    const mc = decodedToken.master_create;
 console.log(mc)
    const userGroup = decodedToken.userGroup
@@ -134,6 +135,7 @@ else{
         const vendorManagement = document.getElementById('u_vendor_management').checked;
 
         const reports = document.getElementById('u_reports').checked;
+        const reports_all = document.getElementById('u_reports_all').checked;
         const createdBy = document.getElementById('user_created_date').value;
         const currentUserEmail = decodedToken.userEmail; // Get the email of the currently logged-in user from the token
         const currentUserMasterCreate = decodedToken.master_create; // Get the master_create value of the currently logged-in user from the token
@@ -159,13 +161,14 @@ else{
             userManagement,
             vendorManagement,
             reports,
+            reports_all
         };
         console.log(formData);
     
         try {
             const token = localStorage.getItem('token')
             
-            const response = await axios.post(`https://nemonode.ivistaz.co/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://localhost:4000/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
             // Handle the server response here
             console.log(response.data);
         } catch (error) {
@@ -180,7 +183,7 @@ else{
 })
 // async function createVendorDropdown() {
 //     try {
-//         const vendorResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
+//         const vendorResponse = await axios.get("http://localhost:4000/others/view-vendor", { headers: { "Authorization": token } });
 //         const vendorOptions = vendorResponse.data.vendors;
 //         console.log(vendorOptions);
         
@@ -215,16 +218,22 @@ else{
 
 
 
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+   document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-        // For example, redirect to a login page
-        window.location.href = './loginpage.html';
-    });
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+
 
 
 function updateDateTime() {

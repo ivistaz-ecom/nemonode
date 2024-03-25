@@ -17,8 +17,11 @@ function generateAccessToken(id, userName,userEmail,
   reports_all,
   userManagement ,
   vendorManagement,
-  reports,master_create) {
-  return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,userManagement:userManagement,vendorManagement:vendorManagement,reports:reports,reports_all:reports_all,master_create:master_create}, 'secretkey');
+  master_create
+  ) {
+  return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
+    master_create:master_create
+  }, 'secretkey');
 }
 
 
@@ -177,47 +180,48 @@ console.log(id)
 
 const edit_user = async (req, res) => {
   const t = await sequelize.transaction();
-  const userId = req.params.id;
-  console.log(req.body);
 
   try {
+    const userId = req.params.id;
+    const userData = req.body;
+
     // Find the user by ID
     const user = await User.findByPk(userId);
 
     // If the user does not exist, return a 404 response
     if (!user) {
+      await t.rollback(); // Rollback transaction if user not found
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update the user fields with the new data
-    user.userName = req.body.userName;
-    user.lastName = req.body.lastName;
-    user.userEmail = req.body.userEmail;
-    user.userPhone = req.body.userPhone;
-    user.userGroup = req.body.userGroup;
-    user.userVendor = req.body.userVendor;
-    user.userClient = req.body.userClient;
-    user.createdBy = req.body.createdBy;
-    user.master_create=req.body.master_create;
-    user.disableUser = req.body.disableUser;
-    user.readOnly = req.body.readOnly;
-    user.Write = req.body.Write;
-    user.imports = req.body.imports;
-    user.exports = req.body.exports;
-    user.userManagement = req.body.userManagement;
-    user.vendorManagement=req.body.vendorManagement;
-    user.reports = req.body.reports;
-    user.reports_all = req.body.reports_all;
+    // Update user fields with the new data
+    user.userName = userData.userName;
+    user.lastName = userData.lastName;
+    user.userEmail = userData.userEmail;
+    user.userPhone = userData.userPhone;
+    user.userGroup = userData.userGroup;
+    user.userVendor = userData.userVendor;
+    user.userClient = userData.userClient;
+    user.createdBy = userData.createdBy;
+    user.master_create = userData.master_create;
+    user.disableUser = userData.disableUser;
+    user.readOnly = userData.readOnly;
+    user.Write = userData.Write;
+    user.imports = userData.imports;
+    user.exports = userData.exports;
+    user.userManagement = userData.userManagement;
+    user.vendorManagement = userData.vendorManagement;
+    user.reports = userData.reports;
+    user.reports_all = userData.reports_all;
 
-    // Check if a new password is provided
-    if (req.body.userPassword && req.body.userPassword.length <= 50) {
+    // Check if a new password is provided and hash it
+    if (userData.userPassword && userData.userPassword.length <= 50) {
       const saltrounds = 10;
-      // Hash the new password
-      const hash = await bcrypt.hash(req.body.userPassword, saltrounds);
+      const hash = await bcrypt.hash(userData.userPassword, saltrounds);
       user.userPassword = hash;
     }
 
-    // Save the updated user
+    // Save the updated user within the transaction
     await user.save({ transaction: t });
 
     await t.commit(); // Commit the transaction
@@ -255,7 +259,8 @@ const login = async (req, res, next) => {
 
         if (passwordMatch) {
           // Password is correct, generate JWT token
-          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create);
+          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
           console.log(token);
           return res.status(200).json({
             success: true,
@@ -263,6 +268,7 @@ const login = async (req, res, next) => {
             token: token,
             username: user.userName,
             userId:user.id,
+            // master_create:user.master_create,
             // disableUser:user.disableUser,
             // userGroup:user.userGroup,
             // readOnly:user.readOnly,
@@ -272,6 +278,7 @@ const login = async (req, res, next) => {
             // exports:user.exports,
             // userManagement:user.userManagement,
             // reports:user.reports,
+            // reports_all:user.reports_all
             
           });
         } else {

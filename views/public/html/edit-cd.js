@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function fetchAndDisplayExp() {
         try {
-            const serverResponse = await axios.get(`https://nemonode.ivistaz.co/others/get-experiences`);
+            const serverResponse = await axios.get(`http://localhost:4000/others/get-experiences`);
             console.log(serverResponse.data)
 
             const experiences = serverResponse.data.experiences;
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded',async function ()
     
     async function fetchData() {
         try {
-            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-c-candidate/${candidateId}`, {
+            const response = await axios.get(`http://localhost:4000/candidate/get-c-candidate/${candidateId}`, {
                 headers: { "Authorization": token }
             });
 
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded',async function ()
             defaultOption.text = '-- Select Nationality --';
             countryDropdown.appendChild(defaultOption);
 
-            const countryResponse = await axios.get("https://nemonode.ivistaz.co/others/country-codes", { headers: { "Authorization": token } });
+            const countryResponse = await axios.get("http://localhost:4000/others/country-codes", { headers: { "Authorization": token } });
             const countries = countryResponse.data.countryCodes;
 
             for (let i = 0; i < countries.length; i++) {
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function updateCandidate(candidateData) {
         try {
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-c-candidate/${cmemId}`, candidateData);
+            const response = await axios.put(`http://localhost:4000/candidate/update-c-candidate/${cmemId}`, candidateData);
             const responseData = response.data;
             console.log('Update response:', responseData);
 
@@ -199,16 +199,22 @@ document.addEventListener('DOMContentLoaded',async function ()
 
 
 
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+    document.getElementById("logout").addEventListener("click", function() {
+        // Display the modal with initial message
+        var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+        myModal.show();
     
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+        // Change the message and spinner after a delay
+        setTimeout(function() {
+            document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+        }, 2000);
     
-        // For example, redirect to a login page
-        window.location.href = './candidate-login.html';
-    })
+        // Redirect after another delay
+        setTimeout(function() {
+            window.location.href = "loginpage.html";
+        }, 4000);
+    });
+    
 
     
 function updateDateTime() {

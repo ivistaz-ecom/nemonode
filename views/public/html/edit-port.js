@@ -5,7 +5,7 @@ let currentPage = 1; // Initialize current page
 async function displayPort(page = 1, limit = 10) {
     try {
         // Fetch ports from the server with pagination parameters
-        const portResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const portResponse = await axios.get(`http://localhost:4000/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Port Response:', portResponse);
 
         const portTable = document.getElementById("port-table");
@@ -98,13 +98,19 @@ async function displayPort(page = 1, limit = 10) {
 
 window.onload = async function () {
      displayPort();
-    const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-
-    }
+     const hasUserManagement = decodedToken.userManagement;
+     const vendorManagement = decodedToken.vendorManagement;
+     console.log(vendorManagement);
+     if (hasUserManagement) {
+       document.getElementById('userManagementSection').style.display = 'block';
+       document.getElementById('userManagementSections').style.display = 'block';
+ 
+     }
+     if (vendorManagement) {
+       document.getElementById('vendorManagement').style.display = 'block';
+       document.getElementById('vendorManagementSections').style.display = 'block';
+ 
+     }
 };
 
 
@@ -137,7 +143,7 @@ async function deletePort(portId, event) {
     event.preventDefault();
 
     const id = portId;
-    const url = `https://nemonode.ivistaz.co/others/delete-port/${id}`;
+    const url = `http://localhost:4000/others/delete-port/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -148,16 +154,22 @@ async function deletePort(portId, event) {
     }
 }
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

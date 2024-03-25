@@ -230,7 +230,17 @@ const get_company = async (req, res) => {
     }
 };
   
-
+const dropdown_company =async(req,res)=>{
+    try{
+        const company = await Company.findAll()
+        res.status(200).json({company:company})
+    }
+    catch(err)
+    {
+        console.error('Error fetching company:', err);
+        return res.status(500).json({ message: 'Internal Server Error', success: false });
+    }
+}
 
 
 module.exports = {
@@ -238,7 +248,8 @@ module.exports = {
     getAllCompany,
     delete_company,
     update_company,
-    get_company
+    get_company,
+    dropdown_company
     // paginated_company,
     // total_pages
     // checkCompanyAssociations

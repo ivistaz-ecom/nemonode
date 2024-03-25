@@ -4,7 +4,7 @@ let currentHospitalPage = 1; // Initialize current page for hospitals
 async function displayHospital(page = 1, limit = 10) {
     try {
         // Fetch hospitals from the server with pagination parameters
-        const hospitalResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-hospital?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get(`http://localhost:4000/others/view-hospital?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Hospital Response:', hospitalResponse);
 
         const hospitalTable = document.getElementById("hospital-table");
@@ -104,13 +104,19 @@ async function displayHospital(page = 1, limit = 10) {
 
 window.onload = async function () {
   displayHospital();
-    const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
-    if (hasUserManagement) {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
+  const hasUserManagement = decodedToken.userManagement;
+  const vendorManagement = decodedToken.vendorManagement;
+  console.log(vendorManagement);
+  if (hasUserManagement) {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
 
-    }
+  }
+  if (vendorManagement) {
+    document.getElementById('vendorManagement').style.display = 'block';
+    document.getElementById('vendorManagementSections').style.display = 'block';
+
+  }
 };
 
 
@@ -130,7 +136,7 @@ async function deleteHospital(hospitalId, event) {
     event.preventDefault();
 
     const id = hospitalId;
-    const url = `https://nemonode.ivistaz.co/others/delete-hospital/${id}`;
+    const url = `http://localhost:4000/others/delete-hospital/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -171,16 +177,22 @@ async function editHospital(id, hospitalName, doctorName, doctorAddress, doctorC
     window.location.href = editUrl;
 }
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {
