@@ -7,11 +7,17 @@ window.onload = function () {
     const vesselId = urlParams.get('vesselId');
      vesselTypeId = urlParams.get('id');  // Assign value to vesselTypeId
     console.log(vesselId, vesselTypeId)
-const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
+    const hasUserManagement = decodedToken.userManagement;
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
     if (vesselId) {
@@ -74,7 +80,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Vessel Updated Successfully!");
         window.location.href = "./edit-vessel.html";
@@ -98,7 +104,7 @@ updateVesselTypeFormButton.addEventListener('submit',async(e)=>{
     console.log(updatedVesselTypeDetails)
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { 'Authorization': token } });
+        const response = await axios.put(`http://localhost:4000/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { 'Authorization': token } });
         console.log('Response:', response.data);
         alert('Vessel Type Updated Successfully!');
         window.location.href = './edit-vessel.html';
@@ -107,16 +113,22 @@ updateVesselTypeFormButton.addEventListener('submit',async(e)=>{
     }
 }) 
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

@@ -49,7 +49,7 @@ router.post("/login", candidateControllers.login)
 router.get("/get-c-candidate/:id", candidateControllers.get_candidate)
 router.put("/update-c-candidate/:id", candidateControllers.edit_candidate)
 router.get('/reportsAll',userAuthentication.authenticate,candidateControllers.reportAll)
-router.get('/expiry-date',userAuthentication.authenticate,candidateControllers.checkExpiry)
+router.get('/expiry-date/:id', userAuthentication.authenticate, candidateControllers.checkExpiry);
 router.get('/reminder',userAuthentication.authenticate, candidateControllers.Reminder)
 
 router.delete('/delete-nkd/:id', userAuthentication.authenticate, candidateControllers.delete_NKD);

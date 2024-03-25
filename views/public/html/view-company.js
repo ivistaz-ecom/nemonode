@@ -5,10 +5,17 @@ window.onload = async function () {
     try {
         displayCompanies();
         const hasUserManagement = decodedToken.userManagement;
-        console.log(hasUserManagement);
+        const vendorManagement = decodedToken.vendorManagement;
+        console.log(vendorManagement);
         if (hasUserManagement) {
-            document.getElementById('userManagementSection').style.display = 'block';
-            document.getElementById('userManagementSections').style.display = 'block';
+          document.getElementById('userManagementSection').style.display = 'block';
+          document.getElementById('userManagementSections').style.display = 'block';
+    
+        }
+        if (vendorManagement) {
+          document.getElementById('vendorManagement').style.display = 'block';
+          document.getElementById('vendorManagementSections').style.display = 'block';
+    
         }
     } catch (err) {
         console.log('No entries present');
@@ -24,7 +31,7 @@ function decodeToken(token) {
 
 async function displayCompanies(page = 1, limit = 10) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const companies = response.data.company;
         const companyList = document.getElementById("company-list");
         companyList.innerHTML = "";
@@ -108,7 +115,7 @@ async function deleteCompany(companyId, event) {
     event.preventDefault();
     let id = companyId;
     console.log(id);
-    const url = `https://nemonode.ivistaz.co/company/delete-company/${id}`;
+    const url = `http://localhost:4000/company/delete-company/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });

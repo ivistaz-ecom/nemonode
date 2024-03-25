@@ -20,13 +20,19 @@ function getURLParameter(name) {
   // Call the populateFormFields function when the page loads
   document.addEventListener('DOMContentLoaded', () => {
     populateFormFields();
-     const hasUserManagement = decodedToken.userManagement;
-  console.log(hasUserManagement)
-  if (hasUserManagement) {
-    document.getElementById('userManagementSection').style.display = 'block';
-    document.getElementById('userManagementSections').style.display = 'block';
+    const hasUserManagement = decodedToken.userManagement;
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
+    if (hasUserManagement) {
+      document.getElementById('userManagementSection').style.display = 'block';
+      document.getElementById('userManagementSections').style.display = 'block';
 
-  }
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
+
+    }
   });
 
   document.getElementById('edit-vendor').addEventListener('submit', async (event) => {
@@ -46,7 +52,7 @@ function getURLParameter(name) {
 
       // Send data to the server using Axios with async/await
       const token = localStorage.getItem('token');
-      const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vendor/${vendorId}`, formData, {
+      const response = await axios.put(`http://localhost:4000/others/update-vendor/${vendorId}`, formData, {
         headers: { "Authorization": token }
       });
 
@@ -59,16 +65,22 @@ function getURLParameter(name) {
     }
   });
 
-  document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+  document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
     
  

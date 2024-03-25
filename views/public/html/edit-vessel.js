@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 async function displayVessels(page = 1, limit = 10) {
     try {
         // Fetch vessels from the server with pagination parameters
-        const vesselResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-vessels?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get(`http://localhost:4000/others/view-vessels?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const vesselList = document.getElementById("vessel-list");
 
         // Clear existing rows
@@ -95,10 +95,16 @@ window.onload = async function () {
     await  displayVessels();
     await displayVesselTypes();
     const hasUserManagement = decodedToken.userManagement;
-    console.log(hasUserManagement)
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
     if (hasUserManagement) {
       document.getElementById('userManagementSection').style.display = 'block';
       document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
 };
@@ -122,7 +128,7 @@ const decodedToken = decodeToken(token);
 async function deleteVessel(vesselId, event) {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const url = `https://nemonode.ivistaz.co/others/delete-vessels/${vesselId}`;
+    const url = `http://localhost:4000/others/delete-vessels/${vesselId}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -154,7 +160,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Vessel Updated Successfully!");
         displayVessels();
@@ -166,7 +172,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
 async function displayVesselTypes(page = 1, limit = 10) {
     try {
         // Fetch vessel types from the server with pagination parameters
-        const vslTypeResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-vsl?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const vslTypeResponse = await axios.get(`http://localhost:4000/others/view-vsl?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('VSL Type Response:', vslTypeResponse);
 
         const vslTypeList = document.getElementById("vsl-list");
@@ -278,7 +284,7 @@ function decodeToken(token) {
 async function deleteVesselType(vesselTypeId, event) {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const url = `https://nemonode.ivistaz.co/others/delete-vsl/${vesselTypeId}`;
+    const url = `http://localhost:4000/others/delete-vsl/${vesselTypeId}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -320,7 +326,7 @@ async function editVesselType(id, vesselName, vesselType, vslCompany, imoNumber,
 //     };
 
 //     try {
-//         const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { "Authorization": token } });
+//         const response = await axios.put(`http://localhost:4000/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { "Authorization": token } });
 //         console.log('Response:', response.data);
 //         alert("Vessel Type Updated Successfully!");
 //         displayVesselTypes();
@@ -328,16 +334,22 @@ async function editVesselType(id, vesselName, vesselType, vslCompany, imoNumber,
 //         console.error('Error:', error);
 //     }
 // });
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 function updateDateTime() {
     const dateTimeElement = document.getElementById('datetime');

@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         for (const [key, value] of queryParams) {
             params[key] = value;
         }
+        console.log(params)
         return params;
     }
     
@@ -174,7 +175,7 @@ function addOption(selectElement, value) {
     // await createVendorDropdown();
 
     // async function createCompanyDropdown() {
-    //     const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+    //     const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
     //     const companyOptions = companyResponse.data.company;
     //     const companyNames = companyOptions.map(company => company.company_name);
     
@@ -199,7 +200,7 @@ function addOption(selectElement, value) {
     
     // async function createVendorDropdown() {
     //     try {
-    //         const vendorResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
+    //         const vendorResponse = await axios.get("http://localhost:4000/others/view-vendor", { headers: { "Authorization": token } });
     //         const vendorOptions = vendorResponse.data.vendors;
     //         const vendorNames = vendorOptions.map(vendor => vendor.vendorName);
     
@@ -256,11 +257,12 @@ document.getElementById('e_user-form').addEventListener('submit', async function
         vendorManagement:document.getElementById('u_vendor_management').checked,
 
         reports:document.getElementById('u_reports').checked,
+        reports_all:document.getElementById('u_reports_all').checked,
     };
 
     try {
         // Make a POST request using Axios with async/await
-        const response = await axios.put(`https://nemonode.ivistaz.co/user/update-user/${id}`, formData,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://localhost:4000/user/update-user/${id}`, formData,{headers:{"Authorization":token}});
         console.log('Response:', response.data.message);
         // Handle success if needed
     } catch (error) {
@@ -269,16 +271,22 @@ document.getElementById('e_user-form').addEventListener('submit', async function
     }
 });
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-    // For example, redirect to a login page
-    window.location.href = './loginpage.html';
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
 });
+
 
 
 function updateDateTime() {

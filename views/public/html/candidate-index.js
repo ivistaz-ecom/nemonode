@@ -28,16 +28,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 });
 
-document.getElementById('logout').addEventListener('click', function() {
-    // Clear local storage
-    localStorage.clear();
+document.getElementById("logout").addEventListener("click", function() {
+  // Display the modal with initial message
+  var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+  myModal.show();
 
-    // Perform logout actions
-    // You may want to redirect to a login page or perform other logout-related tasks
+  // Change the message and spinner after a delay
+  setTimeout(function() {
+      document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+  }, 2000);
 
-    // For example, redirect to a login page
-    window.location.href = './candidate-login.html';
-})
+  // Redirect after another delay
+  setTimeout(function() {
+      window.location.href = "loginpage.html";
+  }, 4000);
+});
+
 
 const showInstructions = JSON.parse(localStorage.getItem('showInstructions')) || false;
   updateInstructionsDisplay(showInstructions);

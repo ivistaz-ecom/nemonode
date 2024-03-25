@@ -40,7 +40,7 @@ if (hasUserManagement) {
 
             try {
                 // Make an Axios request to your backend API to add travel details
-                const response = await axios.post(`https://nemonode.ivistaz.co/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
+                const response = await axios.post(`http://localhost:4000/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
 
                 // Handle success response from the server
                 console.log('Travel details added successfully:', response.data);
@@ -55,7 +55,7 @@ if (hasUserManagement) {
         async function fetchAndDisplayTravelDetails() {
             try {
                 // Make an Axios request to your backend API to get travel details
-                const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-travel-details/${id}`, {
+                const response = await axios.get(`http://localhost:4000/candidate/get-travel-details/${id}`, {
                     headers: { "Authorization": token }
                 });
 
@@ -94,7 +94,7 @@ if (hasUserManagement) {
             }
         }
 
-        const portAgentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get("http://localhost:4000/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -172,23 +172,29 @@ if (hasUserManagement) {
     }
     
 
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+   document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-        // For example, redirect to a login page
-        window.location.href = './loginpage.html';
-    });
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+
     // ... At the end of your JavaScript code
 async function deleteTravel(travelId) {
     const token = localStorage.getItem('token');
 
     try {
         // Make an Axios request to your backend API to delete the travel entry
-        const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-travel/${travelId}`, {
+        const response = await axios.delete(`http://localhost:4000/candidate/delete-travel/${travelId}`, {
             headers: { "Authorization": token }
         });
 

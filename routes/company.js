@@ -11,6 +11,7 @@ router.get("/view-company", userAuthentication.authenticate,companyControllers.g
 router.delete('/delete-company/:id',userAuthentication.authenticate, companyControllers.delete_company);
 router.put('/update-company/:id',userAuthentication.authenticate, companyControllers.update_company);
 router.get('/get-company/:id',userAuthentication.authenticate, companyControllers.get_company);
+router.get('/dropdown-company',userAuthentication.authenticate, companyControllers.dropdown_company);
 
 
 module.exports = router;

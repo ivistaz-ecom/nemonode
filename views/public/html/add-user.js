@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 
 async function createCompanyDropdown() {
 
-    const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.company;
         console.log(companyOptions)
         const companyNames = companyOptions.map(company => company.company_name);
@@ -34,12 +34,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 // await createVendorDropdown()
 await displayUsers()
 const hasUserManagement = decodedToken.userManagement;
-        console.log(hasUserManagement)
-        if (hasUserManagement) {
-          document.getElementById('userManagementSection').style.display = 'block';
-          document.getElementById('userManagementSections').style.display = 'block';
-    
-        }
+    const vendorManagement = decodedToken.vendorManagement;
+    console.log(vendorManagement);
+    if (hasUserManagement) {
+      document.getElementById('userManagementSection').style.display = 'block';
+      document.getElementById('userManagementSections').style.display = 'block';
+
+    }
+    if (vendorManagement) {
+      document.getElementById('vendorManagement').style.display = 'block';
+      document.getElementById('vendorManagementSections').style.display = 'block';
+
+    }
 
 // document.getElementById('user-form').addEventListener('submit', async (event) => {
 //     event.preventDefault();
@@ -84,7 +90,7 @@ const hasUserManagement = decodedToken.userManagement;
 //     console.log(formData);
 
 //     try {
-//         const response = await axios.post('https://nemonode.ivistaz.co/user/create-user', formData, { headers: { "Authorization": token } });
+//         const response = await axios.post('http://localhost:4000/user/create-user', formData, { headers: { "Authorization": token } });
 //         // Handle the server response here
 //         console.log(response.data);
 //     } catch (error) {
@@ -97,7 +103,7 @@ const hasUserManagement = decodedToken.userManagement;
 })
 async function createVendorDropdown() {
     try {
-        const vendorResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
+        const vendorResponse = await axios.get("http://localhost:4000/others/view-vendor", { headers: { "Authorization": token } });
         const vendorOptions = vendorResponse.data.vendors;
         console.log(vendorOptions);
         
@@ -136,7 +142,7 @@ async function displayUsers() {
     try {
 
         const userEmail = getUserEmail();        // Fetch users from the server
-        const response = await axios.get("https://nemonode.ivistaz.co/user/view-user", { headers: { "Authorization": token,"userEmail": userEmail } });
+        const response = await axios.get("http://localhost:4000/user/view-user", { headers: { "Authorization": token,"userEmail": userEmail } });
         const users = response.data.users;
 
         const userList = document.getElementById("user-list");
@@ -147,6 +153,11 @@ async function displayUsers() {
             const isCurrentUser = decodedToken.userId === user.id;
 
             const row = document.createElement("tr");
+            // if (user.userGroup === 'admin') {
+            //     row.classList.add('table-primary');
+            // } else if (user.userGroup === 'vendor') {
+            //     row.classList.add('table-secondary');
+            // }
 
             row.innerHTML = `
                 <td style="font-size:12px">${sno}</td>
@@ -166,7 +177,7 @@ async function displayUsers() {
                 <td style="font-size:12px">${user.disableUser}</td>
                 
                 <td>
-    <button class="btn btn-sm m-0 p-0" onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}' ,event)">
+    <button class="btn btn-sm m-0 p-0" onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}' )">
         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
     </button>
     ${!isCurrentUser ? // Render delete button if the current user is not the logged-in user
@@ -177,6 +188,10 @@ async function displayUsers() {
 </td>
 
             `;
+            const userGroupCell = row.querySelector('td:nth-child(8)'); // Assuming userGroup is the 8th column
+            if (userGroupCell) {
+                userGroupCell.innerHTML = `<span class="badge ${user.userGroup === 'admin' ? 'bg-primary' : 'bg-warning'}">${user.userGroup}</span>`;
+            }
 
             userList.appendChild(row);
             sno++;
@@ -191,22 +206,21 @@ async function displayUsers() {
 
     // Handling form submission
 
-    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports, master_create, event) {
-        event.preventDefault();
+    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports,reports_all, master_create) {
         console.log('Edit clicked for user ID:', id);
         const encodedUserVendor = encodeURIComponent(userVendor);
         const encodedUserClient = encodeURIComponent(userClient);
         const encodedMaster_Create = encodeURIComponent(master_create)
-console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports, userManagement,vendorManagement, reports,master_create)
+console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports, userManagement,vendorManagement, reports,reports_all,master_create)
         // Redirect to the edit page with user details as query parameters
-        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&master_create=${encodedMaster_Create}`;
+        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}`;
     }
     
     async function deleteUser(id) {
         if (confirm("Are you sure you want to delete this user?")) {
             try {
                 // Send a request to your server to delete the user with the specified ID
-                const response = await axios.delete(`https://nemonode.ivistaz.co/user/delete-user/${id}`, { headers: { "Authorization": token } });
+                const response = await axios.delete(`http://localhost:4000/user/delete-user/${id}`, { headers: { "Authorization": token } });
     
                 if (response.data.success) {
                     console.log('User deleted successfully');
@@ -221,16 +235,22 @@ console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGrou
         }
     }
     
-    document.getElementById('logout').addEventListener('click', function() {
-        // Clear local storage
-        localStorage.clear();
+   document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
 
-        // Perform logout actions
-        // You may want to redirect to a login page or perform other logout-related tasks
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
 
-        // For example, redirect to a login page
-        window.location.href = './loginpage.html';
-    });
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});
+
 
         
 
