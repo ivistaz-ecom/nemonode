@@ -12,11 +12,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Function to get query parameters from URL
     const hasUserManagement = decodedToken.userManagement;
   console.log(hasUserManagement)
-  if (hasUserManagement) {
+  if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
-
-  }
+}
   const hasVendorManagement = decodedToken.vendorManagement;
   console.log(hasVendorManagement)
   if (hasVendorManagement) {
@@ -25,7 +24,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   }
 
-  
+  if (decodedToken.userGroup === 'vendor') {
+    document.getElementById('userManage').style.display = 'none';
+}
 
   const createdByField = document.getElementById('user_created_date'); // Assuming 'user_created_date' is the ID of the createdBy input field
   const username = decodedToken.userEmail;
@@ -264,6 +265,7 @@ document.getElementById('e_user-form').addEventListener('submit', async function
         // Make a POST request using Axios with async/await
         const response = await axios.put(`https://nemonode.ivistaz.co/user/update-user/${id}`, formData,{headers:{"Authorization":token}});
         console.log('Response:', response.data.message);
+        alert('User edit successful!')
         // Handle success if needed
     } catch (error) {
         console.error('Error updating user:', error);
@@ -271,8 +273,9 @@ document.getElementById('e_user-form').addEventListener('submit', async function
     }
 });
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

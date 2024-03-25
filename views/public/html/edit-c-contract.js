@@ -18,10 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
-if (hasUserManagement) {
-  document.getElementById('userManagementSection').style.display = 'block';
-  document.getElementById('userManagementSections').style.display = 'block';
-
+if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
 }
 
 
@@ -424,8 +423,9 @@ function formatDate(dateString) {
 
 
 
-document.getElementById("logout").addEventListener("click", function() {
+ document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 

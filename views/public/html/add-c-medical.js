@@ -14,10 +14,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
-if (hasUserManagement) {
-  document.getElementById('userManagementSection').style.display = 'block';
-  document.getElementById('userManagementSections').style.display = 'block';
-
+if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
 }
 
         try {
@@ -179,8 +178,9 @@ if (hasUserManagement) {
         window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${expiry_date}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${upload}`;
     }
 
-   document.getElementById("logout").addEventListener("click", function() {
+    document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
+    localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
 
