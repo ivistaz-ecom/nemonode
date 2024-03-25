@@ -115,7 +115,7 @@ setInterval(updateDateTime, 1000);
 
 const fetchCandidates = async () => {
   try {
-    const response = await axios.get(`http://localhost:4000/candidate/view-candidate`, { headers: { "Authorization": token } });
+    const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
     const candidateData = response.data;
 
     // Filter candidates based on company_status and count active and inactive candidates

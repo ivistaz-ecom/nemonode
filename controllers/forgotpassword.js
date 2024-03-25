@@ -38,7 +38,7 @@ const forgotpassword = async (req, res) => {
                              sender,
                              to:receivers,
                              subject:'Reset Password',
-                             htmlContent: `<a>Click <a href="http://localhost:4000/password/resetpassword/${id}">here</a> to reset your password for Nsnemo</a>`,
+                             htmlContent: `<a>Click <a href="https://nemonode.ivistaz.co/password/resetpassword/${id}">here</a> to reset your password for Nsnemo</a>`,
                             }).then(result=>console.log(result))
                          .catch(err=>console.log(err))
                       
@@ -117,7 +117,7 @@ const resetpassword = async (req, res) => {
             const data = {
                 password:newpassword
             }
-            const response = await axios.post('http://localhost:4000/password/updatepassword/${id}',data)
+            const response = await axios.post('https://nemonode.ivistaz.co/password/updatepassword/${id}',data)
             console.log(response.data)
         });
             </script>
