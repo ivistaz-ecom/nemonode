@@ -47,7 +47,7 @@ const Users = sequelize.define('Users', {
     reports:DataTypes.BOOLEAN,
     reports_all:DataTypes.BOOLEAN,
     master_create:DataTypes.STRING,
-    
+    logged:DataTypes.STRING,
   
 },{
     tableName: 'Users',

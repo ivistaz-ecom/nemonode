@@ -48,7 +48,6 @@ function updateFields(candidate) {
     document.getElementById('state1').value = candidate.c_state;
     document.getElementById('pin1').value = candidate.c_pin;
     document.getElementById('mobile1').value = candidate.c_mobi1;
-    document.getElementById('landline1').value = candidate.c_tel1;
     document.getElementById('email1').value = candidate.email1;
 
     document.getElementById('address2').value = candidate.c_ad2;
@@ -56,7 +55,6 @@ function updateFields(candidate) {
     document.getElementById('state2').value = candidate.p_state;
     document.getElementById('pin2').value = candidate.p_pin;
     document.getElementById('mobile2').value = candidate.c_mobi2;
-    document.getElementById('landline2').value = candidate.c_tel2;
     document.getElementById('email2').value = candidate.email2;
 }
 

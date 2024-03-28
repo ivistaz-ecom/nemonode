@@ -381,7 +381,7 @@
 
 
 
-            <li class="menu-header small text-uppercase">
+            <!-- <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Vendor Management</span>
             </li>
             <li class="menu-item">
@@ -402,7 +402,7 @@
                 </li>
                 
               </ul>
-            </li>
+            </li> -->
 
 
              <li class="menu-header small text-uppercase">
@@ -713,14 +713,10 @@
                                         <th  style="font-size: 8px;">PAN Number</th>
                                         <th style="font-size: 8px;">Passbook</th>
                                         <th  style="font-size: 8px;">PAN Card</th>
-                                        <th  style="font-size: 8px;">NRI Bank Name</th>
-                                        <th  style="font-size: 8px;">NRI Account Number</th>
-                                        <th  style="font-size: 8px;">NRI Bank Address</th>
-                                        <th  style="font-size: 8px;">NRI IFSC Code</th>
-                                        <th  style="font-size: 8px;">NRI Swift Code</th>
-                                        <th  style="font-size: 8px;">NRI Beneficiary</th>
-                                        <th  style="font-size: 8px;">NRI Beneficiary Address</th>
-                                        <th  style="font-size: 8px;">NRI Passbook</th>
+                                        <th  style="font-size: 8px;">Branch</th>
+                                        <th  style="font-size: 8px;">Types</th>
+                                        <th  style="font-size: 8px;">Created By</th>
+                                        
                                         <th  style="font-size: 8px;">Actions</th>
                                     </tr>
                                 </thead>
@@ -830,67 +826,33 @@
                                         </div>
                                     </div>
                                 </div>
-                <hr>
-                                <h5 class="card-header">NRI Details</h5>
+              
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_name" type="text" id="nri_bank_name" class="form-control" placeholder="NRI Bank Name"/>
-                                            <label for="nri_bank_name">NRI Bank Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_acc_num" type="text" id="nri_bank_acc_num" class="form-control" placeholder="NRI Account Number"/>
-                                            <label for="nri_bank_acc_num">NRI Account Number</label>
-                                        </div>
+                                  <div class="col-md-6">
+                                      <div class="form-floating">
+                                          <input name="branch" type="text" id="branch" class="form-control" placeholder="Branch Name"/>
+                                          <label for="branch">Branch Name</label>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select name="types" id="types" class="form-control">
+                                            <option value="general">General</option>
+                                            <option value="nri">NRI</option>
+                                        </select>
+                                        <label for="types">Select Type</label>
                                     </div>
                                 </div>
-                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_acc_addr" type="text" id="nri_bank_acc_addr" class="form-control" placeholder="NRI Bank Address"/>
-                                            <label for="nri_bank_acc_addr">NRI Bank Address</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_ifsc" type="text" id="nri_bank_ifsc" class="form-control" placeholder="NRI IFSC Code"/>
-                                            <label for="nri_bank_ifsc">NRI IFSC Code</label>
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_swift" type="text" id="nri_bank_swift" class="form-control" placeholder="NRI Swift Code"/>
-                                            <label for="nri_bank_swift">NRI Swift Code</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_beneficiary" type="text" id="nri_bank_beneficiary" class="form-control" placeholder="NRI Beneficiary"/>
-                                            <label for="nri_bank_beneficiary">NRI Beneficiary</label>
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_addr" type="text" id="nri_bank_addr" class="form-control" placeholder="NRI Beneficiary Address"/>
-                                            <label for="nri_bank_addr">NRI Beneficiary Address</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="nri_bank_passbook" type="file" id="nri_bank_passbook" class="form-control" placeholder="NRI Passbook"/>
-                                            <label for="nri_bank_passbook">NRI Passbook</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                              </div>
+                              <div class="row mb-3">
+                                <div class="col-md-6">
+                                  <div class="form-floating">
+                                      <input name="created_by" type="hidden" id="created_by" class="form-control" placeholder="Branch Name"/>
+                                      <label for="created_by">Created By</label>
+                                  </div>
+                              </div>
+                              </div>
                 
                                 <div class="card-footer text-end pt-0 pe-0 pb-1">
                                         <button type="submit" class="btn btn-primary mt-2">ADD BANK DETAILS</button>

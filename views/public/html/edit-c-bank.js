@@ -71,14 +71,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     const panNum = urlParams.get('pan_num');
     const passbook = urlParams.get('passbook');
     const panCard = urlParams.get('pan_card');
-    const nriBankName = urlParams.get('nri_bank_name');
-    const nriAccountNum = urlParams.get('nri_account_num');
-    const nriBankAddr = urlParams.get('nri_bank_addr');
-    const nriIfscCode = urlParams.get('nri_ifsc_code');
-    const nriSwiftCode = urlParams.get('nri_swift_code');
-    const nriBeneficiary = urlParams.get('nri_beneficiary');
-    const nriBeneficiaryAddr = urlParams.get('nri_beneficiary_addr');
-    const nriPassbook = urlParams.get('nri_passbook');
+    const branch = urlParams.get('branch');
+    const types = urlParams.get('types');
+    const created_by = urlParams.get('created_by')
 
     // Populate the form fields with the fetched data
     document.getElementById('bank_id').value = id;
@@ -92,14 +87,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('pan_num').value = panNum;
     // document.getElementById('passbook').value = passbook || null;
     // document.getElementById('pan_card').value = panCard || null;
-    document.getElementById('nri_bank_name').value = nriBankName;
-    document.getElementById('nri_account_num').value = nriAccountNum;
-    document.getElementById('nri_bank_addr').value = nriBankAddr;
-    document.getElementById('nri_ifsc_code').value = nriIfscCode;
-    document.getElementById('nri_swift_code').value = nriSwiftCode;
-    document.getElementById('nri_beneficiary').value = nriBeneficiary;
-    document.getElementById('nri_beneficiary_addr').value = nriBeneficiaryAddr;
-    // document.getElementById('nri_passbook').value = nriPassbook;
+    document.getElementById('branch').value = branch;
+    document.getElementById('types').value = types;
+    document.getElementById('created_by').value = created_by;
+    
     // Add any additional logic or event listeners you need for the edit page
 });
 
@@ -121,15 +112,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         const panNum = document.getElementById('pan_num').value;
         const passbook = document.getElementById('passbook').value;
         const panCard = document.getElementById('pan_card').value;
-        const nriBankName = document.getElementById('nri_bank_name').value;
-        const nriAccountNum = document.getElementById('nri_account_num').value;
-        const nriBankAddr = document.getElementById('nri_bank_addr').value;
-        const nriIfscCode = document.getElementById('nri_ifsc_code').value;
-        const nriSwiftCode = document.getElementById('nri_swift_code').value;
-        const nriBeneficiary = document.getElementById('nri_beneficiary').value;
-        const nriBeneficiaryAddr = document.getElementById('nri_beneficiary_addr').value;
-        const nriPassbook = document.getElementById('nri_passbook').value;
-
+        const branch = document.getElementById('branch').value;
+        const types = document.getElementById('types').value;
+        const created_by = document.getElementById('created_by').value;
+        
         try {
             // Make an axios request to update the bank details
             const response = await axios.put(
@@ -145,14 +131,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                     pan_num: panNum,
                     passbook: passbook,
                     pan_card: panCard,
-                    nri_bank_name: nriBankName,
-                    nri_account_num: nriAccountNum,
-                    nri_bank_addr: nriBankAddr,
-                    nri_ifsc_code: nriIfscCode,
-                    nri_swift_code: nriSwiftCode,
-                    nri_beneficiary: nriBeneficiary,
-                    nri_beneficiary_addr: nriBeneficiaryAddr,
-                    nri_passbook: nriPassbook,
+                    branch:branch,
+                    types:types,
+                    created_by:created_by,
                 },
                 {
                     headers: {

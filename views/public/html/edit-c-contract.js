@@ -52,6 +52,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const emigrate_number = urlParams.get('emigrate_number');
     const documents = urlParams.get('documents');
     const aoa = urlParams.get('aoa');
+    const created_by = urlParams.get('created_by');
 
     console.log('ID:', id);
     console.log('Ranks Contract:', ranks_contract);
@@ -72,6 +73,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     console.log('Emigrate Number:', emigrate_number);
     console.log('Documents:', documents);
     console.log('AOA:', aoa);
+    console.log('Created By:', created_by);
 
     
     document.getElementById('contractId').value = id;
@@ -91,8 +93,9 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontracts_reason').value = reason_for_sign_off;
     document.getElementById('editcontract_aoa_num').value = aoa_number;
     document.getElementById('editcontract_emigrate').value = emigrate_number;
-    // document.getElementById('editcontract_document').value = documents;
-    // document.getElementById('editcontract_aoa').value = aoa;
+    document.getElementById('editcontract_document').value = documents;
+    document.getElementById('editcontract_aoa').value = aoa;
+    document.getElementById('created_by').value = created_by;
 
     const displayDropdown = async function () {
         const rankDropdown = document.getElementById('editcontract_rank');
@@ -367,7 +370,7 @@ function formatDate(dateString) {
         const aoaFile = document.getElementById('editcontract_aoa').value;
         const aoaNum = document.getElementById('editcontract_aoa_num').value;
         const emigrateNumber = document.getElementById('editcontract_emigrate').value;
-
+        const created_by = document.getElementById('created_by').value
         const formData = {
             rank: rank,
             company: company,
@@ -387,6 +390,7 @@ function formatDate(dateString) {
             emigrateNumber: emigrateNumber,
             documentFile:documentFile,
             aoaFile:aoaFile,
+            created_by:created_by
             // Include other form fields as needed
         };
         console.log(formData)

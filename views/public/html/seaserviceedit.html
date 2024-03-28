@@ -34,6 +34,7 @@
     <title>Add Company - Nsnemo</title>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -716,6 +717,13 @@
         window.location.href = "loginpage.html";
     }, 2000);
 });
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+}
                             async function editSeaService() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('memId');
@@ -726,7 +734,7 @@
         console.log(response)
         const seaService = response.data.editSea[0];
         console.log("edit response", response.data)
-
+      const decodedToken = decodeToken(token)
         document.getElementById('edit-company').value = seaService.company;
         document.getElementById('edit-rank').value = seaService.rank;
         document.getElementById('edit-vessel').value = seaService.vessel;
@@ -736,8 +744,7 @@
         document.getElementById('edit-to1').value = seaService.to1;
         document.getElementById('edit-total_MMDD').value = seaService.total_MMDD;
         document.getElementById('edit-reason_for_sign_off').value = seaService.reason_for_sign_off;
-        document.getElementById('edit-createdBy').value = localStorage.getItem('username');
-
+        document.getElementById('edit-createdBy').value = seaService.createdBy
         // Store sea service id in a hidden field for reference
         document.getElementById('edit-sea-service-id').value = id;
     } catch (error) {

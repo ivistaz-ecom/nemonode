@@ -48,6 +48,12 @@ const CrewPlanner = sequelize.define('CrewPlanner', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    created_by:{
+        type:DataTypes.STRING,
+    },
+    updated_by:{
+        type:DataTypes.STRING,
+    },
 }, {
     tableName: 'crew-planner',
     timestamps: false,

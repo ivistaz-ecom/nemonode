@@ -755,53 +755,27 @@
                                     <input name="pan_card" type="file" id="pan_card" class="form-control" required/>
                                 </div>
                             </div>
-                            <hr>
-                            <!-- NRI Bank Details -->
-                            <h5 class=" mt-4 card-body">Add NRI Bank Details</h5>
-                
+                            
                             <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="nri_bank_name" class="form-label">NRI Bank Name</label>
-                                    <input name="nri_bank_name" type="text" id="nri_bank_name" class="form-control" required/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nri_account_num" class="form-label">NRI Account number</label>
-                                    <input name="nri_account_num" type="text" id="nri_account_num" class="form-control" required/>
-                                </div>
+                              <div class="col-md-6">
+                                  <label for="branch" class="form-label">Branch</label>
+                                  <input name="branch" type="text" id="branch" class="form-control" required/>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="types">Select Type</label>
+                                    <select name="types" id="types" class="form-control">
+                                        <option value="general">General</option>
+                                        <option value="nri">NRI</option>
+                                    </select>
                             </div>
-                
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="nri_bank_addr" class="form-label">NRI Bank Address</label>
-                                    <input name="nri_bank_addr" type="text" id="nri_bank_addr" class="form-control" required/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nri_ifsc_code" class="form-label">NRI IFSC code</label>
-                                    <input name="nri_ifsc_code" type="text" id="nri_ifsc_code" class="form-control" required/>
-                                </div>
+                            
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-md-6">
+                              <!-- <label for="created_by" class="form-label">Created By</label> -->
+                                  <input name="created_by" type="hidden" id="created_by" class="form-control" required/>
                             </div>
-                
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="nri_swift_code" class="form-label">NRI Swift code</label>
-                                    <input name="nri_swift_code" type="text" id="nri_swift_code" class="form-control" required/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nri_beneficiary" class="form-label">NRI Benificiary</label>
-                                    <input name="nri_beneficiary" type="text" id="nri_beneficiary" class="form-control" required/>
-                                </div>
-                            </div>
-                
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="nri_beneficiary_addr" class="form-label">NRI Address</label>
-                                    <input name="nri_beneficiary_addr" type="text" id="nri_beneficiary_addr" class="form-control" required/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nri_passbook" class="form-label">NRI Passbook</label>
-                                    <input name="nri_passbook" type="file" id="nri_passbook" class="form-control" required/>
-                                </div>
-                            </div>
+                          </div>
                 
                             <div class="card-footer text-end pt-0 pe-0 pb-1">
                               <button type="submit" class="btn btn-primary " >EDIT BANK</button>
@@ -820,7 +794,8 @@
                 </div>
             </div>
         </div>
-        
+        </div>
+      </div>
           
             
                     <!-- /Account -->
@@ -836,7 +811,7 @@
           <!-- Content wrapper -->
           <footer class="footer mt-auto py-3 bg-footer-theme">
             <div class="container">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between" style="margin-left: 250px;">
                     <span id="datetime"></span>
                     <span>Nautilus Shipping</span>
                 </div>

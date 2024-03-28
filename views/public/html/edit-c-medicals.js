@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const status = urlParams.get('status');
     const amount = urlParams.get('amount');
     const upload = urlParams.get('upload');
+    const created_by = urlParams.get('created_by');
 
 
     // Log the retrieved data to the console
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     console.log('Status:', status);
     console.log('Amount:', amount);
     console.log('Upload:', upload);
+    console.log('created_by:', created_by);
 
     document.getElementById('med_id').value = id;
     document.getElementById('hospital_name').value = hospitalName;
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     document.getElementById('hospital_done').value = done_by;
     document.getElementById('hospital_status').value = status;
     document.getElementById('hospital_amount').value = amount;
+    document.getElementById('created_by').value = created_by;
     // document.getElementById('hospital_upload').value = upload;
 
     const hospitalResponse = await axios.get("https://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
@@ -117,6 +120,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
             status: document.getElementById('hospital_status').value,
             amount: document.getElementById('hospital_amount').value,
             upload: document.getElementById('hospital_upload')?.value || null,
+            created_by: document.getElementById('created_by').value,
         };
 
         console.log(formData);

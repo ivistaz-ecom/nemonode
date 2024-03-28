@@ -2,12 +2,10 @@ document.getElementById('candidate_login').addEventListener('submit', async func
   try {
     e.preventDefault();
     // Get values using document.getElementById
-    const indosNumber = document.getElementById(`indos_number`).value.trim();
     const email = document.getElementById(`email`).value.trim();
     const password = document.getElementById(`password`).value.trim();
 
     const formData = {
-      indosNumber: indosNumber,
       email: email,
       password: password
     };

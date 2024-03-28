@@ -673,7 +673,8 @@
                                         <th style="font-size: 8px;">Ticket Number</th>
                                         <th style="font-size: 8px;">Agent Name</th>
                                         <th style="font-size: 8px;">Port Agent</th>
-                                        <th style="font-size: 8px;">Travel Amount</th>
+                                        <th style="font-size: 8px;">Reason</th>
+                                        <th style="font-size: 8px;">Created By</th>
                                         <th style="font-size: 8px;">Actions</th>
                                     </tr>
                                 </thead>
@@ -764,10 +765,19 @@
                     </div>
                 
                     <div class="mb-3">
-                        <label for="travel_amount" class="form-label">Travel Amount:</label>
-                        <input type="text" class="form-control" id="travel_amount" name="travel_amount" required>
-                    </div>
+                      <label for="travel_amount" class="form-label">Travel Amount:</label>
+                      <input type="text" class="form-control" id="travel_amount" name="travel_amount" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="reason" class="form-label">Reason </label>
+                    <input type="text" class="form-control" id="reason" name="reason" required>
+                </div>
+                <div class="mb-3">
+                  <label for="created_by" class="form-label">Created by</label>
+                  <input type="hidden" class="form-control" id="created_by" name="created_by" required>
+              </div>
                 
+
                     <!-- End of input fields -->
                     <div class="card-footer text-end pt-0 pe-0 pb-1">
 
