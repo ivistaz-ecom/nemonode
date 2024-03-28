@@ -1746,6 +1746,7 @@ const create_crewPlanner = async (req, res) => {
         doj,
         otherInfo,
         status,
+        created_by,
       } = req.body;
 
       const newCrewPlanner = await CrewPlanner.create({
@@ -1759,6 +1760,7 @@ const create_crewPlanner = async (req, res) => {
         doj,
         otherInfo,
         status,
+        created_by
       });
 
       res.status(201).json(newCrewPlanner);
@@ -1792,6 +1794,7 @@ const updateCrewPlanner = async (req, res) => {
         doj,
         otherInfo,
         status,
+        updated_by
       } = req.body;
 
       const crewPlanner = await CrewPlanner.findByPk(crewPlannerId);
@@ -1811,6 +1814,7 @@ const updateCrewPlanner = async (req, res) => {
         doj,
         otherInfo,
         status,
+        updated_by
       });
 
       res.status(200).json(crewPlanner);

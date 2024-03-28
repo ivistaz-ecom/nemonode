@@ -57,8 +57,9 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
                 <td>${hospital.upload}</td>
+                <td>${hospital.created_by}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editMedical('${hospital.id}', '${hospital.hospitalName}', '${hospital.place}', '${hospital.date}', '${hospital.expiry_date}', '${hospital.done_by}', '${hospital.status}', '${hospital.amount}', '${hospital.upload}')">
+                <button class="btn border-0 m-0 p-0" onclick="editMedical('${hospital.id}', '${hospital.hospitalName}', '${hospital.place}', '${hospital.date}', '${hospital.expiry_date}', '${hospital.done_by}', '${hospital.status}', '${hospital.amount}', '${hospital.upload}','${hospital.created_by}')">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteMedical('${hospital.id}')">
@@ -152,6 +153,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             status: document.getElementById('status').value.trim(),
             amount: document.getElementById('amount').value.trim(),
             upload: document.getElementById('upload').value.trim(),
+            created_by: decodedToken.userId,
         };
           console.log(formData)
           // Send data to the server using Axios with async/await
@@ -169,13 +171,13 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
       )
 
     });
-    function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload) {
+    function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload,created_by) {
         // You can use this function to perform any actions needed for editing
         console.log('Edit clicked for medical ID:', id);
     
         // You can modify this part to send the data to the server for editing
         // Example: Redirect to an edit page with parameters
-        window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${expiry_date}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${upload}`;
+        window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${expiry_date}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${upload}&created_by=${created_by}`;
     }
 
     document.getElementById("logout").addEventListener("click", function() {

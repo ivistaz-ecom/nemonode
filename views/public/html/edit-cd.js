@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded',async function ()
         document.getElementById('candidate_c_state').value = candidate.c_state;
         document.getElementById('candidate_pin').value = candidate.c_pin;
         document.getElementById('candidate_c_mobi1').value = candidate.c_mobi1;
-        document.getElementById('candidate_c_tel1').value = candidate.c_tel1;
+        // document.getElementById('candidate_c_tel1').value = candidate.c_tel1;
         document.getElementById('candidate_email1').value = candidate.email1;
 
         document.getElementById('candidate_c_ad2').value = candidate.c_ad2;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded',async function ()
         document.getElementById('candidate_p_state').value = candidate.p_state;
         document.getElementById('candidate_p_pin').value = candidate.p_pin;
         document.getElementById('candidate_c_mobi2').value = candidate.c_mobi2;
-        document.getElementById('candidate_c_tel2').value = candidate.c_tel2;
+        // document.getElementById('candidate_c_tel2').value = candidate.c_tel2;
         document.getElementById('candidate_email2').value = candidate.email2;
         document.getElementById('candidate_photos').value=candidate.photos;
         document.getElementById('candidate_resume').value=candidate.resume
@@ -157,14 +157,14 @@ document.addEventListener('DOMContentLoaded',async function ()
                 c_state: document.getElementById('candidate_c_state').value,
                 c_pin: document.getElementById('candidate_pin').value,
                 c_mobi1: document.getElementById('candidate_c_mobi1').value,
-                c_tel1: document.getElementById('candidate_c_tel1').value,
+                // c_tel1: document.getElementById('candidate_c_tel1').value,
                 email1: document.getElementById('candidate_email1').value,
                 c_ad2: document.getElementById('candidate_c_ad2').value,
                 p_city: document.getElementById('candidate_p_city').value,
                 p_state: document.getElementById('candidate_p_state').value,
                 p_pin: document.getElementById('candidate_p_pin').value,
                 c_mobi2: document.getElementById('candidate_c_mobi2').value,
-                c_tel2: document.getElementById('candidate_c_tel2').value,
+                // c_tel2: document.getElementById('candidate_c_tel2').value,
                 email2: document.getElementById('candidate_email2').value,
                 photos: document.getElementById('candidate_photos').value,
         resume: document.getElementById('candidate_resume').value,

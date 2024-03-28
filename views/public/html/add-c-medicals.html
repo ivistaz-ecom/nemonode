@@ -675,6 +675,7 @@
                                         <th style="font-size: 8px;">Status</th>
                                         <th style="font-size: 8px;">Amount</th>
                                         <th style="font-size: 8px;">Upload File</th>
+                                        <th style="font-size: 8px;">Created By</th>
                                         <th style="font-size: 8px;">Actions</th>
                                     </tr>
                                 </thead>
@@ -743,9 +744,13 @@
                                   <input name="amt" type="text" class="form-control" id="amount"/>
                               </div>
                               <div class="mb-3">
-                                  <label for="hospital_upload">Upload</label>
-                                  <input name="upload" type="file" class="form-control" id="upload"/>
-                              </div>
+                                <label for="hospital_upload">Upload</label>
+                                <input name="upload" type="file" class="form-control" id="upload"/>
+                            </div>
+                            <div class="mb-3">
+                              <label for="created_by" class="text-primary">Created By</label>
+                              <input name="created_by" type="hidden" class="form-control" id="created_by"/>
+                          </div>
                               <div class="card-footer text-end pt-0 pe-0 pb-1">
 
                               <button type="submit" class="btn btn-primary">Add Medical</button>

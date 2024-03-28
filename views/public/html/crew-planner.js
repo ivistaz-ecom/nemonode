@@ -181,6 +181,7 @@ const addCrewPlanner = async (e) => {
         wages: document.getElementById('wages').value.trim(),
         otherInfo: document.getElementById('otherInfo').value.trim(),
         status: document.getElementById('status').value.trim(),
+        created_by: decodedToken.userId,
     };
     console.log(formData)
 
@@ -244,8 +245,9 @@ async function fetchAndDisplayCrewPlannerDetails() {
                 <td>${crewPlanner.doj}</td>
                 <td>${crewPlanner.otherInfo}</td>
                 <td>${crewPlanner.status}</td>
+                <td>${crewPlanner.created_by}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editCrewPlanner('${crewPlanner.id}', '${crewPlanner.rank}', '${crewPlanner.client}', '${crewPlanner.vesselType}', '${crewPlanner.vesselName}', '${crewPlanner.cocAccepted}', '${crewPlanner.trading}', '${crewPlanner.wages}', '${crewPlanner.doj}', '${crewPlanner.otherInfo}', '${crewPlanner.status}', event)">
+                <button class="btn border-0 m-0 p-0" onclick="editCrewPlanner('${crewPlanner.id}', '${crewPlanner.rank}', '${crewPlanner.client}', '${crewPlanner.vesselType}', '${crewPlanner.vesselName}', '${crewPlanner.cocAccepted}', '${crewPlanner.trading}', '${crewPlanner.wages}', '${crewPlanner.doj}', '${crewPlanner.otherInfo}', '${crewPlanner.status}','${crewPlanner.created_by}', event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteCrewPlanner('${crewPlanner.id}')">
@@ -263,7 +265,7 @@ async function fetchAndDisplayCrewPlannerDetails() {
     }
 }
 
-function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, trading, wages, doj, otherInfo, status, event) {
+function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, trading, wages, doj, otherInfo, status,created_by, event) {
     event.preventDefault();
     console.log('Edit clicked for crew planner ID:', id);
     
@@ -273,7 +275,7 @@ function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, 
     vesselType = encodeURIComponent(vesselType);
     vesselName = encodeURIComponent(vesselName);
     
-    window.location.href = `edit-crew-planner.html?id=${id}&rank=${rank}&client=${client}&vesselType=${vesselType}&vesselName=${vesselName}&cocAccepted=${cocAccepted}&trading=${trading}&wages=${wages}&doj=${doj}&otherInfo=${otherInfo}&status=${status}`; // Include all parameters
+    window.location.href = `edit-crew-planner.html?id=${id}&rank=${rank}&client=${client}&vesselType=${vesselType}&vesselName=${vesselName}&cocAccepted=${cocAccepted}&trading=${trading}&wages=${wages}&doj=${doj}&otherInfo=${otherInfo}&status=${status}&created_by=${created_by}`; // Include all parameters
     // ...
 }
 

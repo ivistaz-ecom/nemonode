@@ -686,6 +686,7 @@
                                       <th scope="col"  style="font-size: 8px;">Emigrate Number</th>
                                       <th scope="col" style="font-size: 8px;">Document</th>
                                       <th scope="col"style="font-size: 8px;">AOA</th>
+                                      <th scope="col"style="font-size: 8px;">Contract</th>
                                       <th scope="col" style="font-size: 8px;">Actions</th>
                                   </tr>
                               </thead>
@@ -883,11 +884,18 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input name="enumber" type="text" id="contract_emigrate" class="form-control"/>
-                                            <label for="contract_emigrate">Emigrate Number</label>
-                                        </div>
+                                      <div class="form-floating">
+                                          <input name="enumber" type="text" id="contract_emigrate" class="form-control"/>
+                                          <label for="contract_emigrate">Emigrate Number</label>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input name="enumber" type="hidden" id="created_by" class="form-control"/>
+                                        <label for="created_by">Created By</label>
                                     </div>
+                                </div>
+
                                 </div>
             
                                 <div class="card-footer text-end pt-0 pe-0 pb-1">

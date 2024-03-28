@@ -47,8 +47,9 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
                 <td>${contract.aoa}</td>
+                <td>${contract.created_by}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
+                <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}','${contract.created_by}',event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
@@ -67,13 +68,19 @@ async function fetchAndDisplayContractDetails(candidateId) {
     }
 }
 
-const editContract = async(id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa,event)=>{
+const editContract = async (id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, created_by, event) => {
     event.preventDefault();
-    console.log(id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa)
-        window.location.href = `edit-c-contract.html?id=${id}&rank=${rank}&company=${company}&vslName=${vslName}&vesselType=${vesselType}&sign_on_port=${sign_on_port}&sign_on=${sign_on}&wage_start=${wage_start}&eoc=${eoc}&wages=${wages}&currency=${currency}&wages_types=${wages_types}&sign_off=${sign_off}&sign_off_port=${sign_off_port}&reason_for_sign_off=${reason_for_sign_off}&aoa_number=${aoa_number}&emigrate_number=${emigrate_number}&documents=${documents}&aoa=${aoa}`; // Include all parameters
-      
 
-}
+    // Encode documents and aoa parameters
+    const encodedDocuments = encodeURIComponent(documents);
+    const encodedAoa = encodeURIComponent(aoa);
+
+    // Construct the URL with encoded parameters
+    const url = `edit-c-contract.html?id=${id}&rank=${rank}&company=${company}&vslName=${vslName}&vesselType=${vesselType}&sign_on_port=${sign_on_port}&sign_on=${sign_on}&wage_start=${wage_start}&eoc=${eoc}&wages=${wages}&currency=${currency}&wages_types=${wages_types}&sign_off=${sign_off}&sign_off_port=${sign_off_port}&reason_for_sign_off=${reason_for_sign_off}&aoa_number=${aoa_number}&emigrate_number=${emigrate_number}&documents=${encodedDocuments}&aoa=${encodedAoa}&created_by=${created_by}`;
+
+    // Redirect to the constructed URL
+    window.location.href = url;
+};
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -152,7 +159,8 @@ const candidateId= localStorage.getItem('memId')
 
 async function handleContractForm(event) {
     event.preventDefault();
-
+    const decodedToken = decodeToken(token)
+    console.log(decodedToken.userId)
     const rank = document.getElementById('candidate_c_rank').value.trim();
     const company = document.getElementById('contract_company').value.trim();
     const vslName = document.getElementById('contract_vsl').value.trim();
@@ -172,7 +180,7 @@ async function handleContractForm(event) {
     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
     const candidateId= localStorage.getItem('memId')
-
+    const created_by = decodedToken.userId
 
     const contractDetails = {
         rank,
@@ -192,7 +200,8 @@ async function handleContractForm(event) {
         documentFile,
         aoaFile,
         aoaNumber,
-        emigrateNumber
+        emigrateNumber,
+        created_by
     };
 
     try {
