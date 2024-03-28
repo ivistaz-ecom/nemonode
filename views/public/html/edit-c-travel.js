@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             const agent_name = urlParams.get('agent_name');
             const portAgent = urlParams.get('portAgent');
             const travel_amount = urlParams.get('travel_amount');
+            const reason = urlParams.get('reason');
+            const created_by = urlParams.get('created_by');
 
             // Set the values in the input fields
             document.getElementById('travel_date').value = formatDate(travel_date)
@@ -29,7 +31,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // If 'portAgent' is an option in the dropdown, set its value
                 document.getElementById('travel_port_agent').value = portAgent;
             
-            document.getElementById('travel_amount').value = travel_amount;
+                document.getElementById('travel_amount').value = travel_amount;
+                document.getElementById('reason').value = reason;
+                document.getElementById('created_by').value = created_by;
     
             const portAgentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 
             }
             portAgentDropdowns.value=portAgent
-
+            console.log(portAgent)
         // Get the dropdown items
         let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -127,8 +131,9 @@ function formatDate(dateString) {
               ticket_number: document.getElementById('travel_ticket').value,
               agent_name: document.getElementById('travel_agent_name').value,
               portAgent: document.getElementById('travel_port_agent').value,
-              travel_amount: document.getElementById('travel_amount').value,
-          };
+              reason: document.getElementById('reason').value,
+              created_by: document.getElementById('created_by').value,
+          };   
 
           // Make a request to update the travel data
           const updateResponse = await axios.put(`https://nemonode.ivistaz.co/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });

@@ -9,14 +9,14 @@
   data-template="vertical-menu-template-free"
 >
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <meta charset="UTF-8">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Nsnemo</title>
-  <link rel="stylesheet" href="../staticfiles/style/assets/vendor/fonts/boxicons.css">
+  <title>Documents Management | Nsnemo</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
@@ -338,40 +338,109 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
+          <div class="container-fluid">
 
-            <div class="container-fluid flex-grow-1 container-p-y">
-              <!-- Layout Demo -->
-              <div class="container card text-center mt-5">
-                <div class="card-body">
-                    <h1 class="card-title">Hello there <span id="user_name" class="text-primary"></span></h1>
-                    <p class="card-text">Welcome to Nsnemo.</p>
-                    <p class="card-text">Click on the menu button to continue.</p>
-                    
-                </div>
-            </div>
-       
-          
-          
+            <div class="content-wrapper mt-3 rounded-3">
+              
+                <div class="w-100 ">
+                    <div class="">
+                      <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Document table</h4>
             
-              <!-- <div class="layout-demo-wrapper">
-                <div class="layout-demo-placeholder">
-                  <img
-                    src="../assets/img/layouts/layout-fluid-light.png"
-                    class="img-fluid"
-                    alt="Layout fluid"
-                    data-app-light-img="layouts/layout-fluid-light.png"
-                    data-app-dark-img="layouts/layout-fluid-dark.png"
-                  />
+                        <div class="table-responsive text-center ">
+                            <table id="documentTable" class="table table-sm table-striped table-bordered " style="font-size: 12px;">
+                                <thead>
+                                    <tr>
+                                        <th scopr="col" style="font-size: 8px;" >S.No</th>
+                                        <th scope="col"  style="font-size: 8px;">Document</th>
+                                        <th scope="col"  style="font-size: 8px;">Document Number</th>
+                                        <th scope="col"  style="font-size: 8px;">Issue Date</th>
+                                        <th scope="col"  style="font-size: 8px;">Issue Place</th>
+                                        <th scope="col"  style="font-size: 8px;">Document Files</th>
+                                        <th scope="col"  style="font-size: 8px;">STCW</th>
+                                        <!-- Add more columns if needed -->
+                                        <th scope="col"  style="font-size: 8px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="documentTableBody">
+                                    <!-- Add more rows for additional entries -->
+                                </tbody>
+                            </table>
+                            <div id="pagination-controls"></div>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="layout-demo-info">
-                  <h4>Layout fluid</h4>
-                  <p>Fluid layout sets a <code>100% width</code> at each responsive breakpoint.</p>
-                </div>
-              </div> -->
-              <!--/ Layout Demo -->
             </div>
+            
+            
+            <div class="w-100  card" >
+                 
+        
+                    
+
+
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="w-100 ">
+                  <div class="accordion" id="documentAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="documentHeading">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#documentCollapse" aria-expanded="true" aria-controls="documentCollapse">
+                               Click here to Add Document
+                            </button>
+                        </h2>
+                        <div id="documentCollapse" class="accordion-collapse collapse" aria-labelledby="documentHeading" data-bs-parent="#documentAccordion">
+                            <div class="accordion-body">
+                    <form id="documentForm" >
+                        <div class="">
+                           <div class="mb-3">
+                                <label for="documents">Document:</label>
+                                <input type="text" class="form-control" id="documents" name="document" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="document_number">Document Number:</label>
+                                <input type="text" class="form-control" id="document_number" name="document_number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="issue_date">Issue Date:</label>
+                                <input type="date" class="form-control" id="issue_date" name="issue_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="issue_place">Issue Place:</label>
+                                <input type="text" class="form-control" id="issue_place" name="issue_place" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="document_files">Document Files:</label>
+                                <input type="text" class="form-control" id="document_files" name="document_files" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="stcw">STCW:</label>
+                              <select class="form-control" id="stcw" name="stcw" required>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                              </select>
+                          </div>
+                          
+                            <!-- End of input fields -->
+                            <div class="card-footer text-end pt-0 pe-0 pb-1">
+
+                                    <button type="submit" class="btn btn-primary  ">ADD DOCUMENT</button>
+
+                               
+                                
+                            </div>
+                        </div>
+                        
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
             <!-- / Content -->
 
             <!-- Footer -->
@@ -380,34 +449,6 @@
                 Nautilus Shipping
                 <div id="datetime"></div>
               </div>
-              <!-- <div class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
-                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                </div>
-                <div>
-                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                  <a
-                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Documentation</a
-                  >
-
-                  <a
-                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Support</a
-                  >
-                </div>
-              </div> -->
             </footer>
             <!-- / Footer -->
 
@@ -421,19 +462,7 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <!-- / Layout wrapper -->
-
-    <!-- <div class="buy-now">
-      <a
-        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-        target="_blank"
-        class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
-      >
-    </div> -->
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
+    
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
@@ -449,7 +478,7 @@
 
     <!-- Page JS -->
    
-    <script src="./candidate-index.js"></script>
+    <script src="./edit-cDocuments.js"></script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>

@@ -45,6 +45,10 @@ const Medical = sequelize.define('Medical', {
     type: DataTypes.STRING, // Assuming a string to store the file path or URL
     allowNull: true,
   },
+  created_by:{
+    type:DataTypes.STRING
+  },
+  
 },{timestamps:false});
 
 module.exports = Medical;

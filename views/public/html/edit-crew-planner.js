@@ -216,6 +216,7 @@ const updateCrewPlanner = async (e) => {
         wages: document.getElementById('edit_wages').value,
         otherInfo: document.getElementById('edit_otherInfo').value,
         status: document.getElementById('edit_status').value,
+        updated_by: decodedToken.userId
     };
 
     console.log(formData)

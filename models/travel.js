@@ -51,6 +51,12 @@ const Travel = sequelize.define('Travel', {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      reason:{
+        type:DataTypes.STRING,
+      },
+      created_by:{
+        type:DataTypes.STRING
+      }
 }, {
     tableName: 'travel',
     timestamps: false,

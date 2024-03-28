@@ -686,7 +686,8 @@ const add_hospitaldetails = async (req, res) => {
             done_by,
             status,
             amount,
-            upload
+            upload,
+            created_by
         } = req.body;
 
         // Validate required fields
@@ -704,7 +705,8 @@ const add_hospitaldetails = async (req, res) => {
             status,
             amount,
             upload,
-            candidateId:candidateId
+            candidateId:candidateId,
+            created_by
             // Assuming you have a foreign key 'user_id' in your HospitalDetails model
         });
 
@@ -730,7 +732,9 @@ const add_traveldetails = async (req, res) => {
             ticket_number,
             agent_name,
             portAgent,
-            travel_amount
+            travel_amount,
+            reason,
+            created_by
         } = req.body;
 
         // Validate required fields
@@ -749,6 +753,8 @@ const add_traveldetails = async (req, res) => {
       agent_name,
           portAgent,
     travel_amount,
+    reason,
+    created_by,
             candidateId:candidateId // Assuming you have a foreign key 'user_id' in your Travel model
         });
 
@@ -774,15 +780,11 @@ const add_bankdetails = async (req, res) => {
             beneficiary,
             address,
             panNumber,
-            // NRI Bank Details
-
-            nriBankName,
-            nriAccountNumber,
-            nriBankAddress,
-            nriIfscCode,
-            nriSwiftCode,
-            nriBeneficiary,
-            nriAddress
+            panCardFile,
+            passbookFile,
+            branch,
+            types,
+            created_by
         } = req.body;
 
         // Validate required fields
@@ -800,14 +802,12 @@ const add_bankdetails = async (req, res) => {
             beneficiary,
             beneficiary_addr:address,
             pan_num:panNumber,
+            pan_card:panCardFile,
+            passbook:passbookFile,
             // NRI Bank Details
-            nri_bank_name:nriBankName,
-            nri_account_num:nriAccountNumber,
-            nri_bank_addr:nriBankAddress,
-            nri_ifsc_code:nriIfscCode,
-            nri_swift_code:nriSwiftCode,
-            nri_beneficiary:nriBeneficiary,
-            nri_beneficiary_addr:nriAddress,
+            branch:branch,
+            types:types,
+            created_by:created_by,
             candidateId: candidateId // Assuming you have a foreign key 'user_id' in your BankDetails model
         });
 
@@ -888,7 +888,8 @@ const add_contractdetails = async (req, res) => {
             documentFile,
             aoaNumber,
             emigrateNumber,
-            aoaFile
+            aoaFile,
+            created_by
         } = req.body;
 
         // Create a new ContractDetails entry
@@ -911,6 +912,7 @@ const add_contractdetails = async (req, res) => {
             aoa:aoaFile,
             aoa_number:aoaNumber,
             emigrate_number:emigrateNumber,
+            created_by:created_by,
             candidateId: candidateId // Assuming you have a foreign key 'user_id' in your ContractDetails model
         });
 
@@ -1090,7 +1092,7 @@ const update_contractdetails = async (req, res) => {
             contract.emigrate_number = updatedContractData.emigrateNumber;
             contract.documents = updatedContractData.documentFile; // Assuming 'documents' is a file path or something similar
             contract.aoa = updatedContractData.aoaFile; // Assuming 'aoa' is a file path or something similar
-
+            contract.created_by= updatedContractData.created_by;
             // Save the changes
             await contract.save();
 
@@ -1325,10 +1327,10 @@ const generateAccessToken = (id, indosNumber,fname) => {
   
   const login = async (req, res, next) => {
     try {
-      const { indosNumber, email, password } = req.body;
+      const { email, password } = req.body;
   
-      // Find the candidate with the provided indosNumber
-      const candidate = await Candidate.findOne({ where: { indos_number: indosNumber, email1: email } });
+      // Find the candidate with the provided email
+      const candidate = await Candidate.findOne({ where: { email1: email } });
   
       if (candidate) {
         // Compare the provided password with the stored hashed password in the database
@@ -1340,15 +1342,14 @@ const generateAccessToken = (id, indosNumber,fname) => {
   
           if (passwordMatch) {
             // Password is correct, generate JWT token
-            const token = generateAccessToken(candidate.candidateId, candidate.indos_number,candidate.fname);
+            const token = generateAccessToken(candidate.candidateId, candidate.indos_number, candidate.fname);
             console.log(token);
             return res.status(200).json({
               success: true,
               message: 'Candidate Logged in Successfully',
               token: token,
-              indosNumber: candidate.indos_number,
               candidateId: candidate.candidateId,
-              fname:candidate.fname,
+              fname: candidate.fname,
               // Include other candidate-related data as needed
             });
           } else {
@@ -1364,7 +1365,8 @@ const generateAccessToken = (id, indosNumber,fname) => {
       console.error('Error during candidate login:', err);
       return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-  };
+};
+
   
 
   // candidateControllers.js

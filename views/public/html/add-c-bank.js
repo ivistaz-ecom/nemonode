@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log(decodedToken)
 
 const hasUserManagement = decodedToken.userManagement;
+const currentuserId = decodedToken.userId
+console.log(currentuserId)
 console.log(hasUserManagement)
 if (hasUserManagement) {
   document.getElementById('userManagementSection').style.display = 'block';
@@ -103,17 +105,13 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.pan_num}</td>
             <td>${bank.passbook}</td>
             <td>${bank.pan_card}</td>
-            <td><span class='badge bg-success'>${bank.nri_bank_name}</span></td>
-            <td>${bank.nri_account_num}</td>
-            <td>${bank.nri_bank_addr}</td>
-            <td>${bank.nri_ifsc_code}</td>
-            <td>${bank.nri_swift_code}</td>
-            <td>${bank.nri_beneficiary}</td>
-            <td>${bank.nri_beneficiary_addr}</td>
-            <td>${bank.nri_passbook}</td>
+            <td>${bank.branch}</td>
+            <td>${bank.types}</td>
+            <td>${bank.created_by}</td>
+            
             
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.nri_bank_name}','${bank.nri_account_num}','${bank.nri_bank_addr}','${bank.nri_ifsc_code}','${bank.nri_swift_code}','${bank.nri_beneficiary}','${bank.nri_beneficiary_addr}','${bank.nri_passbook}', event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}','${bank.types}','${bank.created_by}', event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
@@ -130,22 +128,37 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, nri_bank_name, nri_account_num, nri_bank_addr, nri_ifsc_code, nri_swift_code, nri_beneficiary, nri_beneficiary_addr, nri_passbook, event) {
+function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card,branch,types,created_by, event) {
 event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
-    window.location.href = `edit-c-bank.html?id=${id}&bank_name=${bank_name}&account_num=${account_num}&bank_addr=${bank_addr}&ifsc_code=${ifsc_code}&swift_code=${swift_code}&beneficiary=${beneficiary}&beneficiary_addr=${beneficiary_addr}&pan_num=${pan_num}&passbook=${passbook}&pan_card=${pan_card}&nri_bank_name=${nri_bank_name}&nri_account_num=${nri_account_num}&nri_bank_addr=${nri_bank_addr}&nri_ifsc_code=${nri_ifsc_code}&nri_swift_code=${nri_swift_code}&nri_beneficiary=${nri_beneficiary}&nri_beneficiary_addr=${nri_beneficiary_addr}&nri_passbook=${nri_passbook}`; // Include all parameters
+    window.location.href = `edit-c-bank.html?id=${id}&bank_name=${bank_name}&account_num=${account_num}&bank_addr=${bank_addr}&ifsc_code=${ifsc_code}&swift_code=${swift_code}&beneficiary=${beneficiary}&beneficiary_addr=${beneficiary_addr}&pan_num=${pan_num}&passbook=${passbook}&pan_card=${pan_card}&branch=${branch}&types=${types}&created_by=${created_by}`; // Include all parameters
     // ...
 }
 
 
 function deleteBank(bankId) {
-    // Implement your delete functionality here using the bankId
-    console.log('Delete clicked for bank ID:', bankId);
+    // Confirm with the user before deleting
+    if (confirm("Are you sure you want to delete this bank?")) {
+        // Send an AJAX request to delete the bank
+        axios.delete(`https://nemonode.ivistaz.co/candidate/delete-bank/${bankId}`,{headers:{"Authorization":token}})
+            .then(response => {
+                // Handle success response
+                console.log(response.data.message);
+                // Optionally, you can perform additional actions like removing the bank from the UI
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error deleting bank:', error.message);
+            });
+    }
 }
+
 
 async function handleBankDetailsForm(event) {
     event.preventDefault();
-
+    const decodedToken = decodeToken(token)
+    const currentuserId = decodedToken.userId
+console.log(currentuserId)
     // Regular Bank Account Details
   // Regular Bank Account Details
   const bankName = document.getElementById('bank_name').value.trim();
@@ -158,17 +171,10 @@ async function handleBankDetailsForm(event) {
   const panNumber = document.getElementById('bank_pan').value.trim();
   const panCardFile = document.getElementById('bank_pan_card').value.trim();
   const passbookFile = document.getElementById('bank_passbook').value.trim();
-
-  // NRI Bank Account Details
-  const nriBankName = document.getElementById('nri_bank_name').value.trim();
-  const nriAccountNumber = document.getElementById('nri_bank_acc_num').value.trim();
-  const nriBankAddress = document.getElementById('nri_bank_acc_addr').value.trim();
-  const nriIfscCode = document.getElementById('nri_bank_ifsc').value.trim();
-  const nriSwiftCode = document.getElementById('nri_bank_swift').value.trim();
-  const nriBeneficiary = document.getElementById('nri_bank_beneficiary').value.trim();
-  const nriAddress = document.getElementById('nri_bank_addr').value.trim();
-  const nriPassbookFile = document.getElementById('nri_bank_passbook').value.trim();
-
+  const branch = document.getElementById('branch').value.trim();
+  const types = document.getElementById('types').value.trim();
+  const created_by = currentuserId
+  
     const currentCandidateId= localStorage.getItem('memId')
     // Create an object to hold all the bank details
     const bankDetails = {
@@ -182,17 +188,12 @@ async function handleBankDetailsForm(event) {
         panNumber,
         panCardFile,
         passbookFile,
-        nriBankName,
-        nriAccountNumber,
-        nriBankAddress,
-        nriIfscCode,
-        nriSwiftCode,
-        nriBeneficiary,
-        nriAddress,
-        nriPassbookFile
+        branch,
+        types,
+        created_by
     };
 
-
+    console.log(bankDetails)
     try {
         const response = await axios.post(`https://nemonode.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {

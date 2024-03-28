@@ -38,34 +38,43 @@ passbook:{
 pan_card:{
     type:DataTypes.STRING
 }   
+,
+branch:{
+    type:DataTypes.STRING
+},
+types:{
+    type:DataTypes.STRING
+},
+created_by:{
+    type:DataTypes.STRING
+}
 
 
 
-
-,nri_bank_name :{
-    type:DataTypes.STRING
-},
-nri_account_num :{
-    type:DataTypes.INTEGER
-},
-nri_bank_addr :{
-    type:DataTypes.STRING
-},
-nri_ifsc_code :{
-    type:DataTypes.STRING
-},
-nri_swift_code :{
-    type:DataTypes.STRING
-},
-nri_beneficiary:{
-        type:DataTypes.STRING
-},
-nri_beneficiary_addr:{
-    type:DataTypes.STRING
-},
-nri_passbook:{
-    type:DataTypes.STRING
-},
+// ,nri_bank_name :{
+//     type:DataTypes.STRING
+// },
+// nri_account_num :{
+//     type:DataTypes.INTEGER
+// },
+// nri_bank_addr :{
+//     type:DataTypes.STRING
+// },
+// nri_ifsc_code :{
+//     type:DataTypes.STRING
+// },
+// nri_swift_code :{
+//     type:DataTypes.STRING
+// },
+// nri_beneficiary:{
+//         type:DataTypes.STRING
+// },
+// nri_beneficiary_addr:{
+//     type:DataTypes.STRING
+// },
+// nri_passbook:{
+//     type:DataTypes.STRING
+// },
 }, {
     tableName: 'bank',
     timestamps: false,

@@ -71,6 +71,9 @@ const Contract = sequelize.define('Contract', {
     emigrate_number :{
         type:DataTypes.STRING,
     },
+    created_by:{
+        type:DataTypes.STRING,
+    },
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {
     tableName: 'contract',
