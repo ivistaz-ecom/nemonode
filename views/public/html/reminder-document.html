@@ -394,28 +394,7 @@
 
 
 
-             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Vendor Management</span>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Vendor</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="add-vendor.html" class="menu-link">
-                    <div data-i18n="Account">Add</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="add-user.html" class="menu-link">
-                    <div data-i18n="Account">List</div>
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
+             
 
 
             <li class="menu-header small text-uppercase">
@@ -675,6 +654,7 @@
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {
@@ -715,7 +695,7 @@
     loader.style.display = 'block';
     error.style.display = 'none';
 
-    let url = 'https://nemonode.ivistaz.co/candidate/expiry-date';
+    let url = 'http://localhost:4000/candidate/expiry-date';
     let requestData = {}; // Initialize request data object
 
     if (selectedDate) {

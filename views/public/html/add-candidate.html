@@ -20,6 +20,7 @@
     <meta name="description" content="" />
 
     
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -389,28 +390,7 @@
 
 
 
-             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Vendor Management</span>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Vendor</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="add-vendor.html" class="menu-link">
-                    <div data-i18n="Account">Add</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="add-user.html" class="menu-link">
-                    <div data-i18n="Account">List</div>
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
+             
 
 
             <li class="menu-header small text-uppercase">
@@ -1086,19 +1066,33 @@
                               </div>
                           </div>
                           <div class="col-md-6 mb-2">
-                            <div class="form-floating">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="candidate_c_mobi1"
-                                    placeholder="Field X"
-                                    aria-describedby="fieldX_1_Help"
-                                    required
-                                />
-                                <label for="candidate_c_mobi1">Mobile</label>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="countryCodeSelect" aria-label="Select Country Code" required>
+                                            <option value="">Code</option>
+                                            <!-- Options will be dynamically added here -->
+                                        </select>
+                                        <label for="countryCodeSelect">Code</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-floating">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="candidate_c_mobi1"
+                                            placeholder="Field X"
+                                            aria-describedby="fieldX_1_Help"
+                                            required
+                                        />
+                                        <label for="candidate_c_mobi1">Mobile</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-2">
+                        
+                        <div class="col-md-6 mb-2" style="display: none;">
                           <div class="form-floating">
                               <input
                                   type="text"
@@ -1106,7 +1100,7 @@
                                   id="candidate_c_tel1"
                                   placeholder="Field X"
                                   aria-describedby="fieldX_1_Help"
-                                  required
+                                  
                               />
                               <label for="candidate_c_tel1">Landline</label>
                           </div>
@@ -1192,22 +1186,36 @@
                             
         
                                 <div class="col-md-6 mb-2">
-                                    <div class="form-floating">
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="candidate_c_mobi2"
-                                            placeholder="Field X"
-                                            aria-describedby="fieldX_2_Help"
-                                            required
-                                        />
-                                        <label for="candidate_c_mobi2">Mobile</label>
-                                    </div>
-                                </div>
+                                  <div class="row g-2">
+                                      <div class="col-md-4">
+                                          <div class="form-floating">
+                                              <select class="form-select" id="countryCodeSelect2" aria-label="Select Country Code" required>
+                                                  <option value="">Code</option>
+                                                  <!-- Options will be dynamically added here -->
+                                              </select>
+                                              <label for="countryCodeSelect2">Code</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-8">
+                                          <div class="form-floating">
+                                              <input
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="candidate_c_mobi2"
+                                                  placeholder="Field X"
+                                                  aria-describedby="fieldX_1_Help"
+                                                  required
+                                              />
+                                              <label for="candidate_c_mobi2">Mobile</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              
                            
                                 
         
-                                <div class="col-md-6 ">
+                                <div class="col-md-6 " style="display:none">
                                     <div class="form-floating">
                                         <input
                                             type="text"
@@ -1215,7 +1223,7 @@
                                             id="candidate_c_tel2"
                                             placeholder="Field X"
                                             aria-describedby="fieldX_2_Help"
-                                            required
+                                            
                                         />
                                         <label for="candidate_c_tel2">Landline</label>
                                     </div>

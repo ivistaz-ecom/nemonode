@@ -71,6 +71,7 @@ router.get('/get-sea-service/:id',userAuthentication.authenticate,candidateContr
 router.get('/get-sea/:id',userAuthentication.authenticate,candidateControllers.getSea)
 
 router.post('/reports/view-new-profile',userAuthentication.authenticate,candidateControllers.new_profile)
+router.post('/reports/contract',userAuthentication.authenticate,candidateControllers.contract)
 router.get('/birthday',userAuthentication.authenticate,candidateControllers.birthday)
 router.get('/call-count',userAuthentication.authenticate,candidateControllers.getCallCount);
 router.get('/discussion-count',userAuthentication.authenticate,candidateControllers.countOperations);

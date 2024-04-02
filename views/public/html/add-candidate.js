@@ -1,6 +1,8 @@
 const token = localStorage.getItem('token')
 
 document.addEventListener('DOMContentLoaded', async function () {
+    await fetchCountryCodes()
+
    await displayDropdown()
    await fetchAndDisplayNationalities()
    await fetchAndDisplayVessels()
@@ -32,9 +34,34 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Add any other initialization or data fetching logic you need
 });
 
+async function fetchCountryCodes() {
+    try {
+        const response = await axios.get('http://localhost:4000/fetch-nationality');
+        const countries = response.data.countries;
+        // Clear existing options
+        var select = document.getElementById("countryCodeSelect");
+        var select2 = document.getElementById("countryCodeSelect2");
+        select.innerHTML = '<option value="">Code</option>';
+        select2.innerHTML = '<option value="">Code</option>';
+        // Populate the dropdown options
+        countries.forEach(function(country) {
+            var option = document.createElement("option");
+            option.value = country.phone_code; // Set the value to phone_code
+            option.text = country.phone_code; // Display only the phone_code
+            select.appendChild(option);
+            select2.appendChild(option.cloneNode(true))
+        });
+    } catch (error) {
+        console.error('Error fetching country codes:', error);
+    }
+}
+
+// Call the function to fetch and populate country codes
+
+
 async function  fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -88,7 +115,7 @@ const decodedToken = decodeToken(token);
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-grade", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
@@ -119,7 +146,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vsls;
 
         // Get the select element
@@ -178,7 +205,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -193,7 +220,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayNationalities() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("https://nemonode.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
+        const response = await axios.get("http://localhost:4000/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
         console.log(countries)
         return countries; // Return the fetched countries
@@ -214,11 +241,18 @@ function getCurrentDateTime() {
 const addcandidateButton = document.getElementById("candidate-form");
 addcandidateButton.addEventListener("submit", async(e) =>{
     e.preventDefault() // Prevent the default form submission behavior
-
+    const countryCode = document.getElementById('countryCodeSelect').value
+    const mobileInput = document.getElementById('candidate_c_mobi1').value
+    const combinedMobile = countryCode + mobileInput;
+    const countryCode2 = document.getElementById('countryCodeSelect2').value
+    const mobileInput2 = document.getElementById('candidate_c_mobi2').value
+    const combinedMobile2 = countryCode2 + mobileInput2;
+    console.log(combinedMobile,combinedMobile2)
     const { date, time } = getCurrentDateTime();
 
     
     const candidate_details = {
+        
         fname: document.getElementById('candidate_fname').value.trim(),
         lname: document.getElementById('candidate_lname').value.trim(),
         c_rank: document.getElementById('candidate_c_rank').value.trim(),
@@ -247,14 +281,14 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         c_city: document.getElementById('candidate_city').value.trim(),
         c_state: document.getElementById('candidate_c_state').value.trim(),
         c_pin: document.getElementById('candidate_pin').value.trim(),
-        c_mobi1: document.getElementById('candidate_c_mobi1').value.trim(),
+        c_mobi1: combinedMobile,
         email1: document.getElementById('candidate_email1').value.trim(),
         c_tel1: document.getElementById('candidate_c_tel1').value.trim(),
         c_ad2: document.getElementById('candidate_c_ad2').value.trim(),
         p_city: document.getElementById('candidate_p_city').value.trim(),
         p_state: document.getElementById('candidate_p_state').value.trim(),
         p_pin: document.getElementById('candidate_p_pin').value.trim(),
-        c_mobi2: document.getElementById('candidate_c_mobi2').value.trim(),
+        c_mobi2: combinedMobile2,
         c_tel2: document.getElementById('candidate_c_tel2').value.trim(),
         email2: document.getElementById('candidate_email2').value.trim(),
         nemo_source: document.getElementById('nemo_source').value.trim() || null,
@@ -293,7 +327,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
       };
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("http://localhost:4000/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         // addcandidateButton.reset();
         alert("Candidate Added Successfully!");
@@ -329,6 +363,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

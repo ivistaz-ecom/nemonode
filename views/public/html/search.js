@@ -12,9 +12,12 @@ document.getElementById('search_btn').addEventListener('click', async function (
   const userGroup = getUserGroup(); // Modify this to get the user group
 
   try {
+    const id = decodedToken.userId;
+    console.log(id)
       // Send an asynchronous request to the server using Axios with async/await
-      const response = await axios.post('https://nemonode.ivistaz.co/search', { 
+      const response = await axios.post('http://localhost:4000/search', { 
           search: searchValue,
+          userId:id,
           userGroup: userGroup // Pass the user group value in the request body
       }, { headers: { 'Authorization': token } });
 
@@ -49,6 +52,8 @@ return decodedToken.userGroup
       const availableTo = document.getElementById('availableTo').value.trim();
       const license = document.getElementById('license').value.trim();
       const zone = document.getElementById('zone').value.trim();
+      const group = document.getElementById('groupSearch').value
+      console.log(group)
     //   const documentNumber = document.getElementById('documentNumber').value;
 
       // Prepare data for the POST request
@@ -64,11 +69,12 @@ return decodedToken.userGroup
         las_date: availableTo,
         license: license,
         zone: zone,
+        group:group,
         // documentNumber: documentNumber
       };
 
       // Make a POST request using Axios
-      axios.post('https://nemonode.ivistaz.co/searchspl', searchData,{headers:{'Authorization':token}})
+      axios.post('http://localhost:4000/searchspl', searchData,{headers:{'Authorization':token}})
         .then(function (response) {
           // Handle the successful response
           const searchResults = response.data;
@@ -98,7 +104,7 @@ return decodedToken.userGroup
       // Iterate over results and append rows to the table
       results.forEach(result => {
           const row = document.createElement('tr');
-          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob', 'nemo_source'];
+          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
   
           fieldsToDisplay.forEach(field => {
               const cell = document.createElement('td');
@@ -163,7 +169,7 @@ return decodedToken.userGroup
             try {
                 console.log(`Deleting candidate with ID ${candidateId}`);
                 // Add your delete logic here
-                await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-candidate/${candidateId}`, { headers: { "Authorization": token } });
+                await axios.delete(`http://localhost:4000/candidate/delete-candidate/${candidateId}`, { headers: { "Authorization": token } });
                 console.log(`Candidate with ID ${candidateId} successfully deleted.`);
             } catch (error) {
                 console.error(`Error deleting candidate with ID ${candidateId}:`, error);
@@ -236,7 +242,7 @@ return decodedToken.userGroup
       
         candidateResults.forEach(result => {
           const row = document.createElement('tr');
-          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob', 'nemo_source'];
+          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
       
           fieldsToDisplay.forEach(field => {
             const cell = document.createElement('td');
@@ -249,14 +255,15 @@ return decodedToken.userGroup
             }
             row.appendChild(cell);
           });
-          const deleteButton = createButton('Delete', () => handleDelete(result.candidateId));
-        const editButton = createButton('Edit', () => handleEdit(result.candidateId));
-        const viewButton = createButton('View', () => handleView(result.candidateId));
+          const deleteButton = createButton('Delete', () => handleDelete(result.candidateId),'Delete');
+        const editButton = createButton('Edit', () => handleEdit(result.candidateId),'Edit');
+        const viewButton = createButton('View', () => handleView(result.candidateId),'View');
 
         const buttonsCell = document.createElement('td');
-        buttonsCell.appendChild(deleteButton);
-        buttonsCell.appendChild(editButton);
+        
         buttonsCell.appendChild(viewButton);
+        buttonsCell.appendChild(editButton);
+        buttonsCell.appendChild(deleteButton);
 
         row.appendChild(buttonsCell);
 
@@ -289,7 +296,7 @@ async function fetchCandidateData(candidateIds) {
   try {
     // Check if candidateIds is defined and not empty
     if (candidateIds && candidateIds.length > 0) {
-      const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
+      const response = await axios.get(`http://localhost:4000/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
       return response.data;
     } else {
       // If candidateIds is undefined or empty, return an empty object
@@ -316,7 +323,7 @@ async function fetchCandidateData(candidateIds) {
     defaultOption.text = '';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -340,7 +347,7 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vsls;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -358,7 +365,7 @@ displayVesselTypeDropdown()
 
 async function fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -396,7 +403,7 @@ fetchAndDisplayExp()
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-grade", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
@@ -438,7 +445,7 @@ const displayCountryDropdown = async function () {
         countryDropdown.appendChild(defaultOption);
 
         // Assuming the country data is an array of objects with the property "country"
-        const countryResponse = await axios.get("https://nemonode.ivistaz.co/others/country-codes", { headers: { "Authorization": token } });
+        const countryResponse = await axios.get("http://localhost:4000/others/country-codes", { headers: { "Authorization": token } });
         const countries = countryResponse.data.countryCodes; // Assuming the array is directly returned
 
         for (let i = 0; i < countries.length; i++) {

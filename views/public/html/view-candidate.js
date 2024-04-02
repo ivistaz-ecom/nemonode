@@ -65,7 +65,7 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -110,7 +110,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -184,7 +184,7 @@ function deleteBank(bankId) {
 async function fetchAndDisplayTravelDetails(candidateId) {
     try {
         // Make an Axios request to your backend API to get travel details
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-travel-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-travel-details/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -236,7 +236,7 @@ const token = localStorage.getItem('token');
 
 try {
     // Make an Axios request to your backend API to delete the travel entry
-    const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-travel/${travelId}`, {
+    const response = await axios.delete(`http://localhost:4000/candidate/delete-travel/${travelId}`, {
         headers: { "Authorization": token }
     });
 
@@ -256,7 +256,7 @@ try {
 
 async function fetchAndDisplayMedicalDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-hospital-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-hospital-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -324,7 +324,7 @@ const deleteMedical = async (id, event) => {
         const confirmDelete = confirm('Are you sure you want to delete this medical entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`http://localhost:4000/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display medical details again after deletion
             fetchAndDisplayMedicalDetails(candidateId);
@@ -340,7 +340,7 @@ const deleteMedical = async (id, event) => {
 
 const fetchAndDisplayNkdData = async (candidateId) => {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
 
         // Assuming response.data contains an array of NKD objects
         const nkdData = response.data;
@@ -411,7 +411,7 @@ async function deleteNkd(id) {
         const confirmDelete = confirm('Are you sure you want to delete this NKD entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`http://localhost:4000/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display NKD data again after deletion
             fetchAndDisplayNkdData();
@@ -440,6 +440,7 @@ const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const candidateId = localStorage.getItem('memId');
+        await   fetchAndDisplayDiscussions(candidateId);
         await displayCandidateDetails();
         await fetchAndDisplayContractDetails(candidateId)
         await fetchAndDisplayDocumentDetails(candidateId)
@@ -468,7 +469,7 @@ async function displayCandidateDetails() {
     try {
         // Fetch candidate data based on the candidate ID
         const id = localStorage.getItem('memId')
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const response = await axios.get(`http://localhost:4000/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
         document.getElementById('candidateId').value = candidateData.candidateId;
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
@@ -619,7 +620,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-contract-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -693,6 +694,7 @@ function deleteContract(id) {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {
@@ -709,7 +711,7 @@ function deleteContract(id) {
 async function fetchAndDisplaySeaService(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-sea-service/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-sea-service/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -757,7 +759,7 @@ async function deleteSeaService(id) {
     if (confirm('Are you sure you want to delete this sea service record?')) {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+            await axios.delete(`http://localhost:4000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
             // Remove the corresponding row from the table
             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
             seaServiceRow.remove();
@@ -771,3 +773,58 @@ function editSeaService(id) {
     // Redirect to seaservice.html with the ID parameter
     window.location.href = `seaserviceedit.html?memId=${id}`;
 }
+async function fetchAndDisplayDiscussions(id) {
+    try {
+        // Fetch discussions from the server using Axios
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:4000/candidate/get-discussionplus-details/${id}`, { headers: { "Authorization": token } });
+        const discussions = response.data.discussion; // Access the discussion array from response.data
+
+        // Get the discussionContainer element
+        const discussionContainer = document.getElementById('discussionContainer');
+
+        // Clear existing content inside discussionContainer
+        discussionContainer.innerHTML = '';
+
+        // Loop through each discussion object
+        discussions.forEach(discussion => {
+            // Create a container element for each discussion
+            const discussionDiv = document.createElement('div');
+            discussionDiv.classList.add('discussion');
+
+            // Check if either basic_comments or special_comments is not null
+            if (discussion.basic_comments !== null || discussion.special_comments !== null) {
+                // Display basic comments if present
+                if (discussion.basic_comments !== null) {
+                    const basicCommentsParagraph = document.createElement('p');
+                    basicCommentsParagraph.innerHTML = `<strong style="text-transform: capitalize;">${discussion.added_by}:</strong> ${discussion.basic_comments}`;
+                    discussionDiv.appendChild(basicCommentsParagraph);
+                }
+
+                // Display special comments with a special badge if present
+                if (discussion.special_comments !== null) {
+                    const specialCommentsParagraph = document.createElement('p');
+                    specialCommentsParagraph.innerHTML = `<strong style="text-transform: capitalize;">${discussion.added_by}:</strong> ${discussion.special_comments}`;
+                    const specialBadge = document.createElement('span');
+                    specialBadge.textContent = 'Special';
+                    specialBadge.classList.add('badge', 'bg-warning', 'float-end');
+                    specialCommentsParagraph.appendChild(specialBadge);
+                    discussionDiv.appendChild(specialCommentsParagraph);
+                }
+
+                // Append the discussion container to the document
+                discussionContainer.appendChild(discussionDiv);
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching discussions:', error);
+    }
+}
+
+
+
+
+
+  
+  // Call the async function to fetch and display discussions
+  

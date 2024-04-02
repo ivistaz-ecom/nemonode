@@ -51,7 +51,7 @@ function getURLParameter(name) {
 
       // Send data to the server using Axios with async/await
       const token = localStorage.getItem('token');
-      const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vendor/${vendorId}`, formData, {
+      const response = await axios.put(`http://localhost:4000/others/update-vendor/${vendorId}`, formData, {
         headers: { "Authorization": token }
       });
 
@@ -69,6 +69,7 @@ function getURLParameter(name) {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

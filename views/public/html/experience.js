@@ -5,7 +5,7 @@ document.getElementById("exp-form").addEventListener("submit", async (e) => {
     const experience = document.getElementById("exp").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-experience", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-experience", {
             experience,
         },{headers:{"Authorization":token}});
 
@@ -24,6 +24,7 @@ document.getElementById("exp-form").addEventListener("submit", async (e) => {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

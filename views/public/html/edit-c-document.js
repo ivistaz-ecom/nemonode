@@ -46,7 +46,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
             // Get the memId from localStorage
  
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-documents/${documentId}`, formData, {
+            const response = await axios.put(`http://localhost:4000/candidate/update-documents/${documentId}`, formData, {
                 headers: { "Authorization": token } // Replace with your authorization header
             });
 
@@ -81,6 +81,7 @@ function formatDate(dateString) {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

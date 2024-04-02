@@ -391,28 +391,7 @@
 
 
 
-             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Vendor Management</span>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Vendor</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="add-vendor.html" class="menu-link">
-                    <div data-i18n="Account">Add</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="add-user.html" class="menu-link">
-                    <div data-i18n="Account">List</div>
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
+             
 
 
             <li class="menu-header small text-uppercase">
@@ -652,7 +631,7 @@
           
 <div class="ms-3 me-3">
   <div class="bg-white rounded-4 shadow-sm">
-    <h4 class="text-center  pt-3 mb-0">Candidate Search Filter</h4>
+    <h4 class="text-center  pt-3 mb-0">Candidate Specific Search</h4>
     <div class="p-3">
       <form id="search-form">
         <div class="row">
@@ -700,7 +679,6 @@
                     <option value=""></option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
-                    <option value="all">All</option>
                 </select>
             </div>
             <div class="col">
@@ -731,12 +709,12 @@
                 </select>
             </div>
             <div class="col">
-                <label for="documentNumber" class="form-label">Group</label>
-                <select class="form-select form-select-sm" id="documentNumber">
+                <label for="groupSearch" class="form-label">Group</label>
+                <select class="form-select form-select-sm" id="groupSearch">
                     <option value="" selected></option>
-                    <option value="officer">Officer</option>
-                    <option value="rating">Rating</option>
-                    <option value="ivCrew">IV Crew</option>
+                    <option value="Officer">Officer</option>
+                    <option value="Rating">Rating</option>
+                    <option value="IV crew">IV Crew</option>
                 </select>
             </div>
         </div>
@@ -768,7 +746,6 @@
                       <th style="font-size: 8px;">Vessel</th>
                       <th style="font-size: 8px;">Mobile</th>
                       <th style="font-size: 8px;">Age</th>
-                      <th style="font-size: 8px;">Source</th>
                       <th style="font-size: 8px;">Actions</th>
                     </tr>
                   </thead>
