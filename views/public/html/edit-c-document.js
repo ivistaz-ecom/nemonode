@@ -46,7 +46,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
             // Get the memId from localStorage
  
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemonode.ivistaz.co//candidate/update-documents/${documentId}`, formData, {
+            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-documents/${documentId}`, formData, {
                 headers: { "Authorization": token } // Replace with your authorization header
             });
 
