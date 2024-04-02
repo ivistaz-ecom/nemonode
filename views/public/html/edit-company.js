@@ -53,7 +53,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Company Updated Successfully!");
         window.location.href='./view-company.html'
@@ -73,6 +73,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

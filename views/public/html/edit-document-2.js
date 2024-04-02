@@ -42,7 +42,7 @@ updateDocumentTypeButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://localhost:4000/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Document Type Updated Successfully!");
         window.location.href="./edit-document.html"
@@ -56,6 +56,7 @@ updateDocumentTypeButton.addEventListener("submit", async (e) => {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {

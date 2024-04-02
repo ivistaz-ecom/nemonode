@@ -97,7 +97,7 @@
               <select id="reportType" class="form-select">
                   <option value="">Select Report</option>
                   <option value="New Profile">New Profile</option>
-                  <option value="Another Report">Another Report</option>
+                  <option value="Contract report">Contract report</option>
               </select>
           </div>
           
@@ -179,15 +179,98 @@
         </div>
   
   
-          <div id="anotherReportFields" style="display: none;">
-              <!-- Include Another Report Fields here -->
-          </div>
+        <div id="contractFields" style="display: none;">
+            <h2>Contract Fields</h2>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="id" name="id">
+                <label class="form-check-label" for="id">ID</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rank" name="rank">
+                <label class="form-check-label" for="rank">Rank</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="company" name="company">
+                <label class="form-check-label" for="company">Company</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="vslName" name="vslName">
+                <label class="form-check-label" for="vslName">Vessel Name</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="vesselType" name="vesselType">
+                <label class="form-check-label" for="vesselType">Vessel Type</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="sign_on_port" name="sign_on_port">
+                <label class="form-check-label" for="sign_on_port">Sign On Port</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="sign_on" name="sign_on">
+                <label class="form-check-label" for="sign_on">Sign On Date</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="wage_start" name="wage_start">
+                <label class="form-check-label" for="wage_start">Wage Start Date</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="eoc" name="eoc">
+                <label class="form-check-label" for="eoc">EOC</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="wages" name="wages">
+                <label class="form-check-label" for="wages">Wages</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="currency" name="currency">
+                <label class="form-check-label" for="currency">Currency</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="wages_types" name="wages_types">
+                <label class="form-check-label" for="wages_types">Wages Types</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="sign_off_port" name="sign_off_port">
+                <label class="form-check-label" for="sign_off_port">Sign Off Port</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="sign_off" name="sign_off">
+                <label class="form-check-label" for="sign_off">Sign Off Date</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="reason_for_sign_off" name="reason_for_sign_off">
+                <label class="form-check-label" for="reason_for_sign_off">Reason for Sign Off</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="documents" name="documents">
+                <label class="form-check-label" for="documents">Documents</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="aoa" name="aoa">
+                <label class="form-check-label" for="aoa">AOA</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="aoa_number" name="aoa_number">
+                <label class="form-check-label" for="aoa_number">AOA Number</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="emigrate_number" name="emigrate_number">
+                <label class="form-check-label" for="emigrate_number">Emigrate Number</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="created_by" name="created_by">
+                <label class="form-check-label" for="created_by">Created By</label>
+            </div>
+        </div>
+        
+        <button id="generateReport" type="button" class="btn btn-primary">
+            Generate Report
+        </button>
+        
+        <div id="reportTable" class="mt-5"></div>
+        
   
-          <div class="text-end mt-3">
-              <button id="generateReport" type="button" class="btn btn-primary">
-                  Generate Report
-              </button>
-          </div>
+         
           <a href='./indexpage.html'> > Back Home</a>
   
           <div id="reportTable" class="mt-5"></div>
@@ -197,139 +280,172 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const selectedFields = {
-              candidateId: false,
-              fname: false,
-              c_rank: false,
-              c_vessel: false,
-              c_ad1: false,
-              c_city: false,
-              nationality: false,
-              c_mobi1: false,
-              last_company: false,
-              email1: false,
-              last_salary: false,
-              experience: false,
-              dob: false,
-              avb_date: false,
-              height: false,
-              weight: false,
-              safety_shoe_size: false,
-              boiler_suit_size: false
-          };
-  
-          const handleDropdownChange = function (e) {
-              const selectedOption = e.target.value;
-              const newProfileFields = document.getElementById('newProfileFields');
-              if (selectedOption === 'New Profile') {
-                  newProfileFields.style.display = 'block';
-              } else {
-                  newProfileFields.style.display = 'none';
-              }
-          };
-  
-          const handleCheckboxChange = function (e) {
-              const id = e.target.id;
-              const checked = e.target.checked;
-              selectedFields[id] = checked;
-          };
-  
-          const handleGenerateReport = async function () {
-              try {
-                  if (!Object.values(selectedFields).some(Boolean)) {
-                      throw new Error('Please select at least one field.');
-                  }
-  
-                  const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/view-new-profile';
-                  const token = localStorage.getItem('token');
-                  const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
-  
-                  if (!response.data || !response.data.candidates) {
-                      throw new Error('Error generating report');
-                  }
-  
-                  const filteredData = response.data.candidates.map(candidate => {
-                      const filteredCandidate = {};
-                      Object.keys(selectedFields).forEach(field => {
-                          if (selectedFields[field]) {
-                              filteredCandidate[field] = candidate[field];
-                          }
-                      });
-                      return filteredCandidate;
-                  });
-  
-                  renderTable(filteredData);
-              } catch (error) {
-                  console.error('Error generating report:', error.message);
-              }
-          };
-  
-          const renderTable = function (data) {
-              const reportTableDiv = document.getElementById('reportTable');
-              reportTableDiv.innerHTML = '';
-  
-              if (data.length === 0) {
-                  reportTableDiv.innerHTML = '<div>No data to display</div>';
-                  return;
-              }
-  
-              const table = document.createElement('table');
-              table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover');
-              const thead = document.createElement('thead');
-              const tbody = document.createElement('tbody');
-  
-              const columns = Object.keys(data[0]);
-  
-              const headerRow = document.createElement('tr');
-              columns.forEach((column) => {
-                  const th = document.createElement('th');
-                  th.textContent = column;
-                  headerRow.appendChild(th);
-              });
-              thead.appendChild(headerRow);
-  
-              data.forEach((rowData) => {
-                  const row = document.createElement('tr');
-                  columns.forEach((column) => {
-                      const td = document.createElement('td');
-                      td.textContent = rowData[column];
-                      row.appendChild(td);
-                  });
-                  tbody.appendChild(row);
-              });
-  
-              table.appendChild(thead);
-              table.appendChild(tbody);
-  
-              reportTableDiv.appendChild(table);
-  
-              // Add Export to Excel button
-              const exportButton = document.createElement('button');
-              exportButton.textContent = 'Export to Excel';
-              exportButton.className='btn btn-success'
-              exportButton.addEventListener('click', function () {
-                  exportToExcel(data);
-              });
-              reportTableDiv.appendChild(exportButton);
-          };
-  
-          const exportToExcel = function (data) {
-              const worksheet = XLSX.utils.json_to_sheet(data);
-              const workbook = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
-              XLSX.writeFile(workbook, 'report.xlsx');
-          };
-  
-          document.getElementById('reportType').addEventListener('change', handleDropdownChange);
-          document.getElementById('generateReport').addEventListener('click', handleGenerateReport);
-  
-          const checkboxes = document.querySelectorAll('.form-check-input');
-          checkboxes.forEach((checkbox) => {
-              checkbox.addEventListener('change', handleCheckboxChange);
-          });
-      });
-  </script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectedFields = {
+            newProfile: {
+                candidateId: false,
+                fname: false,
+                c_rank: false,
+                c_vessel: false,
+                c_ad1: false,
+                c_city: false,
+                nationality: false,
+                c_mobi1: false,
+                last_company: false,
+                email1: false,
+                last_salary: false,
+                experience: false,
+                dob: false,
+                avb_date: false,
+                height: false,
+                weight: false,
+                safety_shoe_size: false,
+                boiler_suit_size: false
+            },
+            contract: {
+                id: false,
+                rank: false,
+                company: false,
+                vslName: false,
+                vesselType: false,
+                sign_on_port: false,
+                sign_on: false,
+                wage_start: false,
+                eoc: false,
+                wages: false,
+                currency: false,
+                wages_types: false,
+                sign_off_port: false,
+                sign_off: false,
+                reason_for_sign_off: false,
+                documents: false,
+                aoa: false,
+                aoa_number: false,
+                emigrate_number: false,
+                created_by: false
+            }
+        };
+    
+        const handleDropdownChange = function (e) {
+            const selectedOption = e.target.value;
+            const newProfileFields = document.getElementById('newProfileFields');
+            const contractFields = document.getElementById('contractFields');
+            
+            if (selectedOption === 'New Profile') {
+                newProfileFields.style.display = 'block';
+                contractFields.style.display = 'none';
+            } else if (selectedOption === 'Contract report') {
+                newProfileFields.style.display = 'none';
+                contractFields.style.display = 'block';
+            } else {
+                newProfileFields.style.display = 'none';
+                contractFields.style.display = 'none';
+            }
+    
+            // Update selected fields based on the selected report type
+            Object.keys(selectedFields[selectedOption]).forEach(field => {
+                selectedFields[field] = selectedFields[selectedOption][field];
+            });
+        };
+    
+        const handleCheckboxChange = function (e) {
+            const id = e.target.id;
+            const checked = e.target.checked;
+            selectedFields[id] = checked;
+        };
+    
+        const handleGenerateReport = async function () {
+            try {
+                const selectedOption = document.getElementById('reportType').value;
+                if (!Object.values(selectedFields[selectedOption]).some(Boolean)) {
+                    throw new Error('Please select at least one field.');
+                }
+    
+                let endpoint;
+                if (selectedOption === 'New Profile') {
+                    endpoint = 'http://localhost:4000/candidate/reports/view-new-profile';
+                } else if (selectedOption === 'Contract report') {
+                    endpoint = 'http://localhost:4000/candidate/reports/contract';
+                }
+    
+                const token = localStorage.getItem('token');
+                const response = await axios.post(endpoint, { selectedFields: selectedFields[selectedOption] }, { headers: { "Authorization": token } });
+                if (!response.data || !response.data.reportData) {
+                    throw new Error('Error generating report');
+                }
+    
+                renderTable(response.data.reportData);
+            } catch (error) {
+                console.error('Error generating report:', error.message);
+            }
+        };
+    
+        const renderTable = function (data) {
+            const reportTableDiv = document.getElementById('reportTable');
+            reportTableDiv.innerHTML = '';
+    
+            if (data.length === 0) {
+                reportTableDiv.innerHTML = '<div>No data to display</div>';
+                return;
+            }
+    
+            const table = document.createElement('table');
+            table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+    
+            const columns = Object.keys(data[0]);
+    
+            const headerRow = document.createElement('tr');
+            columns.forEach((column) => {
+                const th = document.createElement('th');
+                th.textContent = column;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+    
+            data.forEach((rowData) => {
+                const row = document.createElement('tr');
+                columns.forEach((column) => {
+                    const td = document.createElement('td');
+                    td.textContent = rowData[column];
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+    
+            table.appendChild(thead);
+            table.appendChild(tbody);
+    
+            reportTableDiv.appendChild(table);
+    
+            // Add Export to Excel button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.className = 'btn btn-success';
+            exportButton.addEventListener('click', function () {
+                exportToExcel(data);
+            });
+            reportTableDiv.appendChild(exportButton);
+        };
+    
+        const exportToExcel = function (data) {
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
+            XLSX.writeFile(workbook, 'report.xlsx');
+        };
+    
+        document.getElementById('reportType').addEventListener('change', handleDropdownChange);
+        document.getElementById('generateReport').addEventListener('click', handleGenerateReport);
+    
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+    });
+    </script>
+
   
    
 

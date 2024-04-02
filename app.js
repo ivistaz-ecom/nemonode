@@ -87,279 +87,517 @@ app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});
 
 app.post('/search', async (req, res) => {
+    const userIdSearch = req.body.userId;
     const searchValue = req.body.search;
     try {
-        const userGroup = req.body.userGroup
-        if (userGroup !== 'admin') {
-            return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
-        }
+    const userGroup = req.body.userGroup
+    if (userGroup !== 'admin' && userGroup!=='vendor') {
+    return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
+    }
+    if(userGroup ==='admin'){
+    const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
+    Candidate.findAll({
+    where: {
+    [Op.or]: [
+    { candidateId: { [Op.like]: `%${searchValue}%` } },
+    { active_details: { [Op.like]: `%${searchValue}%` } },
+    { area_code1: { [Op.like]: `%${searchValue}%` } },
+    { area_code2: { [Op.like]: `%${searchValue}%` } },
+    { avb_date: { [Op.like]: `%${searchValue}%` } },
+    { birth_place: { [Op.like]: `%${searchValue}%` } },
+    { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
+    { category: { [Op.like]: `%${searchValue}%` } },
+    { company_status: { [Op.like]: `%${searchValue}%` } },
+    { createdby: { [Op.like]: `%${searchValue}%` } },
+    { cr_date: { [Op.like]: `%${searchValue}%` } },
+    { cr_time: { [Op.like]: `%${searchValue}%` } },
+    { c_ad1: { [Op.like]: `%${searchValue}%` } },
+    { c_ad2: { [Op.like]: `%${searchValue}%` } },
+    { c_city: { [Op.like]: `%${searchValue}%` } },
+    { c_mobi1: { [Op.like]: `%${searchValue}%` } },
+    { c_mobi2: { [Op.like]: `%${searchValue}%` } },
+    { c_pin: { [Op.like]: `%${searchValue}%` } },
+    { c_rank: { [Op.like]: `%${searchValue}%` } },
+    { c_state: { [Op.like]: `%${searchValue}%` } },
+    { c_tel1: { [Op.like]: `%${searchValue}%` } },
+    { c_tel2: { [Op.like]: `%${searchValue}%` } },
+    { c_vessel: { [Op.like]: `%${searchValue}%` } },
+    { dob: { [Op.like]: `%${searchValue}%` } },
+    { editedby: { [Op.like]: `%${searchValue}%` } },
+    { email1: { [Op.like]: `%${searchValue}%` } },
+    { email2: { [Op.like]: `%${searchValue}%` } },
+    { experience: { [Op.like]: `%${searchValue}%` } },
+    { fname: { [Op.like]: `%${searchValue}%` } },
+    { grade: { [Op.like]: `%${searchValue}%` } },
+    { height: { [Op.like]: `%${searchValue}%` } },
+    { imp_discussion: { [Op.like]: `%${searchValue}%` } },
+    { indos_number: { [Op.like]: `%${searchValue}%` } },
+    { ipadress: { [Op.like]: `%${searchValue}%` } },
+    { joined_date: { [Op.like]: `%${searchValue}%` } },
+    { last_company: { [Op.like]: `%${searchValue}%` } },
+    { last_salary: { [Op.like]: `%${searchValue}%` } },
+    { las_date: { [Op.like]: `%${searchValue}%` } },
+    { las_time: { [Op.like]: `%${searchValue}%` } },
+    { lname: { [Op.like]: `%${searchValue}%` } },
+    { l_country: { [Op.like]: `%${searchValue}%` } },
+    { mobile_code1: { [Op.like]: `%${searchValue}%` } },
+    { mobile_code2: { [Op.like]: `%${searchValue}%` } },
+    { m_status: { [Op.like]: `%${searchValue}%` } },
+    { nationality: { [Op.like]: `%${searchValue}%` } },
+    { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
+    { other_numbers: { [Op.like]: `%${searchValue}%` } },
+    { photos: { [Op.like]: `%${searchValue}%` } },
+    { p_ad1: { [Op.like]: `%${searchValue}%` } },
+    { p_ad2: { [Op.like]: `%${searchValue}%` } },
+    { p_city: { [Op.like]: `%${searchValue}%` } },
+    { p_country: { [Op.like]: `%${searchValue}%` } },
+    { p_mobi1: { [Op.like]: `%${searchValue}%` } },
+    { p_mobi2: { [Op.like]: `%${searchValue}%` } },
+    { p_pin: { [Op.like]: `%${searchValue}%` } },
+    { p_rank: { [Op.like]: `%${searchValue}%` } },
+    { p_state: { [Op.like]: `%${searchValue}%` } },
+    { p_tel1: { [Op.like]: `%${searchValue}%` } },
+    { p_tel2: { [Op.like]: `%${searchValue}%` } },
+    { ref_check: { [Op.like]: `%${searchValue}%` } },
+    { resume: { [Op.like]: `%${searchValue}%` } },
+    { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
+    { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
+    { skype: { [Op.like]: `%${searchValue}%` } },
+    { stcw: { [Op.like]: `%${searchValue}%` } },
+    { weight: { [Op.like]: `%${searchValue}%` } },
+    { work_nautilus: { [Op.like]: `%${searchValue}%` } },
+    { zone: { [Op.like]: `%${searchValue}%` } },
+    { group: { [Op.like]: `%${searchValue}%` } },
+    { vendor: { [Op.like]: `%${searchValue}%` } },
+    ]
+    },
+    include: [
+    discussionplus,
+    contract,
+    cdocument,
+    bank,
+    travel,
+    medical,
+    NKD, // Include CandidateNkds here
+    // Add more models to include here...
+    ]
+    }),
+    NKD.findAll({
+    where: {
+    [Op.or]: [
+    { candidateId: { [Op.like]: `%${searchValue}%` } },
+    { kin_name: { [Op.like]: `%${searchValue}%` } },
+    { kin_relation: { [Op.like]: `%${searchValue}%` } },
+    { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
+    { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
+    { kin_priority: { [Op.like]: `%${searchValue}%` } },
+    // Add more conditions for NKD model...
+    ]
+    },
+    }),
+    bank.findAll({
+    where: {
+    [Op.or]: [
+    { bank_name: { [Op.like]: `%${searchValue}%` } },
+    { account_num: { [Op.like]: `%${searchValue}%` } },
+    { bank_addr: { [Op.like]: `%${searchValue}%` } },
+    { ifsc_code: { [Op.like]: `%${searchValue}%` } },
+    { swift_code: { [Op.like]: `%${searchValue}%` } },
+    { beneficiary: { [Op.like]: `%${searchValue}%` } },
+    { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
+    { pan_num: { [Op.like]: `%${searchValue}%` } },
+    { passbook: { [Op.like]: `%${searchValue}%` } },
+    { pan_card: { [Op.like]: `%${searchValue}%` } },
+    { branch: { [Op.like]: `%${searchValue}%` } },
+    { types: { [Op.like]: `%${searchValue}%` } },
+    { created_by: { [Op.like]: `%${searchValue}%` } },
+    // Add more conditions for Bank model...
+    ],
+    },
+    }),
+    medical.findAll({
+    where: {
+    [Op.or]: [
+    { hospitalName: { [Op.like]: `%${searchValue}%` } },
+    { place: { [Op.like]: `%${searchValue}%` } },
+    { date: { [Op.like]: `%${searchValue}%` } },
+    { expiry_date: { [Op.like]: `%${searchValue}%` } },
+    { done_by: { [Op.like]: `%${searchValue}%` } },
+    { status: { [Op.like]: `%${searchValue}%` } },
+    { amount: { [Op.like]: `%${searchValue}%` } },
+    { upload: { [Op.like]: `%${searchValue}%` } },
+    { created_by: { [Op.like]: `%${searchValue}%` } },
+    
+    // Add more conditions for Medical model...
+    ],
+    },
+    }),
+    travel.findAll({
+    where: {
+    [Op.or]: [
+    { travel_date: { [Op.like]: `%${searchValue}%` } },
+    { travel_from: { [Op.like]: `%${searchValue}%` } },
+    { travel_to: { [Op.like]: `%${searchValue}%` } },
+    { travel_mode: { [Op.like]: `%${searchValue}%` } },
+    { travel_status: { [Op.like]: `%${searchValue}%` } },
+    { ticket_number: { [Op.like]: `%${searchValue}%` } },
+    { agent_name: { [Op.like]: `%${searchValue}%` } },
+    { portAgent: { [Op.like]: `%${searchValue}%` } },
+    { travel_amount: { [Op.like]: `%${searchValue}%` } },
+    {reason: { [Op.like]: `%${searchValue}%` } },
+    { created_by: { [Op.like]: `%${searchValue}%` } },
+    
+    
+    // Add more conditions for Travel model...
+    ],
+    },
+    }),
+    contract.findAll({
+    where: {
+    [Op.or]: [
+    { rank: { [Op.like]: `%${searchValue}%` } },
+    { company: { [Op.like]: `%${searchValue}%` } },
+    { vslName: { [Op.like]: `%${searchValue}%` } },
+    { vesselType: { [Op.like]: `%${searchValue}%` } },
+    { sign_on_port: { [Op.like]: `%${searchValue}%` } },
+    { sign_on: { [Op.like]: `%${searchValue}%` } },
+    { wages: { [Op.like]: `%${searchValue}%` } },
+    { wage_start: { [Op.like]: `%${searchValue}%` } },
+    { eoc: { [Op.like]: `%${searchValue}%` } },
+    { currency: { [Op.like]: `%${searchValue}%` } },
+    { wages_types: { [Op.like]: `%${searchValue}%` } },
+    { sign_off_port: { [Op.like]: `%${searchValue}%` } },
+    { sign_off: { [Op.like]: `%${searchValue}%` } },
+    { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
+    { documents: { [Op.like]: `%${searchValue}%` } },
+    { aoa: { [Op.like]: `%${searchValue}%` } },
+    { aoa_number: { [Op.like]: `%${searchValue}%` } },
+    { emigrate_number: { [Op.like]: `%${searchValue}%` } },
+    { created_by: { [Op.like]: `%${searchValue}%` } },
+    
+    // Add more conditions for Contract model...
+    ]
+    },
+    }),
+    cdocument.findAll({
+    where: {
+    [Op.or]: [
+    { document: { [Op.like]: `%${searchValue}%` } },
+    { document_number: { [Op.like]: `%${searchValue}%` } },
+    { issue_date: { [Op.like]: `%${searchValue}%` } },
+    { issue_place: { [Op.like]: `%${searchValue}%` } },
+    { expiry_date: { [Op.like]: `%${searchValue}%` } },
+    { document_files: { [Op.like]: `%${searchValue}%` } },
+    { stcw: { [Op.like]: `%${searchValue}%` } },
+    // Add more conditions for cDocument model...
+    ]
+    },
+    })
+    
+    
+    ]);
+    
+    // Check if there are any results
+    const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
+    
+    if (hasResults) {
+    console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
+    res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
+    } else {
+    console.log('No results found');
+    res.json({ success: false, message: 'No results found' });
+    }
+}
+else if(userGroup === 'vendor'){
+    const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
+        Candidate.findAll({
+        where: {
+            userId: userIdSearch,
+        [Op.or]: [
+        { candidateId: { [Op.like]: `%${searchValue}%` } },
+        { active_details: { [Op.like]: `%${searchValue}%` } },
+        { area_code1: { [Op.like]: `%${searchValue}%` } },
+        { area_code2: { [Op.like]: `%${searchValue}%` } },
+        { avb_date: { [Op.like]: `%${searchValue}%` } },
+        { birth_place: { [Op.like]: `%${searchValue}%` } },
+        { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
+        { category: { [Op.like]: `%${searchValue}%` } },
+        { company_status: { [Op.like]: `%${searchValue}%` } },
+        { createdby: { [Op.like]: `%${searchValue}%` } },
+        { cr_date: { [Op.like]: `%${searchValue}%` } },
+        { cr_time: { [Op.like]: `%${searchValue}%` } },
+        { c_ad1: { [Op.like]: `%${searchValue}%` } },
+        { c_ad2: { [Op.like]: `%${searchValue}%` } },
+        { c_city: { [Op.like]: `%${searchValue}%` } },
+        { c_mobi1: { [Op.like]: `%${searchValue}%` } },
+        { c_mobi2: { [Op.like]: `%${searchValue}%` } },
+        { c_pin: { [Op.like]: `%${searchValue}%` } },
+        { c_rank: { [Op.like]: `%${searchValue}%` } },
+        { c_state: { [Op.like]: `%${searchValue}%` } },
+        { c_tel1: { [Op.like]: `%${searchValue}%` } },
+        { c_tel2: { [Op.like]: `%${searchValue}%` } },
+        { c_vessel: { [Op.like]: `%${searchValue}%` } },
+        { dob: { [Op.like]: `%${searchValue}%` } },
+        { editedby: { [Op.like]: `%${searchValue}%` } },
+        { email1: { [Op.like]: `%${searchValue}%` } },
+        { email2: { [Op.like]: `%${searchValue}%` } },
+        { experience: { [Op.like]: `%${searchValue}%` } },
+        { fname: { [Op.like]: `%${searchValue}%` } },
+        { grade: { [Op.like]: `%${searchValue}%` } },
+        { height: { [Op.like]: `%${searchValue}%` } },
+        { imp_discussion: { [Op.like]: `%${searchValue}%` } },
+        { indos_number: { [Op.like]: `%${searchValue}%` } },
+        { ipadress: { [Op.like]: `%${searchValue}%` } },
+        { joined_date: { [Op.like]: `%${searchValue}%` } },
+        { last_company: { [Op.like]: `%${searchValue}%` } },
+        { last_salary: { [Op.like]: `%${searchValue}%` } },
+        { las_date: { [Op.like]: `%${searchValue}%` } },
+        { las_time: { [Op.like]: `%${searchValue}%` } },
+        { lname: { [Op.like]: `%${searchValue}%` } },
+        { l_country: { [Op.like]: `%${searchValue}%` } },
+        { mobile_code1: { [Op.like]: `%${searchValue}%` } },
+        { mobile_code2: { [Op.like]: `%${searchValue}%` } },
+        { m_status: { [Op.like]: `%${searchValue}%` } },
+        { nationality: { [Op.like]: `%${searchValue}%` } },
+        { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
+        { other_numbers: { [Op.like]: `%${searchValue}%` } },
+        { photos: { [Op.like]: `%${searchValue}%` } },
+        { p_ad1: { [Op.like]: `%${searchValue}%` } },
+        { p_ad2: { [Op.like]: `%${searchValue}%` } },
+        { p_city: { [Op.like]: `%${searchValue}%` } },
+        { p_country: { [Op.like]: `%${searchValue}%` } },
+        { p_mobi1: { [Op.like]: `%${searchValue}%` } },
+        { p_mobi2: { [Op.like]: `%${searchValue}%` } },
+        { p_pin: { [Op.like]: `%${searchValue}%` } },
+        { p_rank: { [Op.like]: `%${searchValue}%` } },
+        { p_state: { [Op.like]: `%${searchValue}%` } },
+        { p_tel1: { [Op.like]: `%${searchValue}%` } },
+        { p_tel2: { [Op.like]: `%${searchValue}%` } },
+        { ref_check: { [Op.like]: `%${searchValue}%` } },
+        { resume: { [Op.like]: `%${searchValue}%` } },
+        { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
+        { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
+        { skype: { [Op.like]: `%${searchValue}%` } },
+        { stcw: { [Op.like]: `%${searchValue}%` } },
+        { weight: { [Op.like]: `%${searchValue}%` } },
+        { work_nautilus: { [Op.like]: `%${searchValue}%` } },
+        { zone: { [Op.like]: `%${searchValue}%` } },
+        { group: { [Op.like]: `%${searchValue}%` } },
+        { vendor: { [Op.like]: `%${searchValue}%` } },
+        ]
+        },
+        include: [
+        discussionplus,
+        contract,
+        cdocument,
+        bank,
+        travel,
+        medical,
+        NKD, // Include CandidateNkds here
+        // Add more models to include here...
+        ]
+        }),
+        NKD.findAll({
+        where: {
+        [Op.or]: [
+        { candidateId: { [Op.like]: `%${searchValue}%` } },
+        { kin_name: { [Op.like]: `%${searchValue}%` } },
+        { kin_relation: { [Op.like]: `%${searchValue}%` } },
+        { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
+        { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
+        { kin_priority: { [Op.like]: `%${searchValue}%` } },
+        // Add more conditions for NKD model...
+        ]
+        },
+        }),
+        bank.findAll({
+        where: {
+        [Op.or]: [
+        { bank_name: { [Op.like]: `%${searchValue}%` } },
+        { account_num: { [Op.like]: `%${searchValue}%` } },
+        { bank_addr: { [Op.like]: `%${searchValue}%` } },
+        { ifsc_code: { [Op.like]: `%${searchValue}%` } },
+        { swift_code: { [Op.like]: `%${searchValue}%` } },
+        { beneficiary: { [Op.like]: `%${searchValue}%` } },
+        { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
+        { pan_num: { [Op.like]: `%${searchValue}%` } },
+        { passbook: { [Op.like]: `%${searchValue}%` } },
+        { pan_card: { [Op.like]: `%${searchValue}%` } },
+        { branch: { [Op.like]: `%${searchValue}%` } },
+        { types: { [Op.like]: `%${searchValue}%` } },
+        { created_by: { [Op.like]: `%${searchValue}%` } },
+        // Add more conditions for Bank model...
+        ],
+        },
+        }),
+        medical.findAll({
+        where: {
+        [Op.or]: [
+        { hospitalName: { [Op.like]: `%${searchValue}%` } },
+        { place: { [Op.like]: `%${searchValue}%` } },
+        { date: { [Op.like]: `%${searchValue}%` } },
+        { expiry_date: { [Op.like]: `%${searchValue}%` } },
+        { done_by: { [Op.like]: `%${searchValue}%` } },
+        { status: { [Op.like]: `%${searchValue}%` } },
+        { amount: { [Op.like]: `%${searchValue}%` } },
+        { upload: { [Op.like]: `%${searchValue}%` } },
+        { created_by: { [Op.like]: `%${searchValue}%` } },
         
-        const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
-            Candidate.findAll({
-                where: {
-                    [Op.or]: [
-                        { candidateId: { [Op.like]: `%${searchValue}%` } },
-                                              { active_details: { [Op.like]: `%${searchValue}%` } },
-                                              { area_code1: { [Op.like]: `%${searchValue}%` } },
-                                              { area_code2: { [Op.like]: `%${searchValue}%` } },
-                                              { avb_date: { [Op.like]: `%${searchValue}%` } },
-                                              { birth_place: { [Op.like]: `%${searchValue}%` } },
-                                              { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
-                                              { category: { [Op.like]: `%${searchValue}%` } },
-                                              { company_status: { [Op.like]: `%${searchValue}%` } },
-                                              { createdby: { [Op.like]: `%${searchValue}%` } },
-                                              { cr_date: { [Op.like]: `%${searchValue}%` } },
-                                              { cr_time: { [Op.like]: `%${searchValue}%` } },
-                                              { c_ad1: { [Op.like]: `%${searchValue}%` } },
-                                              { c_ad2: { [Op.like]: `%${searchValue}%` } },
-                                              { c_city: { [Op.like]: `%${searchValue}%` } },
-                                              { c_mobi1: { [Op.like]: `%${searchValue}%` } },
-                                              { c_mobi2: { [Op.like]: `%${searchValue}%` } },
-                                              { c_pin: { [Op.like]: `%${searchValue}%` } },
-                                              { c_rank: { [Op.like]: `%${searchValue}%` } },
-                                              { c_state: { [Op.like]: `%${searchValue}%` } },
-                                              { c_tel1: { [Op.like]: `%${searchValue}%` } },
-                                              { c_tel2: { [Op.like]: `%${searchValue}%` } },
-                                              { c_vessel: { [Op.like]: `%${searchValue}%` } },
-                                              { dob: { [Op.like]: `%${searchValue}%` } },
-                                              { editedby: { [Op.like]: `%${searchValue}%` } },
-                                              { email1: { [Op.like]: `%${searchValue}%` } },
-                                              { email2: { [Op.like]: `%${searchValue}%` } },
-                                              { experience: { [Op.like]: `%${searchValue}%` } },
-                                              { fname: { [Op.like]: `%${searchValue}%` } },
-                                              { grade: { [Op.like]: `%${searchValue}%` } },
-                                              { height: { [Op.like]: `%${searchValue}%` } },
-                                              { imp_discussion: { [Op.like]: `%${searchValue}%` } },
-                                              { indos_number: { [Op.like]: `%${searchValue}%` } },
-                                              { ipadress: { [Op.like]: `%${searchValue}%` } },
-                                              { joined_date: { [Op.like]: `%${searchValue}%` } },
-                                              { last_company: { [Op.like]: `%${searchValue}%` } },
-                                              { last_salary: { [Op.like]: `%${searchValue}%` } },
-                                              { las_date: { [Op.like]: `%${searchValue}%` } },
-                                              { las_time: { [Op.like]: `%${searchValue}%` } },
-                                              { lname: { [Op.like]: `%${searchValue}%` } },
-                                              { l_country: { [Op.like]: `%${searchValue}%` } },
-                                              { mobile_code1: { [Op.like]: `%${searchValue}%` } },
-                                              { mobile_code2: { [Op.like]: `%${searchValue}%` } },
-                                              { m_status: { [Op.like]: `%${searchValue}%` } },
-                                              { nationality: { [Op.like]: `%${searchValue}%` } },
-                                              { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
-                                              { other_numbers: { [Op.like]: `%${searchValue}%` } },
-                                              { photos: { [Op.like]: `%${searchValue}%` } },
-                                              { p_ad1: { [Op.like]: `%${searchValue}%` } },
-                                              { p_ad2: { [Op.like]: `%${searchValue}%` } },
-                                              { p_city: { [Op.like]: `%${searchValue}%` } },
-                                              { p_country: { [Op.like]: `%${searchValue}%` } },
-                                              { p_mobi1: { [Op.like]: `%${searchValue}%` } },
-                                              { p_mobi2: { [Op.like]: `%${searchValue}%` } },
-                                              { p_pin: { [Op.like]: `%${searchValue}%` } },
-                                              { p_rank: { [Op.like]: `%${searchValue}%` } },
-                                              { p_state: { [Op.like]: `%${searchValue}%` } },
-                                              { p_tel1: { [Op.like]: `%${searchValue}%` } },
-                                              { p_tel2: { [Op.like]: `%${searchValue}%` } },
-                                              { ref_check: { [Op.like]: `%${searchValue}%` } },
-                                              { resume: { [Op.like]: `%${searchValue}%` } },
-                                              { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
-                                              { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
-                                              { skype: { [Op.like]: `%${searchValue}%` } },
-                                              { stcw: { [Op.like]: `%${searchValue}%` } },
-                                              { weight: { [Op.like]: `%${searchValue}%` } },
-                                              { work_nautilus: { [Op.like]: `%${searchValue}%` } },
-                                              { zone: { [Op.like]: `%${searchValue}%` } },
-                                              { group: { [Op.like]: `%${searchValue}%` } },
-                                              { vendor: { [Op.like]: `%${searchValue}%` } },
-                    ]
-                },
-                include: [
-                    discussionplus,
-                    contract,
-                    cdocument,
-                    bank,
-                    travel,
-                    medical,
-                    NKD, // Include CandidateNkds here
-                    // Add more models to include here...
-                ]
-            }),
-            NKD.findAll({
-                where: {
-                    [Op.or]: [
-                        { candidateId: { [Op.like]: `%${searchValue}%` } },
-                        { kin_name: { [Op.like]: `%${searchValue}%` } },
-                        { kin_relation: { [Op.like]: `%${searchValue}%` } },
-                        { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
-                        { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
-                        { kin_priority: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for NKD model...
-                    ]
-                },
-            }),
-            bank.findAll({
-                where: {
-                    [Op.or]: [
-                        { bank_name: { [Op.like]: `%${searchValue}%` } },
-                        { account_num: { [Op.like]: `%${searchValue}%` } },
-                        { bank_addr: { [Op.like]: `%${searchValue}%` } },
-                        { ifsc_code: { [Op.like]: `%${searchValue}%` } },
-                        { swift_code: { [Op.like]: `%${searchValue}%` } },
-                        { beneficiary: { [Op.like]: `%${searchValue}%` } },
-                        { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
-                        { pan_num: { [Op.like]: `%${searchValue}%` } },
-                        { passbook: { [Op.like]: `%${searchValue}%` } },
-                        { pan_card: { [Op.like]: `%${searchValue}%` } },
-                        { nri_bank_name: { [Op.like]: `%${searchValue}%` } },
-                        { nri_account_num: { [Op.like]: `%${searchValue}%` } },
-                        { nri_bank_addr: { [Op.like]: `%${searchValue}%` } },
-                        { nri_ifsc_code: { [Op.like]: `%${searchValue}%` } },
-                        { nri_swift_code: { [Op.like]: `%${searchValue}%` } },
-                        { nri_beneficiary: { [Op.like]: `%${searchValue}%` } },
-                        { nri_beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
-                        { nri_passbook: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for Bank model...
-                    ],
-                },
-            }),
-            medical.findAll({
-                where: {
-                    [Op.or]: [
-                        { hospitalName: { [Op.like]: `%${searchValue}%` } },
-                        { place: { [Op.like]: `%${searchValue}%` } },
-                        { date: { [Op.like]: `%${searchValue}%` } },
-                        { expiry_date: { [Op.like]: `%${searchValue}%` } },
-                        { done_by: { [Op.like]: `%${searchValue}%` } },
-                        { status: { [Op.like]: `%${searchValue}%` } },
-                        { amount: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for Medical model...
-                    ],
-                },
-            }),
-            travel.findAll({
-                where: {
-                    [Op.or]: [
-                        { travel_date: { [Op.like]: `%${searchValue}%` } },
-                        { travel_from: { [Op.like]: `%${searchValue}%` } },
-                        { travel_to: { [Op.like]: `%${searchValue}%` } },
-                        { travel_mode: { [Op.like]: `%${searchValue}%` } },
-                        { travel_status: { [Op.like]: `%${searchValue}%` } },
-                        { ticket_number: { [Op.like]: `%${searchValue}%` } },
-                        { agent_name: { [Op.like]: `%${searchValue}%` } },
-                        { portAgent: { [Op.like]: `%${searchValue}%` } },
-                        { travel_amount: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for Travel model...
-                    ],
-                },
-            }),
-            contract.findAll({
-                where: {
-                    [Op.or]: [
-                        { rank: { [Op.like]: `%${searchValue}%` } },
-                        { company: { [Op.like]: `%${searchValue}%` } },
-                        { vslName: { [Op.like]: `%${searchValue}%` } },
-                        { vesselType: { [Op.like]: `%${searchValue}%` } },
-                        { sign_on_port: { [Op.like]: `%${searchValue}%` } },
-                        { wages: { [Op.like]: `%${searchValue}%` } },
-                        { currency: { [Op.like]: `%${searchValue}%` } },
-                        { wages_types: { [Op.like]: `%${searchValue}%` } },
-                        { sign_off_port: { [Op.like]: `%${searchValue}%` } },
-                        { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
-                        { documents: { [Op.like]: `%${searchValue}%` } },
-                        { aoa: { [Op.like]: `%${searchValue}%` } },
-                        { aoa_number: { [Op.like]: `%${searchValue}%` } },
-                        { emigrate_number: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for Contract model...
-                    ]
-                },
-            }),
-            cdocument.findAll({
-                where: {
-                    [Op.or]: [
-                        { document: { [Op.like]: `%${searchValue}%` } },
-                        { document_number: { [Op.like]: `%${searchValue}%` } },
-                        { issue_date: { [Op.like]: `%${searchValue}%` } },
-                        { issue_place: { [Op.like]: `%${searchValue}%` } },
-                        { document_files: { [Op.like]: `%${searchValue}%` } },
-                        { stcw: { [Op.like]: `%${searchValue}%` } },
-                        // Add more conditions for cDocument model...
-                    ]
-                },
-            })
-            
-
+        // Add more conditions for Medical model...
+        ],
+        },
+        }),
+        travel.findAll({
+        where: {
+        [Op.or]: [
+        { travel_date: { [Op.like]: `%${searchValue}%` } },
+        { travel_from: { [Op.like]: `%${searchValue}%` } },
+        { travel_to: { [Op.like]: `%${searchValue}%` } },
+        { travel_mode: { [Op.like]: `%${searchValue}%` } },
+        { travel_status: { [Op.like]: `%${searchValue}%` } },
+        { ticket_number: { [Op.like]: `%${searchValue}%` } },
+        { agent_name: { [Op.like]: `%${searchValue}%` } },
+        { portAgent: { [Op.like]: `%${searchValue}%` } },
+        { travel_amount: { [Op.like]: `%${searchValue}%` } },
+        {reason: { [Op.like]: `%${searchValue}%` } },
+        { created_by: { [Op.like]: `%${searchValue}%` } },
+        
+        
+        // Add more conditions for Travel model...
+        ],
+        },
+        }),
+        contract.findAll({
+        where: {
+        [Op.or]: [
+        { rank: { [Op.like]: `%${searchValue}%` } },
+        { company: { [Op.like]: `%${searchValue}%` } },
+        { vslName: { [Op.like]: `%${searchValue}%` } },
+        { vesselType: { [Op.like]: `%${searchValue}%` } },
+        { sign_on_port: { [Op.like]: `%${searchValue}%` } },
+        { sign_on: { [Op.like]: `%${searchValue}%` } },
+        { wages: { [Op.like]: `%${searchValue}%` } },
+        { wage_start: { [Op.like]: `%${searchValue}%` } },
+        { eoc: { [Op.like]: `%${searchValue}%` } },
+        { currency: { [Op.like]: `%${searchValue}%` } },
+        { wages_types: { [Op.like]: `%${searchValue}%` } },
+        { sign_off_port: { [Op.like]: `%${searchValue}%` } },
+        { sign_off: { [Op.like]: `%${searchValue}%` } },
+        { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
+        { documents: { [Op.like]: `%${searchValue}%` } },
+        { aoa: { [Op.like]: `%${searchValue}%` } },
+        { aoa_number: { [Op.like]: `%${searchValue}%` } },
+        { emigrate_number: { [Op.like]: `%${searchValue}%` } },
+        { created_by: { [Op.like]: `%${searchValue}%` } },
+        
+        // Add more conditions for Contract model...
+        ]
+        },
+        }),
+        cdocument.findAll({
+        where: {
+        [Op.or]: [
+        { document: { [Op.like]: `%${searchValue}%` } },
+        { document_number: { [Op.like]: `%${searchValue}%` } },
+        { issue_date: { [Op.like]: `%${searchValue}%` } },
+        { issue_place: { [Op.like]: `%${searchValue}%` } },
+        { expiry_date: { [Op.like]: `%${searchValue}%` } },
+        { document_files: { [Op.like]: `%${searchValue}%` } },
+        { stcw: { [Op.like]: `%${searchValue}%` } },
+        // Add more conditions for cDocument model...
+        ]
+        },
+        })
+        
+        
         ]);
-
+        
         // Check if there are any results
         const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
-
+        
         if (hasResults) {
-            console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
-            res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
+        console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
+        res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
         } else {
-            console.log('No results found');
-            res.json({ success: false, message: 'No results found' });
+        console.log('No results found');
+        res.json({ success: false, message: 'No results found' });
         }
+}
+else{
+    console.log('No results found');
+    res.json({ success: false, message: 'No results found' });
+}
     } catch (error) {
-        console.error('Error in search operation:', error);
-        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error('Error in search operation:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
-});
+    });
+    
 
-
-
-
-app.post('/searchspl', async (req, res) => {
+    
+    app.post('/searchspl', async (req, res) => {
     try {
-      const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date } = req.body;
-      const searchCriteria = {}; 
-      if (nemoId) {
-        searchCriteria.candidateId = nemoId;
-      }
-      if (name) {
-        searchCriteria.fname = name;
-      }
-      if (rank) {
-        searchCriteria.c_rank = rank;
-      }
-      if (vsl) {
-        searchCriteria.c_vessel = vsl;
-      }
-      if (experience) {
-        searchCriteria.experience = experience;
-      }
-      if (grade) {
-        searchCriteria.grade = grade;
-      }
-      if (status) {
-        searchCriteria.company_status = status;
-      }
-      if (license) {
-        searchCriteria.l_country = license;
-      }
-      if (zone) {
-        searchCriteria.zone = zone;
-      }
-      if (avb_date) {
-        // Assuming 'avb_date' is the column name for the start date
+    const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date,group } = req.body;
+    const searchCriteria = {};
+    if (nemoId) {
+    searchCriteria.candidateId = nemoId;
+    }
+    if (name) {
+    searchCriteria.fname = name;
+    }
+    if (rank) {
+    searchCriteria.c_rank = rank;
+    }
+    if (vsl) {
+    searchCriteria.c_vessel = vsl;
+    }
+    if (experience) {
+    searchCriteria.experience = experience;
+    }
+    if (grade) {
+    searchCriteria.grade = grade;
+    }
+    if (status) {
+    searchCriteria.company_status = status;
+    }
+    if (license) {
+    searchCriteria.l_country = license;
+    }
+    if (zone) {
+    searchCriteria.zone = zone;
+    }
+    if(group)
+    {
+    searchCriteria.group = group
+    }
+    if (avb_date && las_date) {
         searchCriteria.avb_date = {
-          [Op.gte]: avb_date
-        }
+            [Op.between]: [avb_date, las_date]
+        };
+    } else if (avb_date) {
+        // If only avb_date is provided, search for candidates with avb_date equal to or greater than avb_date
+        searchCriteria.avb_date = {
+            [Op.gte]: avb_date
+        };
+    } else if (las_date) {
+        // If only las_date is provided, search for candidates with las_date equal to or less than las_date
+        searchCriteria.avb_date = {
+            [Op.lte]: las_date
+        };
     }
-        if(las_date){
-            searchCriteria.las_date={
-                [Op.lte]:las_date
-            }
-        }
-  
-      // Perform the search
-      const results = await Candidate.findAll({
-        where: searchCriteria
-      });
-  
-      res.json(results);
+    
+    
+    // Perform the search
+    const results = await Candidate.findAll({
+    where: searchCriteria
+    });
+    
+    res.json(results);
     } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+    });
 
 
 

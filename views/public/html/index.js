@@ -75,7 +75,7 @@ document.getElementById("logout").addEventListener("click", function() {
   // Display the modal with initial message
   var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
   myModal.show();
-
+  localStorage.clear();
   // Change the message and spinner after a delay
   setTimeout(function() {
       document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
@@ -116,7 +116,7 @@ setInterval(updateDateTime, 1000);
 
 const fetchCandidates = async () => {
   try {
-    const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
+    const response = await axios.get(`http://localhost:4000/candidate/view-candidate`, { headers: { "Authorization": token } });
     const candidateData = response.data;
 
     // Filter candidates based on company_status and count active and inactive candidates

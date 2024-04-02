@@ -31,7 +31,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Company - Nsnemo</title>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -389,28 +388,6 @@
 
 
 
-             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Vendor Management</span>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Vendor</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="add-vendor.html" class="menu-link">
-                    <div data-i18n="Account">Add</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="add-user.html" class="menu-link">
-                    <div data-i18n="Account">List</div>
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
 
 
             <li class="menu-header small text-uppercase">
@@ -1167,7 +1144,42 @@
                                             </div>
                                         </div>
                                         <div class="card-body pb-0">
-                                            <div class="row">
+                                          <div class="row">
+                                              <div class="col-md-6 mb-0">
+                                                  <div class="form-floating">
+                                                      <input
+                                                          type="text"
+                                                          class="form-control"
+                                                          id="edit_candidate_email1"
+                                                          placeholder="Field X"
+                                                          aria-describedby="fieldX_1_Help"
+                                                          required
+                                                      />
+                                                      <label for="edit_candidate_email1">Email</label>
+                                                  </div>
+                                              </div>
+                      
+                                              <div class="col-md-6 mb-0">
+                                                  <div class="form-floating">
+                                                      <input
+                                                          type="text"
+                                                          class="form-control mb-4"
+                                                          id="edit_candidate_email2"
+                                                          placeholder="Field X"
+                                                          aria-describedby="fieldX_2_Help"
+                                                          required
+                                                      />
+                                                      <label for="edit_candidate_email2">Email</label>
+                                                  </div>
+                                                  
+                                              </div>
+
+                                          </div>
+                                          <button type="submit" class="btn btn-primary">Edit Personnel</button>
+
+                                      </div>
+                                        <div class="card-body pb-0">
+                                            <div class="row" style="display: none;">
                                                 <div class="col-md-6 mb-0">
                                                     <div class="form-floating">
                                                         <input
@@ -1176,7 +1188,7 @@
                                                             id="edit_candidate_c_tel1"
                                                             placeholder="Field X"
                                                             aria-describedby="fieldX_1_Help"
-                                                            required
+                                                          
                                                         />
                                                         <label for="edit_candidate_c_tel1">Landline</label>
                                                     </div>
@@ -1190,7 +1202,7 @@
                                                             id="edit_candidate_c_tel2"
                                                             placeholder="Field X"
                                                             aria-describedby="fieldX_2_Help"
-                                                            required
+                                                            
                                                         />
                                                         <label for="edit_candidate_c_tel2">Landline</label>
                                                     </div>
@@ -1199,41 +1211,7 @@
                                         </div>
                                         <!-- Repeat the card-body block for each set of fields -->
                         
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_email1"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_email1">Email</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control mb-4"
-                                                            id="edit_candidate_email2"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_email2">Email</label>
-                                                    </div>
-                                                    
-                                                </div>
-
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Edit Personnel</button>
-
-                                        </div>
+                                        
                                         <input type="hidden" placeholder="Enter active details" id="edit_candidate_active_details" required>
                         <input type="hidden" placeholder="Enter area code1" id="edit_candidate_area_code1" required>
                         <input type="hidden" placeholder="Enter area code2" id="edit_candidate_area_code2" required>
@@ -1281,7 +1259,6 @@
                                     <form id="discussionForm" class=" h-100">
                                         <h5 class="card-header">Last Call</h5>
             
-                                        <div class="form-control mt-3 me-3 ms-3 " style="width:94%" id="discussionContainer"></div>
                         
                                     <div class="card-body pb-0">
                                         <div class="row">
@@ -1365,6 +1342,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                         
                                     
@@ -1391,7 +1369,7 @@
                     <input type="checkbox" id="rejected" name="rejected" class="form-check-input">
                     <label class="form-check-label" for="rejected">Rejected</label>
                 </div>
-        
+                
                 <hr>
         
                 <div class="form-check mb-3">
@@ -1424,6 +1402,8 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Edit Discussion</button>
+
+                <div class="form-control mt-3 me-3 ms-3 " style="width:94%" id="discussionContainer">Hi</div>
 
                 
             </form>
@@ -1724,7 +1704,9 @@
                                         <!-- Contract information content -->
                                     </div>
                                 </div>
+                                
                             </div>
+                            
                         </div>
                     
 

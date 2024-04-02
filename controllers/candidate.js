@@ -228,6 +228,7 @@ const getAllCandidates = async (req, res) => {
 
         userGroup = user.dataValues.userGroup;
         let Write = user.dataValues.Write;
+        let readOnly = user.dataValues.readOnly;
         console.log('User Group:', userGroup);
 
         let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
@@ -459,6 +460,54 @@ const new_profile = async (req, res) => {
 
         res.status(200).json({
             candidates: allCandidates,
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
+    }
+};
+
+const contract = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        let userGroup;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+
+        userGroup = user.dataValues.userGroup;
+        let reports = user.dataValues.reports;
+        console.log('User Group:', userGroup);
+        // Check if the user is authorized to access contract data
+        if (userGroup !== 'admin' && userGroup !== 'vendor') {
+            return res.status(403).json({ message: 'Unauthorized', success: false });
+        }
+
+        // Define includeModels and selectedFields based on your requirements
+
+        let allContracts;
+        if (userGroup === 'admin') {
+            // If the user is an admin, fetch all contracts
+            allContracts = await Contract.findAll({
+                include: includeModels,
+                attributes: selectedFields,
+            });
+        } else if (userGroup === 'vendor' && reports) {
+            // If the user is a vendor, fetch contracts associated with the user
+            allContracts = await Contract.findAll({
+                where: {
+                    created_by: userId,
+                },
+                include: includeModels,
+                attributes: selectedFields,
+            });
+        }
+
+        res.status(200).json({
+            contracts: allContracts,
             success: true,
         });
     } catch (error) {
@@ -1775,5 +1824,6 @@ module.exports = {
     getCallCount,
     countOperations,
     calls_made,
-    getSea
+    getSea,
+    contract
 };
