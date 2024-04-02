@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function fetchAndDisplayExp() {
         try {
-            const serverResponse = await axios.get(`https://nemonode.ivistaz.co/others/get-experiences`);
+            const serverResponse = await axios.get(`http://localhost:4000/others/get-experiences`);
             console.log(serverResponse.data)
 
             const experiences = serverResponse.data.experiences;
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded',async function ()
     
     async function fetchData() {
         try {
-            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-c-candidate/${candidateId}`, {
+            const response = await axios.get(`http://localhost:4000/candidate/get-c-candidate/${candidateId}`, {
                 headers: { "Authorization": token }
             });
 
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded',async function ()
             defaultOption.text = '-- Select Nationality --';
             countryDropdown.appendChild(defaultOption);
 
-            const countryResponse = await axios.get("https://nemonode.ivistaz.co/others/country-codes", { headers: { "Authorization": token } });
+            const countryResponse = await axios.get("http://localhost:4000/others/country-codes", { headers: { "Authorization": token } });
             const countries = countryResponse.data.countryCodes;
 
             for (let i = 0; i < countries.length; i++) {
@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded',async function ()
         const form = document.getElementById('candidate-form');
         form.addEventListener('submit',async function (event) {
             event.preventDefault();
+            
             const candidateData = {
                 fname: document.getElementById('candidate_fname').value,
                 lname: document.getElementById('candidate_lname').value,
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function updateCandidate(candidateData) {
         try {
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-c-candidate/${cmemId}`, candidateData);
+            const response = await axios.put(`http://localhost:4000/candidate/update-c-candidate/${cmemId}`, candidateData);
             const responseData = response.data;
             console.log('Update response:', responseData);
 

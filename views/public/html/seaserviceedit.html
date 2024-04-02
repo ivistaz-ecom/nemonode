@@ -395,28 +395,7 @@
 
 
 
-             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Vendor Management</span>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Vendor</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="add-vendor.html" class="menu-link">
-                    <div data-i18n="Account">Add</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="add-user.html" class="menu-link">
-                    <div data-i18n="Account">List</div>
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
+             
 
 
             <li class="menu-header small text-uppercase">
@@ -706,6 +685,7 @@
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {
@@ -730,7 +710,7 @@ function decodeToken(token) {
     console.log(id)
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
         console.log(response)
         const seaService = response.data.editSea[0];
         console.log("edit response", response.data)
@@ -780,7 +760,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Send PUT request to update sea service data
             const token = localStorage.getItem('token');
-            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`http://localhost:4000/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response);
             alert('Sea Service record updated successfully!');
             // editSeaServiceForm.reset();

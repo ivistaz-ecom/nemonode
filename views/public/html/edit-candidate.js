@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 
 async function fetchData() {
     try {
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
+        const response = await axios.get('http://localhost:4000/candidate/view-candidate', {
             headers: { "Authorization": token }
         });
 
@@ -131,7 +131,7 @@ async function deleteCandidate(candidateId, event) {
 
     if (confirmDelete) {
         try {
-            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-candidate/${candidateId}`, {
+            const response = await axios.delete(`http://localhost:4000/candidate/delete-candidate/${candidateId}`, {
                 headers: { "Authorization": token }
             });
 
@@ -153,6 +153,7 @@ async function deleteCandidate(candidateId, event) {
     localStorage.clear();
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    localStorage.clear()
 
     // Change the message and spinner after a delay
     setTimeout(function() {
