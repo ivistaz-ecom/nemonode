@@ -773,7 +773,7 @@
                     const token = localStorage.getItem('token');
               
                     // Fetch discussion counts
-                    const discussionCountsResponse = await fetch('http://localhost:4000/candidate/discussion-count', {
+                    const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co//candidate/discussion-count', {
                       headers: { "Authorization": token }
                     });
                     const discussionCountsData = await discussionCountsResponse.json();
@@ -784,7 +784,7 @@
 
               
                     // Fetch call count
-                    const callCountResponse = await fetch('http://localhost:4000/candidate/call-count', {
+                    const callCountResponse = await fetch('https://nemonode.ivistaz.co//candidate/call-count', {
                       headers: { "Authorization": token }
                     });
                     const callCountData = await callCountResponse.json();
@@ -803,7 +803,7 @@
       async function populateCandidatesTable() {
           try {
               const token = localStorage.getItem('token');
-              const response = await axios.get('http://localhost:4000/candidate/view-candidate', {
+              const response = await axios.get('https://nemonode.ivistaz.co//candidate/view-candidate', {
                   headers: { "Authorization": token }
               });
               const responseData = response.data;

@@ -282,50 +282,26 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
         const selectedFields = {
-            newProfile: {
-                candidateId: false,
-                fname: false,
-                c_rank: false,
-                c_vessel: false,
-                c_ad1: false,
-                c_city: false,
-                nationality: false,
-                c_mobi1: false,
-                last_company: false,
-                email1: false,
-                last_salary: false,
-                experience: false,
-                dob: false,
-                avb_date: false,
-                height: false,
-                weight: false,
-                safety_shoe_size: false,
-                boiler_suit_size: false
-            },
-            contract: {
-                id: false,
-                rank: false,
-                company: false,
-                vslName: false,
-                vesselType: false,
-                sign_on_port: false,
-                sign_on: false,
-                wage_start: false,
-                eoc: false,
-                wages: false,
-                currency: false,
-                wages_types: false,
-                sign_off_port: false,
-                sign_off: false,
-                reason_for_sign_off: false,
-                documents: false,
-                aoa: false,
-                aoa_number: false,
-                emigrate_number: false,
-                created_by: false
-            }
+            candidateId: false,
+            fname: false,
+            c_rank: false,
+            c_vessel: false,
+            c_ad1: false,
+            c_city: false,
+            nationality: false,
+            c_mobi1: false,
+            last_company: false,
+            email1: false,
+            last_salary: false,
+            experience: false,
+            dob: false,
+            avb_date: false,
+            height: false,
+            weight: false,
+            safety_shoe_size: false,
+            boiler_suit_size: false
         };
-    
+
         const handleDropdownChange = function (e) {
             const selectedOption = e.target.value;
             const newProfileFields = document.getElementById('newProfileFields');
@@ -341,61 +317,56 @@
                 newProfileFields.style.display = 'none';
                 contractFields.style.display = 'none';
             }
-    
-            // Update selected fields based on the selected report type
-            Object.keys(selectedFields[selectedOption]).forEach(field => {
-                selectedFields[field] = selectedFields[selectedOption][field];
-            });
         };
-    
+
         const handleCheckboxChange = function (e) {
             const id = e.target.id;
             const checked = e.target.checked;
             selectedFields[id] = checked;
         };
-    
+
         const handleGenerateReport = async function () {
             try {
-                const selectedOption = document.getElementById('reportType').value;
-                if (!Object.values(selectedFields[selectedOption]).some(Boolean)) {
+                if (!Object.values(selectedFields).some(Boolean)) {
                     throw new Error('Please select at least one field.');
                 }
-    
+
                 let endpoint;
-                if (selectedOption === 'New Profile') {
-                    endpoint = 'http://localhost:4000/candidate/reports/view-new-profile';
-                } else if (selectedOption === 'Contract report') {
-                    endpoint = 'http://localhost:4000/candidate/reports/contract';
+                if (document.getElementById('reportType').value === 'New Profile') {
+                    endpoint = 'https://nemonode.ivistaz.co//candidate/reports/view-new-profile';
+                } else if (document.getElementById('reportType').value === 'Contract') {
+                    endpoint = 'https://nemonode.ivistaz.co//candidate/reports/contract';
                 }
-    
+
                 const token = localStorage.getItem('token');
-                const response = await axios.post(endpoint, { selectedFields: selectedFields[selectedOption] }, { headers: { "Authorization": token } });
+                const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
+                console.log(response)
                 if (!response.data || !response.data.reportData) {
                     throw new Error('Error generating report');
                 }
-    
+
                 renderTable(response.data.reportData);
             } catch (error) {
                 console.error('Error generating report:', error.message);
             }
         };
-    
+
         const renderTable = function (data) {
             const reportTableDiv = document.getElementById('reportTable');
             reportTableDiv.innerHTML = '';
-    
+
             if (data.length === 0) {
                 reportTableDiv.innerHTML = '<div>No data to display</div>';
                 return;
             }
-    
+
             const table = document.createElement('table');
             table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
-    
+
             const columns = Object.keys(data[0]);
-    
+
             const headerRow = document.createElement('tr');
             columns.forEach((column) => {
                 const th = document.createElement('th');
@@ -403,7 +374,7 @@
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
-    
+
             data.forEach((rowData) => {
                 const row = document.createElement('tr');
                 columns.forEach((column) => {
@@ -413,12 +384,12 @@
                 });
                 tbody.appendChild(row);
             });
-    
+
             table.appendChild(thead);
             table.appendChild(tbody);
-    
+
             reportTableDiv.appendChild(table);
-    
+
             // Add Export to Excel button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
@@ -428,23 +399,23 @@
             });
             reportTableDiv.appendChild(exportButton);
         };
-    
+
         const exportToExcel = function (data) {
             const worksheet = XLSX.utils.json_to_sheet(data);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
             XLSX.writeFile(workbook, 'report.xlsx');
         };
-    
+
         document.getElementById('reportType').addEventListener('change', handleDropdownChange);
         document.getElementById('generateReport').addEventListener('click', handleGenerateReport);
-    
+
         const checkboxes = document.querySelectorAll('.form-check-input');
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', handleCheckboxChange);
         });
     });
-    </script>
+</script>
 
   
    
@@ -463,7 +434,6 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
-    <script src="report.js"></script>
 
     <!-- Page JS -->
 
