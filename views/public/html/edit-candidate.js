@@ -9,13 +9,11 @@ async function fetchData() {
         const responseData = response.data;
         console.log('Fetched data:', responseData); // Log the fetched data
 
-        if (responseData.success && Array.isArray(responseData.candidates)) {
+      
             const candidates = responseData.candidates;
             // Update the table with the fetched data
             updateTable(candidates);
-        } else {
-            console.error('Invalid response format:', responseData);
-        }
+       
     } catch (error) {
         console.error('Error fetching data:', error);
     }
