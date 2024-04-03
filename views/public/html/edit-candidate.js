@@ -1,22 +1,40 @@
 const token = localStorage.getItem('token');
 
-async function fetchData() {
+async function fetchData(page = 1, limit = 10) {
     try {
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
-            headers: { "Authorization": token }
+            headers: { "Authorization": token },
+            params: { page, limit } // Include pagination parameters
         });
 
         const responseData = response.data;
         console.log('Fetched data:', responseData); // Log the fetched data
 
-      
-            const candidates = responseData.candidates;
-            // Update the table with the fetched data
-            updateTable(candidates);
-       
+        const candidates = responseData.candidates;
+        // Update the table with the fetched data
+        updateTable(candidates);
+
+        // Update pagination controls
+        const totalPages = responseData.totalPages;
+        const currentPage = responseData.currentPage;
+        document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+
+        // Enable/disable pagination buttons based on current page
+        document.getElementById('prev-page-btn').disabled = currentPage === 1;
+        document.getElementById('next-page-btn').disabled = currentPage === totalPages;
     } catch (error) {
         console.error('Error fetching data:', error);
     }
+}
+
+function nextPage() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
+    fetchData(currentPage + 1);
+}
+
+function prevPage() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
+    fetchData(currentPage - 1);
 }
 
 
@@ -61,6 +79,7 @@ candidates.forEach((candidate, index) => {
 // ...
 
     }
+
     function viewCandidate(candidateId) {
         localStorage.setItem('memId', candidateId);
         window.location.href = './view-candidate.html';

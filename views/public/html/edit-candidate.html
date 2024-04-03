@@ -614,8 +614,12 @@
                   
                     <div class="">
                       <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Candidate Table</h4>
-                        <div id="pagination-controls"></div>
-            
+                      <div id="pagination-controls">
+                        <button id="prev-page-btn" onclick="prevPage()">Previous</button>
+                        <span id="page-info"></span>
+                        <button id="next-page-btn" onclick="nextPage()">Next</button>
+                    </div>
+                                
                         <div class="table-responsive text-center">
                             <table id="candidate-list" class="table table-sm table-striped table-bordered " style="font-size: 12px;">
                                 <thead>
