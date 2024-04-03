@@ -21,6 +21,7 @@ async function fetchData() {
     }
 }
 
+
 // Function to update the table with data
 function updateTable(candidates) {
     const tableBody = document.getElementById('candidate-table');
