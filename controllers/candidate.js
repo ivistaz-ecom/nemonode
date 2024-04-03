@@ -219,15 +219,13 @@ const getAllCandidates = async (req, res) => {
         ];
 
         const userId = req.user.id;
-        let userGroup;
         const user = await User.findByPk(userId);
 
         if (!user) {
             return res.status(404).json({ message: 'User not found', success: false });
         }
 
-        userGroup = user.dataValues.userGroup;
-        let Write = user.dataValues.Write;
+       let userGroup = user.dataValues.userGroup;
         let readOnly = user.dataValues.readOnly;
         console.log('User Group:', userGroup);
 
