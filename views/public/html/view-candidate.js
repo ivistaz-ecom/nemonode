@@ -1,38 +1,5 @@
 const token = localStorage.getItem('token')
 
-// function loadContent(section) {
-//     // Replace the content dynamically based on the section
-//     const contentContainer = document.getElementById('contentContainer');
-
-//     switch (section) {
-//         case 'personnel':
-//             contentContainer.innerHTML = '<p>Personnel Information</p>';
-//             break;
-//         case 'discussion':
-//             contentContainer.innerHTML = '<p>Discussion Information</p>';
-//             break;
-//         case 'contract':
-//             contentContainer.innerHTML = '<p>Contract Information</p>';
-//             break;
-//         case 'document':
-//             contentContainer.innerHTML = '<p>Document Information</p>';
-//             break;
-//         case 'bank':
-//             contentContainer.innerHTML = '<p>Bank Information</p>';
-//             break;
-//         case 'travel':
-//             contentContainer.innerHTML = '<p>Travel Information</p>';
-//             break;
-//         case 'medical':
-//             contentContainer.innerHTML = '<p>Medical Information</p>';
-//             break;
-//         case 'nkd':
-//             contentContainer.innerHTML = '<p>NKD Information</p>';
-//             break;
-//         default:
-//             contentContainer.innerHTML = '<p>No Information Available</p>';
-//     }
-// }
 function formatDate(dateString) {
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
@@ -54,14 +21,6 @@ function loadContent(section) {
     // Show the selected content div
     document.getElementById(`${section}Content`).style.display = 'block';
 }
-
-
-
-
-
-
-
-
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
@@ -128,27 +87,20 @@ async function fetchAndDisplayBankDetails(candidateId) {
 
             // Add data to each cell
             row.innerHTML = `
-            <td><span class='badge bg-success'>${bank.bank_name}</span></td>
+            <td><span class='badge bg-success'>${bank.beneficiary}</span></td>
             <td>${bank.account_num}</td>
+            <td><span class='badge bg-success'>${bank.bank_name}</span></td>
+            <td>${bank.branch}</td>
             <td>${bank.bank_addr}</td>
-            <td>${bank.ifsc_code}</td>
-            <td>${bank.swift_code}</td>
-            <td>${bank.beneficiary}</td>
             <td>${bank.beneficiary_addr}</td>
-            <td>${bank.pan_num}</td>
+            <td>${bank.swift_code}</td>
+            <td>${bank.ifsc_code}</td>
             <td>${bank.passbook}</td>
+            <td>${bank.pan_num}</td>
             <td>${bank.pan_card}</td>
-            <td><span class='badge bg-success'>${bank.nri_bank_name}</span></td>
-            <td>${bank.nri_account_num}</td>
-            <td>${bank.nri_bank_addr}</td>
-            <td>${bank.nri_ifsc_code}</td>
-            <td>${bank.nri_swift_code}</td>
-            <td>${bank.nri_beneficiary}</td>
-            <td>${bank.nri_beneficiary_addr}</td>
-            <td>${bank.nri_passbook}</td>
             
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.nri_bank_name}','${bank.nri_account_num}','${bank.nri_bank_addr}','${bank.nri_ifsc_code}','${bank.nri_swift_code}','${bank.nri_beneficiary}','${bank.nri_beneficiary_addr}','${bank.nri_passbook}', event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}', event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
