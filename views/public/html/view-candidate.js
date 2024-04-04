@@ -279,6 +279,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
         });
 
         const medicalDetails = response.data;
+        console.log(medicalDetails)
         const medicalTableBody = document.getElementById('hospitalTableBody');
         medicalTableBody.innerHTML = ''; // Clear existing rows
 
