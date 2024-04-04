@@ -251,6 +251,21 @@ try {
 }
 }
 // ...
+function formatDates(dateString) {
+    const parts = dateString.split('-'); // Split the date string into parts
+    const year = parseInt(parts[0]); // Get the year
+    const month = parseInt(parts[1]) - 1; // Get the month (months are 0-indexed in JavaScript)
+    const day = parseInt(parts[2]); // Get the day
+
+    // Construct the date object
+    const date = new Date(year, month, day);
+    
+    // Now you can format the date as you need
+    const formattedDate = date.toISOString().split('T')[0];
+    
+    return formattedDate;
+}
+
 
 
 
@@ -279,8 +294,8 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             // Add data to each cell
             row.appendChild(createCell(medical.hospitalName));
             row.appendChild(createCell(medical.place));
-            row.appendChild(createCell(medical.date));
-            row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
+            row.appendChild(createCell(formatDates(medical.date)));
+            row.appendChild(createCell(formatDates(medical.expiry_date))); // Update to match the Sequelize model
             row.appendChild(createCell(medical.done_by));
             row.appendChild(createCell(medical.status));
             row.appendChild(createCell(medical.amount));
