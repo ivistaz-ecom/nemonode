@@ -207,17 +207,6 @@ const add_candidate = async (req, res) => {
 }
 const getAllCandidates = async (req, res) => {
     try {
-        let includeModels = [
-            { model: CandidateNkd },
-            { model: Medical },
-            { model: Travel },
-            { model: Bank },
-            { model: Documents },
-            { model: Contract },
-            { model: Discussion_plus },
-            // Add other associated models as needed
-        ];
-
         const userId = req.user.id;
         const user = await User.findByPk(userId);
 
@@ -225,44 +214,46 @@ const getAllCandidates = async (req, res) => {
             return res.status(404).json({ message: 'User not found', success: false });
         }
 
-       let userGroup = user.dataValues.userGroup;
-        let readOnly = user.dataValues.readOnly;
-        console.log('User Group:', userGroup);
-
-        let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
-        let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
-
-        // Calculate the offset based on the page and limit
-        let offset = (page - 1) * limit;
+        const userGroup = user.userGroup;
+        const readOnly = user.readOnly;
 
         let allCandidates;
+
         if (userGroup === 'admin') {
-            // If the user is an admin, fetch all candidates with pagination
-            allCandidates = await Candidate.findAndCountAll({
-                include: includeModels,
-                limit,
-                offset,
+            // If the user is an admin, fetch all candidates
+            allCandidates = await Candidate.findAll({
+                include: [
+                    { model: CandidateNkd },
+                    { model: Medical },
+                    { model: Travel },
+                    { model: Bank },
+                    { model: Documents },
+                    { model: Contract },
+                    { model: Discussion_plus },
+                    // Add other associated models as needed
+                ],
             });
-        } else if(userGroup==='vendor' && readOnly){
-            // If the user is not an admin, fetch candidates associated with the user with pagination
-            allCandidates = await Candidate.findAndCountAll({
+        } else if (userGroup === 'vendor' && readOnly) {
+            // If the user is a vendor with read-only access, fetch candidates associated with the user
+            allCandidates = await Candidate.findAll({
                 where: {
                     userId: userId,
                 },
-                include: includeModels,
-                limit,
-                offset,
+                include: [
+                    { model: CandidateNkd },
+                    { model: Medical },
+                    { model: Travel },
+                    { model: Bank },
+                    { model: Documents },
+                    { model: Contract },
+                    { model: Discussion_plus },
+                    // Add other associated models as needed
+                ],
             });
         }
 
-        const totalCount = allCandidates.count;
-        const totalPages = Math.ceil(totalCount / limit);
-
         res.status(200).json({
-            candidates: allCandidates.rows,
-            totalCount,
-            totalPages,
-            currentPage: page,
+            candidates: allCandidates,
             success: true
         });
     } catch (err) {
@@ -270,6 +261,7 @@ const getAllCandidates = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
+
 
 const birthday = async (req, res) => {
     try {
