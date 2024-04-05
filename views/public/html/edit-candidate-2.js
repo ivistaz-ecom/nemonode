@@ -236,7 +236,7 @@ async function displayCandidateDetails(candidateData) {
         // // Continue with the rest of the form population code
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
-        if(candidateData.avbDate == 'null')
+        if(candidateData.avbDate === null)
         document.getElementById('edit_candidate_avb_date').value = null;
     else
     document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avbDate);
