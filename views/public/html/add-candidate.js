@@ -115,7 +115,7 @@ const decodedToken = decodeToken(token);
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/get-grade-drop", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
