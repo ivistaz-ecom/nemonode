@@ -914,8 +914,7 @@ const get_gradeDrop=async(req,res)=>{
       
       // Return the grades
       return res.status(200).json({
-        grades: allGrades.rows,
-        success: true
+       allGrades
       });
     } catch (error) {
       console.error('Error:', error);
