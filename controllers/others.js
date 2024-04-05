@@ -911,11 +911,10 @@ const get_gradeDrop=async(req,res)=>{
     try {
       // Fetch all grades
       const allGrades = await Grade.findAll();
-  
+      
       // Return the grades
       return res.status(200).json({
-        grades: allGrades,
-        totalCount: allGrades.length,
+        grades: allGrades.rows,
         success: true
       });
     } catch (error) {
