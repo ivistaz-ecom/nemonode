@@ -5,15 +5,22 @@ async function fetchData(page = 1, limit = 10, candidateId) {
         let url;
         let params = { page, limit };
 
-        // If candidateId is provided, fetch the page containing that candidate
+        // If candidateId is provided, fetch all candidates and find the page containing that candidate locally
         if (candidateId) {
-            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/find-candidate-page`, {
+            const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
                 headers: { "Authorization": token },
-                params: { candidateId, limit }
+                params
             });
 
-            const { page } = response.data;
-            params.page = page;
+            const responseData = response.data;
+            const candidates = responseData.candidates;
+
+            // Find the page containing the candidate
+            const candidateIndex = candidates.findIndex(candidate => candidate.candidateId === candidateId);
+            if (candidateIndex !== -1) {
+                page = Math.ceil((candidateIndex + 1) / limit);
+                params.page = page;
+            }
         }
 
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
@@ -40,6 +47,8 @@ async function fetchData(page = 1, limit = 10, candidateId) {
         console.error('Error fetching data:', error);
     }
 }
+
+
 
 
 function jumpToCandidate(candidateId) {
