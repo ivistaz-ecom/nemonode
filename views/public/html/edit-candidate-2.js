@@ -236,11 +236,7 @@ async function displayCandidateDetails(candidateData) {
         // // Continue with the rest of the form population code
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
-        if(candidateData.avbDate === null)
-        document.getElementById('edit_candidate_avb_date').value = null;
-    else
     document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avbDate);
-
         document.getElementById('edit_candidate_dob').value = formatDate(candidateData.dob);  
               document.getElementById('edit_candidate_company_status').value = candidateData.company_status;
         document.getElementById('edit_candidate_birth_place').value = candidateData.birth_place;
@@ -320,11 +316,15 @@ async function displayCandidateDetails(candidateData) {
 
 
 function formatDate(dateString) {
+    if (!dateString) {
+        return ''; // Return empty string if dateString is null or empty
+    }
+
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
     const formattedDate = date.toISOString().split('T')[0];
     return formattedDate;
-  }
+}
 
   async function fetchAndDisplayCandidate(candidateId,token) {
     try {
