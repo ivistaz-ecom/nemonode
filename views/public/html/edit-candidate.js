@@ -28,7 +28,15 @@ async function fetchData(page = 1, limit = 10) {
 }
 
 
+function nextPage() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
+    fetchData(currentPage + 1);
+}
 
+function prevPage() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
+    fetchData(currentPage - 1);
+}
 
 // Function to update the table with data
 function updateTable(candidates) {
