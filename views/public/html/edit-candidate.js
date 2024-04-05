@@ -48,13 +48,10 @@ async function fetchData(page = 1, limit = 10, candidateId) {
     }
 }
 
-
-
-
-function jumpToCandidate(candidateId) {
+function jumpToCandidate() {
+    const candidateId = document.getElementById('candidate-id-input').value;
     fetchData(undefined, undefined, candidateId);
 }
-
 
 function nextPage() {
     const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
