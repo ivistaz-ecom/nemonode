@@ -59,6 +59,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Add any other initialization or data fetching logic you need
 });
+const avbDateInput = document.getElementById('edit_candidate_avb_date');
+const avbDateValue = avbDateInput.value;
+
+// Check if the avb_date is null
+const avbDate = avbDateValue.trim() !== '' ? avbDateValue : null;
+
 
 async function fetchAndDisplayExp() {
     try {
@@ -226,195 +232,7 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_experience').value = candidateData.experience;
         document.getElementById('edit_candidate_grade').value = candidateData.grade;
         document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
-        // Fetch Rank options from the server using Axios
-        // const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
-        // const rankOptions = rankResponse.data.ranks;
-        // const rankNames = rankOptions.map(rank => rank.rank);
-
-        // const portResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port", { headers: { "Authorization": token } });
-        // const portOptions = portResponse.data.ports;
-        // const portNames = portOptions.map(port => port.portName);
-
-        // const documentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-document", { headers: { "Authorization": token } });
-        // const documentOptions = documentResponse.data.documents;
-        // const documentNames = documentOptions.map(document => document.documentType);
-        // console.log(documentNames)
-
-        
-    
-        // const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
-        // const companyOptions = companyResponse.data.company;
-        // const companyNames = companyOptions.map(company => company.company_name);
-
-    
-        // const countryResponse = await axios.get("https://nemonode.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
-        // const countries = countryResponse.data.countries; // Access the array using response.data.countries
-        // const countryNames = countries.map(country => country.country);
-    
-        // const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-        // const vessels = serverResponse.data.vsls;
-        // const vesselTypeNames = vessels.map(vessel=>vessel.vesselName)
-        // const vesselTypeName = vessels.map(vessel=>vessel.vesselType)
-
-        
-        // const vesselDropdown_contract = document.getElementById('contract_vsl');
-        // vesselDropdown_contract.innerHTML = '';
-        // // Extract only the rank names
-        
-        // const gradeResponse = await axios.get("https://nemonode.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
-        // const grades = gradeResponse.data.grades;
-        // const gradeNames = grades.map(grade => grade.gradeExp);
-
-        // const hospitalResponse = await axios.get("https://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
-        // const hospitals = hospitalResponse.data.hospitals;
-        // const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
-        // const hospitalDropdown = document.getElementById('hospital_name');
-        // hospitalDropdown.innerHTML = ''; // Clear existing options
-
-        // // Populate the Rank dropdown options
-        // const rankDropdown = document.getElementById('edit_candidate_c_rank');
-        // rankDropdown.innerHTML = ''; // Clear existing options
-
-        // const rankDropdowns = document.getElementById('edit_contract_rank');
-        // rankDropdowns.innerHTML = ''; 
-
-        // // const rankDropdowns_one = document.getElementById('rank');
-        // // rankDropdowns_one.innerHTML = ''; 
-    
-        // const countryDropdown = document.getElementById('edit_candidate_nationality');
-        // countryDropdown.innerHTML = '';
-    
-        // const vesselDropdown = document.getElementById('edit_candidate_c_vessel');
-        // vesselDropdown.innerHTML = '';
-
-        // const gradeDropdown = document.getElementById('edit_candidate_grade');
-        // gradeDropdown.innerHTML = '';
-
-        // const licenseDropdown = document.getElementById('edit_candidate_I_country');
-        // licenseDropdown.innerHTML = '';
-    
-        // // const vesselDropdowns = document.getElementById('vessel_type');
-        // // vesselDropdowns.innerHTML = '';
-
-        // const vesselDropdowns_contract = document.getElementById('contract_vesseltype');
-        // vesselDropdowns_contract.innerHTML = '';
-
-        // const companyDropdown = document.getElementById('contract_company');
-        // companyDropdown.innerHTML = '';
-
-        // const portDropdown = document.getElementById('contract_signonport');
-        // portDropdown.innerHTML = '';
-
-        // const portDropdowns = document.getElementById('contract_signoffport');
-        // portDropdowns.innerHTML = '';
-
-        // const documentDropdowns = document.getElementById('doc_document');
-        // documentDropdowns.innerHTML = '';
-
-        
-        // const portAgentResponse = await axios.get("https://nemonode.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
-        // const portAgents = portAgentResponse.data.portAgents;
-        // console.log(portAgentResponse,portAgents)
-        // const portAgentname = portAgents.map(pa => pa.portAgentName);
-        // const portAgentDropdowns = document.getElementById('travel_port_agent');
-        // portAgentDropdowns.innerHTML = '';
-
-        // for (let i = 0; i < rankNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = rankNames[i];
-        //     option.text = rankNames[i];
-        //     rankDropdown.appendChild(option);
-        //     rankDropdowns.appendChild(option.cloneNode(true));
-        //     // rankDropdowns_one.appendChild(option.cloneNode(true));
-            
-        // }
-
-        // for (let i = 0; i < hospitalNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = hospitalNames[i];
-        //     option.text = hospitalNames[i];
-        //     hospitalDropdown.appendChild(option);
-        // }
-        // for (let i = 0; i < portAgentname.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = portAgentname[i];
-        //     option.text = portAgentname[i];
-        //     portAgentDropdowns.appendChild(option);
-           
-            
-        // }
-
-        // for (let i = 0; i < documentNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = documentNames[i];
-        //     option.text = documentNames[i];
-        //     documentDropdowns.appendChild(option);
-          
-            
-        // }
-    
-        // for (let i = 0; i < countryNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = countryNames[i];
-        //     option.text = countryNames[i];
-        //     countryDropdown.appendChild(option);
-        //    licenseDropdown.appendChild(option.cloneNode(true));        }
-
-        // for (let i = 0; i < vesselTypeNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = vesselTypeNames[i];
-        //     option.text = vesselTypeNames[i];
-        //     vesselDropdown.appendChild(option);
-        //     // vesselDropdowns.appendChild(option.cloneNode(true));
-        //     vesselDropdown_contract.appendChild(option.cloneNode(true));    
-        //     }
-
-        //     for (let i = 0; i < vesselTypeName.length; i++) {
-        //         const option = document.createElement('option');
-        //         option.value = vesselTypeName[i];
-        //         option.text = vesselTypeName[i];
-        //         vesselDropdowns_contract.appendChild(option.cloneNode(true));    
-        //         }
-
-        //         for (let i = 0; i < portNames.length; i++) {
-        //             const option = document.createElement('option');
-        //             option.value = portNames[i];
-        //             option.text = portNames[i];
-        //             portDropdown.appendChild(option);    
-        //             portDropdowns.appendChild(option.cloneNode(true));    
-
-        //             }
-    
-
-            
-
-        //     for (let i = 0; i < companyNames.length; i++) {
-        //         const option = document.createElement('option');
-        //         option.value = companyNames[i];
-        //         option.text = companyNames[i];
-        //         companyDropdown.appendChild(option);
-        //         // companyDropdown.appendChild(option.cloneNode(true));    
-        //         }
-    
-
-        
-
-        // for (let i = 0; i < gradeNames.length; i++) {
-        //     const option = document.createElement('option');
-        //     option.value = gradeNames[i];
-        //     option.text = gradeNames[i];
-        //     gradeDropdown.appendChild(option);
-        // }
-
-        
-    
-        // // Set the selected value for the Rank and Nationality dropdowns
-        // rankDropdown.value = candidateData.c_rank;
-        // countryDropdown.value = candidateData.nationality;
-        // vesselDropdown.value=candidateData.c_vessel;
-        // gradeDropdown.value=candidateData.grade;
-        // licenseDropdown.value=candidateData.l_country;
-        // companyDropdown.value=candidateData.last_company;
+       
         // // Continue with the rest of the form population code
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
@@ -536,7 +354,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         fname: document.getElementById('edit_candidate_fname').value,
         lname: document.getElementById('edit_candidate_lname').value,
         c_rank: document.getElementById('edit_candidate_c_rank').value,
-        avb_date: document.getElementById('edit_candidate_avb_date').value,
+        avb_date:avbDate,
         
         nationality: document.getElementById('edit_candidate_nationality').value,
         company_status: document.getElementById('edit_candidate_company_status').value,
