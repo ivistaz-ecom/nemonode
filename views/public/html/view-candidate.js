@@ -89,8 +89,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             row.innerHTML = `
             <td><span class='badge bg-success'>${bank.beneficiary}</span></td>
             <td>${bank.account_num}</td>
-            <td><span class='badge bg-success'>${bank.bank_name}</span></td>
-            <td>${bank.branch}</td>
+            <td><span class='badge bg-success'>${bank.branch}</span></td>
             <td>${bank.bank_addr}</td>
             <td>${bank.beneficiary_addr}</td>
             <td>${bank.swift_code}</td>
@@ -98,9 +97,8 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.passbook}</td>
             <td>${bank.pan_num}</td>
             <td>${bank.pan_card}</td>
-            
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}', event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
@@ -117,7 +115,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, nri_bank_name, nri_account_num, nri_bank_addr, nri_ifsc_code, nri_swift_code, nri_beneficiary, nri_beneficiary_addr, nri_passbook, event) {
+function editBank(id, bank_name, account_num, bank_addr,branch, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, event) {
 event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
     window.location.href = `edit-c-bank.html?id=${id}&bank_name=${bank_name}&account_num=${account_num}&bank_addr=${bank_addr}&ifsc_code=${ifsc_code}&swift_code=${swift_code}&beneficiary=${beneficiary}&beneficiary_addr=${beneficiary_addr}&pan_num=${pan_num}&passbook=${passbook}&pan_card=${pan_card}&nri_bank_name=${nri_bank_name}&nri_account_num=${nri_account_num}&nri_bank_addr=${nri_bank_addr}&nri_ifsc_code=${nri_ifsc_code}&nri_swift_code=${nri_swift_code}&nri_beneficiary=${nri_beneficiary}&nri_beneficiary_addr=${nri_beneficiary_addr}&nri_passbook=${nri_passbook}`; // Include all parameters
