@@ -1,10 +1,24 @@
 const token = localStorage.getItem('token');
 
-async function fetchData(page = 1, limit = 10) {
+async function fetchData(page = 1, limit = 10, candidateId) {
     try {
+        let url;
+        let params = { page, limit };
+
+        // If candidateId is provided, fetch the page containing that candidate
+        if (candidateId) {
+            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/find-candidate-page`, {
+                headers: { "Authorization": token },
+                params: { candidateId, limit }
+            });
+
+            const { page } = response.data;
+            params.page = page;
+        }
+
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
             headers: { "Authorization": token },
-            params: { page, limit } // Include pagination parameters
+            params
         });
 
         const responseData = response.data;
@@ -25,6 +39,11 @@ async function fetchData(page = 1, limit = 10) {
     } catch (error) {
         console.error('Error fetching data:', error);
     }
+}
+
+
+function jumpToCandidate(candidateId) {
+    fetchData(undefined, undefined, candidateId);
 }
 
 
