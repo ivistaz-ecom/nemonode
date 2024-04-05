@@ -29,8 +29,14 @@ async function fetchData(page = 1, limit = 10) {
 
 function jumpToPage() {
     const pageNumber = parseInt(document.getElementById('page-number-input').value);
-    fetchData(pageNumber);
+    const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3]); // Get the total number of pages
+    if (pageNumber >= 1 && pageNumber <= totalPages) { // Check if the entered page number is within range
+        document.getElementById('page-info').textContent = `Page ${pageNumber} of ${totalPages}`; // Update the page info text
+    } else {
+        alert(`Please enter a page number between 1 and ${totalPages}.`); // Alert the user if the entered page number is out of range
+    }
 }
+
 
 function nextPage() {
     const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
@@ -43,9 +49,7 @@ function prevPage() {
 }
 
 // Function to update the table with data
-function updateTable(candidates) {
-    // Your updateTable implementation
-}
+
 
 // Fetch data when the page loads
 
