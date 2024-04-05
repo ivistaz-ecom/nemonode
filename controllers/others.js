@@ -905,6 +905,26 @@ const get_grade = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+const get_gradeDrop=async(req,res)=>{
+ 
+    try {
+      // Fetch all grades
+      const allGrades = await Grade.findAll();
+  
+      // Return the grades
+      return res.status(200).json({
+        grades: allGrades,
+        totalCount: allGrades.length,
+        success: true
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+
+}
 //port and port agent
 const create_port = async (req, res) => {
   const { portName } = req.body;
@@ -2071,7 +2091,8 @@ const fetchQueries = async (req, res) => {
     createQueries,
     editQueries,
     fetchQueries,
-    get_experiences
+    get_experiences,
+    get_gradeDrop
   }
 
   
