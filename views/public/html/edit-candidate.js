@@ -1,31 +1,10 @@
 const token = localStorage.getItem('token');
 
-async function fetchData(page = 1, limit = 10, candidateId) {
+async function fetchData(page = 1, limit = 10) {
     try {
-        let url;
-        let params = { page, limit };
-
-        // If candidateId is provided, fetch all candidates and find the page containing that candidate locally
-        if (candidateId) {
-            const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
-                headers: { "Authorization": token },
-                params
-            });
-
-            const responseData = response.data;
-            const candidates = responseData.candidates;
-
-            // Find the page containing the candidate
-            const candidateIndex = candidates.findIndex(candidate => candidate.candidateId === candidateId);
-            if (candidateIndex !== -1) {
-                page = Math.ceil((candidateIndex + 1) / limit);
-                params.page = page;
-            }
-        }
-
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
             headers: { "Authorization": token },
-            params
+            params: { page, limit }
         });
 
         const responseData = response.data;
@@ -48,9 +27,9 @@ async function fetchData(page = 1, limit = 10, candidateId) {
     }
 }
 
-function jumpToCandidate() {
-    const candidateId = document.getElementById('candidate-id-input').value;
-    fetchData(undefined, undefined, candidateId);
+function jumpToPage() {
+    const pageNumber = parseInt(document.getElementById('page-number-input').value);
+    fetchData(pageNumber);
 }
 
 function nextPage() {
@@ -62,6 +41,13 @@ function prevPage() {
     const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
     fetchData(currentPage - 1);
 }
+
+// Function to update the table with data
+function updateTable(candidates) {
+    // Your updateTable implementation
+}
+
+// Fetch data when the page loads
 
 // Function to update the table with data
 function updateTable(candidates) {
@@ -132,7 +118,7 @@ console.log('Age:', age);
 
 // Fetch data when the page loads
 document.addEventListener('DOMContentLoaded',()=>{
-    fetchData()
+    fetchData();
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
