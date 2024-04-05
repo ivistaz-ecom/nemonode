@@ -9,11 +9,11 @@ async function fetchData(page = 1, limit = 10, candidateId) {
         if (candidateId) {
             const response = await axios.get(`https://nemonode.ivistaz.co/candidate/find-candidate-page`, {
                 headers: { "Authorization": token },
-                params: { candidateId, limit }
+                params: { candidateId }
             });
 
-            const { page } = response.data;
-            params.page = page;
+            const { page: candidatePage } = response.data;
+            params.page = candidatePage;
         }
 
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
@@ -40,6 +40,7 @@ async function fetchData(page = 1, limit = 10, candidateId) {
         console.error('Error fetching data:', error);
     }
 }
+
 
 
 function jumpToCandidate(candidateId) {
