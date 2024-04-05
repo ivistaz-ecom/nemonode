@@ -71,6 +71,7 @@ router.get('/get-vessel/:id', otherControllers.getVessel);
 router.get('/get-vsl/:id', otherControllers.getVSL);
 router.get('/get-ranks/:id', otherControllers.get_rank);
 router.get('/get-grade/:id', otherControllers.get_grade);
+router.get('/get-grade-drop', otherControllers.get_gradeDrop);
 router.get('/get-port/:id', otherControllers.get_port);
 router.get('/get-portagents/:id', otherControllers.get_portagent);
 router.get('/get-hospital/:id', otherControllers.get_hospital);
