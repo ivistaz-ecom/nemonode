@@ -418,7 +418,7 @@ async function displayCandidateDetails(candidateData) {
         // // Continue with the rest of the form population code
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
-        document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avb_date);
+        document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avb_date) || null;
         document.getElementById('edit_candidate_dob').value = formatDate(candidateData.dob);  
               document.getElementById('edit_candidate_company_status').value = candidateData.company_status;
         document.getElementById('edit_candidate_birth_place').value = candidateData.birth_place;
