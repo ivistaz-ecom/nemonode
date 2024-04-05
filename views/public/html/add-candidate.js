@@ -117,7 +117,7 @@ async function fetchAndDisplayGrades() {
     try {
         const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/get-grade-drop", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
-
+        console.log(grades)
         // Get the dropdown element by its ID
         const gradeDropdown = document.getElementById('candidate_grade');
 
