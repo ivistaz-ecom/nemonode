@@ -252,12 +252,14 @@ const login = async (req, res, next) => {
   try {
     const { userName, userPassword } = req.body;
 
-    // Check if the provided input is a username or a phone number
-    const isPhone = /^\d{10}$/.test(userName);
-
-    // Find the user with the provided username or phone number
+    // Find the user with the provided username
     const user = await User.findOne({
-      where: isPhone ? { userPhone: userName } : { userName: userName }
+      where: {
+        [Op.or]: [
+          { userName: userName },
+          { userPhone: userName } // Assuming userName can be either username or user phone
+        ]
+      }
     });
 
     if (user) {
@@ -293,6 +295,7 @@ const login = async (req, res, next) => {
     return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
+
 
 
 const get_user = async(req,res)=>{
