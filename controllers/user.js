@@ -51,7 +51,13 @@ const create_user = async (req, res, next) => {
       reports_all,
       userManagement,
       vendorManagement,
-      userGroup
+      userGroup,
+      deletes,
+      current_login,
+      last_login,
+      company_login,
+      created_date
+
     } = req.body;
 
     console.log(req.body);
@@ -85,6 +91,11 @@ const create_user = async (req, res, next) => {
           vendorManagement,
           reports,
           reports_all,
+          deletes,
+      current_login,
+      last_login,
+      company_login,
+      created_date
         },{transaction:t});
         await t.commit();
         res.status(201).json({ message: "Successfully Created New User", user: newUser });
@@ -203,6 +214,11 @@ const edit_user = async (req, res) => {
     user.vendorManagement = userData.vendorManagement;
     user.reports = userData.reports;
     user.reports_all = userData.reports_all;
+    user.deletes=userData.deletes,
+      user.current_login=userData.current_login,
+      user.last_login=userData.last_login,
+      user.company_login=userData.company_login,
+      user.created_date=userData.created_date
 
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
@@ -237,8 +253,15 @@ const login = async (req, res, next) => {
     const { userName, userPassword } = req.body 
 
     // Find the user with the provided username
-    const user = await User.findOne({ where: { userName: userName } });
-
+    const user = await User.findOne({
+      where: {
+        [Op.or]: [
+          { userName: userName },
+          { userPhone: userName } // Assuming userName can be either username or user phone
+        ]
+      }
+    });
+    
     if (user) {
       // Compare the provided password with the stored hashed password in the database
       bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
