@@ -48,6 +48,12 @@ const Users = sequelize.define('Users', {
     reports_all:DataTypes.BOOLEAN,
     master_create:DataTypes.STRING,
     logged:DataTypes.STRING,
+    delete:DataTypes.BOOLEAN,
+    current_login:DataTypes.DATE,
+    last_login:DataTypes.DATE,
+    company_login:DataTypes.BOOLEAN,
+    created_date:DataTypes.DATE,
+     
   
 },{
     tableName: 'Users',
