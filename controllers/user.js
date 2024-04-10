@@ -117,67 +117,59 @@ const create_user = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { userName, userPassword } = req.body 
 
+    // Find the user with the provided username
+    const user = await User.findOne({ where: { userName: userName } });
 
-  // Endpoint to edit a user
-// Endpoint to edit a user
-// const edit_user = async (req, res) => {
-//   const t = await sequelize.transaction();
-//   const userId = req.params.id;
-//   console.log(req.body);
+    if (user) {
+      // Compare the provided password with the stored hashed password in the database
+      bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
+        if (err) {
+          console.error('Error comparing passwords:', err);
+          return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
 
-//   try {
-//     // Find the user by ID
-//     const user = await User.findByPk(userId);
-
-//     // If the user does not exist, return a 404 response
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     // Update the user fields with the new data
-//     user.userName = req.body.userName;
-//     user.lastName = req.body.lastName;
-//     user.userEmail = req.body.userEmail;
-//     user.userPhone = req.body.userPhone;
-//     user.userGroup = req.body.userGroup;
-//     user.userVendor = req.body.userVendor;
-//     user.userClient = req.body.userClient;
-//     user.createdBy = req.body.createdBy;
-//     user.master_create=req.body.master_create;
-//     user.disableUser = req.body.disableUser;
-//     user.readOnly = req.body.readOnly;
-//     user.Write = req.body.Write;
-//     user.imports = req.body.imports;
-//     user.exports = req.body.exports;
-//     user.userManagement = req.body.userManagement;
-//     user.vendorManagement=req.body.vendorManagement;
-//     user.reports = req.body.reports;
-
-//     // Check if a new password is provided
-//     if (req.body.userPassword.length >50) { console.log('No changes present')}
-//     else{
-//       const saltrounds = 10;
-
-//       // Hash the new password
-//       const hash = await bcrypt.hash(req.body.userPassword, saltrounds);
-//       user.userPassword = hash;
-//     }
-//     // Save the updated user
-//     await user.save();
-
-//     // Fetch the updated user after saving changes
-//     const updatedUser = await User.findByPk(userId);
-
-//     res.status(200).json({
-//       message: 'User updated successfully',
-//       user: updatedUser
-//     });
-//   } catch (error) {
-//     console.error('Error during user update:', error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
+        if (passwordMatch) {
+          // Password is correct, generate JWT token
+          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
+          console.log(token);
+          return res.status(200).json({
+            success: true,
+            message: 'User Logged in Successfully',
+            token: token,
+            username: user.userName,
+            userId:user.id,
+            // master_create:user.master_create,
+            // disableUser:user.disableUser,
+            // userGroup:user.userGroup,
+            // readOnly:user.readOnly,
+            // Write:user.Write,
+           
+            // imports:user.imports,
+            // exports:user.exports,
+            // userManagement:user.userManagement,
+            // reports:user.reports,
+            // reports_all:user.reports_all
+            
+          });
+        } else {
+          // Password is invalid
+          return res.status(400).json({ success: false, message: 'Password is invalid' });
+        }
+      });
+    } else {
+      // User does not exist
+      return res.status(404).json({ success: false, message: 'User does not exist' });
+    }
+  } catch (err) {
+    console.error('Error during login:', err);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
 
 const edit_user = async (req, res) => {
   const t = await sequelize.transaction();
@@ -245,63 +237,6 @@ const edit_user = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-
-
-const login = async (req, res, next) => {
-  try {
-    const { userName, userPassword } = req.body 
-
-    // Find the user with the provided username
-    const user = await User.findOne({ where: { userName: userName } });
-
-    if (user) {
-      // Compare the provided password with the stored hashed password in the database
-      bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
-        if (err) {
-          console.error('Error comparing passwords:', err);
-          return res.status(500).json({ success: false, message: 'Internal Server Error' });
-        }
-
-        if (passwordMatch) {
-          // Password is correct, generate JWT token
-          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
-          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
-          console.log(token);
-          return res.status(200).json({
-            success: true,
-            message: 'User Logged in Successfully',
-            token: token,
-            username: user.userName,
-            userId:user.id,
-            // master_create:user.master_create,
-            // disableUser:user.disableUser,
-            // userGroup:user.userGroup,
-            // readOnly:user.readOnly,
-            // Write:user.Write,
-           
-            // imports:user.imports,
-            // exports:user.exports,
-            // userManagement:user.userManagement,
-            // reports:user.reports,
-            // reports_all:user.reports_all
-            
-          });
-        } else {
-          // Password is invalid
-          return res.status(400).json({ success: false, message: 'Password is invalid' });
-        }
-      });
-    } else {
-      // User does not exist
-      return res.status(404).json({ success: false, message: 'User does not exist' });
-    }
-  } catch (err) {
-    console.error('Error during login:', err);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-};
-
 
 
 const get_user = async(req,res)=>{
