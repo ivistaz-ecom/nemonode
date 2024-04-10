@@ -259,6 +259,10 @@ document.getElementById('e_user-form').addEventListener('submit', async function
 
         reports:document.getElementById('u_reports').checked,
         reports_all:document.getElementById('u_reports_all').checked,
+        deletes:null,
+        current_login:null,
+        last_login:null,
+        created_date:null,
     };
 
     try {

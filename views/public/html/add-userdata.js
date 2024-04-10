@@ -136,6 +136,13 @@ else{
         const reports = document.getElementById('u_reports').checked;
         const reports_all = document.getElementById('u_reports_all').checked;
         const createdBy = document.getElementById('user_created_date').value;
+        const deletes = null;
+        const current_login = null;
+        const last_login = null;
+        const company_login = null;
+        const created_date=null;
+
+
         const currentUserEmail = decodedToken.userEmail; // Get the email of the currently logged-in user from the token
         const currentUserMasterCreate = decodedToken.master_create; // Get the master_create value of the currently logged-in user from the token
         // Construct the new value of master_create by appending the current user's email and the fetched master_create value from the token
@@ -160,7 +167,12 @@ else{
             userManagement,
             vendorManagement,
             reports,
-            reports_all
+            reports_all,
+            deletes,
+            current_login,
+            last_login,
+            company_login,
+            created_date,
         };
         console.log(formData);
     

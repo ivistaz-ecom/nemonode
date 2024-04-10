@@ -208,14 +208,14 @@ const getUserEmail=() =>{
 
     // Handling form submission
 
-    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports,reports_all, master_create) {
+    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports,reports_all, master_create,deletes,current_login,last_login,company_login,created_date) {
         console.log('Edit clicked for user ID:', id);
         const encodedUserVendor = encodeURIComponent(userVendor);
         const encodedUserClient = encodeURIComponent(userClient);
         const encodedMaster_Create = encodeURIComponent(master_create)
 console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports, userManagement,vendorManagement, reports,reports_all,master_create)
         // Redirect to the edit page with user details as query parameters
-        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}`;
+        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}&deletes=${deletes}&current_login=${current_login}&last_login=${last_login}&company_login=${company_login}&created_date=${created_date}`;
     }
     
     async function deleteUser(id) {
