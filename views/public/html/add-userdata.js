@@ -136,10 +136,10 @@ else{
         const reports = document.getElementById('u_reports').checked;
         const reports_all = document.getElementById('u_reports_all').checked;
         const createdBy = document.getElementById('user_created_date').value;
-        const deletes = 0;
+        const deletes = false;
         const current_login = null;
         const last_login = null;
-        const company_login = 0;
+        const company_login = false;
         const created_date=null;
 
 
