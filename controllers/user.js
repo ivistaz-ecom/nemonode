@@ -250,17 +250,10 @@ const edit_user = async (req, res) => {
 
 const login = async (req, res, next) => {
   try {
-    const { userName, userPassword } = req.body;
+    const { userName, userPassword } = req.body 
 
     // Find the user with the provided username
-    const user = await User.findOne({
-      where: {
-        [Op.or]: [
-          { userName: userName },
-          { userPhone: userName } // Assuming userName can be either username or user phone
-        ]
-      }
-    });
+    const user = await User.findOne({ where: { userName: userName } });
 
     if (user) {
       // Compare the provided password with the stored hashed password in the database
@@ -272,14 +265,27 @@ const login = async (req, res, next) => {
 
         if (passwordMatch) {
           // Password is correct, generate JWT token
-          const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create);
+          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
           console.log(token);
           return res.status(200).json({
             success: true,
             message: 'User Logged in Successfully',
             token: token,
             username: user.userName,
-            userId: user.id,
+            userId:user.id,
+            // master_create:user.master_create,
+            // disableUser:user.disableUser,
+            // userGroup:user.userGroup,
+            // readOnly:user.readOnly,
+            // Write:user.Write,
+           
+            // imports:user.imports,
+            // exports:user.exports,
+            // userManagement:user.userManagement,
+            // reports:user.reports,
+            // reports_all:user.reports_all
+            
           });
         } else {
           // Password is invalid
