@@ -168,11 +168,11 @@ else{
             vendorManagement,
             reports,
             reports_all,
-            deletes,
-            current_login,
-            last_login,
-            company_login,
-            created_date,
+            deletes:deletes,
+            current_login:current_login,
+            last_login:last_login,
+            company_login:company_login,
+            created_date:created_date,
         };
         console.log(formData);
     
