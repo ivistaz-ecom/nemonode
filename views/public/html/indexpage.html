@@ -819,6 +819,7 @@
   
       // Function to generate doughnut charts for ranks
       // Function to generate doughnut charts for top 5 ranks
+// Function to generate 3D doughnut charts for top 6 ranks
 function generateDoughnutCharts(candidates) {
     const ranksData = {};
     candidates.forEach(candidate => {
@@ -830,7 +831,7 @@ function generateDoughnutCharts(candidates) {
     });
 
     // Sort ranks based on count in descending order
-    const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 5);
+    const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 6);
 
     const rankLabels = sortedRanks;
     const rankCounts = sortedRanks.map(rank => ranksData[rank]);
@@ -846,7 +847,7 @@ function generateDoughnutCharts(candidates) {
             labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
             datasets: [{
                 data: rankCounts,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500']
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500', '#008080']
             }]
         },
         options: {
@@ -877,7 +878,21 @@ function generateDoughnutCharts(candidates) {
             },
             title: {
                 display: true,
-                text: 'Top 5 Candidate Ranks Distribution'
+                text: 'Top 6 Candidate Ranks Distribution'
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            if (label) {
+                                return `${label}: ${context.parsed}%`;
+                            }
+                            return '';
+                        }
+                    }
+                }
             }
         }
     });
