@@ -1,5 +1,28 @@
 document.addEventListener('DOMContentLoaded', async function () {
     // Attach click event to the search button
+    await fetchCandidates();
+
+    const token = localStorage.getItem('token');
+              
+    // Fetch discussion counts
+    const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
+      headers: { "Authorization": token }
+    });
+    const discussionCountsData = await discussionCountsResponse.json();
+    document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
+    document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
+
+    document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
+
+
+    // Fetch call count
+    const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
+      headers: { "Authorization": token }
+    });
+    const callCountData = await callCountResponse.json();
+    document.getElementById('callCount').innerText = callCountData.call_count;
+    document.getElementById('callCount').className= '  btn-primary badge'
+
     const userDisplay = document.getElementById("user_name");
     userDisplay.innerHTML += localStorage.getItem('username');
     const hasUserManagement = decodedToken.userManagement;
@@ -17,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     }
   
-   await fetchCandidates();
 
   });
   
