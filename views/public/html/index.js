@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // Attach click event to the search button
     const userDisplay = document.getElementById("user_name");
     userDisplay.innerHTML += localStorage.getItem('username');
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
   
-   ;
+   await fetchCandidates();
+
   });
   
 
@@ -134,4 +135,3 @@ const fetchCandidates = async () => {
 };
 
 // Call the fetchCandidates function when the component loads
-fetchCandidates();
