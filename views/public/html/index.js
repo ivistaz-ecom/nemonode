@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
     // Attach click event to the search button
     await fetchCandidates();
+    
 
     const token = localStorage.getItem('token');
               
