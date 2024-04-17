@@ -14,8 +14,19 @@
     <link rel="stylesheet" href="../assets/css/demo.css" />
 </head>
 <body class="p-5">
-    <h2>Candidates Details</h2>
-    <a href="./indexpage.html" class="float-end me-5 text-decoration-underline">Back to Dashboard</a>
+    <h2>Available Candidates - Overall</h2>
+    <a href="./indexpage.html" class="float-end me-5 text-decoration-none mt-3"> >> Back to Dashboard</a>
+    
+    <div class="border p-5 pt-4 pb-2">
+        <h5 class="text-primary">Candidates : Rank</h5> - click the buttons to filter candidates based on rank
+
+    <!-- List group for rank names and counts -->
+    <div class="list-group p-5 " id="rankListGroup">
+        <!-- Rank names and counts will be dynamically added here -->
+    </div>
+
+    </div>
+    <button id="exportExcelBtn" class="btn text-dark border m-2 float-end">Export to Excel</button>
 
     <table class="table table-bordered bg-white">
         <thead>
@@ -24,73 +35,88 @@
                 <th>Rank</th>
                 <th>Available Date</th>
                 <th>Status</th>
+                <th>Actions</th> <!-- New column for actions -->
             </tr>
         </thead>
         <tbody id="candidatesTableBody">
             <!-- Table rows will be dynamically added here -->
         </tbody>
     </table>
-    <div class="border p-5 pb-2">
-    <!-- List group for rank names and counts -->
-    <div class="list-group p-5 " id="rankListGroup">
-        <!-- Rank names and counts will be dynamically added here -->
-    </div>
-    <p class="text-center ">Candidate Ranks</p>
-
-    </div>
-    
     <script>
         // Function to fetch candidate data and populate the table
-        async function populateCandidatesTable() {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
-                    headers: { "Authorization": token }
-                });
-                const responseData = response.data;
-                let candidates = responseData.candidates; // Accessing the candidates array
-                // Sort candidates based on availability status
-                candidates.sort((a, b) => getStatusOrder(a.avb_date) - getStatusOrder(b.avb_date));
-                const tableBody = document.getElementById('candidatesTableBody');
-                tableBody.innerHTML = ''; // Clear previous data
-                candidates.forEach(candidate => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${candidate.fname}</td>
-                        <td>${candidate.c_rank}</td>
-                        <td>${candidate.avb_date}</td>
-                        <td><span class="badge ${getStatusBadgeClass(candidate.avb_date)}">${getStatus(candidate.avb_date)}</span></td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-                populateRankListGroup(candidates); // Populate rank list group
+  // Function to fetch candidate data and populate the table
+// Function to fetch candidate data and populate the table
+async function populateCandidatesTable() {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
+            headers: { "Authorization": token }
+        });
+        const responseData = response.data;
+        let candidates = responseData.candidates; // Accessing the candidates array
+        
+        // Filter out candidates who are not available
+        candidates = candidates.filter(candidate => getStatus(candidate.avb_date) !== "Not available");
+        
+        // Sort candidates based on availability status
+        candidates.sort((a, b) => getStatusOrder(a.avb_date) - getStatusOrder(b.avb_date));
+        
+        const tableBody = document.getElementById('candidatesTableBody');
+        tableBody.innerHTML = ''; // Clear previous data
+        
+        candidates.forEach(candidate => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${candidate.fname}</td>
+                <td>${candidate.c_rank}</td>
+                <td>${candidate.avb_date}</td>
+                <td><span class="badge ${getStatusBadgeClass(candidate.avb_date)}">${getStatus(candidate.avb_date)}</span></td>
+                <td><button class="btn btn-primary" onclick="handleView('${candidate.id}')">View</button></td> <!-- View button -->
+            `;
+            tableBody.appendChild(row);
+        });
 
-            } catch (error) {
-                console.error(error);
-            }
-        }
+        populateRankListGroup(candidates); // Populate rank list group
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Function to handle the "View" button click
+function handleView(id) {
+    alert(`View button clicked for candidateId ${id}`);
+    // Add your view logic here
+    localStorage.setItem('memId', id);
+    window.location.href = './view-candidate.html';
+}
+
 
         // Function to populate list group with rank names and counts
-        function populateRankListGroup(candidates) {
-            const ranksData = {};
-            candidates.forEach(candidate => {
-                ranksData[candidate.c_rank] = ranksData[candidate.c_rank] ? ranksData[candidate.c_rank] + 1 : 1;
-            });
-
-            const rankListGroup = document.getElementById('rankListGroup');
-            rankListGroup.innerHTML = ''; // Clear existing data
-
-            for (const rank in ranksData) {
-                const button = document.createElement('button');
-                button.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'btn', 'btn-primary');
-                button.innerHTML = `${rank} : ${ranksData[rank]}`;
-                button.addEventListener('click', () => filterCandidatesByRank(rank, candidates));
-                button.style.textAlign = 'left'; // Align button text to the left
-                button.style.width = '100%'; // Make button width 100%
-                button.style.marginBottom = '5px'; // Add some margin to separate buttons
-                rankListGroup.appendChild(button);
-            }
+       // Function to populate list group with rank names and counts of available candidates
+// Function to populate list group with rank names and counts of available candidates
+function populateRankListGroup(candidates) {
+    const ranksData = {};
+    candidates.forEach(candidate => {
+        if (getStatus(candidate.avb_date) !== "Not available") {
+            ranksData[candidate.c_rank] = ranksData[candidate.c_rank] ? ranksData[candidate.c_rank] + 1 : 1;
         }
+    });
+
+    const rankListGroup = document.getElementById('rankListGroup');
+    rankListGroup.innerHTML = ''; // Clear existing data
+
+    for (const rank in ranksData) {
+        const button = document.createElement('button');
+        button.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'btn', 'btn-primary');
+        button.innerHTML = `${rank} : ${ranksData[rank]}`;
+        button.addEventListener('click', () => filterCandidatesByRank(rank, candidates));
+        button.style.textAlign = 'left'; // Align button text to the left
+        button.style.width = '100%'; // Make button width 100%
+        button.style.marginBottom = '5px'; // Add some margin to separate buttons
+        rankListGroup.appendChild(button);
+    }
+}
 
         // Function to filter candidates by rank
         function filterCandidatesByRank(rank, candidates) {
@@ -104,6 +130,7 @@
                     <td>${candidate.c_rank}</td>
                     <td>${candidate.avb_date}</td>
                     <td><span class="badge ${getStatusBadgeClass(candidate.avb_date)}">${getStatus(candidate.avb_date)}</span></td>
+                    <td><button class="btn btn-primary" onclick="handleView('${candidate.id}')">View</button></td> <!-- View button -->
                 `;
                 tableBody.appendChild(row);
             });
@@ -156,6 +183,21 @@
 
         // Call the function to populate the table when the page loads
         populateCandidatesTable();
+
+        const exportExcelBtn = document.getElementById('exportExcelBtn');
+
+exportExcelBtn.addEventListener('click', function () {
+    exportCandidatesToExcel();
+});
+
+function exportCandidatesToExcel() {
+    const table = document.getElementById('candidatesTableBody');
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Candidates" });
+    XLSX.writeFile(wb, 'candidates.xlsx');
+}
+
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+
 </body>
 </html>

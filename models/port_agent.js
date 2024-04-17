@@ -9,7 +9,7 @@ const PortAgent = sequelize.define('PortAgent', {
         autoIncrement: true,
     },
     portAgentName: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     contactPerson: {
@@ -17,7 +17,7 @@ const PortAgent = sequelize.define('PortAgent', {
         allowNull: false,
     },
     address: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     phone: {
@@ -35,6 +35,10 @@ const PortAgent = sequelize.define('PortAgent', {
     state: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    other_state:{
+        type:DataTypes.STRING,
+        allowNull:false
     },
     country: {
         type: DataTypes.STRING,

@@ -406,6 +406,7 @@ const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const candidateId = localStorage.getItem('memId');
+        console.log(candidateId)
         await   fetchAndDisplayDiscussions(candidateId);
         await displayCandidateDetails();
         await fetchAndDisplayContractDetails(candidateId)

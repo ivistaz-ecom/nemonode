@@ -262,7 +262,6 @@ const getAllCandidates = async (req, res) => {
     }
 };
 
-
 const birthday = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -271,17 +270,25 @@ const birthday = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found', success: false });
         }
-        const readOnly = user.dataValues.readOnly
+        const readOnly = user.dataValues.readOnly;
         const userGroup = user.dataValues.userGroup;
         console.log('User Group:', userGroup);
 
         let whereCondition = {};
-        // Check if a date is provided in the request body
+        // Check if a date is provided in the request query
         if (req.query.date) {
-            // If date is provided, filter s based on that date
+            // If date is provided, extract the day and month
             const selectedDate = new Date(req.query.date);
-            console.log(selectedDate)
-            whereCondition.dob = { [Op.eq]: selectedDate };
+            const selectedMonth = selectedDate.getMonth();
+            const selectedDay = selectedDate.getDate();
+
+            // Set where condition to match day and month
+            whereCondition = {
+                [Op.and]: [
+                    sequelize.where(sequelize.fn('month', sequelize.col('dob')), selectedMonth + 1), // Adding 1 because months are zero-indexed
+                    sequelize.where(sequelize.fn('day', sequelize.col('dob')), selectedDay)
+                ]
+            };
         }
 
         let allCandidates;
@@ -309,68 +316,6 @@ const birthday = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
-
-
-
-
-
-
-
-
-// const new_profile = async (req, res) => {
-//     try {
-//         let includeModels = [
-//             { model: CandidateNkd },
-//             { model: Medical },
-//             { model: Travel },
-//             { model: Bank },
-//             { model: Documents },
-//             { model: Contract },
-//             { model: Discussion_plus },
-//             // Add other associated models as needed
-//         ];
-
-//         const userId = req.user.id;
-//         let userGroup;
-//         const user = await User.findByPk(userId);
-
-//         if (!user) {
-//             return res.status(404).json({ message: 'User not found', success: false });
-//         }
-
-//         userGroup = user.dataValues.userGroup;
-//         console.log('User Group:', userGroup);
-
-//         const selectedFields = req.body.selectedFields || []; // Default to an empty array if selectedFields is not provided
-
-//         let allCandidates;
-//         if (userGroup === 'admin') {
-//             // If the user is an admin, fetch all candidates
-//             allCandidates = await Candidate.findAll({
-//                 attributes: selectedFields,
-//                 include: includeModels,
-//             });
-//         } else {
-//             // If the user is not an admin, fetch candidates associated with the user and filter by group
-//             allCandidates = await Candidate.findAll({
-//                 where: {
-//                     userId: userId,
-//                     group: userGroup // Assuming the group column name in the Candidate table is 'group'
-//                 },
-//                 attributes: selectedFields,
-//                 include: includeModels,
-//             });
-//         }
-
-//         res.status(200).json({
-//             candidates: allCandidates,
-//             success: true,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: 'Internal server error', success: false });
-//     }
-// };
 
 const new_profile = async (req, res) => {
     try {
@@ -401,51 +346,42 @@ const new_profile = async (req, res) => {
         const group = req.body.group || 'all'; // Get the group parameter from the request body, default to 'all'
 
         let allCandidates;
-        if (group === 'all') {
-        if (userGroup === 'admin' ) {
-            // If the user is an admin, fetch all candidates
-            allCandidates = await Candidate.findAll({
-                attributes: selectedFields,
-                include: includeModels,
-            });
-        }
-        else
-        {   
-            if(userGroup==='vendor' && reports ==='true')
-              // If the user is an admin, fetch all candidates
-              allCandidates = await Candidate.findAll({
-                where: {
-                    group: group,
-                },
-                attributes: selectedFields,
-                include: includeModels,
-            });
-        }
-        
 
-        
-        } else {
+        // Define the date range filter
+        const startDate = req.body.startDate; // Assuming startDate and endDate are provided in the request body
+        const endDate = req.body.endDate;
+
+        // Check if the date range is provided
+        if (startDate && endDate) {
             // If the user is not an admin, fetch candidates associated with the user
-            if (group === 'all') {
-                // If group is 'all', bypass filtering
+            if (userGroup === 'admin') {
+                allCandidates = await Candidate.findAll({
+                    where: {
+                        cr_date: {
+                            [Op.between]: [startDate, endDate], // Filter based on the date range
+                        },
+                    },
+                    attributes: selectedFields,
+                    include: includeModels,
+                });
+            } else if (userGroup === 'vendor' && reports === true) {
                 allCandidates = await Candidate.findAll({
                     where: {
                         userId: userId,
+                        cr_date: {
+                            [Op.between]: [startDate, endDate], // Filter based on the date range
+                        },
                     },
                     attributes: selectedFields,
                     include: includeModels,
                 });
             } else {
-                // If group is specific, filter candidates based on the group value
-                allCandidates = await Candidate.findAll({
-                    where: {
-                        userId: userId,
-                        group: group,
-                    },
-                    attributes: selectedFields,
-                    include: includeModels,
-                });
+                // If the user is neither admin nor vendor with 'reports' true, handle other cases
+                return res.status(403).json({ message: 'Unauthorized', success: false });
             }
+        } else {
+            // Handle case when date range is not provided
+            return res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
         }
 
         res.status(200).json({
@@ -457,6 +393,8 @@ const new_profile = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
+
 
 const contract = async (req, res) => {
     try {

@@ -14,7 +14,6 @@ const Vsl = sequelize.define('Vsl', {
     },
     vesselType: {
         type: DataTypes.STRING,
-        allowNull: false,
     },
     vsl_company: {
         type: DataTypes.STRING,
@@ -22,11 +21,12 @@ const Vsl = sequelize.define('Vsl', {
     },
     imoNumber: {
         type: DataTypes.STRING,
-        allowNull: false,
     },
     vesselFlag: {
         type: DataTypes.STRING,
-        allowNull: false,
+    },
+    vessel_max_price:{
+        type:DataTypes.STRING
     },
 }, {
     tableName: 'vsls',
