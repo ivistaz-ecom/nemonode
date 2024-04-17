@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
   // Show spinner
   // document.getElementById('spinner').style.display = 'flex';
-   fetchCandidates();
 
   console.log('updated')
   // Attach click event to the search button
@@ -43,7 +42,9 @@ document.addEventListener('DOMContentLoaded', async function () {
  
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
-  populateCandidatesTable();
+  await populateCandidatesTable();
+  await fetchCandidates();
+
 
 });
 
