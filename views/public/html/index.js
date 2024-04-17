@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   // document.getElementById('spinner').style.display = 'flex';
   
 
-  console.log('newly updates')
+  console.log('newly updates 1')
   // Attach click event to the search button
 
   const token = localStorage.getItem('token');

@@ -253,6 +253,10 @@ const getAllCandidates = async (req, res) => {
                 // Remove any default limit set by Sequelize
             });
         }
+        else{
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+
+        }
         
         
 
