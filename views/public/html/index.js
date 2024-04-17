@@ -1,49 +1,52 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  // Show spinner
+  // document.getElementById('spinner').style.display = 'flex';
+   fetchCandidates();
+
   console.log('updated')
-    // Attach click event to the search button
-    await fetchCandidates();
-    await populateCandidatesTable();
+  // Attach click event to the search button
 
-    const token = localStorage.getItem('token');
-              
-    // Fetch discussion counts
-    const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
-      headers: { "Authorization": token }
-    });
-    const discussionCountsData = await discussionCountsResponse.json();
-    document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
-    document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
+  const token = localStorage.getItem('token');
 
-    document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
-
-
-    // Fetch call count
-    const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
-      headers: { "Authorization": token }
-    });
-    const callCountData = await callCountResponse.json();
-    document.getElementById('callCount').innerText = callCountData.call_count;
-    document.getElementById('callCount').className= '  btn-primary badge'
-
-    const userDisplay = document.getElementById("user_name");
-    userDisplay.innerHTML += localStorage.getItem('username');
-    const hasUserManagement = decodedToken.userManagement;
-    const vendorManagement = decodedToken.vendorManagement;
-    console.log(vendorManagement);
-    const userGroup = decodedToken.userGroup;
-    console.log(userGroup)
-    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-  }
-    if (vendorManagement) {
-      document.getElementById('vendorManagementSection').style.display = 'block';
-      document.getElementById('vendorManagementSections').style.display = 'block';
-
-    }
-  
-
+  // Fetch discussion counts
+  const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
+    headers: { "Authorization": token }
   });
+  const discussionCountsData = await discussionCountsResponse.json();
+  document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
+  document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
+  document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
+
+  // Fetch call count
+  const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
+    headers: { "Authorization": token }
+  });
+  const callCountData = await callCountResponse.json();
+  document.getElementById('callCount').innerText = callCountData.call_count;
+  document.getElementById('callCount').className = '  btn-primary badge';
+
+  const userDisplay = document.getElementById("user_name");
+  userDisplay.innerHTML += localStorage.getItem('username');
+  const hasUserManagement = decodedToken.userManagement;
+  const vendorManagement = decodedToken.vendorManagement;
+  console.log(vendorManagement);
+  const userGroup = decodedToken.userGroup;
+  console.log(userGroup)
+  if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
+  }
+  if (vendorManagement) {
+    document.getElementById('vendorManagementSection').style.display = 'block';
+    document.getElementById('vendorManagementSections').style.display = 'block';
+  }
+ 
+  // Hide spinner after everything is done
+  document.getElementById('spinner').style.display = 'none';
+  populateCandidatesTable();
+
+});
+
   
 
 
@@ -180,68 +183,71 @@ async function populateCandidatesTable() {
 // Function to generate doughnut charts for ranks
 // Function to generate doughnut charts for top 5 ranks
 function generateDoughnutCharts(candidates) {
-const ranksData = {};
-candidates.forEach(candidate => {
-if (ranksData[candidate.c_rank]) {
-    ranksData[candidate.c_rank]++;
-} else {
-    ranksData[candidate.c_rank] = 1;
+  const ranksData = {};
+  candidates.forEach(candidate => {
+      if (getStatus(candidate.avb_date) !== "Not available") {
+          if (ranksData[candidate.c_rank]) {
+              ranksData[candidate.c_rank]++;
+          } else {
+              ranksData[candidate.c_rank] = 1;
+          }
+      }
+  });
+
+  // Sort ranks based on count in descending order
+  const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 5);
+
+  const rankLabels = sortedRanks;
+  const rankCounts = sortedRanks.map(rank => ranksData[rank]);
+
+  const rankChartsContainer = document.getElementById('rankCharts');
+  rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
+
+  const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
+
+  new Chart(rankDoughnutChartCanvas, {
+      type: 'doughnut',
+      data: {
+          labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
+          datasets: [{
+              data: rankCounts,
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500']
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                  generateLabels: function(chart) {
+                      const data = chart.data;
+                      if (data.labels.length && data.datasets.length) {
+                          return data.labels.map(function(label, i) {
+                              const color = data.datasets[0].backgroundColor[i];
+                              return {
+                                  text: label,
+                                  fillStyle: color,
+                                  strokeStyle: color,
+                                  lineWidth: 2,
+                                  hidden: false,
+                                  index: i
+                              };
+                          });
+                      }
+                      return [];
+                  }
+              }
+          },
+          title: {
+              display: true,
+              text: 'Top 5 Candidate Ranks Distribution (Available Candidates)'
+          }
+      }
+  });
 }
-});
 
-// Sort ranks based on count in descending order
-const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 5);
-
-const rankLabels = sortedRanks;
-const rankCounts = sortedRanks.map(rank => ranksData[rank]);
-
-const rankChartsContainer = document.getElementById('rankCharts');
-rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
-
-const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
-
-new Chart(rankDoughnutChartCanvas, {
-type: 'doughnut',
-data: {
-    labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
-    datasets: [{
-        data: rankCounts,
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500']
-    }]
-},
-options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-        display: true,
-        position: 'right',
-        labels: {
-            generateLabels: function(chart) {
-                const data = chart.data;
-                if (data.labels.length && data.datasets.length) {
-                    return data.labels.map(function(label, i) {
-                        const color = data.datasets[0].backgroundColor[i];
-                        return {
-                            text: label,
-                            fillStyle: color,
-                            strokeStyle: color,
-                            lineWidth: 2,
-                            hidden: false,
-                            index: i
-                        };
-                    });
-                }
-                return [];
-            }
-        }
-    },
-    title: {
-        display: true,
-        text: 'Top 5 Candidate Ranks Distribution'
-    }
-}
-});
-}
 
 // Function to determine the status order
 function getStatusOrder(avb_date) {

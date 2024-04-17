@@ -19,6 +19,10 @@ const Rank = sequelize.define('Rank', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    eval_type:{
+        type:DataTypes.STRING,
+        allowNull:false
+    }
 }, {
     tableName: 'Rank',
     timestamps: false,
