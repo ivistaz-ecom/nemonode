@@ -150,9 +150,9 @@ const fetchCandidates = async () => {
     const candidateData = response.data;
     console.log(candidateData)
     // Filter candidates based on company_status and count active and inactive candidates
-    const activeCandidates = candidateData.candidates.filter(candidate => candidate.active_details == true);
-    const inactiveCandidates = candidateData.candidates.filter(candidate => candidate.active_details != true);
-    console.log(activeCandidates,inactiveCandidates)
+    const activeCandidates = candidateData.candidates.filter(candidate => candidate.active_details = true);
+    const inactiveCandidates = candidateData.candidates.filter(candidate => candidate.active_details = false);
+    console.log("check if its working",activeCandidates,inactiveCandidates)
 
     // Update the active and inactive counts in the HTML
     document.getElementById('activeCount').textContent = activeCandidates.length;
