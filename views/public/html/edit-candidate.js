@@ -15,14 +15,7 @@ async function fetchData() {
         updateTable(candidates);
 
         // Update pagination controls
-        const totalCandidates = responseData.totalCount; // Total number of candidates
-        const totalPages = Math.ceil(totalCandidates / limit); // Calculate total pages
-        const currentPage = responseData.currentPage;
-        document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
-
-        // Enable/disable pagination buttons based on current page
-        document.getElementById('prev-page-btn').disabled = currentPage === 1;
-        document.getElementById('next-page-btn').disabled = currentPage === totalPages;
+        
     } catch (error) {
         console.error('Error fetching data:', error);
     }
