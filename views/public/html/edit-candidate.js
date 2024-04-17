@@ -1,10 +1,10 @@
 const token = localStorage.getItem('token');
 
-async function fetchData(page = 1, limit = 10) {
+async function fetchData() {
     try {
         const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
             headers: { "Authorization": token },
-            params: { page, limit }
+            
         });
 
         const responseData = response.data;
