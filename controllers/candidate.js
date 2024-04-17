@@ -213,13 +213,14 @@ const getAllCandidates = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found', success: false });
         }
-
-        const userGroup = user.dataValues.userGroup;
         const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        console.log('User Group:', userGroup);
+
 
         let allCandidates;
 
-        if (userGroup === 'admin') {
+        if (userGroup == 'admin') {
             // If the user is an admin, fetch all candidates
             allCandidates = await Candidate.findAll({
                 include: [
@@ -234,7 +235,7 @@ const getAllCandidates = async (req, res) => {
                 ],
                 // Remove any default limit set by Sequelize
             });
-        } else if (userGroup === 'vendor' && readOnly) {
+        } else if (userGroup == 'vendor' && readOnly) {
             // If the user is a vendor with read-only access, fetch candidates associated with the user
             allCandidates = await Candidate.findAll({
                 where: {
