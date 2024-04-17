@@ -214,8 +214,8 @@ const getAllCandidates = async (req, res) => {
             return res.status(404).json({ message: 'User not found', success: false });
         }
 
-        const userGroup = user.userGroup;
-        const readOnly = user.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        const readOnly = user.dataValues.readOnly;
 
         let allCandidates;
 
