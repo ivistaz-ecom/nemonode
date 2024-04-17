@@ -147,7 +147,7 @@ const fetchCandidates = async () => {
   try {
     const token = localStorage.getItem('token');
     const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
-    const candidateData = response;
+    const candidateData = response.candidates;
     console.log(candidateData)
     // Filter candidates based on company_status and count active and inactive candidates
     const activeCandidates = candidateData.candidates.filter(candidate => candidate.active_details === 1);
@@ -167,9 +167,7 @@ const fetchCandidates = async () => {
 async function populateCandidatesTable() {
   try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
-          headers: { "Authorization": token }
-      });
+      const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
       const responseData = response.data;
       let candidates = responseData.candidates; // Accessing the candidates array
       // Sort candidates based on availability status
