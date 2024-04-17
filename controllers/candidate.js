@@ -232,6 +232,7 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
+                // Remove any default limit set by Sequelize
             });
         } else if (userGroup === 'vendor' && readOnly) {
             // If the user is a vendor with read-only access, fetch candidates associated with the user
@@ -249,8 +250,11 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
+                // Remove any default limit set by Sequelize
             });
         }
+        
+        
 
         res.status(200).json({
             candidates: allCandidates,
