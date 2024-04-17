@@ -307,6 +307,6 @@ const Candidate = sequelize.define('Candidate', {
         type:Sequelize.STRING,
         allowNull:true,
     }
-});
+},{timestamps:false});
 
 module.exports = Candidate;
