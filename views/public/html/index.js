@@ -147,7 +147,7 @@ const fetchCandidates = async () => {
     const token = localStorage.getItem('token');
     const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
     const candidateData = response.data;
-
+    console.log(candidateData)
     // Filter candidates based on company_status and count active and inactive candidates
     const activeCandidates = candidateData.candidates.filter(candidate => candidate.active_details == true);
     const inactiveCandidates = candidateData.candidates.filter(candidate => candidate.active_details != true);
