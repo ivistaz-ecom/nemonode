@@ -146,7 +146,8 @@ setInterval(updateDateTime, 1000);
 const fetchCandidates = async () => {
   try {
     const token = localStorage.getItem('token');
-    console.log(token)
+    const decodedToken = decodeToken(token)
+    console.log(decodedToken)
     const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
     const candidateData = response.candidates;
     console.log(candidateData)
