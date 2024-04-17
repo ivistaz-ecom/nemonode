@@ -74,6 +74,61 @@ const Contract = sequelize.define('Contract', {
     created_by:{
         type:DataTypes.STRING,
     },
+
+    salary_total_basic:{
+        type:DataTypes.INTEGER
+    },
+    salary_basic:{
+        type:DataTypes.INTEGER
+    },
+    salary_bonus:{
+        type:DataTypes.INTEGER
+    },
+    salary_leave_wage:{
+        type:DataTypes.INTEGER
+    },
+    salary_overtime:{
+        type:DataTypes.INTEGER
+    },
+    salary_fixed_overtime:{
+        type:DataTypes.INTEGER
+    },
+    susbistence_allowance:{
+        type:DataTypes.INTEGER
+    },
+    salary_consolidated_allowances:{
+        type:DataTypes.INTEGER
+    },
+    salary_uniform_allowance:{
+        type:DataTypes.INTEGER
+    },
+    salary_ot:{
+        type:DataTypes.INTEGER
+    },
+    salary_miscellaneous_allowance:{
+        type:DataTypes.INTEGER
+    },
+    salary_other_allowance:{
+        type:DataTypes.INTEGER
+    },
+    salary_tax:{
+        type:DataTypes.INTEGER
+    },
+    salary_pf:{
+        type:DataTypes.INTEGER
+    },
+    leave_susbistence_allowance:{
+        type:DataTypes.INTEGER
+    },
+    salary_pension_fund:{
+        type:DataTypes.INTEGER
+    },
+    salary_others:{
+        type:DataTypes.INTEGER
+    },
+    salary_additional_works:{
+        type:DataTypes.INTEGER
+    },
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {
     tableName: 'contract',

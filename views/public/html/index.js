@@ -1,47 +1,52 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    // Attach click event to the search button
-    await fetchCandidates();
+  // Show spinner
+  // document.getElementById('spinner').style.display = 'flex';
+   fetchCandidates();
 
-    const token = localStorage.getItem('token');
-              
-    // Fetch discussion counts
-    const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
-      headers: { "Authorization": token }
-    });
-    const discussionCountsData = await discussionCountsResponse.json();
-    document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
-    document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
+  console.log('updated')
+  // Attach click event to the search button
 
-    document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
+  const token = localStorage.getItem('token');
 
-
-    // Fetch call count
-    const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
-      headers: { "Authorization": token }
-    });
-    const callCountData = await callCountResponse.json();
-    document.getElementById('callCount').innerText = callCountData.call_count;
-    document.getElementById('callCount').className= '  btn-primary badge'
-
-    const userDisplay = document.getElementById("user_name");
-    userDisplay.innerHTML += localStorage.getItem('username');
-    const hasUserManagement = decodedToken.userManagement;
-    const vendorManagement = decodedToken.vendorManagement;
-    console.log(vendorManagement);
-    const userGroup = decodedToken.userGroup;
-    console.log(userGroup)
-    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-  }
-    if (vendorManagement) {
-      document.getElementById('vendorManagementSection').style.display = 'block';
-      document.getElementById('vendorManagementSections').style.display = 'block';
-
-    }
-  
-
+  // Fetch discussion counts
+  const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
+    headers: { "Authorization": token }
   });
+  const discussionCountsData = await discussionCountsResponse.json();
+  document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
+  document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
+  document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
+
+  // Fetch call count
+  const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
+    headers: { "Authorization": token }
+  });
+  const callCountData = await callCountResponse.json();
+  document.getElementById('callCount').innerText = callCountData.call_count;
+  document.getElementById('callCount').className = '  btn-primary badge';
+
+  const userDisplay = document.getElementById("user_name");
+  userDisplay.innerHTML += localStorage.getItem('username');
+  const hasUserManagement = decodedToken.userManagement;
+  const vendorManagement = decodedToken.vendorManagement;
+  console.log(vendorManagement);
+  const userGroup = decodedToken.userGroup;
+  console.log(userGroup)
+  if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
+  }
+  if (vendorManagement) {
+    document.getElementById('vendorManagementSection').style.display = 'block';
+    document.getElementById('vendorManagementSections').style.display = 'block';
+  }
+ 
+  // Hide spinner after everything is done
+  document.getElementById('spinner').style.display = 'none';
+  populateCandidatesTable();
+
+});
+
   
 
 
@@ -157,3 +162,136 @@ const fetchCandidates = async () => {
 };
 
 // Call the fetchCandidates function when the component loads
+
+async function populateCandidatesTable() {
+  try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
+          headers: { "Authorization": token }
+      });
+      const responseData = response.data;
+      let candidates = responseData.candidates; // Accessing the candidates array
+      // Sort candidates based on availability status
+      
+      // Generate doughnut charts for ranks
+      generateDoughnutCharts(candidates); // Display only the first 5 ranks
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+// Function to generate doughnut charts for ranks
+// Function to generate doughnut charts for top 5 ranks
+function generateDoughnutCharts(candidates) {
+  const ranksData = {};
+  candidates.forEach(candidate => {
+      if (getStatus(candidate.avb_date) !== "Not available") {
+          if (ranksData[candidate.c_rank]) {
+              ranksData[candidate.c_rank]++;
+          } else {
+              ranksData[candidate.c_rank] = 1;
+          }
+      }
+  });
+
+  // Sort ranks based on count in descending order
+  const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 5);
+
+  const rankLabels = sortedRanks;
+  const rankCounts = sortedRanks.map(rank => ranksData[rank]);
+
+  const rankChartsContainer = document.getElementById('rankCharts');
+  rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
+
+  const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
+
+  new Chart(rankDoughnutChartCanvas, {
+      type: 'doughnut',
+      data: {
+          labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
+          datasets: [{
+              data: rankCounts,
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500']
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                  generateLabels: function(chart) {
+                      const data = chart.data;
+                      if (data.labels.length && data.datasets.length) {
+                          return data.labels.map(function(label, i) {
+                              const color = data.datasets[0].backgroundColor[i];
+                              return {
+                                  text: label,
+                                  fillStyle: color,
+                                  strokeStyle: color,
+                                  lineWidth: 2,
+                                  hidden: false,
+                                  index: i
+                              };
+                          });
+                      }
+                      return [];
+                  }
+              }
+          },
+          title: {
+              display: true,
+              text: 'Top 5 Candidate Ranks Distribution (Available Candidates)'
+          }
+      }
+  });
+}
+
+
+// Function to determine the status order
+function getStatusOrder(avb_date) {
+  const today = new Date();
+  const avbDate = new Date(avb_date);
+  const diffTime = avbDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  if (diffDays === 0) {
+      return 1; // Available
+  } else if (diffDays < 0) {
+      return 3; // Not available
+  } else {
+      return 2; // Available in __ days
+  }
+}
+
+// Function to determine the status based on avb_date
+function getStatus(avb_date) {
+  const today = new Date();
+  const avbDate = new Date(avb_date);
+  const diffTime = avbDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  if (diffDays === 0) {
+      return "Available";
+  } else if (diffDays < 0) {
+      return "Not available";
+  } else {
+      return `Available in ${diffDays} days`;
+  }
+}
+
+// Function to determine the Bootstrap badge class based on avb_date
+function getStatusBadgeClass(avb_date) {
+  const today = new Date();
+  const avbDate = new Date(avb_date);
+  const diffTime = avbDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  if (diffDays === 0) {
+      return "bg-success";
+  } else if (diffDays < 0) {
+      return "bg-danger";
+  } else {
+      return "bg-primary";
+  }
+}
+
+// Call the function to populate the table when the page loads

@@ -17,7 +17,7 @@ const Hospital = sequelize.define('Hospital', {
         allowNull: false,
     },
     doctorAddress: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     doctorCity: {

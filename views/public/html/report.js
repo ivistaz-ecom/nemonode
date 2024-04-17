@@ -38,33 +38,47 @@ document.addEventListener('DOMContentLoaded', async function () {
     };
 
     const handleGenerateReport = async function () {
-          try {
-              if (!Object.values(selectedFields).some(Boolean)) {
-                  throw new Error('Please select at least one field.');
-              }
-
-              const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/view-new-profile';
-              const token = localStorage.getItem('token');
-              const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
-
-              if (!response.data || !response.data.candidates) {
-                  throw new Error('Error generating report');
-              }
-
-              const filteredData = response.data.candidates.map(candidate => {
-                  const filteredCandidate = {};
-                  Object.keys(selectedFields).forEach(field => {
-                      if (selectedFields[field]) {
-                          filteredCandidate[field] = candidate[field];
-                      }
-                  });
-                  return filteredCandidate;
-              });
-              renderTable(filteredData);
-          } catch (error) {
-              console.error('Error generating report:', error.message);
-          }
-      };
+        try {
+            if (!Object.values(selectedFields).some(Boolean)) {
+                throw new Error('Please select at least one field.');
+            }
+    
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+    
+            if (!startDate || !endDate) {
+                throw new Error('Please select both start and end dates.');
+            }
+    
+            const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/view-new-profile';
+            const token = localStorage.getItem('token');
+            const response = await axios.post(endpoint, {
+                selectedFields,
+                startDate,
+                endDate
+            }, {
+                headers: { "Authorization": token }
+            });
+    
+            if (!response.data || !response.data.candidates) {
+                throw new Error('Error generating report');
+            }
+    
+            const filteredData = response.data.candidates.map(candidate => {
+                const filteredCandidate = {};
+                Object.keys(selectedFields).forEach(field => {
+                    if (selectedFields[field]) {
+                        filteredCandidate[field] = candidate[field];
+                    }
+                });
+                return filteredCandidate;
+            });
+            renderTable(filteredData);
+        } catch (error) {
+            console.error('Error generating report:', error.message);
+        }
+    };
+    
 
     const renderTable = function (data) {
         const reportTableDiv = document.getElementById('reportTable');

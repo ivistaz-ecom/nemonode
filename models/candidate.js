@@ -12,7 +12,11 @@ const Candidate = sequelize.define('Candidate', {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    area_code1: {
+    qualifications:{
+        type:Sequelize.STRING,
+        allowNull:true
+    },
+       area_code1: {
         type: Sequelize.STRING,
         allowNull: true
     },
@@ -54,11 +58,11 @@ const Candidate = sequelize.define('Candidate', {
         allowNull: true
     },
     c_ad1: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     c_ad2: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     c_city: {
@@ -130,7 +134,7 @@ const Candidate = sequelize.define('Candidate', {
         allowNull: true
     },
     imp_discussion: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     indos_number: {
@@ -206,11 +210,11 @@ const Candidate = sequelize.define('Candidate', {
         allowNull: true
     },
     p_ad1: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     p_ad2: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     p_city: {
@@ -251,7 +255,7 @@ const Candidate = sequelize.define('Candidate', {
         allowNull: true
     },
     ref_check: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
     },
     resume: {

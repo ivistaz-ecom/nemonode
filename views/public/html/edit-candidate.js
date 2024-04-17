@@ -15,7 +15,8 @@ async function fetchData(page = 1, limit = 10) {
         updateTable(candidates);
 
         // Update pagination controls
-        const totalPages = responseData.totalPages;
+        const totalCandidates = responseData.totalCount; // Total number of candidates
+        const totalPages = Math.ceil(totalCandidates / limit); // Calculate total pages
         const currentPage = responseData.currentPage;
         document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
 
@@ -32,11 +33,11 @@ function jumpToPage() {
     const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3]); // Get the total number of pages
     if (pageNumber >= 1 && pageNumber <= totalPages) { // Check if the entered page number is within range
         document.getElementById('page-info').textContent = `Page ${pageNumber} of ${totalPages}`; // Update the page info text
+        fetchData(pageNumber); // Fetch data for the selected page
     } else {
         alert(`Please enter a page number between 1 and ${totalPages}.`); // Alert the user if the entered page number is out of range
     }
 }
-
 
 function nextPage() {
     const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
@@ -47,6 +48,7 @@ function prevPage() {
     const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1]);
     fetchData(currentPage - 1);
 }
+
 
 // Function to update the table with data
 
@@ -62,13 +64,13 @@ function updateTable(candidates) {
 
     // Populate the table with the fetched data
   // ...
-candidates.forEach((candidate, index) => {
+candidates.forEach((candidate) => {
     const dob = new Date(candidate.dob); // Convert dob to a Date object
     const age = calculateAge(dob); // Calculate age using the function
 
     const row = `
         <tr>
-            <td>${index + 1}</td>
+          
             <td>${candidate.candidateId}</td>
             <td>${candidate.fname} ${candidate.lname}</td>
             <td>${candidate.c_rank}</td>

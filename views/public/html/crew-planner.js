@@ -211,6 +211,7 @@ const addCrewPlanner = async (e) => {
 
 // Attach the function to the form submit event
 document.getElementById('addCrewForm').addEventListener('submit', addCrewPlanner);
+//                <td>${crewPlanner.created_by}</td>
 
 async function fetchAndDisplayCrewPlannerDetails() {
     try {
@@ -244,8 +245,7 @@ async function fetchAndDisplayCrewPlannerDetails() {
                 <td>${crewPlanner.wages}</td>
                 <td>${crewPlanner.doj}</td>
                 <td>${crewPlanner.otherInfo}</td>
-                <td>${crewPlanner.status}</td>
-                <td>${crewPlanner.created_by}</td>
+                <td>${crewPlanner.immediate}</td>
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editCrewPlanner('${crewPlanner.id}', '${crewPlanner.rank}', '${crewPlanner.client}', '${crewPlanner.vesselType}', '${crewPlanner.vesselName}', '${crewPlanner.cocAccepted}', '${crewPlanner.trading}', '${crewPlanner.wages}', '${crewPlanner.doj}', '${crewPlanner.otherInfo}', '${crewPlanner.status}','${crewPlanner.created_by}', event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>

@@ -20,7 +20,7 @@ const CrewPlanner = sequelize.define('CrewPlanner', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    vesselName: {
+    vessel: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -41,7 +41,7 @@ const CrewPlanner = sequelize.define('CrewPlanner', {
         allowNull: false,
     },
     otherInfo: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
     status: {
@@ -54,9 +54,11 @@ const CrewPlanner = sequelize.define('CrewPlanner', {
     updated_by:{
         type:DataTypes.STRING,
     },
+    created_date:{
+        type:DataTypes.DATE
+    }
 }, {
     tableName: 'crew-planner',
-    timestamps: false,
 });
 
 module.exports = CrewPlanner;

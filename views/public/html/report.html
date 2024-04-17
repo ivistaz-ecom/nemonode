@@ -104,6 +104,14 @@
           <!-- New Profile Fields -->
           <div id="newProfileFields" style="display: none;">
             <h2>New Profile Fields</h2>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" class="form-control" id="startDate" name="startDate">
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" class="form-control" id="endDate" name="endDate">
+            </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
                 <label class="form-check-label" for="candidateId">Candidate ID</label>
@@ -176,6 +184,7 @@
                 <input class="form-check-input" type="checkbox" id="boiler_suit_size" name="boiler_suit_size">
                 <label class="form-check-label" for="boiler_suit_size">Boiler Suit Size</label>
             </div>
+
         </div>
   
   
@@ -279,140 +288,6 @@
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-  <!-- <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const selectedFields = {
-              candidateId: false,
-              fname: false,
-              c_rank: false,
-              c_vessel: false,
-              c_ad1: false,
-              c_city: false,
-              nationality: false,
-              c_mobi1: false,
-              last_company: false,
-              email1: false,
-              last_salary: false,
-              experience: false,
-              dob: false,
-              avb_date: false,
-              height: false,
-              weight: false,
-              safety_shoe_size: false,
-              boiler_suit_size: false
-          };
-  
-          const handleDropdownChange = function (e) {
-              const selectedOption = e.target.value;
-              const newProfileFields = document.getElementById('newProfileFields');
-              if (selectedOption === 'New Profile') {
-                  newProfileFields.style.display = 'block';
-              } else {
-                  newProfileFields.style.display = 'none';
-              }
-          };
-  
-          const handleCheckboxChange = function (e) {
-              const id = e.target.id;
-              const checked = e.target.checked;
-              selectedFields[id] = checked;
-          };
-  
-          const handleGenerateReport = async function () {
-              try {
-                  if (!Object.values(selectedFields).some(Boolean)) {
-                      throw new Error('Please select at least one field.');
-                  }
-  
-                  const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/view-new-profile';
-                  const token = localStorage.getItem('token');
-                  const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
-  
-                  if (!response.data || !response.data.candidates) {
-                      throw new Error('Error generating report');
-                  }
-  
-                  const filteredData = response.data.candidates.map(candidate => {
-                      const filteredCandidate = {};
-                      Object.keys(selectedFields).forEach(field => {
-                          if (selectedFields[field]) {
-                              filteredCandidate[field] = candidate[field];
-                          }
-                      });
-                      return filteredCandidate;
-                  });
-  
-                  renderTable(filteredData);
-              } catch (error) {
-                  console.error('Error generating report:', error.message);
-              }
-          };
-  
-          const renderTable = function (data) {
-              const reportTableDiv = document.getElementById('reportTable');
-              reportTableDiv.innerHTML = '';
-  
-              if (data.length === 0) {
-                  reportTableDiv.innerHTML = '<div>No data to display</div>';
-                  return;
-              }
-  
-              const table = document.createElement('table');
-              table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover');
-              const thead = document.createElement('thead');
-              const tbody = document.createElement('tbody');
-  
-              const columns = Object.keys(data[0]);
-  
-              const headerRow = document.createElement('tr');
-              columns.forEach((column) => {
-                  const th = document.createElement('th');
-                  th.textContent = column;
-                  headerRow.appendChild(th);
-              });
-              thead.appendChild(headerRow);
-  
-              data.forEach((rowData) => {
-                  const row = document.createElement('tr');
-                  columns.forEach((column) => {
-                      const td = document.createElement('td');
-                      td.textContent = rowData[column];
-                      row.appendChild(td);
-                  });
-                  tbody.appendChild(row);
-              });
-  
-              table.appendChild(thead);
-              table.appendChild(tbody);
-  
-              reportTableDiv.appendChild(table);
-  
-              // Add Export to Excel button
-              const exportButton = document.createElement('button');
-              exportButton.textContent = 'Export to Excel';
-              exportButton.className='btn btn-success'
-              exportButton.addEventListener('click', function () {
-                  exportToExcel(data);
-              });
-              reportTableDiv.appendChild(exportButton);
-          };
-  
-          const exportToExcel = function (data) {
-              const worksheet = XLSX.utils.json_to_sheet(data);
-              const workbook = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
-              XLSX.writeFile(workbook, 'report.xlsx');
-          };
-  
-          document.getElementById('reportType').addEventListener('change', handleDropdownChange);
-          document.getElementById('generateReport').addEventListener('click', handleGenerateReport);
-  
-          const checkboxes = document.querySelectorAll('.form-check-input');
-          checkboxes.forEach((checkbox) => {
-              checkbox.addEventListener('change', handleCheckboxChange);
-          });
-      });
-  </script> -->
 
 
    
