@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', async function () {
  
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
-  await populateCandidatesTable();
-  await fetchCandidates();
+  // await populateCandidatesTable();
+  // await fetchCandidates();
 
 });
 
