@@ -10,8 +10,11 @@ router.post("/add-candidate",userAuthentication.authenticate, candidateControlle
 router.get("/view-candidate",userAuthentication.authenticate, candidateControllers.getAllCandidates)
 router.get("/get-candidate/:id",userAuthentication.authenticate, candidateControllers.get_candidate)
 router.put("/update-candidate/:id",userAuthentication.authenticate, candidateControllers.edit_candidate)
+router.put("/update-candidates/:id",userAuthentication.authenticate, candidateControllers.updateCandidateFields)
 router.delete("/delete-candidate/:id",userAuthentication.authenticate, candidateControllers.delete_candidate)
 
+router.get("/getCount",userAuthentication.authenticate,candidateControllers.getCandidateActiveDetailsCount)
+router.get("/getGraph",userAuthentication.authenticate,candidateControllers.getCandidateRankCounts)
 
 router.post('/kin-details/:id',userAuthentication.authenticate, candidateControllers.add_kindetails);
 router.get('/get-nkd-details/:id',userAuthentication.authenticate, candidateControllers.get_NKDDetails);

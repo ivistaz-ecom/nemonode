@@ -9,21 +9,98 @@ document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
 
   // Fetch discussion counts
-  const discussionCountsResponse = await fetch('https://nemonode.ivistaz.co/candidate/discussion-count', {
+// JavaScript code to fetch data and populate HTML
+try {
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
+  const discussionCountsResponse = await axios.get('http://localhost:4000/candidate/discussion-count', {
     headers: { "Authorization": token }
   });
-  const discussionCountsData = await discussionCountsResponse.json();
-  document.getElementById('proposedCount').innerText = discussionCountsData.proposedCount;
-  document.getElementById('approvedCount').innerText = discussionCountsData.approvedCount;
-  document.getElementById('joinedCount').innerText = discussionCountsData.joinedCount;
+  const discussionCountsData = discussionCountsResponse.data;
+
+  // Extract quarters and counts from the data
+  const quarters = discussionCountsData.map(quarterData => `Quarter ${quarterData.quarter} (${currentYear})`);
+  const proposedCounts = discussionCountsData.map(quarterData => quarterData.proposedCount);
+  const approvedCounts = discussionCountsData.map(quarterData => quarterData.approvedCount);
+  const joinedCounts = discussionCountsData.map(quarterData => quarterData.joinedCount);
+
+  // Create a new canvas element to render the chart
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Append the canvas element to the discussionCountsList
+  const discussionCountsList = document.getElementById('discussionCounts');
+  discussionCountsList.appendChild(canvas);
+
+  // Create the chart
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: quarters,
+      datasets: [
+        {
+          label: 'Proposed',
+          data: proposedCounts,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color
+        },
+        {
+          label: 'Approved',
+          data: approvedCounts,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color
+        },
+        {
+          label: 'Joined',
+          data: joinedCounts,
+          backgroundColor: 'rgba(255, 206, 86, 0.5)', // Yellow color
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        tooltip: {
+          enabled: true,
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: function(context) {
+              var label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed.y !== null) {
+                label += context.parsed.y;
+              }
+              return label;
+            }
+          }
+        }
+      }
+    }
+  });
+} catch (error) {
+  console.error('Error fetching discussion counts:', error);
+}
+
+
 
   // Fetch call count
-  const callCountResponse = await fetch('https://nemonode.ivistaz.co/candidate/call-count', {
-    headers: { "Authorization": token }
-  });
-  const callCountData = await callCountResponse.json();
-  document.getElementById('callCount').innerText = callCountData.call_count;
-  document.getElementById('callCount').className = '  btn-primary badge';
+  try {
+    const callCountResponse = await axios.get('http://localhost:4000/candidate/call-count', {
+        headers: { "Authorization": token }
+    });
+    console.log(callCountResponse)
+    const callCountData = callCountResponse.data;
+    document.getElementById('callCount').innerText = callCountData.call_count;
+    document.getElementById('callCount').className = 'btn-primary badge';
+} catch (error) {
+    console.error('Error fetching call count:', error);
+}
 
   const userDisplay = document.getElementById("user_name");
   userDisplay.innerHTML += localStorage.getItem('username');
@@ -43,12 +120,125 @@ document.addEventListener('DOMContentLoaded', async function () {
  
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
-  // await populateCandidatesTable();
-  // await fetchCandidates();
-
+  await fetchCandidates();
+  await fetchAndLogRankCounts();
+  await fetchAndGenerateRankChart()
 });
+const fetchAndGenerateRankChart = async () => {
+  try {
+    // Make an HTTP GET request to your server endpoint
+    const response = await axios.get('http://localhost:4000/candidate/getGraph',{headers:{"Authorization":token}});
+    
+    // Extract rankCounts from the response data
+    const rankCounts = response.data.rankCounts;
+    
+    // Generate doughnut chart with the retrieved data
+    generateDoughnutChart(rankCounts);
+  } catch (error) {
+    console.error('Error fetching rank counts:', error);
+  }
+};
 
+
+function generateDoughnutChart(rankCounts) {
+  // Sort the rank counts by count in descending order
+  const sortedRankCounts = rankCounts.sort((a, b) => b.count - a.count);
+
+  // Select top 5 ranks or less if there are fewer than 5 ranks
+  const topRankCounts = sortedRankCounts.slice(0, 5);
+
+  const rankLabels = topRankCounts.map(rank => `${rank.c_rank} : ${rank.count}`);
+  const rankData = topRankCounts.map(rank => rank.count);
+
+  const totalCount = rankCounts.reduce((total, rank) => total + rank.count, 0);
+
+  const rankChartsContainer = document.getElementById('rankCharts');
+  rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
+
+  const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
   
+
+  new Chart(rankDoughnutChartCanvas, {
+      type: 'doughnut',
+      data: {
+          labels: rankLabels,
+          datasets: [{
+              label: 'Rank Counts',
+              data: rankData,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+              display: true,
+              position: 'right'
+          },
+          title: {
+              display: true,
+              text: `Top 5 Candidate Ranks`,
+              fontSize: 18,
+              padding: 20,
+              fontStyle: 'normal', // Ensure the total count is not italicized
+              fontColor: '#333', // Specify the color for the total count
+              // Add custom function to generate the title text
+              text: (tooltipItems) => {
+                const tooltipItem = tooltipItems[0]; // Just using the first item from the tooltip
+                return [
+                  `Top 5 Candidate Ranks`,
+                  `Total: ${totalCount}`
+                ];
+              },
+          },
+          layout: {
+              padding: {
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: 20
+              }
+          }
+      }
+  });
+  
+}
+
+
+
+
+
+
+
+
+
+const fetchAndLogRankCounts = async () => {
+  try {
+    // Make an HTTP GET request to your server endpoint
+    const response = await axios.get('http://localhost:4000/candidate/getGraph',{headers:{"Authorization":token}});
+    
+    // Extract rankCounts from the response data
+    const rankCounts = response.data.rankCounts;
+    
+    // Log the output
+    console.log("Rank Counts:");
+    rankCounts.forEach(rank => {
+      console.log(`Rank: ${rank.c_rank}, Count: ${rank.count}`);
+    });
+  } catch (error) {
+    console.error('Error fetching rank counts:', error);
+  }
+};
+
+// Call the function
+
 
 
 
@@ -69,35 +259,7 @@ const WriteOnly = decodedToken.Write
 const master_create = decodedToken.master_create
 console.log(decodedToken)
 console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
-// switch (userRole) {
-//     case 'admin':
-//         document.getElementById('adminSection').style.display = 'block';
-//         break;
-//     case 'vendor':
-//         document.getElementById('vendorSection').style.display = 'block';
-//         if (hasUserManagement) {
-//             const userLink = document.createElement('a');
-//             userLink.href = '../user/user.html';
-//             userLink.innerHTML = '<i class="fas fa-user-plus"></i> &nbsp; Create User';
-//             document.getElementById('vendorSection').appendChild(userLink);
-//         }
-//         if (hasReport) {
-//             const userLink = document.createElement('a');
-//             userLink.href = '../report/report.html';
-//             userLink.innerHTML = '<i class="fas fa-file-alt"></i> &nbsp; Generate Report';
-//             document.getElementById('vendorSection').appendChild(userLink);
-//         }
-//         break;
-//     // case 'user':
-//     //     document.getElementById('userSection').style.display = 'block';
-//     //     break;
-//     default:
-//         console.error('Unknown user role:', userRole);
-// }
 
-
-
-// Update date and time initially and every second
 
 
 document.getElementById("logout").addEventListener("click", function() {
@@ -143,111 +305,31 @@ setInterval(updateDateTime, 1000);
 // This JavaScript part fetches the data from the server and updates the counts dynamically.
 
 
-const fetchCandidates = async () => {
+async function fetchCandidates() {
   try {
-    const token = localStorage.getItem('token');
-    const decodedToken = decodeToken(token)
-    console.log(decodedToken)
-    const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
-    const candidateData = response.candidates;
-    console.log(candidateData)
-    // Filter candidates based on company_status and count active and inactive candidates
-    const activeCandidates = candidateData.candidates.filter(candidate => candidate.active_details === 1);
-    const inactiveCandidates = candidateData.candidates.filter(candidate => candidate.active_details === 0);
-    console.log("check if its working",activeCandidates,inactiveCandidates)
-
-    // Update the active and inactive counts in the HTML
-    document.getElementById('activeCount').textContent = activeCandidates.length;
-    document.getElementById('inactiveCount').textContent = inactiveCandidates.length;
+      const response = await axios.get('http://localhost:4000/candidate/getCount', {
+          headers: { "Authorization": token }
+      });
+      const { activeCount, inactiveCount } = response.data;
+      console.log('Active Count:', activeCount);
+      console.log('Inactive Count:', inactiveCount);
+      document.getElementById('activeCount').innerHTML = activeCount;
+      document.getElementById('inactiveCount').innerHTML = inactiveCount;
+      return { activeCount, inactiveCount };
   } catch (error) {
-    console.error('Error fetching candidates:', error);
-  }
-};
-
-// Call the fetchCandidates function when the component loads
-
-async function populateCandidatesTable() {
-  try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`https://nemonode.ivistaz.co/candidate/view-candidate`, { headers: { "Authorization": token } });
-      const responseData = response.data;
-      let candidates = responseData.candidates; // Accessing the candidates array
-      // Sort candidates based on availability status
-      
-      // Generate doughnut charts for ranks
-      generateDoughnutCharts(candidates); // Display only the first 5 ranks
-  } catch (error) {
-      console.error(error);
+      console.error('Error fetching candidate details counts:', error);
+      return { activeCount: 0, inactiveCount: 0 }; // Return default values in case of error
   }
 }
 
-// Function to generate doughnut charts for ranks
-// Function to generate doughnut charts for top 5 ranks
-function generateDoughnutCharts(candidates) {
-  const ranksData = {};
-  candidates.forEach(candidate => {
-      if (getStatus(candidate.avb_date) !== "Not available") {
-          if (ranksData[candidate.c_rank]) {
-              ranksData[candidate.c_rank]++;
-          } else {
-              ranksData[candidate.c_rank] = 1;
-          }
-      }
-  });
 
-  // Sort ranks based on count in descending order
-  const sortedRanks = Object.keys(ranksData).sort((a, b) => ranksData[b] - ranksData[a]).slice(0, 5);
 
-  const rankLabels = sortedRanks;
-  const rankCounts = sortedRanks.map(rank => ranksData[rank]);
 
-  const rankChartsContainer = document.getElementById('rankCharts');
-  rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
 
-  const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
 
-  new Chart(rankDoughnutChartCanvas, {
-      type: 'doughnut',
-      data: {
-          labels: rankLabels.map((label, index) => `${label}: ${rankCounts[index]}`), // Include count in label
-          datasets: [{
-              data: rankCounts,
-              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8A2BE2', '#FFA500']
-          }]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          legend: {
-              display: true,
-              position: 'right',
-              labels: {
-                  generateLabels: function(chart) {
-                      const data = chart.data;
-                      if (data.labels.length && data.datasets.length) {
-                          return data.labels.map(function(label, i) {
-                              const color = data.datasets[0].backgroundColor[i];
-                              return {
-                                  text: label,
-                                  fillStyle: color,
-                                  strokeStyle: color,
-                                  lineWidth: 2,
-                                  hidden: false,
-                                  index: i
-                              };
-                          });
-                      }
-                      return [];
-                  }
-              }
-          },
-          title: {
-              display: true,
-              text: 'Top 5 Candidate Ranks Distribution (Available Candidates)'
-          }
-      }
-  });
-}
+
+
+// Call the function to fetch and generate rank chart
 
 
 // Function to determine the status order

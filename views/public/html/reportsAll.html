@@ -74,7 +74,7 @@
         document.getElementById('exportCandidatesButton').addEventListener('click', async () => {
             if (permission) {
                 try {
-                    const endpoint = 'https://nemonode.ivistaz.co/candidate/view-candidate';
+                    const endpoint = 'http://localhost:4000/candidate/view-candidate';
                     const token = localStorage.getItem('token');
                     const response = await axios.get(endpoint, { headers: { "Authorization": token } });
     
@@ -101,7 +101,7 @@
     
         const handleGenerateAllCandidatesReport = async () => {
             try {
-                const endpoint = 'https://nemonode.ivistaz.co/candidate/view-candidate';
+                const endpoint = 'http://localhost:4000/candidate/view-candidate';
                 const token = localStorage.getItem('token');
                 const response = await axios.get(endpoint, { headers: { "Authorization": token } });
     

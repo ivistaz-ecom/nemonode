@@ -24,7 +24,7 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ function deleteBank(bankId) {
 async function fetchAndDisplayTravelDetails(candidateId) {
     try {
         // Make an Axios request to your backend API to get travel details
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-travel-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-travel-details/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -186,7 +186,7 @@ const token = localStorage.getItem('token');
 
 try {
     // Make an Axios request to your backend API to delete the travel entry
-    const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-travel/${travelId}`, {
+    const response = await axios.delete(`http://localhost:4000/candidate/delete-travel/${travelId}`, {
         headers: { "Authorization": token }
     });
 
@@ -221,7 +221,7 @@ function formatDates(dateString) {
 
 async function fetchAndDisplayMedicalDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-hospital-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-hospital-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -245,8 +245,8 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             // Add data to each cell
             row.appendChild(createCell(medical.hospitalName));
             row.appendChild(createCell(medical.place));
-            row.appendChild(createCell(formatDates(medical.date)));
-            row.appendChild(createCell(formatDates(medical.expiry_date))); // Update to match the Sequelize model
+            row.appendChild(createCell(medical.date));
+            row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
             row.appendChild(createCell(medical.done_by));
             row.appendChild(createCell(medical.status));
             row.appendChild(createCell(medical.amount));
@@ -290,7 +290,7 @@ const deleteMedical = async (id, event) => {
         const confirmDelete = confirm('Are you sure you want to delete this medical entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`http://localhost:4000/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display medical details again after deletion
             fetchAndDisplayMedicalDetails(candidateId);
@@ -306,7 +306,7 @@ const deleteMedical = async (id, event) => {
 
 const fetchAndDisplayNkdData = async (candidateId) => {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
 
         // Assuming response.data contains an array of NKD objects
         const nkdData = response.data;
@@ -377,7 +377,7 @@ async function deleteNkd(id) {
         const confirmDelete = confirm('Are you sure you want to delete this NKD entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`http://localhost:4000/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display NKD data again after deletion
             fetchAndDisplayNkdData();
@@ -436,7 +436,7 @@ async function displayCandidateDetails() {
     try {
         // Fetch candidate data based on the candidate ID
         const id = localStorage.getItem('memId')
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const response = await axios.get(`http://localhost:4000/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
         document.getElementById('candidateId').value = candidateData.candidateId;
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
@@ -587,7 +587,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-contract-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -678,7 +678,7 @@ function deleteContract(id) {
 async function fetchAndDisplaySeaService(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-sea-service/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-sea-service/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -726,7 +726,7 @@ async function deleteSeaService(id) {
     if (confirm('Are you sure you want to delete this sea service record?')) {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+            await axios.delete(`http://localhost:4000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
             // Remove the corresponding row from the table
             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
             seaServiceRow.remove();
@@ -740,53 +740,164 @@ function editSeaService(id) {
     // Redirect to seaservice.html with the ID parameter
     window.location.href = `seaserviceedit.html?memId=${id}`;
 }
-async function fetchAndDisplayDiscussions(id) {
+
+async function fetchAndDisplayDiscussions(candidateId) {
     try {
-        // Fetch discussions from the server using Axios
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-discussionplus-details/${id}`, { headers: { "Authorization": token } });
-        const discussions = response.data.discussion; // Access the discussion array from response.data
+        const serverResponse = await axios.get(`http://localhost:4000/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        let discussions = serverResponse.data.discussions;
 
-        // Get the discussionContainer element
-        const discussionContainer = document.getElementById('discussionContainer');
+        // Sort discussions by created_date in descending order
+        discussions.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
 
-        // Clear existing content inside discussionContainer
-        discussionContainer.innerHTML = '';
+        // Assuming you have an element in your HTML to display discussions
+        const discussionsContainer = document.getElementById('fetchedcomments');
+        discussionsContainer.innerHTML = ''; // Clear previous discussions
 
-        // Loop through each discussion object
-        discussions.forEach(discussion => {
-            // Create a container element for each discussion
-            const discussionDiv = document.createElement('div');
-            discussionDiv.classList.add('discussion');
+        for (const discussion of discussions) {
+            const discussionElement = document.createElement('div');
+            discussionElement.classList.add('discussion'); // Add CSS class for styling
+            
+            // Fetch username based on user ID (post_by value)
+            const usernameResponse = await axios.get(`http://localhost:4000/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const username = usernameResponse.data.user.userName;
 
-            // Check if either basic_comments or special_comments is not null
-            if (discussion.basic_comments !== null || discussion.special_comments !== null) {
-                // Display basic comments if present
-                if (discussion.basic_comments !== null) {
-                    const basicCommentsParagraph = document.createElement('p');
-                    basicCommentsParagraph.innerHTML = `<strong style="text-transform: capitalize;">${discussion.added_by}:</strong> ${discussion.basic_comments}`;
-                    discussionDiv.appendChild(basicCommentsParagraph);
-                }
+            // Format the created date
+            const createdDate = new Date(discussion.created_date);
+            const formattedDate = `${createdDate.getDate()}/${createdDate.getMonth() + 1}/${createdDate.getFullYear()}`;
 
-                // Display special comments with a special badge if present
-                if (discussion.special_comments !== null) {
-                    const specialCommentsParagraph = document.createElement('p');
-                    specialCommentsParagraph.innerHTML = `<strong style="text-transform: capitalize;">${discussion.added_by}:</strong> ${discussion.special_comments}`;
-                    const specialBadge = document.createElement('span');
-                    specialBadge.textContent = 'Special';
-                    specialBadge.classList.add('badge', 'bg-warning', 'float-end');
-                    specialCommentsParagraph.appendChild(specialBadge);
-                    discussionDiv.appendChild(specialCommentsParagraph);
-                }
-
-                // Append the discussion container to the document
-                discussionContainer.appendChild(discussionDiv);
-            }
-        });
+            // Display username, discussion content, and created date with proper styling
+            discussionElement.innerHTML = `
+                <div class="discussion-content">
+                    <strong class='text-primary'>${username}</strong>: ${discussion.discussion}
+                </div>
+                <div class="created-date text-success badge ">
+                    ${formattedDate}
+                </div>
+            `;
+            discussionsContainer.appendChild(discussionElement);
+        }
     } catch (error) {
         console.error('Error fetching discussions:', error);
     }
 }
+
+
+document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // Fetch basic comments value
+    let basicCommentsValue = document.getElementById('basic_comments').value;
+
+    // Get the selected status
+    let status;
+    if (document.getElementById('proposed').checked) {
+        status = 'Proposed';
+    } else if (document.getElementById('joined').checked) {
+        status = 'Joined';
+    } else if (document.getElementById('approved').checked) {
+        status = 'Approved';
+    } else if (document.getElementById('rejected').checked) {
+        status = 'Rejected';
+    }
+
+    // Get company name input value
+    const companyName = document.getElementById('company_name').value;
+
+    const companyDropdown = document.getElementById('company_name');
+    const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
+
+    // Get status date input value
+    // Get status date input value
+    const statusDate = document.getElementById('status_date').value;
+    const r_date = document.getElementById('reminder_date').value;
+
+    // Get reason input value
+    const reason = document.getElementById('reason').value;
+
+    // Check if special comment checkbox is checked
+    if (document.getElementById('special_comments_checkbox').checked) {
+        basicCommentsValue = document.getElementById('basic_comments').value;
+
+        // Update basic comments value in candidate table
+        try {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.error('Error updating basic comments value:', error);
+        }
+    }
+
+    // Get reference check text value
+    let referenceCheckText = null;
+    if (document.getElementById('reference_check_checkbox').checked) {
+        referenceCheckText = document.getElementById('reference_check_text').value;
+        
+        // Update reference check text value in candidate table
+        try {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.error('Error updating reference check text value:', error);
+        }
+    }
+
+    // Update comments section
+    const commentsSection = document.getElementById('comments-section');
+    if (status === 'Rejected') {
+        commentsSection.textContent = `${status}: ${basicCommentsValue} Reason: ${reason} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+    } else if (status) {
+        commentsSection.textContent = `${status}: ${basicCommentsValue} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+    } else {
+        commentsSection.textContent = `${basicCommentsValue}`;
+    }
+
+    
+    // Create discussion plus data object
+    const discussionPlusData = {
+        post_by: localStorage.getItem('userId'),
+        discussion: commentsSection.textContent,
+        r_date: r_date || null,
+        reminder: document.getElementById('set_reminder_checkbox').checked,
+        companyname: companyName,
+        reason: reason,
+        join_date: null,
+        created_date: new Date(),
+    };
+
+    // If Special Comment checkbox is checked, include special comment data
+    if (document.getElementById('special_comments_checkbox').checked) {
+        discussionPlusData.special_comment = basicCommentsValue;
+        discussionPlusData.basic_comments = null; // Reset basic comments if special comments are stored
+    }
+
+    // If Reference Check checkbox is checked, include reference check data
+    if (document.getElementById('reference_check_checkbox').checked) {
+        discussionPlusData.reference_check = true;
+        discussionPlusData.reference_check_text = referenceCheckText;
+    }
+
+    try {
+        const response = await axios.post(`http://localhost:4000/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log(response.data);
+        event.target.reset();
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 
 

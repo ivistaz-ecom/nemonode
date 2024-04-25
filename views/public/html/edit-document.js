@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 let currentPage=1;
 async function displayDocument(page = 1, limit = 10) {
     try {
-        const documentResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-document?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const documentResponse = await axios.get(`http://localhost:4000/others/view-document?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Document Response:', documentResponse);
 
         const documentTable = document.getElementById("document-table");
@@ -113,7 +113,7 @@ async function deleteDocument(documentId, event) {
     event.preventDefault();
 
     const id = documentId;
-    const url = `https://nemonode.ivistaz.co/others/delete-document/${id}`;
+    const url = `http://localhost:4000/others/delete-document/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});

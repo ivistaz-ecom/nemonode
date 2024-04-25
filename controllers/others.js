@@ -209,7 +209,7 @@ const delete_vessel = async (req, res) => {
           } else {
               return res.status(404).json({ error: 'Vessel not found', success: false });
           }
-      } else if (userGroup === 'vendor' && user.Write) {
+      } else if (userGroup === 'vendor' && user.deletes) {
           const deletedVessel = await Vessel.destroy({ where: { id: vesselId } });
           if (deletedVessel > 0) {
               return res.status(200).json({ success: true });
@@ -244,7 +244,7 @@ const delete_VSL = async (req, res) => {
           } else {
               return res.status(404).json({ error: 'VSL not found', success: false });
           }
-      } else if (userGroup === 'vendor' && user.Write) {
+      } else if (userGroup === 'vendor' && user.deletes) {
           const deletedVSL = await VSL.destroy({ where: { id: vslId } });
           if (deletedVSL > 0) {
               return res.status(200).json({ success: true });
@@ -533,7 +533,7 @@ const delete_experience = async (req, res) => {
       } else {
         return res.status(404).json({ error: 'Experience not found', success: false });
       }
-    } else if (userGroup === 'vendor' && user.Write) {
+    } else if (userGroup === 'vendor' && user.deletes) {
       const deletedExperience = await Experience.destroy({ where: { id: experienceId } });
 
       if (deletedExperience > 0) {
@@ -664,7 +664,7 @@ const delete_rank = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const hasWritePermission = user.Write;
+    const hasWritePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && hasWritePermission)) {
       const deletedRank = await Rank.destroy({ where: { id: rankId } });
@@ -825,7 +825,7 @@ const delete_grade = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.Write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with Write permission, proceed with deleting the grade
@@ -1086,7 +1086,7 @@ const delete_port = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.Write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with Write permission, delete the port
@@ -1119,7 +1119,7 @@ const delete_port_agent = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.Write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with Write permission, delete the port agent
@@ -1321,7 +1321,7 @@ const create_hospital = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.write;
+    const writePermission = user.Write;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, create a new hospital
@@ -1358,7 +1358,7 @@ const delete_hospital = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the hospital
@@ -1390,7 +1390,7 @@ const update_hospital = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.write;
+    const writePermission = user.Write;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, update the hospital
@@ -1531,7 +1531,7 @@ const delete_document = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the document
@@ -1563,7 +1563,7 @@ const update_document = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.write;
+    const writePermission = user.Write;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, update the document
@@ -1680,7 +1680,7 @@ const delete_vendor = async (req, res) => {
     }
 
     const userGroup = user.userGroup;
-    const writePermission = user.Write;
+    const writePermission = user.deletes;
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the vendor
@@ -1853,7 +1853,7 @@ const delete_crewPlanner = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (user.userGroup === 'admin' || (user.userGroup === 'vendor' && user.Write)) {
+    if (user.userGroup === 'admin' || (user.userGroup === 'vendor' && user.deletes)) {
       const crewPlannerId = req.params.id;
       const crewPlanner = await CrewPlanner.findByPk(crewPlannerId);
 

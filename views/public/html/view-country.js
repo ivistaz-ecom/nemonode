@@ -4,7 +4,7 @@ const countryTable = document.getElementById("country-code-table");
 const token = localStorage.getItem('token')
 async function displayCountryCodes() {
     try {
-        const response = await axios.get('https://nemonode.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});
+        const response = await axios.get('http://localhost:4000/others/country-codes',{headers:{"Authorization":token}});
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {

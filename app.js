@@ -46,7 +46,7 @@ const Vendor = require("./models/vendor");
 const Company = require("./models/company");
 const nemo_country=require('./models/country')
 const Seaservice = require('./models/seaservice')
-
+const discussion = require('./models/discussion')
 
 
 //candidate relations
@@ -67,6 +67,8 @@ Candidate.belongsTo(User, { foreignKey: 'userId' })
 
 Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
 discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
+Candidate.hasMany(discussion, { foreignKey: 'candidateId' });
+discussion.belongsTo(Candidate, { foreignKey: 'candidateId' });
 Candidate.hasMany(contract, { foreignKey: 'candidateId' });
 contract.belongsTo(Candidate, { foreignKey: 'candidateId' });
 Candidate.hasMany(cdocument, { foreignKey: 'candidateId' });
@@ -81,7 +83,9 @@ Candidate.hasMany(NKD, { foreignKey: 'candidateId' });
 NKD.belongsTo(Candidate,{ foreignKey:'candidateId'});
 Candidate.hasMany(Seaservice,{ foreignKey: 'candidateId' })
 Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
-
+Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
+User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
+User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
 
 app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});

@@ -120,6 +120,21 @@ const getAllCompany = async (req, res) => {
     }
 };
 
+const getAllCompanyNames = async (req, res) => {
+    try {
+        const companies = await Company.findAll();
+
+        res.status(200).json({
+            companies: companies, // Send all company data
+            success: true,
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Internal Server Error", success: false });
+    }
+};
+
+
 const delete_company = async (req, res) => {
     const companyId = req.params.id;
 
@@ -133,9 +148,9 @@ const delete_company = async (req, res) => {
         }
 
         const userGroup = user.userGroup;
-        const canWrite = user.Write === true;
+        const canDelete = user.deletes === true;
 
-        if (userGroup === 'admin' || (userGroup === 'vendor' && canWrite)) {
+        if (userGroup === 'admin' || (userGroup === 'vendor' && canDelete)) {
             const deletedCompany = await Company.destroy({ where: { company_id: companyId } });
            if (deletedCompany > 0) {
                 return res.status(200).json({ success: true });
@@ -249,8 +264,7 @@ module.exports = {
     delete_company,
     update_company,
     get_company,
-    dropdown_company
-    // paginated_company,
-    // total_pages
-    // checkCompanyAssociations
+    dropdown_company,
+    getAllCompanyNames
+   
 };
