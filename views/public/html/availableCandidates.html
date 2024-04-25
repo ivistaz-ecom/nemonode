@@ -43,20 +43,23 @@
         </tbody>
     </table>
     <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            populateCandidatesTable();
+        });
         // Function to fetch candidate data and populate the table
   // Function to fetch candidate data and populate the table
 // Function to fetch candidate data and populate the table
 async function populateCandidatesTable() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/view-candidate', {
+        const response = await axios.get('http://localhost:4000/candidate/view-candidate', {
             headers: { "Authorization": token }
         });
         const responseData = response.data;
         let candidates = responseData.candidates; // Accessing the candidates array
-        
+            console.log(responseData.candidates)
         // Filter out candidates who are not available
-        candidates = candidates.filter(candidate => getStatus(candidate.avb_date) !== "Not available");
+        candidates = candidates.filter(candidate => getStatus(candidate.avb_date) < (new Date()));
         
         // Sort candidates based on availability status
         candidates.sort((a, b) => getStatusOrder(a.avb_date) - getStatusOrder(b.avb_date));
@@ -182,7 +185,6 @@ function populateRankListGroup(candidates) {
         }
 
         // Call the function to populate the table when the page loads
-        populateCandidatesTable();
 
         const exportExcelBtn = document.getElementById('exportExcelBtn');
 

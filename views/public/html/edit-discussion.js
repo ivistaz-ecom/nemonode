@@ -23,7 +23,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
 
     try {
         // Send form data to the backend using Axios
-        const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData,{headers:{"Authorization":token}});
+        const response = await axios.put(`http://localhost:4000/candidate/update-candidate/${currentCandidateId}`, formData,{headers:{"Authorization":token}});
         console.log("Response:", response.data);
         // Handle the response as needed
     } catch(error) {
@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await displayDropdown();
     await fetchAndDisplayVessels();
     await fetchAndDisplayCompanies();
+    await fetchAndDisplayDiscussions(candidateId);
     // Move fetchSpecialComments call here
     // await fetchSpecialComments(currentCandidateId, token);
 
@@ -102,64 +103,108 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
     event.preventDefault();
-    
-    // Fetch basic comments value
-    const basicCommentsValue = document.getElementById('basic_comments').value;
 
+    // Fetch basic comments value
+    let basicCommentsValue = document.getElementById('basic_comments').value;
+
+    // Get the selected status
+    let status;
+    if (document.getElementById('proposed').checked) {
+        status = 'Proposed';
+    } else if (document.getElementById('joined').checked) {
+        status = 'Joined';
+    } else if (document.getElementById('approved').checked) {
+        status = 'Approved';
+    } else if (document.getElementById('rejected').checked) {
+        status = 'Rejected';
+    }
+
+    // Get company name input value
+    const companyName = document.getElementById('company_name').value;
+
+    const companyDropdown = document.getElementById('company_name');
+    const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
+
+    // Get status date input value
+    // Get status date input value
+    const statusDate = document.getElementById('status_date').value;
+    const r_date = document.getElementById('reminder_date').value;
+
+    // Get reason input value
+    const reason = document.getElementById('reason').value;
+
+    // Check if special comment checkbox is checked
+    if (document.getElementById('special_comments_checkbox').checked) {
+        basicCommentsValue = document.getElementById('basic_comments').value;
+
+        // Update basic comments value in candidate table
+        try {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.error('Error updating basic comments value:', error);
+        }
+    }
+
+    // Get reference check text value
+    let referenceCheckText = null;
+    if (document.getElementById('reference_check_checkbox').checked) {
+        referenceCheckText = document.getElementById('reference_check_text').value;
+        
+        // Update reference check text value in candidate table
+        try {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.error('Error updating reference check text value:', error);
+        }
+    }
+
+    // Update comments section
+    const commentsSection = document.getElementById('comments-section');
+    if (status === 'Rejected') {
+        commentsSection.textContent = `${status}: ${basicCommentsValue} Reason: ${reason} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+    } else if (status) {
+        commentsSection.textContent = `${status}: ${basicCommentsValue} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+    } else {
+        commentsSection.textContent = `${basicCommentsValue}`;
+    }
+
+    
+    // Create discussion plus data object
     const discussionPlusData = {
-        added_by: localStorage.getItem('username'),
-        proposed: document.getElementById('proposed').checked,
-        approved: document.getElementById('approved').checked,
-        joined: document.getElementById('joined').checked,
-        rejected: document.getElementById('rejected').checked,
-        basic_comments: basicCommentsValue,
-        special_comments: null,
-        set_reminder: null,
-        reminder_date: null,
-        reminder_text:null,
-        reference_check: null,
-        reference_check_text: null,
-        company_name: null,
-        status_date: null,
-        reason: null
+        post_by: localStorage.getItem('userId'),
+        discussion: commentsSection.textContent,
+        r_date: r_date || null,
+        reminder: document.getElementById('set_reminder_checkbox').checked,
+        companyname: companyName,
+        reason: reason,
+        join_date: null,
+        created_date: new Date(),
     };
 
     // If Special Comment checkbox is checked, include special comment data
     if (document.getElementById('special_comments_checkbox').checked) {
-        discussionPlusData.special_comments = basicCommentsValue;
+        discussionPlusData.special_comment = basicCommentsValue;
         discussionPlusData.basic_comments = null; // Reset basic comments if special comments are stored
-    }
-
-    // If Set Reminder checkbox is checked, include reminder data
-    if (document.getElementById('set_reminder_checkbox').checked) {
-        discussionPlusData.set_reminder = document.getElementById('reminder_date').value;
-        discussionPlusData.reminder_date = document.getElementById('reminder_date').value;
-        discussionPlusData.reminder_text = document.getElementById('reminder_text').value;
     }
 
     // If Reference Check checkbox is checked, include reference check data
     if (document.getElementById('reference_check_checkbox').checked) {
         discussionPlusData.reference_check = true;
-        discussionPlusData.reference_check_text = document.getElementById('reference_check_text').value;
-    }
-
-    // Get company dropdown value if applicable
-    if (document.getElementById('companyDropdown').style.display !== 'none') {
-        discussionPlusData.company_name = document.getElementById('company_name').value;
-    }
-
-    // Get date value if applicable
-    if (document.getElementById('dateInput').style.display !== 'none') {
-        discussionPlusData.status_date = document.getElementById('status_date').value;
-    }
-
-    // Get reason value if applicable
-    if (document.getElementById('reasonInput').style.display !== 'none') {
-        discussionPlusData.reason = document.getElementById('reason').value;
+        discussionPlusData.reference_check_text = referenceCheckText;
     }
 
     try {
-        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+        const response = await axios.post(`http://localhost:4000/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -174,68 +219,54 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
 
 
+async function fetchAndDisplayDiscussions(candidateId) {
+    try {
+        const token = localStorage.getItem('token');
+        const serverResponse = await axios.get(`http://localhost:4000/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        let discussions = serverResponse.data.discussions;
 
-// async function fetchSpecialComments(candidateId, token) {
-//     const specialCommentsUrl = `https://nemonode.ivistaz.co/candidate/get-discussionplus-details/${candidateId}`;
-//     const candidateUrl = `https://nemonode.ivistaz.co/candidate/get-candidate/${candidateId}`;
-//     try {
-//         const response = await axios.get(specialCommentsUrl, { headers: { 'Authorization': token } });
-//         const candidateResponse = await axios.get(candidateUrl, { headers: { 'Authorization': token } });
+        // Sort discussions by created_date in descending order
+        discussions.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
 
-//         const candidateArray = candidateResponse.data.candidate;
-//         const discussionArray = response.data.discussion;
+        // Assuming you have an element in your HTML to display discussions
+        const discussionsContainer = document.getElementById('fetchedcomments');
+        discussionsContainer.innerHTML = ''; // Clear previous discussions
 
-//         console.log('Discussion Details:', discussionArray);
-//         console.log('Candidate Details:', candidateArray);
+        for (const discussion of discussions) {
+            const discussionElement = document.createElement('div');
+            discussionElement.classList.add('discussion'); // Add CSS class for styling
+            
+            // Fetch username based on user ID (post_by value)
+            const usernameResponse = await axios.get(`http://localhost:4000/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const username = usernameResponse.data.user.userName;
 
-//         if (discussionArray && Array.isArray(discussionArray)) { // Check if discussionArray is defined and an array
-//             // Process each discussion item
-//             discussionArray.forEach(discussion => {
-//                 const discussionElement = document.createElement('div');
-//                 const formattedDate = formatDiscussionDate(discussion.discussion_date);
-//                 document.getElementById('reemploymentStatus').value = discussion.ntbr;
-//                 discussionElement.innerHTML = `<strong>${discussion.userName}:</strong><a style="color:gray;font-size:13px;text-decoration:none" class="float-end">${formattedDate}</a><br><br>`;
-//                 discussionContainer.appendChild(discussionElement);
-//             });
-//         } else {
-//             console.error('Discussion details are either undefined or not an array');
-//         }
+            // Format the created date
+            const createdDate = new Date(discussion.created_date);
+            const formattedDate = `${createdDate.getDate()}/${createdDate.getMonth() + 1}/${createdDate.getFullYear()}`;
 
-//         // Update candidate details if available
-//         if (candidateArray) {
-//             const formattedDate = formatDate(candidateArray.avb_date);
-//             console.log(formattedDate);
-//             document.getElementById('avb_date').value = formattedDate;
-//             document.getElementById('las_date').value = formatDate(candidateArray.las_date);
-//             document.getElementById('last_salary').value = candidateArray.last_salary;
-//             document.getElementById('last_company').value = candidateArray.last_company;
-//             const rankDropdown = document.getElementById('rank');
-//             const vesselDropdown = document.getElementById('vessel_types');
-//             const statusDropdown = document.getElementById('status');
-//             document.getElementById('reemploymentStatus').value=candidateArray.ntbr
-//             function setValueAndHighlight(dropdown, fetchedValue) {
-//                 for (let i = 0; i < dropdown.options.length; i++) {
-//                     const option = dropdown.options[i];
-//                     if (option.value == fetchedValue) {
-//                         dropdown.value = fetchedValue;
-//                         break;
-//                     }
-//                 }
-//             }
-//             try {
-//                 setValueAndHighlight(rankDropdown, candidateArray.c_rank);
-//                 setValueAndHighlight(vesselDropdown, candidateArray.c_vessel);
-//                 setValueAndHighlight(statusDropdown, candidateArray.m_status);
-//             } catch (err) {
-//                 console.log(err)
-//             }
-//         } else {
-//             console.log('Candidate details not found');
-//         }
-//     } catch (error) {
-//         console.error('Error fetching discussion details:', error);
-//     }
-// }
+            // Display username, discussion content, and created date with proper styling
+            discussionElement.innerHTML = `
+                <div class="discussion-content">
+                    <strong class='text-primary'>${username}</strong>: ${discussion.discussion}
+                </div>
+                <div class="created-date text-success badge ">
+                    ${formattedDate}
+                </div>
+            `;
+            discussionsContainer.appendChild(discussionElement);
+        }
+    } catch (error) {
+        console.error('Error fetching discussions:', error);
+    }
+}
+
+
+
+
+
+// Call fetchAndDisplayDiscussions with the candidateId
+
+
 
 
 function formatDate(dateString) {
@@ -292,7 +323,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemonode.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -307,7 +338,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vsls;
 
         // Get the select element
@@ -334,11 +365,10 @@ async function fetchAndDisplayVessels() {
         console.error('Error fetching vessels:', error);
     }
 }
-
 async function fetchAndDisplayCompanies() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
         const companies = serverResponse.data.company;
 
         // Get the select element
@@ -357,7 +387,7 @@ async function fetchAndDisplayCompanies() {
         // Add companies to the dropdown
         companies.forEach((company) => {
             const option = document.createElement("option");
-            option.value = company.company_name;
+            option.value = company.company_id; // Set the company ID as the option value
             option.text = company.company_name;
             companySelect.appendChild(option);
         });
@@ -365,6 +395,7 @@ async function fetchAndDisplayCompanies() {
         console.error('Error fetching companies:', error);
     }
 }
+
 
 function formatDiscussionDate(dateString) {
     const date = new Date(dateString);

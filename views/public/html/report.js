@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 throw new Error('Please select both start and end dates.');
             }
     
-            const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/view-new-profile';
+            const endpoint = 'http://localhost:4000/candidate/reports/view-new-profile';
             const token = localStorage.getItem('token');
             const response = await axios.post(endpoint, {
                 selectedFields,
@@ -176,7 +176,7 @@ async function contract() {
             contractFields.style.display = 'block';
             // Fetch contract data from server
             try {
-                const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/contract';
+                const endpoint = 'http://localhost:4000/candidate/reports/contract';
                 const token = localStorage.getItem('token');
                 const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
                 console.log(response.data.contracts)
@@ -205,7 +205,7 @@ async function contract() {
                   throw new Error('Please select at least one field.');
               }
 
-              const endpoint = 'https://nemonode.ivistaz.co/candidate/reports/contract';
+              const endpoint = 'http://localhost:4000/candidate/reports/contract';
               const token = localStorage.getItem('token');
               const response = await axios.post(endpoint, { selectedFields }, { headers: { "Authorization": token } });
 

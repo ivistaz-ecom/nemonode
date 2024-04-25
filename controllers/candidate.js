@@ -6,6 +6,7 @@ const Bank = require('../models/bank')
 const Documents = require('../models/cdocument')
 const Contract = require('../models/contract')
 const Discussion_plus = require('../models/discussionplus')
+const Discussion = require('../models/discussion')
 const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -217,11 +218,15 @@ const getAllCandidates = async (req, res) => {
         const userGroup = user.dataValues.userGroup;
         console.log('User Group:', userGroup);
 
+        let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
+        let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
+        let offset = (page - 1) * limit; // Calculate the offset based on the page and limit
 
         let allCandidates;
+        let totalCount;
 
         if (userGroup == 'admin') {
-            // If the user is an admin, fetch all candidates
+            // If the user is an admin, fetch all candidates with pagination
             allCandidates = await Candidate.findAll({
                 include: [
                     { model: CandidateNkd },
@@ -233,10 +238,12 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
-                // Remove any default limit set by Sequelize
+                offset,
+                limit,
             });
+            totalCount = await Candidate.count(); // Count all candidates without pagination
         } else if (userGroup == 'vendor' && readOnly) {
-            // If the user is a vendor with read-only access, fetch candidates associated with the user
+            // If the user is a vendor with read-only access, fetch candidates associated with the user with pagination
             allCandidates = await Candidate.findAll({
                 where: {
                     userId: userId,
@@ -251,18 +258,23 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
-                // Remove any default limit set by Sequelize
+                offset,
+                limit,
             });
-        }
-        else{
+            totalCount = await Candidate.count({
+                where: {
+                    userId: userId,
+                },
+            }); // Count associated candidates without pagination
+        } else {
             return res.status(401).json({ message: 'Unauthorized', success: false });
-
         }
-        
-        
 
         res.status(200).json({
             candidates: allCandidates,
+            totalCount: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
             success: true
         });
     } catch (err) {
@@ -270,6 +282,101 @@ const getAllCandidates = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
+
+const getCandidateActiveDetailsCount = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+        const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        console.log('User Group:', userGroup);
+
+        let activeCount;
+        let inactiveCount;
+
+        if (userGroup == 'admin') {
+            // If the user is an admin, fetch counts of all candidates' active and inactive details
+            activeCount = await Candidate.count({ where: { active_details: 1 } });
+            inactiveCount = await Candidate.count({ where: { active_details: 0 } });
+        } else if (userGroup == 'vendor' && readOnly) {
+            // If the user is a vendor with read-only access, fetch counts of associated candidates' active and inactive details
+            activeCount = await Candidate.count({
+                where: { userId: userId, active_details: 1 }
+            });
+            inactiveCount = await Candidate.count({
+                where: { userId: userId, active_details: 0 }
+            });
+        } else {
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+        }
+
+        res.status(200).json({
+            activeCount: activeCount,
+            inactiveCount: inactiveCount,
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
+
+const getCandidateRankCounts = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+
+        const userGroup = user.userGroup;
+
+        let rankCounts;
+
+        if (userGroup === 'admin') {
+            // If the user is an admin, fetch counts of all ranks
+            rankCounts = await Candidate.findAll({
+                where: {
+                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
+                },
+                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
+                group: ['c_rank']
+            });
+        } else if (userGroup === 'vendor' && user.readOnly) {
+            // If the user is a vendor with read-only access, fetch counts of ranks associated with the user
+            rankCounts = await Candidate.findAll({
+                where: {
+                    userId: userId,
+                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
+                },
+                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
+                group: ['c_rank']
+            });
+        } else {
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+        }
+
+        res.status(200).json({
+            rankCounts: rankCounts,
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
+
+
+
+
+
+
+
 
 const birthday = async (req, res) => {
     try {
@@ -957,42 +1064,29 @@ const add_discussiondetails= async (req, res) => {
 
 const add_discussionplusdetails = async (req, res) => {
     try {
-        const { proposed, approved, joined, rejected, company_name, status_date, reason, set_reminder, reminder_date,reminder_text, reference_check, reference_check_text, special_comments, basic_comments, ref_check, added_by } = req.body;
+        // Extract data from the request body
+        const { companyname, join_date, discussion, reason, post_by, reminder, r_date, created_date } = req.body;
         const candidateId = req.params.id;
+        console.log("?????????>>>>>>>>>>>",candidateId)
+        // Create a new discussion entry in the database
+        const newDiscussion = await Discussion.create({
+            companyname,
+            join_date,
+            discussion,
+            reason,
+            post_by,
+            r_date,
+            created_date,
+            reminder,
+            candidateId // Assuming candidateId is a field in your discussion table
+        });
 
-        // Get today's date
-        await Calls.increment('call_count', { where: {} });
-
-      
-            // If no entry exists for today, create a new entry with today_count set to 1
-            await Discussion_plus.create({
-                proposed,
-                approved,
-                joined,
-                rejected,
-                company_name,
-                status_date,
-                reason,
-                set_reminder: set_reminder ? new Date(set_reminder) : null,
-                reminder_date: reminder_date ? new Date(reminder_date) : null,
-                reminder_text,
-                reference_check,
-                reference_check_text,
-                special_comments,
-                basic_comments,
-                ref_check,
-                added_by,
-                candidateId 
-            });
-       
-
-        // Send a success response
-        res.status(201).json({ message: 'Successfully Created New Discussion_plus Entry!', success: true });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err, message: 'Internal Server Error', success: false });
+        res.status(201).json(newDiscussion);
+    } catch (error) {
+        console.error('Error creating discussion:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-};
+}
 
 
 
@@ -1021,6 +1115,45 @@ const edit_candidate=  async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+const updateCandidateFields = async (req, res) => {
+    const candidateId = req.params.id;
+    const { basicCommentsValue, referenceCheckText } = req.body;
+
+    try {
+        const candidateDetails = {};
+
+        // If special comment is provided, update imp_discussion field
+        if (basicCommentsValue !== undefined) {
+            candidateDetails.imp_discussion = basicCommentsValue;
+        }
+
+        // If reference check is provided, update ref_check field
+        if (referenceCheckText !== undefined) {
+            candidateDetails.ref_check = referenceCheckText;
+        }
+
+        if (Object.keys(candidateDetails).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        const [updatedRows] = await Candidate.update(candidateDetails, {
+            where: { candidateId: candidateId },
+        });
+
+        if (updatedRows === 0) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        const updatedCandidate = await Candidate.findOne({ where: { candidateId: candidateId } });
+
+        res.json(updatedCandidate);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
   
 const delete_candidate=async (req, res) => {
     const candidateId = req.params.id;
@@ -1100,23 +1233,13 @@ const update_contractdetails = async (req, res) => {
 };
 
 const get_discussiondetails=async (req, res) => {
-    const candidateId = req.params.id;
-
     try {
-        // Find all discussion plus entries for the given candidate ID
-        const discussionPlusDetails = await Discussion_plus.findAll({ where: { candidateId } });
-
-        // If discussion plus entries are found, send them as a JSON response
-        if (discussionPlusDetails) {
-            res.json({ discussion: discussionPlusDetails });
-        } else {
-            // If no discussion plus entries are found, send a 404 response
-            res.status(404).json({ message: 'Discussion plus details not found for the candidate' });
-        }
+        const candidateId = req.params.id;
+        const discussions = await Discussion.findAll({ where: { candidateId: candidateId } });
+        res.status(200).json({ discussions: discussions });
     } catch (error) {
-        // If an error occurs, log it and send a 500 response with an error message
-        console.error('Error fetching discussion plus details:', error);
-        res.status(500).json({ message: 'Server Error' });
+        console.error('Error fetching discussions:', error);
+        res.status(500).json({ error: "Internal Server Error", success: false });
     }
 }
 
@@ -1668,13 +1791,26 @@ const Reminder = async (req, res) => {
 
 
 
-  const getCallCount= async (req, res) => {
+const getCallCount = async (req, res) => {
     try {
-        // Fetch the call_count value from the database
-        const calls = await Calls.findOne(); // Assuming you only have one row in the Calls table
-        console.log('>>>>>>>>>>>>>>>>>>>.',calls)
-        // Extract the call_count value
-        const callCount = calls ? calls.call_count : 0;
+        const currentTime = new Date();
+        const oneDayAgo = new Date(currentTime);
+        oneDayAgo.setDate(oneDayAgo.getDate() - 1); // Get the timestamp for 24 hours ago
+
+        // Fetch the count of discussions created within the last 24 hours
+        const callCount = await Discussion.count({
+            where: {
+                created_date: {
+                    [Op.between]: [oneDayAgo, currentTime] // Filter discussions within the last 24 hours
+                },
+                [Op.or]: [ // Filter discussions containing proposed, approved, joined, or rejected
+                    { discussion: { [Op.like]: '%Proposed%' } },
+                    { discussion: { [Op.like]: '%Approved%' } },
+                    { discussion: { [Op.like]: '%Joined%' } },
+                    { discussion: { [Op.like]: '%Rejected%' } }
+                ]
+            }
+        });
 
         // Send the call_count value as a JSON response
         res.json({ call_count: callCount });
@@ -1684,32 +1820,59 @@ const Reminder = async (req, res) => {
     }
 }
 
+
+
+
+const getQuarterDates = (year, quarter) => {
+    const startDate = new Date(year, (quarter - 1) * 3, 1);
+    const endDate = new Date(year, quarter * 3, 0);
+    return { startDate, endDate };
+};
+
 const getDiscussionPlusCounts = async () => {
     try {
-        const proposedCount = await Discussion_plus.count({ where: { proposed: 1 } });
-        const approvedCount = await Discussion_plus.count({ where: { approved: 1 } });
-        const joinedCount = await Discussion_plus.count({ where: { joined: 1 } });
-
-        return {
-            proposedCount,
-            approvedCount,
-            joinedCount
-        };
+        const currentYear = new Date().getFullYear(); // Get the current year
+        const countsByQuarter = [];
+        for (let quarter = 1; quarter <= 4; quarter++) {
+            const { startDate, endDate } = getQuarterDates(currentYear, quarter);
+            const proposedCount = await Discussion.count({
+                where: {
+                    created_date: { [Op.between]: [startDate, endDate] },
+                    discussion: { [Op.like]: '%Proposed%' }
+                }
+            });
+            const approvedCount = await Discussion.count({
+                where: {
+                    created_date: { [Op.between]: [startDate, endDate] },
+                    discussion: { [Op.like]: '%Approved%' }
+                }
+            });
+            const joinedCount = await Discussion.count({
+                where: {
+                    created_date: { [Op.between]: [startDate, endDate] },
+                    discussion: { [Op.like]: '%Joined%' }
+                }
+            });
+            countsByQuarter.push({ quarter, proposedCount, approvedCount, joinedCount });
+        }
+        return countsByQuarter;
     } catch (error) {
         console.error('Error getting discussion plus counts:', error);
         throw error;
     }
 };
 
+
 const countOperations = async (req, res) => {
     try {
-        const discussionCounts = await getDiscussionPlusCounts(); // Add await here
+        const discussionCounts = await getDiscussionPlusCounts(); // No need to pass year
         res.status(200).json(discussionCounts);
     } catch (error) {
         console.error('Error getting discussion counts:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 const calls_made=async(req,res)=>{
     try{
@@ -1769,5 +1932,8 @@ module.exports = {
     countOperations,
     calls_made,
     getSea,
-    contract
+    contract,
+    getCandidateActiveDetailsCount,
+    getCandidateRankCounts,
+    updateCandidateFields
 };

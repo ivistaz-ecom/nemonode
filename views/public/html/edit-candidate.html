@@ -614,14 +614,9 @@
                   
                     <div class="">
                       <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Candidate Table</h4>
-                      <div id="pagination-controls">
-                        <button id="prev-page-btn" onclick="prevPage()">Previous</button>
-                        <span id="page-info"></span>
-                        <button id="next-page-btn" onclick="nextPage()">Next</button>
                     </div>
                                 
-                    <input type="number" id="page-number-input" placeholder="Enter Page Number">
-                    <button onclick="jumpToPage()">Jump to Page</button>
+                   
                     
                     
                 
@@ -629,6 +624,7 @@
                             <table id="candidate-list" class="table table-sm table-striped table-bordered " style="font-size: 12px;">
                                 <thead>
                                     <tr>
+                                      <th scope="col"  style="font-size: 8px;">S.no</th>
                                         <th scope="col"  style="font-size: 8px;">Nemo ID</th>
                                         <th scope="col"  style="font-size: 8px;">Full Name</th>
                                         <th scope="col"  style="font-size: 8px;">Rank</th>
@@ -643,6 +639,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div id="pagination-controls">
+
                     </div>
                 </div>
             </div>

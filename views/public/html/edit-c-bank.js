@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Make an axios request to update the bank details
             const response = await axios.put(
-                `https://nemonode.ivistaz.co/candidate/update-bank-details/${id}`,
+                `http://localhost:4000/candidate/update-bank-details/${id}`,
                 {
                     bank_name: bankName,
                     account_num: accountNum,

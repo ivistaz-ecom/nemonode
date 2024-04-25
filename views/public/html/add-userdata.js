@@ -8,7 +8,7 @@ function addOption(selectElement, value) {
 }
 // async function createCompanyDropdown() {
 
-//     const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+//     const companyResponse = await axios.get("http://localhost:4000/company/view-company", { headers: { "Authorization": token } });
 //         const companyOptions = companyResponse.data.company;
 //         console.log(companyOptions)
 //         const companyNames = companyOptions.map(company => company.company_name);
@@ -136,11 +136,13 @@ else{
         const reports = document.getElementById('u_reports').checked;
         const reports_all = document.getElementById('u_reports_all').checked;
         const createdBy = document.getElementById('user_created_date').value;
-        const deletes = false;
+        const deletes = document.getElementById('u_delete').checked;
         const current_login = null;
         const last_login = null;
         const company_login = false;
         const created_date=null;
+        const staff = document.getElementById('u_staff').checked;
+        
 
 
         const currentUserEmail = decodedToken.userEmail; // Get the email of the currently logged-in user from the token
@@ -173,13 +175,14 @@ else{
             last_login:last_login,
             company_login:company_login,
             created_date:created_date,
+            staff:staff
         };
         console.log(formData);
     
         try {
             const token = localStorage.getItem('token')
             
-            const response = await axios.post(`https://nemonode.ivistaz.co/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://localhost:4000/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
             // Handle the server response here
             console.log(response.data);
         } catch (error) {
@@ -194,7 +197,7 @@ else{
 })
 // async function createVendorDropdown() {
 //     try {
-//         const vendorResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
+//         const vendorResponse = await axios.get("http://localhost:4000/others/view-vendor", { headers: { "Authorization": token } });
 //         const vendorOptions = vendorResponse.data.vendors;
 //         console.log(vendorOptions);
         

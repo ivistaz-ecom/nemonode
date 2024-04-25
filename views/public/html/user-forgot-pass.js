@@ -18,7 +18,7 @@ document.getElementById('user-form').addEventListener('submit', async function s
       };
 
       // Use Axios to send a POST request to the server
-      const response = await axios.post(`https://nemonode.ivistaz.co/password/forgotpassword`, data);
+      const response = await axios.post(`http://localhost:4000/password/forgotpassword`, data);
       console.log(response.data)
       // Check the response from the server
       if (response.data.success) {
