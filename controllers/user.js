@@ -17,10 +17,12 @@ function generateAccessToken(id, userName,userEmail,
   reports_all,
   userManagement ,
   vendorManagement,
-  master_create
+  master_create,
+  staff,
+  deletes
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
-    master_create:master_create
+    master_create:master_create,staff:staff,deletes:deletes
   }, 'secretkey');
 }
 
@@ -56,7 +58,8 @@ const create_user = async (req, res, next) => {
       current_login,
       last_login,
       company_login,
-      created_date
+      created_date,
+      staff
 
     } = req.body;
 
@@ -95,7 +98,8 @@ const create_user = async (req, res, next) => {
       current_login,
       last_login,
       company_login,
-      created_date
+      created_date,
+      staff
         },{transaction:t});
         await t.commit();
         res.status(201).json({ message: "Successfully Created New User", user: newUser });
@@ -135,7 +139,7 @@ const login = async (req, res, next) => {
         if (passwordMatch) {
           // Password is correct, generate JWT token
           // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
-          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create,user.staff,user.deletes);
           console.log(token);
           return res.status(200).json({
             success: true,
@@ -211,7 +215,7 @@ const edit_user = async (req, res) => {
       user.last_login=userData.last_login,
       user.company_login=userData.company_login,
       user.created_date=userData.created_date
-
+      user.staff = userData.staff
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
       const saltrounds = 10;

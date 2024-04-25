@@ -652,18 +652,18 @@
               <div id="tableContainer">
                 <button id="exportBtn" class=" btn float-end  m-2 text-dark  border" > Export to Excel</button>
 
-                  <table id="candidatesTable" class="table table-sm table-bordered">
+                  <table id="candidatesTable" class="table table-sm  table-bordered ">
                     
                       <thead class="text-center">
-                          <tr>
-                              <th style="background-color: darkblue; color: white;">Nemo Id</th>
-                              <th style="background-color: darkblue; color: white;">First Name</th>
-                              <th style="background-color: darkblue; color: white;">Last Name</th>
-                              <th style="background-color: darkblue; color: white;">Rank</th>
-                              <th style="background-color: darkblue; color: white;">Mobile</th>
-                              <th style="background-color: darkblue; color: white;">Email</th>
-                              <th style="background-color: darkblue; color: white;">Date of Birth</th>
-                              <th style="background-color: darkblue; color: white;"> Birthday</th>
+                          <tr class="">
+                              <th class="border-0 bg-info text-white">Nemo Id</th>
+                              <th class="border-0 bg-info text-white">First Name</th>
+                              <th class="border-0 bg-info text-white">Last Name</th>
+                              <th class="border-0 bg-info text-white">Rank</th>
+                              <th class="border-0 bg-info text-white">Mobile</th>
+                              <th class="border-0 bg-info text-white">Email</th>
+                              <th class="border-0 bg-info text-white">Date of Birth</th>
+                              <th class="border-0 bg-info text-white"> Birthday</th>
                           </tr>
                       </thead>
                       <tbody></tbody>
@@ -700,7 +700,7 @@
                   error.style.display = 'none';
                   tableContainer.style.display = 'none';
         
-                  axios.get('https://nemonode.ivistaz.co/candidate/birthday', {
+                  axios.get('http://localhost:4000/candidate/birthday', {
                       params: { date },
                       headers: { "Authorization": token }
                   })
