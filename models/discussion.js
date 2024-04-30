@@ -26,7 +26,7 @@ const Discussion = sequelize.define('discussion', {
         allowNull: false,
     },
     reminder: {
-        type: DataTypes.TEXT,
+        type: DataTypes.INTEGER,
         allowNull: true,
     },
     r_date: {

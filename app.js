@@ -87,6 +87,8 @@ Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
 User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
 User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
 
+
+
 app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});
 
