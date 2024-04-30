@@ -576,22 +576,7 @@
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-user me-2"></i>
                       
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
+                     
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
@@ -649,31 +634,33 @@
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
             <script>
-               document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    localStorage.clear();
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    localStorage.clear()
-
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-});
+              document.getElementById("logout").addEventListener("click", function() {
+                  // Display the modal with initial message
+                  localStorage.clear();
+                  var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                  myModal.show();
+                  localStorage.clear()
+          
+                  // Change the message and spinner after a delay
+                  setTimeout(function() {
+                      document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+                  }, 1000);
+          
+                  // Redirect after another delay
+                  setTimeout(function() {
+                      window.location.href = "loginpage.html";
+                  }, 2000);
+              });
+          
               function decodeToken(token) {
-    // Implementation depends on your JWT library
-    // Here, we're using a simple base64 decode
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
-}
-              document.addEventListener('DOMContentLoaded', function () {
+                  // Implementation depends on your JWT library
+                  // Here, we're using a simple base64 decode
+                  const base64Url = token.split('.')[1];
+                  const base64 = base64Url.replace('-', '+').replace('_', '/');
+                  return JSON.parse(atob(base64));
+              }
+          
+              document.addEventListener('DOMContentLoaded', function() {
                   const token = localStorage.getItem('token');
                   const loader = document.getElementById('loader');
                   const error = document.getElementById('error');
@@ -682,86 +669,104 @@
                   const submitButton = document.getElementById('submitButton');
           
                   // Fetch data when the page loads
-                  fetchData();
+                  // fetchData();
           
-                  submitButton.addEventListener('submit', function (e) {
+                  submitButton.addEventListener('submit', function(e) {
                       e.preventDefault();
                       const selectedDate = dateInput.value;
-                      console.log(selectedDate);
                       fetchData(selectedDate);
                   });
           
                   function fetchData(selectedDate) {
-    loader.style.display = 'block';
-    error.style.display = 'none';
-
-    let url = 'http://localhost:4000/candidate/expiry-date';
-    let requestData = {}; // Initialize request data object
-
-    if (selectedDate) {
-        // If selectedDate is provided, add it to requestData object
-        requestData = { date: selectedDate };
-    }
-    
-    const token = localStorage.getItem('token');
-    const user = decodeToken(token);
-    const userId = user.userId;
-    const candidateId = localStorage.getItem('memId');
-
-    // Append both userId and candidateId as query parameters to the URL
-    url += `/${userId}`;
-
-    axios.get(url, {
-            params: requestData, // Pass requestData as params to GET request
-            headers: {
-                "Authorization": token
-            }
-        })
-        .then(response => {
-          console.log(response)
-            renderData(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            showError();
-        })
-        .finally(() => {
-            loader.style.display = 'none';
-        });
-}
-
-function renderData(documents) {
-    const tableBody = documentsTable;
-    tableBody.innerHTML = '';
-
-    // Check if documents is an array
-    if (!Array.isArray(documents)) {
-        showError(); // Show error message
-        return; // Exit the function
-    }
-
-    documents.forEach(document => {
-        const expiryDate = new Date(document.expiry_date);
-        const currentDate = new Date();
-        const isExpired = expiryDate < currentDate;
-        const status = isExpired ? 'Expired' : 'Need to Renew';
-        const badgeClass = isExpired ? 'badge btn-danger' : 'badge btn-warning';
-        const badgeText = isExpired ? 'Expired' : 'Need to Renew';
-        const row = `
-            <tr>
-                <td>${document.document}</td>
-                <td>${document.document_number}</td>
-                <td>${formatDate(document.issue_date)}</td>
-                <td>${formatDate(expiryDate)}</td>
-                <td>${document.issue_place}</td>
-                <td>${document.stcw}</td>
-                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-            </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', row);
-    });
-}
-
+                      loader.style.display = 'block';
+                      error.style.display = 'none';
+          
+                      let url = 'http://localhost:4000/candidate/expiry-date';
+                      let requestData = {}; // Initialize request data object
+          
+                      if (selectedDate) {
+                          // If selectedDate is provided, add it to requestData object
+                          requestData = {
+                              date: selectedDate
+                          };
+                      }
+          
+                      const token = localStorage.getItem('token');
+                      const user = decodeToken(token);
+                      const userId = user.userId;
+                      const candidateId = localStorage.getItem('memId');
+          
+                      // Append both userId and candidateId as query parameters to the URL
+                      url += `/${userId}`;
+          
+                      axios.get(url, {
+                              params: requestData, // Pass requestData as params to GET request
+                              headers: {
+                                  "Authorization": token
+                              }
+                          })
+                          .then(response => {
+                              console.log(response)
+                              renderData(response.data);
+                          })
+                          .catch(error => {
+                              console.error('Error fetching data:', error);
+                              showError();
+                          })
+                          .finally(() => {
+                              loader.style.display = 'none';
+                          });
+                  }
+          
+                  function renderData(documents) {
+                      const tableBody = documentsTable;
+                      tableBody.innerHTML = '';
+          
+                      // Check if documents is an array
+                      if (!Array.isArray(documents)) {
+                          showError(); // Show error message
+                          return; // Exit the function
+                      }
+          
+                      documents.forEach(document => {
+                          const expiryDate = new Date(document.expiry_date);
+                          const currentDate = new Date();
+                          const timeDifference = expiryDate.getTime() - currentDate.getTime();
+                          const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+          
+                          let status;
+                          let badgeClass;
+                          let badgeText;
+          
+                          if (expiryDate < currentDate) {
+                              status = 'Expired';
+                              badgeClass = 'badge btn-danger';
+                              badgeText = 'Expired';
+                          } else if (expiryDate.toDateString() == currentDate.toDateString()) {
+                              status = 'Expiring Today';
+                              badgeClass = 'badge btn-warning';
+                              badgeText = 'Expiring Today';
+                          } else {
+                              status = `Expiring in ${daysDifference} days`;
+                              badgeClass = 'badge btn-warning';
+                              badgeText = `Expiring in ${daysDifference} days`;
+                          }
+          
+                          const row = `
+                              <tr>
+                                  <td>${document.document}</td>
+                                  <td>${document.document_number}</td>
+                                  <td>${formatDate(document.issue_date)}</td>
+                                  <td>${formatDate(expiryDate)}</td>
+                                  <td>${document.issue_place}</td>
+                                  <td>${document.stcw}</td>
+                                  <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                              </tr>
+                          `;
+                          tableBody.insertAdjacentHTML('beforeend', row);
+                      });
+                  }
+          
                   function formatDate(date) {
                       const formattedDate = new Date(date);
                       return formattedDate.toLocaleDateString(); // Adjust the format as needed
@@ -772,6 +777,7 @@ function renderData(documents) {
                   }
               });
           </script>
+          
           
         </div>
         

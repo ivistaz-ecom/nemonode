@@ -435,17 +435,6 @@ const birthday = async (req, res) => {
 
 const new_profile = async (req, res) => {
     try {
-        let includeModels = [
-            { model: CandidateNkd },
-            { model: Medical },
-            { model: Travel },
-            { model: Bank },
-            { model: Documents },
-            { model: Contract },
-            { model: Discussion_plus },
-            // Add other associated models as needed
-        ];
-
         const userId = req.user.id;
         let userGroup;
         const user = await User.findByPk(userId);
@@ -458,7 +447,7 @@ const new_profile = async (req, res) => {
         let reports = user.dataValues.reports;
         console.log('User Group:', userGroup);
 
-        const selectedFields = req.body.selectedFields || []; // Default to an empty array if selectedFields is not provided
+        const selectedFields = req.body.selectedFields; // Get the selectedFields from the request body
         const group = req.body.group || 'all'; // Get the group parameter from the request body, default to 'all'
 
         let allCandidates;
@@ -477,8 +466,7 @@ const new_profile = async (req, res) => {
                             [Op.between]: [startDate, endDate], // Filter based on the date range
                         },
                     },
-                    attributes: selectedFields,
-                    include: includeModels,
+                    attributes: selectedFields, // Provide selectedFields as the attributes
                 });
             } else if (userGroup === 'vendor' && reports === true) {
                 allCandidates = await Candidate.findAll({
@@ -488,8 +476,7 @@ const new_profile = async (req, res) => {
                             [Op.between]: [startDate, endDate], // Filter based on the date range
                         },
                     },
-                    attributes: selectedFields,
-                    include: includeModels,
+                    attributes: selectedFields, // Provide selectedFields as the attributes
                 });
             } else {
                 // If the user is neither admin nor vendor with 'reports' true, handle other cases
@@ -500,8 +487,19 @@ const new_profile = async (req, res) => {
             return res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
         }
 
+        // Filter out fields based on the selectedFields data
+        const filteredCandidates = allCandidates.map(candidate => {
+            const filteredCandidate = {};
+            for (const field in candidate.dataValues) {
+                if (selectedFields[field]) {
+                    filteredCandidate[field] = candidate.dataValues[field];
+                }
+            }
+            return filteredCandidate;
+        });
+
         res.status(200).json({
-            candidates: allCandidates,
+            candidates: filteredCandidates,
             success: true,
         });
     } catch (error) {
@@ -509,6 +507,10 @@ const new_profile = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
+
+
+
 
 
 
@@ -1730,62 +1732,49 @@ const checkExpiry = async (req, res) => {
 //     }
 // };
 
+
 const Reminder = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const user = await User.findByPk(userId);
+        const { startDate, endDate } = req.query;
+        const whereCondition = { reminder: true };
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found', success: false });
+        // If start date input is present, add it to the where condition
+        if (startDate) {
+            whereCondition.r_date = { [Op.gte]: startDate }; // Filter discussions with reminder date greater than or equal to start date
         }
 
-        const readOnly = user.dataValues.readOnly;
-        const userGroup = user.dataValues.userGroup;
-
-        let discussionRanks;
-        const { date } = req.query;
-
-        let whereCondition = {};
-
-        if (date) {
-            const formattedDate = new Date(date); // Convert date string to Date object
-            const startDate = new Date(formattedDate.getFullYear(), formattedDate.getMonth(), formattedDate.getDate()); // Start of the day
-            const endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 1); // End of the day
-            
-            // Set the condition for reminder date
-            whereCondition.reminder_date = {
-                [Op.gte]: startDate,
-                [Op.lt]: endDate
+        // If end date input is present, add it to the where condition
+        if (endDate) {
+            whereCondition.r_date = {
+                ...whereCondition.r_date,
+                [Op.lte]: endDate, // Filter discussions with reminder date less than or equal to end date
             };
         }
 
-        if (userGroup === 'admin') {
-            // If admin, fetch all reminders without applying any additional conditions
-            discussionRanks = await Discussion_plus.findAll({
-                where: whereCondition,
-                order: [['reminder_date', 'ASC']]
-            });
-        } else if (userGroup === 'vendor' && readOnly) {
-            // If vendor with readOnly access, fetch reminders only for the specific user
-            discussionRanks = await Discussion_plus.findAll({
-                where: { userId: userId, ...whereCondition },
-                order: [['reminder_date', 'ASC']]
-            });
-        } else {
-            // For unauthorized access, return Forbidden error
-            return res.status(403).json({ error: 'Forbidden', success: false });
-        }
-
-        res.status(200).json({
-            discussionRanks: discussionRanks,
-            success: true
+        // Fetch discussions based on the condition, ordered by r_date in descending order
+        const discussions = await Discussion.findAll({
+            where: whereCondition,
+            order: [['r_date', 'DESC']], // Ordering by r_date in descending order
         });
-    } catch (error) {
-        console.error('Error fetching discussion ranks:', error);
-        res.status(500).json({ error: 'Internal server error', success: false });
+
+        // If there are discussions with reminders, send them to the client
+        if (discussions.length > 0) {
+            res.json({ success: true, discussions });
+        } else {
+            res.json({ success: false, message: 'No discussions with reminders found.' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
+
+  
+
+
+
+
+
 
 
 
@@ -1874,15 +1863,267 @@ const countOperations = async (req, res) => {
 };
 
 
-const calls_made=async(req,res)=>{
-    try{
+const calls_made = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+
+        const userGroup = user.dataValues.userGroup;
+        const reports = user.dataValues.reports;
+
+        // Check if the user is authorized to access calls made
+        if (userGroup === 'admin') {
+            // Fetch calls made for admins
+            const startDate = req.body.startDate;
+            const endDate = req.body.endDate;
+            const selectedFields = req.body.selectedFields;
+
+            // Check if the date range is provided
+            if (startDate && endDate) {
+                const callsMadeAdmin = await Candidate.findAll({
+                    include: [
+                        {
+                            model: Discussion,
+                            attributes: ['discussion', 'post_by', 'r_date'],
+                            where: {
+                                created_date: {
+                                    [Op.between]: [startDate, endDate], // Filter based on the date range
+                                },
+                            },
+                        },
+                    ],
+                    attributes: selectedFields // Only include selected fields
+                });
+
+                res.status(200).json({ callsMade: callsMadeAdmin, success: true });
+            } else {
+                // Date range not provided
+                res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
+            }
+        } else if (userGroup === 'vendor' && reports === true) {
+            // Fetch calls made for vendors with reports enabled
+            const userId = req.user.id;
+            const startDate = req.body.startDate;
+            const endDate = req.body.endDate;
+            const selectedFields = req.body.selectedFields;
+
+            // Check if the date range is provided
+            if (startDate && endDate) {
+                const callsMadeVendor = await Candidate.findAll({
+                    include: [
+                        {
+                            model: Discussion,
+                            attributes: ['discussion', 'post_by', 'r_date'],
+                            where: {
+                                post_by: userId, // Filter calls made by the vendor
+                                created_date: {
+                                    [Op.between]: [startDate, endDate], // Filter based on the date range
+                                },
+                            },
+                        },
+                    ],
+                    attributes: selectedFields // Only include selected fields
+                });
+
+                res.status(200).json({ callsMade: callsMadeVendor, success: true });
+            } else {
+                // Date range not provided
+                res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
+            }
+        } else {
+            // Unauthorized user
+            res.status(403).json({ message: 'Unauthorized', success: false });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
     }
-    catch(err)
-    {
+};
 
+const proposals = async (req, res) => {
+    console.log('its inside');
+    
+    try {    
+        // Extract query parameters
+        const { status, startDate, endDate } = req.query;
+
+        // Fetch candidates based on the discussions' created_date and status
+        const candidates = await Candidate.findAll({
+            include: [
+                {
+                    model: Discussion,
+                    attributes: ['companyname', 'created_date', 'post_by'],
+                    where: {
+                        discussion: {
+                            [Op.like]: `%${status}%` // Partial match on discussion field
+                        },
+                        created_date: {
+                            [Op.between]: [startDate, endDate] // Filter by start and end date
+                        }
+                    }
+                }
+            ],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel']
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
     }
 }
+
+const getContractsBySignOnDate = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        // Fetch candidates with associated contracts
+        const candidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                where: {
+                    sign_on: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: ['sign_on'] // Include only sign_on date from contracts
+            }],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts by sign_on date:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+const getContractsBySignOffDate = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        // Fetch candidates with associated contracts
+        const candidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                where: {
+                    sign_off: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: ['sign_off'] // Include only sign_on date from contracts
+            }],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts by sign_on date:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
+const avbCandidate = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        console.log('lets see how it works',startDate,endDate)
+        // Fetch candidates available within the specified date range
+        const candidates = await Candidate.findAll({
+            where: {
+                avb_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+    } catch (error) {
+        console.error('Error fetching available candidates:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
+const dueForRenewal = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        console.log(startDate, endDate);
+
+        // Fetch documents due for renewal
+        const documents = await Documents.findAll({
+            where: {
+                expiry_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        // Fetch medical records due for renewal
+        const medicals = await Medical.findAll({
+            where: {
+                expiry_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        // Combine the candidate IDs from documents and medicals
+        const documentCandidateIds = documents.map(doc => doc.candidateId);
+        const medicalCandidateIds = medicals.map(medical => medical.candidateId);
+
+        // Fetch candidates based on the combined candidate IDs
+        const documentCandidates = await Candidate.findAll({
+            where: {
+                candidateId: [...documentCandidateIds]
+            },
+            attributes: ['candidateId', 'fname', 'lname', 'nationality', 'c_vessel']
+        });
+
+        const medicalCandidates = await Candidate.findAll({
+            where: {
+                candidateId: [...medicalCandidateIds]
+            },
+            attributes: ['candidateId', 'fname', 'lname', 'nationality', 'c_vessel']
+        });
+
+        // Send data to the client side including all fields of documents and medicals
+        res.status(200).json({
+            documentCandidates: documents.map(doc => doc.toJSON()),
+            medicalCandidates: medicals.map(medical => medical.toJSON()),
+            success: true
+        });
+    } catch (error) {
+        console.error('Error fetching candidates due for renewal:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
+const avbreport = async (req, res) => {
+    try {
+        // Query candidates whose avb_date is in the future
+        const currentDate = new Date();
+        const availableCandidates = await Candidate.findAll({
+            where: {
+                avb_date: { [Op.gt]: currentDate }
+            }
+        });
+
+        res.json({ candidates: availableCandidates });
+    } catch (error) {
+        console.error('Error fetching available candidates:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
+
 
 module.exports = {
     add_candidate,
@@ -1935,5 +2176,12 @@ module.exports = {
     contract,
     getCandidateActiveDetailsCount,
     getCandidateRankCounts,
-    updateCandidateFields
+    updateCandidateFields,
+    getContractsBySignOnDate,
+    proposals,
+    getContractsBySignOffDate,
+    avbCandidate,
+    dueForRenewal,
+    avbreport
+    
 };
