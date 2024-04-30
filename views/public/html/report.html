@@ -18,7 +18,11 @@
     <title>Reports | Nsnemo</title>
 
     <meta name="description" content="" />
-
+    <style>
+        .report-content {
+          display: none;
+        }
+      </style>
     
 
     <!-- Fonts -->
@@ -89,202 +93,443 @@
     <!-- /Under Maintenance -->
 
     <!-- / Content -->
-     <div class="container p-5">
-      <h1>Reports</h1>
-      <form id="reportForm">
-          <div class="mb-3">
-              <label for="reportType" class="form-label">Select Report</label>
-              <select id="reportType" class="form-select">
-                  <option value="">Select Report</option>
-                  <option value="New Profile">New Profile</option>
-                  <option value="Contract report">Contract report</option>
-              </select>
+    <div class="container p-5">
+        <h1>Reports</h1>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select a Report
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#" onclick="showReport('newProfile')">New Profile</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('callsMade')">Calls Made</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('proposals')">Proposals</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('signOn')">Sign On</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('signOff')">Sign Off</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('dueForSignoff')">Due for Signoff</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('mis')">MIS</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('availableCandidates')">Available Candidates</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('onBoard')">On Board</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('reminder')">Reminder</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('crewListMonthWise')">Crew List Month Wise</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('reliefPlan')">Relief Plan</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('dueForRenewal')">Due for Renewal</a></li>
+          </ul>
+        </div>
+        
+        <!-- Report Content -->
+        <div id="newProfileContent" class="report-content" >
+          <!-- Content for New Profile Report --><form id="newprofilesubmit">
+          <div class="card card-body p-3 ">
+          <h4>New Profile</h4>
+          <div class="row">
+          <div class="form-group col mb-2">
+            <label for="startDate">Start Date:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate">
+        </div>
+        <div class="form-group col mb-2">
+            <label for="endDate">End Date:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate">
+        </div>
+          </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
+            <label class="form-check-label" for="candidateId">Candidate ID</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="fname" name="fname">
+            <label class="form-check-label" for="fname">First Name</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
+            <label class="form-check-label" for="c_rank">Rank</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
+            <label class="form-check-label" for="c_vessel">Vessel Type</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="c_ad1" name="c_ad1">
+            <label class="form-check-label" for="c_ad1">Address</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="c_city" name="c_city">
+            <label class="form-check-label" for="c_city">City</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
+            <label class="form-check-label" for="nationality">Nationality</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="c_mobi1" name="c_mobi1">
+            <label class="form-check-label" for="c_mobi1">Contact Number</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="last_company" name="last_company">
+            <label class="form-check-label" for="last_company">Previous Company</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="email1" name="email1">
+            <label class="form-check-label" for="email1">Email</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="last_salary" name="last_salary">
+            <label class="form-check-label" for="last_salary">Last Salary</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="experience" name="experience">
+            <label class="form-check-label" for="experience">Experience</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="dob" name="dob">
+            <label class="form-check-label" for="dob">Date of Birth</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
+            <label class="form-check-label" for="avb_date">Availability</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="height" name="height">
+            <label class="form-check-label" for="height">Height</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="weight" name="weight">
+            <label class="form-check-label" for="weight">Weight</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="safety_shoe_size" name="safety_shoe_size">
+            <label class="form-check-label" for="safety_shoe_size">Safety Shoe Size</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="boiler_suit_size" name="boiler_suit_size">
+            <label class="form-check-label" for="boiler_suit_size">Boiler Suit Size</label>
+        </div>
+        <div>
+        <button type="submit" class="btn btn-primary float-end" >Generate New Profile Report</button>
+          </div>
+          <div>
+            
           </div>
           
-          <!-- New Profile Fields -->
-          <div id="newProfileFields" style="display: none;">
-            <h2>New Profile Fields</h2>
-            <div class="form-group">
-                <label for="startDate">Start Date:</label>
-                <input type="date" class="form-control" id="startDate" name="startDate">
+          </div>
+          <p class=" mb-0 pb-0 text-end" style="font-size: 10px;" > <strong class="text-primary">Note : </strong>Scroll Horizontally if multiple fields are selected</p>
+          <div class=" rounded-3 bg-white">
+           
+          <div id="candidateTable" style="overflow-x: scroll;"></div>
+          </div>
+        </form>
+        </div>
+        <div id="callsMadeContent" class="report-content">
+            <!-- Content for Calls Made Report -->
+            <div class="card card-body">
+                <h4>Calls Made</h4>
+                <form id="callsMadeForm">
+                    <div class="mb-3">
+                        <label for="fromDate" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="fromDate" name="fromDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="toDate" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="toDate" name="toDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">User</label>
+                        <select class="form-select" id="user" name="user">
+                            <!-- Options for user dropdown will be added dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <p>Select fields to include:</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
+                            <label class="form-check-label" for="candidateId">Candidate ID</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
+                            <label class="form-check-label" for="nationality">Nationality</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="discussion" name="discussion">
+                            <label class="form-check-label" for="discussion">Discussion</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
+                            <label class="form-check-label" for="c_rank">Current Rank</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
+                            <label class="form-check-label" for="c_vessel">Vessel</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="r_date" name="r_date">
+                            <label class="form-check-label" for="r_date">Reminder Date</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
+                            <label class="form-check-label" for="avb_date">Availability</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="endDate">End Date:</label>
-                <input type="date" class="form-control" id="endDate" name="endDate">
+            <div id="callsMadeTable"></div>
+        </div>
+        
+        
+        <div id="proposalsContent" class="report-content">
+            <!-- Content for Proposals Report -->
+            <div class="card card-body">
+                <h4>Proposals</h4>
+                <form id="discussionForm">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="proposed">Proposed</option>
+                            <option value="joined">Joined</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDates">Start Date:</label>
+                        <input type="date" class="form-control" id="startDates" name="startDates">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDates">End Date:</label>
+                        <input type="date" class="form-control" id="endDates" name="endDates">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Fetch Discussions</button>
+                </form>
+                <div id="discussionResults"></div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
-                <label class="form-check-label" for="candidateId">Candidate ID</label>
+        </div>
+        
+        <div id="signOnContent" class="report-content">
+            <!-- Content for Sign On Report -->
+            <div class="card card-body">
+                <h4>Sign on</h4>
+                <!-- Date selection form -->
+                <form id="signOnForm">
+                    <div class="mb-3">
+                        <label for="startDatec" class="form-label">Start Date:</label>
+                        <input type="date" id="startDatec" name="startDatec" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDatec" class="form-label">End Date:</label>
+                        <input type="date" id="endDatec" name="endDatec" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                <!-- Table to display Sign On report data -->
+                <table id="signOnTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Candidate ID</th>
+                            <th>Rank</th>
+                            <th>Vessel</th>
+                            <th>Sign On Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="signOnTableBody">
+                        <!-- Table body will be populated dynamically -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="fname" name="fname">
-                <label class="form-check-label" for="fname">First Name</label>
+        </div>
+        
+        
+        <div id="signOffContent" class="report-content">
+            <!-- Content for Sign On Report -->
+            <div class="card card-body">
+                <h4>Sign off</h4>
+                <!-- Date selection form -->
+                <form id="signOffForm">
+                    <div class="mb-3">
+                        <label for="startDatec" class="form-label">Start Date:</label>
+                        <input type="date" id="startDatec" name="startDatec" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDatec" class="form-label">End Date:</label>
+                        <input type="date" id="endDatec" name="endDatec" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                <!-- Table to display Sign On report data -->
+                <table id="signOffTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Candidate ID</th>
+                            <th>Rank</th>
+                            <th>Vessel</th>
+                            <th>Sign On Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="signOffTableBody">
+                        <!-- Table body will be populated dynamically -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
-                <label class="form-check-label" for="c_rank">Rank</label>
+        </div>
+        
+        <div id="dueForSignoffContent" class="report-content">
+            <!-- Content for Sign On Report -->
+            <div class="card card-body">
+                <h4>Due for Sign off</h4>
+                <!-- Date selection form -->
+                <form id="dueforsignoffform">
+                    <div class="mb-3">
+                        <label for="startDated" class="form-label">Start Date:</label>
+                        <input type="date" id="startDated" name="startDated" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDated" class="form-label">End Date:</label>
+                        <input type="date" id="endDated" name="endDated" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                <!-- Table to display Sign On report data -->
+                <table id="DuesignOffTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Candidate ID</th>
+                            <th>Rank</th>
+                            <th>Vessel</th>
+                            <th>Sign On Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="signOffTableBody">
+                        <!-- Table body will be populated dynamically -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
-                <label class="form-check-label" for="c_vessel">Vessel Type</label>
+        </div>
+        <div id="misContent" class="report-content">
+          <!-- Content for MIS Report -->
+          <div class="card card-body">
+            <h4>MIS</h4>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c_ad1" name="c_ad1">
-                <label class="form-check-label" for="c_ad1">Address</label>
+        </div>
+        <div id="availableCandidatesContent" class="report-content">
+            <!-- Content for Available Candidates Report -->
+            <div class="card card-body">
+                <h4>Available candidates</h4>
+                <!-- Date selection form -->
+                <form id="availableCandidatesForm">
+                    <div class="mb-3">
+                        <label for="startDatea" class="form-label">Start Date:</label>
+                        <input type="date" id="startDatea" name="startDatea" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDatea" class="form-label">End Date:</label>
+                        <input type="date" id="endDatea" name="endDatea" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                <!-- Table to display available candidates data -->
+                <table id="availableCandidatesTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Candidate ID</th>
+                            <th>Name</th>
+                            <th>Rank</th>
+                            <th>Vessel</th>
+                            <th>Avb Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="availableCandidatesTableBody">
+                        <!-- Table body will be populated dynamically -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c_city" name="c_city">
-                <label class="form-check-label" for="c_city">City</label>
+        </div>
+        
+        <div id="onBoardContent" class="report-content">
+          <!-- Content for On Board Report -->
+          <div class="card card-body">
+            <h4>On Board </h4>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
-                <label class="form-check-label" for="nationality">Nationality</label>
+        </div>
+        <div id="reminderContent" class="report-content">
+          <!-- Content for Reminder Report -->
+          <div class="card card-body">
+            <h4>Reminder</h4>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c_mobi1" name="c_mobi1">
-                <label class="form-check-label" for="c_mobi1">Contact Number</label>
+        </div>
+        <div id="crewListMonthWiseContent" class="report-content">
+          <!-- Content for Crew List Month Wise Report -->
+          <div class="card card-body">
+            <h4>Crew list month wise</h4>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="last_company" name="last_company">
-                <label class="form-check-label" for="last_company">Previous Company</label>
+        </div>
+        <div id="reliefPlanContent" class="report-content">
+          <!-- Content for Relief Plan Report -->
+          <div class="card card-body">
+            <h4>Relief Plan</h4>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="email1" name="email1">
-                <label class="form-check-label" for="email1">Email</label>
+        </div>
+        <div id="dueForRenewalContent" class="report-content">
+            <!-- Content for Due for Renewal Report -->
+            <div class="card card-body">
+                <h4>Due for renewal</h4>
+                <!-- Date selection form -->
+                <form id="dueForRenewalForm">
+                    <div class="mb-3">
+                        <label for="startDater" class="form-label">Start Date:</label>
+                        <input type="date" id="startDater" name="startDater" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDater" class="form-label">End Date:</label>
+                        <input type="date" id="endDater" name="endDater" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                <div class="card p-3 mb-3 mt-3"><h4 class="text-primary">Document Renewals</h4>
+                <!-- Table to display candidates due for renewal -->
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentCandidatesTableBody">
+                        <!-- Table rows will be dynamically added here -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="last_salary" name="last_salary">
-                <label class="form-check-label" for="last_salary">Last Salary</label>
+            <div class="card p-3"><h4 class="text-primary">Medical Renewals</h4>
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Hospital Name</th>
+                            <th>Place</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="medicalCandidatesTableBody">
+                        <!-- Table rows will be dynamically added here -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="experience" name="experience">
-                <label class="form-check-label" for="experience">Experience</label>
+                
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="dob" name="dob">
-                <label class="form-check-label" for="dob">Date of Birth</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
-                <label class="form-check-label" for="avb_date">Availability</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="height" name="height">
-                <label class="form-check-label" for="height">Height</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="weight" name="weight">
-                <label class="form-check-label" for="weight">Weight</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="safety_shoe_size" name="safety_shoe_size">
-                <label class="form-check-label" for="safety_shoe_size">Safety Shoe Size</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="boiler_suit_size" name="boiler_suit_size">
-                <label class="form-check-label" for="boiler_suit_size">Boiler Suit Size</label>
-            </div>
+        </div>
+        
+        <a href="./indexpage.html" class="text-center">Back Home</a>
 
-        </div>
-  
-  
-        <div id="contractFields" style="display: none;">
-            <h2>Contract Fields</h2>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="id" name="id">
-                <label class="form-check-label" for="id">ID</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="rank" name="rank">
-                <label class="form-check-label" for="rank">Rank</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="company" name="company">
-                <label class="form-check-label" for="company">Company</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="vslName" name="vslName">
-                <label class="form-check-label" for="vslName">Vessel Name</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="vesselType" name="vesselType">
-                <label class="form-check-label" for="vesselType">Vessel Type</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sign_on_port" name="sign_on_port">
-                <label class="form-check-label" for="sign_on_port">Sign On Port</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sign_on" name="sign_on">
-                <label class="form-check-label" for="sign_on">Sign On Date</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="wage_start" name="wage_start">
-                <label class="form-check-label" for="wage_start">Wage Start Date</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="eoc" name="eoc">
-                <label class="form-check-label" for="eoc">EOC</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="wages" name="wages">
-                <label class="form-check-label" for="wages">Wages</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="currency" name="currency">
-                <label class="form-check-label" for="currency">Currency</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="wages_types" name="wages_types">
-                <label class="form-check-label" for="wages_types">Wages Types</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sign_off_port" name="sign_off_port">
-                <label class="form-check-label" for="sign_off_port">Sign Off Port</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="sign_off" name="sign_off">
-                <label class="form-check-label" for="sign_off">Sign Off Date</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="reason_for_sign_off" name="reason_for_sign_off">
-                <label class="form-check-label" for="reason_for_sign_off">Reason for Sign Off</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="documents" name="documents">
-                <label class="form-check-label" for="documents">Documents</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="aoa" name="aoa">
-                <label class="form-check-label" for="aoa">AOA</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="aoa_number" name="aoa_number">
-                <label class="form-check-label" for="aoa_number">AOA Number</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="emigrate_number" name="emigrate_number">
-                <label class="form-check-label" for="emigrate_number">Emigrate Number</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="created_by" name="created_by">
-                <label class="form-check-label" for="created_by">Created By</label>
-            </div>
-        </div>
-        
-        <button id="generateReport" type="button" class="btn btn-primary">
-            Generate Report
-        </button>
-        
-        <div id="reportTable" class="mt-5"></div>
-        
-  
-         
-          <a href='./indexpage.html'> > Back Home</a>
-  
-          <div id="reportTable" class="mt-5"></div>
-      </form>
-  </div>
+      </div>
+      <!-- Bootstrap JS and jQuery -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      
+      <script>
+        function showReport(reportId) {
+          $('.report-content').hide(); // Hide all report contents
+          $('#' + reportId + 'Content').show(); // Show the selected report content
+        }
+      </script>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -308,6 +553,7 @@
     <script src="../assets/js/main.js"></script>
     <script src="./report.js"></script>
     <!-- Page JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

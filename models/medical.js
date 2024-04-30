@@ -20,7 +20,7 @@ const Medical = sequelize.define('Medical', {
     allowNull: true,
   },
   expiry_date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: true,
   },
   done_by: {

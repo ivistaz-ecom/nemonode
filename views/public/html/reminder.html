@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Vessel | Nsnemo</title>
+    <title>Reminder | Nsnemo</title>
 
     <meta name="description" content="" />
 
@@ -573,22 +573,7 @@
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-user me-2"></i>
                       li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
+                     
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
@@ -607,146 +592,132 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="container-fluid">
-            
-            <div class="p-5">
-                <h2>Reminder</h2>
-                <form id="reminderForm">
-                    <label for="date">Select Date:</label>
-                    <input type="date" id="date" />
-                    <button type="submit" class="btn btn-success">Get Specific Reminder</button>
-                </form>
-                <div id="discussionRanks" class="mt-5 mb-5">
-                    <h3>Upcoming Reminders </h3>
-                    <table class="table table-bordered table-responsive table-sm">
-                        <thead>
-                            <tr>
-                                <th>Reminder Set</th>
-                                <th>Candidate ID</th>
-                                <th>Reminder text</th>
-                                <th>Reminder Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="discussionRanksBody"></tbody>
-                    </table>
+          <div class="container">
+            <div class="row mt-5">
+                <div class="col">
+                    <h2 class="text-center">Discussion Reminders</h2>
                 </div>
             </div>
-        
-            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-            <script>
-               document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    localStorage.clear();
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    localStorage.clear()
-
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-});
-                document.addEventListener('DOMContentLoaded', function () {
-                    const reminderForm = document.getElementById('reminderForm');
-                    const dateInput = document.getElementById('date');
-                    const discussionRanksBody = document.getElementById('discussionRanksBody');
-            
-                    reminderForm.addEventListener('submit', async function (event) {
-                        event.preventDefault();
-                        const selectedDate = dateInput.value;
-                        fetchData(selectedDate);
-                    });
-            
-                    fetchData();
-            
-                    async function fetchData(selectedDate) {
-                        try {
-                            const token = localStorage.getItem('token');
-                            const response = await axios.get('http://localhost:4000/candidate/reminder', {
-                                headers: { "Authorization": token },
-                                params: { date: selectedDate }
-                            });
-            
-                            renderDiscussionRanks(response.data.discussionRanks);
-                        } catch (error) {
-                            console.error('Error fetching discussion ranks:', error);
-                        }
-                    }
-            
-                    function renderDiscussionRanks(discussionRanks) {
-        const today = new Date();
-        const sortedRanks = discussionRanks.sort((a, b) => {
-    const dateA = new Date(a.reminder_date);
-    const dateB = new Date(b.reminder_date);
-
-    if (dateA.toDateString() === today.toDateString()) {
-        if (dateB.toDateString() === today.toDateString()) {
-            return 0; // Both are today, keep their relative order
-        } else {
-            return -1; // A is today, so it comes before B
-        }
-    } else if (dateB.toDateString() === today.toDateString()) {
-        return 1; // B is today, so it comes before A
-    }
-
-    if (dateA < today && dateB >= today) return 1; // Ended comes last
-    if (dateA > today && dateB < today) return -1; // Upcoming comes before ended
-    return dateA - dateB; // Sort other dates chronologically
-});
-
-
-        const discussionRanksRows = sortedRanks.map(({ reminder_date, candidateId, reminder_text }) => {
-            const reminderDate = new Date(reminder_date);
-            let badgeClass = '';
-            let badgeText = '';
-
-            if (reminderDate.toDateString() === today.toDateString()) {
-                badgeClass = 'badge bg-primary';
-                badgeText = 'Today';
-            } else if (reminderDate < today) {
-                badgeClass = 'badge bg-danger';
-                badgeText = 'Ended';
-            } else {
-                badgeClass = 'badge bg-success';
-                badgeText = 'Upcoming';
-            }
-
-            return `
-                <tr>
-                    <td>${reminder_date}</td>
-                    <td>${candidateId}</td>
-                    <td>${reminder_text}</td>
-                    <td><span class="${badgeClass}">${badgeText}</span></td>
-                </tr>
-            `;
-        }).join('');
-
-        discussionRanksBody.innerHTML = discussionRanksRows;
-    }
-                });
-            </script>
-            
-                           <a href='./indexpage.html'> > Back Home</a>
-
-          </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <!-- Date Filters -->
+                    <form id="dateFilterForm">
+                      <div class="row align-items-end">
+                          <div class="col">
+                              <label for="startDate" class="form-label visually-hidden">Start Date:</label>
+                              <input type="date" id="startDate" class="form-control" name="startDate" placeholder="Start Date">
+                          </div>
+                          <div class="col">
+                              <label for="endDate" class="form-label visually-hidden">End Date:</label>
+                              <input type="date" id="endDate" class="form-control" name="endDate" placeholder="End Date">
+                          </div>
+                          <div class="col-auto">
+                              <button type="submit" class="btn btn-primary">Apply Filters</button>
+                          </div>
+                      </div>
+                  </form>
+                  
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <!-- Discussion List -->
+                    <ul class="list-group" id="discussionList">
+                        <!-- Discussion Items will be appended here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
     
-        
-
-            
-                    <!-- /Account -->
-                      <!-- / Content -->
-
-           
-            <!-- / Footer -->
-            
-
-            <div class="content-backdrop fade"></div>
-          </div>
+        <!-- Bootstrap JS Bundle (popper.js included) -->
+       
+        <script>
+          document.addEventListener('DOMContentLoaded', async () => {
+              const dateFilterForm = document.getElementById('dateFilterForm');
+              const startDateInput = document.getElementById('startDate');
+              const endDateInput = document.getElementById('endDate');
+      
+              dateFilterForm.addEventListener('submit', async (event) => {
+                  event.preventDefault();
+                  const startDate = startDateInput.value;
+                  const endDate = endDateInput.value;
+                  fetchData(startDate, endDate);
+              });
+      
+              // Function to fetch discussion reminders based on date filters
+              async function fetchData(startDate, endDate) {
+                  try {
+                      const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                      const response = await axios.get(url);
+                      renderDiscussionReminders(response.data.discussions);
+                  } catch (error) {
+                      console.error('Error fetching discussion reminders:', error);
+                  }
+              }
+      
+              // Function to render discussion reminders
+              function renderDiscussionReminders(discussions) {
+                  const discussionList = document.getElementById('discussionList');
+                  discussionList.innerHTML = ''; // Clear existing items
+      
+                  discussions.forEach(discussion => {
+                      // Calculate the status based on the r_date
+                      const reminderDate = new Date(discussion.r_date);
+                      const today = new Date();
+                      let status = '';
+      
+                      if (reminderDate < today) {
+                          status = 'Expired';
+                      } else if (reminderDate.toDateString() === today.toDateString()) {
+                          status = 'Today';
+                      } else {
+                          status = 'Upcoming';
+                      }
+      
+                      // Render each discussion reminder item
+                      const listItem = document.createElement('li');
+                      listItem.classList.add('list-group-item');
+                      listItem.innerHTML = `
+                          <div class="d-flex justify-content-between">
+                              <div>
+                                  <h5 class="mb-1 d-flex align-items-center">Candidate ID: <button class="btn btn-link candidate-btn" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
+                                  <p class="mb-1">Discussion: ${discussion.discussion}</p>
+                              </div>
+                              <div>
+                                  <span class="badge align-content-center h-25 ${getBadgeColor(status)}">${status}</span>
+                              </div>
+                          </div>
+                          <small class="text-muted">Reminder Date: ${discussion.r_date}</small>
+                      `;
+                      discussionList.appendChild(listItem);
+      
+                      // Add event listener to candidate ID button
+                      listItem.querySelector('.candidate-btn').addEventListener('click', () => {
+                          const candidateId = discussion.candidateId;
+                          localStorage.setItem('memId',candidateId)
+                          // Redirect to view-candidate page with candidateId
+                          window.location.href = `view-candidate.html?id=${candidateId}`;
+                      });
+                  });
+              }
+      
+              // Function to determine badge color based on discussion status
+              function getBadgeColor(status) {
+                  switch (status) {
+                      case 'Expired':
+                          return 'bg-danger';
+                      case 'Today':
+                          return 'bg-warning';
+                      case 'Upcoming':
+                          return 'bg-primary';
+                      default:
+                          return '';
+                  }
+              }
+          });
+      </script>
+      
+      
           <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->

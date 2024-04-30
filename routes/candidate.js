@@ -57,7 +57,7 @@ router.get("/get-c-candidate/:id", candidateControllers.get_candidate)
 router.put("/update-c-candidate/:id", candidateControllers.edit_candidate)
 router.get('/reportsAll',userAuthentication.authenticate,candidateControllers.reportAll)
 router.get('/expiry-date/:id', userAuthentication.authenticate, candidateControllers.checkExpiry);
-router.get('/reminder',userAuthentication.authenticate, candidateControllers.Reminder)
+router.get('/reminder', candidateControllers.Reminder)
 
 router.delete('/delete-nkd/:id', userAuthentication.authenticate, candidateControllers.delete_NKD);
 router.delete('/delete-hospital/:id', userAuthentication.authenticate, candidateControllers.delete_Hospital);
@@ -78,6 +78,11 @@ router.post('/reports/contract',userAuthentication.authenticate,candidateControl
 router.get('/birthday',userAuthentication.authenticate,candidateControllers.birthday)
 router.get('/call-count',userAuthentication.authenticate,candidateControllers.getCallCount);
 router.get('/discussion-count',userAuthentication.authenticate,candidateControllers.countOperations);
-router.post('/callsmade',userAuthentication.authenticate,candidateControllers.calls_made)
-
+router.post('/reports/callsmade',userAuthentication.authenticate,candidateControllers.calls_made)
+router.get('/reports/proposals',candidateControllers.proposals)
+router.get('/reports/sign-on',candidateControllers.getContractsBySignOnDate)
+router.get('/reports/sign-off',candidateControllers.getContractsBySignOffDate)
+router.get('/reports/avb-date',candidateControllers.avbCandidate)
+router.get('/reports/renewal',candidateControllers.dueForRenewal)
+router.get('/avbreport',candidateControllers.avbreport)
 module.exports = router;
