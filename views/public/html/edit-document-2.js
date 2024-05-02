@@ -42,7 +42,7 @@ updateDocumentTypeButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`  https://nemonode.ivistaz.co/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nemo.ivistaz.co/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Document Type Updated Successfully!");
         window.location.href="./edit-document.html"
