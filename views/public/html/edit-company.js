@@ -8,7 +8,7 @@ window.onload = async function () {
     // Get values using parameter names
     const companyId = queryParams.get('companyId');
     const companyName = queryParams.get('companyname');
-    const businessType = queryParams.get('b_type');
+    // const businessType = queryParams.get('b_type');
     const contactPerson = queryParams.get('contact_person');
     const email = queryParams.get('email');
     const address = queryParams.get('address');
@@ -21,7 +21,7 @@ window.onload = async function () {
     document.getElementById("u_company_name").value = companyName;
 
     // Set the radio button based on the businessType value (converted to lowercase)
-    document.getElementById(`u_${businessType.toLowerCase()}`).checked = true;
+    // document.getElementById(`u_${businessType.toLowerCase()}`).checked = true;
 
     document.getElementById("u_company_contact").value = contactPerson;
     document.getElementById("u_company_email").value = email;
@@ -43,7 +43,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     const updatedCompanyDetails = {
         company_id: companyId,
         c_name: document.getElementById("u_company_name").value,
-        b_type: businessType, // Use the businessType here
+        b_type: businessType || null, // Use the businessType here
         c_contact: document.getElementById("u_company_contact").value,
         c_email: document.getElementById("u_company_email").value,
         c_addr: document.getElementById("u_company_address").value,

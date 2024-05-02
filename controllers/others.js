@@ -2028,7 +2028,22 @@ const fetchQueries = async (req, res) => {
 };
 
  
+const getVsls = async (req, res) => {
+  try {
+      // Fetch all vessel data
+      const vessels = await VSL.findAll({
+      });
 
+      // Extract vessel names from the fetched data
+     
+
+      // Send the vessel names to the client
+      res.json(vessels);
+  } catch (error) {
+      console.error('Error fetching vessel data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
   module.exports = {
@@ -2090,7 +2105,8 @@ const fetchQueries = async (req, res) => {
     editQueries,
     fetchQueries,
     get_experiences,
-    get_gradeDrop
+    get_gradeDrop,
+    getVsls
   }
 
   
