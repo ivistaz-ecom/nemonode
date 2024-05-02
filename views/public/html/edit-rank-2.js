@@ -12,7 +12,7 @@ updateRankButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`  https://nemonode.ivistaz.co/others/update-rank/${rankId}`, updatedRankDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nemo.ivistaz.co/others/update-rank/${rankId}`, updatedRankDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Rank Updated Successfully!");
         window.location.href ="./edit-rank.html"

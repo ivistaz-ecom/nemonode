@@ -13,7 +13,7 @@ try {
   // Get the current year
   const currentYear = new Date().getFullYear();
 
-  const discussionCountsResponse = await axios.get('  https://nemonode.ivistaz.co/candidate/discussion-count', {
+  const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count', {
     headers: { "Authorization": token }
   });
   const discussionCountsData = discussionCountsResponse.data;
@@ -90,7 +90,7 @@ try {
 
   // Fetch call count
   try {
-    const callCountResponse = await axios.get('  https://nemonode.ivistaz.co/candidate/call-count', {
+    const callCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/call-count', {
         headers: { "Authorization": token }
     });
     // console.log(callCountResponse)
@@ -150,7 +150,7 @@ document.getElementById('user-group').textContent = decodedToken.userGroup
 const fetchAndGenerateRankChart = async () => {
   try {
     // Make an HTTP GET request to your server endpoint
-    const response = await axios.get('  https://nemonode.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
+    const response = await axios.get('https://nemo.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
     
     // Extract rankCounts from the response data
     const rankCounts = response.data.rankCounts;
@@ -245,7 +245,7 @@ function generateDoughnutChart(rankCounts) {
 const fetchAndLogRankCounts = async () => {
   try {
     // Make an HTTP GET request to your server endpoint
-    const response = await axios.get('  https://nemonode.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
+    const response = await axios.get('https://nemo.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
     
     // Extract rankCounts from the response data
     const rankCounts = response.data.rankCounts;
@@ -330,7 +330,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchCandidates() {
   try {
-      const response = await axios.get('  https://nemonode.ivistaz.co/candidate/getCount', {
+      const response = await axios.get('https://nemo.ivistaz.co/candidate/getCount', {
           headers: { "Authorization": token }
       });
       const { activeCount, inactiveCount } = response.data;
