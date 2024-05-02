@@ -611,7 +611,7 @@
     <!-- /Under Maintenance -->
 
     <!-- / Content -->
-    <div class="container p-5">
+    <div class="container p-4">
         <h1>Reports</h1>
         <div class="dropdown mb-3">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -750,8 +750,8 @@
                         <input type="date" class="form-control" id="toDate" name="toDate" required>
                     </div>
                     <div class="mb-3">
-                        <label for="user" class="form-label">User</label>
-                        <select class="form-select" id="user" name="user">
+                        <label for="userDropdown" class="form-label">User</label>
+                        <select class="form-select" id="userDropdown" name="userDropdown">
                             <!-- Options for user dropdown will be added dynamically -->
                         </select>
                     </div>
@@ -789,7 +789,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
-            <div id="callsMadeTable"></div>
+            <div id="callsMadeTable" class="card card-body mt-3"><h4>Data Fetched</h4> </div>
         </div>
         
         
@@ -835,10 +835,10 @@
                         <label for="endDatec" class="form-label">End Date:</label>
                         <input type="date" id="endDatec" name="endDatec" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                    <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
                 </form>
                 <!-- Table to display Sign On report data -->
-                <table id="signOnTable" class="table">
+                <table id="signOnTable" class="table table-bordered table-sm">
                     <thead>
                         <tr>
                             <th>Candidate ID</th>
@@ -862,17 +862,17 @@
                 <!-- Date selection form -->
                 <form id="signOffForm">
                     <div class="mb-3">
-                        <label for="startDatec" class="form-label">Start Date:</label>
-                        <input type="date" id="startDatec" name="startDatec" class="form-control">
+                        <label for="startDateoff" class="form-label">Start Date:</label>
+                        <input type="date" id="startDateoff" name="startDateoff" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="endDatec" class="form-label">End Date:</label>
-                        <input type="date" id="endDatec" name="endDatec" class="form-control">
+                        <label for="endDateoff" class="form-label">End Date:</label>
+                        <input type="date" id="endDateoff" name="endDateoff" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                    <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
                 </form>
                 <!-- Table to display Sign On report data -->
-                <table id="signOffTable" class="table">
+                <table id="signOffTable" class="table table-sm table-bordered">
                     <thead>
                         <tr>
                             <th>Candidate ID</th>
@@ -902,10 +902,10 @@
                         <label for="endDated" class="form-label">End Date:</label>
                         <input type="date" id="endDated" name="endDated" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                    <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
                 </form>
                 <!-- Table to display Sign On report data -->
-                <table id="DuesignOffTable" class="table">
+                <table id="DuesignOffTable" class="table table-bordered table-sm">
                     <thead>
                         <tr>
                             <th>Candidate ID</th>
@@ -940,10 +940,10 @@
                         <label for="endDatea" class="form-label">End Date:</label>
                         <input type="date" id="endDatea" name="endDatea" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                    <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
                 </form>
                 <!-- Table to display available candidates data -->
-                <table id="availableCandidatesTable" class="table">
+                <table id="availableCandidatesTable" class="table table-bordered table-sm">
                     <thead>
                         <tr>
                             <th>Candidate ID</th>
@@ -1059,7 +1059,7 @@
         
                 <!-- Table to display crew list -->
                 <div class="mt-4">
-                    <table class="table table-bordered table-sm">
+                    <table class="table table-bordered table-sm" id="crewlisttable">
                         <thead>
                             <tr>
                                 <th style="font-size: 8px;">Candidate ID</th>
@@ -1087,8 +1087,34 @@
         <div id="reliefPlanContent" class="report-content">
           <!-- Content for Relief Plan Report -->
           <div class="card card-body">
-            <h4>Relief Plan</h4>
-            </div>
+            <h4>Relief Plan Report</h4>
+            <form id="reliefPlanForm">
+                
+                <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
+            </form>
+            <div id="exportButtonContainer"></div>
+
+            <table class="table table-bordered table-sm">
+                <thead >
+                    <tr>
+                        <th style="font-size: 8px;" > ID</th>
+                        <th style="font-size: 8px;">First Name</th>
+                        <th style="font-size: 8px;">Nationality</th>
+                        <th style="font-size: 8px;">C Rank</th>
+                        <th style="font-size: 8px;">Vessel</th>
+                        <th style="font-size: 8px;">Wages</th>
+                        <th style="font-size: 8px;">Wages Type</th>
+                        <th style="font-size: 8px;">Sign On</th>
+                        <th style="font-size: 8px;">Sign Off</th>
+                        <th style="font-size: 8px;">End of Contract</th>
+                    </tr>
+                </thead>
+                
+                <tbody id="reliefPlanTableBody">
+
+                </tbody>
+            </table>
+        </div>
         </div>
         <div id="dueForRenewalContent" class="report-content">
             <!-- Content for Due for Renewal Report -->
@@ -1108,6 +1134,8 @@
                 </form>
                 <div class="card p-3 mb-3 mt-3"><h4 class="text-primary">Document Renewals</h4>
                 <!-- Table to display candidates due for renewal -->
+                <button id="exportDocumentCandidates" class="btn btn-light text-success">Export to Excel</button>
+
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -1122,6 +1150,8 @@
                 </table>
             </div>
             <div class="card p-3"><h4 class="text-primary">Medical Renewals</h4>
+                <button id="exportMedicalCandidates" class="btn btn-light text-success">Export to Excel</button>
+
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>

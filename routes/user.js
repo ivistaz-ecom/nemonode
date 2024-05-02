@@ -12,5 +12,6 @@ router.put('/update-user/:id', userControllers.edit_user);
 router.delete('/delete-user/:id', userControllers.delete_user);
 router.get('/get-user/:id',userControllers.get_user)
 router.get("/view-user",userAuthentication.authenticate,userControllers.view_user)
+router.get('/userdropdown',userControllers.userDropdown)
 
 module.exports = router;

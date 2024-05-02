@@ -1866,84 +1866,40 @@ const countOperations = async (req, res) => {
 
 const calls_made = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const user = await User.findByPk(userId);
+        const userId = req.body.userId;
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate;
+        const selectedFields = req.body.selectedFields;
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found', success: false });
-        }
-
-        const userGroup = user.dataValues.userGroup;
-        const reports = user.dataValues.reports;
-
-        // Check if the user is authorized to access calls made
-        if (userGroup === 'admin') {
-            // Fetch calls made for admins
-            const startDate = req.body.startDate;
-            const endDate = req.body.endDate;
-            const selectedFields = req.body.selectedFields;
-
-            // Check if the date range is provided
-            if (startDate && endDate) {
-                const callsMadeAdmin = await Candidate.findAll({
-                    include: [
-                        {
-                            model: Discussion,
-                            attributes: ['discussion', 'post_by', 'r_date'],
-                            where: {
-                                created_date: {
-                                    [Op.between]: [startDate, endDate], // Filter based on the date range
-                                },
+        // Check if the date range is provided
+        if (startDate && endDate) {
+            const callsMade = await Candidate.findAll({
+                include: [
+                    {
+                        model: Discussion,
+                        attributes: ['discussion', 'post_by', 'r_date'],
+                        where: {
+                            post_by: userId, // Filter calls made by the user
+                            created_date: {
+                                [Op.between]: [startDate, endDate], // Filter based on the date range
                             },
                         },
-                    ],
-                    attributes: selectedFields // Only include selected fields
-                });
+                    },
+                ],
+                attributes: selectedFields // Only include selected fields
+            });
 
-                res.status(200).json({ callsMade: callsMadeAdmin, success: true });
-            } else {
-                // Date range not provided
-                res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
-            }
-        } else if (userGroup === 'vendor' && reports === true) {
-            // Fetch calls made for vendors with reports enabled
-            const userId = req.user.id;
-            const startDate = req.body.startDate;
-            const endDate = req.body.endDate;
-            const selectedFields = req.body.selectedFields;
-
-            // Check if the date range is provided
-            if (startDate && endDate) {
-                const callsMadeVendor = await Candidate.findAll({
-                    include: [
-                        {
-                            model: Discussion,
-                            attributes: ['discussion', 'post_by', 'r_date'],
-                            where: {
-                                post_by: userId, // Filter calls made by the vendor
-                                created_date: {
-                                    [Op.between]: [startDate, endDate], // Filter based on the date range
-                                },
-                            },
-                        },
-                    ],
-                    attributes: selectedFields // Only include selected fields
-                });
-
-                res.status(200).json({ callsMade: callsMadeVendor, success: true });
-            } else {
-                // Date range not provided
-                res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
-            }
+            res.status(200).json({ callsMade: callsMade, success: true });
         } else {
-            // Unauthorized user
-            res.status(403).json({ message: 'Unauthorized', success: false });
+            // Date range not provided
+            res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
         }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
 
 const proposals = async (req, res) => {
     console.log('its inside');
@@ -2007,7 +1963,7 @@ const getContractsBySignOnDate = async (req, res) => {
 const getContractsBySignOffDate = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
-
+        console.log(startDate,endDate)
         // Fetch candidates with associated contracts
         const candidates = await Candidate.findAll({
             include: [{
@@ -2024,7 +1980,7 @@ const getContractsBySignOffDate = async (req, res) => {
 
         res.status(200).json({ candidates: candidates, success: true });
     } catch (error) {
-        console.error('Error fetching contracts by sign_on date:', error);
+        console.error('Error fetching contracts by sign_off date:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
@@ -2207,6 +2163,29 @@ const crewList = async (req, res) => {
     }
 }
 
+const reliefPlan = async (req, res) => {
+    try {
+        // Fetching candidates and including the associated contracts with specified conditions
+        const candidatesWithContracts = await Candidate.findAll({
+            include: {
+                model: Contract,
+                where: {
+                    eoc: { [Op.not]: null }, // EOC is present
+                    sign_off: null // Sign-off date is not present
+                }
+            }
+        });
+
+        // Extracting relief plan contracts from the fetched candidates
+
+        // Send the relief plan contracts data to the client
+        res.json(candidatesWithContracts);
+    } catch (error) {
+        console.error("Error fetching relief plan contracts:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 
 
 
@@ -2269,6 +2248,7 @@ module.exports = {
     dueForRenewal,
     avbreport,
     onBoard,
-    crewList
+    crewList,
+    reliefPlan
     
 };

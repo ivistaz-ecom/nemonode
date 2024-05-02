@@ -72,7 +72,7 @@ async function handleNewProfileSubmit(event) {
         // Create "Export to Excel" button
         const exportButton = document.createElement('button');
         exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-success', 'mt-3', 'float-end', 'mb-2');
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
         exportButton.addEventListener('click', () => {
             exportToExcel(table, 'candidates.xlsx');
         });
@@ -360,7 +360,7 @@ async function handleNewProfileSubmit(event) {
         // Create "Export to Excel" button
         const exportButton = document.createElement('button');
         exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-success', 'mt-3', 'float-end', 'mb-2');
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
         exportButton.addEventListener('click', () => {
             exportToExcel(table, 'candidates.xlsx');
         });
@@ -382,7 +382,7 @@ async function handleCallsMadeSubmit(event) {
         const token = localStorage.getItem('token');
         const fromDate = document.getElementById('fromDate').value;
         const toDate = document.getElementById('toDate').value;
-        const user = document.getElementById('user').value;
+        const user = document.getElementById('userDropdown').value;
 
         // Gather selected fields, including 'candidateId'
         const selectedFields = { 'candidateId': true };
@@ -395,7 +395,7 @@ async function handleCallsMadeSubmit(event) {
         const response = await axios.post('http://localhost:4000/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
-            user: user,
+            userId: user,
             selectedFields: selectedFields
         }, {
             headers: {
@@ -408,6 +408,18 @@ async function handleCallsMadeSubmit(event) {
         // Display calls made in a table
         const tableContainer = document.getElementById('callsMadeTable');
         tableContainer.innerHTML = '';
+
+        // Create export button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+        exportButton.style='width:300px;'
+        exportButton.addEventListener('click', function() {
+            exportToExcel(table, 'callsMade.xlsx');
+        });
+
+        // Append export button before table
+        tableContainer.appendChild(exportButton);
 
         // Create table element
         const table = document.createElement('table');
@@ -422,7 +434,7 @@ async function handleCallsMadeSubmit(event) {
             if (selectedFields[field]) {
                 const th = document.createElement('th');
                 th.textContent = field;
-                th.classList = 'fw-bolder bg-info text-white';
+                th.classList = 'fw-bolder bg-warning text-white';
                 headerRow.appendChild(th);
             }
         }
@@ -430,50 +442,38 @@ async function handleCallsMadeSubmit(event) {
         table.appendChild(tableHeader);
 
         // Create table body
-        // Create table body
-const tableBody = document.createElement('tbody');
-response.data.callsMade.forEach(call => {
-    const row = document.createElement('tr');
-    for (const field in selectedFields) {
-        if (selectedFields[field]) {
-            const cell = document.createElement('td');
-            if (field === 'discussion') {
-                // Access discussion fields
-                if (call.discussions && call.discussions.length > 0) {
-                    const discussions = call.discussions.map(discussion => discussion.discussion);
-                    cell.textContent = discussions.join('\n');
-                } else {
-                    cell.textContent = 'N/A';
+        const tableBody = document.createElement('tbody');
+        response.data.callsMade.forEach(call => {
+            call.discussions.forEach(discussion => {
+                const row = document.createElement('tr');
+                for (const field in selectedFields) {
+                    if (selectedFields[field]) {
+                        const cell = document.createElement('td');
+                        if (field === 'discussion') {
+                            // Access discussion fields
+                            cell.textContent = discussion.discussion || 'N/A';
+                        } else if (field === 'r_date') {
+                            // Access r_date
+                            cell.textContent = discussion.r_date || 'N/A';
+                        } else {
+                            // Access other fields directly from the call object
+                            cell.textContent = call[field] || 'N/A';
+                        }
+                        row.appendChild(cell);
+                    }
                 }
-            } else if (field === 'r_date') {
-                // Access r_date
-                if (call.discussions && call.discussions.length > 0) {
-                    const rDates = call.discussions.map(discussion => discussion.r_date);
-                    cell.textContent = rDates.join('\n');
-                } else {
-                    cell.textContent = 'N/A';
-                }
-            } else {
-                // Access other fields directly from the call object
-                cell.textContent = call[field];
-            }
-            row.appendChild(cell);
-        }
-    }
-    tableBody.appendChild(row);
-});
-table.appendChild(tableBody);
+                tableBody.appendChild(row);
+            });
+        });
 
+        table.appendChild(tableBody);
 
         // Append table to container
         tableContainer.appendChild(table);
-
     } catch (error) {
         console.error(error);
     }
 }
-
-
 
 
 
@@ -560,10 +560,20 @@ async function handleDiscussionSubmit(event) {
         // Append table to discussionResults container
         discussionResults.appendChild(table);
 
+        // Create "Export to Excel" button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+        exportButton.addEventListener('click', () => {
+            exportToExcel(table, 'discussionData.xlsx');
+        });
+        discussionResults.parentNode.insertBefore(exportButton, discussionResults.nextSibling);
+
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -640,6 +650,15 @@ async function handleSignOnSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
+        // Create "Export to Excel" button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+        exportButton.addEventListener('click', () => {
+            exportToExcel(table, 'signOnData.xlsx');
+        });
+        tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+
     } catch (error) {
         console.error(error);
     }
@@ -654,15 +673,13 @@ async function handleSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const token = localStorage.getItem('token');
-        const startDate = document.getElementById('startDatec').value;
-        const endDate = document.getElementById('endDatec').value;
+        const startDate = document.getElementById('startDateoff').value;
+        const endDate = document.getElementById('endDateoff').value;
 
         const params = {
             startDate: startDate,
             endDate: endDate,
         };
-
         // Send data to server using Axios
         const response = await axios.get('http://localhost:4000/candidate/reports/sign-off', {
             params: params
@@ -701,7 +718,7 @@ async function handleSignOffSubmit(event) {
                 candidate.candidateId,
                 candidate.c_rank,
                 candidate.c_vessel,
-                candidate.Contracts[0].sign_off // Access the sign-on date from the first contract associated with the candidate
+                candidate.Contracts[0].sign_off // Access the sign-off date from the first contract associated with the candidate
             ];
             fields.forEach(field => {
                 const cell = document.createElement('td');
@@ -716,10 +733,26 @@ async function handleSignOffSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
+        // Add export to Excel button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+        exportButton.addEventListener('click', async () => {
+            try {
+                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                await XLSX.writeFile(wb, 'signOffCandidates.xlsx');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+            }
+        });
+        tableContainer.appendChild(exportButton);
+
     } catch (error) {
         console.error(error);
     }
 }
+
+
 
 
 // Add event listener to the Sign On form
@@ -755,7 +788,6 @@ async function handleDueforSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const token = localStorage.getItem('token');
         const startDate = document.getElementById('startDated').value;
         const endDate = document.getElementById('endDated').value;
 
@@ -825,10 +857,25 @@ async function handleDueforSignOffSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
+        // Add export to Excel button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+        exportButton.addEventListener('click', async () => {
+            try {
+                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                await XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+            }
+        });
+        tableContainer.appendChild(exportButton);
+
     } catch (error) {
         console.error(error);
     }
 }
+
 
 document.getElementById('dueforsignoffform').addEventListener('submit', handleDueforSignOffSubmit);
 
@@ -874,10 +921,66 @@ async function handleAvailableCandidatesSubmit(event) {
             });
             tableContainer.appendChild(row);
         });
+
+        // Add export to Excel button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+        exportButton.addEventListener('click', async () => {
+            try {
+                // Create table element
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-bordered');
+
+                // Create table header
+                const tableHeader = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                const headers = ['Candidate ID', 'Name', 'Rank', 'Vessel', 'Available Date'];
+                headers.forEach(headerText => {
+                    const header = document.createElement('th');
+                    header.textContent = headerText;
+                    header.scope = 'col';
+                    header.classList.add('text-center');
+                    headerRow.appendChild(header);
+                });
+                tableHeader.appendChild(headerRow);
+                table.appendChild(tableHeader);
+
+                // Create table body
+                const tableBody = document.createElement('tbody');
+                candidates.forEach(candidate => {
+                    const row = document.createElement('tr');
+                    const fields = [
+                        candidate.candidateId,
+                        candidate.fname,
+                        candidate.c_rank,
+                        candidate.c_vessel,
+                        candidate.avb_date
+                    ];
+                    fields.forEach(field => {
+                        const cell = document.createElement('td');
+                        cell.textContent = field;
+                        cell.classList.add('text-center');
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                });
+                table.appendChild(tableBody);
+
+                // Export to Excel
+                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                await XLSX.writeFile(wb, 'availableCandidates.xlsx');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+            }
+        });
+        tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+
     } catch (error) {
         console.error(error);
     }
 }
+
 
 document.getElementById('availableCandidatesForm').addEventListener('submit', handleAvailableCandidatesSubmit);
 
@@ -1062,10 +1165,73 @@ async function handleOnBoardSubmit(event) {
             tableBody.appendChild(row);
         });
 
+        // Add export to Excel button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+        exportButton.addEventListener('click', async () => {
+            try {
+                // Create table element
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-bordered');
+
+                // Create table header
+                const tableHeader = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                const headers = ['Candidate ID', 'Name', 'Rank', 'Nationality', 'Date of Birth', 'Age', 'Document Number', 'Sign On Date', 'Sign On Port', 'Vessel'];
+                headers.forEach(headerText => {
+                    const header = document.createElement('th');
+                    header.textContent = headerText;
+                    header.scope = 'col';
+                    header.classList.add('text-center');
+                    headerRow.appendChild(header);
+                });
+                tableHeader.appendChild(headerRow);
+                table.appendChild(tableHeader);
+
+                // Create table body
+                const tableBody = document.createElement('tbody');
+                onboardCandidates.forEach(candidate => {
+                    const row = document.createElement('tr');
+                    const fields = [
+                        candidate.candidateId,
+                        `${candidate.fname} ${candidate.lname}`,
+                        candidate.c_rank,
+                        candidate.nationality,
+                        candidate.dob,
+                        calculateAge(candidate.dob),
+                        candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : '',
+                        candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
+                        candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : '',
+                        candidate.c_vessel
+                    ];
+                    fields.forEach(field => {
+                        const cell = document.createElement('td');
+                        cell.textContent = field;
+                        cell.classList.add('text-center');
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                });
+                table.appendChild(tableBody);
+
+                // Export to Excel
+                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                await XLSX.writeFile(wb, 'onboardCandidates.xlsx');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+            }
+        });
+
+        // Append export button above the table
+        const tableContainer = document.getElementById('onBoardTable');
+        tableContainer.parentNode.insertBefore(exportButton, tableContainer);
+
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -1180,18 +1346,19 @@ async function handleCrewList(event) {
     event.preventDefault();
  
     try {
-        const startDate= document.getElementById('startDatecl').value;
-        const endDate= document.getElementById('endDatecl').value;
-        const vslName=  document.getElementById('vsl').value;
-        const params= {
-            startDate:startDate,
-            endDate:endDate,
-            vslName:vslName
-        }
+        const startDate = document.getElementById('startDatecl').value;
+        const endDate = document.getElementById('endDatecl').value;
+        const vslName = document.getElementById('vsl').value;
+        const params = {
+            startDate: startDate,
+            endDate: endDate,
+            vslName: vslName
+        };
+
         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
-          params:params
+            params: params
         });
-        console.log(response)
+
         const crewlistCandidates = response.data;
 
         // Render crew list table
@@ -1216,10 +1383,78 @@ async function handleCrewList(event) {
             `;
             crewListTableBody.appendChild(row);
         });
+
+        // Add export to Excel button above the table
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+        exportButton.addEventListener('click', () => {
+            exportCrewListToExcel(crewlistCandidates);
+        });
+
+        const crewListTable = document.getElementById('crewlisttable');
+        crewListTable.parentNode.insertBefore(exportButton, crewListTable);
     } catch (error) {
         console.error("Error handling crew list:", error);
     }
 }
+
+function exportCrewListToExcel(crewlistCandidates) {
+    try {
+        // Create table element
+        const table = document.createElement('table');
+        table.classList.add('table', 'table-bordered');
+
+        // Create table header
+        const tableHeader = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const headers = ['Candidate ID', 'Name', 'Nationality', 'Rank', 'Vessel', 'Wages', 'Wages Types', 'Sign On Date', 'Sign Off Date', 'Passport', 'INDIAN CDC', 'INDOS'];
+        headers.forEach(headerText => {
+            const header = document.createElement('th');
+            header.textContent = headerText;
+            header.scope = 'col';
+            header.classList.add('text-center');
+            headerRow.appendChild(header);
+        });
+        tableHeader.appendChild(headerRow);
+        table.appendChild(tableHeader);
+
+        // Create table body
+        const tableBody = document.createElement('tbody');
+        crewlistCandidates.forEach(candidate => {
+            const row = document.createElement('tr');
+            const fields = [
+                candidate.candidateId,
+                candidate.fname,
+                candidate.nationality,
+                candidate.c_rank,
+                candidate.c_vessel,
+                candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : '',
+                candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : '',
+                candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
+                candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : '',
+                getDocumentNumber(candidate, 'Passport'),
+                getDocumentNumber(candidate, 'INDIAN CDC'),
+                getDocumentNumber(candidate, 'INDOS')
+            ];
+            fields.forEach(field => {
+                const cell = document.createElement('td');
+                cell.textContent = field;
+                cell.classList.add('text-center');
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+        table.appendChild(tableBody);
+
+        // Export to Excel
+        const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+        XLSX.writeFile(wb, 'crewlistCandidates.xlsx');
+    } catch (error) {
+        console.error('Error exporting to Excel:', error);
+    }
+}
+
 
 function getDocumentNumber(candidate, documentType) {
     const doc = candidate.cDocuments.find(doc => doc.document === documentType);
@@ -1247,7 +1482,7 @@ const displayVesselDropdown = async function () {
         // Populate the vessel dropdown with fetched vessel names
         vessels.forEach(vessel => {
             const option = document.createElement('option');
-            option.value = vessel.vesselName; // Assuming vesselName is the correct attribute
+            option.value = vessel.id; // Assuming vesselName is the correct attribute
             option.text = vessel.vesselName; // Assuming vesselName is the correct attribute
             vesselDropdown.appendChild(option);
         });
@@ -1258,3 +1493,136 @@ const displayVesselDropdown = async function () {
 
 
 displayVesselDropdown();
+
+
+const handleReliefPlan = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    try {
+        const startDate = document.getElementById('startDate').value;
+
+        // Get today's date as the end date
+        const endDate = new Date().toISOString().split('T')[0];
+
+        // Fetch relief plan data based on start date and today's date as end date
+        const reliefPlanData = await fetchReliefPlan(startDate, endDate);
+
+        // Display relief plan data in the table
+        displayReliefPlanTable(reliefPlanData);
+        
+        // Add export button dynamically
+        addExportButton();
+    } catch (error) {
+        console.error('Error fetching relief plan data:', error);
+    }
+};
+
+const fetchReliefPlan = async (startDate, endDate) => {
+    try {
+        const url = `http://localhost:4000/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching relief plan data:', error);
+        return [];
+    }
+};
+
+const displayReliefPlanTable = (reliefPlanData) => {
+    const tableBody = document.getElementById('reliefPlanTableBody');
+    tableBody.innerHTML = ''; // Clear existing table rows
+
+    reliefPlanData.forEach(candidate => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${candidate.candidateId}</td>
+            <td>${candidate.fname}</td>
+            <td>${candidate.nationality}</td>
+            <td>${candidate.c_rank}</td>
+            <td>${candidate.c_vessel}</td>
+            <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : ''}</td>
+            <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : ''}</td>
+            <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : ''}</td>
+            <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : ''}</td>
+            <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].eoc : ''}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+};
+
+const addExportButton = () => {
+    const exportButton = document.createElement('button');
+    exportButton.textContent = 'Export to Excel';
+    exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+    exportButton.addEventListener('click', exportReliefPlanToExcel);
+    
+    // Append button to container
+    const buttonContainer = document.getElementById('exportButtonContainer');
+    buttonContainer.innerHTML = ''; // Clear existing content
+    buttonContainer.appendChild(exportButton);
+};
+
+const exportReliefPlanToExcel = () => {
+    const table = document.getElementById('reliefPlanTable');
+    exportToExcel(table, 'reliefPlan.xlsx');
+};
+
+const reliefPlanForm = document.getElementById('reliefPlanForm');
+reliefPlanForm.addEventListener('submit', handleReliefPlan);
+
+
+const displayUserDropdown = async function () {
+    try {
+        const userDropdown = document.getElementById('userDropdown');
+        userDropdown.innerHTML = ''; // Clear existing options
+    
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select User --';
+        userDropdown.appendChild(defaultOption);
+        
+        // Fetch user data from the server
+        const userResponse = await axios.get("http://localhost:4000/user/userdropdown");
+        const users = userResponse.data;
+    
+        // Populate the user dropdown with fetched user names
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.id; // Assuming 'id' is the correct attribute for user ID
+            option.text = `${user.userName} ` // Assuming 'userName' and 'lastName' are the correct attributes for user name
+            userDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+}
+
+// Call the function to display the user dropdown
+displayUserDropdown();
+
+
+document.getElementById('exportDocumentCandidates').addEventListener('click', function() {
+    exportToExcels('documentCandidatesTableBody', 'DocumentCandidates');
+});
+
+document.getElementById('exportMedicalCandidates').addEventListener('click', function() {
+    exportToExcels('medicalCandidatesTableBody', 'MedicalCandidates');
+});
+
+function exportToExcels(tableBodyId, filename) {
+    var tableBody = document.getElementById(tableBodyId);
+    var rows = tableBody.getElementsByTagName('tr');
+    var data = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll('td, th');
+        for (var j = 0; j < cols.length; j++) {
+            row.push(cols[j].innerText);
+        }
+        data.push(row);
+    }
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, filename);
+    XLSX.writeFile(wb, filename + '.xlsx');
+}

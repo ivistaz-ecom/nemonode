@@ -349,7 +349,18 @@ const get_user = async(req,res)=>{
   };
   
   
+const userDropdown=async (req, res) => {
+  try {
+      // Fetch all user data
+      const users = await User.findAll();
 
+      // Send the user data to the client
+      res.json(users);
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
   
 module.exports = {
@@ -358,5 +369,6 @@ module.exports = {
   login,
   view_user,
   delete_user,
-  get_user
+  get_user,
+  userDropdown
 };
