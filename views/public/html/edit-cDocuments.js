@@ -24,7 +24,7 @@ let documentCounter = 0;
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`  https://nemonode.ivistaz.co/candidate/get-cdocument-detail/${candidateId}`);
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-cdocument-detail/${candidateId}`);
 
         const documentDetails = response.data;
 
@@ -77,7 +77,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`  https://nemonode.ivistaz.co/candidate/cdocument-delete/${documentId}`);
+            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/cdocument-delete/${documentId}`);
 
             // Log the response from the server
             console.log('Document deleted successfully:', response.data);
@@ -109,7 +109,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`  https://nemonode.ivistaz.co/candidate/cdocument-detail/${id}`, formData);
+        const response = await axios.post(`https://nemo.ivistaz.co/candidate/cdocument-detail/${id}`, formData);
 
         console.log('Document added successfully:', response.data);
         fetchAndDisplayDocumentDetails(id);

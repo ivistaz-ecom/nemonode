@@ -20,7 +20,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
 
         try {
-            const response = await axios.get(`  https://nemonode.ivistaz.co/candidate/get-hospital-details/${id}`, {
+            const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-hospital-details/${id}`, {
                 headers: {
                     'Authorization': token,
                 },
@@ -72,7 +72,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         });
     }
       
-        const hospitalResponse = await axios.get("  https://nemonode.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
         console.log(hospitalResponse)
         const hospitals = hospitalResponse.data.hospitals;
         const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
@@ -157,7 +157,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         };
           console.log(formData)
           // Send data to the server using Axios with async/await
-          const response = await axios.post(`  https://nemonode.ivistaz.co/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
+          const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
     
           // Handle success
           console.log('Data sent successfully:', response.data);

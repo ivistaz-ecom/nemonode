@@ -923,7 +923,43 @@
         <div id="misContent" class="report-content">
           <!-- Content for MIS Report -->
           <div class="card card-body">
-            <h4>MIS</h4>
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col">
+                        <h2 class="text-center">Discussion Reminders</h2>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <!-- Date Filters -->
+                        <form id="dateFilterForm">
+                          <div class="row align-items-end">
+                              <div class="col">
+                                  <label for="startDatemis" class="form-label visually-hidden">Start Date:</label>
+                                  <input type="date" id="startDatemis" class="form-control" name="startDatemis" placeholder="Start Date">
+                              </div>
+                              <div class="col">
+                                  <label for="endDatemis" class="form-label visually-hidden">End Date:</label>
+                                  <input type="date" id="endDatemis" class="form-control" name="endDatemis" placeholder="End Date">
+                              </div>
+                              <div class="col-auto">
+                                  <button type="submit" class="btn btn-primary">Apply Filters</button>
+                              </div>
+                          </div>
+                      </form>
+                      
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <!-- Discussion List -->
+                        <ul class="list-group" id="discussionList">
+                            <!-- Discussion Items will be appended here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        
             </div>
         </div>
         <div id="availableCandidatesContent" class="report-content">

@@ -88,5 +88,6 @@ router.get('/avbreport',candidateControllers.avbreport)
 router.get('/onboard',candidateControllers.onBoard)
 router.get('/crewlist',candidateControllers.crewList)
 router.get('/reliefplan',candidateControllers.reliefPlan)
+router.get('/mis',candidateControllers.mis)
 
 module.exports = router;
