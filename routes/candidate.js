@@ -85,4 +85,6 @@ router.get('/reports/sign-off',candidateControllers.getContractsBySignOffDate)
 router.get('/reports/avb-date',candidateControllers.avbCandidate)
 router.get('/reports/renewal',candidateControllers.dueForRenewal)
 router.get('/avbreport',candidateControllers.avbreport)
+router.get('/onboard',candidateControllers.onBoard)
+router.get('/crewlist',candidateControllers.crewList)
 module.exports = router;

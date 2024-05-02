@@ -15,7 +15,7 @@ const Company = sequelize.define("company", {
     },
     b_type: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     company_name:{
         type:Sequelize.STRING,

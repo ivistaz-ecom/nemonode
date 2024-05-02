@@ -1,5 +1,6 @@
 const Candidate = require("../models/candidate");
 const CandidateNkd = require('../models/nkd');
+const Vsl = require('../models/VSL')
 const Medical= require('../models/medical') 
 const Travel= require('../models/travel')
 const Bank = require('../models/bank')
@@ -2122,6 +2123,90 @@ const avbreport = async (req, res) => {
     }
 }
 
+const onBoard = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.body;
+
+        // Construct the filtering criteria for contracts
+        const contractFilterCriteria = {
+            sign_on: { [Op.not]: null }, // Sign-on date is present
+            sign_off: null // Sign-off date is not present
+        };
+
+        // Add additional filtering based on start and end dates for contracts
+        if (startDate && endDate) {
+            contractFilterCriteria.sign_on = { [Op.between]: [startDate, endDate] };
+        }
+
+        // Fetch onboard candidates with the specified criteria
+        const onboardCandidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
+                attributes: ['sign_on', 'sign_off', 'sign_on_port', 'sign_off_port']
+            }, {
+                model: Documents,
+                where: {
+                    document: 'Passport' // Fetch only documents where the value is 'Passport'
+                },
+                required: false // Use left join to include documents, but not make it mandatory
+            }]
+        });
+
+        // Map the results to include only the required fields
+       
+        res.json(onboardCandidates);
+    } catch (error) {
+        console.error("Error fetching onboard candidates:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
+const crewList = async (req, res) => {
+    try {
+        const { startDate, endDate, vslName } = req.query;
+        console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName);
+
+        // Construct the filtering criteria for contracts
+        const contractFilterCriteria = {
+            sign_on: { [Op.not]: null }, // Sign-on date is present
+            sign_off: null, // Sign-off date is not present
+            vslName: vslName // Filter by the vslName attribute
+        };
+
+        // Add additional filtering based on start and end dates for contracts
+        if (startDate && endDate) {
+            contractFilterCriteria.sign_on = { [Op.between]: [startDate, endDate] };
+        }
+
+        // Fetch crewlist candidates with the specified criteria
+        const crewlistCandidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
+                attributes: ['sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'wages', 'wages_types']
+            }, {
+                model: Documents,
+                where: {
+                    [Op.or]: [
+                        { document: 'Passport' },
+                        { document: 'INDIAN CDC' },
+                        { document: { [Op.like]: '%INDOS%' } },
+                    ] // Fetch documents where the value is 'Passport' or 'INDIAN CDC'
+                },
+                required: false // Use left join to include documents, but not make it mandatory
+            }],
+        });
+
+        // Send the crewlist candidates data to the client
+        res.json(crewlistCandidates);
+    } catch (error) {
+        console.error("Error fetching crewlist candidates:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 
 
 
@@ -2182,6 +2267,8 @@ module.exports = {
     getContractsBySignOffDate,
     avbCandidate,
     dueForRenewal,
-    avbreport
+    avbreport,
+    onBoard,
+    crewList
     
 };

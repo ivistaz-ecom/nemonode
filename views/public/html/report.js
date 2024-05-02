@@ -1017,3 +1017,244 @@ medicalCandidates.forEach(candidate => {
 
 
 document.getElementById('dueForRenewalForm').addEventListener('submit', handleDueForRenewalSubmit);
+async function handleOnBoardSubmit(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    try {
+        const token = localStorage.getItem('token');
+        const startDate = document.getElementById('startDateo').value;
+        const endDate = document.getElementById('endDateo').value;
+
+        // Send request to fetch onboard candidates with filters
+        const response = await axios.get('http://localhost:4000/candidate/onboard', {
+            params: {
+                startDate: startDate,
+                endDate: endDate
+            },
+            headers: {
+                "Authorization": token
+            }
+        });
+
+        // Assuming the server sends back some data
+        const onboardCandidates = response.data;
+        console.log(response);
+        
+        // Clear existing table body, if any
+        const tableBody = document.getElementById('onBoardTableBody');
+        tableBody.innerHTML = '';
+
+        // Create table rows for each onboard candidate
+        onboardCandidates.forEach(candidate => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${candidate.candidateId}</td>
+                <td>${candidate.fname} ${candidate.lname}</td>
+                <td>${candidate.c_rank}</td>
+                <td>${candidate.nationality}</td>
+                <td>${candidate.dob}</td>
+                <td>${calculateAge(candidate.dob)}</td>
+                <td>${candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : ''}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : ''}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : ''}</td>
+                <td>${candidate.c_vessel}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+
+
+// Function to calculate age based on date of birth
+function calculateAge(dob) {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+document.getElementById('onBoardForm').addEventListener('submit', handleOnBoardSubmit);
+
+const handleReminder = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    try {
+        const startDate = document.getElementById('startDatedr').value;
+        const endDate = document.getElementById('endDatedr').value;
+
+        // Function to fetch discussion reminders based on date filters
+        const fetchData = async (startDate, endDate) => {
+            try {
+                const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                const response = await axios.get(url);
+                return response.data.discussions;
+            } catch (error) {
+                console.error('Error fetching discussion reminders:', error);
+                return [];
+            }
+        }
+
+        // Function to render discussion reminders
+        const renderDiscussionReminders = (discussions) => {
+            const discussionList = document.getElementById('discussionList');
+            discussionList.innerHTML = ''; // Clear existing items
+        
+            discussions.forEach(discussion => {
+                // Calculate the status based on the r_date
+                const reminderDate = new Date(discussion.r_date);
+                const today = new Date();
+                let status = '';
+        
+                if (reminderDate < today) {
+                    status = 'Expired';
+                } else if (reminderDate.toDateString() === today.toDateString()) {
+                    status = 'Today';
+                } else {
+                    status = 'Upcoming';
+                }
+        
+                // Render each discussion reminder item
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item');
+                listItem.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">Candidate ID: <button class="btn btn-link candidate-btn" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
+                            <p class="mb-1">Discussion: ${discussion.discussion}</p>
+                        </div>
+                        <div>
+                            <span class="badge align-content-center h-25 ${getBadgeColor(status)}">${status}</span>
+                        </div>
+                    </div>
+                    <small class="text-muted">Reminder Date: ${discussion.r_date}</small>
+                `;
+                discussionList.appendChild(listItem);
+        
+                // Add event listener to candidate ID button
+                listItem.querySelector('.candidate-btn').addEventListener('click', () => {
+                    const candidateId = discussion.candidateId;
+                    localStorage.setItem('memId', candidateId)
+                    // Redirect to view-candidate page with candidateId
+                    window.location.href = `view-candidate.html?id=${candidateId}`;
+                });
+            });
+        }
+        
+        // Function to determine badge color based on discussion status
+        const getBadgeColor = (status) => {
+            switch (status) {
+                case 'Expired':
+                    return 'bg-danger';
+                case 'Today':
+                    return 'bg-warning';
+                case 'Upcoming':
+                    return 'bg-primary';
+                default:
+                    return '';
+            }
+        }
+
+        // Fetch discussion reminders based on date filters
+        const discussions = await fetchData(startDate, endDate);
+        // Render discussion reminders
+        renderDiscussionReminders(discussions);
+
+    } catch (error) {
+        console.error('Error handling reminder:', error);
+    }
+}
+
+const dateFilterForm = document.getElementById('dateFilterForm');
+dateFilterForm.addEventListener('submit', handleReminder);
+
+
+async function handleCrewList(event) {
+    event.preventDefault();
+ 
+    try {
+        const startDate= document.getElementById('startDatecl').value;
+        const endDate= document.getElementById('endDatecl').value;
+        const vslName=  document.getElementById('vsl').value;
+        const params= {
+            startDate:startDate,
+            endDate:endDate,
+            vslName:vslName
+        }
+        const response = await axios.get('http://localhost:4000/candidate/crewlist', {
+          params:params
+        });
+        console.log(response)
+        const crewlistCandidates = response.data;
+
+        // Render crew list table
+        const crewListTableBody = document.getElementById('crewListTableBody');
+        crewListTableBody.innerHTML = ''; // Clear existing rows
+
+        crewlistCandidates.forEach(candidate => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="font-size: 8px;">${candidate.candidateId}</td>
+                <td style="font-size: 8px;">${candidate.fname}</td>
+                <td style="font-size: 8px;">${candidate.nationality}</td>
+                <td style="font-size: 8px;">${candidate.c_rank}</td>
+                <td style="font-size: 8px;">${candidate.c_vessel}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : ''}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : ''}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : ''}</td>
+                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : ''}</td>
+                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'Passport')}</td>
+                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'INDIAN CDC')}</td>
+                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'INDOS')}</td>
+            `;
+            crewListTableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error("Error handling crew list:", error);
+    }
+}
+
+function getDocumentNumber(candidate, documentType) {
+    const doc = candidate.cDocuments.find(doc => doc.document === documentType);
+    return doc ? doc.document_number : '';
+}
+
+const handleCrewListForm = document.getElementById('crewListMonthWiseForm').addEventListener('submit',handleCrewList)
+
+// Function to fetch vessel names from the server
+const displayVesselDropdown = async function () {
+    try {
+        const vesselDropdown = document.getElementById('vsl');
+        vesselDropdown.innerHTML = ''; // Clear existing options
+    
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select Vessel --';
+        vesselDropdown.appendChild(defaultOption);
+        
+        // Fetch vessel names from the server
+        const vesselResponse = await axios.get("http://localhost:4000/others/get-vsls")
+        const vessels = vesselResponse.data;
+    
+        // Populate the vessel dropdown with fetched vessel names
+        vessels.forEach(vessel => {
+            const option = document.createElement('option');
+            option.value = vessel.vesselName; // Assuming vesselName is the correct attribute
+            option.text = vessel.vesselName; // Assuming vesselName is the correct attribute
+            vesselDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+}
+
+
+displayVesselDropdown();
