@@ -188,7 +188,7 @@ function addOption(selectElement, value) {
     // await createVendorDropdown();
 
     // async function createCompanyDropdown() {
-    //     const companyResponse = await axios.get("https://nemo.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+    //     const companyResponse = await axios.get("https://nemonode.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
     //     const companyOptions = companyResponse.data.company;
     //     const companyNames = companyOptions.map(company => company.company_name);
     
@@ -213,7 +213,7 @@ function addOption(selectElement, value) {
     
     // async function createVendorDropdown() {
     //     try {
-    //         const vendorResponse = await axios.get("https://nemo.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
+    //         const vendorResponse = await axios.get("https://nemonode.ivistaz.co/others/view-vendor", { headers: { "Authorization": token } });
     //         const vendorOptions = vendorResponse.data.vendors;
     //         const vendorNames = vendorOptions.map(vendor => vendor.vendorName);
     
@@ -280,7 +280,7 @@ document.getElementById('e_user-form').addEventListener('submit', async function
 
     try {
         // Make a POST request using Axios with async/await
-        const response = await axios.put(`https://nemo.ivistaz.co/user/update-user/${id}`, formData,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nemonode.ivistaz.co/user/update-user/${id}`, formData,{headers:{"Authorization":token}});
         console.log('Response:', response.data.message);
         alert('User edit successful!')
         // Handle success if needed

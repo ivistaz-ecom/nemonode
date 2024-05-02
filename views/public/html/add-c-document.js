@@ -75,7 +75,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/document-delete/${documentId}`,{
+            const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/document-delete/${documentId}`,{
                 headers:{"Authorization":token}
             });
 
@@ -167,7 +167,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`https://nemo.ivistaz.co/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`https://nemonode.ivistaz.co/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'

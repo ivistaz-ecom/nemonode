@@ -6,7 +6,7 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
     const category = document.getElementById("category").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-rank", {
+        const serverResponse = await axios.post("https://nemonode.ivistaz.co/others/create-rank", {
             rank,
             rankOrder,
             category,

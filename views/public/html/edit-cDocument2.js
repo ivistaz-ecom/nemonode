@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-cdocument/${documentId}`, formData);
+            const response = await axios.put(`https://nemonode.ivistaz.co/candidate/update-cdocument/${documentId}`, formData);
 
             // Handle success
             console.log('Document data updated successfully:', response.data);

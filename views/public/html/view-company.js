@@ -30,7 +30,7 @@ function decodeToken(token) {
 
 async function displayCompanies(page = 1, limit = 10) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`https://nemonode.ivistaz.co/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const companies = response.data.company;
         const companyList = document.getElementById("company-list");
         companyList.innerHTML = "";
@@ -113,7 +113,7 @@ async function deleteCompany(companyId, event) {
     event.preventDefault();
     let id = companyId;
     console.log(id);
-    const url = `https://nemo.ivistaz.co/company/delete-company/${id}`;
+    const url = `https://nemonode.ivistaz.co/company/delete-company/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
