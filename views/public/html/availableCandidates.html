@@ -573,7 +573,7 @@
 async function populateCandidatesTable() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:4000/candidate/avbreport');
+        const response = await axios.get('  https://nemonode.ivistaz.co/candidate/avbreport');
         const responseData = response.data;
         const candidates = responseData.candidates;
 
