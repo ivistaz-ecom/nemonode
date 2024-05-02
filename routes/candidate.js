@@ -78,7 +78,7 @@ router.post('/reports/contract',userAuthentication.authenticate,candidateControl
 router.get('/birthday',userAuthentication.authenticate,candidateControllers.birthday)
 router.get('/call-count',userAuthentication.authenticate,candidateControllers.getCallCount);
 router.get('/discussion-count',userAuthentication.authenticate,candidateControllers.countOperations);
-router.post('/reports/callsmade',userAuthentication.authenticate,candidateControllers.calls_made)
+router.post('/reports/callsmade',candidateControllers.calls_made)
 router.get('/reports/proposals',candidateControllers.proposals)
 router.get('/reports/sign-on',candidateControllers.getContractsBySignOnDate)
 router.get('/reports/sign-off',candidateControllers.getContractsBySignOffDate)
@@ -87,4 +87,6 @@ router.get('/reports/renewal',candidateControllers.dueForRenewal)
 router.get('/avbreport',candidateControllers.avbreport)
 router.get('/onboard',candidateControllers.onBoard)
 router.get('/crewlist',candidateControllers.crewList)
+router.get('/reliefplan',candidateControllers.reliefPlan)
+
 module.exports = router;
