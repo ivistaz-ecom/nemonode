@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   // document.getElementById('spinner').style.display = 'flex';
   
 
-  console.log('newly updates 1')
   // Attach click event to the search button
 
   const token = localStorage.getItem('token');
@@ -94,7 +93,7 @@ try {
     const callCountResponse = await axios.get('http://localhost:4000/candidate/call-count', {
         headers: { "Authorization": token }
     });
-    console.log(callCountResponse)
+    // console.log(callCountResponse)
     const callCountData = callCountResponse.data;
     document.getElementById('callCount').innerText = callCountData.call_count;
     document.getElementById('callCount').className = 'btn-primary badge';
@@ -106,9 +105,9 @@ try {
   userDisplay.innerHTML += localStorage.getItem('username');
   const hasUserManagement = decodedToken.userManagement;
   const vendorManagement = decodedToken.vendorManagement;
-  console.log(vendorManagement);
+  // console.log(vendorManagement);
   const userGroup = decodedToken.userGroup;
-  console.log(userGroup)
+  // console.log(userGroup)
   if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
@@ -123,6 +122,30 @@ try {
   await fetchCandidates();
   await fetchAndLogRankCounts();
   await fetchAndGenerateRankChart()
+
+  function getFirstLetterFromName() {
+    return decodedToken.userName.charAt(0).toUpperCase();
+}
+
+// Function to get a color based on the first character of the user's name
+function getColorFromName() {
+    const colors = ["#FF5733", "#33FFB8", "#3388FF", "#FF33E9", "#7D33FF", "#33FFD6", "#FFE333"];
+    const charCode = decodedToken.userName.charCodeAt(0);
+    const colorIndex = charCode % colors.length;
+    return colors[colorIndex];
+}
+
+// Render initials and background color
+const userAvatar = document.getElementById('user-avatar');
+userAvatar.innerHTML = `<span class="initials">${getFirstLetterFromName()}</span>`;
+userAvatar.style.backgroundColor = getColorFromName();
+
+const userAvatar1 = document.getElementById('user-avatar1');
+userAvatar1.innerHTML = `<span class="initials">${getFirstLetterFromName()}</span>`;
+userAvatar1.style.backgroundColor = getColorFromName();
+
+document.getElementById('user-group').textContent = decodedToken.userGroup
+
 });
 const fetchAndGenerateRankChart = async () => {
   try {
@@ -228,10 +251,10 @@ const fetchAndLogRankCounts = async () => {
     const rankCounts = response.data.rankCounts;
     
     // Log the output
-    console.log("Rank Counts:");
-    rankCounts.forEach(rank => {
-      console.log(`Rank: ${rank.c_rank}, Count: ${rank.count}`);
-    });
+    // console.log("Rank Counts:");
+    // rankCounts.forEach(rank => {
+    //   console.log(`Rank: ${rank.c_rank}, Count: ${rank.count}`);
+    // });
   } catch (error) {
     console.error('Error fetching rank counts:', error);
   }
@@ -257,8 +280,8 @@ const hasReport = decodedToken.reports
 const ReadOnly = decodedToken.readOnly
 const WriteOnly = decodedToken.Write
 const master_create = decodedToken.master_create
-console.log(decodedToken)
-console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
+// console.log(decodedToken)
+// console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
 
 
 
@@ -311,8 +334,8 @@ async function fetchCandidates() {
           headers: { "Authorization": token }
       });
       const { activeCount, inactiveCount } = response.data;
-      console.log('Active Count:', activeCount);
-      console.log('Inactive Count:', inactiveCount);
+      // console.log('Active Count:', activeCount);
+      // console.log('Inactive Count:', inactiveCount);
       document.getElementById('activeCount').innerHTML = activeCount;
       document.getElementById('inactiveCount').innerHTML = inactiveCount;
       return { activeCount, inactiveCount };
@@ -378,3 +401,20 @@ function getStatusBadgeClass(avb_date) {
 }
 
 // Call the function to populate the table when the page loads
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    localStorage.clear();
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+    localStorage.clear()
+
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+});

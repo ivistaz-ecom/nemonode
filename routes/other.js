@@ -77,5 +77,7 @@ router.get('/get-portagents/:id', otherControllers.get_portagent);
 router.get('/get-hospital/:id', otherControllers.get_hospital);
 router.get('/get-document/:id', otherControllers.get_document);
 
+router.get('/get-vsls', otherControllers.getVsls);
+
 
 module.exports = router;

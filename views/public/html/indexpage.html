@@ -81,6 +81,15 @@
     margin-right: 10px;
     margin-bottom: 10px;
   }
+  .avatar {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+}
+
+.initials {
+    font-size: 20px; /* Adjust font size as needed */
+    color: white; /* Adjust text color as needed */
+}
   </style>
   <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -631,22 +640,21 @@
                    User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <div class="avatar avatar-online rounded-circle d-flex justify-content-center align-items-center" id="user-avatar">
                     </div>
-                  </a>
+                </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <span>
                       <a class="dropdown-item" href="#">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <div class="avatar avatar-online rounded-circle text-center pt-1" id="user-avatar1">
+                                <span class="initials" ></span> <!-- Insert initials here -->
                             </div>
-                          </div>
+                        </div>
                           <div class="flex-grow-1">
                             <span class="fw-semibold d-block fw-bolder text-primary" id="user_name"></span>
-                            <small class="text-muted">Admin</small>
+                            <small class="text-muted"><span id="user-group"></span></small>
                           </div>
                         </div>
                       </a>
@@ -655,7 +663,7 @@
                       <div class="dropdown-divider"></div>
                     </span>
                     <span>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="./profile.html">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">My Profile</span>
                       </a>

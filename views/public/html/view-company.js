@@ -42,7 +42,6 @@ async function displayCompanies(page = 1, limit = 10) {
                 <td>${sno}</td>
                 <td>${company.company_id}</td>
                 <td>${company.company_name}</td>
-                <td>${company.b_type}</td>
                 <td>${company.contact_person}</td>
                 <td>${company.email}</td>
                 <td>${company.address}</td>
@@ -50,7 +49,7 @@ async function displayCompanies(page = 1, limit = 10) {
                 <td>${company.phone}</td>
                 <td>${formatDate(company.last_update)}</td>
                 <td>
-                    <button class="btn border-0 m-0 p-0" onclick="editCompany('${company.company_id}','${company.company_name}','${company.b_type}','${company.contact_person}','${company.email}','${company.address}','${company.management}','${company.phone}','${company.last_update}',event)" ${company.readOnly ? 'style="display:none;"' : ''}><i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i></button>
+                    <button class="btn border-0 m-0 p-0" onclick="editCompany('${company.company_id}','${company.company_name}','${company.contact_person}','${company.email}','${company.address}','${company.management}','${company.phone}','${company.last_update}',event)" ${company.readOnly ? 'style="display:none;"' : ''}><i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i></button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteCompany('${company.company_id}', event)"><i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i></button>
                 </td>`;
             companyList.appendChild(row);
@@ -131,13 +130,13 @@ function formatDate(dateString) {
     return formattedDate;
 }
 
-const editCompany = async (companyId, companyname, b_type, contact_person, email, address, management, phone, last_update, event) => {
+const editCompany = async (companyId, companyname, contact_person, email, address, management, phone, last_update, event) => {
     event.preventDefault();
-    document.getElementById(`u_${b_type.toLowerCase()}`).checked = true;
+    // document.getElementById(`u_${b_type.toLowerCase()}`).checked = true;
     const queryParams = {
         companyId,
         companyname,
-        b_type,
+        // b_type,
         contact_person,
         email,
         address,
