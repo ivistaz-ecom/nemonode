@@ -1819,7 +1819,7 @@ const getQuarterDates = (year, quarter) => {
     return { startDate, endDate };
 };
 
-const getDiscussionPlusCounts = async () => {
+const countOperations = async (req, res) => {
     try {
         const currentYear = new Date().getFullYear(); // Get the current year
         const countsByQuarter = [];
@@ -1845,18 +1845,7 @@ const getDiscussionPlusCounts = async () => {
             });
             countsByQuarter.push({ quarter, proposedCount, approvedCount, joinedCount });
         }
-        return countsByQuarter;
-    } catch (error) {
-        console.error('Error getting discussion plus counts:', error);
-        throw error;
-    }
-};
-
-
-const countOperations = async (req, res) => {
-    try {
-        const discussionCounts = await getDiscussionPlusCounts(); // No need to pass year
-        res.status(200).json(discussionCounts);
+        res.status(200).json(countsByQuarter);
     } catch (error) {
         console.error('Error getting discussion counts:', error);
         res.status(500).json({ error: 'Internal Server Error' });
