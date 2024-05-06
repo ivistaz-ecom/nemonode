@@ -4,7 +4,9 @@ async function fetchAndRenderDiscussionCounts() {
     // Get the current year
     const currentYear = new Date().getFullYear();
 
-    const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count');
+    const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count',
+    {headers: { "Authorization": token }}
+    );
     const discussionCountsData = discussionCountsResponse.data;
     console.log(discussionCountsResponse)
     // Extract quarters and counts from the data
