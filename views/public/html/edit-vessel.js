@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 async function displayVessels(page = 1, limit = 10) {
     try {
         // Fetch vessels from the server with pagination parameters
-        const vesselResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-vessels?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get(`https://nemo.ivistaz.co/others/view-vessels?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const vesselList = document.getElementById("vessel-list");
 
         // Clear existing rows
@@ -127,7 +127,7 @@ const decodedToken = decodeToken(token);
 async function deleteVessel(vesselId, event) {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const url = `https://nemonode.ivistaz.co/others/delete-vessels/${vesselId}`;
+    const url = `https://nemo.ivistaz.co/others/delete-vessels/${vesselId}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -159,7 +159,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nemo.ivistaz.co/others/update-vessels/${vesselId}`, updatedVesselDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Vessel Updated Successfully!");
         displayVessels();
@@ -171,7 +171,7 @@ updateVesselButton.addEventListener("submit", async (e) => {
 async function displayVesselTypes(page = 1, limit = 10) {
     try {
         // Fetch vessel types from the server with pagination parameters
-        const vslTypeResponse = await axios.get(`https://nemonode.ivistaz.co/others/view-vsl?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const vslTypeResponse = await axios.get(`https://nemo.ivistaz.co/others/view-vsl?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('VSL Type Response:', vslTypeResponse);
 
         const vslTypeList = document.getElementById("vsl-list");
@@ -283,7 +283,7 @@ function decodeToken(token) {
 async function deleteVesselType(vesselTypeId, event) {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const url = `https://nemonode.ivistaz.co/others/delete-vsl/${vesselTypeId}`;
+    const url = `https://nemo.ivistaz.co/others/delete-vsl/${vesselTypeId}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -325,7 +325,7 @@ async function editVesselType(id, vesselName, vesselType, vslCompany, imoNumber,
 //     };
 
 //     try {
-//         const response = await axios.put(`https://nemonode.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { "Authorization": token } });
+//         const response = await axios.put(`https://nemo.ivistaz.co/others/update-vsl/${vesselTypeId}`, updatedVesselTypeDetails, { headers: { "Authorization": token } });
 //         console.log('Response:', response.data);
 //         alert("Vessel Type Updated Successfully!");
 //         displayVesselTypes();
