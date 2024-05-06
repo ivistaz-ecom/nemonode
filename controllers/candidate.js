@@ -2186,29 +2186,31 @@ const reliefPlan = async (req, res) => {
     }
 }
 
-const mis =async(req,res)=>{
-    try{
-        const {startDate,endDate} = req.query
-        console.log(startDate,endDate)
+const mis = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        console.log(startDate, endDate);
 
-        const misCandidates = await Candidate.findAll(
-            {
-                include: {
-                    model: Discussion,
-                    where: {
-                       created_date:{[Op.between]:[startDate,endDate]}
+        const misCandidates = await Candidate.findAll({
+            include: {
+                model: Discussion,
+                where: {
+                    discussion: {
+                        [Op.in]: ['proposed', 'approved', 'joined', 'rejected']
+                    },
+                    created_date: {
+                        [Op.between]: [startDate, endDate]
                     }
                 }
             }
-        )
-        res.json(misCandidates);
+        });
 
-    }
-    catch(err)
-    {
+        res.json(misCandidates);
+    } catch (err) {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 
 module.exports = {

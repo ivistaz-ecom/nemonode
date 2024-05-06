@@ -18,7 +18,7 @@ async function login(e) {
         };
 
         const response = await axios.post(
-            "https://nemonode.ivistaz.co/user/login",
+            "https://nemo.ivistaz.co/user/login",
             loginCredentials
         );
 

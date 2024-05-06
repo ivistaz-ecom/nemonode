@@ -53,7 +53,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemonode.ivistaz.co/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nemo.ivistaz.co/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Company Updated Successfully!");
         window.location.href='./view-company.html'
