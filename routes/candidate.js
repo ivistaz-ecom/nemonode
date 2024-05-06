@@ -77,7 +77,7 @@ router.post('/reports/view-new-profile',userAuthentication.authenticate,candidat
 router.post('/reports/contract',userAuthentication.authenticate,candidateControllers.contract)
 router.get('/birthday',userAuthentication.authenticate,candidateControllers.birthday)
 router.get('/call-count',userAuthentication.authenticate,candidateControllers.getCallCount);
-router.get('/discussion-count',candidateControllers.countOperations);
+router.get('/discussion-count',userAuthentication.authenticate,candidateControllers.countOperations);
 router.post('/reports/callsmade',candidateControllers.calls_made)
 router.get('/reports/proposals',candidateControllers.proposals)
 router.get('/reports/sign-on',candidateControllers.getContractsBySignOnDate)
