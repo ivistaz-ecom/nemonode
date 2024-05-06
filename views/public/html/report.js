@@ -1709,6 +1709,12 @@ function getBadgeColor(status) {
     }
 }
 
+function handleView(id) {
+    alert(`View button clicked for candidateId ${id}`);
+    localStorage.setItem('memId', id);
+    window.location.href = './view-candidate.html';
+}
+
 document.getElementById('getData').addEventListener('click', async () => {
     const startDate = document.getElementById('startDatemis').value;
     const endDate = document.getElementById('endDatemis').value;
@@ -1737,7 +1743,14 @@ document.getElementById('getData').addEventListener('click', async () => {
                 discussionsList.appendChild(discussionItem);
             });
 
+            const viewButton = document.createElement('button');
+            viewButton.textContent = 'View';
+            viewButton.addEventListener('click', () => {
+                handleView(candidate.candidateId);
+            });
+
             candidateDiv.appendChild(discussionsList);
+            candidateDiv.appendChild(viewButton);
             candidatesList.appendChild(candidateDiv);
         });
     } catch (error) {
