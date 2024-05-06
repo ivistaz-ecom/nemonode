@@ -1,95 +1,85 @@
-document.addEventListener('DOMContentLoaded', async function () {
-  // Show spinner
-  // document.getElementById('spinner').style.display = 'flex';
-  
+// Function to fetch discussion counts and render chart
+async function fetchAndRenderDiscussionCounts() {
+  try {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
 
-  // Attach click event to the search button
+    const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count');
+    const discussionCountsData = discussionCountsResponse.data;
+    console.log(discussionCountsResponse)
+    // Extract quarters and counts from the data
+    const quarters = discussionCountsData.map(quarterData => `Quarter ${quarterData.quarter} (${currentYear})`);
+    const proposedCounts = discussionCountsData.map(quarterData => quarterData.proposedCount);
+    const approvedCounts = discussionCountsData.map(quarterData => quarterData.approvedCount);
+    const joinedCounts = discussionCountsData.map(quarterData => quarterData.joinedCount);
 
-  const token = localStorage.getItem('token');
+    // Create a new canvas element to render the chart
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-  // Fetch discussion counts
-// JavaScript code to fetch data and populate HTML
-try {
-  // Get the current year
-  const currentYear = new Date().getFullYear();
+    // Append the canvas element to the discussionCountsList
+    const discussionCountsList = document.getElementById('discussionCounts');
+    discussionCountsList.appendChild(canvas);
 
-  const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count', {
-    headers: { "Authorization": token }
-  });
-  const discussionCountsData = discussionCountsResponse.data;
-
-  // Extract quarters and counts from the data
-  const quarters = discussionCountsData.map(quarterData => `Quarter ${quarterData.quarter} (${currentYear})`);
-  const proposedCounts = discussionCountsData.map(quarterData => quarterData.proposedCount);
-  const approvedCounts = discussionCountsData.map(quarterData => quarterData.approvedCount);
-  const joinedCounts = discussionCountsData.map(quarterData => quarterData.joinedCount);
-
-  // Create a new canvas element to render the chart
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Append the canvas element to the discussionCountsList
-  const discussionCountsList = document.getElementById('discussionCounts');
-  discussionCountsList.appendChild(canvas);
-
-  // Create the chart
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: quarters,
-      datasets: [
-        {
-          label: 'Proposed',
-          data: proposedCounts,
-          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color
-        },
-        {
-          label: 'Approved',
-          data: approvedCounts,
-          backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color
-        },
-        {
-          label: 'Joined',
-          data: joinedCounts,
-          backgroundColor: 'rgba(255, 206, 86, 0.5)', // Yellow color
-        }
-      ]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+    // Create the chart
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: quarters,
+        datasets: [
+          {
+            label: 'Proposed',
+            data: proposedCounts,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color
+          },
+          {
+            label: 'Approved',
+            data: approvedCounts,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color
+          },
+          {
+            label: 'Joined',
+            data: joinedCounts,
+            backgroundColor: 'rgba(255, 206, 86, 0.5)', // Yellow color
+          }
+        ]
       },
-      plugins: {
-        tooltip: {
-          enabled: true,
-          mode: 'index',
-          intersect: false,
-          callbacks: {
-            label: function(context) {
-              var label = context.dataset.label || '';
-              if (label) {
-                label += ': ';
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          tooltip: {
+            enabled: true,
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(context) {
+                var label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += context.parsed.y;
+                }
+                return label;
               }
-              if (context.parsed.y !== null) {
-                label += context.parsed.y;
-              }
-              return label;
             }
           }
         }
       }
-    }
-  });
-} catch (error) {
-  console.error('Error fetching discussion counts:', error);
+    });
+  } catch (error) {
+    console.error('Error fetching discussion counts:', error);
+  }
 }
 
-
-
-  // Fetch call count
+// Function to fetch call count
+async function fetchCallCount() {
   try {
+    const token = localStorage.getItem('token');
     const callCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/call-count', {
         headers: { "Authorization": token }
     });
@@ -97,10 +87,13 @@ try {
     const callCountData = callCountResponse.data;
     document.getElementById('callCount').innerText = callCountData.call_count;
     document.getElementById('callCount').className = 'btn-primary badge';
-} catch (error) {
+  } catch (error) {
     console.error('Error fetching call count:', error);
+  }
 }
 
+// Function to set user display based on token
+function setUserDisplay() {
   const userDisplay = document.getElementById("user_name");
   userDisplay.innerHTML += localStorage.getItem('username');
   const hasUserManagement = decodedToken.userManagement;
@@ -116,37 +109,33 @@ try {
     document.getElementById('vendorManagementSection').style.display = 'block';
     document.getElementById('vendorManagementSections').style.display = 'block';
   }
- 
+}
+
+// DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', async function () {
+  // Show spinner
+  // document.getElementById('spinner').style.display = 'flex';
+
+  // Attach click event to the search button
+
+  // Fetch discussion counts and render chart
+  await fetchAndRenderDiscussionCounts();
+
+  // Fetch call count
+  await fetchCallCount();
+
+  // Set user display
+  setUserDisplay();
+
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
+
+  // Additional functions called after DOMContentLoaded
   await fetchCandidates();
   await fetchAndLogRankCounts();
-  await fetchAndGenerateRankChart()
-
-  function getFirstLetterFromName() {
-    return decodedToken.userName.charAt(0).toUpperCase();
-}
-
-// Function to get a color based on the first character of the user's name
-function getColorFromName() {
-    const colors = ["#FF5733", "#33FFB8", "#3388FF", "#FF33E9", "#7D33FF", "#33FFD6", "#FFE333"];
-    const charCode = decodedToken.userName.charCodeAt(0);
-    const colorIndex = charCode % colors.length;
-    return colors[colorIndex];
-}
-
-// Render initials and background color
-const userAvatar = document.getElementById('user-avatar');
-userAvatar.innerHTML = `<span class="initials">${getFirstLetterFromName()}</span>`;
-userAvatar.style.backgroundColor = getColorFromName();
-
-const userAvatar1 = document.getElementById('user-avatar1');
-userAvatar1.innerHTML = `<span class="initials">${getFirstLetterFromName()}</span>`;
-userAvatar1.style.backgroundColor = getColorFromName();
-
-document.getElementById('user-group').textContent = decodedToken.userGroup
-
+  await fetchAndGenerateRankChart();
 });
+
 const fetchAndGenerateRankChart = async () => {
   try {
     // Make an HTTP GET request to your server endpoint
