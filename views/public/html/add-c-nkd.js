@@ -87,7 +87,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
 
             // Send data to the server using Axios with async/await
-            const response = await axios.post(`https://nemonode.ivistaz.co/candidate/kin-details/${memId}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`https://nemo.ivistaz.co/candidate/kin-details/${memId}`, formData, { headers: { "Authorization": token } });
 
             // Handle success
             console.log('NKD data added successfully:', response.data);
@@ -104,7 +104,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const fetchAndDisplayNkdData = async () => {
         try {
             const memId = localStorage.getItem('memId');
-            const response = await axios.get(`https://nemonode.ivistaz.co/candidate/get-nkd-details/${memId}`, { headers: { "Authorization": token } });
+            const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-nkd-details/${memId}`, { headers: { "Authorization": token } });
     
             // Assuming response.data contains an array of NKD objects
             const nkdData = response.data;
@@ -175,7 +175,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             const confirmDelete = confirm('Are you sure you want to delete this NKD entry?');
             if (confirmDelete) {
                 const token = localStorage.getItem('token');
-                const response = await axios.delete(`https://nemonode.ivistaz.co/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
+                const response = await axios.delete(`https://nemo.ivistaz.co/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
                 console.log(response.data);
                 // Fetch and display NKD data again after deletion
                 fetchAndDisplayNkdData();

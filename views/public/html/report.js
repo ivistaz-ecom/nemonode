@@ -15,7 +15,7 @@ async function handleNewProfileSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemonode.ivistaz.co/candidate/reports/view-new-profile', {
+        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
             selectedFields: selectedFields
@@ -104,7 +104,7 @@ async function handleCallsMadeSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemonode.ivistaz.co/candidate/reports/callsmade', {
+        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
             user: user,
@@ -212,7 +212,7 @@ async function handleDiscussionSubmit(event) {
         const endDate = document.getElementById('endDates').value;
 
         // Send data to server using Axios with the GET method and query parameters
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/proposals', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
             params: {
                 status: status,
                 startDate: startDate,
@@ -303,7 +303,7 @@ async function handleNewProfileSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemonode.ivistaz.co/candidate/reports/view-new-profile', {
+        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
             selectedFields: selectedFields
@@ -392,7 +392,7 @@ async function handleCallsMadeSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemonode.ivistaz.co/candidate/reports/callsmade', {
+        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
             userId: user,
@@ -500,7 +500,7 @@ async function handleDiscussionSubmit(event) {
         const endDate = document.getElementById('endDates').value;
 
         // Send data to server using Axios with the GET method and query parameters
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/proposals', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
             params: {
                 status: status,
                 startDate: startDate,
@@ -598,7 +598,7 @@ async function handleSignOnSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/sign-on', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
             params: params
         });
 
@@ -681,7 +681,7 @@ async function handleSignOffSubmit(event) {
             endDate: endDate,
         };
         // Send data to server using Axios
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
             params: params
         });
 
@@ -797,7 +797,7 @@ async function handleDueforSignOffSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
             params: params
         });
 
@@ -892,7 +892,7 @@ async function handleAvailableCandidatesSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/avb-date', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/avb-date', {
             params: params
         });
 
@@ -998,7 +998,7 @@ async function handleDueForRenewalSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/reports/renewal', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/renewal', {
             params: params
         });
 
@@ -1129,7 +1129,7 @@ async function handleOnBoardSubmit(event) {
         const endDate = document.getElementById('endDateo').value;
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/onboard', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
             params: {
                 startDate: startDate,
                 endDate: endDate
@@ -1259,7 +1259,7 @@ const handleReminder = async (event) => {
         // Function to fetch discussion reminders based on date filters
         const fetchData = async (startDate, endDate) => {
             try {
-                const url = `https://nemonode.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
                 const response = await axios.get(url);
                 return response.data.discussions;
             } catch (error) {
@@ -1355,7 +1355,7 @@ async function handleCrewList(event) {
             vslName: vslName
         };
 
-        const response = await axios.get('https://nemonode.ivistaz.co/candidate/crewlist', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
             params: params
         });
 
@@ -1476,7 +1476,7 @@ const displayVesselDropdown = async function () {
         vesselDropdown.appendChild(defaultOption);
         
         // Fetch vessel names from the server
-        const vesselResponse = await axios.get("https://nemonode.ivistaz.co/others/get-vsls")
+        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls")
         const vessels = vesselResponse.data;
     
         // Populate the vessel dropdown with fetched vessel names
@@ -1519,7 +1519,7 @@ const handleReliefPlan = async (event) => {
 
 const fetchReliefPlan = async (startDate, endDate) => {
     try {
-        const url = `https://nemonode.ivistaz.co/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
+        const url = `https://nemo.ivistaz.co/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         return response.data;
     } catch (error) {
@@ -1583,7 +1583,7 @@ const displayUserDropdown = async function () {
         userDropdown.appendChild(defaultOption);
         
         // Fetch user data from the server
-        const userResponse = await axios.get("https://nemonode.ivistaz.co/user/userdropdown");
+        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
         const users = userResponse.data;
     
         // Populate the user dropdown with fetched user names
@@ -1641,7 +1641,7 @@ dateFilterForms.addEventListener('submit', async (event) => {
 // Function to fetch discussion reminders based on date filters
 async function fetchData(startDate, endDate) {
     try {
-        const url = `https://nemonode.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+        const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         renderDiscussionReminders(response.data.discussions);
     } catch (error) {
@@ -1708,3 +1708,40 @@ function getBadgeColor(status) {
             return '';
     }
 }
+
+document.getElementById('getData').addEventListener('click', async () => {
+    const startDate = document.getElementById('startDatemis').value;
+    const endDate = document.getElementById('endDatemis').value;
+
+    try {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/mis', {
+            params: {
+                startDate,
+                endDate
+            }
+        });
+
+        const candidates = response.data;
+        const candidatesList = document.getElementById('candidatesList');
+        candidatesList.innerHTML = '';
+
+        candidates.forEach(candidate => {
+            const candidateDiv = document.createElement('div');
+            candidateDiv.textContent = `Candidate Name: ${candidate.fname}`;
+
+            const discussionsList = document.createElement('ul');
+
+            candidate.discussions.forEach(discussion => {
+                const discussionItem = document.createElement('li');
+                discussionItem.textContent = `Discussion: ${discussion.discussion}`;
+                discussionsList.appendChild(discussionItem);
+            });
+
+            candidateDiv.appendChild(discussionsList);
+            candidatesList.appendChild(candidateDiv);
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
