@@ -45,7 +45,7 @@ async function handleNewProfileSubmit(event) {
             if (selectedFields[field]) {
                 const th = document.createElement('th');
                 th.textContent = field;
-                th.classList = 'fw-bolder bg-info text-white';
+                th.classList = 'fw-bolder bg-dark text-white';
                 headerRow.appendChild(th);
             }
         }
@@ -134,7 +134,7 @@ async function handleCallsMadeSubmit(event) {
             if (selectedFields[field]) {
                 const th = document.createElement('th');
                 th.textContent = field;
-                th.classList = 'fw-bolder bg-info text-white';
+                th.classList = 'fw-bolder bg-warning text-white';
                 headerRow.appendChild(th);
             }
         }
@@ -333,7 +333,7 @@ async function handleNewProfileSubmit(event) {
             if (selectedFields[field]) {
                 const th = document.createElement('th');
                 th.textContent = field;
-                th.classList = 'fw-bolder bg-info text-white';
+                th.classList = 'fw-bolder bg-warning text-white';
                 headerRow.appendChild(th);
             }
         }
@@ -759,30 +759,21 @@ async function handleSignOffSubmit(event) {
 document.getElementById('signOffForm').addEventListener('submit', handleSignOffSubmit);
 
 
-const calculateRemainingDays = (signOffDate, startDate) => {
-    // Convert sign-off and start dates to JavaScript Date objects
+const calculateStatus = (signOffDate) => {
+    const oneDay = 24 * 60 * 60 * 1000; // Hours*minutes*seconds*milliseconds
+    const today = new Date();
     const signOff = new Date(signOffDate);
-    const start = new Date(startDate);
+    const diffDays = Math.round((signOff - today) / oneDay);
 
-    // Calculate the difference in milliseconds
-    const difference = signOff - start;
-
-    // Convert milliseconds to days
-    const daysDifference = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-    // Determine if the remaining days are negative (sign off date is before start date)
-    if (daysDifference < 0) {
-        return { days: daysDifference, color: 'danger' }; // Set color to 'danger' for negative remaining days
+    if (diffDays > 0) {
+        return { status: 'Active', color: 'success' }; // Status for candidates with sign-off date in the future
+    } else if (diffDays === 0) {
+        return { status: 'Today', color: 'warning' }; // Status for candidates with sign-off date today
     } else {
-        let color;
-        if (daysDifference < 7) {
-            color = 'warning'; // Set color to 'warning' for less than 7 days remaining
-        } else {
-            color = 'success'; // Set color to 'success' for 7 days or more remaining
-        }
-        return { days: daysDifference  + ' remaining', color: color };
+        return { status: 'Overdue', color: 'danger' }; // Status for candidates with sign-off date in the past
     }
 };
+
 
 async function handleDueforSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
@@ -815,7 +806,7 @@ async function handleDueforSignOffSubmit(event) {
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Sign Off Date', 'Remaining Days'];
+        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Sign Off Date', 'Status'];
         headers.forEach(headerText => {
             const header = document.createElement('th');
             header.textContent = headerText;
@@ -835,13 +826,13 @@ async function handleDueforSignOffSubmit(event) {
                 candidate.c_rank,
                 candidate.c_vessel,
                 candidate.Contracts[0].sign_off, // Access the sign-off date from the first contract associated with the candidate
-                calculateRemainingDays(candidate.Contracts[0].sign_off, startDate) // Calculate remaining days based on sign-off date and start date
+                calculateStatus(candidate.Contracts[0].sign_off) // Calculate status based on sign-off date
             ];
             fields.forEach((field, index) => {
                 const cell = document.createElement('td');
                 if (index === fields.length - 1) {
                     const badge = document.createElement('span');
-                    badge.textContent = field.days + ' days';
+                    badge.textContent = field.status;
                     badge.classList.add('badge', 'bg-' + field.color);
                     cell.appendChild(badge);
                 } else {
@@ -1731,30 +1722,148 @@ document.getElementById('getData').addEventListener('click', async () => {
         const candidatesList = document.getElementById('candidatesList');
         candidatesList.innerHTML = '';
 
-        candidates.forEach(candidate => {
-            const candidateDiv = document.createElement('div');
-            candidateDiv.textContent = `Candidate Name: ${candidate.fname}`;
+// Inside your event listener function
+// Inside your event listener function
+candidates.forEach(async candidate => {
+    const candidateDiv = document.createElement('div');
+    candidateDiv.classList.add('candidate-card');
 
-            const discussionsList = document.createElement('ul');
+    // Candidate Container
+    const candidateContainer = document.createElement('div');
+    candidateContainer.classList.add('candidate-container');
+    candidateDiv.appendChild(candidateContainer);
 
-            candidate.discussions.forEach(discussion => {
-                const discussionItem = document.createElement('li');
-                discussionItem.textContent = `Discussion: ${discussion.discussion}`;
-                discussionsList.appendChild(discussionItem);
-            });
+    // Candidate Name with label
+    const candidateNameLabel = document.createElement('div');
+    candidateNameLabel.textContent = `Candidate Name: `;
+    candidateNameLabel.classList.add('candidate-label');
+    candidateContainer.appendChild(candidateNameLabel);
 
-            const viewButton = document.createElement('button');
-            viewButton.textContent = 'View';
-            viewButton.addEventListener('click', () => {
-                handleView(candidate.candidateId);
-            });
+    const candidateName = document.createElement('div');
+    candidateName.textContent = candidate.fname;
+    candidateName.classList.add('candidate-name', 'text-primary'); // Add text-primary class
+    candidateName.style.cursor = 'pointer'; // Make the candidate name clickable
+    candidateName.addEventListener('click', () => {
+        handleView(candidate.candidateId); // Trigger the view action when clicked
+    });
+    candidateContainer.appendChild(candidateName);
 
-            candidateDiv.appendChild(discussionsList);
-            candidateDiv.appendChild(viewButton);
-            candidatesList.appendChild(candidateDiv);
-        });
-    } catch (error) {
+    // Candidate ID with label
+    const candidateIdLabel = document.createElement('div');
+    candidateIdLabel.textContent = `Candidate ID: `;
+    candidateIdLabel.classList.add('candidate-label');
+    candidateContainer.appendChild(candidateIdLabel);
+
+    const candidateId = document.createElement('div');
+    candidateId.textContent = candidate.candidateId;
+    candidateId.classList.add('candidate-id', 'text-primary'); // Add text-primary class
+    candidateId.style.cursor = 'pointer'; // Make the candidate ID clickable
+    candidateId.addEventListener('click', () => {
+        handleView(candidate.candidateId); // Trigger the view action when clicked
+    });
+    candidateContainer.appendChild(candidateId);
+
+    // Discussions Container
+    const discussionsContainer = document.createElement('div');
+    discussionsContainer.classList.add('discussions-container');
+    candidateDiv.appendChild(discussionsContainer);
+
+    // Discussions List
+    const discussionsList = document.createElement('ul');
+    discussionsList.classList.add('discussion-list');
+    discussionsContainer.appendChild(discussionsList);
+
+    for (const discussion of candidate.discussions) {
+        const discussionItem = document.createElement('li');
+        discussionItem.classList.add('discussion-item');
+
+        // Create a container for status badge and company name
+        const statusContainer = document.createElement('div');
+        statusContainer.classList.add('status-container');
+
+        // Create hollow circle badge for discussion status
+        const badge = document.createElement('div');
+        badge.classList.add('discussion-badge');
+        switch (discussion.discussion) {
+            case 'Proposed':
+                badge.classList.add('badge-proposed');
+                break;
+            case 'Approved':
+                badge.classList.add('badge-approved');
+                break;
+            case 'Joined':
+                badge.classList.add('badge-joined');
+                break;
+            case 'Rejected':
+                badge.classList.add('badge-rejected');
+                break;
+            default:
+                break;
+        }
+
+        // Add the first letter of the discussion status as text content
+        const badgeText = document.createElement('span');
+        badgeText.textContent = discussion.discussion.charAt(0); // Only first letter
+        badgeText.classList.add('badge-text');
+        badge.appendChild(badgeText);
+        statusContainer.appendChild(badge);
+
+        // Fetch and display company name based on company ID
+        const companyName = await fetchCompanyName(discussion.companyname);
+        const companyNameItem = document.createElement('span');
+        companyNameItem.textContent = companyName;
+        companyNameItem.classList.add('company-name');
+        statusContainer.appendChild(companyNameItem);
+
+        // Add the status container to discussion item
+        discussionItem.appendChild(statusContainer);
+
+        // Add the created date at the end of the line
+        const createdDateItem = document.createElement('span');
+        createdDateItem.textContent = formatDate(discussion.created_date);
+        createdDateItem.classList.add('created-date');
+        statusContainer.appendChild(createdDateItem);
+
+        // Add discussion item to discussions list
+        discussionsList.appendChild(discussionItem);
+    }
+
+    candidatesList.appendChild(candidateDiv);
+});
+
+
+
+
+
+ } catch (error) {
         console.error('Error:', error);
     }
 });
 
+// Function to fetch company name based on company ID
+
+
+async function fetchCompanyName(companyId) {
+    try {
+        if (companyId === null || companyId === 0) {
+            return 'No Company details present in Database';
+        }
+
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`https://nemo.ivistaz.co/company/get-company/${companyId}`, { headers: { "Authorization": token } });
+        console.log(response)
+        return response.data.company.company_name;
+    } catch (error) {
+        console.error('Error fetching company name:', error);
+        return 'Unknown Company';
+    }
+}
+
+
+
+function formatDate(dateString) {
+    // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
+    const date = new Date(dateString);
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  }

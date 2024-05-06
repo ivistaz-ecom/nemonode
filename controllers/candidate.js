@@ -2183,6 +2183,7 @@ const mis = async (req, res) => {
         const misCandidates = await Candidate.findAll({
             include: {
                 model: Discussion,
+                attributes: ['discussion', 'created_date', 'companyname'], // Select the fields you want to include
                 where: {
                     discussion: {
                         [Op.in]: ['proposed', 'approved', 'joined', 'rejected']
@@ -2199,6 +2200,7 @@ const mis = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 
 
