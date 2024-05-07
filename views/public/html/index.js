@@ -105,6 +105,8 @@ try {
   userDisplay.innerHTML += localStorage.getItem('username');
   const hasUserManagement = decodedToken.userManagement;
   const vendorManagement = decodedToken.vendorManagement;
+  const staff = decodedToken.staff
+  console.log(staff)
   // console.log(vendorManagement);
   const userGroup = decodedToken.userGroup;
   // console.log(userGroup)
@@ -116,7 +118,10 @@ try {
     document.getElementById('vendorManagementSection').style.display = 'block';
     document.getElementById('vendorManagementSections').style.display = 'block';
   }
- 
+//  if(staff)
+//  {
+//   document.getElementById('settingsContainer').style.display = 'none';
+//  }
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
   await fetchCandidates();

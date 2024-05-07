@@ -64,6 +64,7 @@
                 <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
             </div>
             <div class="modal-body text-center mb-4">
+              <img src="../../public/assets/img/illustrations/undraw_cabin_hkfr.svg" style="width: 50px;height: auto;"/>
                 <p id="logoutMessage">Logging you out...</p>
                 <div class="spinner-border text-danger" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -457,9 +458,9 @@
                       <div data-i18n="Account">Manage</div>
                     </a>
                   </li>
-                  <li class="menu-item">
+                 <li class="menu-item">
                     <a href="add-vendor.html" class="menu-link">
-                      <div data-i18n="Account">Add</div>
+                      <div data-i18n="Account">Add Vendor User</div>
                     </a>
                   </li>
                 </ul></li>
@@ -566,9 +567,16 @@
           </nav>
 
           <!-- / Navbar -->
+          <div class="mt-5 p-5 text-center" id="settingsCard" style="display: none;">
+            <h4>
+              Permission Required! Contact Admin.
+                </h4>
+                <p>For more details regarding permission visit <strong class="text-primary">My Profile</strong></p>
+          </div>
+
 
           <!-- Content wrapper -->
-          <div class="container-fluid">
+          <div class="container-fluid" id="settingsContainer">
             <div>
             <div class="content-wrapper mt-3 rounded-3">
                 <div class="w-100 mt-3">

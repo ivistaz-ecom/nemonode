@@ -33,16 +33,21 @@ addCompanyButton.addEventListener("submit", async (e) => {
     try {
         const serverResponse = await axios.post("https://nemo.ivistaz.co/company/create-company", company_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
-        alert("Company Added Successfully!");
+        var successToast = new bootstrap.Toast(document.getElementById('successToast'));
+        successToast.show();
     } catch (error) {
         console.error('Error:', error);
+        var errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+        errorToast.show();
     }
+    
 });
 window.onload = async function () {
     const hasReadOnly = decodedToken.readOnly;
     console.log(hasReadOnly)
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
+    const staff = decodedToken.staff;
     console.log(vendorManagement);
     if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         document.getElementById('userManagementSection').style.display = 'block';
@@ -53,7 +58,15 @@ window.onload = async function () {
         document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
+    if(staff) {
+        // Hide the settings container
+        document.getElementById('settingsContainer').style.display = 'none';
+        document.getElementById('settingsCard').style.display='block'
+        // Show a message indicating the user does not have permission
+        
+    }
 };
+
 
 
 
