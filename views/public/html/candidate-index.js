@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Use jwt_decode to extract information from the token
     const decodedToken = decodeToken(token);
     const indosNumber = decodedToken.indosNumber;
-
+    const candidate_name = decodedToken.fname;
     const userSpan = document.getElementById('username');
     const userSpans = document.getElementById('user_name');
 
     if (userSpan,userSpans) {
         userSpan.textContent = indosNumber;
-        userSpans.textContent= indosNumber;
+        userSpans.textContent= candidate_name;
     } else {
         console.error('Element with id "user_name" not found');
     }
