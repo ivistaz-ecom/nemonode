@@ -100,6 +100,7 @@ window.onload = async function () {
      displayPort();
      const hasUserManagement = decodedToken.userManagement;
      const vendorManagement = decodedToken.vendorManagement;
+     const staff = decodedToken.staff
      console.log(vendorManagement);
      if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         document.getElementById('userManagementSection').style.display = 'block';
@@ -110,6 +111,11 @@ window.onload = async function () {
         document.getElementById('vendorManagementSections').style.display = 'block';
  
      }
+     if(staff)
+    {
+        document.getElementById('settingsContainer').style.display='none'
+        document.getElementById('settingsCard').style.display='block'
+    }
 };
 
 
