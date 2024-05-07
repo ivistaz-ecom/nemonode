@@ -56,7 +56,7 @@ async function login(e) {
                 }
             } else {
                 // Display success message and redirect to index page
-                alert("Login successful!");
+              
                 window.location.href = "./indexpage.html";
             }
         } else {
