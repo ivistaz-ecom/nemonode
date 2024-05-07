@@ -294,7 +294,23 @@ document.getElementById("logout").addEventListener("click", function() {
   // Display the modal with initial message
   var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
   myModal.show();
+  
+  // Send request to update logged status to false
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      .then(response => {
+        console.log('Logged out successfully');
+      })
+      .catch(error => {
+        console.error('Error logging out:', error);
+      });
+  } else {
+    console.error('User ID not found in localStorage');
+  }
+
   localStorage.clear();
+  
   // Change the message and spinner after a delay
   setTimeout(function() {
       document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
@@ -305,6 +321,8 @@ document.getElementById("logout").addEventListener("click", function() {
       window.location.href = "loginpage.html";
   }, 2000);
 });
+
+
 
 
 function updateDateTime() {
@@ -406,20 +424,3 @@ function getStatusBadgeClass(avb_date) {
 }
 
 // Call the function to populate the table when the page loads
-document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    localStorage.clear();
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    localStorage.clear()
-
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-});
