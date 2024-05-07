@@ -19,10 +19,11 @@ function generateAccessToken(id, userName,userEmail,
   vendorManagement,
   master_create,
   staff,
-  deletes
+  deletes,
+  logged
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
-    master_create:master_create,staff:staff,deletes:deletes
+    master_create:master_create,staff:staff,deletes:deletes,logged:logged
   }, 'secretkey');
 }
 
@@ -99,7 +100,8 @@ const create_user = async (req, res, next) => {
       last_login,
       company_login,
       created_date,
-      staff
+      staff,
+      logged:false,
         },{transaction:t});
         await t.commit();
         res.status(201).json({ message: "Successfully Created New User", user: newUser });
@@ -123,57 +125,55 @@ const create_user = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { userName, userPassword } = req.body 
+      const { userName, userPassword } = req.body;
 
-    // Find the user with the provided username
-    const user = await User.findOne({ where: { userName: userName } });
+      // Find the user with the provided username
+      const user = await User.findOne({ where: { userName: userName } });
 
-    if (user) {
-      // Compare the provided password with the stored hashed password in the database
-      bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
-        if (err) {
-          console.error('Error comparing passwords:', err);
-          return res.status(500).json({ success: false, message: 'Internal Server Error' });
-        }
+      if (user) {
+          if (user.logged) {
+              // User is already logged in, prompt the user to log out of all devices
+              return res.status(200).json({ success: false, message: 'Session exists' });
+          }
 
-        if (passwordMatch) {
-          // Password is correct, generate JWT token
-          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
-          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create,user.staff,user.deletes);
-          console.log(token);
-          return res.status(200).json({
-            success: true,
-            message: 'User Logged in Successfully',
-            token: token,
-            username: user.userName,
-            userId:user.id,
-            // master_create:user.master_create,
-            // disableUser:user.disableUser,
-            // userGroup:user.userGroup,
-            // readOnly:user.readOnly,
-            // Write:user.Write,
-           
-            // imports:user.imports,
-            // exports:user.exports,
-            // userManagement:user.userManagement,
-            // reports:user.reports,
-            // reports_all:user.reports_all
-            
+          // Compare the provided password with the stored hashed password in the database
+          bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
+              if (err) {
+                  console.error('Error comparing passwords:', err);
+                  return res.status(500).json({ success: false, message: 'Internal Server Error' });
+              }
+
+              if (passwordMatch) {
+                  // Password is correct, generate JWT token
+                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged);
+                  console.log(token);
+
+                  // Update logged status to true
+                  user.update({ logged: true });
+
+                  return res.status(200).json({
+                      success: true,
+                      message: 'User Logged in Successfully',
+                      token: token,
+                      username: user.userName,
+                      userId: user.id,
+                  });
+              } else {
+                  // Password is invalid
+                  return res.status(400).json({ success: false, message: 'Password is invalid' });
+              }
           });
-        } else {
-          // Password is invalid
-          return res.status(400).json({ success: false, message: 'Password is invalid' });
-        }
-      });
-    } else {
-      // User does not exist
-      return res.status(404).json({ success: false, message: 'User does not exist' });
-    }
+      } else {
+          // User does not exist
+          return res.status(404).json({ success: false, message: 'User does not exist' });
+      }
   } catch (err) {
-    console.error('Error during login:', err);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+      console.error('Error during login:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
+
+
 
 const edit_user = async (req, res) => {
   const t = await sequelize.transaction();
@@ -216,6 +216,7 @@ const edit_user = async (req, res) => {
       user.company_login=userData.company_login,
       user.created_date=userData.created_date
       user.staff = userData.staff
+      user.logged = user.logged
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
       const saltrounds = 10;
@@ -378,6 +379,53 @@ const userDropdown=async (req, res) => {
   }
 }
 
+const updateLogged = async (req, res) => {
+  const userId = parseInt(req.params.userId);
+
+  try {
+      // Find the user by userId
+      const user = await User.findByPk(userId);
+
+      if (user) {
+          // Update the 'logged' status to true
+          await User.update({ logged: true }, {
+              where: {
+                  id: userId
+              }
+          });
+
+          // Respond with success message
+          res.json({ success: true, message: 'Logged status updated successfully' });
+      } else {
+          // User not found
+          res.status(404).json({ success: false, message: 'User not found' });
+      }
+  } catch (error) {
+      // Handle errors
+      console.error('Error updating logged status:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+const updateLogout=async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.userId);
+
+    // Update the logged field to false for the user with the provided userId
+    const [updatedRows] = await User.update({ logged: false }, {
+      where: { id: userId }
+    });
+
+    if (updatedRows > 0) {
+      return res.status(200).json({ success: true, message: 'User logged out successfully' });
+    } else {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+  } catch (err) {
+    console.error('Error during logout:', err);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
   
 module.exports = {
   create_user,
@@ -386,5 +434,7 @@ module.exports = {
   view_user,
   delete_user,
   get_user,
-  userDropdown
+  userDropdown,
+  updateLogged,
+  updateLogout
 };

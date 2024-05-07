@@ -1695,7 +1695,23 @@ function formatDate(dateString) {
     // Display the modal with initial message
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
+    
+    // Send request to update logged status to false
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+        .then(response => {
+          console.log('Logged out successfully');
+        })
+        .catch(error => {
+          console.error('Error logging out:', error);
+        });
+    } else {
+      console.error('User ID not found in localStorage');
+    }
+  
     localStorage.clear();
+    
     // Change the message and spinner after a delay
     setTimeout(function() {
         document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
@@ -1706,3 +1722,4 @@ function formatDate(dateString) {
         window.location.href = "loginpage.html";
     }, 2000);
   });
+  
