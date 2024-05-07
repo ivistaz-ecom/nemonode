@@ -285,7 +285,7 @@ const hasReport = decodedToken.reports
 const ReadOnly = decodedToken.readOnly
 const WriteOnly = decodedToken.Write
 const master_create = decodedToken.master_create
-// console.log(decodedToken)
+console.log(decodedToken)
 // console.log(userRole,'UM :', hasUserManagement,"R :", ReadOnly,"W :",WriteOnly)
 
 
