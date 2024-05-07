@@ -56,7 +56,8 @@ async function login(e) {
                 }
             } else {
                 // Display success message and redirect to index page
-              
+                welcomeUsername.textContent = username;
+            welcomeModal.show();
                 window.location.href = "./indexpage.html";
             }
         } else {
@@ -64,8 +65,10 @@ async function login(e) {
                 const signoutAllDevices = confirm("Session already exists. Do you want to sign out of all devices?");
                 if (signoutAllDevices) {
                     // Try login again to sign out of all devices
-                    alert('Successfully Signed In')
+                    welcomeUsername.textContent = username;
+                    welcomeModal.show();
                     window.location.href = "./indexpage.html";
+
                 }
             } else {
                 console.error("Login failed:", response.data.message);
