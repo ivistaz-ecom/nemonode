@@ -2,7 +2,7 @@ const User = require('../models/user');
 const bcrypt = require("bcrypt")
 const jwt=require("jsonwebtoken")
 const sequelize=require('../util/database')
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 
 
@@ -266,7 +266,10 @@ const get_user = async(req,res)=>{
       const userId = req.user.id;
       console.log(userId);
       let userGroup;
-  
+      let staff;
+      let userManagement;
+      let readOnly;
+      let email;
       // Fetch user data by ID
       const user = await User.findByPk(userId);
   
@@ -275,32 +278,45 @@ const get_user = async(req,res)=>{
       }
   
       userGroup = user.dataValues.userGroup;
+      staff = user.dataValues.staff;
+      userManagement = user.dataValues.userManagement;
+      readOnly = user.dataValues.readOnly;
+      email = user.dataValues.userEmail;
       console.log('User Group:', userGroup);
   
       if (userGroup === 'admin') {
-        // If the user is an admin, fetch only their own data (excluding disabled users)
-        const allUsers = await User.findAll({
-          where: {
+        if (userManagement) {
+          // If the user is an admin with userManagement, fetch all users
+          const allUsers = await User.findAll({where:{
             disableUser: false // Exclude users with disableUser set to true
-          }
-        });
-  
-        res.status(200).json({ users: allUsers, success: true });
-      }
-       else if (userGroup === 'vendor') {
+
+          }});
+          res.status(200).json({ users: allUsers, success: true });
+        } else if (staff) {
+          const allUsers = await User.findAll({ where: { id: userId } });
+          // If the user is an admin with staff, display only the userId
+          res.status(200).json({ users: allUsers, success: true });
+        } else if (staff && userManagement) {
+          // If the user is an admin with both staff and userManagement, fetch all users
+          const allUsers = await User.findAll({where:{
+            disableUser: false // Exclude users with disableUser set to true
+
+          }});
+          res.status(200).json({ users: allUsers, success: true });
+        } else {
+          // Handle other cases if needed
+        }
+      } else if (userGroup === 'vendor' && readOnly) {
         // If the user is a vendor, fetch only the users associated with them
         const allUsers = await User.findAll({
           where: {
-            id:userId,
+            [Op.or]: [
+              { id: userId },
+              { master_create: { [Op.like]: `%${email}%` } } // Include users whose email is in master_create
+            ],
             disableUser: false // Exclude users with disableUser set to true
           }
         });
-  
-        res.status(200).json({ users: allUsers, success: true });
-      }
-       else if (userGroup === 'SA') {
-        // If the user is SA, fetch all users (including disabled)
-        const allUsers = await User.findAll();
   
         res.status(200).json({ users: allUsers, success: true });
       } else {

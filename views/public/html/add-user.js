@@ -162,13 +162,11 @@ const getUserEmail=() =>{
                         <td style="font-size:12px">${sno}</td>
                         <td style="font-size:12px">${user.id}</td>
                         <td style="font-size:12px">${user.userName}</td>
-                        <td style="font-size:12px">${user.lastName}</td>
                         <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userEmail}</td>
                         <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2ch; font-size:13px;">${user.userPassword}</td>
                         <td style="font-size:12px">${user.userPhone}</td>
                         <td style="font-size:12px">${user.userGroup}</td>
-                        <td style="font-size:12px">${user.userVendor}</td>
-                        <td style="font-size:12px">${user.userClient}</td>
+                       
                         <td style="font-size:12px;">${user.createdBy}</td>
                         <td style="font-size:12px">${user.master_create}</td>
                         <td style='font-size:12px'>${user.reports}</td>

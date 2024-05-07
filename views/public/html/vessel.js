@@ -60,6 +60,7 @@ document.getElementById("vsl-form").addEventListener("submit", async (e) => {
 window.onload = async function () {
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
+    const staff = decodedToken.staff;
     console.log(vendorManagement);
     if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         document.getElementById('userManagementSection').style.display = 'block';
@@ -69,6 +70,13 @@ window.onload = async function () {
         document.getElementById('vendorManagementSection').style.display = 'block';
         document.getElementById('vendorManagementSections').style.display = 'block';
 
+    }
+    if(staff) {
+        // Hide the settings container
+        document.getElementById('settingsContainer').style.display = 'none';
+        document.getElementById('settingsCard').style.display='block'
+        // Show a message indicating the user does not have permission
+        
     }
 };
 
