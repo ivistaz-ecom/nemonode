@@ -1,3 +1,33 @@
+
+
+
+
+
+
+// Function to export table data to Excel
+function exportToExcel(table, fileName) {
+    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+    XLSX.writeFile(wb, fileName);
+}
+
+
+// Function to handle form submission for fetching discussions
+
+
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+}
+
+
+
+
+// Add event listener to the discussion form
+
+
 // Function to handle submission of New Profile form
 async function handleNewProfileSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
@@ -6,6 +36,7 @@ async function handleNewProfileSubmit(event) {
         const token = localStorage.getItem('token');
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
+        const decodedToken = decodeToken(token);
 
         // Gather selected fields
         const selectedFields = {};
@@ -68,309 +99,25 @@ async function handleNewProfileSubmit(event) {
         table.appendChild(tableBody);
         
         // Append table to container
-
-        // Create "Export to Excel" button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', () => {
-            exportToExcel(table, 'candidates.xlsx');
-        });
-        tableContainer.appendChild(exportButton);
         tableContainer.appendChild(table);
 
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// Function to handle submission of Calls Made form
-// Function to handle submission of Calls Made form
-// Update the handleCallsMadeSubmit function
-// Update the handleCallsMadeSubmit function
-async function handleCallsMadeSubmit(event) {
-    event.preventDefault();
-    try {
-        const token = localStorage.getItem('token');
-        const fromDate = document.getElementById('fromDate').value;
-        const toDate = document.getElementById('toDate').value;
-        const user = document.getElementById('user').value;
-
-        // Gather selected fields, including 'candidateId'
-        const selectedFields = { 'candidateId': true };
-        const checkboxes = document.querySelectorAll('#callsMadeForm input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            selectedFields[checkbox.id] = checkbox.checked;
-        });
-
-        // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
-            startDate: fromDate,
-            endDate: toDate,
-            user: user,
-            selectedFields: selectedFields
-        }, {
-            headers: {
-                "Authorization": token
-            }
-        });
-
-        console.log(response.data); // Check the server response structure
-
-        // Display calls made in a table
-        const tableContainer = document.getElementById('callsMadeTable');
-        tableContainer.innerHTML = '';
-
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-bordered');
-
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        for (const field in selectedFields) {
-            if (selectedFields[field]) {
-                const th = document.createElement('th');
-                th.textContent = field;
-                th.classList = 'fw-bolder bg-warning text-white';
-                headerRow.appendChild(th);
-            }
-        }
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
-
-        // Create table body
-        // Create table body
-const tableBody = document.createElement('tbody');
-response.data.callsMade.forEach(call => {
-    const row = document.createElement('tr');
-    for (const field in selectedFields) {
-        if (selectedFields[field]) {
-            const cell = document.createElement('td');
-            if (field === 'discussion') {
-                // Access discussion fields
-                if (call.discussions && call.discussions.length > 0) {
-                    const discussions = call.discussions.map(discussion => discussion.discussion);
-                    cell.textContent = discussions.join('\n');
-                } else {
-                    cell.textContent = 'N/A';
-                }
-            } else if (field === 'r_date') {
-                // Access r_date
-                if (call.discussions && call.discussions.length > 0) {
-                    const rDates = call.discussions.map(discussion => discussion.r_date);
-                    cell.textContent = rDates.join('\n');
-                } else {
-                    cell.textContent = 'N/A';
-                }
-            } else {
-                // Access other fields directly from the call object
-                cell.textContent = call[field];
-            }
-            row.appendChild(cell);
-        }
-    }
-    tableBody.appendChild(row);
-});
-table.appendChild(tableBody);
-
-
-        // Append table to container
-        tableContainer.appendChild(table);
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
-
-
-
-// Function to export table data to Excel
-function exportToExcel(table, fileName) {
-    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-    XLSX.writeFile(wb, fileName);
-}
-
-// Add event listener to the "Generate Calls Made Report" button
-document.getElementById('callsMadeContent').addEventListener('submit', handleCallsMadeSubmit);
-
-// Add event listener to the New Profile form
-document.getElementById('newprofilesubmit').addEventListener('submit', handleNewProfileSubmit);
-
-
-// Function to handle form submission for fetching discussions
-async function handleDiscussionSubmit(event) {
-    event.preventDefault(); // Prevent default form submission behavior
-
-    try {
-        const status = document.getElementById('status').value;
-        const startDate = document.getElementById('startDates').value;
-        const endDate = document.getElementById('endDates').value;
-
-        // Send data to server using Axios with the GET method and query parameters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
-            params: {
-                status: status,
-                startDate: startDate,
-                endDate: endDate
-            }
-        });
-
-        console.log(response.data); // Assuming the server sends back some data
-        const candidates = response.data.candidates;
-
-        // Display discussions and candidates in a table
-        const discussionResults = document.getElementById('discussionResults');
-        discussionResults.innerHTML = ''; // Clear existing results
-
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table', 'table-bordered');
-
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Company Name', 'Created Date', 'Posted By'];
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            header.scope = 'col';
-            header.classList.add('text-center');
-            headerRow.appendChild(header);
-        });
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
-
-        // Create table body
-        const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
-            candidate.discussions.forEach(discussion => {
-                const row = document.createElement('tr');
-                const fields = [
-                    candidate.candidateId,
-                    candidate.c_rank,
-                    candidate.c_vessel,
-                    discussion.companyname,
-                    discussion.created_date,
-                    discussion.post_by
-                ];
-                fields.forEach(field => {
-                    const cell = document.createElement('td');
-                    cell.textContent = field;
-                    cell.classList.add('text-center');
-                    row.appendChild(cell);
-                });
-                tableBody.appendChild(row);
+        // Create "Export to Excel" button if user has permission
+        if (decodedToken.reports) {
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.addEventListener('click', () => {
+                exportToExcel(table, 'candidates.xlsx');
             });
-        });
-        table.appendChild(tableBody);
-
-        // Append table to discussionResults container
-        discussionResults.appendChild(table);
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
-
-
-
-
-// Add event listener to the discussion form
-document.getElementById('discussionForm').addEventListener('submit', handleDiscussionSubmit);
-
-
-// Function to handle submission of New Profile form
-async function handleNewProfileSubmit(event) {
-    event.preventDefault(); // Prevent default form submission behavior
-
-    try {
-        const token = localStorage.getItem('token');
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-
-        // Gather selected fields
-        const selectedFields = {};
-        const checkboxes = document.querySelectorAll('#newProfileContent input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            selectedFields[checkbox.id] = checkbox.checked; // Store checkbox state in selectedFields object
-        });
-
-        // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
-            startDate: startDate,
-            endDate: endDate,
-            selectedFields: selectedFields
-        }, {
-            headers: {
-                "Authorization": token
-            }
-        });
-
-        console.log(response.data); // Assuming the server sends back some data
-        const candidates = response.data.candidates;
-
-        // Clear existing table, if any
-        const tableContainer = document.getElementById('candidateTable');
-        tableContainer.innerHTML = '';
-
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('table-sm');
-        table.classList.add('table-bordered');
-
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        for (const field in selectedFields) {
-            if (selectedFields[field]) {
-                const th = document.createElement('th');
-                th.textContent = field;
-                th.classList = 'fw-bolder bg-warning text-white';
-                headerRow.appendChild(th);
-            }
+            // Append export button
+            tableContainer.appendChild(exportButton);
         }
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
-
-        // Create table body
-        const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
-            const row = document.createElement('tr');
-            for (const field in selectedFields) {
-                if (selectedFields[field]) {
-                    const cell = document.createElement('td');
-                    cell.textContent = candidate[field];
-                    row.appendChild(cell);
-                }
-            }
-            tableBody.appendChild(row);
-        });
-        table.appendChild(tableBody);
-        
-        // Append table to container
-
-        // Create "Export to Excel" button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', () => {
-            exportToExcel(table, 'candidates.xlsx');
-        });
-        tableContainer.appendChild(exportButton);
-        tableContainer.appendChild(table);
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 // Function to handle submission of Calls Made form
 // Function to handle submission of Calls Made form
@@ -383,6 +130,8 @@ async function handleCallsMadeSubmit(event) {
         const fromDate = document.getElementById('fromDate').value;
         const toDate = document.getElementById('toDate').value;
         const user = document.getElementById('userDropdown').value;
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
 
         // Gather selected fields, including 'candidateId'
         const selectedFields = { 'candidateId': true };
@@ -409,17 +158,20 @@ async function handleCallsMadeSubmit(event) {
         const tableContainer = document.getElementById('callsMadeTable');
         tableContainer.innerHTML = '';
 
-        // Create export button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
-        exportButton.style='width:300px;'
-        exportButton.addEventListener('click', function() {
-            exportToExcel(table, 'callsMade.xlsx');
-        });
+        // Check if reports is true
+        if (reports === true) {
+            // Create export button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mb-3', 'text-success');
+            exportButton.style = 'width:300px;';
+            exportButton.addEventListener('click', function () {
+                exportToExcel(table, 'callsMade.xlsx');
+            });
 
-        // Append export button before table
-        tableContainer.appendChild(exportButton);
+            // Append export button before table
+            tableContainer.appendChild(exportButton);
+        }
 
         // Create table element
         const table = document.createElement('table');
@@ -477,6 +229,7 @@ async function handleCallsMadeSubmit(event) {
 
 
 
+
 // Function to export table data to Excel
 function exportToExcel(table, fileName) {
     const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
@@ -510,6 +263,10 @@ async function handleDiscussionSubmit(event) {
 
         console.log(response.data); // Assuming the server sends back some data
         const candidates = response.data.candidates;
+        
+        // Check if reports is true
+        const decodedToken = decodeToken(localStorage.getItem('token'));
+        const reports = decodedToken.reports;
 
         // Display discussions and candidates in a table
         const discussionResults = document.getElementById('discussionResults');
@@ -560,19 +317,23 @@ async function handleDiscussionSubmit(event) {
         // Append table to discussionResults container
         discussionResults.appendChild(table);
 
-        // Create "Export to Excel" button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', () => {
-            exportToExcel(table, 'discussionData.xlsx');
-        });
-        discussionResults.parentNode.insertBefore(exportButton, discussionResults.nextSibling);
+        // Check if reports is true
+        if (reports === true) {
+            // Create "Export to Excel" button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.addEventListener('click', () => {
+                exportToExcel(table, 'discussionData.xlsx');
+            });
+            discussionResults.parentNode.insertBefore(exportButton, discussionResults.nextSibling);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -650,19 +411,26 @@ async function handleSignOnSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
-        // Create "Export to Excel" button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', () => {
-            exportToExcel(table, 'signOnData.xlsx');
-        });
-        tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+        // Check if reports is true
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
+
+        if (reports === true) {
+            // Create "Export to Excel" button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.addEventListener('click', () => {
+                exportToExcel(table, 'signOnData.xlsx');
+            });
+            tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 // Add event listener to the Sign On form
@@ -733,24 +501,31 @@ async function handleSignOffSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
-        // Add export to Excel button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', async () => {
-            try {
-                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                await XLSX.writeFile(wb, 'signOffCandidates.xlsx');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-            }
-        });
-        tableContainer.appendChild(exportButton);
+        // Check if reports is true
+        const decodedToken = decodeToken(localStorage.getItem('token'));
+        const reports = decodedToken.reports;
+
+        if (reports === true) {
+            // Add export to Excel button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.addEventListener('click', async () => {
+                try {
+                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                    await XLSX.writeFile(wb, 'signOffCandidates.xlsx');
+                } catch (error) {
+                    console.error('Error exporting to Excel:', error);
+                }
+            });
+            tableContainer.appendChild(exportButton);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -848,24 +623,31 @@ async function handleDueforSignOffSubmit(event) {
         // Append table to container
         tableContainer.appendChild(table);
 
-        // Add export to Excel button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', async () => {
-            try {
-                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                await XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-            }
-        });
-        tableContainer.appendChild(exportButton);
+        // Check if reports is true
+        const decodedToken = decodeToken(localStorage.getItem('token'));
+        const reports = decodedToken.reports;
+
+        if (reports === true) {
+            // Add export to Excel button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.addEventListener('click', async () => {
+                try {
+                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                    await XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
+                } catch (error) {
+                    console.error('Error exporting to Excel:', error);
+                }
+            });
+            tableContainer.appendChild(exportButton);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 document.getElementById('dueforsignoffform').addEventListener('submit', handleDueforSignOffSubmit);
@@ -913,64 +695,71 @@ async function handleAvailableCandidatesSubmit(event) {
             tableContainer.appendChild(row);
         });
 
-        // Add export to Excel button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
-        exportButton.addEventListener('click', async () => {
-            try {
-                // Create table element
-                const table = document.createElement('table');
-                table.classList.add('table', 'table-bordered');
+        // Check if the user has access to reports
+        const decodedToken = decodeToken(localStorage.getItem('token'));
+        const reports = decodedToken.reports;
 
-                // Create table header
-                const tableHeader = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                const headers = ['Candidate ID', 'Name', 'Rank', 'Vessel', 'Available Date'];
-                headers.forEach(headerText => {
-                    const header = document.createElement('th');
-                    header.textContent = headerText;
-                    header.scope = 'col';
-                    header.classList.add('text-center');
-                    headerRow.appendChild(header);
-                });
-                tableHeader.appendChild(headerRow);
-                table.appendChild(tableHeader);
+        if (reports === true) {
+            // Add export to Excel button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.addEventListener('click', async () => {
+                try {
+                    // Create table element
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-bordered');
 
-                // Create table body
-                const tableBody = document.createElement('tbody');
-                candidates.forEach(candidate => {
-                    const row = document.createElement('tr');
-                    const fields = [
-                        candidate.candidateId,
-                        candidate.fname,
-                        candidate.c_rank,
-                        candidate.c_vessel,
-                        candidate.avb_date
-                    ];
-                    fields.forEach(field => {
-                        const cell = document.createElement('td');
-                        cell.textContent = field;
-                        cell.classList.add('text-center');
-                        row.appendChild(cell);
+                    // Create table header
+                    const tableHeader = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    const headers = ['Candidate ID', 'Name', 'Rank', 'Vessel', 'Available Date'];
+                    headers.forEach(headerText => {
+                        const header = document.createElement('th');
+                        header.textContent = headerText;
+                        header.scope = 'col';
+                        header.classList.add('text-center');
+                        headerRow.appendChild(header);
                     });
-                    tableBody.appendChild(row);
-                });
-                table.appendChild(tableBody);
+                    tableHeader.appendChild(headerRow);
+                    table.appendChild(tableHeader);
 
-                // Export to Excel
-                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                await XLSX.writeFile(wb, 'availableCandidates.xlsx');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-            }
-        });
-        tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+                    // Create table body
+                    const tableBody = document.createElement('tbody');
+                    candidates.forEach(candidate => {
+                        const row = document.createElement('tr');
+                        const fields = [
+                            candidate.candidateId,
+                            candidate.fname,
+                            candidate.c_rank,
+                            candidate.c_vessel,
+                            candidate.avb_date
+                        ];
+                        fields.forEach(field => {
+                            const cell = document.createElement('td');
+                            cell.textContent = field;
+                            cell.classList.add('text-center');
+                            row.appendChild(cell);
+                        });
+                        tableBody.appendChild(row);
+                    });
+                    table.appendChild(tableBody);
+
+                    // Export to Excel
+                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                    await XLSX.writeFile(wb, 'availableCandidates.xlsx');
+                } catch (error) {
+                    console.error('Error exporting to Excel:', error);
+                }
+            });
+            tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 document.getElementById('availableCandidatesForm').addEventListener('submit', handleAvailableCandidatesSubmit);
@@ -1100,6 +889,16 @@ medicalCandidates.forEach(candidate => {
     medicalTableBody.appendChild(createMedicalRow(candidate));
 });
 
+// Check if the user has access to reports
+const token = localStorage.getItem('token');
+const decodedToken = decodeToken(token);
+const reports = decodedToken.reports;
+
+// Hide export buttons if the user has access to reports
+if (reports) {
+    document.getElementById('exportDocumentCandidates').style.display = 'block';
+    document.getElementById('exportMedicalCandidates').style.display = 'block';
+}
 
     } catch (error) {
         console.error(error);
@@ -1107,6 +906,7 @@ medicalCandidates.forEach(candidate => {
         alert('An error occurred while fetching data. Please try again later.');
     }
 }
+
 
 
 
@@ -1156,72 +956,79 @@ async function handleOnBoardSubmit(event) {
             tableBody.appendChild(row);
         });
 
-        // Add export to Excel button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
-        exportButton.addEventListener('click', async () => {
-            try {
-                // Create table element
-                const table = document.createElement('table');
-                table.classList.add('table', 'table-bordered');
+        // Check if the user has access to reports
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
 
-                // Create table header
-                const tableHeader = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                const headers = ['Candidate ID', 'Name', 'Rank', 'Nationality', 'Date of Birth', 'Age', 'Document Number', 'Sign On Date', 'Sign On Port', 'Vessel'];
-                headers.forEach(headerText => {
-                    const header = document.createElement('th');
-                    header.textContent = headerText;
-                    header.scope = 'col';
-                    header.classList.add('text-center');
-                    headerRow.appendChild(header);
-                });
-                tableHeader.appendChild(headerRow);
-                table.appendChild(tableHeader);
+        if (reports === true) {
+            // Add export to Excel button
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+            exportButton.addEventListener('click', async () => {
+                try {
+                    // Create table element
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-bordered');
 
-                // Create table body
-                const tableBody = document.createElement('tbody');
-                onboardCandidates.forEach(candidate => {
-                    const row = document.createElement('tr');
-                    const fields = [
-                        candidate.candidateId,
-                        `${candidate.fname} ${candidate.lname}`,
-                        candidate.c_rank,
-                        candidate.nationality,
-                        candidate.dob,
-                        calculateAge(candidate.dob),
-                        candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : '',
-                        candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
-                        candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : '',
-                        candidate.c_vessel
-                    ];
-                    fields.forEach(field => {
-                        const cell = document.createElement('td');
-                        cell.textContent = field;
-                        cell.classList.add('text-center');
-                        row.appendChild(cell);
+                    // Create table header
+                    const tableHeader = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    const headers = ['Candidate ID', 'Name', 'Rank', 'Nationality', 'Date of Birth', 'Age', 'Document Number', 'Sign On Date', 'Sign On Port', 'Vessel'];
+                    headers.forEach(headerText => {
+                        const header = document.createElement('th');
+                        header.textContent = headerText;
+                        header.scope = 'col';
+                        header.classList.add('text-center');
+                        headerRow.appendChild(header);
                     });
-                    tableBody.appendChild(row);
-                });
-                table.appendChild(tableBody);
+                    tableHeader.appendChild(headerRow);
+                    table.appendChild(tableHeader);
 
-                // Export to Excel
-                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                await XLSX.writeFile(wb, 'onboardCandidates.xlsx');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-            }
-        });
+                    // Create table body
+                    const tableBody = document.createElement('tbody');
+                    onboardCandidates.forEach(candidate => {
+                        const row = document.createElement('tr');
+                        const fields = [
+                            candidate.candidateId,
+                            `${candidate.fname} ${candidate.lname}`,
+                            candidate.c_rank,
+                            candidate.nationality,
+                            candidate.dob,
+                            calculateAge(candidate.dob),
+                            candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : '',
+                            candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
+                            candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : '',
+                            candidate.c_vessel
+                        ];
+                        fields.forEach(field => {
+                            const cell = document.createElement('td');
+                            cell.textContent = field;
+                            cell.classList.add('text-center');
+                            row.appendChild(cell);
+                        });
+                        tableBody.appendChild(row);
+                    });
+                    table.appendChild(tableBody);
 
-        // Append export button above the table
-        const tableContainer = document.getElementById('onBoardTable');
-        tableContainer.parentNode.insertBefore(exportButton, tableContainer);
+                    // Export to Excel
+                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+                    await XLSX.writeFile(wb, 'onboardCandidates.xlsx');
+                } catch (error) {
+                    console.error('Error exporting to Excel:', error);
+                }
+            });
+
+            // Append export button above the table
+            const tableContainer = document.getElementById('onBoardTable');
+            tableContainer.parentNode.insertBefore(exportButton, tableContainer);
+        }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -1335,7 +1142,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 
 async function handleCrewList(event) {
     event.preventDefault();
- 
+
     try {
         const startDate = document.getElementById('startDatecl').value;
         const endDate = document.getElementById('endDatecl').value;
@@ -1375,20 +1182,28 @@ async function handleCrewList(event) {
             crewListTableBody.appendChild(row);
         });
 
-        // Add export to Excel button above the table
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
-        exportButton.addEventListener('click', () => {
-            exportCrewListToExcel(crewlistCandidates);
-        });
+        // Check if the user has access to reports
+        const token = localStorage.getItem('token');
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
 
-        const crewListTable = document.getElementById('crewlisttable');
-        crewListTable.parentNode.insertBefore(exportButton, crewListTable);
+        if (reports === true) {
+            // Add export to Excel button above the table
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.classList.add('btn', 'btn-light', 'mb-3', 'text-success');
+            exportButton.addEventListener('click', () => {
+                exportCrewListToExcel(crewlistCandidates);
+            });
+
+            const crewListTable = document.getElementById('crewlisttable');
+            crewListTable.parentNode.insertBefore(exportButton, crewListTable);
+        }
     } catch (error) {
         console.error("Error handling crew list:", error);
     }
 }
+
 
 function exportCrewListToExcel(crewlistCandidates) {
     try {
@@ -1501,12 +1316,20 @@ const handleReliefPlan = async (event) => {
         // Display relief plan data in the table
         displayReliefPlanTable(reliefPlanData);
         
-        // Add export button dynamically
-        addExportButton();
+        // Check if the user has access to reports
+        const token = localStorage.getItem('token');
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
+
+        if (reports === true) {
+            // Add export button dynamically
+            addExportButton();
+        }
     } catch (error) {
         console.error('Error fetching relief plan data:', error);
     }
 };
+
 
 const fetchReliefPlan = async (startDate, endDate) => {
     try {
@@ -1867,3 +1690,19 @@ function formatDate(dateString) {
     const formattedDate = date.toISOString().split('T')[0];
     return formattedDate;
   }
+
+  document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+    localStorage.clear();
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+  
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+  });
