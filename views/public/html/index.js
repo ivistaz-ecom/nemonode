@@ -93,14 +93,127 @@ try {
     const callCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/call-count', {
         headers: { "Authorization": token }
     });
-    // console.log(callCountResponse)
+    
     const callCountData = callCountResponse.data;
-    document.getElementById('callCount').innerText = callCountData.call_count;
-    document.getElementById('callCount').className = 'btn-primary badge';
+    const callCountFromAPI = callCountData.call_count;
+
+    // Get the call count from the calls model
+    const callCountFromModelResponse = await axios.get('https://nemo.ivistaz.co/candidate/percentage');
+    const callCountFromModel = callCountFromModelResponse.data.call_count;
+    
+    // Calculate the difference in percentages
+    const percentageChange = callCountFromAPI - callCountFromModel;
+
+    // Display the percentage change
+    console.log('Percentage change:', percentageChange);
+    
+    // Update the UI with the call count
+    document.getElementById('callCount').innerText = callCountData.call_count; // Displaying call count
+    document.getElementById('callCount').className = 'text-dark';
+
+    // Update the UI with the percentage change
+    const percentageChangeElement = document.getElementById('percentageChange');
+    percentageChangeElement.textContent = `${Math.abs(percentageChange)}`;
+
+    // Update the color of the arrow based on the value of percentageChange
+    const arrowIcon = document.getElementById('arrowIcon');
+    if (percentageChange > 0) {
+        arrowIcon.className = 'bx bx-up-arrow-alt text-success'; // Green arrow
+    } else if (percentageChange < 0) {
+        arrowIcon.className = 'bx bx-down-arrow-alt text-danger'; // Red arrow
+    } else {
+        arrowIcon.className = 'bx bx-minus text-secondary'; // Grey arrow
+    }
 } catch (error) {
     console.error('Error fetching call count:', error);
 }
 
+try {
+  // Fetch status count data
+  const statusCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/statuscount', {
+        headers: { "Authorization": token }
+    });
+    const statusCountData = statusCountResponse.data.counts[0]; // Accessing the first element of the counts array
+    console.log(statusCountData);
+
+    const proposedCountFromAPI = statusCountData.proposed_count;
+    const approvedCountFromAPI = statusCountData.approved_count;
+    const joinedCountFromAPI = statusCountData.joined_count;
+    const rejectedCountFromAPI = statusCountData.rejected_count;
+  // Fetch percentage data
+  const callCountFromModelResponse = await axios.get('https://nemo.ivistaz.co/candidate/percentage');
+  const callCountFromModel = callCountFromModelResponse.data.call_count;
+  console.log(callCountFromModelResponse)
+  // Calculate the difference in percentages  
+  const proposedPercentageChange = proposedCountFromAPI - callCountFromModelResponse.data.proposed_count;
+  const approvedPercentageChange = approvedCountFromAPI - callCountFromModelResponse.data.approved_count;
+  const joinedPercentageChange = joinedCountFromAPI - callCountFromModelResponse.data.joined_count;
+  const rejectedPercentageChange = rejectedCountFromAPI - callCountFromModelResponse.data.rejected_count;
+
+  // Display the percentage changes
+  document.getElementById('proposedPercentageChange').innerText = Math.abs(proposedPercentageChange)
+  document.getElementById('approvedPercentageChange').innerText = Math.abs(approvedPercentageChange)
+  document.getElementById('joinedPercentageChange').innerText = Math.abs(joinedPercentageChange)
+  document.getElementById('rejectedPercentageChange').innerText = Math.abs(rejectedPercentageChange)
+
+
+  // Update the UI with the percentage changes (You'll have to adapt this part based on your UI structure)
+  // For example:
+  document.getElementById('proposedCount').innerText = proposedCountFromAPI;
+  document.getElementById('approvedCount').innerText = approvedCountFromAPI;
+  document.getElementById('joinedCount').innerText = joinedCountFromAPI;
+  document.getElementById('rejectedCount').innerText = rejectedCountFromAPI;
+
+  // Update the UI based on the percentage changes (You'll have to adapt this part based on your UI structure)
+  // For example:
+  // Update the color of the arrow based on the value of percentageChange
+  const proposedArrowIcon = document.getElementById('proposedArrowIcon');
+  const approvedArrowIcon = document.getElementById('approvedArrowIcon');
+  const joinedArrowIcon = document.getElementById('joinedArrowIcon');
+  const rejectedArrowIcon = document.getElementById('rejectedArrowIcon');
+
+  if (proposedPercentageChange > 0) {
+    proposedArrowIcon.className = 'bx bx-up-arrow-alt text-success'; // Green arrow
+} else if (proposedPercentageChange < 0) {
+    proposedArrowIcon.className = 'bx bx-down-arrow-alt text-danger'; // Red arrow
+} else {
+    proposedArrowIcon.className = 'bx bx-minus text-secondary'; // Grey arrow
+}
+
+
+ if (approvedPercentageChange > 0) {
+  approvedArrowIcon.className = 'bx bx-up-arrow-alt text-success'; // Green arrow
+} else if (approvedPercentageChange < 0) {
+  approvedArrowIcon.className = 'bx bx-down-arrow-alt text-danger'; // Red arrow
+} else {
+  approvedArrowIcon.className = 'bx bx-minus text-secondary'; // Grey arrow
+}
+
+
+if (joinedPercentageChange > 0) {
+  joinedArrowIcon.className = 'bx bx-up-arrow-alt text-success'; // Green arrow
+} else if (joinedPercentageChange < 0) {
+  joinedArrowIcon.className = 'bx bx-down-arrow-alt text-danger'; // Red arrow
+} else {
+  joinedArrowIcon.className = 'bx bx-minus text-secondary'; // Grey arrow
+}
+
+
+if (rejectedPercentageChange > 0) {
+  rejectedArrowIcon.className = 'bx bx-up-arrow-alt text-success'; // Green arrow
+} else if (rejectedPercentageChange < 0) {
+  rejectedArrowIcon.className = 'bx bx-down-arrow-alt text-danger'; // Red arrow
+} else {
+  rejectedArrowIcon.className = 'bx bx-minus text-secondary'; // Grey arrow
+}
+  // Similarly, do for approved, joined, and rejected counts.
+
+} catch (error) {
+  console.error('Error fetching status count:', error);
+}
+
+
+// Call the function to fetch percentage change
   const userDisplay = document.getElementById("user_name");
   userDisplay.innerHTML += localStorage.getItem('username');
   const hasUserManagement = decodedToken.userManagement;

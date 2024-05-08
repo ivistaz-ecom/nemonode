@@ -1801,6 +1801,8 @@ const getCallCount = async (req, res) => {
                 ]
             }
         });
+        
+        // Update the call_count field in the Calls model
 
         // Send the call_count value as a JSON response
         res.json({ call_count: callCount });
@@ -1809,6 +1811,65 @@ const getCallCount = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+const getStatusCount = async (req, res) => {
+    try {
+        const currentTime = new Date();
+        const yesterday = new Date(currentTime);
+        yesterday.setDate(yesterday.getDate() - 1); // Get the timestamp for yesterday
+
+        // Fetch the counts of discussions created yesterday
+        const counts = await Discussion.findAll({
+            attributes: [
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Approved%" THEN 1 ELSE NULL END')), 'approved_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Joined%" THEN 1 ELSE NULL END')), 'joined_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Rejected%" THEN 1 ELSE NULL END')), 'rejected_count']
+            ],
+            where: {
+                created_date: {
+                    [Op.between]: [yesterday, currentTime] // Filter discussions created yesterday
+                }
+            },
+            raw: true
+        });
+
+        // Send the counts as a JSON response
+        res.json({ counts });
+    } catch (error) {
+        console.error('Error fetching yesterday\'s discussion counts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const percentage = async (req, res) => {
+    try {
+        // Fetch the counts from the Calls model
+        const counts = await Calls.findAll({
+            attributes: ['call_count', 'proposed_count', 'approved_count', 'joined_count', 'rejected_count'],
+            limit: 1 // Limit the result to one record
+        });
+
+        // If counts is not empty, extract the first element (which should be the only one)
+        const countRecord = counts.length ? counts[0] : null;
+
+        // If a record was found, send the counts as a JSON response
+        if (countRecord) {
+            res.json({
+                call_count: countRecord.call_count,
+                proposed_count: countRecord.proposed_count,
+                approved_count: countRecord.approved_count,
+                joined_count: countRecord.joined_count,
+                rejected_count: countRecord.rejected_count
+            });
+        } else {
+            res.status(404).json({ error: 'Counts not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching counts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 
 
@@ -2265,6 +2326,8 @@ module.exports = {
     onBoard,
     crewList,
     reliefPlan,
-    mis
+    mis,
+    percentage,
+    getStatusCount
     
 };
