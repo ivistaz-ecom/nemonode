@@ -2,7 +2,7 @@ const User = require('../models/user');
 const bcrypt = require("bcrypt")
 const jwt=require("jsonwebtoken")
 const sequelize=require('../util/database')
-const { Op, where } = require('sequelize');
+const { Op } = require('sequelize');
 
 
 
@@ -17,13 +17,10 @@ function generateAccessToken(id, userName,userEmail,
   reports_all,
   userManagement ,
   vendorManagement,
-  master_create,
-  staff,
-  deletes,
-  logged
+  master_create
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
-    master_create:master_create,staff:staff,deletes:deletes,logged:logged
+    master_create:master_create
   }, 'secretkey');
 }
 
@@ -59,8 +56,7 @@ const create_user = async (req, res, next) => {
       current_login,
       last_login,
       company_login,
-      created_date,
-      staff
+      created_date
 
     } = req.body;
 
@@ -99,9 +95,7 @@ const create_user = async (req, res, next) => {
       current_login,
       last_login,
       company_login,
-      created_date,
-      staff,
-      logged:false,
+      created_date
         },{transaction:t});
         await t.commit();
         res.status(201).json({ message: "Successfully Created New User", user: newUser });
@@ -125,51 +119,57 @@ const create_user = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-      const { userName, userPassword } = req.body;
+    const { userName, userPassword } = req.body 
 
-      // Find the user with the provided username
-      const user = await User.findOne({ where: { userName: userName } });
+    // Find the user with the provided username
+    const user = await User.findOne({ where: { userName: userName } });
 
-      if (user) {
-          // Compare the provided password with the stored hashed password in the database
-          bcrypt.compare(userPassword, user.userPassword, async (err, passwordMatch) => {
-              if (err) {
-                  console.error('Error comparing passwords:', err);
-                  return res.status(500).json({ success: false, message: 'Internal Server Error' });
-              }
+    if (user) {
+      // Compare the provided password with the stored hashed password in the database
+      bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
+        if (err) {
+          console.error('Error comparing passwords:', err);
+          return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
 
-              if (passwordMatch) {
-                  // Password is correct, generate JWT token
-                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged);
-                  console.log(token);
-
-                  // Update logged status to true
-                  await user.update({ logged: true });
-
-                  return res.status(200).json({
-                      success: true,
-                      message: 'User Logged in Successfully',
-                      token: token,
-                      username: user.userName,
-                      userId: user.id,
-                  });
-              } else {
-                  // Password is invalid
-                  return res.status(400).json({ success: false, message: 'Password is invalid' });
-              }
+        if (passwordMatch) {
+          // Password is correct, generate JWT token
+          // console.log("}}}}}}}}}}}}}}}}}}}}",user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.userManagement,user.vendorManagement,user.reports,user.reports_all,user.master_create)
+          const token = generateAccessToken(user.id, user.userName,user.userEmail, user.disableUser,user.userGroup,user.readOnly,user.Write,user.imports,user.exports,user.reports,user.reports_all,user.userManagement,user.vendorManagement,user.master_create);
+          console.log(token);
+          return res.status(200).json({
+            success: true,
+            message: 'User Logged in Successfully',
+            token: token,
+            username: user.userName,
+            userId:user.id,
+            // master_create:user.master_create,
+            // disableUser:user.disableUser,
+            // userGroup:user.userGroup,
+            // readOnly:user.readOnly,
+            // Write:user.Write,
+           
+            // imports:user.imports,
+            // exports:user.exports,
+            // userManagement:user.userManagement,
+            // reports:user.reports,
+            // reports_all:user.reports_all
+            
           });
-      } else {
-          // User does not exist
-          return res.status(404).json({ success: false, message: 'User does not exist' });
-      }
+        } else {
+          // Password is invalid
+          return res.status(400).json({ success: false, message: 'Password is invalid' });
+        }
+      });
+    } else {
+      // User does not exist
+      return res.status(404).json({ success: false, message: 'User does not exist' });
+    }
   } catch (err) {
-      console.error('Error during login:', err);
-      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error('Error during login:', err);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
-
-
-
 
 const edit_user = async (req, res) => {
   const t = await sequelize.transaction();
@@ -211,8 +211,7 @@ const edit_user = async (req, res) => {
       user.last_login=userData.last_login,
       user.company_login=userData.company_login,
       user.created_date=userData.created_date
-      user.staff = userData.staff
-      user.logged = user.logged
+
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
       const saltrounds = 10;
@@ -263,10 +262,7 @@ const get_user = async(req,res)=>{
       const userId = req.user.id;
       console.log(userId);
       let userGroup;
-      let staff;
-      let userManagement;
-      let readOnly;
-      let email;
+  
       // Fetch user data by ID
       const user = await User.findByPk(userId);
   
@@ -275,45 +271,32 @@ const get_user = async(req,res)=>{
       }
   
       userGroup = user.dataValues.userGroup;
-      staff = user.dataValues.staff;
-      userManagement = user.dataValues.userManagement;
-      readOnly = user.dataValues.readOnly;
-      email = user.dataValues.userEmail;
       console.log('User Group:', userGroup);
   
       if (userGroup === 'admin') {
-        if (userManagement) {
-          // If the user is an admin with userManagement, fetch all users
-          const allUsers = await User.findAll({where:{
-            disableUser: false // Exclude users with disableUser set to true
-
-          }});
-          res.status(200).json({ users: allUsers, success: true });
-        } else if (staff) {
-          const allUsers = await User.findAll({ where: { id: userId } });
-          // If the user is an admin with staff, display only the userId
-          res.status(200).json({ users: allUsers, success: true });
-        } else if (staff && userManagement) {
-          // If the user is an admin with both staff and userManagement, fetch all users
-          const allUsers = await User.findAll({where:{
-            disableUser: false // Exclude users with disableUser set to true
-
-          }});
-          res.status(200).json({ users: allUsers, success: true });
-        } else {
-          // Handle other cases if needed
-        }
-      } else if (userGroup === 'vendor' && readOnly) {
-        // If the user is a vendor, fetch only the users associated with them
+        // If the user is an admin, fetch only their own data (excluding disabled users)
         const allUsers = await User.findAll({
           where: {
-            [Op.or]: [
-              { id: userId },
-              { master_create: { [Op.like]: `%${email}%` } } // Include users whose email is in master_create
-            ],
             disableUser: false // Exclude users with disableUser set to true
           }
         });
+  
+        res.status(200).json({ users: allUsers, success: true });
+      }
+       else if (userGroup === 'vendor') {
+        // If the user is a vendor, fetch only the users associated with them
+        const allUsers = await User.findAll({
+          where: {
+            id:userId,
+            disableUser: false // Exclude users with disableUser set to true
+          }
+        });
+  
+        res.status(200).json({ users: allUsers, success: true });
+      }
+       else if (userGroup === 'SA') {
+        // If the user is SA, fetch all users (including disabled)
+        const allUsers = await User.findAll();
   
         res.status(200).json({ users: allUsers, success: true });
       } else {
@@ -362,66 +345,20 @@ const get_user = async(req,res)=>{
   };
   
   
-const userDropdown=async (req, res) => {
-  try {
-      // Fetch all user data
-      const users = await User.findAll();
-
-      // Send the user data to the client
-      res.json(users);
-  } catch (error) {
-      console.error('Error fetching user data:', error);
-      res.status(500).json({ error: 'Internal server error' });
-  }
-}
-
-const updateLogged = async (req, res) => {
-  const userId = parseInt(req.params.userId);
-
-  try {
-      // Find the user by userId
-      const user = await User.findByPk(userId);
-
-      if (user) {
-          // Update the 'logged' status to true
-          await User.update({ logged: true }, {
-              where: {
-                  id: userId
-              }
-          });
-
-          // Respond with success message
-          res.json({ success: true, message: 'Logged status updated successfully' });
-      } else {
-          // User not found
-          res.status(404).json({ success: false, message: 'User not found' });
-      }
-  } catch (error) {
-      // Handle errors
-      console.error('Error updating logged status:', error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-};
-
-const updateLogout=async (req, res, next) => {
-  try {
-    const userId = parseInt(req.params.userId);
-
-    // Update the logged field to false for the user with the provided userId
-    const [updatedRows] = await User.update({ logged: false }, {
-      where: { id: userId }
-    });
-
-    if (updatedRows > 0) {
-      return res.status(200).json({ success: true, message: 'User logged out successfully' });
-    } else {
-      return res.status(404).json({ success: false, message: 'User not found' });
+  const userDropdown=async (req, res) => {
+    try {
+        // Fetch all user data
+        const users = await User.findAll();
+  
+        // Send the user data to the client
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  } catch (err) {
-    console.error('Error during logout:', err);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
-};
+  
+
   
 module.exports = {
   create_user,
@@ -430,7 +367,5 @@ module.exports = {
   view_user,
   delete_user,
   get_user,
-  userDropdown,
-  updateLogged,
-  updateLogout
+  userDropdown
 };
