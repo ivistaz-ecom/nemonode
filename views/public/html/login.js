@@ -18,7 +18,7 @@ async function login(e) {
         };
 
         const response = await axios.post(
-            "https://nemo.ivistaz.co/user/login",
+            "https://nemonode.ivistaz.co/user/login",
             loginCredentials
         );
 
@@ -26,23 +26,19 @@ async function login(e) {
             const username = response.data.username;
             const token = response.data.token;
 
+            // Display the welcome message and loading spinner
+            welcomeUsername.textContent = username;
+            welcomeModal.show();
+
             // Save token and other data to localStorage
             localStorage.setItem("token", token);
             localStorage.setItem("username", username);
             localStorage.setItem("userId", response.data.userId);
 
-            // Update the logged value of the user to true
-            const userId = response.data.userId;
-            await axios.put(`https://nemo.ivistaz.co/user/${userId}/update-logged`, { logged: true });
-
-            // Display the welcome message and loading spinner
-            welcomeUsername.textContent = username;
-            welcomeModal.show();
-
             // Redirect to index page after a short delay (e.g., 2 seconds)
             setTimeout(() => {
                 window.location.href = "./indexpage.html";
-            }, 850);
+            },850);
         } else {
             console.error("Login failed:", response.data.message);
             // Handle login failure
@@ -54,7 +50,6 @@ async function login(e) {
         // Display an error message to the user
     }
 }
-
 
 function togglePassword() {
     const inputType = user_pass.type === "password" ? "text" : "password";
