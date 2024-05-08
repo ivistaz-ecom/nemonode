@@ -35,6 +35,7 @@ async function login(e) {
             localStorage.setItem("username", username);
             localStorage.setItem("userId", response.data.userId);
 
+            
             // Redirect to index page after a short delay (e.g., 2 seconds)
             setTimeout(() => {
                 window.location.href = "./indexpage.html";
