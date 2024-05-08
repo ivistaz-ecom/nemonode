@@ -131,13 +131,8 @@ const login = async (req, res, next) => {
       const user = await User.findOne({ where: { userName: userName } });
 
       if (user) {
-          if (user.logged) {
-              // User is already logged in, prompt the user to log out of all devices
-              return res.status(200).json({ success: false, message: 'Session exists' });
-          }
-
           // Compare the provided password with the stored hashed password in the database
-          bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
+          bcrypt.compare(userPassword, user.userPassword, async (err, passwordMatch) => {
               if (err) {
                   console.error('Error comparing passwords:', err);
                   return res.status(500).json({ success: false, message: 'Internal Server Error' });
@@ -149,7 +144,7 @@ const login = async (req, res, next) => {
                   console.log(token);
 
                   // Update logged status to true
-                  user.update({ logged: true });
+                  await user.update({ logged: true });
 
                   return res.status(200).json({
                       success: true,
@@ -172,6 +167,7 @@ const login = async (req, res, next) => {
       return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
+
 
 
 
