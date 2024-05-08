@@ -13,7 +13,6 @@ router.delete('/delete-user/:id', userControllers.delete_user);
 router.get('/get-user/:id',userControllers.get_user)
 router.get("/view-user",userAuthentication.authenticate,userControllers.view_user)
 router.get('/userdropdown',userControllers.userDropdown)
-router.put('/:userId/update-logged', userControllers.updateLogged);
-router.put('/:userId/logout', userControllers.updateLogout);
+
 
 module.exports = router;

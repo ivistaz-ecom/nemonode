@@ -89,5 +89,7 @@ router.get('/onboard',candidateControllers.onBoard)
 router.get('/crewlist',candidateControllers.crewList)
 router.get('/reliefplan',candidateControllers.reliefPlan)
 router.get('/mis',candidateControllers.mis)
+router.get('/percentage',candidateControllers.percentage)
+router.get('/statuscount',candidateControllers.getStatusCount)
 
 module.exports = router;
