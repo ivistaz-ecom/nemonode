@@ -1784,14 +1784,14 @@ const Reminder = async (req, res) => {
 const getCallCount = async (req, res) => {
     try {
         const currentTime = new Date();
-        const oneDayAgo = new Date(currentTime);
-        oneDayAgo.setDate(oneDayAgo.getDate() - 1); // Get the timestamp for 24 hours ago
+        const startOfDay = new Date(currentTime);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
 
-        // Fetch the count of discussions created within the last 24 hours
+        // Fetch the count of discussions created within the current day
         const callCount = await Discussion.count({
             where: {
                 created_date: {
-                    [Op.between]: [oneDayAgo, currentTime] // Filter discussions within the last 24 hours
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions within the current day
                 },
                 [Op.or]: [ // Filter discussions containing proposed, approved, joined, or rejected
                     { discussion: { [Op.like]: '%Proposed%' } },
@@ -1803,7 +1803,7 @@ const getCallCount = async (req, res) => {
         });
         
         // Update the call_count field in the Calls model
-
+        
         // Send the call_count value as a JSON response
         res.json({ call_count: callCount });
     } catch (error) {
@@ -1812,13 +1812,14 @@ const getCallCount = async (req, res) => {
     }
 }
 
+
 const getStatusCount = async (req, res) => {
     try {
         const currentTime = new Date();
-        const yesterday = new Date(currentTime);
-        yesterday.setDate(yesterday.getDate() - 1); // Get the timestamp for yesterday
+        const startOfDay = new Date(currentTime);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
 
-        // Fetch the counts of discussions created yesterday
+        // Fetch the counts of discussions created today
         const counts = await Discussion.findAll({
             attributes: [
                 [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
@@ -1828,7 +1829,7 @@ const getStatusCount = async (req, res) => {
             ],
             where: {
                 created_date: {
-                    [Op.between]: [yesterday, currentTime] // Filter discussions created yesterday
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
                 }
             },
             raw: true
@@ -1837,7 +1838,134 @@ const getStatusCount = async (req, res) => {
         // Send the counts as a JSON response
         res.json({ counts });
     } catch (error) {
-        console.error('Error fetching yesterday\'s discussion counts:', error);
+        console.error('Error fetching today\'s discussion counts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const getStatusData = async (req, res) => {
+    try {
+        const currentTime = new Date();
+        const startOfDay = new Date(currentTime);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+
+        // Fetch discussions created today based on their status
+        const Proposed = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                discussion: { [Op.like]: '%Proposed%' } // Filter discussions with status "Proposed"
+            },
+            raw: true
+        });
+
+        const Approved = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                discussion: { [Op.like]: '%Approved%' } // Filter discussions with status "Approved"
+            },
+            raw: true
+        });
+
+        const Joined = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                discussion: { [Op.like]: '%Joined%' } // Filter discussions with status "Joined"
+            },
+            raw: true
+        });
+
+        const Rejected = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                discussion: { [Op.like]: '%Rejected%' } // Filter discussions with status "Rejected"
+            },
+            raw: true
+        });
+
+        // Send the discussions data for each status separately as a JSON response
+        res.json({ 
+            Proposed, 
+            Approved, 
+            Joined, 
+            Rejected 
+        });
+    } catch (error) {
+        console.error('Error fetching today\'s discussions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}; 
+
+const getStatusDate = async (req, res) => {
+    try {
+        const { companyName, startDate, endDate } = req.query;
+        console.log(companyName,startDate,endDate)
+        // Convert start and end dates to Date objects
+        const startOfDay = new Date(startDate);
+        const endOfDay = new Date(endDate);
+        endOfDay.setHours(23, 59, 59, 999); // Set end time to end of day
+
+        // Fetch discussions created within the specified date range for the given company name
+        const Proposed = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, endOfDay]
+                },
+                discussion: { [Op.like]: '%Proposed%' },
+                companyname: companyName
+            },
+            raw: true
+        });
+
+        const Approved = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, endOfDay]
+                },
+                discussion: { [Op.like]: '%Approved%' },
+                companyname: companyName
+            },
+            raw: true
+        });
+
+        const Joined = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, endOfDay]
+                },
+                discussion: { [Op.like]: '%Joined%' },
+                companyname: companyName
+            },
+            raw: true
+        });
+
+        const Rejected = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, endOfDay]
+                },
+                discussion: { [Op.like]: '%Rejected%' },
+                companyname: companyName
+            },
+            raw: true
+        });
+
+        // Send the discussions data for each status separately as a JSON response
+        res.json({ 
+            Proposed, 
+            Approved, 
+            Joined, 
+            Rejected 
+        });
+    } catch (error) {
+        console.error('Error fetching discussions:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -2328,6 +2456,8 @@ module.exports = {
     reliefPlan,
     mis,
     percentage,
-    getStatusCount
+    getStatusCount,
+    getStatusData,
+    getStatusDate
     
 };
