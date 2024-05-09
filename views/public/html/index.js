@@ -1,3 +1,10 @@
+function decodeToken(token) {
+  // Implementation depends on your JWT library
+  // Here, we're using a simple base64 decode
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(atob(base64));
+}
 document.addEventListener('DOMContentLoaded', async function () {
   // Show spinner
   // document.getElementById('spinner').style.display = 'flex';
@@ -383,13 +390,7 @@ const fetchAndLogRankCounts = async () => {
 
 
 
-function decodeToken(token) {
-    // Implementation depends on your JWT library
-    // Here, we're using a simple base64 decode
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
-}
+
 const token = localStorage.getItem('token'); // Get the JWT token from storage
 const decodedToken = decodeToken(token);
 const userRole = decodedToken.userGroup; // Assuming your user role is stored in userGroup
@@ -537,3 +538,25 @@ function getStatusBadgeClass(avb_date) {
 }
 
 // Call the function to populate the table when the page loads
+// Function to determine whether it's day or night
+function isDayTime() {
+  const currentTime = new Date();
+  const hours = currentTime.getHours();
+  return hours >= 6 && hours < 18; // Assume day time is between 6 AM and 6 PM
+}
+
+// Function to set the icon based on day or night
+function setIcon() {
+  const iconElement = document.getElementById('icon');
+  const isDay = isDayTime();
+  if (isDay) {
+      iconElement.classList.add('bx-sun');
+      iconElement.classList.remove('bx-moon');
+  } else {
+      iconElement.classList.add('bx-moon');
+      iconElement.classList.remove('bx-sun');
+  }
+}
+
+// Call setIcon function initially
+setIcon();

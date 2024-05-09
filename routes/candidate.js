@@ -91,5 +91,7 @@ router.get('/reliefplan',candidateControllers.reliefPlan)
 router.get('/mis',candidateControllers.mis)
 router.get('/percentage',candidateControllers.percentage)
 router.get('/statuscount',candidateControllers.getStatusCount)
+router.get('/statusdata',candidateControllers.getStatusData)
+router.get('/statusdate',candidateControllers.getStatusDate)
 
 module.exports = router;
