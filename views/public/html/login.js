@@ -16,16 +16,16 @@ async function login(e) {
             userName: user_id.value.trim(),
             userPassword: user_pass.value.trim(),
         };
-
+        console.log(loginCredentials)
         const response = await axios.post(
             "https://nemo.ivistaz.co/user/login",
             loginCredentials
         );
-
+            console.log(response)
         if (response.data.success) {
             const username = response.data.username;
             const token = response.data.token;
-
+            
             // Display the welcome message and loading spinner
             welcomeUsername.textContent = username;
             welcomeModal.show();
