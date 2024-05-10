@@ -1201,191 +1201,8 @@
                     
                                 <!-- Discussion Content -->
                                 <div id="discussionContent" style="display: none;">
-                                  <div class="mt-3">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card ">
-                                                <h5 class="card-header">Last Call</h5>
-                                                <div class="card-body">
-                                                  <div id="discussionContainer"></div>
-                                                    <form id="discussionForm">
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-6">
-                                                                <label for="avb_date" class="form-label">Available Date</label>
-                                                                <input type="date" class="form-control" id="avb_date" required />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label for="las_date" class="form-label">Last Date</label>
-                                                                <input type="date" class="form-control" id="las_date" required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-6">
-                                                                <label for="last_salary" class="form-label">Last Salary</label>
-                                                                <input type="text" class="form-control" id="last_salary" required />
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label for="last_company" class="form-label">Last Company</label>
-                                                                <input type="text" class="form-control" id="last_company" required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-6">
-                                                                <label for="rank" class="form-label">Select Rank</label>
-                                                                <select id="rank" class="form-select" required>
-                                                                    <!-- Options will be dynamically added using JavaScript -->
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label for="vessel_types" class="form-label">Select Vessel</label>
-                                                                <select id="vessel_types" class="form-select" required>
-                                                                    <!-- Options will be dynamically added using JavaScript -->
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-6 mt-0">
-                                                                <label for="status" class="form-label">Status</label>
-                                                                <select id="status" name="status" class="form-select" required>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="inactive">Inactive</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label for="reemploymentStatus" class="form-label">Re-Employment</label>
-                                                                <select id="reemploymentStatus" name="reemploymentStatus" class="form-select">
-                                                                    <option value="" default selected disabled>-- Select NTBR --</option>
-                                                                    <option value="notReemployedByNautilus">Not to be re-employed by Nautilus</option>
-                                                                    <option value="notReemployedByOwnersClients">Not to be re-employed by the owners/clients</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end">
-                                                            <button type="submit" class="btn btn-primary">UPDATE</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                
-                                        <div class="col-md-6 mt-md-0 mt-3">
-                                            <div class="card h-100">
-                                                <div class="p-4">
-                                                  <form id="discussionPlusForm">
-                                                    <h5>Status</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio" id="proposed" name="status" class="form-check-input">
-                                                                <label class="form-check-label" for="proposed">Proposed</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio" id="joined" name="status" class="form-check-input">
-                                                                <label class="form-check-label" for="joined">Joined</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio" id="approved" name="status" class="form-check-input">
-                                                                <label class="form-check-label" for="approved">Approved</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="radio" id="rejected" name="status" class="form-check-input">
-                                                                <label class="form-check-label" for="rejected">Rejected</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                
-                                                    <!-- Additional input boxes for company dropdown, date, and reason -->
-                                                    <div class="row mt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3" id="companyDropdown" style="display: none;">
-                                                                <label for="company_name" class="form-label">Company Name</label>
-                                                                <select class="form-select" id="company_name" name="company_name">
-                                                                    <option value="">Select Company</option>
-                                                                    <!-- Add options here -->
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3" id="dateInput" style="display: none;">
-                                                                <label for="status_date" class="form-label">Status Date</label>
-                                                                <input type="date" id="status_date" class="form-control" name="status_date">
-                                                            </div>
-                                                            <div class="mb-3" id="reasonInput" style="display: none;">
-                                                                <label for="reason" class="form-label">Reason</label>
-                                                                <input type="text" id="reason" class="form-control" name="reason">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of additional input boxes -->
-                                                <hr>
-                                                    <div class="col-md-12 mb-2">
-                                                      <div class="">
-                                                            <label for="basic_comments" class="form-label">Comments </label>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <input type="text" id="basic_comments" class="form-control" name="basic_comments">
-                                                                </div>
-                                                                <div class="col-md-6 mt-md-0 mt-2">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" id="special_comments_checkbox" name="special_comments_checkbox" class="form-check-input">
-                                                                        <label class="form-check-label" for="special_comments_checkbox">Special Comment</label>
-                                                                    </div>
-                                                                    <div class="form-check mt-2">
-                                                                        <input type="checkbox" id="set_reminder_checkbox" class="form-check-input">
-                                                                        <label class="form-check-label" for="set_reminder_checkbox">Set Reminder</label>
-                                                                    </div>
-                                                                    <div class="form-check mt-2">
-                                                                        <input type="checkbox" id="reference_check_checkbox" class="form-check-input">
-                                                                        <label class="form-check-label" for="reference_check_checkbox">Reference Check</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                   
-                                                
-                                                    <!-- Additional input fields for Set Reminder and Reference Check -->
-                                                    <div class="row mt-3">
-                                                        <div class="col-md-6" id="reminder_date_input" style="display: none;">
-                                                          <div class="mb-3">
-                                                            <label for="reminder_date" class="form-label">Reminder Date</label>
-                                                            <input type="date" id="reminder_date" class="form-control" name="reminder_date">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                          <label for="reminder_text" class="form-label">Reminder text</label>
-                                                          <input type="text" id="reminder_text" class="form-control" name="reminder_text">
-                                                      </div>
-                  
-                                                        </div>
-                                                        <div class="col-md-6" id="reference_check_text_input" style="display: none;">
-                                                            <div class="mb-3">
-                                                                <label for="reference_check_text" class="form-label">Reference Check Text</label>
-                                                                <input type="text" id="reference_check_text" class="form-control" name="reference_check_text">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of additional input fields for Set Reminder and Reference Check -->
-                                                
-                                                    <div class="card-footer text-end ">
-                                                        <button type="submit" class="btn btn-primary">SUBMIT</button>
-                                                    </div>
-                                                    
-                                                </form>
-                                                
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="border border-secondary rounded-3 p-3 mt-5">  <h4>Discussions :</h4>
+                                 
+                                <div class="border border-secondary rounded-3 p-3 mt-3">  <h4>Discussions :</h4>
                                   <div id="comments-section"></div>
                                   <div id="fetchedcomments"></div>
                               </div>
@@ -1393,28 +1210,12 @@
                             
                                 
                                 </div>
-                                </div>
-                                
-                             
-                              
-                             
-                           </div>
-                          
-                           
-                      </div>
-                  
-            </form>
-                                    <!-- Add more discussion fields... -->
-                                </div>
-                    
-                                <!-- Contract Content -->
-                                
                                 <div id="contractContent" style="display: none;">
 
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                    <div class="w-100 ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Contract table</h4>
+                                          <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-3">Contract table</h4>
                                 
                                             <div class="table-responsive text-center">
                                               <table id="contractTable" class="table table-sm table-striped table-bordered " style="font-size: 12px;">
@@ -1457,13 +1258,18 @@
                     
                     
                                 </div>
+                                
+                    
+                                <!-- Contract Content -->
+                                
+                                
                     
                                 <!-- Document Content -->
                                 <div id="documentContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                    <div class="w-100 ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Document table</h4>
+                                          <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-3">Document table</h4>
                                 
                                             <div class="table-responsive text-center">
                                                 <table id="documentTable" class="table table-sm table-striped table-bordered " style="font-size: 12px;">
@@ -1495,10 +1301,10 @@
                     
                                 <!-- Bank Content -->
                                 <div id="bankContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                    <div class="w-100 ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Bank table</h4>
+                                          <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-3">Bank table</h4>
                                             <div id="pagination-controls"></div>
                                 
                                             <div class="table-responsive">
@@ -1532,10 +1338,10 @@
                     
                                 <!-- Travel Content -->
                                 <div id="travelContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                    <div class="w-100 ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Travel table</h4>
+                                          <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-3">Travel table</h4>
                                 
                                             <div class="table-responsive">
                                                 <table id="travelTable" class="table table-sm table-bordered table-striped" style="font-size: 12px;">
@@ -1566,10 +1372,10 @@
                     
                                 <!-- Medical Content -->
                                 <div id="medicalContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3">
+                                  <div class="content-wrapper  p-3 mb-5 rounded-3">
+                                    <div class="w-100 ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">Medical table</h4>
+                                          <h4 class="text-center mb-0 rounded-0 shadow-none border border-dark  card p-3">Medical table</h4>
                                             <div id="pagination-controls"></div>
                                 
                                             <div class="table-responsive text-center">
@@ -1599,10 +1405,10 @@
                     
                                 <!-- NKD Content -->
                                 <div id="nkdContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                    <div class="w-100 mt-3 ">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                    <div class="w-100  ">
                                         <div class="">
-                                          <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark  card p-3">NKD table</h4>
+                                          <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-3">NKD table</h4>
                                             <div id="pagination-controls"></div>
                                 
                                             <div class="table-responsive text-center">
@@ -1628,10 +1434,10 @@
                                 
                                 </div>
                                 <div id="seaServiceContent" style="display: none;">
-                                  <div class="content-wrapper mt-3 rounded-3">
-                                      <div class="w-100 mt-3">
+                                  <div class="content-wrapper p-3 mb-5 rounded-3">
+                                      <div class="w-100 ">
                                           <div class="">
-                                              <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark card p-3">Sea Service Records</h4>
+                                              <h4 class="text-center mb-0 rounded-0 shadow-none border border-dark card p-3">Sea Service Records</h4>
                               
                                               <div class="table-responsive text-center">
                                                   <table id="seaServiceTable" class="table table-sm table-striped table-bordered" style="font-size: 12px;">
@@ -1659,7 +1465,21 @@
                                   </div>
                               </div>
                               
-                    
+                            </div>
+                                
+                             
+                              
+                             
+                          </div>
+                         
+                          
+                     </div>
+                     
+                 
+      
+           
+                                   <!-- Add more discussion fields... -->
+                               </div>
                                 <!-- Buttons for different sections -->
                                
                             </div>
