@@ -48,7 +48,7 @@ try {
         {
           label: 'Proposed',
           data: proposedCounts,
-          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color
+          backgroundColor: '#00222F', // Red color
         },
         {
           label: 'Approved',
@@ -58,7 +58,7 @@ try {
         {
           label: 'Joined',
           data: joinedCounts,
-          backgroundColor: 'rgba(255, 206, 86, 0.5)', // Yellow color
+          backgroundColor: '#008E9C', // Yellow color
         }
       ]
     },

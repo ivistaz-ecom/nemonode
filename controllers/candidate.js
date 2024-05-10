@@ -1921,6 +1921,10 @@ const getStatusDate = async (req, res) => {
                 discussion: { [Op.like]: '%Proposed%' },
                 companyname: companyName
             },
+            include: [{
+                model: Candidate,
+                attributes: ['candidateId', 'c_rank']
+            }],
             raw: true
         });
 
@@ -1932,6 +1936,10 @@ const getStatusDate = async (req, res) => {
                 discussion: { [Op.like]: '%Approved%' },
                 companyname: companyName
             },
+            include: [{
+                model: Candidate,
+                attributes: ['candidateId', 'c_rank']
+            }],
             raw: true
         });
 
@@ -1943,6 +1951,10 @@ const getStatusDate = async (req, res) => {
                 discussion: { [Op.like]: '%Joined%' },
                 companyname: companyName
             },
+            include: [{
+                model: Candidate,
+                attributes: ['candidateId', 'c_rank']
+            }],
             raw: true
         });
 
@@ -1954,6 +1966,10 @@ const getStatusDate = async (req, res) => {
                 discussion: { [Op.like]: '%Rejected%' },
                 companyname: companyName
             },
+            include: [{
+                model: Candidate,
+                attributes: ['candidateId', 'c_rank']
+            }],
             raw: true
         });
 
@@ -1969,6 +1985,7 @@ const getStatusDate = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 const percentage = async (req, res) => {
     try {
