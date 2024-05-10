@@ -81,4 +81,5 @@ router.get('/get-vsls', otherControllers.getVsls);
 router.get("/get-ranks",otherControllers.view_ranks)
 
 
+
 module.exports = router;
