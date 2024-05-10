@@ -652,6 +652,21 @@ const view_rank = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
+const  view_ranks = async (req, res) => {
+  try {
+    const ranks = await Rank.findAll();
+
+    return res.status(200).json({
+      ranks,
+      success: true,
+    });
+  } catch (err) {
+    console.error('Error:', err);
+    return res.status(500).json({ error: 'Internal Server Error', success: false });
+  }
+};
+
 const delete_rank = async (req, res) => {
   const rankId = req.params.id;
   const userId = req.user.id;
@@ -2106,7 +2121,8 @@ const getVsls = async (req, res) => {
     fetchQueries,
     get_experiences,
     get_gradeDrop,
-    getVsls
+    getVsls,
+    view_ranks
   }
 
   
