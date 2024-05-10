@@ -329,7 +329,7 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
 
 const displayDropdown = async function () {
-    const rankDropdown = document.getElementById('candidate_c_rank');
+    const rankDropdown = document.getElementById('rank');
     rankDropdown.innerHTML = ''; // Clear existing options
 
     // Add the default option
