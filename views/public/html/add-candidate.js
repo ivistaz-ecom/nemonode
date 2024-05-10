@@ -116,8 +116,10 @@ const decodedToken = decodeToken(token);
 async function fetchAndDisplayGrades() {
     try {
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-grade-drop", { headers: { "Authorization": token } });
-        const grades = serverResponse
-        console.log(grades)
+        const grades = serverResponse.data.allGrades; // Access the allGrades property
+
+        console.log(grades);
+
         // Get the dropdown element by its ID
         const gradeDropdown = document.getElementById('candidate_grade');
 
@@ -143,11 +145,14 @@ async function fetchAndDisplayGrades() {
         // Handle error as needed
     }
 }
+
+
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-        const vessels = serverResponse.data.vsls;
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        console.log(serverResponse)
+        const vessels = serverResponse.data; // Fix here
 
         // Get the select element
         const vesselSelect = document.getElementById("candidate_c_vessel");
@@ -173,6 +178,7 @@ async function fetchAndDisplayVessels() {
         console.error('Error fetching vessels:', error);
     }
 }
+
 function displayDropdownOptions(dropdown, options, placeholder) {
     dropdown.innerHTML = ""; // Clear existing options
 
@@ -205,7 +211,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
