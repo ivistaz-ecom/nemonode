@@ -329,7 +329,7 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
 
 const displayDropdown = async function () {
-    const rankDropdown = document.getElementById('rank');
+    const rankDropdown = document.getElementById('candidate_c_rank');
     rankDropdown.innerHTML = ''; // Clear existing options
 
     // Add the default option
@@ -338,7 +338,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -353,8 +353,9 @@ const displayDropdown = async function () {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-        const vessels = serverResponse.data.vsls;
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        console.log(serverResponse)
+        const vessels = serverResponse.data; // Fix here
 
         // Get the select element
         const vesselSelect = document.getElementById("vessel_types");
