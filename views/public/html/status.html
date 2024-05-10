@@ -542,9 +542,10 @@
           <!-- Content wrapper -->
           <div class="container-fluid" >
             <div class="container ">
+              <a href="./indexpage.html" class="btn btn-primary float-end"> Back to Dashboard</a>
                 <h2 class="ms-0 mt-3">Todays All Discussions</h2>
 
-                <ul id="discussionList" class="list-group mt-3"></ul>
+                <ul id="discussionList" class="list-group mt-3 border border-secondary-subtle"></ul>
             </div>
             
             <script>
@@ -688,11 +689,10 @@ function viewCandidate(candidateId) {
 }
 
     // Call insertData function to insert the example data
-                async function createCompanyDropdown() {
+    async function createCompanyDropdown() {
     try {
-        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
-        const companyOptions = companyResponse.data.company;
-
+        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('user_client');
         companyDropdown.innerHTML = ''; // Clear existing options
 
