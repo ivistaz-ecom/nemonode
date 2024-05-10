@@ -797,121 +797,121 @@ async function fetchAndDisplayDiscussions(candidateId) {
 }
 
 
-document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
+// document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
+//     event.preventDefault();
 
-    // Fetch basic comments value
-    let basicCommentsValue = document.getElementById('basic_comments').value;
+//     // Fetch basic comments value
+//     let basicCommentsValue = document.getElementById('basic_comments').value;
 
-    // Get the selected status
-    let status;
-    if (document.getElementById('proposed').checked) {
-        status = 'Proposed';
-    } else if (document.getElementById('joined').checked) {
-        status = 'Joined';
-    } else if (document.getElementById('approved').checked) {
-        status = 'Approved';
-    } else if (document.getElementById('rejected').checked) {
-        status = 'Rejected';
-    }
+//     // Get the selected status
+//     let status;
+//     if (document.getElementById('proposed').checked) {
+//         status = 'Proposed';
+//     } else if (document.getElementById('joined').checked) {
+//         status = 'Joined';
+//     } else if (document.getElementById('approved').checked) {
+//         status = 'Approved';
+//     } else if (document.getElementById('rejected').checked) {
+//         status = 'Rejected';
+//     }
 
-    // Get company name input value
-    const companyName = document.getElementById('company_name').value;
+//     // Get company name input value
+//     const companyName = document.getElementById('company_name').value;
 
-    const companyDropdown = document.getElementById('company_name');
-    const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
+//     const companyDropdown = document.getElementById('company_name');
+//     const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
 
-    // Get status date input value
-    // Get status date input value
-    const statusDate = document.getElementById('status_date').value;
-    const r_date = document.getElementById('reminder_date').value;
+//     // Get status date input value
+//     // Get status date input value
+//     const statusDate = document.getElementById('status_date').value;
+//     const r_date = document.getElementById('reminder_date').value;
 
-    // Get reason input value
-    const reason = document.getElementById('reason').value;
+//     // Get reason input value
+//     const reason = document.getElementById('reason').value;
 
-    // Check if special comment checkbox is checked
-    if (document.getElementById('special_comments_checkbox').checked) {
-        basicCommentsValue = document.getElementById('basic_comments').value;
+//     // Check if special comment checkbox is checked
+//     if (document.getElementById('special_comments_checkbox').checked) {
+//         basicCommentsValue = document.getElementById('basic_comments').value;
 
-        // Update basic comments value in candidate table
-        try {
-            await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'application/json',
-                },
-            });
-        } catch (error) {
-            console.error('Error updating basic comments value:', error);
-        }
-    }
+//         // Update basic comments value in candidate table
+//         try {
+//             await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+//                 headers: {
+//                     'Authorization': token,
+//                     'Content-Type': 'application/json',
+//                 },
+//             });
+//         } catch (error) {
+//             console.error('Error updating basic comments value:', error);
+//         }
+//     }
 
-    // Get reference check text value
-    let referenceCheckText = null;
-    if (document.getElementById('reference_check_checkbox').checked) {
-        referenceCheckText = document.getElementById('reference_check_text').value;
+//     // Get reference check text value
+//     let referenceCheckText = null;
+//     if (document.getElementById('reference_check_checkbox').checked) {
+//         referenceCheckText = document.getElementById('reference_check_text').value;
         
-        // Update reference check text value in candidate table
-        try {
-            await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'application/json',
-                },
-            });
-        } catch (error) {
-            console.error('Error updating reference check text value:', error);
-        }
-    }
+//         // Update reference check text value in candidate table
+//         try {
+//             await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+//                 headers: {
+//                     'Authorization': token,
+//                     'Content-Type': 'application/json',
+//                 },
+//             });
+//         } catch (error) {
+//             console.error('Error updating reference check text value:', error);
+//         }
+//     }
 
-    // Update comments section
-    const commentsSection = document.getElementById('comments-section');
-    if (status === 'Rejected') {
-        commentsSection.textContent = `${status}: ${basicCommentsValue} Reason: ${reason} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
-    } else if (status) {
-        commentsSection.textContent = `${status}: ${basicCommentsValue} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
-    } else {
-        commentsSection.textContent = `${basicCommentsValue}`;
-    }
+//     // Update comments section
+//     const commentsSection = document.getElementById('comments-section');
+//     if (status === 'Rejected') {
+//         commentsSection.textContent = `${status}: ${basicCommentsValue} Reason: ${reason} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+//     } else if (status) {
+//         commentsSection.textContent = `${status}: ${basicCommentsValue} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
+//     } else {
+//         commentsSection.textContent = `${basicCommentsValue}`;
+//     }
 
     
-    // Create discussion plus data object
-    const discussionPlusData = {
-        post_by: localStorage.getItem('userId'),
-        discussion: commentsSection.textContent,
-        r_date: r_date || null,
-        reminder: document.getElementById('set_reminder_checkbox').checked,
-        companyname: companyName,
-        reason: reason,
-        join_date: null,
-        created_date: new Date(),
-    };
+//     // Create discussion plus data object
+//     const discussionPlusData = {
+//         post_by: localStorage.getItem('userId'),
+//         discussion: commentsSection.textContent,
+//         r_date: r_date || null,
+//         reminder: document.getElementById('set_reminder_checkbox').checked,
+//         companyname: companyName,
+//         reason: reason,
+//         join_date: null,
+//         created_date: new Date(),
+//     };
 
-    // If Special Comment checkbox is checked, include special comment data
-    if (document.getElementById('special_comments_checkbox').checked) {
-        discussionPlusData.special_comment = basicCommentsValue;
-        discussionPlusData.basic_comments = null; // Reset basic comments if special comments are stored
-    }
+//     // If Special Comment checkbox is checked, include special comment data
+//     if (document.getElementById('special_comments_checkbox').checked) {
+//         discussionPlusData.special_comment = basicCommentsValue;
+//         discussionPlusData.basic_comments = null; // Reset basic comments if special comments are stored
+//     }
 
-    // If Reference Check checkbox is checked, include reference check data
-    if (document.getElementById('reference_check_checkbox').checked) {
-        discussionPlusData.reference_check = true;
-        discussionPlusData.reference_check_text = referenceCheckText;
-    }
+//     // If Reference Check checkbox is checked, include reference check data
+//     if (document.getElementById('reference_check_checkbox').checked) {
+//         discussionPlusData.reference_check = true;
+//         discussionPlusData.reference_check_text = referenceCheckText;
+//     }
 
-    try {
-        const response = await axios.post(`https://nemo.ivistaz.co/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json',
-            },
-        });
-        console.log(response.data);
-        event.target.reset();
-    } catch (error) {
-        console.error(error);
-    }
-});
+//     try {
+//         const response = await axios.post(`https://nemo.ivistaz.co/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+//             headers: {
+//                 'Authorization': token,
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+//         console.log(response.data);
+//         event.target.reset();
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
 
 
 

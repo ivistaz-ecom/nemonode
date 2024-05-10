@@ -608,12 +608,14 @@
                         endDate:endDate
                     }
 console.log(params)
+const decodedToken = decodeToken(token)
+
                     try {
                         const response = await axios.get('https://nemo.ivistaz.co/candidate/statusdate', { params });
-        
+                      console.log(response)
                         if (response.status === 200) {
                             const data = response.data;
-                            insertData(data)
+                            insertData(data,decodedToken)
                         } else {
                             throw new Error('Failed to fetch status data');
                         }
@@ -621,34 +623,69 @@ console.log(params)
                         console.error('Error:', error.message);
                     }
                 });
-        
-                function insertData(data) {
-      const statusResults = document.getElementById('statusResults');
-      statusResults.innerHTML = '';
 
-      for (const status in data) {
-        const discussions = data[status];
-        const statusContainer = document.createElement('div');
-        statusContainer.classList.add('status-container');
+                function insertData(data, decodedToken) {
+  console.log(decodedToken)
+  const statusResults = document.getElementById('statusResults');
+  statusResults.innerHTML = '';
 
-        const statusHeader = document.createElement('div');
-        statusHeader.classList.add('status-header','ms-4','mt-3','text-dark');
-        statusHeader.innerHTML = `<h4>${status}</h4><span class="badge bg-light text-primary ">Total Count :  ${discussions.length}</span>`;
-        statusContainer.appendChild(statusHeader);
+  for (const status in data) {
+    const discussions = data[status];
+    const statusContainer = document.createElement('div');
+    statusContainer.classList.add('status-container');
 
-        const discussionList = document.createElement('ul');
-        discussionList.classList.add('list-group', 'list-group-flush');
-        discussions.forEach(discussion => {
-          const discussionItem = document.createElement('li');
-          discussionItem.classList.add('list-group-item');
-          discussionItem.textContent = `Candidate ID: ${discussion.candidateId}, Discussion: ${discussion.discussion}, Reminder Date: ${discussion.r_date}`;
-          discussionList.appendChild(discussionItem);
-        });
+    const statusHeader = document.createElement('div');
+    statusHeader.classList.add('status-header', 'ms-4', 'mt-3', 'text-dark');
+    statusHeader.innerHTML = `<h4>${status}</h4><span class="badge bg-light text-primary">Total Count :  ${discussions.length}</span>`;
+    statusContainer.appendChild(statusHeader);
 
-        statusContainer.appendChild(discussionList);
-        statusResults.appendChild(statusContainer);
-      }
-    }
+    const table = document.createElement('table');
+    table.classList.add('table');
+    const tableHeader = document.createElement('thead');
+    tableHeader.innerHTML = `
+      <tr>
+        <th scope="col">Candidate ID</th>
+        <th scope="col">Rank</th>
+        <th scope="col">Join Date</th>
+        <th scope="col">Reason</th>
+      </tr>
+    `;
+    table.appendChild(tableHeader);
+
+    const tableBody = document.createElement('tbody');
+    discussions.forEach(discussion => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><button class="candidate-btn text-primary btn" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></td>
+        <td>${discussion['Candidate.c_rank']}</td>
+        <td>${formatDate(discussion.created_date)}</td>
+        <td>${discussion.reason}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+    table.appendChild(tableBody);
+
+    statusContainer.appendChild(table);
+    statusResults.appendChild(statusContainer);
+  }
+
+  // Add event listener to candidate ID buttons
+  document.querySelectorAll('.candidate-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const candidateId = this.getAttribute('data-candidate-id');
+      viewCandidate(candidateId);
+    });
+  });
+}
+
+function exportToExcel(table, status) {
+  const wb = XLSX.utils.table_to_book(table);
+  XLSX.writeFile(wb, `${status}_data.xlsx`);
+}
+function viewCandidate(candidateId) {
+    localStorage.setItem('memId', candidateId);
+    window.location.href = './view-candidate.html';
+}
 
     // Call insertData function to insert the example data
                 async function createCompanyDropdown() {
@@ -747,6 +784,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     }
                 });
+                function formatDate(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+}
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+}
         
             </script>
           </div>
@@ -797,6 +846,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     <script src="../assets/js/main.js"></script>
     <!-- Page JS -->
     <script src="../assets/js/pages-account-settings-account.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
