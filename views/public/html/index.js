@@ -313,13 +313,8 @@ function generateDoughnutChart(rankCounts) {
           datasets: [{
               label: 'Rank Counts',
               data: rankData,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)'
-              ],
+              backgroundColor:['#00222F', 'rgba(39, 139, 222, 0.6)', 'rgba(0, 149, 211, 0.6)', '#008E9C', 'rgba(0, 153, 204, 0.6)']
+,
               borderWidth: 1
           }]
       },
