@@ -382,34 +382,29 @@ async function fetchAndDisplayVessels() {
 }
 async function fetchAndDisplayCompanies() {
     try {
-        const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
-        const companies = serverResponse.data.company;
+        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyOptions = companyResponse.data.companies; // Corrected property name
+        const companyDropdown = document.getElementById('company_name');
+        companyDropdown.innerHTML = ''; // Clear existing options
 
-        // Get the select element
-        const companySelect = document.getElementById("company_name");
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select Company --';
+        companyDropdown.appendChild(defaultOption);
 
-        // Clear previous options
-        companySelect.innerHTML = '';
-
-        // Add a default option
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.text = "-- Select Company --";
-
-        companySelect.appendChild(defaultOption);
-
-        // Add companies to the dropdown
-        companies.forEach((company) => {
-            const option = document.createElement("option");
-            option.value = company.company_id; // Set the company ID as the option value
+        // Add options for each company
+        companyOptions.forEach(company => {
+            const option = document.createElement('option');
+            option.value = company.company_id; // Set the value to company ID
             option.text = company.company_name;
-            companySelect.appendChild(option);
+            companyDropdown.appendChild(option);
         });
     } catch (error) {
-        console.error('Error fetching companies:', error);
+        console.error('Error fetching company data:', error);
     }
 }
+
 
 
 function formatDiscussionDate(dateString) {
