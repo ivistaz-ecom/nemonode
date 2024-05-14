@@ -1729,18 +1729,17 @@ function formatDate(dateString) {
     let totalPagesCandidates = 0; // Global variable to keep track of the total number of pages for candidates
   let totalPagesContracts = 0; // Global variable to keep track of the total number of pages for contracts
   
-  async function handleDueForWorkedWithSubmit( page = 1) {
-     
+  async function handleDueForWorkedWithSubmit(event, page = 1) {
+      event.preventDefault(); // Prevent default form submission behavior
   
       try {
-           
-            const url = `https://nemo.ivistaz.co`
           // Get the selected value from the dropdown
           const pageSize = document.getElementById('pageSizeSelect').value;
   
           // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
-          const response = await axios.get(`${url}/candidate/worked`, {
+          const response = await axios.get('https://nemo.ivistaz.co/candidate/worked', {
               params: {
+                  page, // Use the provided page number
                   pageSize // Use selected page size
               }
           });
@@ -1828,24 +1827,24 @@ function formatDate(dateString) {
   // Function to handle next page button click
   document.getElementById('nextPageBtn').addEventListener('click', () => {
         pagenumber++
-      handleDueForWorkedWithSubmit( pagenumber + 1);
+      handleDueForWorkedWithSubmit(event, pagenumber + 1);
   });
   
   // Function to handle previous page button click
   document.getElementById('prevPageBtn').addEventListener('click', () => {
         pagenumber--
-          handleDueForWorkedWithSubmit( pagenumber - 1);
+          handleDueForWorkedWithSubmit(event, pagenumber - 1);
    
   });
   
   // Add event listener to the form
   document.getElementById('dueForWorkedWithForm').addEventListener('submit', () => {
-      handleDueForWorkedWithSubmit();
+      handleDueForWorkedWithSubmit(event);
   });
   
   // Add event listener to the pageSizeSelect dropdown
   document.getElementById('pageSizeSelect').addEventListener('change', () => {
-      handleDueForWorkedWithSubmit();
+      handleDueForWorkedWithSubmit(event);
   });
   
   // Function to handle viewing a candidate
@@ -1860,3 +1859,4 @@ function formatDate(dateString) {
       document.getElementById('totalPagesCandidates').textContent = "Page " + pagenumber +" of " + totalPagesCandidates;
       document.getElementById('totalPagesContracts').textContent = "Page " + pagenumber +" of "+ totalPagesContracts;
   }
+  
