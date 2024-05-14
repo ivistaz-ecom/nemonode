@@ -1726,10 +1726,10 @@ function formatDate(dateString) {
 
   async function handleDueForWorkedWithSubmit() {
     try {
-        const url = `https://nemo.ivistaz.co`;
+        const url = `https://nemo.ivistaz.co/`;
 
         // Send request to fetch candidates with 'ntbr' and contracts
-        const response = await axios.get(`${url}/candidate/worked`);
+        const response = await axios.get(`${url}candidate/worked`);
 
         console.log(response.data); // Assuming the server sends back some data
         const candidatesWithNTBR = response.data.candidatesWithNTBR;
