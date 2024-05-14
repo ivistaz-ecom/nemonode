@@ -2409,8 +2409,9 @@ const mis = async (req, res) => {
 
 const workedWith = async (req, res) => {
     try {
+        let pages = 1
         // Extract pagination parameters from request query
-       const {pages , pageSize} = req.query
+       const { pageSize} = req.query
         // Fetch candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
@@ -2424,6 +2425,9 @@ const workedWith = async (req, res) => {
                 sign_on: { [Op.not]: null },
             }
         });
+
+       
+
 
         // Calculate total pages for candidates with 'ntbr'
         const totalCandidatesPages = Math.ceil(candidatesWithNTBR.length / pageSize);

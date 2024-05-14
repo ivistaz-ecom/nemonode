@@ -1732,14 +1732,14 @@ function formatDate(dateString) {
      
   
       try {
-            const pages = page
+           
+            const url = `https://nemo.ivistaz.co`
           // Get the selected value from the dropdown
           const pageSize = document.getElementById('pageSizeSelect').value;
   
           // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
-          const response = await axios.get('https://nemo.ivistaz.co/candidate/worked', {
+          const response = await axios.get(`${url}/candidate/worked`, {
               params: {
-                  pages, // Use the provided page number
                   pageSize // Use selected page size
               }
           });
