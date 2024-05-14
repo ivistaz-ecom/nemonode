@@ -35,6 +35,7 @@ addCompanyButton.addEventListener("submit", async (e) => {
         console.log('Response:', serverResponse.data);
         var successToast = new bootstrap.Toast(document.getElementById('successToast'));
         successToast.show();
+        
     } catch (error) {
         console.error('Error:', error);
         var errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
@@ -177,3 +178,5 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+
