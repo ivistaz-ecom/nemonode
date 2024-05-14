@@ -14,6 +14,7 @@ const CrewPlanner=require('../models/crew-planner')
 const Queries = require('../models/queries')
 const Candidate = require("../models/candidate")
 const Contract = require("../models/contract")
+const { Op } = require("sequelize")
 
 
 //Vessel and VSL Type

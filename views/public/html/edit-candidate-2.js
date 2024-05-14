@@ -68,7 +68,7 @@ const avbDate = avbDateValue.trim() !== '' ? avbDateValue : null;
 
 async function fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -109,7 +109,7 @@ async function fetchAndDisplayExp() {
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-grade", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
         const gradeDropdown = document.getElementById('edit_candidate_grade');
 
@@ -142,7 +142,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vsls;
 
         // Get the select element
@@ -201,7 +201,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -216,7 +216,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayNationalities() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("https://nemo.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
+        const response = await axios.get("http://localhost:4000/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
         return countries; // Return the fetched countries
     } catch (error) {
@@ -328,7 +328,7 @@ function formatDate(dateString) {
 
   async function fetchAndDisplayCandidate(candidateId,token) {
     try {
-        const serverResponse = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${candidateId}`, {
+        const serverResponse = await axios.get(`http://localhost:4000/candidate/get-candidate/${candidateId}`, {
             headers: { 'Authorization': token }
         });
 
@@ -431,7 +431,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         
       };
     try {
-        const serverResponse = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, candidate_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.put(`http://localhost:4000/candidate/update-candidate/${currentCandidateId}`, candidate_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         alert("Candidate Added Successfully!");
         window.location.href="./edit-candidate.html"
@@ -522,7 +522,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+          axios.put(`http://localhost:4000/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })
