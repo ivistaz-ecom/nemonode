@@ -590,7 +590,7 @@
               // Function to fetch discussion reminders based on date filters
               async function fetchData(startDate, endDate) {
                   try {
-                      const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                      const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
                       const response = await axios.get(url);
                       renderDiscussionReminders(response.data.discussions);
                   } catch (error) {
