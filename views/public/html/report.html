@@ -179,7 +179,7 @@
       <div class="layout-container">
         <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme ">
          <div class="app-brand demo  mt-0 " style="background-color: #008E9C;padding-top: 70px;padding-bottom: 50px;">
             <a href="indexpage.html" class="app-brand-link">
               <span class="app-brand-logo demo mb-3 ">
@@ -681,7 +681,7 @@
         <h1>Reports</h1>
 
         <div class="dropdown mb-3">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select a Report
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -698,6 +698,7 @@
             <li><a class="dropdown-item" href="#" onclick="showReport('crewListMonthWise')">Crew List Month Wise</a></li>
             <li><a class="dropdown-item" href="#" onclick="showReport('reliefPlan')">Relief Plan</a></li>
             <li><a class="dropdown-item" href="#" onclick="showReport('dueForRenewal')">Due for Renewal</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showReport('dueForWorkedWith')">Worked With us</a></li>
           </ul>
         </div>
         
@@ -1227,7 +1228,7 @@
         
         <div id="reminderContent" class="report-content">
           <!-- Content for Reminder Report -->
-          <div class="container">
+          <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col">
                     <h2 class="text-center">Discussion Reminders</h2>
@@ -1400,7 +1401,67 @@
                 
             </div>
         </div>
-        
+        <div id="dueForWorkedWithContent" class="report-content">
+          <!-- Content for Due for Renewal Report -->
+          <div class="card card-body">
+              <h4>Worked With Us</h4>
+              <!-- Date selection form -->
+              <form id="dueForWorkedWithForm">
+                  <button type="submit" class="btn btn-primary">Generate Report</button>
+              </form>
+              <!-- Pagination controls -->
+              <div class="pagination">
+                  <label for="pageSizeSelect">Values per page:</label>
+                  <select id="pageSizeSelect">
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="500">500</option>
+                  </select>
+                  <button id="prevPageBtn">Previous</button>
+                  <button id="nextPageBtn">Next</button>
+              </div>
+      
+              <!-- Table to display candidates with 'ntbr' -->
+              <div class="card p-3 mb-3 mt-3">
+                  <h4 class="text-primary">Candidates With NTBR</h4>
+                  <table class="table table-bordered text-center">
+                      <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>NTBR</th>
+                          </tr>
+                      </thead>
+                      <tbody id="CandidatesTableBody">
+                          <!-- Table rows will be dynamically added here -->
+                      </tbody>
+                  </table>
+              </div>
+      
+              <!-- Table to display onboard contracts -->
+              <div class="card p-3 mb-3 mt-3">
+                  <h4 class="text-primary">Onboard Contracts</h4>
+                  <table class="table table-bordered text-center">
+                      <thead>
+                          <tr>
+                              <th>Candidate ID</th>
+                              <th>Sign On</th>
+                              <th>Sign Off</th>
+                              <th>Sign On Port</th>
+                              <th>Sign Off Port</th>
+                          </tr>
+                      </thead>
+                      <tbody id="ContractsTableBody">
+                          <!-- Table rows will be dynamically added here -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+      
+      
+      
+      
 
       </div>
       <!-- Bootstrap JS and jQuery -->

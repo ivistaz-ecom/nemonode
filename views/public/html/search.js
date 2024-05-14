@@ -53,7 +53,6 @@ return decodedToken.userGroup
       const license = document.getElementById('license').value.trim();
       const zone = document.getElementById('zone').value.trim();
       const group = document.getElementById('groupSearch').value
-      console.log(group)
     //   const documentNumber = document.getElementById('documentNumber').value;
 
       // Prepare data for the POST request
@@ -78,7 +77,7 @@ return decodedToken.userGroup
         .then(function (response) {
           // Handle the successful response
           const searchResults = response.data;
-
+          console.log(response)
           // Process and display the search results in the table
           populateTable(searchResults);
 

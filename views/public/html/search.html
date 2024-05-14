@@ -504,9 +504,9 @@
 
               </div>
               
-              <div class="container ">
-                <div class="text-center fw-bold ">
-                  NAUTILUS SHIPPING
+              <div class=" ">
+                <div class=" ">
+                  Search
                 </div>
                 <!-- <div id="datetime" class="text-center "></div> -->
               </div>
@@ -558,20 +558,23 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper mt-3">
+          <div class="content-wrapper mt-3 container-fluid">
             
        <!-- Content -->
+       <div class=" card rounded-3 mb-3 p-3">
+        <h4 class="text-primary">Full Search</h4>
 <div class="input-group w-50 mx-auto">
-  <input type="text" class="form-control form-control-sm " placeholder="Search..." id="search_input">
+
+  <input type="text" class="form-control form-control " placeholder="Search..." id="search_input">
   <button class="btn btn-primary btn-sm" id="search_btn">Search Entire Database</button>
   
 </div>
-<p class="text-center"><strong class="text-primary">Note : </strong>Kindly specify the search when using Search entire database, If common values like 1 or a is searched site will crash!</p>
-
+<p class="text-center mt-4 mb-0"><strong class="text-primary">Note : </strong>Kindly specify the search when using Search entire database, If common values like '1' or 'a' is searched, there are chances the site may crash!</p>
+       </div>
           
-<div class="ms-3 me-3">
-  <div class="bg-white rounded-4 shadow-sm">
-    <h4 class="text-center  pt-3 mb-0">Candidate Specific Search</h4>
+<div class="">
+  <div class="bg-white rounded-3 shadow-sm">
+    <h4 class="text-primary  p-3 mb-0">Candidate Specific Search</h4>
     <div class="p-3">
       <form id="search-form">
         <div class="row">
@@ -598,7 +601,7 @@
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-2">
             <div class="col">
                 <label for="experience" class="form-label">Experience</label>
                 <select id="experience" class="form-select form-select-sm">
@@ -666,13 +669,13 @@
     </form>
     
     
-      <p class="mb-0 mt-3 text-center  "><strong class="text-primary">Note</strong>: Clicking on search without any inputs will fetch all the candidate details associated with this User account.</p>
+      <p class="mb-0 mt-3 text-center  "><strong class="text-primary">Note</strong>: Clicking on search without any inputs will fetch all the candidate details associated with this User account<br><span class="text-success">(This feature might take some time to load,Kindly wait until the loading is complete).</span></p>
     </div>
   </div>
 </div>
 
               
-              <div class="p-3 mb-3 rounded-2  mt-3 ms-3 me-3 ">
+              <div class="p-3 mb-3 rounded-3 card  mt-3  ">
               <h4>Search Results : </h4>
 
               <div class="table-responsive ">
@@ -705,7 +708,7 @@
 
             <!-- Footer -->
              <footer class="footer mt-auto py-3 bg-footer-theme">
-        <div class="container">
+        <div class="container-fluid">
             <div class="d-flex justify-content-between">
                 <span id="datetime"></span>
                 <span>Nautilus Shipping</span>
