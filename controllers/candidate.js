@@ -2410,7 +2410,7 @@ const mis = async (req, res) => {
 const workedWith = async (req, res) => {
     try {
         // Extract pagination parameters from request query
-       const {page , pageSize} = req.query
+       const {pages , pageSize} = req.query
         // Fetch candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
@@ -2432,8 +2432,8 @@ const workedWith = async (req, res) => {
         const totalContractsPages = Math.ceil(onboardContracts.length / pageSize);
 
         // Slice the data based on pagination parameters
-        const slicedCandidates = candidatesWithNTBR.slice((page - 1) * pageSize, page * pageSize);
-        const slicedContracts = onboardContracts.slice((page - 1) * pageSize, page * pageSize);
+        const slicedCandidates = candidatesWithNTBR.slice((pages - 1) * pageSize, pages * pageSize);
+        const slicedContracts = onboardContracts.slice((pages - 1) * pageSize, pages * pageSize);
 
         res.json({
             candidatesWithNTBR: slicedCandidates,
