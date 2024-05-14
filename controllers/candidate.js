@@ -2407,6 +2407,45 @@ const mis = async (req, res) => {
     }
 }
 
+const workedWith = async (req, res) => {
+    try {
+        // Extract pagination parameters from request query
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 25;
+
+        // Calculate offset for pagination
+        const offset = (page - 1) * pageSize;
+
+        // Fetch candidates where the 'ntbr' field is not null with pagination
+        const candidatesWithNTBR = await Candidate.findAll({
+            where: {
+                ntbr: { [Op.not]: null }
+            },
+            limit: pageSize,
+            offset: offset
+        });
+
+        // Fetch contracts with sign-on date present and sign-off date not present with pagination
+        const onboardContracts = await Contract.findAll({
+            where: {
+                sign_on: { [Op.not]: null },
+            },
+            attributes: ['candidateId', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port'],
+            limit: pageSize,
+            offset: offset
+        });
+
+        res.json({
+            candidatesWithNTBR: candidatesWithNTBR,
+            onboardContracts: onboardContracts
+        });
+    } catch (error) {
+        console.error("Error fetching onboard data:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
 
 
 
@@ -2475,6 +2514,7 @@ module.exports = {
     percentage,
     getStatusCount,
     getStatusData,
-    getStatusDate
+    getStatusDate,
+    workedWith
     
 };
