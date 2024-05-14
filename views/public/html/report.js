@@ -1729,7 +1729,7 @@ function formatDate(dateString) {
         const url = `https://nemo.ivistaz.co/`;
 
         // Send request to fetch candidates with 'ntbr' and contracts
-        const response = await axios.get(`${url}candidate/worked`);
+        const response = await axios.get(`${url}others/worked`);
 
         console.log(response.data); // Assuming the server sends back some data
         const candidatesWithNTBR = response.data.candidatesWithNTBR;

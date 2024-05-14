@@ -2061,6 +2061,33 @@ const getVsls = async (req, res) => {
 };
 
 
+const workedWith = async (req, res) => {
+  try {
+      // Fetch all candidates where the 'ntbr' field is not null
+      const candidatesWithNTBR = await Candidate.findAll({
+          where: {
+              ntbr: { [Op.not]: null }
+          }
+      });
+
+      // Fetch all contracts with sign-on date present and sign-off date not present
+      const onboardContracts = await Contract.findAll({
+          where: {
+              sign_on: { [Op.not]: null },
+          }
+      });
+
+      res.json({
+          candidatesWithNTBR: candidatesWithNTBR,
+          onboardContracts: onboardContracts
+      });
+  } catch (error) {
+      console.error("Error fetching onboard data:", error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+
   module.exports = {
     create_vessel,
     create_VSL,
@@ -2122,7 +2149,8 @@ const getVsls = async (req, res) => {
     get_experiences,
     get_gradeDrop,
     getVsls,
-    view_ranks
+    view_ranks,
+    workedWith
   }
 
   
