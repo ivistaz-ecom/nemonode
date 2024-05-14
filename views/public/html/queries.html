@@ -606,7 +606,7 @@
     const fetchQueries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:4000/others/query-fetch', {
+        const response = await axios.get('https://nemo.ivistaz.co/others/query-fetch', {
           headers: {
             'Authorization': token
           }
@@ -662,7 +662,7 @@
       const created_by = decodedToken.userId;
       try {
         const token = localStorage.getItem('token');
-        await axios.post('http://localhost:4000/others/query', {
+        await axios.post('https://nemo.ivistaz.co/others/query', {
           categories,
           description,
           status,
@@ -718,7 +718,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.put(`http://localhost:4000/others/query/${queryId}`, {
+        await axios.put(`https://nemo.ivistaz.co/others/query/${queryId}`, {
           categories: editCategories,
           description: editDescription,
           status: editStatus,
