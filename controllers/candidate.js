@@ -2413,31 +2413,35 @@ const workedWith = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 25;
 
-        // Calculate offset for pagination
-        const offset = (page - 1) * pageSize;
-
-        // Fetch candidates where the 'ntbr' field is not null with pagination
+        // Fetch candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
                 ntbr: { [Op.not]: null }
-            },
-            limit: pageSize,
-            offset: offset
+            }
         });
 
-        // Fetch contracts with sign-on date present and sign-off date not present with pagination
+        // Fetch contracts with sign-on date present and sign-off date not present
         const onboardContracts = await Contract.findAll({
             where: {
                 sign_on: { [Op.not]: null },
-            },
-            attributes: ['candidateId', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port'],
-            limit: pageSize,
-            offset: offset
+            }
         });
 
+        // Calculate total pages for candidates with 'ntbr'
+        const totalCandidatesPages = Math.ceil(candidatesWithNTBR.length / pageSize);
+
+        // Calculate total pages for onboard contracts
+        const totalContractsPages = Math.ceil(onboardContracts.length / pageSize);
+
+        // Slice the data based on pagination parameters
+        const slicedCandidates = candidatesWithNTBR.slice((page - 1) * pageSize, page * pageSize);
+        const slicedContracts = onboardContracts.slice((page - 1) * pageSize, page * pageSize);
+
         res.json({
-            candidatesWithNTBR: candidatesWithNTBR,
-            onboardContracts: onboardContracts
+            candidatesWithNTBR: slicedCandidates,
+            onboardContracts: slicedContracts,
+            totalCandidatesPages: totalCandidatesPages,
+            totalContractsPages: totalContractsPages
         });
     } catch (error) {
         console.error("Error fetching onboard data:", error);

@@ -1421,11 +1421,11 @@
                   <button id="prevPageBtn">Previous</button>
                   <button id="nextPageBtn">Next</button>
               </div>
-      
+    
               <!-- Table to display candidates with 'ntbr' -->
               <div class="card p-3 mb-3 mt-3">
                   <h4 class="text-primary">Candidates With NTBR</h4>
-                  <table class="table table-bordered text-center">
+                  <table class="table table-sm table-bordered text-center">
                       <thead>
                           <tr>
                               <th>Name</th>
@@ -1436,28 +1436,30 @@
                           <!-- Table rows will be dynamically added here -->
                       </tbody>
                   </table>
+                  <div id="totalPagesCandidates"></div>
               </div>
-      
+    
               <!-- Table to display onboard contracts -->
               <div class="card p-3 mb-3 mt-3">
                   <h4 class="text-primary">Candidates based on contracts</h4>
-                  <table class="table table-bordered text-center">
+                  <table class="table table-sm table-bordered text-center">
                       <thead>
                           <tr>
                               <th>Candidate ID</th>
                               <th>Sign On</th>
                               <th>Sign Off</th>
-                              <th>Sign On Port</th>
-                              <th>Sign Off Port</th>
                           </tr>
                       </thead>
                       <tbody id="ContractsTableBody">
                           <!-- Table rows will be dynamically added here -->
                       </tbody>
                   </table>
+                  <div id="currentPageInfo"></div>
+                  <div id="totalPagesContracts"></div>
               </div>
           </div>
       </div>
+    
       
       
       
