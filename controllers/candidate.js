@@ -2410,29 +2410,44 @@ const mis = async (req, res) => {
 
 const workedWith = async (req, res) => {
     try {
-        // Fetch all candidates where the 'ntbr' field is not null
+        // Extract pagination parameters from request query
+       const {pages , pageSize} = req.query
+        // Fetch candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
                 ntbr: { [Op.not]: null }
             }
         });
-  
-        // Fetch all contracts with sign-on date present and sign-off date not present
+
+        // Fetch contracts with sign-on date present and sign-off date not present
         const onboardContracts = await Contract.findAll({
             where: {
                 sign_on: { [Op.not]: null },
             }
         });
-  
+
+        // Calculate total pages for candidates with 'ntbr'
+        const totalCandidatesPages = Math.ceil(candidatesWithNTBR.length / pageSize);
+
+        // Calculate total pages for onboard contracts
+        const totalContractsPages = Math.ceil(onboardContracts.length / pageSize);
+
+        // Slice the data based on pagination parameters
+        const slicedCandidates = candidatesWithNTBR.slice((pages - 1) * pageSize, pages * pageSize);
+        const slicedContracts = onboardContracts.slice((pages - 1) * pageSize, pages * pageSize);
+
         res.json({
-            candidatesWithNTBR: candidatesWithNTBR,
-            onboardContracts: onboardContracts
+            candidatesWithNTBR: slicedCandidates,
+            onboardContracts: slicedContracts,
+            totalCandidatesPages: totalCandidatesPages,
+            totalContractsPages: totalContractsPages
         });
     } catch (error) {
         console.error("Error fetching onboard data:", error);
         res.status(500).json({ error: 'Internal server error' });
     }
-  }
+}
+
 
 
 
