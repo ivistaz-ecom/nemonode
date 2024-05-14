@@ -12,6 +12,8 @@ const User = require('../models/user')
 const Country = require('../models/country')
 const CrewPlanner=require('../models/crew-planner')
 const Queries = require('../models/queries')
+const Candidate = require("../models/candidate")
+const Contract = require("../models/contract")
 
 
 //Vessel and VSL Type
