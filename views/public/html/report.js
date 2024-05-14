@@ -46,7 +46,7 @@ async function handleNewProfileSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
+        const response = await axios.post('http://localhost:4000/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
             selectedFields: selectedFields
@@ -141,7 +141,7 @@ async function handleCallsMadeSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
+        const response = await axios.post('http://localhost:4000/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
             userId: user,
@@ -253,7 +253,7 @@ async function handleDiscussionSubmit(event) {
         const endDate = document.getElementById('endDates').value;
 
         // Send data to server using Axios with the GET method and query parameters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/proposals', {
             params: {
                 status: status,
                 startDate: startDate,
@@ -359,7 +359,7 @@ async function handleSignOnSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
             params: params
         });
 
@@ -449,7 +449,7 @@ async function handleSignOffSubmit(event) {
             endDate: endDate,
         };
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/sign-off', {
             params: params
         });
 
@@ -563,7 +563,7 @@ async function handleDueforSignOffSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/sign-off', {
             params: params
         });
 
@@ -665,7 +665,7 @@ async function handleAvailableCandidatesSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/avb-date', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/avb-date', {
             params: params
         });
 
@@ -778,7 +778,7 @@ async function handleDueForRenewalSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/renewal', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/renewal', {
             params: params
         });
 
@@ -920,7 +920,7 @@ async function handleOnBoardSubmit(event) {
         const endDate = document.getElementById('endDateo').value;
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
+        const response = await axios.get('http://localhost:4000/candidate/onboard', {
             params: {
                 startDate: startDate,
                 endDate: endDate
@@ -1057,7 +1057,7 @@ const handleReminder = async (event) => {
         // Function to fetch discussion reminders based on date filters
         const fetchData = async (startDate, endDate) => {
             try {
-                const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
                 const response = await axios.get(url);
                 return response.data.discussions;
             } catch (error) {
@@ -1153,7 +1153,7 @@ async function handleCrewList(event) {
             vslName: vslName
         };
 
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+        const response = await axios.get('http://localhost:4000/candidate/crewlist', {
             params: params
         });
 
@@ -1282,7 +1282,7 @@ const displayVesselDropdown = async function () {
         vesselDropdown.appendChild(defaultOption);
         
         // Fetch vessel names from the server
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls")
+        const vesselResponse = await axios.get("http://localhost:4000/others/get-vsls")
         const vessels = vesselResponse.data;
     
         // Populate the vessel dropdown with fetched vessel names
@@ -1333,7 +1333,7 @@ const handleReliefPlan = async (event) => {
 
 const fetchReliefPlan = async (startDate, endDate) => {
     try {
-        const url = `https://nemo.ivistaz.co/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
+        const url = `http://localhost:4000/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         return response.data;
     } catch (error) {
@@ -1397,7 +1397,7 @@ const displayUserDropdown = async function () {
         userDropdown.appendChild(defaultOption);
         
         // Fetch user data from the server
-        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
+        const userResponse = await axios.get("http://localhost:4000/user/userdropdown");
         const users = userResponse.data;
     
         // Populate the user dropdown with fetched user names
@@ -1455,7 +1455,7 @@ dateFilterForms.addEventListener('submit', async (event) => {
 // Function to fetch discussion reminders based on date filters
 async function fetchData(startDate, endDate) {
     try {
-        const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+        const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         renderDiscussionReminders(response.data.discussions);
     } catch (error) {
@@ -1534,7 +1534,7 @@ document.getElementById('getData').addEventListener('click', async () => {
     const endDate = document.getElementById('endDatemis').value;
 
     try {
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/mis', {
+        const response = await axios.get('http://localhost:4000/candidate/mis', {
             params: {
                 startDate,
                 endDate
@@ -1673,7 +1673,7 @@ async function fetchCompanyName(companyId) {
         }
 
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemo.ivistaz.co/company/get-company/${companyId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/company/get-company/${companyId}`, { headers: { "Authorization": token } });
         console.log(response)
         return response.data.company.company_name;
     } catch (error) {
@@ -1699,7 +1699,7 @@ function formatDate(dateString) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -1724,139 +1724,95 @@ function formatDate(dateString) {
   });
 
 
-  let pagenumber = 1
-    let totalPagesCandidates = 0; // Global variable to keep track of the total number of pages for candidates
-  let totalPagesContracts = 0; // Global variable to keep track of the total number of pages for contracts
-  
-  async function handleDueForWorkedWithSubmit( page = 1) {
-     
-  
-      try {
-           
-            const url = `https://nemo.ivistaz.co`
-          // Get the selected value from the dropdown
-          const pageSize = document.getElementById('pageSizeSelect').value;
-  
-          // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
-          const response = await axios.get(`${url}/candidate/worked`, {
-              params: {
-                  pageSize // Use selected page size
-              }
-          });
-  
-          console.log(response.data); // Assuming the server sends back some data
-          const candidatesWithNTBR = response.data.candidatesWithNTBR;
-          const onboardContracts = response.data.onboardContracts;
-          totalPagesCandidates = response.data.totalCandidatesPages;
-          totalPagesContracts = response.data.totalContractsPages;
-  
-          // Clear existing tables, if any
-          const candidatesTableContainer = document.getElementById('CandidatesTableBody');
-          candidatesTableContainer.innerHTML = '';
-  
-          const contractsTableContainer = document.getElementById('ContractsTableBody');
-          contractsTableContainer.innerHTML = '';
-  
-          // Populate table with candidates with 'ntbr' data
-          candidatesWithNTBR.forEach(candidate => {
-              const row = document.createElement('tr');
-  
-              // Create button element for candidate ID
-              const candidateIdBtn = document.createElement('button');
-              candidateIdBtn.textContent = candidate.candidateId;
-              candidateIdBtn.classList.add('btn', 'text-primary');
-              candidateIdBtn.onclick = function() {
-                  viewCandidate(candidate.candidateId);
-              };
-  
-              // Append button to row
-              const cell = document.createElement('td');
-              cell.appendChild(candidateIdBtn);
-              row.appendChild(cell);
-  
-              // Add NTBR to row
-              const ntbrCell = document.createElement('td');
-              ntbrCell.textContent = candidate.ntbr;
-              ntbrCell.classList.add('text-center');
-              row.appendChild(ntbrCell);
-  
-              // Append row to table
-              candidatesTableContainer.appendChild(row);
-          });
-  
-          // Populate table with contracts data
-          onboardContracts.forEach(contract => {
-              const row = document.createElement('tr');
-  
-              // Create button element for candidate ID
-              const candidateIdBtn = document.createElement('button');
-              candidateIdBtn.textContent = contract.candidateId;
-              candidateIdBtn.classList.add('btn', 'text-primary');
-              candidateIdBtn.onclick = function() {
-                  viewCandidate(contract.candidateId);
-              };
-  
-              // Append button to row
-              const cell = document.createElement('td');
-              cell.appendChild(candidateIdBtn);
-              row.appendChild(cell);
-  
-              // Add other contract fields to row
-              const fields = [
-                  contract.sign_on,
-                  contract.sign_off,
-                 
-              ];
-              fields.forEach(field => {
-                  const cell = document.createElement('td');
-                  cell.textContent = field;
-                  cell.classList.add('text-center');
-                  row.appendChild(cell);
-              });
-              contractsTableContainer.appendChild(row);
-          });
-  
-          // Update the current page number and pagination info
-          updatePaginationInfo();
-  
-      } catch (error) {
-          console.error(error);
-      }
-  }
-  
-  // Function to handle next page button click
-  document.getElementById('nextPageBtn').addEventListener('click', () => {
-        pagenumber++
-      handleDueForWorkedWithSubmit( pagenumber + 1);
-  });
-  
-  // Function to handle previous page button click
-  document.getElementById('prevPageBtn').addEventListener('click', () => {
-        pagenumber--
-          handleDueForWorkedWithSubmit( pagenumber - 1);
-   
-  });
-  
-  // Add event listener to the form
-  document.getElementById('dueForWorkedWithForm').addEventListener('submit', () => {
-      handleDueForWorkedWithSubmit();
-  });
-  
-  // Add event listener to the pageSizeSelect dropdown
-  document.getElementById('pageSizeSelect').addEventListener('change', () => {
-      handleDueForWorkedWithSubmit();
-  });
-  
-  // Function to handle viewing a candidate
-  function viewCandidate(candidateId) {
-      localStorage.setItem('memId', candidateId);
-      window.location.href = './view-candidate.html';
-  }
-  
-  // Function to update pagination info
-  function updatePaginationInfo() {
-     
-      document.getElementById('totalPagesCandidates').textContent = "Page " + pagenumber +" of " + totalPagesCandidates;
-      document.getElementById('totalPagesContracts').textContent = "Page " + pagenumber +" of "+ totalPagesContracts;
-  }
-  
+  async function handleDueForWorkedWithSubmit() {
+    try {
+        const url = `http://localhost:4000`;
+
+        // Send request to fetch candidates with 'ntbr' and contracts
+        const response = await axios.get(`${url}/candidate/worked`);
+
+        console.log(response.data); // Assuming the server sends back some data
+        const candidatesWithNTBR = response.data.candidatesWithNTBR;
+        const onboardContracts = response.data.onboardContracts;
+
+        // Clear existing tables, if any
+        const candidatesTableContainer = document.getElementById('CandidatesTableBody');
+        candidatesTableContainer.innerHTML = '';
+
+        const contractsTableContainer = document.getElementById('ContractsTableBody');
+        contractsTableContainer.innerHTML = '';
+
+        // Populate table with candidates with 'ntbr' data
+        candidatesWithNTBR.forEach(candidate => {
+            const row = document.createElement('tr');
+
+            // Create button element for candidate ID
+            const candidateIdBtn = document.createElement('button');
+            candidateIdBtn.textContent = candidate.candidateId;
+            candidateIdBtn.classList.add('btn', 'text-primary');
+            candidateIdBtn.onclick = function() {
+                viewCandidate(candidate.candidateId);
+            };
+
+            // Append button to row
+            const cell = document.createElement('td');
+            cell.appendChild(candidateIdBtn);
+            row.appendChild(cell);
+
+            // Add NTBR to row
+            const ntbrCell = document.createElement('td');
+            ntbrCell.textContent = candidate.ntbr;
+            ntbrCell.classList.add('text-center');
+            row.appendChild(ntbrCell);
+
+            // Append row to table
+            candidatesTableContainer.appendChild(row);
+        });
+
+        // Populate table with contracts data
+        onboardContracts.forEach(contract => {
+            const row = document.createElement('tr');
+
+            // Create button element for candidate ID
+            const candidateIdBtn = document.createElement('button');
+            candidateIdBtn.textContent = contract.candidateId;
+            candidateIdBtn.classList.add('btn', 'text-primary');
+            candidateIdBtn.onclick = function() {
+                viewCandidate(contract.candidateId);
+            };
+
+            // Append button to row
+            const cell = document.createElement('td');
+            cell.appendChild(candidateIdBtn);
+            row.appendChild(cell);
+
+            // Add other contract fields to row
+            const fields = [
+                contract.sign_on,
+                contract.sign_off,
+            ];
+            fields.forEach(field => {
+                const cell = document.createElement('td');
+                cell.textContent = field;
+                cell.classList.add('text-center');
+                row.appendChild(cell);
+            });
+            contractsTableContainer.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Add event listener to the form
+document.getElementById('dueForWorkedWithForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default form submission
+    handleDueForWorkedWithSubmit();
+});
+
+// Function to handle viewing a candidate
+function viewCandidate(candidateId) {
+    localStorage.setItem('memId', candidateId);
+    window.location.href = './view-candidate.html';
+}

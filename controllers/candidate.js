@@ -2409,41 +2409,23 @@ const mis = async (req, res) => {
 
 const workedWith = async (req, res) => {
     try {
-        let pages = 1
-        // Extract pagination parameters from request query
-       const { pageSize} = req.query
-        // Fetch candidates where the 'ntbr' field is not null
+        // Fetch all candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
                 ntbr: { [Op.not]: null }
             }
         });
 
-        // Fetch contracts with sign-on date present and sign-off date not present
+        // Fetch all contracts with sign-on date present and sign-off date not present
         const onboardContracts = await Contract.findAll({
             where: {
                 sign_on: { [Op.not]: null },
             }
         });
 
-       
-
-
-        // Calculate total pages for candidates with 'ntbr'
-        const totalCandidatesPages = Math.ceil(candidatesWithNTBR.length / pageSize);
-
-        // Calculate total pages for onboard contracts
-        const totalContractsPages = Math.ceil(onboardContracts.length / pageSize);
-
-        // Slice the data based on pagination parameters
-        const slicedCandidates = candidatesWithNTBR.slice((pages - 1) * pageSize, pages * pageSize);
-        const slicedContracts = onboardContracts.slice((pages - 1) * pageSize, pages * pageSize);
-
         res.json({
-            candidatesWithNTBR: slicedCandidates,
-            onboardContracts: slicedContracts,
-            totalCandidatesPages: totalCandidatesPages,
-            totalContractsPages: totalContractsPages
+            candidatesWithNTBR: candidatesWithNTBR,
+            onboardContracts: onboardContracts
         });
     } catch (error) {
         console.error("Error fetching onboard data:", error);
