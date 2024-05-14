@@ -93,6 +93,5 @@ router.get('/percentage',candidateControllers.percentage)
 router.get('/statuscount',candidateControllers.getStatusCount)
 router.get('/statusdata',candidateControllers.getStatusData)
 router.get('/statusdate',candidateControllers.getStatusDate)
-router.get('/worked',candidateControllers.workedWith)
 
 module.exports = router;
