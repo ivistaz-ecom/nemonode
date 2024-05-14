@@ -20,7 +20,7 @@ try {
   // Get the current year
   const currentYear = new Date().getFullYear();
 
-  const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count', {
+  const discussionCountsResponse = await axios.get('http://localhost:4000/candidate/discussion-count', {
     headers: { "Authorization": token }
   });
   const discussionCountsData = discussionCountsResponse.data;
@@ -97,7 +97,7 @@ try {
 
   // Fetch call count
   try {
-    const callCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/call-count', {
+    const callCountResponse = await axios.get('http://localhost:4000/candidate/call-count', {
         headers: { "Authorization": token }
     });
     
@@ -105,7 +105,7 @@ try {
     const callCountFromAPI = callCountData.call_count;
 
     // Get the call count from the calls model
-    const callCountFromModelResponse = await axios.get('https://nemo.ivistaz.co/candidate/percentage');
+    const callCountFromModelResponse = await axios.get('http://localhost:4000/candidate/percentage');
     const callCountFromModel = callCountFromModelResponse.data.call_count;
     
     // Calculate the difference in percentages
@@ -137,7 +137,7 @@ try {
 
 try {
   // Fetch status count data
-  const statusCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/statuscount', {
+  const statusCountResponse = await axios.get('http://localhost:4000/candidate/statuscount', {
         headers: { "Authorization": token }
     });
     const statusCountData = statusCountResponse.data.counts[0]; // Accessing the first element of the counts array
@@ -148,7 +148,7 @@ try {
     const joinedCountFromAPI = statusCountData.joined_count;
     const rejectedCountFromAPI = statusCountData.rejected_count;
   // Fetch percentage data
-  const callCountFromModelResponse = await axios.get('https://nemo.ivistaz.co/candidate/percentage');
+  const callCountFromModelResponse = await axios.get('http://localhost:4000/candidate/percentage');
   const callCountFromModel = callCountFromModelResponse.data.call_count;
   console.log(callCountFromModelResponse)
   // Calculate the difference in percentages  
@@ -275,7 +275,7 @@ document.getElementById('user-group').textContent = decodedToken.userGroup
 const fetchAndGenerateRankChart = async () => {
   try {
     // Make an HTTP GET request to your server endpoint
-    const response = await axios.get('https://nemo.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
+    const response = await axios.get('http://localhost:4000/candidate/getGraph',{headers:{"Authorization":token}});
     
     // Extract rankCounts from the response data
     const rankCounts = response.data.rankCounts;
@@ -365,7 +365,7 @@ function generateDoughnutChart(rankCounts) {
 const fetchAndLogRankCounts = async () => {
   try {
     // Make an HTTP GET request to your server endpoint
-    const response = await axios.get('https://nemo.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
+    const response = await axios.get('http://localhost:4000/candidate/getGraph',{headers:{"Authorization":token}});
     
     // Extract rankCounts from the response data
     const rankCounts = response.data.rankCounts;
@@ -407,7 +407,7 @@ document.getElementById("logout").addEventListener("click", function() {
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+    axios.put(`http://localhost:4000/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -462,7 +462,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchCandidates() {
   try {
-      const response = await axios.get('https://nemo.ivistaz.co/candidate/getCount', {
+      const response = await axios.get('http://localhost:4000/candidate/getCount', {
           headers: { "Authorization": token }
       });
       const { activeCount, inactiveCount } = response.data;
