@@ -2412,7 +2412,7 @@ const workedWith = async (req, res) => {
         // Extract pagination parameters from request query
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 25;
-
+        console.log(page,pageSize)
         // Fetch candidates where the 'ntbr' field is not null
         const candidatesWithNTBR = await Candidate.findAll({
             where: {
