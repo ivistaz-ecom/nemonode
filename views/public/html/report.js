@@ -1728,8 +1728,8 @@ function formatDate(dateString) {
     let totalPagesCandidates = 0; // Global variable to keep track of the total number of pages for candidates
   let totalPagesContracts = 0; // Global variable to keep track of the total number of pages for contracts
   
-  async function handleDueForWorkedWithSubmit(event, page = 1) {
-      event.preventDefault(); // Prevent default form submission behavior
+  async function handleDueForWorkedWithSubmit( page = 1) {
+     
   
       try {
             const pages = page
@@ -1827,24 +1827,24 @@ function formatDate(dateString) {
   // Function to handle next page button click
   document.getElementById('nextPageBtn').addEventListener('click', () => {
         pagenumber++
-      handleDueForWorkedWithSubmit(event, pagenumber + 1);
+      handleDueForWorkedWithSubmit( pagenumber + 1);
   });
   
   // Function to handle previous page button click
   document.getElementById('prevPageBtn').addEventListener('click', () => {
         pagenumber--
-          handleDueForWorkedWithSubmit(event, pagenumber - 1);
+          handleDueForWorkedWithSubmit( pagenumber - 1);
    
   });
   
   // Add event listener to the form
   document.getElementById('dueForWorkedWithForm').addEventListener('submit', () => {
-      handleDueForWorkedWithSubmit(event);
+      handleDueForWorkedWithSubmit();
   });
   
   // Add event listener to the pageSizeSelect dropdown
   document.getElementById('pageSizeSelect').addEventListener('change', () => {
-      handleDueForWorkedWithSubmit(event);
+      handleDueForWorkedWithSubmit();
   });
   
   // Function to handle viewing a candidate
