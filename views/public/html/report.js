@@ -1729,7 +1729,7 @@ function formatDate(dateString) {
     let totalPagesCandidates = 0; // Global variable to keep track of the total number of pages for candidates
   let totalPagesContracts = 0; // Global variable to keep track of the total number of pages for contracts
   
-  async function handleDueForWorkedWithSubmit(event, page = 1) {
+  async function handleDueForWorkedWithSubmit(event, pages = 1) {
       event.preventDefault(); // Prevent default form submission behavior
   
       try {
@@ -1739,7 +1739,7 @@ function formatDate(dateString) {
           // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
           const response = await axios.get('https://nemo.ivistaz.co/candidate/worked', {
               params: {
-                  page, // Use the provided page number
+                  pages, // Use the provided page number
                   pageSize // Use selected page size
               }
           });
