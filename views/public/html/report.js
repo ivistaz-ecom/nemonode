@@ -1722,107 +1722,140 @@ function formatDate(dateString) {
         window.location.href = "loginpage.html";
     }, 2000);
   });
-  async function handleDueForWorkedWithSubmit(event) {
-    event.preventDefault(); // Prevent default form submission behavior
 
-    try {
-        // Get the selected value from the dropdown
-        const pageSize = document.getElementById('pageSizeSelect').value;
 
-        // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/workedwith', {
-            params: {
-                page: 1, // Default to page 1
-                pageSize: pageSize // Use selected page size
-            }
-        });
-
-        console.log(response.data); // Assuming the server sends back some data
-        const candidatesWithNTBR = response.data.candidatesWithNTBR;
-        const onboardContracts = response.data.onboardContracts;
-
-        // Clear existing tables, if any
-        const candidatesTableContainer = document.getElementById('CandidatesTableBody');
-        candidatesTableContainer.innerHTML = '';
-
-        const contractsTableContainer = document.getElementById('ContractsTableBody');
-        contractsTableContainer.innerHTML = '';
-
-        // Populate table with candidates with 'ntbr' data
-        candidatesWithNTBR.forEach(candidate => {
-            const row = document.createElement('tr');
-
-            // Create button element for candidate ID
-            const candidateIdBtn = document.createElement('button');
-            candidateIdBtn.textContent = candidate.candidateId;
-            candidateIdBtn.classList.add('btn', 'text-primary');
-            candidateIdBtn.onclick = function() {
-                viewCandidate(candidate.candidateId);
-            };
-
-            // Append button to row
-            const cell = document.createElement('td');
-            cell.appendChild(candidateIdBtn);
-            row.appendChild(cell);
-
-            // Add NTBR to row
-            const ntbrCell = document.createElement('td');
-            ntbrCell.textContent = candidate.ntbr;
-            ntbrCell.classList.add('text-center');
-            row.appendChild(ntbrCell);
-
-            // Append row to table
-            candidatesTableContainer.appendChild(row);
-        });
-
-        // Populate table with contracts data
-        onboardContracts.forEach(contract => {
-            const row = document.createElement('tr');
-
-            // Create button element for candidate ID
-            const candidateIdBtn = document.createElement('button');
-            candidateIdBtn.textContent = contract.candidateId;
-            candidateIdBtn.classList.add('btn', 'text-primary');
-            candidateIdBtn.onclick = function() {
-                viewCandidate(contract.candidateId);
-            };
-
-            // Append button to row
-            const cell = document.createElement('td');
-            cell.appendChild(candidateIdBtn);
-            row.appendChild(cell);
-
-            // Add other contract fields to row
-            const fields = [
-                contract.sign_on,
-                contract.sign_off,
-                contract.sign_on_port,
-                contract.sign_off_port
-            ];
-            fields.forEach(field => {
-                const cell = document.createElement('td');
-                cell.textContent = field;
-                cell.classList.add('text-center');
-                row.appendChild(cell);
-            });
-            contractsTableContainer.appendChild(row);
-        });
-
-        // Show the export to Excel buttons (if needed)
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// Function to handle viewing a candidate
-function viewCandidate(candidateId) {
-    localStorage.setItem('memId', candidateId);
-    window.location.href = './view-candidate.html';
-}
-
-// Add event listener to the form
-document.getElementById('dueForWorkedWithForm').addEventListener('submit', handleDueForWorkedWithSubmit);
-
-// Add event listener to the pageSizeSelect dropdown
-document.getElementById('pageSizeSelect').addEventListener('change', handleDueForWorkedWithSubmit);
+  let pagenumber = 1
+    let totalPagesCandidates = 0; // Global variable to keep track of the total number of pages for candidates
+  let totalPagesContracts = 0; // Global variable to keep track of the total number of pages for contracts
+  
+  async function handleDueForWorkedWithSubmit(event, pageNumber = 1) {
+      event.preventDefault(); // Prevent default form submission behavior
+  
+      try {
+          // Get the selected value from the dropdown
+          const pageSize = document.getElementById('pageSizeSelect').value;
+  
+          // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
+          const response = await axios.get('https://nemo.ivistaz.co/candidate/workedwith', {
+              params: {
+                  page: pageNumber, // Use the provided page number
+                  pageSize: pageSize // Use selected page size
+              }
+          });
+  
+          console.log(response.data); // Assuming the server sends back some data
+          const candidatesWithNTBR = response.data.candidatesWithNTBR;
+          const onboardContracts = response.data.onboardContracts;
+          totalPagesCandidates = response.data.totalCandidatesPages;
+          totalPagesContracts = response.data.totalContractsPages;
+  
+          // Clear existing tables, if any
+          const candidatesTableContainer = document.getElementById('CandidatesTableBody');
+          candidatesTableContainer.innerHTML = '';
+  
+          const contractsTableContainer = document.getElementById('ContractsTableBody');
+          contractsTableContainer.innerHTML = '';
+  
+          // Populate table with candidates with 'ntbr' data
+          candidatesWithNTBR.forEach(candidate => {
+              const row = document.createElement('tr');
+  
+              // Create button element for candidate ID
+              const candidateIdBtn = document.createElement('button');
+              candidateIdBtn.textContent = candidate.candidateId;
+              candidateIdBtn.classList.add('btn', 'text-primary');
+              candidateIdBtn.onclick = function() {
+                  viewCandidate(candidate.candidateId);
+              };
+  
+              // Append button to row
+              const cell = document.createElement('td');
+              cell.appendChild(candidateIdBtn);
+              row.appendChild(cell);
+  
+              // Add NTBR to row
+              const ntbrCell = document.createElement('td');
+              ntbrCell.textContent = candidate.ntbr;
+              ntbrCell.classList.add('text-center');
+              row.appendChild(ntbrCell);
+  
+              // Append row to table
+              candidatesTableContainer.appendChild(row);
+          });
+  
+          // Populate table with contracts data
+          onboardContracts.forEach(contract => {
+              const row = document.createElement('tr');
+  
+              // Create button element for candidate ID
+              const candidateIdBtn = document.createElement('button');
+              candidateIdBtn.textContent = contract.candidateId;
+              candidateIdBtn.classList.add('btn', 'text-primary');
+              candidateIdBtn.onclick = function() {
+                  viewCandidate(contract.candidateId);
+              };
+  
+              // Append button to row
+              const cell = document.createElement('td');
+              cell.appendChild(candidateIdBtn);
+              row.appendChild(cell);
+  
+              // Add other contract fields to row
+              const fields = [
+                  contract.sign_on,
+                  contract.sign_off,
+                 
+              ];
+              fields.forEach(field => {
+                  const cell = document.createElement('td');
+                  cell.textContent = field;
+                  cell.classList.add('text-center');
+                  row.appendChild(cell);
+              });
+              contractsTableContainer.appendChild(row);
+          });
+  
+          // Update the current page number and pagination info
+          updatePaginationInfo();
+  
+      } catch (error) {
+          console.error(error);
+      }
+  }
+  
+  // Function to handle next page button click
+  document.getElementById('nextPageBtn').addEventListener('click', () => {
+        pagenumber++
+      handleDueForWorkedWithSubmit(event, pagenumber + 1);
+  });
+  
+  // Function to handle previous page button click
+  document.getElementById('prevPageBtn').addEventListener('click', () => {
+        pagenumber--
+          handleDueForWorkedWithSubmit(event, pagenumber - 1);
+   
+  });
+  
+  // Add event listener to the form
+  document.getElementById('dueForWorkedWithForm').addEventListener('submit', () => {
+      handleDueForWorkedWithSubmit(event);
+  });
+  
+  // Add event listener to the pageSizeSelect dropdown
+  document.getElementById('pageSizeSelect').addEventListener('change', () => {
+      handleDueForWorkedWithSubmit(event);
+  });
+  
+  // Function to handle viewing a candidate
+  function viewCandidate(candidateId) {
+      localStorage.setItem('memId', candidateId);
+      window.location.href = './view-candidate.html';
+  }
+  
+  // Function to update pagination info
+  function updatePaginationInfo() {
+     
+      document.getElementById('totalPagesCandidates').textContent = "Page " + pagenumber +" of " + totalPagesCandidates;
+      document.getElementById('totalPagesContracts').textContent = "Page " + pagenumber +" of "+ totalPagesContracts;
+  }
+  
