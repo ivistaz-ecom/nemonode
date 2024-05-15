@@ -624,7 +624,14 @@ app.use('/candidate-password', cPasswordRoutes);
 
 
 app.use((req, res, next) => {
-    const viewPath = path.join(__dirname,req.path);
+    // Decode the requested URL to handle URL-encoded characters
+    const decodedUrl = decodeURIComponent(req.url);
+    // Replace '%20' with space in the URL
+    const urlWithSpaces = decodedUrl.replace(/%20/g, ' ');
+    // Construct the absolute file path relative to the current directory
+    const viewPath = path.join(__dirname, urlWithSpaces.substring(1)); // Remove the leading '/'
+
+    // Send the file
     res.sendFile(viewPath, (err) => {
         if (err) {
             console.error('Error serving file:', err);
