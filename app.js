@@ -629,20 +629,23 @@ app.use((req, res, next) => {
     // Replace '%20' with space in the URL
     const urlWithSpaces = decodedUrl.replace(/%20/g, ' ');
     // Construct the absolute file path relative to the current directory
-    const viewPath = path.join(__dirname, urlWithSpaces.substring(1)); // Remove the leading '/'
+    const filePath = path.join(__dirname, urlWithSpaces.substring(1)); // Remove the leading '/'
 
-    // Send the file
-    res.sendFile(viewPath, (err) => {
+    // Check if the file exists
+    fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
             console.error('Error serving file:', err);
             console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', viewPath);
-            res.status(err.status || 500).send('Internal Server Error');
+            console.error('Resolved File Path:', filePath);
+            res.status(404).send('File Not Found');
         } else {
-            console.log('File sent successfully:', viewPath);
+            // Send the file
+            res.sendFile(filePath);
+            console.log('File sent successfully:', filePath);
         }
     });
 });
+
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
