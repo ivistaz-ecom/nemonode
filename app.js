@@ -621,13 +621,13 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-const remoteSiteFilesDir = '/var/www/html/nemonode/views/public/files';
-
 app.use((req, res, next) => {
     // Decode the requested URL to handle URL-encoded characters
     const decodedUrl = decodeURIComponent(req.url);
+    // Replace '%20' with space in the URL
+    const urlWithSpaces = decodedUrl.replace(/%20/g, ' ');
     // Construct the absolute file path relative to the remote site files directory
-    const relativePath = decodedUrl.substring(1); // Remove the leading '/'
+    const relativePath = urlWithSpaces.substring(1); // Remove the leading '/'
     const viewPath = path.join(remoteSiteFilesDir, relativePath);
 
     // Send the file
@@ -642,7 +642,6 @@ app.use((req, res, next) => {
         }
     });
 });
-
 
 
 
