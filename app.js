@@ -622,23 +622,9 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    // Decode the requested path to handle URL-encoded characters
-    const decodedPath = decodeURIComponent(req.path);
-    // Sanitize the decoded path to prevent directory traversal attacks
-    const requestedPath = path.normalize(decodedPath);
-    // Construct the absolute path to the file
-    const viewPath = path.join(__dirname, 'public', requestedPath);
-
-    // Check if the requested path is within the allowed directory
-    if (!viewPath.startsWith(path.join(__dirname, 'public'))) {
-        console.error('Invalid file path requested:', req.path);
-        return res.status(403).send('Forbidden');
-    }
-
-    // Send the file without error handling
+    const viewPath = path.join(__dirname, req.path);
     res.sendFile(viewPath);
 });
-
 
 
 
