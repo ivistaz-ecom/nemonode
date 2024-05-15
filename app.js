@@ -622,13 +622,31 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    const viewPath = path.join(__dirname, req.path);
+    // Sanitize the requested path to prevent directory traversal attacks
+    const requestedPath = path.normalize(req.path);
+    // Construct the absolute path to the file
+    const viewPath = path.join(__dirname, 'public', requestedPath);
+
+    // Check if the requested path is within the allowed directory
+    if (!viewPath.startsWith(path.join(__dirname, 'public'))) {
+        console.error('Invalid file path requested:', req.path);
+        return res.status(403).send('Forbidden');
+    }
+
+    // Send the file
     res.sendFile(viewPath, (err) => {
         if (err) {
             console.error('Error serving file:', err);
             console.error('Requested URL:', req.url);
             console.error('Resolved File Path:', viewPath);
-            res.status(err.status || 500).send('Internal Server Error');
+            // Handle different types of errors
+            if (err.code === 'ENOENT') {
+                // File not found
+                res.status(404).send('File Not Found');
+            } else {
+                // Other internal server errors
+                res.status(500).send('Internal Server Error');
+            }
         } else {
             console.log('File sent successfully:', viewPath);
         }
