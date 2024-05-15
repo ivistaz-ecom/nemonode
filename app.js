@@ -622,6 +622,7 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
+    console.log(__dirname)
     const viewPath = path.join(__dirname, req.url);
     res.sendFile(viewPath, (err) => {
         if (err) {
