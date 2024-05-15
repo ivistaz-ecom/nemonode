@@ -621,11 +621,28 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-app.use((req, res) => {
-    let url = req.url
-    console.log(url)
-    res.sendFile(path.join(__dirname, `public/${url}`))
-})
+const remoteSiteFilesDir = '/var/www/html/nemonode/views/public/files';
+
+app.use((req, res, next) => {
+    // Decode the requested URL to handle URL-encoded characters
+    const decodedUrl = decodeURIComponent(req.url);
+    // Construct the absolute file path relative to the remote site files directory
+    const relativePath = decodedUrl.substring(1); // Remove the leading '/'
+    const viewPath = path.join(remoteSiteFilesDir, relativePath);
+
+    // Send the file
+    res.sendFile(viewPath, (err) => {
+        if (err) {
+            console.error('Error serving file:', err);
+            console.error('Requested URL:', req.url);
+            console.error('Resolved File Path:', viewPath);
+            res.status(err.status || 500).send('Internal Server Error');
+        } else {
+            console.log('File sent successfully:', viewPath);
+        }
+    });
+});
+
 
 
 
