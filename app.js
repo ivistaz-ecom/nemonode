@@ -622,13 +622,7 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    // Decode the requested URL to handle URL-encoded characters
-    const decodedUrl = decodeURIComponent(req.url);
-    // Construct the absolute file path by removing the initial '/'
-    const relativePath = decodedUrl.substring(1);
-    const viewPath = path.join(__dirname, 'public', relativePath);
-
-    // Send the file
+    const viewPath = path.join(__dirname, req.url);
     res.sendFile(viewPath, (err) => {
         if (err) {
             console.error('Error serving file:', err);
