@@ -622,7 +622,12 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    const viewPath = path.join(__dirname, req.path);
+    // Decode the requested URL to handle URL-encoded characters
+    const decodedUrl = decodeURIComponent(req.url);
+    // Construct the absolute file path relative to the base directory
+    const viewPath = path.join('/var/www/html/nemonode/views/public/files', decodedUrl);
+
+    // Send the file
     res.sendFile(viewPath, (err) => {
         if (err) {
             console.error('Error serving file:', err);
