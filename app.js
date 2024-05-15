@@ -621,21 +621,11 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-app.use((req, res, next) => {
-    // Use req.originalUrl to get the entire URL including the query string
-    const viewPath = path.join(__dirname, req.originalUrl);
-
-    res.sendFile(viewPath, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.originalUrl);
-            console.error('Resolved File Path:', viewPath);
-            res.status(err.status || 500).send('Internal Server Error');
-        } else {
-            console.log('File sent successfully:', viewPath);
-        }
-    });
-});
+app.use((req, res) => {
+    let url = req.url
+    console.log(url)
+    res.sendFile(path.join(__dirname, `public/${url}`))
+})
 
 
 
