@@ -622,8 +622,23 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    const viewPath = path.join(__dirname, req.path);
-    res.sendFile(viewPath);
+    // Decode the requested URL to handle URL-encoded characters
+    const decodedUrl = decodeURIComponent(req.url);
+    // Construct the absolute file path by removing the initial '/'
+    const relativePath = decodedUrl.substring(1);
+    const viewPath = path.join(__dirname, 'public', relativePath);
+
+    // Send the file
+    res.sendFile(viewPath, (err) => {
+        if (err) {
+            console.error('Error serving file:', err);
+            console.error('Requested URL:', req.url);
+            console.error('Resolved File Path:', viewPath);
+            res.status(err.status || 500).send('Internal Server Error');
+        } else {
+            console.log('File sent successfully:', viewPath);
+        }
+    });
 });
 
 
