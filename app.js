@@ -621,6 +621,9 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
+const remoteSiteFilesDir = '/var/www/html/nemonode/views/public/files';
+
+
 app.use((req, res, next) => {
     // Decode the requested URL to handle URL-encoded characters
     const decodedUrl = decodeURIComponent(req.url);
