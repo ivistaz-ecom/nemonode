@@ -4,7 +4,6 @@ const PORT = process.env.PORT;
 const app = express()
 
 const path = require('path'); // Add this line to import the path module
-const fs = require('fs').promises;
 
 const cors = require("cors")
 const bodyParser=require('body-parser');
@@ -622,29 +621,34 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
+const remoteSiteFilesDir = '/var/www/html/nemonode/views/public/files';
+
 
 app.use((req, res, next) => {
     // Decode the requested URL to handle URL-encoded characters
     const decodedUrl = decodeURIComponent(req.url);
     // Replace '%20' with space in the URL
     const urlWithSpaces = decodedUrl.replace(/%20/g, ' ');
-    // Construct the absolute file path relative to the current directory
-    const filePath = path.join(__dirname, urlWithSpaces.substring(1)); // Remove the leading '/'
+    // Construct the absolute file path relative to the remote site files directory
+    const relativePath = urlWithSpaces.substring(1); // Remove the leading '/'
+    const viewPath = path.join(remoteSiteFilesDir, relativePath);
 
-    // Check if the file exists
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', filePath);
-            res.status(404).send('File Not Found');
-        } else {
-            // Send the file
-            res.sendFile(filePath);
-            console.log('File sent successfully:', filePath);
-        }
-    });
+    // Custom function to serve the file
+    serveFile(viewPath, res);
 });
+
+// Function to serve the file
+async function serveFile(filePath, res) {
+    try {
+        // Check if the file exists
+        await fs.access(filePath);
+        // Send the file
+        res.sendFile(filePath);
+    } catch (error) {
+        console.error('Error serving file:', error);
+        res.status(404).send('File Not Found');
+    }
+}
 
 
 
