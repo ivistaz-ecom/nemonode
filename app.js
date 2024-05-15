@@ -638,6 +638,7 @@ app.use((req, res, next) => {
     serveFile(viewPath, res);
 });
 
+
 // Function to serve the file
 async function serveFile(filePath, res) {
     try {
