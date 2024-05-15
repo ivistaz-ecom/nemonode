@@ -635,24 +635,8 @@ app.use((req, res, next) => {
         return res.status(403).send('Forbidden');
     }
 
-    // Send the file
-    res.sendFile(viewPath, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', viewPath);
-            // Handle different types of errors
-            if (err.code === 'ENOENT') {
-                // File not found
-                res.status(404).send('File Not Found');
-            } else {
-                // Other internal server errors
-                res.status(500).send('Internal Server Error');
-            }
-        } else {
-            console.log('File sent successfully:', viewPath);
-        }
-    });
+    // Send the file without error handling
+    res.sendFile(viewPath);
 });
 
 
