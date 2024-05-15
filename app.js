@@ -630,18 +630,22 @@ app.use((req, res, next) => {
     const relativePath = urlWithSpaces.substring(1); // Remove the leading '/'
     const viewPath = path.join(remoteSiteFilesDir, relativePath);
 
-    // Send the file
-    res.sendFile(viewPath, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', viewPath);
-            res.status(err.status || 500).send('Internal Server Error');
-        } else {
-            console.log('File sent successfully:', viewPath);
-        }
-    });
+    // Custom function to serve the file
+    serveFile(viewPath, res);
 });
+
+// Function to serve the file
+async function serveFile(filePath, res) {
+    try {
+        // Check if the file exists
+        await fs.access(filePath);
+        // Send the file
+        res.sendFile(filePath);
+    } catch (error) {
+        console.error('Error serving file:', error);
+        res.status(404).send('File Not Found');
+    }
+}
 
 
 
