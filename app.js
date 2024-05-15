@@ -622,8 +622,10 @@ cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
 app.use((req, res, next) => {
-    // Sanitize the requested path to prevent directory traversal attacks
-    const requestedPath = path.normalize(req.path);
+    // Decode the requested path to handle URL-encoded characters
+    const decodedPath = decodeURIComponent(req.path);
+    // Sanitize the decoded path to prevent directory traversal attacks
+    const requestedPath = path.normalize(decodedPath);
     // Construct the absolute path to the file
     const viewPath = path.join(__dirname, 'public', requestedPath);
 
@@ -652,6 +654,7 @@ app.use((req, res, next) => {
         }
     });
 });
+
 
 
 
