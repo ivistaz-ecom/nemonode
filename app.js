@@ -622,36 +622,20 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-const remoteSiteFilesDir = '/var/www/html/nemonode/views/public/files';
-
 
 app.use((req, res, next) => {
-    // Decode the requested URL to handle URL-encoded characters
-    const decodedUrl = decodeURIComponent(req.url);
-    // Replace '%20' with space in the URL
-    const urlWithSpaces = decodedUrl.replace(/%20/g, ' ');
-    // Construct the absolute file path relative to the remote site files directory
-    const relativePath = urlWithSpaces.substring(1); // Remove the leading '/'
-    const viewPath = path.join(remoteSiteFilesDir, relativePath);
-
-    // Custom function to serve the file
-    serveFile(viewPath, res);
+    const viewPath = path.join(__dirname,req.path);
+    res.sendFile(viewPath, (err) => {
+        if (err) {
+            console.error('Error serving file:', err);
+            console.error('Requested URL:', req.url);
+            console.error('Resolved File Path:', viewPath);
+            res.status(err.status || 500).send('Internal Server Error');
+        } else {
+            console.log('File sent successfully:', viewPath);
+        }
+    });
 });
-
-
-// Function to serve the file
-async function serveFile(filePath, res) {
-    try {
-        // Check if the file exists
-        await fs.access(filePath);
-        // Send the file
-        res.sendFile(filePath);
-    } catch (error) {
-        console.error('Error serving file:', error);
-        res.status(404).send('File Not Found');
-    }
-}
-
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
