@@ -483,6 +483,17 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_c_tel2').value = candidateData.c_tel2;
         document.getElementById('edit_candidate_email2').value = candidateData.email2;
 
+        const photoValue = document.getElementById('edit_candidate_photos').value;
+
+        // Extract the photo name from the photo value
+        const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+    
+        // Update the src attribute of the img tag
+        const imageContainer = document.getElementById('imageContainer');
+        const image = imageContainer.querySelector('img');
+        image.src = "/photos/" + photoName;
+        image.alt = "Description of the image"; // Add alt attribute if needed
+        console.log(image.src)
         // Hidden fields
     } catch (error) {
         console.error('Error displaying candidate details:', error);
@@ -492,7 +503,7 @@ async function displayCandidateDetails() {
     } catch (error) {
         console.error('Error fetching and displaying data:', error);
     }
-    updateCandidatePhoto();
+   
 
 });
 
@@ -800,21 +811,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
     }
 }
 
-function updateCandidatePhoto() {
-    // Fetch the photo value from the form
-    const photoValue = document.getElementById('edit_candidate_photos').value;
 
-    // Extract the photo name from the photo value
-    const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-
-    // Update the src attribute of the img tag
-    const imageContainer = document.getElementById('imageContainer');
-    const image = imageContainer.querySelector('img');
-    image.src = "/photos/" + photoName;
-    image.alt = "Description of the image"; // Add alt attribute if needed
-    console.log(image.src)
-}
-updateCandidatePhoto()
 // Call the function to update the photo
 
 
