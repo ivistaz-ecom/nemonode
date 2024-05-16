@@ -483,17 +483,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_c_tel2').value = candidateData.c_tel2;
         document.getElementById('edit_candidate_email2').value = candidateData.email2;
 
-        const photoValue = document.getElementById('edit_candidate_photos').value;
-
-        // Extract the photo name from the photo value
-        const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-    
-        // Update the src attribute of the img tag
-        const imageContainer = document.getElementById('imageContainer');
-        const image = imageContainer.querySelector('img');
-        image.src = "/photos/" + photoName;
-        image.alt = "Description of the image"; // Add alt attribute if needed
-        console.log(image.src)
+        
         // Hidden fields
     } catch (error) {
         console.error('Error displaying candidate details:', error);
@@ -996,3 +986,28 @@ function displayEvaluationData(evaluationData) {
 
 // Call the function to fetch and display evaluation data
 fetchAndDisplayEvaluationData();
+
+
+function updateCandidatePhoto() {
+    // Simulate fetching the photo value from a database or other source
+    const fetchedPhotoValue = "/photos/1_Somesh 2nd mate.JPG"; // Replace with actual fetching mechanism
+
+    // Set the fetched photo value to the input field
+    document.getElementById('edit_candidate_photos').value = fetchedPhotoValue;
+
+    // Fetch the photo value from the form
+    const photoValue = document.getElementById('edit_candidate_photos').value;
+
+    // Extract the photo name from the photo value
+    const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+
+    // Update the src attribute of the img tag
+    const imageContainer = document.getElementById('imageContainer');
+    const image = imageContainer.querySelector('img');
+    image.src = "/photos/" + photoName;
+    image.alt = "Description of the image"; // Add alt attribute if needed
+    console.log(image.src); // Check the src attribute in the console
+}
+
+// Call the function to update the photo
+updateCandidatePhoto();
