@@ -417,7 +417,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayMedicalDetails(candidateId)
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
-        updateCandidatePhoto();
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
@@ -493,6 +492,8 @@ async function displayCandidateDetails() {
     } catch (error) {
         console.error('Error fetching and displaying data:', error);
     }
+    updateCandidatePhoto();
+
 });
 
 async function editCandidate() {
@@ -813,7 +814,7 @@ function updateCandidatePhoto() {
     image.alt = "Description of the image"; // Add alt attribute if needed
     console.log(image.src)
 }
-
+updateCandidatePhoto()
 // Call the function to update the photo
 
 
