@@ -17,6 +17,7 @@ function loadContent(section) {
     document.getElementById('medicalContent').style.display = 'none';
     document.getElementById('nkdContent').style.display = 'none';
     document.getElementById('seaServiceContent').style.display = 'none';
+    document.getElementById('evaluationContent').style.display = 'none';
 
     // Show the selected content div
     document.getElementById(`${section}Content`).style.display = 'block';
@@ -920,4 +921,60 @@ async function fetchAndDisplayDiscussions(candidateId) {
 
   
   // Call the async function to fetch and display discussions
-  
+// Fetch and display evaluation data for the candidate
+async function fetchAndDisplayEvaluationData() {
+    try {
+        // Fetch evaluation data from the server
+        const id = localStorage.getItem('memId');
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/evaluation-data/${id}`);
+
+        // Extract evaluation data from the response
+        const evaluationData = response.data; // Access data property
+
+        // Display evaluation data in a table
+        displayEvaluationData(evaluationData);
+    } catch (error) {
+        console.error('Error fetching evaluation data:', error.message);
+        // Optionally, you can display an error message to the user
+    }
+}
+
+// Function to display evaluation data in a table
+function displayEvaluationData(evaluationData) {
+    const tableBody = document.getElementById('evaluationTableBody');
+
+    // Clear existing table rows
+    tableBody.innerHTML = '';
+
+    // Iterate over evaluation data and create table rows
+    evaluationData.forEach(evaluation => {
+        const row = tableBody.insertRow();
+
+        // Insert cells into the row
+        const evalTypeCell = row.insertCell();
+        evalTypeCell.textContent = evaluation.eval_type;
+
+        const interviewerNameCell = row.insertCell();
+        interviewerNameCell.textContent = evaluation.interviewer_name;
+
+        const appliedRankCell = row.insertCell();
+        appliedRankCell.textContent = evaluation.applied_rank;
+
+        const appliedDateCell = row.insertCell();
+        appliedDateCell.textContent = evaluation.applied_date;
+
+        const timeCell = row.insertCell();
+        timeCell.textContent = evaluation.time;
+
+        const remoteCell = row.insertCell();
+        remoteCell.textContent = evaluation.remote;
+
+        const appliedByCell = row.insertCell();
+        appliedByCell.textContent = evaluation.applied_by;
+
+    });
+}
+
+
+// Call the function to fetch and display evaluation data
+fetchAndDisplayEvaluationData();

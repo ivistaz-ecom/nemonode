@@ -47,7 +47,7 @@ const Company = require("./models/company");
 const nemo_country=require('./models/country')
 const Seaservice = require('./models/seaservice')
 const discussion = require('./models/discussion')
-
+const evaluation = require('./models/evaluation')
 
 //candidate relations
 const Candidate = require("./models/candidate")
@@ -63,8 +63,8 @@ const NKD = require('./models/nkd');
 
 User.hasMany(Candidate, { foreignKey: 'userId' })
 Candidate.belongsTo(User, { foreignKey: 'userId' })
-
-
+Candidate.hasMany(evaluation,{foreignKey:'candidateId'})
+evaluation.belongsTo(Candidate,{foreignKey:'candidateId'})
 Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
 discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
 Candidate.hasMany(discussion, { foreignKey: 'candidateId' });

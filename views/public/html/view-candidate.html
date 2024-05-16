@@ -601,6 +601,7 @@
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('medical')">Medical</button>
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('nkd')">NKD</button>
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('seaService')">Sea Service</button>
+                                  <button type="button" class="btn btn-primary mb-2" onclick="loadContent('evaluation')">Evaluation</button>
                                   <!-- Content will be dynamically replaced here -->
                               </div>
                               
@@ -1464,7 +1465,33 @@
                                       </div>
                                   </div>
                               </div>
-                              
+                              <div id="evaluationContent" style="display: none;">
+                                <div class="container mt-5 mb-3">
+                                  <h4 class="text-center mb-0 rounded-0 shadow-none border border-dark card p-3">Evaluation Data</h4>
+                                  <div class="table-responsive">
+                                      <table class="table table-bordered table-sm table-striped">
+                                          <thead>
+                                              <tr>
+                                                  <th>Evaluation Type</th>
+                                                  <th>Interviewer Email</th>
+
+                                                  <th>Applied Rank</th>
+                                                  <th>Applied Date</th>
+                                                  <th>Time</th>
+                                                  <th>Remote Link</th>
+                                                  <th>Applied By</th>
+                                                  <th>Actions</th>
+
+                                              </tr>
+                                          </thead>
+                                          <tbody id="evaluationTableBody">
+                                              <!-- Table rows will be dynamically inserted here -->
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                            
                             </div>
                                 
                              
