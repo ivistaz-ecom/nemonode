@@ -16,6 +16,9 @@ const {Op} = require('sequelize')
 const validate = (inputString) => inputString !== undefined && inputString.length !== 0;
 const SeaService = require('../models/seaservice')
 const Calls = require('../models/todaysCalls')
+const Evaluation = require('../models/evaluation')
+const uuid = require('uuid');
+const Sib = require('sib-api-v3-sdk');
 
 const add_candidate = async (req, res) => {
     try {
@@ -2448,8 +2451,85 @@ const workedWith = async (req, res) => {
     }
 }
 
+const evaluation = async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { eval_type, applied_rank, applied_date, time, remote, applied_by, interviewer_name } = req.body;
+
+        // Create a new evaluation dataset
+        const evaluation = await Evaluation.create({
+            candidateId: req.params.id, // Assuming candidateId is passed as a parameter
+            eval_type,
+            applied_rank,
+            applied_date,
+            time,
+            remote,
+            applied_by,
+            interviewer_name
+        });
+
+        // Send email to the interviewer
+        const client = Sib.ApiClient.instance;
+        const apiKey = client.authentications['api-key'];
+        apiKey.apiKey = process.env.BREVO_API_KEY;
+        const tranEmailApi = new Sib.TransactionalEmailsApi();
+        const sender = {
+            email: 'mccivistasolutions@gmail.com',
+            name: 'I-Vistaz'
+        };
+        const receivers = [
+            {
+                email: interviewer_name // Assuming interviewer_name is the interviewer's email address
+            }
+        ];
+
+        tranEmailApi.sendTransacEmail({
+            sender,
+            to: receivers,
+            subject: 'Evaluation for Nemo Candidate',
+            htmlContent: `
+
+                <h2>Hello!</h2>
+                <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting is provided below</p>
+                <h1>Interview Details</h1>
+                <p>Applied Rank: ${applied_rank}</p>
+                <p>Applied Date: ${applied_date}</p>
+                <p>Time: ${time}</p>
+                <p>Remote Link: ${remote}</p>
+                <p>Applied By: ${applied_by}</p>
+                
+               <p>Have a Wonderful day!</p>
+
+              <p>Thanks and Regards, </p>
+               <p>Nemo</p>
+            `,
+        })
+        .then(result => console.log(result))
+        .catch(err => console.log(err));
+
+        res.status(201).json(evaluation);
+    } catch (error) {
+        console.error('Error creating evaluation dataset:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
+  const getEvaluationDetails = async (req, res) => {
+    try {
+        const candidateId = req.params.id;
+        
+        // Assuming you have a Sequelize model named Evaluation representing evaluation details
+        const evaluationDetails = await Evaluation.findAll({
+            where: { candidateId: candidateId }
+        });
+
+        res.status(200).json(evaluationDetails);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
 
 
 module.exports = {
@@ -2518,6 +2598,8 @@ module.exports = {
     getStatusCount,
     getStatusData,
     getStatusDate,
-   workedWith
+   workedWith,
+   evaluation,
+   getEvaluationDetails
     
 };
