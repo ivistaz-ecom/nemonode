@@ -467,7 +467,6 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
         document.getElementById('edit_candidate_photos').value= candidateData.photos
-        console.log(candidateData.photos,candidateData.resume)
         document.getElementById('edit_candidate_resume').value= candidateData.resume
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
@@ -487,7 +486,6 @@ async function displayCandidateDetails() {
        
 
         // Call the function to update the photo
-        updateCandidatePhoto(candidateData);
         
         // Hidden fields
     } catch (error) {
@@ -528,7 +526,10 @@ async function editCandidate() {
     var group = document.getElementById('edit_candidate_group').value;
     var vendor = document.getElementById('edit_candidate_vendor').value;
     var photo = document.getElementById('edit_candidate_photos').value; // Assuming this is a file input, consider handling file uploads appropriately
-    var resume = document.getElementById('edit_candidate_resume').value; // Assuming this is a file input, consider handling file uploads appropriately
+    var resume = document.getElementById('edit_candidate_resume').value;
+        console.log(photo,resume)
+        updateCandidatePhoto(photo)
+    // Assuming this is a file input, consider handling file uploads appropriately
     var address1 = document.getElementById('edit_candidate_c_ad1').value;
     var address2 = document.getElementById('edit_candidate_c_ad2').value;
     var city = document.getElementById('edit_candidate_city').value;
