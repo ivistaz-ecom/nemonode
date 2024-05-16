@@ -590,6 +590,7 @@ const get_candidate = async (req, res) => {
                 { model: Documents },
                 { model: Contract },
                 { model: Discussion_plus },
+                
                 // Add other associated models as needed
             ],
         });
