@@ -629,6 +629,7 @@ app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/pho
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
     const viewPath = path.join(__dirname, req.path);
+    console.log("DIRNAME",__dirname,"PATH",req.path)
     const decodedPath = decodeURIComponent(viewPath); // Decode URL
     res.sendFile(decodedPath, (err) => {
         if (err) {
