@@ -621,7 +621,7 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-app.use(express.static(path.join(__dirname, 'views/public/files')));
+app.use('/public/files', express.static(path.join(__dirname, 'views/public/files')));
 
 
 app.use((req, res, next) => {
