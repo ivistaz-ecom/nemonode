@@ -417,6 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayMedicalDetails(candidateId)
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
+        updateCandidatePhoto();
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
@@ -797,6 +798,24 @@ async function fetchAndDisplayDiscussions(candidateId) {
         console.error('Error fetching discussions:', error);
     }
 }
+
+function updateCandidatePhoto() {
+    // Fetch the photo value from the form
+    const photoValue = document.getElementById('edit_candidate_photos').value;
+
+    // Extract the photo name from the photo value
+    const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+
+    // Update the src attribute of the img tag
+    const imageContainer = document.getElementById('imageContainer');
+    const image = imageContainer.querySelector('img');
+    image.src = "/photos/" + photoName;
+    image.alt = "Description of the image"; // Add alt attribute if needed
+}
+
+// Call the function to update the photo
+
+
 
 
 // document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
