@@ -999,7 +999,9 @@ async function updateCandidatePhoto(id) {
     // Set the fetched photo value to the input field
     
     const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    console.log(response)
     const fetchedPhotoValue = response.data.candidate.photos
+    console.log(fetchedPhotoValue)
     // Fetch the photo value from the form
     const photoValue = fetchedPhotoValue
 
