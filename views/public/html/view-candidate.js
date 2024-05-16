@@ -467,6 +467,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
         document.getElementById('edit_candidate_photos').value= candidateData.photos
+        console.log(candidateData.photos,candidateData.resume)
         document.getElementById('edit_candidate_resume').value= candidateData.resume
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
