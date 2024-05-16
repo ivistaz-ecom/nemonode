@@ -625,6 +625,8 @@ app.use(express.static('/var/www/html/nemonode/views/public/files'));
 
 // Serve static files from the '/var/www/html/nemonode/views/public/files/photos' directory
 app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
+app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
+app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
