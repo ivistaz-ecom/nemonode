@@ -621,19 +621,23 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-app.use(express.static('/var/www/html/nemonode/views/public/files/photos'));
+app.use(express.static('/var/www/html/nemonode/views/public/files'));
 
+// Serve static files from the '/var/www/html/nemonode/views/public/files/photos' directory
+app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
 
+// Middleware for serving files dynamically
 app.use((req, res, next) => {
     const viewPath = path.join(__dirname, req.path);
-    res.sendFile(viewPath, (err) => {
+    const decodedPath = decodeURIComponent(viewPath); // Decode URL
+    res.sendFile(decodedPath, (err) => {
         if (err) {
             console.error('Error serving file:', err);
             console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', viewPath);
+            console.error('Resolved File Path:', decodedPath);
             res.status(err.status || 500).send('Internal Server Error');
         } else {
-            console.log('File sent successfully:', viewPath);
+            console.log('File sent successfully:', decodedPath);
         }
     });
 });
