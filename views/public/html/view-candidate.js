@@ -994,26 +994,28 @@ function displayEvaluationData(evaluationData) {
 fetchAndDisplayEvaluationData();
 
 
-async function updateCandidatePhoto(id) {
-    // Simulate fetching the photo value from a database or other source
-    // Set the fetched photo value to the input field
-    
-    const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
-    console.log(response)
-    const fetchedPhotoValue = response.data.candidate.photos
-    console.log(fetchedPhotoValue)
-    // Fetch the photo value from the form
-    const photoValue = fetchedPhotoValue
-
-    // Extract the photo name from the photo value
-    const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-    console.log(photoName)
-    // Update the src attribute of the img tag
-    const imageContainer = document.getElementById('imageContainer');
-    const image = imageContainer.querySelector('img');
-    image.src = "/photos/" + photoName;
-    image.alt = "Description of the image"; // Add alt attribute if needed
-    console.log(image.src); // Check the src attribute in the console
+function updateCandidatePhoto(candidateData) {
+    // Check if candidateData.photos is defined and not empty
+    if (candidateData && candidateData.photos) {
+        // Extract file name from the file path using File API
+        const photoInput = document.getElementById('edit_candidate_photos');
+        const photoFile = photoInput.files[0];
+        const photoName = photoFile ? photoFile.name : null;
+        
+        if (photoName) {
+            // Update the src attribute of the img tag
+            const imageContainer = document.getElementById('imageContainer');
+            const image = imageContainer.querySelector('img');
+            image.src = "/photos/" + photoName;
+            image.alt = "Description of the image"; // Add alt attribute if needed
+            console.log(image.src); // Check the src attribute in the console
+        } else {
+            console.error("No photo file selected.");
+        }
+    } else {
+        console.error("Candidate photo data is empty or undefined.");
+    }
 }
+
 
 // Call the function to update the photo
