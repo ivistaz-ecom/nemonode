@@ -485,6 +485,9 @@ addcandidateButton.addEventListener("submit", async(e) =>{
                     case 'seaservice':
                         destinationPage=`./seaservicetable.html?memId=${memId}`;
                         break;
+                    case 'evaluation':
+                    destinationPage=`./add-c-evaluation.html?memId=${memId}`;
+                    break;
                 default:
                     // Handle default case or do nothing
                     break;

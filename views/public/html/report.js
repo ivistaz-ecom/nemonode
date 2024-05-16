@@ -1387,7 +1387,7 @@ reliefPlanForm.addEventListener('submit', handleReliefPlan);
 
 const displayUserDropdown = async function () {
     try {
-        const userDropdown = document.getElementById('userDropdown');
+        const userDropdown = document.getElementById('appliedBy');
         userDropdown.innerHTML = ''; // Clear existing options
     
         // Add the default option

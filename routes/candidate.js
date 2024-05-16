@@ -94,5 +94,7 @@ router.get('/statuscount',candidateControllers.getStatusCount)
 router.get('/statusdata',candidateControllers.getStatusData)
 router.get('/statusdate',candidateControllers.getStatusDate)
 router.get('/worked',candidateControllers.workedWith)
+router.post('/evaluation/:id',candidateControllers.evaluation)
+router.get('/evaluation-data/:id',candidateControllers.getEvaluationDetails)
 
 module.exports = router;
