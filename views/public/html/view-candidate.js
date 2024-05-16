@@ -811,6 +811,7 @@ function updateCandidatePhoto() {
     const image = imageContainer.querySelector('img');
     image.src = "/photos/" + photoName;
     image.alt = "Description of the image"; // Add alt attribute if needed
+    console.log(image.src)
 }
 
 // Call the function to update the photo
