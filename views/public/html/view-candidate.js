@@ -417,6 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayMedicalDetails(candidateId)
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
+        updateCandidatePhoto(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
@@ -527,8 +528,7 @@ async function editCandidate() {
     var vendor = document.getElementById('edit_candidate_vendor').value;
     var photo = document.getElementById('edit_candidate_photos').value; // Assuming this is a file input, consider handling file uploads appropriately
     var resume = document.getElementById('edit_candidate_resume').value;
-        console.log(photo,resume)
-        updateCandidatePhoto(photo)
+        
     // Assuming this is a file input, consider handling file uploads appropriately
     var address1 = document.getElementById('edit_candidate_c_ad1').value;
     var address2 = document.getElementById('edit_candidate_c_ad2').value;
@@ -994,12 +994,12 @@ function displayEvaluationData(evaluationData) {
 fetchAndDisplayEvaluationData();
 
 
-function updateCandidatePhoto(candidateData) {
+async function updateCandidatePhoto(id) {
     // Simulate fetching the photo value from a database or other source
-    const fetchedPhotoValue =  candidateData.photos
     // Set the fetched photo value to the input field
     
-
+    const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    const fetchedPhotoValue = response.data.candidate.photos
     // Fetch the photo value from the form
     const photoValue = fetchedPhotoValue
 
