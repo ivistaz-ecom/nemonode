@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nautilus | Form to PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <div class="container mt-5 ">
+        <h4 class="text-primary p-3 pb-4 ps-0">PRE EMPLOYMENT EVALUATION SHEET RATINGS - ENGINE</h4>
+
+    <form id="myForm" class="border p-3 pb-0 rounded-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name">Family Name & Given Name</label>
+                    <input type="text" id="name" name="name" class="form-control mb-3">
+                    
+                    <label for="rank"><strong>Rank Applied :</strong></label>
+                    <input type="text" id="rank" name="rank" class="form-control mb-3">
+                    
+                    <label for="nation">Nationality :</label>
+                    <input type="text" id="nation" name="nation" class="form-control mb-3">
+                    
+                    <label for="landline">Telephone No:</label>
+                    <input type="tel" id="landline" name="landline" class="form-control mb-3">
+                </div>
+                <div class="col-md-6">
+                    <label for="mob">Mobile No:</label>
+                    <input type="text" id="mob" name="mob" class="form-control mb-3">
+                    
+                    <label for="qual">Qualification:</label>
+                    <input type="text" id="qual" name="qual" class="form-control mb-3">
+                    
+                    <label for="pos">Last Contract Position:</label>
+                    <input type="text" id="pos" name="pos" class="form-control mb-3">
+                    
+                    <label for="bmi">BMI :</label>
+                    <input type="text" id="bmi" name="bmi" class="form-control mb-3">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h5 class="mb-3">Upload Photo</h5>
+                    <label for="photo">Photo:</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" class="form-control mb-3">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h5 class="mb-3">Upload Signature</h5>
+                    <label for="signature">Signature:</label>
+                    <input type="file" id="signature" name="signature" accept="image/*" class="form-control mb-3">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="p-3 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Communication:</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="radio" id="good" name="communication" value="Good">
+                        <label for="good">Good</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="satisfactory" name="communication" value="Satisfactory">
+                        <label for="satisfactory">Satisfactory</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="poor" name="communication" value="Poor">
+                        <label for="poor">Poor</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="p-3 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Trade Area Experience (indicate number of contracts):</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="checkbox" id="eur" name="hobbies" value="Europe">
+                        <label for="eur">Europe</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="atlantic" name="hobbies" value="N.Atlantic">
+                        <label for="atlantic">N.Atlantic</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="pacific" name="hobbies" value="Pacific">
+                        <label for="pacific">Pacific</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="fareast" name="hobbies" value="Far East">
+                        <label for="fareast">Far East</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="indianocean" name="hobbies" value="Indian O.">
+                        <label for="indianocean">Indian O.</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="baltic" name="hobbies" value="Baltic">
+                        <label for="baltic">Baltic</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="medsea" name="hobbies" value="Med-Sea">
+                        <label for="medsea">Med-Sea</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="usa" name="hobbies" value="USA">
+                        <label for="usa">USA</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="africa" name="hobbies" value="Africa">
+                        <label for="africa">Africa</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="persian" name="hobbies" value="Persian G.">
+                        <label for="persian">Persian G.</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="mb-3 p-3">
+            <div class="card-body">
+                <h5 class="card-title">MULTINATIONAL CREW EXPERIENCE (tick the appropriate box):</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="checkbox" id="british" name="multinational" value="British">
+                        <label for="british">British</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="german" name="multinational" value="German">
+                        <label for="german">German</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="polish" name="multinational" value="Polish">
+                        <label for="polish">Polish</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="filipino" name="multinational" value="Filipino">
+                        <label for="filipino">Filipino</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="indian" name="multinational" value="Indian">
+                        <label for="indian">Indian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="ukranian" name="multinational" value="Ukranian">
+                        <label for="ukranian">Ukranian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="greek" name="multinational" value="Greek">
+                        <label for="greek">Greek</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="norwegian" name="multinational" value="Norwegian">
+                        <label for="norwegian">Norwegian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="ussr" name="multinational" value="Ex USSR">
+                        <label for="ussr">Ex USSR</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="bangladesh" name="multinational" value="Bangladesh">
+                        <label for="bangladesh">Bangladesh</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="p-3">
+            <div class="border rounded-3">
+                <h5 class="card-title p-3">CONTAINER EXPERIENCE / TEU (indicate number of vessels):</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_1000" name="teu_experience" value="<1000">
+                        <label for="teu_1000">&lt; 1000</label>
+                        <input type="text" id="teu_1000_input" name="teu_1000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_1000_3000" name="teu_experience" value="1000-3000">
+                        <label for="teu_1000_3000">1000-3000</label>
+                        <input type="text" id="teu_1000_3000_input" name="teu_1000_3000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_3000_6000" name="teu_experience" value="3000-6000">
+                        <label for="teu_3000_6000">3000-6000</label>
+                        <input type="text" id="teu_3000_6000_input" name="teu_3000_6000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_6000_10000" name="teu_experience" value="6000-10000">
+                        <label for="teu_6000_10000">6000-10000</label>
+                        <input type="text" id="teu_6000_10000_input" name="teu_6000_10000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_10000_15000" name="teu_experience" value="10000-15000">
+                        <label for="teu_10000_15000">10000-15000</label>
+                        <input type="text" id="teu_10000_15000_input" name="teu_10000_15000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_15000" name="teu_experience" value=">15000">
+                        <label for="teu_15000">&gt;15000</label>
+                        <input type="text" id="teu_15000_input" name="teu_15000_input" class="form-control">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+
+<div class="p-3">
+    <div class="">
+        <h5 class="">MAIN ENGINE EXPERIENCE (indicate number of vessels):</h5>
+        <ul class="list-group ">
+            <li class="list-group-item">
+                <label for="engine_sulzer">Sulzer:</label>
+                <input type="text" id="engine_sulzer" name="engine_sulzer" class="form-control">
+            </li>
+            <li class="list-group-item">
+                <label for="engine_sulzer_rta">Sulzer RTA:</label>
+                <input type="text" id="engine_sulzer_rta" name="engine_sulzer_rta" placeholder="SULZER RTA" class="form-control">
+            </li>
+            <li class="list-group-item">
+                <label for="engine_man_bw">MAN/B&W:</label>
+                <input type="text" id="engine_man_bw" name="engine_man_bw" placeholder="MAN/B&W" class="form-control">
+            </li>
+            <li class="list-group-item">
+                <label for="engine_pielstick">Pielstick:</label>
+                <input type="text" id="engine_pielstick" name="engine_pielstick" placeholder="PIELSTICK" class="form-control">
+            </li>
+            <li class="list-group-item">
+                <label for="engine_mak">MAK:</label>
+                <input type="text" id="engine_mak" name="engine_mak" placeholder="MAK" class="form-control">
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class=" p-3">
+                <fieldset>
+                    <legend>Types of Auxiliaries Previously Worked With</legend>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="yanmar" name="auxiliary" value="YANMAR">
+                            <label class="form-check-label" for="yanmar">YANMAR</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="bw" name="auxiliary" value="B&W">
+                            <label class="form-check-label" for="bw">B&W</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="deutz" name="auxiliary" value="DEUTZ">
+                            <label class="form-check-label" for="deutz">DEUTZ</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="daihatsu" name="auxiliary" value="DAIHATSU">
+                            <label class="form-check-label" for="daihatsu">DAIHATSU</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="caterpillar" name="auxiliary" value="CATERPILLAR">
+                            <label class="form-check-label" for="caterpillar">CATERPILLAR</label>
+                        </li>
+                        <li class="list-group-item">
+                            <input class="form-check-input" type="checkbox" id="other" name="auxiliary" value="OTHER">
+                            <label class="form-check-label" for="other">OTHER</label>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- Drinking Habits and Medical Issues -->
+<div class="border p-3 rounded-3 mb-3">
+    <legend>Other related questions :</legend>
+<label>Drinking Habits:</label><br>
+<input type="radio" id="drinking_yes" name="drinking_habits" value="Yes">
+<label for="drinking_yes">Yes</label>
+<input type="radio" id="drinking_no" name="drinking_habits" value="No">
+<label for="drinking_no">No</label><br><br>
+
+<label>Any Medical Issues:</label><br>
+<input type="radio" id="medical_yes" name="medical_issues" value="Yes">
+<label for="medical_yes">Yes</label>
+<input type="radio" id="medical_no" name="medical_issues" value="No">
+<label for="medical_no">No</label><br><br>
+</div>
+
+<!-- Remaining Questions -->
+<div class="border rounded-3 p-3 mb-3">
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Other Practical Experience :</legend>
+    <label>Engine Procedures (for Engine Ratings):</label><br>
+    <input type="radio" id="engine_procedures_yes" name="engine_procedures" value="Yes">
+    <label for="engine_procedures_yes">Yes</label>
+    <input type="radio" id="engine_procedures_no" name="engine_procedures" value="No">
+    <label for="engine_procedures_no">No</label><br><br>
+
+<label>Bilge & Sludge Management : Engine Ratings:</label><br>
+<input type="radio" id="bilge_management_yes" name="bilge_management" value="Yes">
+<label for="bilge_management_yes">Yes</label>
+<input type="radio" id="bilge_management_no" name="bilge_management" value="No">
+<label for="bilge_management_no">No</label><br><br>
+
+<label>Experience on fresh water generator (MTM, WIPER):</label><br>
+<input type="radio" id="fresh_water_generator_yes" name="fresh_water_generator" value="Yes">
+<label for="fresh_water_generator_yes">Yes</label>
+<input type="radio" id="fresh_water_generator_no" name="fresh_water_generator" value="No">
+<label for="fresh_water_generator_no">No</label><br><br>
+
+<label>Principle & Operation procedure (MTM, WIPER, OWS):</label><br>
+<input type="radio" id="principle_operation_yes" name="principle_operation" value="Yes">
+<label for="principle_operation_yes">Yes</label>
+<input type="radio" id="principle_operation_no" name="principle_operation" value="No">
+<label for="principle_operation_no">No</label><br><br>
+
+<label>Main engine starting procedure experience (MTM, WIPER, OWS):</label><br>
+<input type="radio" id="main_engine_starting_yes" name="main_engine_starting" value="Yes">
+<label for="main_engine_starting_yes">Yes</label>
+<input type="radio" id="main_engine_starting_no" name="main_engine_starting" value="No">
+<label for="main_engine_starting_no">No</label><br><br>
+
+<label>Sewage water treatment experience (MTM, WIPER, OWS):</label><br>
+<input type="radio" id="sewage_water_treatment_yes" name="sewage_water_treatment" value="Yes">
+<label for="sewage_water_treatment_yes">Yes</label>
+<input type="radio" id="sewage_water_treatment_no" name="sewage_water_treatment" value="No">
+<label for="sewage_water_treatment_no">No</label><br><br>
+
+<label>Experience with Cargo pumps (MTM, WIPER, OWS):</label><br>
+<input type="radio" id="cargo_pumps_yes" name="cargo_pumps" value="Yes">
+<label for="cargo_pumps_yes">Yes</label>
+<input type="radio" id="cargo_pumps_no" name="cargo_pumps" value="No">
+<label for="cargo_pumps_no">No</label><br><br>
+
+<label>Experience with boilers (MTM, WIPER, OWS):</label><br>
+<input type="radio" id="boilers_yes" name="boilers" value="Yes">
+<label for="boilers_yes">Yes</label>
+<input type="radio" id="boilers_no" name="boilers" value="No">
+<label for="boilers_no">No</label><br><br>
+
+<label>Knowledge on types of welding (e.g., ARC, TIG, MIG):</label><br>
+<input type="radio" id="welding_knowledge_yes" name="welding_knowledge" value="Yes">
+<label for="welding_knowledge_yes">Yes</label>
+<input type="radio" id="welding_knowledge_no" name="welding_knowledge" value="No">
+<label for="welding_knowledge_no">No</label><br><br>
+
+<label>Garbage Management - Engine:</label><br>
+<input type="radio" id="garbage_management_yes" name="garbage_management" value="Yes">
+<label for="garbage_management_yes">Yes</label>
+<input type="radio" id="garbage_management_no" name="garbage_management" value="No">
+<label for="garbage_management_no">No</label><br><br>
+
+<label>Awareness of Safety and ISM Code:</label><br>
+<input type="radio" id="safety_awareness_yes" name="safety_awareness" value="Yes">
+<label for="safety_awareness_yes">Yes</label>
+<input type="radio" id="safety_awareness_no" name="safety_awareness" value="No">
+<label for="safety_awareness_no">No</label><br><br>
+
+<label>Knowledge on generators & working principle (MTM, WIPER):</label><br>
+<input type="radio" id="generator_knowledge_yes" name="generator_knowledge" value="Yes">
+<label for="generator_knowledge_yes">Yes</label>
+<input type="radio" id="generator_knowledge_no" name="generator_knowledge" value="No">
+<label for="generator_knowledge_no">No</label><br><br>
+
+<label>Knowledge on existing mandatory regulations (SOLAS, MARPOL):</label><br>
+<input type="radio" id="regulations_knowledge_yes" name="regulations_knowledge" value="Yes">
+<label for="regulations_knowledge_yes">Yes</label>
+<input type="radio" id="regulations_knowledge_no" name="regulations_knowledge" value="No">
+<label for="regulations_knowledge_no">No</label><br><br>
+
+<label>Experience in any extraordinary circumstances such as collision, abandon ship, pollution:</label><br>
+<input type="radio" id="extraordinary_experience_yes" name="extraordinary_experience" value="Yes">
+<label for="extraordinary_experience_yes">Yes</label>
+<input type="radio" id="extraordinary_experience_no" name="extraordinary_experience" value="No">
+<label for="extraordinary_experience_no">No</label><br><br>
+
+<label>Experience of privacy Zone (any previous bad experience):</label><br>
+<input type="radio" id="privacy_experience_yes" name="privacy_experience" value="Yes">
+<label for="privacy_experience_yes">Yes</label>
+<input type="radio" id="privacy_experience_no" name="privacy_experience" value="No">
+<label for="privacy_experience_no">No</label><br><br>
+
+<label>Cleanliness & maintenance of accommodation, common areas, and cabins:</label><br>
+<input type="radio" id="cleanliness_maintenance_yes" name="cleanliness_maintenance" value="Yes">
+<label for="cleanliness_maintenance_yes">Yes</label>
+<input type="radio" id="cleanliness_maintenance_no" name="cleanliness_maintenance" value="No">
+<label for="cleanliness_maintenance_no">No</label><br><br>
+
+<label>Awareness of ISPSC:</label><br>
+<input type="radio" id="isp_sc_awareness_yes" name="isp_sc_awareness" value="Yes">
+<label for="isp_sc_awareness_yes">Yes</label>
+<input type="radio" id="isp_sc_awareness_no" name="isp_sc_awareness" value="No">
+<label for="isp_sc_awareness_no">No</label><br><br>
+
+<label>Knowledge on procedure about 6G & 4G welding:</label><br>
+<input type="radio" id="welding_procedure_knowledge_yes" name="welding_procedure_knowledge" value="Yes">
+<label for="welding_procedure_knowledge_yes">Yes</label>
+<input type="radio" id="welding_procedure_knowledge_no" name="welding_procedure_knowledge" value="No">
+<label for="welding_procedure_knowledge_no">No</label><br><br>
+
+</div>
+</div>
+</div>
+<div class="mb-3">
+    <label for="interviewer_comments" class="form-label">INTERVIEWER COMMENTS:</label>
+    <input type="text" class="form-control" id="interviewer_comments" name="interviewer_comments">
+</div>
+<div class="mb-3">
+    <label for="status" class="form-label">Status:</label><br>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="accepted" name="status" value="Accepted">
+        <label class="form-check-label" for="accepted">Accepted</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="rejected" name="status" value="Rejected">
+        <label class="form-check-label" for="rejected">Rejected</label>
+    </div>
+</div>
+  
+<div class="mb-3">
+    <label for="grading" class="form-label">Grading:</label>
+    <select id="grading" name="grading" class="form-select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+</div>
+<div class="mb-3">
+    <label for="reasonForLeaving" class="form-label">Reason for Leaving</label>
+    <input type="text" class="form-control" id="reasonForLeaving" required>
+</div>
+<div class="mb-3">
+<label for="interviewer_name" class="form-label">Interviewer Name:</label>
+    <input type="text" class="form-control" id="interviewer_name" name="interviewer_name">
+    </div>
+    
+    <div class="mb-3">
+    <label for="date" class="form-label">Date:</label>
+    <input type="date" class="form-control" id="date" name="date">
+    </div>
+
+        <button type="button" class="btn btn-success mb-5" onclick="generatePDF()">Generate PDF</button>
+    </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+ async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const form = document.getElementById('myForm');
+    const formData = new FormData(form);
+
+    doc.setFontSize(8);
+
+    // Collecting and positioning data
+    doc.text(`Family Name & Given Name: ${formData.get('name')}`, 10, 10);
+    doc.text(`Rank Applied: ${formData.get('rank')}`, 10, 20);
+    doc.text(`Nationality: ${formData.get('nation')}`, 10, 30);
+    doc.text(`Telephone No: ${formData.get('landline')}`, 10, 40);
+    doc.text(`Mobile No: ${formData.get('mob')}`, 10, 50);
+    doc.text(`Qualification: ${formData.get('qual')}`, 10, 60);
+    doc.text(`Last Contract Position: ${formData.get('pos')}`, 10, 70);
+    doc.text(`BMI: ${formData.get('bmi')}`, 10, 80);
+
+    let communication = formData.get('communication');
+    doc.text(`Communication: ${communication}`, 10, 90);
+
+    let hobbies = formData.getAll('hobbies').join(', ');
+    doc.text(`Trade Area Experience: ${hobbies}`, 10, 100);
+
+    let multinational = formData.getAll('multinational').join(', ');
+    doc.text(`Multinational Crew Experience: ${multinational}`, 10, 110);
+
+    // New fields
+    doc.text(`CONTAINER EXPERIENCE / TEU:`, 10, 120);
+
+    const teuExperience = formData.get('teu_experience');
+    let teuValue = '';
+    if (teuExperience === '<1000') {
+        teuValue = formData.get('teu_1000_input');
+    } else if (teuExperience === '1000-3000') {
+        teuValue = formData.get('teu_1000_3000_input');
+    } else if (teuExperience === '3000-6000') {
+        teuValue = formData.get('teu_3000_6000_input');
+    } else if (teuExperience === '6000-10000') {
+        teuValue = formData.get('teu_6000_10000_input');
+    } else if (teuExperience === '10000-15000') {
+        teuValue = formData.get('teu_10000_15000_input');
+    } else if (teuExperience === '>15000') {
+        teuValue = formData.get('teu_15000_input');
+    }
+    doc.text(`${teuExperience}: ${teuValue}`, 10, 130);
+
+    doc.text(`MAIN ENGINE EXPERIENCE:`, 10, 140);
+    doc.text(`SULZER: ${formData.get('engine_sulzer')}`, 10, 150);
+    doc.text(`SULZER RTA: ${formData.get('engine_sulzer_rta')}`, 10, 160);
+    doc.text(`MAN/B&W: ${formData.get('engine_man_bw')}`, 10, 170);
+    doc.text(`PIELSTICK: ${formData.get('engine_pielstick')}`, 10, 180);
+    doc.text(`MAK: ${formData.get('engine_mak')}`, 10, 190);
+
+    let auxiliary = formData.getAll('auxiliary').join(', ');
+    doc.text(`TYPES OF AUXILIARIES PREVIOUSLY WORKED WITH: ${auxiliary}`, 10, 200);
+
+    let drinkingHabits = formData.get('drinking_habits');
+doc.text(`Drinking Habits: ${drinkingHabits}`, 10, 210);
+
+let medicalIssues = formData.get('medical_issues');
+doc.text(`Any Medical Issues: ${medicalIssues}`, 10, 220);
+// Add photo to PDF
+
+
+doc.addPage()
+
+    // Add signature
+   
+// Add similar lines for other yes/no questions
+let engineProcedures = formData.get('engine_procedures');
+doc.text(`Engine Procedures (for Engine Ratings): ${engineProcedures}`, 10, 10);
+
+let bilgeManagement = formData.get('bilge_management');
+doc.text(`Bilge & Sludge Management: ${bilgeManagement}`, 10, 20);
+
+let freshWaterGenerator = formData.get('fresh_water_generator');
+doc.text(`Experience on Fresh Water Generator: ${freshWaterGenerator}`, 10, 30);
+
+let principleOperation = formData.get('principle_operation');
+doc.text(`Principle & Operation Procedure: ${principleOperation}`, 10, 40);
+
+let mainEngineStarting = formData.get('main_engine_starting');
+doc.text(`Main Engine Starting Procedure Experience: ${mainEngineStarting}`, 10, 50);
+
+let sewageWaterTreatment = formData.get('sewage_water_treatment');
+doc.text(`Sewage Water Treatment Experience: ${sewageWaterTreatment}`, 10, 60);
+
+let cargoPumps = formData.get('cargo_pumps');
+doc.text(`Experience with Cargo Pumps: ${cargoPumps}`, 10, 70);
+
+let boilers = formData.get('boilers');
+doc.text(`Experience with Boilers: ${boilers}`, 10, 80);
+
+let weldingKnowledge = formData.get('welding_knowledge');
+doc.text(`Knowledge on Types of Welding: ${weldingKnowledge}`, 10, 90);
+
+let garbageManagement = formData.get('garbage_management');
+doc.text(`Garbage Management - Engine: ${garbageManagement}`, 10, 100);
+
+let safetyAwareness = formData.get('safety_awareness');
+doc.text(`Awareness of Safety and ISM Code: ${safetyAwareness}`, 10, 110);
+
+let generatorKnowledge = formData.get('generator_knowledge');
+doc.text(`Knowledge on Generators & Working Principle: ${generatorKnowledge}`, 10, 120);
+
+let regulationsKnowledge = formData.get('regulations_knowledge');
+doc.text(`Knowledge on Existing Mandatory Regulations: ${regulationsKnowledge}`, 10, 130);
+
+let extraordinaryExperience = formData.get('extraordinary_experience');
+doc.text(`Experience in Extraordinary Circumstances: ${extraordinaryExperience}`, 10, 140);
+
+let privacyExperience = formData.get('privacy_experience');
+doc.text(`Experience of Privacy Zone: ${privacyExperience}`, 10, 150);
+
+let cleanlinessMaintenance = formData.get('cleanliness_maintenance');
+doc.text(`Cleanliness & Maintenance: ${cleanlinessMaintenance}`, 10, 160);
+
+let ispScAwareness = formData.get('isp_sc_awareness');
+doc.text(`Awareness of ISPSC: ${ispScAwareness}`, 10, 170);
+
+let weldingProcedureKnowledge = formData.get('welding_procedure_knowledge');
+doc.text(`Knowledge on Procedure about 6G & 4G Welding: ${weldingProcedureKnowledge}`, 10, 180);
+
+doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')}`, 10, 190);
+    doc.text(`INTERVIEWER COMMENTS: ${formData.get('interviewer_comments')}`, 10, 200);
+    doc.text(`Status: ${formData.getAll('status').join(', ')}`, 10, 210);
+    doc.text(`Grading: ${formData.get('grading')}`, 10, 220);
+    doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
+    doc.text(`Date: ${formData.get('date')}`, 10, 250);
+
+    doc.save('form-data.pdf');
+}
+
+
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
