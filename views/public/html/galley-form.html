@@ -1018,17 +1018,36 @@ doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')
     doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
     doc.text(`Date: ${formData.get('date')}`, 10, 250);
 
-    const candidateId = localStorage.getItem('memId')
-    const now = new Date();
-
-    const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
-
-    const fileName = `${candidateId}_${formattedDate}_galleyform.pdf`;
-
-
-    doc.save(fileName);
+   await generateAndSavePDF(doc)
 
    
+}
+async function generateAndSavePDF(doc) {
+    // Your existing PDF generation code...
+
+    const candidateId = localStorage.getItem('memId');
+    const now = new Date();
+    const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
+
+    // Constructing the filename
+    const fileName = `${candidateId}_${formattedDate}_engineform.pdf`;
+
+    // Save the PDF data to the server
+    const pdfData = doc.output('blob');
+    const formData = new FormData();
+    formData.append('pdf', pdfData, fileName);
+
+    // Send the PDF data to the server-side endpoint using Axios
+    try {
+        const response = await axios.post('https://nemo.ivistaz.co/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log(response.data); // Assuming the server sends back a success message
+    } catch (error) {
+        console.error('Error saving PDF:', error.message);
+    }
 }
 
 
