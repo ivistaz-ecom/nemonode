@@ -631,13 +631,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
+const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+app.use('/evaluation', express.static(evaluationDirectory));
 // Serve static files from various directories
 app.use(express.static('/var/www/html/nemonode/views/public/files'));
 app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
 app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
 app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
-app.use('/evaluation', express.static('/var/www/html/nemonode/views/public/files/evaluation'));
 
 // Route to handle file uploads
 app.post('/upload', upload.single('pdf'), (req, res) => {
@@ -647,7 +647,7 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
         res.status(400).send('Error uploading file');
     }
 });
-const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+
 
 // Route to fetch files based on candidateId
 app.get('/fetch-files/:candidateId', (req, res) => {
