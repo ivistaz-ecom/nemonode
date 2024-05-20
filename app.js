@@ -1,6 +1,6 @@
 const express = require("express")
 require('dotenv').config()
-
+const fs =require('fs')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
