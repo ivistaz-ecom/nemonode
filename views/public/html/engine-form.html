@@ -1139,9 +1139,9 @@ doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')
     doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
     doc.text(`Date: ${formData.get('date')}`, 10, 250);
 
-    generateAndSavePDF()
+   await generateAndSavePDF(doc)
 }
-async function generateAndSavePDF() {
+async function generateAndSavePDF(doc) {
     // Your existing PDF generation code...
 
     const candidateId = localStorage.getItem('memId');
