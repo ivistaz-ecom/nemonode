@@ -4,6 +4,7 @@ const PORT = process.env.PORT;
 const app = express()
 
 const path = require('path'); // Add this line to import the path module
+const multer = require('multer');
 
 const cors = require("cors")
 const bodyParser=require('body-parser');
@@ -621,12 +622,31 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-app.use(express.static('/var/www/html/nemonode/views/public/files'));
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 
-// Serve static files from the '/var/www/html/nemonode/views/public/files/photos' directory
+const upload = multer({ storage: storage });
+
+// Serve static files from various directories
+app.use(express.static('/var/www/html/nemonode/views/public/files'));
 app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
 app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
 app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
+
+// Route to handle file uploads
+app.post('/upload', upload.single('pdf'), (req, res) => {
+    if (req.file) {
+        res.status(200).send('File uploaded successfully');
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {

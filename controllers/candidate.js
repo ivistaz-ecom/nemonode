@@ -2456,10 +2456,10 @@ const evaluation = async (req, res) => {
     try {
         // Extract data from the request body
         const { eval_type, applied_rank, applied_date, time, remote, applied_by, interviewer_name } = req.body;
-
+        const candidateId=req.params.id;
         // Create a new evaluation dataset
         const evaluation = await Evaluation.create({
-            candidateId: req.params.id, // Assuming candidateId is passed as a parameter
+            candidateId, // Assuming candidateId is passed as a parameter
             eval_type,
             applied_rank,
             applied_date,
@@ -2493,6 +2493,7 @@ const evaluation = async (req, res) => {
                 <h2>Hello!</h2>
                 <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting is provided below</p>
                 <h1>Interview Details</h1>
+                <p>Candidate Id : ${candidateId}</p> <p>(Please make a note of this ID as its required during the Interview!)
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
                 <p>Time: ${time}</p>
