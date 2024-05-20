@@ -665,6 +665,7 @@ app.get('/fetch-files/:candidateId', (req, res) => {
                 const fileName = file.split('_')[0]; // Get the part before the first underscore
                 return fileName === candidateId;
             });
+            
 
             // Construct the file paths
             const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
