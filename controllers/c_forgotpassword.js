@@ -140,4 +140,5 @@ module.exports = {
     forgotpassword,
     updatepassword,
     resetpassword
+    
 }
