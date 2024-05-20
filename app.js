@@ -636,7 +636,7 @@ const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluatio
 // Serve static files from the evaluation directory
 app.use('/evaluation', express.static(evaluationDirectory));
 // Serve static files from various directories
-app.use(express.static('/var/www/html/nemonode/views/public/files'));
+app.use(express.static('/views/public/files'));
 app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
 app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
 app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
