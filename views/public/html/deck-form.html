@@ -1083,7 +1083,7 @@ async function generateAndSavePDF(doc) {
     const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
 
     // Constructing the filename
-    const fileName = `${candidateId}_${formattedDate}_engineform.pdf`;
+    const fileName = `${candidateId}_${formattedDate}_deckform.pdf`;
 
     // Save the PDF data to the server
     const pdfData = doc.output('blob');
