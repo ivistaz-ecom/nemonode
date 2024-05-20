@@ -219,7 +219,23 @@ const displayUserDropdown = async function () {
             // Optionally, you can display an error message to the user
         }
     });
+    
+    document.getElementById('evalType').addEventListener('change', function() {
+        console.log("Evaluation type changed");
 
+        const selectedType = this.value;
+        const remoteLinkInput = document.getElementById('remoteLink');
+        if (selectedType === '1') {
+            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/engine-form.html';
+        } else if (selectedType === '2') {
+            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/deck-form.html';
+        } else if (selectedType === '3') {
+            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/galley-form.html';
+        } else {
+            remoteLinkInput.value = ''; // Clear the input if another option is selected
+        }
+    });
+    
 
 // Call the function to attach the event listener
 
