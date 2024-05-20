@@ -1048,6 +1048,7 @@ async function fetchFilesByCandidateId(candidateId) {
             listItem.appendChild(fileLink);
             fileList.appendChild(listItem);
         });
+        
 
         fileListContainer.appendChild(fileList);
     } catch (error) {
