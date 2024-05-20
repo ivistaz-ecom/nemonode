@@ -1,6 +1,6 @@
 const express = require("express")
 require('dotenv').config()
-const fs =require('fs')
+
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
@@ -656,26 +656,21 @@ app.get('/fetch-files/:candidateId', (req, res) => {
     fs.readdir(evaluationDirectory, (err, files) => {
         if (err) {
             console.error('Error reading directory:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-
-        try {
-            // Filter files based on the candidateId pattern
-            const candidateFiles = files.filter(file => {
-                const fileName = file.split('_')[0]; // Get the part before the first underscore
-                return fileName === candidateId;
-            });
-
-
-            // Construct the file paths
-            const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
-
-            // Send the list of file paths to the client
-            res.json(filePaths);
-        } catch (error) {
-            console.error('Error processing files:', error);
             res.status(500).send('Internal Server Error');
+            return;
         }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file paths
+        const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
+
+        // Send the list of file paths to the client
+        res.json(filePaths);
     });
 });
 
@@ -697,6 +692,7 @@ app.use((req, res, next) => {
 });
 
 
+
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
         app.listen(PORT, () => {
@@ -706,4 +702,3 @@ sequelize.sync(/*{force:true},*/{logging: console.log})
     .catch((error) => {
         console.error('Error syncing Sequelize:', error);
     });
-    
