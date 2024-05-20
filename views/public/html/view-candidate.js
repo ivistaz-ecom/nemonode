@@ -1022,30 +1022,28 @@ async function fetchFilesByCandidateId(candidateId) {
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/${candidateId}`);
         const filePaths = response.data;
-        console.log(candidateId,filePaths)
-        // Filter files based on the candidateId pattern
-        const candidateFiles = filePaths.filter(filePath => {
-            const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-            const fileId = fileName.split('_')[0]; // Extract the id part from the filename
-            return fileId === candidateId;
-        });
+        console.log(candidateId, filePaths);
 
         // Display the filtered files
         const fileListContainer = document.getElementById('fileListContainer');
         fileListContainer.innerHTML = '';
 
-        if (candidateFiles.length === 0) {
+        if (filePaths.length === 0) {
             console.log('No files found for candidate:', candidateId);
             return;
         }
 
         const fileList = document.createElement('ul');
 
-        candidateFiles.forEach(filePath => {
+        const baseURL = 'https://nemo.ivistaz.co/views/public/files/evaluation'; // Adjust base URL
+
+        filePaths.forEach(filePath => {
             const listItem = document.createElement('li');
+            const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+            const adjustedURL = `${baseURL}/${fileName}`; // Concatenate base URL with file path
             const fileLink = document.createElement('a');
-            fileLink.href = filePath;
-            fileLink.textContent = filePath.substring(filePath.lastIndexOf('/') + 1); // Display only the filename
+            fileLink.href = adjustedURL;
+            fileLink.textContent = fileName; // Display only the filename
             fileLink.target = "_blank"; // Open the link in a new tab
             listItem.appendChild(fileLink);
             fileList.appendChild(listItem);
@@ -1056,4 +1054,5 @@ async function fetchFilesByCandidateId(candidateId) {
         console.error('Error fetching files:', error.message);
     }
 }
+
 
