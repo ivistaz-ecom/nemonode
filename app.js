@@ -692,7 +692,6 @@ app.use((req, res, next) => {
 });
 
 
-
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
         app.listen(PORT, () => {
