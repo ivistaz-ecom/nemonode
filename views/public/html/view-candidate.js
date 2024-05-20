@@ -1023,7 +1023,24 @@ async function fetchFilesByCandidateId(candidateId) {
         const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/${candidateId}`);
         const filePaths = response.data;
         console.log('Files fetched successfully:', filePaths);
-        // Now you can do something with the fetched file paths
+
+        // Display file URLs in a list
+        const fileListContainer = document.getElementById('fileListContainer');
+        fileListContainer.innerHTML = ''; // Clear existing content
+
+        const fileList = document.createElement('ul');
+
+        filePaths.forEach(filePath => {
+            const listItem = document.createElement('li');
+            const fileLink = document.createElement('a');
+            fileLink.href = filePath;
+            fileLink.textContent = filePath.substring(filePath.lastIndexOf('/') + 1); // Display only the filename
+            fileLink.target = "_blank"; // Open the link in a new tab
+            listItem.appendChild(fileLink);
+            fileList.appendChild(listItem);
+        });
+
+        fileListContainer.appendChild(fileList);
     } catch (error) {
         console.error('Error fetching files:', error.message);
     }
