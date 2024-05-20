@@ -418,6 +418,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
         updateCandidatePhoto(candidateId)
+        await fetchFilesByCandidateId(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
@@ -1017,3 +1018,13 @@ async function updateCandidatePhoto(id) {
 }
 
 // Call the function to update the photo
+async function fetchFilesByCandidateId(candidateId) {
+    try {
+        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/${candidateId}`);
+        const filePaths = response.data;
+        console.log('Files fetched successfully:', filePaths);
+        // Now you can do something with the fetched file paths
+    } catch (error) {
+        console.error('Error fetching files:', error.message);
+    }
+}
