@@ -990,14 +990,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-       window.onload = async () => {
-    const token = localStorage.getItem('token');
+window.onload = function() {
+    // Display an alert asking for Candidate ID
+    let candidateId = prompt("Please enter your Candidate ID to continue:");
 
-    if (!token) {
-        alert('Please log in to continue!');
-        window.location.href = "loginpage.html";
+    // Check if candidateId is not null (user clicked OK)
+    while (candidateId === null || candidateId.trim() === "") {
+        // If the user clicked Cancel or left the field empty, prompt again until they provide a valid input
+        alert("You must enter a Candidate ID to continue.");
+        candidateId = prompt("Please enter your Candidate ID to continue:");
     }
+
+    // Store the candidateId in localStorage only after a valid input is provided
+    localStorage.setItem("memId", candidateId);
 };
+
+
 
  async function generatePDF() {
     const { jsPDF } = window.jspdf;
@@ -1131,16 +1139,18 @@ doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')
     doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
     doc.text(`Date: ${formData.get('date')}`, 10, 250);
 
-    const candidateId = formData.get('name') || 'no name provided';
+    const candidateId = localStorage.getItem('memId')
     const now = new Date();
 
     const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
-    const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
 
-    const fileName = `${candidateId}_${formattedDate}-${milliseconds}.pdf`;
+    const fileName = `${candidateId}_${formattedDate}_engineform.pdf`;
 
+    const filePath = '/var/www/html/nemonode/views/public/files/evaluation/' + fileName;
+    doc.save(filePath);
 
-    doc.save(fileName);
+    // Output the saved file path for debugging purposes
+    console.log('PDF saved to:', filePath);
 }
 
     </script>
