@@ -656,21 +656,25 @@ app.get('/fetch-files/:candidateId', (req, res) => {
     fs.readdir(evaluationDirectory, (err, files) => {
         if (err) {
             console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
+            return res.status(500).send('Internal Server Error');
         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+        try {
+            // Filter files based on the candidateId pattern
+            const candidateFiles = files.filter(file => {
+                const fileName = file.split('_')[0]; // Get the part before the first underscore
+                return fileName === candidateId;
+            });
 
-        // Construct the file paths
-        const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
+            // Construct the file paths
+            const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
 
-        // Send the list of file paths to the client
-        res.json(filePaths);
+            // Send the list of file paths to the client
+            res.json(filePaths);
+        } catch (error) {
+            console.error('Error processing files:', error);
+            res.status(500).send('Internal Server Error');
+        }
     });
 });
 
