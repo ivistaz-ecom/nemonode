@@ -649,8 +649,8 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
 const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
 
 // Route to fetch files based on candidateId
-app.get('/fetch-files/:id', (req, res) => {
-    const candidateId = req.params.id;
+app.get('/fetch-files/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
 
     // Read the contents of the directory
     fs.readdir(evaluationDirectory, (err, files) => {
@@ -661,7 +661,10 @@ app.get('/fetch-files/:id', (req, res) => {
         }
 
         // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => file.includes(candidateId));
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
 
         // Construct the file paths
         const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
