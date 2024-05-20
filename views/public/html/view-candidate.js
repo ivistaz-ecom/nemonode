@@ -1020,17 +1020,28 @@ async function updateCandidatePhoto(id) {
 // Call the function to update the photo
 async function fetchFilesByCandidateId(candidateId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/${candidateId}`);
+        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files`);
         const filePaths = response.data;
-        console.log('Files fetched successfully:', filePaths);
+        console.log(candidateId,filePaths)
+        // Filter files based on the candidateId pattern
+        const candidateFiles = filePaths.filter(filePath => {
+            const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+            const fileId = fileName.split('_')[0]; // Extract the id part from the filename
+            return fileId === candidateId;
+        });
 
-        // Display file URLs in a list
+        // Display the filtered files
         const fileListContainer = document.getElementById('fileListContainer');
-        fileListContainer.innerHTML = ''; // Clear existing content
+        fileListContainer.innerHTML = '';
+
+        if (candidateFiles.length === 0) {
+            console.log('No files found for candidate:', candidateId);
+            return;
+        }
 
         const fileList = document.createElement('ul');
 
-        filePaths.forEach(filePath => {
+        candidateFiles.forEach(filePath => {
             const listItem = document.createElement('li');
             const fileLink = document.createElement('a');
             fileLink.href = filePath;
@@ -1045,3 +1056,4 @@ async function fetchFilesByCandidateId(candidateId) {
         console.error('Error fetching files:', error.message);
     }
 }
+
