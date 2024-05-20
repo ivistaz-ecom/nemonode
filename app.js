@@ -646,6 +646,30 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
         res.status(400).send('Error uploading file');
     }
 });
+const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+
+// Route to fetch files based on candidateId
+app.get('/fetch-files/:id', (req, res) => {
+    const candidateId = req.params.id;
+
+    // Read the contents of the directory
+    fs.readdir(evaluationDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => file.includes(candidateId));
+
+        // Construct the file paths
+        const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
+
+        // Send the list of file paths to the client
+        res.json(filePaths);
+    });
+});
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
