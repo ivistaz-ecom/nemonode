@@ -417,8 +417,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayMedicalDetails(candidateId)
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
-        updateCandidatePhoto(candidateId)
         await fetchFilesByCandidateId(candidateId)
+        updateCandidatePhoto(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
