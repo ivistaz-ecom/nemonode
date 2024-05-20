@@ -632,6 +632,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+
+// Serve static files from the evaluation directory
 app.use('/evaluation', express.static(evaluationDirectory));
 // Serve static files from various directories
 app.use(express.static('/var/www/html/nemonode/views/public/files'));
@@ -667,13 +669,14 @@ app.get('/fetch-files/:candidateId', (req, res) => {
             return fileName === candidateId;
         });
 
-        // Construct the file paths
-        const filePaths = candidateFiles.map(file => path.join(evaluationDirectory, file));
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
 
-        // Send the list of file paths to the client
-        res.json(filePaths);
+        // Send the list of file names to the client
+        res.json(fileNames);
     });
 });
+
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
