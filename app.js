@@ -726,6 +726,13 @@ app.use('/photos', express.static(photosDirectory));
 app.use('/resume', express.static(resumeDirectory));
 app.use('/tickets', express.static(ticketsDirectory));
 
+// Route to fetch files
+app.get('/fetch-files/evaluation/:candidateId', fetchFiles('/views/public/files/evaluation'));
+app.get('/fetch-files/photos/:candidateId', fetchFiles(photosDirectory));
+app.get('/fetch-files/resume/:candidateId', fetchFiles(resumeDirectory));
+app.get('/fetch-files/tickets/:candidateId', fetchFiles(ticketsDirectory));
+
+
 // Route to handle file uploads
 app.post('/upload/evaluation', uploadEvaluation.single('file'), (req, res) => {
     if (req.file) {
@@ -775,12 +782,6 @@ const fetchFiles = (directory) => (req, res) => {
         res.json(fileNames);
     });
 };
-
-// Route to fetch files
-app.get('/fetch-files/evaluation/:candidateId', fetchFiles(evaluationDirectory));
-app.get('/fetch-files/photos/:candidateId', fetchFiles(photosDirectory));
-app.get('/fetch-files/resume/:candidateId', fetchFiles(resumeDirectory));
-app.get('/fetch-files/tickets/:candidateId', fetchFiles(ticketsDirectory));
 
 
 
