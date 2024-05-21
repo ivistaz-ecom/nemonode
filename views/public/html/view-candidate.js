@@ -484,6 +484,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_c_mobi2').value = candidateData.c_mobi2;
         document.getElementById('edit_candidate_c_tel2').value = candidateData.c_tel2;
         document.getElementById('edit_candidate_email2').value = candidateData.email2;
+        document.getElementById('edit_candidate_us_visa').value = candidateData.us_visa;
 
        
 
@@ -545,9 +546,10 @@ async function editCandidate() {
     var landline2 = document.getElementById('edit_candidate_c_tel2').value;
     var email1 = document.getElementById('edit_candidate_email1').value;
     var email2 = document.getElementById('edit_candidate_email2').value;
+    var us_visa = document.getElementById('edit_candidate_us_visa').value;
 
     // Construct the URL with the values
-    var url = `edit-candidate-2.html?memId=${id}&fname=${fname}&lname=${lname}&rank=${rank}&avbDate=${avbDate}&nationality=${nationality}&maritalStatus=${maritalStatus}&dob=${dob}&birthPlace=${birthPlace}&workNautilus=${workNautilus}&vesselType=${vesselType}&experience=${experience}&zone=${zone}&grade=${grade}&boilerSuitSize=${boilerSuitSize}&safetyShoeSize=${safetyShoeSize}&height=${height}&weight=${weight}&licenseCountry=${licenseCountry}&indosNumber=${indosNumber}&candidateStatus=${candidateStatus}&group=${group}&vendor=${vendor}&photo=${photo}&resume=${resume}&address1=${address1}&address2=${address2}&city=${city}&state=${state}&permanentCity=${permanentCity}&permanentState=${permanentState}&pincode=${pincode}&permanentPincode=${permanentPincode}&mobile1=${mobile1}&mobile2=${mobile2}&landline1=${landline1}&landline2=${landline2}&email1=${email1}&email2=${email2}`;
+    var url = `edit-candidate-2.html?memId=${id}&fname=${fname}&lname=${lname}&rank=${rank}&avbDate=${avbDate}&nationality=${nationality}&maritalStatus=${maritalStatus}&dob=${dob}&birthPlace=${birthPlace}&workNautilus=${workNautilus}&vesselType=${vesselType}&experience=${experience}&zone=${zone}&grade=${grade}&boilerSuitSize=${boilerSuitSize}&safetyShoeSize=${safetyShoeSize}&height=${height}&weight=${weight}&licenseCountry=${licenseCountry}&indosNumber=${indosNumber}&candidateStatus=${candidateStatus}&group=${group}&vendor=${vendor}&photo=${photo}&resume=${resume}&address1=${address1}&address2=${address2}&city=${city}&state=${state}&permanentCity=${permanentCity}&permanentState=${permanentState}&pincode=${pincode}&permanentPincode=${permanentPincode}&mobile1=${mobile1}&mobile2=${mobile2}&landline1=${landline1}&landline2=${landline2}&email1=${email1}&email2=${email2}&us_visa=${us_visa}`;
 
     // Redirect to the edit-candidate-2.html page
     window.location.href = url;
