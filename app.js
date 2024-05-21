@@ -721,6 +721,7 @@ const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
 
 // Serve static files
+app.use(express.static('/views/public/files'));
 
 app.use('/evaluation', express.static(evaluationDirectory));
 app.use('/photos', express.static(photosDirectory));
@@ -728,8 +729,8 @@ app.use('/resume', express.static(resumeDirectory));
 app.use('/tickets', express.static(ticketsDirectory));
 
 // Route to fetch files
-app.get('/fetch-files/evaluation/:candidateId', (req, res) => {
-        const candidateId = req.params.candidateId;
+app.get('/fetch-files/evaluation/:id', (req, res) => {
+        const candidateId = req.params.id;
     
         // Read the contents of the directory
         fs.readdir(evaluationDirectory, (err, files) => {
