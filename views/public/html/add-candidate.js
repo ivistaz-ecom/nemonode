@@ -334,6 +334,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         us_visa:document.getElementById('candidate_us_visa').value,
       };
     try {
+        console.log(us_visa)
         const serverResponse = await axios.post("https://nemo.ivistaz.co/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         // addcandidateButton.reset();
