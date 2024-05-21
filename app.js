@@ -715,7 +715,7 @@ const uploadPhotos = multer({ storage: photosStorage });
 const uploadResume = multer({ storage: resumeStorage });
 const uploadTickets = multer({ storage: ticketsStorage });
 
-const evaluationDirectory = '/views/public/files/evaluation';
+const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
@@ -728,35 +728,28 @@ app.use('/photos', express.static(photosDirectory));
 app.use('/resume', express.static(resumeDirectory));
 app.use('/tickets', express.static(ticketsDirectory));
 
+// Helper function to fetch files based on candidateId
+const fetchFiles = (directory) => (req, res) => {
+    const candidateId = req.params.id;
+
+    fs.readdir(directory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        const candidateFiles = files.filter(file => file.split('_')[0] === candidateId);
+        const fileNames = candidateFiles.map(file => `${directory}/${file}`);
+        res.json(fileNames);
+    });
+};
+
 // Route to fetch files
-app.get('/fetch-files/evaluation/:id', (req, res) => {
-        const candidateId = req.params.id;
-    
-        // Read the contents of the directory
-        fs.readdir(evaluationDirectory, (err, files) => {
-            if (err) {
-                console.error('Error reading directory:', err);
-                res.status(500).send('Internal Server Error');
-                return;
-            }
-    
-            // Filter files based on the candidateId pattern
-            const candidateFiles = files.filter(file => {
-                const fileName = file.split('_')[0]; // Get the part before the first underscore
-                return fileName === candidateId;
-            });
-    
-            // Construct the file names (relative paths)
-            const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
-    
-            // Send the list of file names to the client
-            res.json(fileNames);
-        });
-    })
+app.get('/fetch-files/evaluation/:id', fetchFiles(evaluationDirectory));
 app.get('/fetch-files/photos/:candidateId', fetchFiles(photosDirectory));
 app.get('/fetch-files/resume/:candidateId', fetchFiles(resumeDirectory));
 app.get('/fetch-files/tickets/:candidateId', fetchFiles(ticketsDirectory));
-
 
 // Route to handle file uploads
 app.post('/upload/evaluation', uploadEvaluation.single('file'), (req, res) => {
@@ -790,25 +783,6 @@ app.post('/upload/tickets', uploadTickets.single('file'), (req, res) => {
         res.status(400).send('Error uploading ticket');
     }
 });
-
-// Helper function to fetch files based on candidateId
-const fetchFiles = (directory) => (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    fs.readdir(directory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        const candidateFiles = files.filter(file => file.split('_')[0] === candidateId);
-        const fileNames = candidateFiles.map(file => `${directory}/${file}`);
-        res.json(fileNames);
-    });
-};
-
-
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
