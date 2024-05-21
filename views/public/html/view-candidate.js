@@ -1022,7 +1022,8 @@ async function updateCandidatePhoto(id) {
 // Call the function to update the photo
 async function fetchFilesByCandidateId(id) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/evaluation/${id}`);
+        let type='evaluation'
+        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/${type}/${id}`);
         const filePaths = response.data;
         console.log(id, filePaths);
 
