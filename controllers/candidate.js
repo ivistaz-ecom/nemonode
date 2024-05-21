@@ -96,6 +96,7 @@ const add_candidate = async (req, res) => {
             vendor,
             password,
             nemo_source,
+            us_visa
         } = req.body;
 
         // Validate required fields
@@ -194,7 +195,8 @@ const add_candidate = async (req, res) => {
                 vendor,
                 password,
                 nemo_source,
-                userId:userId
+                userId:userId,
+                us_visa
             }, { transaction: t });
             await t.commit();
             res.status(201).json({ message: "Successfully Created New Candidate!", success: true });
