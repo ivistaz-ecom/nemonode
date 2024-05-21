@@ -621,61 +621,61 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.originalname);
-//     }
-// });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 
-// const upload = multer({ storage: storage });
-// const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+const upload = multer({ storage: storage });
+const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
 
-// // Serve static files from the evaluation directory
-// app.use('/evaluation', express.static(evaluationDirectory));
-// // Serve static files from various directories
-// app.use(express.static('/views/public/files'));
-// app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
-// app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
-// app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
+// Serve static files from the evaluation directory
+app.use('/evaluation', express.static(evaluationDirectory));
+// Serve static files from various directories
+app.use(express.static('/views/public/files'));
+app.use('/photos', express.static('/var/www/html/nemonode/views/public/files/photos'));
+app.use('/tickets', express.static('/var/www/html/nemonode/views/public/files/tickets'));
+app.use('/resume', express.static('/var/www/html/nemonode/views/public/files/resume'));
 
 // Route to handle file uploads
-// app.post('/upload', upload.single('pdf'), (req, res) => {
-//     if (req.file) {
-//         res.status(200).send('File uploaded successfully');
-//     } else {
-//         res.status(400).send('Error uploading file');
-//     }
-// });
+app.post('/upload', upload.single('pdf'), (req, res) => {
+    if (req.file) {
+        res.status(200).send('File uploaded successfully');
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
 
 
-// // Route to fetch files based on candidateId
-// app.get('/fetch-files/:candidateId', (req, res) => {
-//     const candidateId = req.params.candidateId;
+// Route to fetch files based on candidateId
+app.get('/fetch-files/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
 
-//     // Read the contents of the directory
-//     fs.readdir(evaluationDirectory, (err, files) => {
-//         if (err) {
-//             console.error('Error reading directory:', err);
-//             res.status(500).send('Internal Server Error');
-//             return;
-//         }
+    // Read the contents of the directory
+    fs.readdir(evaluationDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
 
-//         // Filter files based on the candidateId pattern
-//         const candidateFiles = files.filter(file => {
-//             const fileName = file.split('_')[0]; // Get the part before the first underscore
-//             return fileName === candidateId;
-//         });
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
 
-//         // Construct the file names (relative paths)
-//         const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
 
-//         // Send the list of file names to the client
-//         res.json(fileNames);
-//     });
-// });
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
 
 
 // Middleware for serving files dynamically
@@ -696,118 +696,6 @@ app.use((req, res, next) => {
 });
 
 
-const createStorage = (destinationPath) => multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, destinationPath);
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-
-const evaluationStorage = createStorage('/var/www/html/nemonode/views/public/files/evaluation');
-const photosStorage = createStorage('/var/www/html/nemonode/views/public/files/photos');
-const resumeStorage = createStorage('/var/www/html/nemonode/views/public/files/resume');
-const ticketsStorage = createStorage('/var/www/html/nemonode/views/public/files/tickets');
-
-const uploadEvaluation = multer({ storage: evaluationStorage });
-const uploadPhotos = multer({ storage: photosStorage });
-const uploadResume = multer({ storage: resumeStorage });
-const uploadTickets = multer({ storage: ticketsStorage });
-
-const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
-const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
-const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
-const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
-
-// Serve static files
-app.use(express.static('/views/public/files'));
-
-app.use('/evaluation', express.static(evaluationDirectory));
-app.use('/photos', express.static(photosDirectory));
-app.use('/resume', express.static(resumeDirectory));
-app.use('/tickets', express.static(ticketsDirectory));
-
-// Helper function to fetch files based on candidateId
-// Route to fetch files based on candidateId
-app.get('/fetch-files/:type/:id', (req, res) => {
-    console.log('>>>>>>>>>>>>>>>.  >>>>>>>>>>>>>>.   >>>>>>>>','its in')
-    const type = req.params.type; // Type of files (evaluation, photos, resume, tickets)
-    const candidateId = req.params.id;
-    let directory;
-
-    // Determine the directory based on the type
-    switch (type) {
-        case 'evaluation':
-            directory = evaluationDirectory;
-            break;
-        case 'photos':
-            directory = photosDirectory;
-            break;
-        case 'resume':
-            directory = resumeDirectory;
-            break;
-        case 'tickets':
-            directory = ticketsDirectory;
-            break;
-        default:
-            return res.status(400).send('Invalid file type');
-    }
-
-    // Read the contents of the directory
-    fs.readdir(directory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/${type}/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-
-// Route to handle file uploads
-app.post('/upload/evaluation', uploadEvaluation.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('Evaluation file uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading evaluation file');
-    }
-});
-
-app.post('/upload/photos', uploadPhotos.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('Photo uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading photo');
-    }
-});
-
-app.post('/upload/resume', uploadResume.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('Resume uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading resume');
-    }
-});
-
-app.post('/upload/tickets', uploadTickets.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('Ticket uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading ticket');
-    }
-});
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
