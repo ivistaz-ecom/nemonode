@@ -730,10 +730,10 @@ app.use('/tickets', express.static(ticketsDirectory));
 
 // Helper function to fetch files based on candidateId
 // Route to fetch files based on candidateId
-app.get('/fetch-files/:type/:candidateId', (req, res) => {
+app.get('/fetch-files/:type/:id', (req, res) => {
     console.log('>>>>>>>>>>>>>>>.  >>>>>>>>>>>>>>.   >>>>>>>>','its in')
     const type = req.params.type; // Type of files (evaluation, photos, resume, tickets)
-    const candidateId = req.params.candidateId;
+    const candidateId = req.params.id;
     let directory;
 
     // Determine the directory based on the type
