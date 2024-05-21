@@ -727,7 +727,30 @@ app.use('/resume', express.static(resumeDirectory));
 app.use('/tickets', express.static(ticketsDirectory));
 
 // Route to fetch files
-app.get('/fetch-files/evaluation/:candidateId', fetchFiles('/views/public/files/evaluation'));
+app.get('/fetch-files/evaluation/:candidateId', (req, res) => {
+        const candidateId = req.params.candidateId;
+    
+        // Read the contents of the directory
+        fs.readdir(evaluationDirectory, (err, files) => {
+            if (err) {
+                console.error('Error reading directory:', err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+    
+            // Filter files based on the candidateId pattern
+            const candidateFiles = files.filter(file => {
+                const fileName = file.split('_')[0]; // Get the part before the first underscore
+                return fileName === candidateId;
+            });
+    
+            // Construct the file names (relative paths)
+            const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
+    
+            // Send the list of file names to the client
+            res.json(fileNames);
+        });
+    })
 app.get('/fetch-files/photos/:candidateId', fetchFiles(photosDirectory));
 app.get('/fetch-files/resume/:candidateId', fetchFiles(resumeDirectory));
 app.get('/fetch-files/tickets/:candidateId', fetchFiles(ticketsDirectory));
