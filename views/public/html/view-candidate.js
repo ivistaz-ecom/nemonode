@@ -1020,18 +1020,18 @@ async function updateCandidatePhoto(id) {
 }
 
 // Call the function to update the photo
-async function fetchFilesByCandidateId(candidateId) {
+async function fetchFilesByCandidateId(id) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/evaluation/${candidateId}`);
+        const response = await axios.get(`https://nemo.ivistaz.co/fetch-files/evaluation/${id}`);
         const filePaths = response.data;
-        console.log(candidateId, filePaths);
+        console.log(id, filePaths);
 
         // Display the filtered files
         const fileListContainer = document.getElementById('fileListContainer');
         fileListContainer.innerHTML = '';
 
         if (filePaths.length === 0) {
-            console.log('No files found for candidate:', candidateId);
+            console.log('No files found for candidate:', id);
             return;
         }
 
