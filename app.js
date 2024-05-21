@@ -715,12 +715,13 @@ const uploadPhotos = multer({ storage: photosStorage });
 const uploadResume = multer({ storage: resumeStorage });
 const uploadTickets = multer({ storage: ticketsStorage });
 
-const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
+const evaluationDirectory = '/views/public/files/evaluation';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
 
 // Serve static files
+
 app.use('/evaluation', express.static(evaluationDirectory));
 app.use('/photos', express.static(photosDirectory));
 app.use('/resume', express.static(resumeDirectory));
