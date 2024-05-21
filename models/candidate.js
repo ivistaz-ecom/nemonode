@@ -306,6 +306,10 @@ const Candidate = sequelize.define('Candidate', {
     nemo_source:{
         type:Sequelize.STRING,
         allowNull:true,
+    },
+    us_visa:{
+        type:Sequelize.INTEGER,
+        allowNull:true
     }
 },{timestamps:false});
 
