@@ -331,6 +331,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         skype: document.getElementById('candidate_skype').value.trim() || '',
         stcw: document.getElementById('candidate_stcw').value.trim() || 0,
         vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
+        us_visa:document.getElementById('candidate_us_visa').value,
       };
     try {
         const serverResponse = await axios.post("https://nemo.ivistaz.co/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
