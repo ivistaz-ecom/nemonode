@@ -307,6 +307,7 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_skype').value = candidateData.skype;
         document.getElementById('edit_candidate_stcw').value = candidateData.stcw;
         document.getElementById('edit_candidate_vendor_id').value = candidateData.vendor_id;
+        document.getElementById('edit_candidate_us_visa').value = candidateData.us_visa
     } catch (error) {
         console.error('Error displaying candidate details:', error);
     }
@@ -427,7 +428,8 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         resume_upload_date: document.getElementById('edit_candidate_resume_upload_date').value || null,
         skype: document.getElementById('edit_candidate_skype').value || '',
         stcw: document.getElementById('edit_candidate_stcw').value || 0,
-        vendor_id: document.getElementById('edit_candidate_vendor_id').value || ''
+        vendor_id: document.getElementById('edit_candidate_vendor_id').value || '',
+        us_visa:document.getElementById('edit_candidate_us_visa').value || ''
         
       };
     try {
