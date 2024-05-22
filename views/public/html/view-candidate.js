@@ -67,7 +67,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
             documentTableBody.appendChild(row);
 
             // Check if document_files is an array and display file URLs separately
-            if (Array.isArray(doc.document_files)) {
+            if (doc.document_files) {
                 const fileUrls = doc.document_files.map(file => `https://nemo.ivistaz.co/views/public/files/${file}`);
 
                 fileUrls.forEach(fileUrl => {
@@ -78,6 +78,9 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     fileLink.style.display = 'block'; // Each URL in a new line
                     fileUrlsContainer.appendChild(fileLink);
                 });
+            }
+            else{
+                console.log('nope')
             }
         }
     } catch (error) {
