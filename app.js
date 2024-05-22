@@ -682,21 +682,21 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
         res.status(400).send('Error uploading file');
     }
 });
-app.post('/upload1', upload1.single('pdf'), (req, res) => {
+app.post('/upload1', upload1.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
         res.status(400).send('Error uploading file');
     }
 });
-app.post('/upload2', upload2.single('pdf'), (req, res) => {
+app.post('/upload2', upload2.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
         res.status(400).send('Error uploading file');
     }
 });
-app.post('/upload3', upload3.single('pdf'), (req, res) => {
+app.post('/upload3', upload3.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
