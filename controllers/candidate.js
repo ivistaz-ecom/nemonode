@@ -290,93 +290,9 @@ const getAllCandidates = async (req, res) => {
     }
 };
 
-const getCandidateActiveDetailsCount = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const user = await User.findByPk(userId);
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found', success: false });
-        }
-        const readOnly = user.dataValues.readOnly;
-        const userGroup = user.dataValues.userGroup;
-        console.log('User Group:', userGroup);
 
-        let activeCount;
-        let inactiveCount;
 
-        if (userGroup == 'admin') {
-            // If the user is an admin, fetch counts of all candidates' active and inactive details
-            activeCount = await Candidate.count({ where: { active_details: 1 } });
-            inactiveCount = await Candidate.count({ where: { active_details: 0 } });
-        } else if (userGroup == 'vendor' && readOnly) {
-            // If the user is a vendor with read-only access, fetch counts of associated candidates' active and inactive details
-            activeCount = await Candidate.count({
-                where: { userId: userId, active_details: 1 }
-            });
-            inactiveCount = await Candidate.count({
-                where: { userId: userId, active_details: 0 }
-            });
-        } else {
-            return res.status(401).json({ message: 'Unauthorized', success: false });
-        }
-
-        res.status(200).json({
-            activeCount: activeCount,
-            inactiveCount: inactiveCount,
-            success: true
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
-    }
-};
-
-const getCandidateRankCounts = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const user = await User.findByPk(userId);
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found', success: false });
-        }
-
-        const userGroup = user.userGroup;
-
-        let rankCounts;
-
-        if (userGroup === 'admin') {
-            // If the user is an admin, fetch counts of all ranks
-            rankCounts = await Candidate.findAll({
-                where: {
-                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
-                },
-                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
-                group: ['c_rank']
-            });
-        } else if (userGroup === 'vendor' && user.readOnly) {
-            // If the user is a vendor with read-only access, fetch counts of ranks associated with the user
-            rankCounts = await Candidate.findAll({
-                where: {
-                    userId: userId,
-                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
-                },
-                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
-                group: ['c_rank']
-            });
-        } else {
-            return res.status(401).json({ message: 'Unauthorized', success: false });
-        }
-
-        res.status(200).json({
-            rankCounts: rankCounts,
-            success: true
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
-    }
-};
 
 
 
@@ -1785,71 +1701,6 @@ const Reminder = async (req, res) => {
 
 
 
-
-
-
-const getCallCount = async (req, res) => {
-    try {
-        const currentTime = new Date();
-        const startOfDay = new Date(currentTime);
-        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
-
-        // Fetch the count of discussions created within the current day
-        const callCount = await Discussion.count({
-            where: {
-                created_date: {
-                    [Op.between]: [startOfDay, currentTime] // Filter discussions within the current day
-                },
-                [Op.or]: [ // Filter discussions containing proposed, approved, joined, or rejected
-                    { discussion: { [Op.like]: '%Proposed%' } },
-                    { discussion: { [Op.like]: '%Approved%' } },
-                    { discussion: { [Op.like]: '%Joined%' } },
-                    { discussion: { [Op.like]: '%Rejected%' } }
-                ]
-            }
-        });
-        
-        // Update the call_count field in the Calls model
-        
-        // Send the call_count value as a JSON response
-        res.json({ call_count: callCount });
-    } catch (error) {
-        console.error('Error fetching call count:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
-
-
-const getStatusCount = async (req, res) => {
-    try {
-        const currentTime = new Date();
-        const startOfDay = new Date(currentTime);
-        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
-
-        // Fetch the counts of discussions created today
-        const counts = await Discussion.findAll({
-            attributes: [
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Approved%" THEN 1 ELSE NULL END')), 'approved_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Joined%" THEN 1 ELSE NULL END')), 'joined_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Rejected%" THEN 1 ELSE NULL END')), 'rejected_count']
-            ],
-            where: {
-                created_date: {
-                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
-                }
-            },
-            raw: true
-        });
-
-        // Send the counts as a JSON response
-        res.json({ counts });
-    } catch (error) {
-        console.error('Error fetching today\'s discussion counts:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
 const getStatusData = async (req, res) => {
     try {
         const currentTime = new Date();
@@ -1909,7 +1760,6 @@ const getStatusData = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }; 
-
 const getStatusDate = async (req, res) => {
     try {
         const { companyName, startDate, endDate } = req.query;
@@ -1993,7 +1843,65 @@ const getStatusDate = async (req, res) => {
     }
 };
 
+const getCallCount = async (req, res) => {
+    try {
+        const currentTime = new Date();
+        const startOfDay = new Date(currentTime);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
 
+        // Fetch the count of discussions created within the current day
+        const callCount = await Discussion.count({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions within the current day
+                },
+                [Op.or]: [ // Filter discussions containing proposed, approved, joined, or rejected
+                    { discussion: { [Op.like]: '%Proposed%' } },
+                    { discussion: { [Op.like]: '%Approved%' } },
+                    { discussion: { [Op.like]: '%Joined%' } },
+                    { discussion: { [Op.like]: '%Rejected%' } }
+                ]
+            }
+        });
+        
+        // Update the call_count field in the Calls model
+        
+        // Send the call_count value as a JSON response
+        res.json({ call_count: callCount });
+    } catch (error) {
+        console.error('Error fetching call count:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+const getStatusCount = async (req, res) => {
+    try {
+        const currentTime = new Date();
+        const startOfDay = new Date(currentTime);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+
+        // Fetch the counts of discussions created today
+        const counts = await Discussion.findAll({
+            attributes: [
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Approved%" THEN 1 ELSE NULL END')), 'approved_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Joined%" THEN 1 ELSE NULL END')), 'joined_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Rejected%" THEN 1 ELSE NULL END')), 'rejected_count']
+            ],
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                }
+            },
+            raw: true
+        });
+
+        // Send the counts as a JSON response
+        res.json({ counts });
+    } catch (error) {
+        console.error('Error fetching today\'s discussion counts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 const percentage = async (req, res) => {
     try {
         // Fetch the counts from the Calls model
@@ -2023,15 +1931,93 @@ const percentage = async (req, res) => {
     }
 };
 
+const getCandidateActiveDetailsCount = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+        const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        console.log('User Group:', userGroup);
 
+        let activeCount;
+        let inactiveCount;
 
-const getQuarterDates = (year, quarter) => {
-    const startDate = new Date(year, (quarter - 1) * 3, 1);
-    const endDate = new Date(year, quarter * 3, 0);
-    return { startDate, endDate };
+        if (userGroup == 'admin') {
+            // If the user is an admin, fetch counts of all candidates' active and inactive details
+            activeCount = await Candidate.count({ where: { active_details: 1 } });
+            inactiveCount = await Candidate.count({ where: { active_details: 0 } });
+        } else if (userGroup == 'vendor' && readOnly) {
+            // If the user is a vendor with read-only access, fetch counts of associated candidates' active and inactive details
+            activeCount = await Candidate.count({
+                where: { userId: userId, active_details: 1 }
+            });
+            inactiveCount = await Candidate.count({
+                where: { userId: userId, active_details: 0 }
+            });
+        } else {
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+        }
+
+        res.status(200).json({
+            activeCount: activeCount,
+            inactiveCount: inactiveCount,
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
 };
 
+const getCandidateRankCounts = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+
+        const userGroup = user.userGroup;
+
+        let rankCounts;
+
+        if (userGroup === 'admin') {
+            // If the user is an admin, fetch counts of all ranks
+            rankCounts = await Candidate.findAll({
+                where: {
+                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
+                },
+                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
+                group: ['c_rank']
+            });
+        } else if (userGroup === 'vendor' && user.readOnly) {
+            // If the user is a vendor with read-only access, fetch counts of ranks associated with the user
+            rankCounts = await Candidate.findAll({
+                where: {
+                    userId: userId,
+                    avb_date: { [Op.lt]: new Date() } // Filter candidates with avb_date less than the present date
+                },
+                attributes: ['c_rank', [sequelize.fn('COUNT', 'c_rank'), 'count']],
+                group: ['c_rank']
+            });
+        } else {
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+        }
+
+        res.status(200).json({
+            rankCounts: rankCounts,
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
 const countOperations = async (req, res) => {
     try {
         const currentYear = new Date().getFullYear(); // Get the current year
@@ -2064,6 +2050,14 @@ const countOperations = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+const getQuarterDates = (year, quarter) => {
+    const startDate = new Date(year, (quarter - 1) * 3, 1);
+    const endDate = new Date(year, quarter * 3, 0);
+    return { startDate, endDate };
+};
+
+
 
 
 const calls_made = async (req, res) => {
