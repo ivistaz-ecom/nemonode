@@ -1122,3 +1122,47 @@ uploadResumeForm.addEventListener('submit', function(e) {
             });
     }
 });
+
+async function fetchAndDisplayFiles() {
+    try {
+        let candidateId = localStorage.getItem('memId')
+      // Fetch photos
+      const photosResponse = await axios.get(`/fetch-files1/${candidateId}`);
+      const photos = photosResponse.data;
+      const photosContainer = document.getElementById('photosPresent');
+      photosContainer.innerHTML = ''; // Clear previous content
+      photos.forEach(photo => {
+        const imgElement = document.createElement('img');
+        imgElement.src = photo;
+        imgElement.alt = 'Candidate Photo';
+        photosContainer.appendChild(imgElement);
+      });
+
+      // Fetch resumes
+      const resumesResponse = await axios.get(`/fetch-files2/${candidateId}`);
+      const resumes = resumesResponse.data;
+      const resumesContainer = document.getElementById('resumesPresent');
+      resumesContainer.innerHTML = ''; // Clear previous content
+      resumes.forEach(resume => {
+        const linkElement = document.createElement('a');
+        linkElement.href = resume;
+        linkElement.textContent = 'View Resume';
+        resumesContainer.appendChild(linkElement);
+      });
+
+      // Optionally, you can handle tickets similarly if needed
+      // const ticketsResponse = await axios.get(`/fetch-files3/${candidateId}`);
+      // const tickets = ticketsResponse.data;
+      // const ticketsContainer = document.getElementById('ticketsPresent');
+      // ticketsContainer.innerHTML = ''; // Clear previous content
+      // tickets.forEach(ticket => {
+      //   const linkElement = document.createElement('a');
+      //   linkElement.href = ticket;
+      //   linkElement.textContent = 'View Ticket';
+      //   ticketsContainer.appendChild(linkElement);
+      // });
+
+    } catch (error) {
+      console.error('Error fetching files:', error);
+    }
+  }
