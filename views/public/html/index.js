@@ -316,10 +316,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 function updateDateTime(element) {
   const now = new Date();
-  console.log(now)
-  const formattedDate = now.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-  const formattedTime = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  element.textContent = `${formattedDate} ${formattedTime}`;
+
+  // Format time
+  const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+  const formattedTime = now.toLocaleTimeString('en-IN', options);
+
+  // Get day of the week
+  const dayOfWeek = now.toLocaleDateString('en-IN', { weekday: 'long' });
+
+  // Update the element's text content
+  element.textContent = `Indian Time: ${formattedTime}, ${dayOfWeek}`;
 }
 
 function createSpinner() {
