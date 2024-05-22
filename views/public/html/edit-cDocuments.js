@@ -24,7 +24,7 @@ let documentCounter = 0;
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:4000/candidate/get-cdocument-detail/${candidateId}`);
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-cdocument-detail/${candidateId}`);
 
         const documentDetails = response.data;
 
@@ -77,7 +77,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`http://localhost:4000/candidate/cdocument-delete/${documentId}`);
+            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/cdocument-delete/${documentId}`);
 
             // Log the response from the server
             console.log('Document deleted successfully:', response.data);
@@ -109,7 +109,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`http://localhost:4000/candidate/cdocument-detail/${id}`, formData);
+        const response = await axios.post(`https://nemo.ivistaz.co/candidate/cdocument-detail/${id}`, formData);
 
         console.log('Document added successfully:', response.data);
         fetchAndDisplayDocumentDetails(id);
@@ -129,7 +129,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
