@@ -1093,7 +1093,7 @@ const uploadResumeBtn = document.getElementById('uploadResumeBtn');
 uploadPhotoBtn.addEventListener('submit', function() {
     const file = photoInput.files[0];
     if (file) {
-        uploadFile(file, '/upload1')
+        uploadFile(file, 'https://nemo.ivistaz.co/upload1')
             .then(data => {
                 // Handle successful upload
                 console.log(data);
@@ -1108,7 +1108,7 @@ uploadPhotoBtn.addEventListener('submit', function() {
 uploadResumeBtn.addEventListener('submit', function() {
     const file = resumeInput.files[0];
     if (file) {
-        uploadFile(file, '/upload3')
+        uploadFile(file, 'https://nemo.ivistaz.co/upload3')
             .then(data => {
                 // Handle successful upload
                 console.log(data);
