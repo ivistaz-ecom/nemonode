@@ -48,6 +48,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}'>Click here to view!</a></td>
                 <td>${doc.stcw}</td>
                 <td>${doc.expiry_date}</td>
                 <td>
@@ -58,15 +59,21 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
                 </button>
             </td>
-            
             `;
 
+            
+            
             documentTableBody.appendChild(row);
         });
+
+        // Display URLs in a list
+       
     } catch (error) {
         console.error('Error fetching document details:', error);
     }
 }
+
+
 
 
 async function fetchAndDisplayBankDetails(candidateId) {
