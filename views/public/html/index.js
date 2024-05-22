@@ -368,7 +368,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       axios.get('https://nemo.ivistaz.co/candidate/call-count', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/statuscount', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/percentage', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } })
     ]);
 
