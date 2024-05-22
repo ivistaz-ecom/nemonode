@@ -922,37 +922,7 @@
                                                  </div>
                                              </div>
                                          </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_photos"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_photos">Photo</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_resume"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_resume">Resume</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="card-body pb-0">
                                             <div class="row">
                                                 <div class="col-md-6 mb-0">
@@ -1140,6 +1110,46 @@
                                               </div>
 
                                           </div>
+                                            <div class="row">
+                                              <div class="card-body pb-0 pt-2">
+                                                <div class="ms-2 ps-1 mt-0">
+                                                  <div class="d-flex flex-wrap"> <!-- Flex container -->
+                                                      <div class="col-md-5 mb-3">
+                                                          <div class="row">
+                                                             
+                                                              <div class="col-md-10 border rounded-3 p-3 me-1">
+                                                                  <div class="form-floating">
+                                                                      <input type="file" class="form-control" id="photoInput" required>
+                                                                      <label for="photoInput">Choose Photo</label>
+                                                                  </div>
+                                                                  <button id="uploadPhotoBtn" class="btn btn-primary mt-3">Upload Photo</button>
+                                                            
+                                                              </div>
+                                                             
+                                                                
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-5 mb-3 ms-1">
+                                                          <div class="row">
+                                                
+                                                              <div class="col-md-10 border rounded-3 p-3">
+                                                                  <div class="form-floating">
+                                                                      <input type="file" class="form-control" id="resumeInput" required>
+                                                                      <label for="resumeInput">Choose Resume</label>
+                                                                  </div>
+                                                                  <button id="uploadResumeBtn" class="btn btn-primary mt-3">Upload Resume</button>
+                      
+                                                              </div>
+                                                              
+                                                              
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              
+                                              </div>
+                                            </div>
+
                                           <button type="submit" class="btn btn-primary">Edit Personnel</button>
 
                                       </div>

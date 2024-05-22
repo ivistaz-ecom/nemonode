@@ -1059,3 +1059,63 @@ async function fetchFilesByCandidateId(candidateId) {
 }
 
 
+function uploadFile(file, uploadUrl) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return axios.post(uploadUrl, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            console.log('File uploaded successfully');
+            return response.data; // You can return any data from the response if needed
+        } else {
+            console.error('Error uploading file:', response.statusText);
+            throw new Error('Upload failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error uploading file:', error.message);
+        throw error;
+    });
+}
+
+// Get elements
+const photoInput = document.getElementById('photoInput');
+const resumeInput = document.getElementById('resumeInput');
+const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+const uploadResumeBtn = document.getElementById('uploadResumeBtn');
+
+// Event listeners for uploading photo and resume
+uploadPhotoBtn.addEventListener('click', function() {
+    const file = photoInput.files[0];
+    if (file) {
+        uploadFile(file, '/upload1')
+            .then(data => {
+                // Handle successful upload
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle upload error
+                console.error(error);
+            });
+    }
+});
+
+uploadResumeBtn.addEventListener('click', function() {
+    const file = resumeInput.files[0];
+    if (file) {
+        uploadFile(file, '/upload3')
+            .then(data => {
+                // Handle successful upload
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle upload error
+                console.error(error);
+            });
+    }
+});
