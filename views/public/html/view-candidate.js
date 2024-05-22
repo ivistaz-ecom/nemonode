@@ -26,57 +26,63 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-      const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json'
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const documentDetails = response.data;
+
+        // Clear existing rows in the table
+        const documentTableBody = document.getElementById('documentTableBody');
+        documentTableBody.innerHTML = '';
+
+        for (const doc of documentDetails) {
+            const row = document.createElement('tr');
+
+            // Add data to each cell
+            row.innerHTML = `
+                <td>${doc.document}</td>
+                <td>${doc.document_number}</td>
+                <td>${doc.issue_date}</td>
+                <td>${doc.issue_place}</td>
+                <td>${doc.stcw}</td>
+                <td>${doc.expiry_date}</td>
+                <td>
+                    <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}', '${doc.document}', '${doc.document_number}', '${doc.issue_date}', '${doc.issue_place}', '${doc.document_files}', '${doc.stcw}', event)">
+                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
+                        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
+
+            documentTableBody.appendChild(row);
         }
-      });
 
-      const documentDetails = response.data;
-      const fileNames = documentDetails.map(doc => doc.document_files).flat();
+        // Display file URLs separately
+        const fileUrlsContainer = document.getElementById('fileUrlsContainer');
+        fileUrlsContainer.innerHTML = ''; // Clear existing content
 
-      // Fetch the actual file paths
-      const filesResponse = await axios.post('/fetch-files4', { fileNames }, {
-        headers: {
-          'Content-Type': 'application/json'
+        for (const doc of documentDetails) {
+            const fileUrls = doc.document_files.map(file => `https://nemo.ivistaz.co/views/public/files/${file}`);
+
+            fileUrls.forEach(fileUrl => {
+                const fileLink = document.createElement('a');
+                fileLink.href = fileUrl;
+                fileLink.textContent = fileUrl;
+                fileLink.target = '_blank';
+                fileLink.style.display = 'block'; // Each URL in a new line
+                fileUrlsContainer.appendChild(fileLink);
+            });
         }
-      });
-      const files = filesResponse.data;
-
-      const documentTableBody = document.getElementById('documentTableBody');
-      documentTableBody.innerHTML = ''; // Clear existing rows
-
-      documentDetails.forEach(doc => {
-        const row = document.createElement('tr');
-
-        const documentFiles = files.filter(file => file.includes(doc.document_files));
-
-        // Add data to each cell
-        row.innerHTML = `
-          <td>${doc.document}</td>
-          <td>${doc.document_number}</td>
-          <td>${doc.issue_date}</td>
-          <td>${doc.issue_place}</td>
-          <td>${documentFiles.join(', ')}</td>
-          <td>${doc.stcw}</td>
-          <td>${doc.expiry_date}</td>
-          <td>
-            <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}', '${doc.document}', '${doc.document_number}', '${doc.issue_date}', '${doc.issue_place}', '${doc.document_files}', '${doc.stcw}', event)">
-              <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-            </button>
-            <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
-              <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-            </button>
-          </td>
-        `;
-
-        documentTableBody.appendChild(row);
-      });
     } catch (error) {
-      console.error('Error fetching document details:', error);
+        console.error('Error fetching document details:', error);
     }
-  }
+}
 
 
 
