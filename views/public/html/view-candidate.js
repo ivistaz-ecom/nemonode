@@ -420,6 +420,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplaySeaService(candidateId);
         await fetchFilesByCandidateId(candidateId)
         updateCandidatePhoto(candidateId)
+        fetchAndDisplayFiles(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
         console.log(vendorManagement);
@@ -1123,9 +1124,9 @@ uploadResumeForm.addEventListener('submit', function(e) {
     }
 });
 
-async function fetchAndDisplayFiles() {
+async function fetchAndDisplayFiles(candidateId) {
     try {
-        let candidateId = localStorage.getItem('memId')
+        
       // Fetch photos
       const photosResponse = await axios.get(`/fetch-files1/${candidateId}`);
       const photos = photosResponse.data;
