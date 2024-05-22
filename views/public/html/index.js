@@ -296,10 +296,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     elements.userGroup.textContent = decodedToken.userGroup;
   }
 
-  function updateDateTime(datetimeElement) {
-    const now = new Date();
-    datetimeElement.textContent = now.toLocaleString();
-  }
+ 
 
   function setIcon(iconElement) {
     iconElement.href = 'path_to_icon';
