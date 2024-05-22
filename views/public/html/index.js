@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
 
+    
+
   const elements = {
     userName: document.getElementById('user_name'),
     userAvatar: document.getElementById('user-avatar'),
@@ -318,4 +320,12 @@ function updateDateTime(element) {
   const formattedDate = now.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
   const formattedTime = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   element.textContent = `${formattedDate} ${formattedTime}`;
+}
+
+function createSpinner() {
+  const spinner = document.createElement('div');
+  spinner.classList.add('spinner-border');
+  spinner.setAttribute('role', 'status');
+  spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
+  return spinner;
 }
