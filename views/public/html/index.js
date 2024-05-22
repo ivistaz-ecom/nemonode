@@ -368,20 +368,30 @@ document.addEventListener('DOMContentLoaded', async function () {
       axios.get('https://nemo.ivistaz.co/candidate/call-count', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/statuscount', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/percentage', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } })
     ]);
 
-    const discussionCountsData = discussionCountsResponse.data;
-    const callCountData = callCountResponse.data;
-    const statusCountData = statusCountResponse.data.counts[0];
-    const percentageData = callCountFromModelResponse.data;
-    const rankCounts = rankCountsResponse.data.rankCounts;
-    const candidateCounts = candidateCountsResponse.data;
+    const [
+      discussionCountsData,
+      callCountData,
+      statusCountData,
+      percentageData,
+      rankCounts,
+      candidateCounts
+    ] = await Promise.all([
+      discussionCountsResponse.data,
+      callCountResponse.data,
+      statusCountResponse.data.counts[0],
+      callCountFromModelResponse.data,
+      rankCountsResponse.data.rankCounts,
+      candidateCountsResponse.data
+    ]);
 
     updateDiscussionCounts(discussionCountsData, elements);
     updateCallCounts(callCountData, percentageData, elements);
     updateStatusCounts(statusCountData, percentageData, elements);
-    fetchAndGenerateRankChart(rankCounts);
+    generateDoughnutChart(rankCounts);
     updateCandidatesCounts(candidateCounts, elements);
   } catch (error) {
     console.error('Error fetching data:', error);
