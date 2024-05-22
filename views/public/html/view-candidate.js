@@ -18,6 +18,7 @@ function loadContent(section) {
     document.getElementById('nkdContent').style.display = 'none';
     document.getElementById('seaServiceContent').style.display = 'none';
     document.getElementById('evaluationContent').style.display = 'none';
+    document.getElementById('filesContent').style.display = 'none';
 
     // Show the selected content div
     document.getElementById(`${section}Content`).style.display = 'block';

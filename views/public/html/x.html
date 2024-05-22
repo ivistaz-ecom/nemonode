@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Nautilus Pre-Employment Evaluation Sheet</title>
@@ -54,4 +54,442 @@
   </form>
 </body>
 </html>
+ -->
 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled Card Buttons</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+
+.card-button {
+      cursor: pointer;
+      transition: transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-button:hover {
+      transform: scale(1.05);
+    }
+    .card {
+      margin: 10px 0;
+      height: 200px; /* Adjust the height of the card */
+    }
+    .card-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, #a8e063, #56ab2f); /* Green gradient background */
+      opacity: 0.8; /* Adjust gradient opacity as needed */
+    }
+    .card-text-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white; /* Text color */
+    }
+    .card-title {
+      font-size: 24px; /* Title font size */
+      margin-bottom: 10px;
+    }
+    .card-text {
+      font-size: 16px; /* Text font size */
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .navbar {
+      background-color: #ffffff; /* Dark background color */
+    }
+    .navbar-brand {
+      color: #000000; /* White color for brand name */
+      font-weight: bold;
+    }
+    .navbar-nav .nav-link {
+      color: #000000; /* White color for nav links */
+    }
+    .navbar-nav .nav-link:hover {
+      color: #000000; /* Light gray color on hover */
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    .wrapper {
+      display: flex;
+      width: 100%;
+      flex: 1;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: rgb(0, 0, 0);
+      flex-shrink: 0;
+    }
+    .sidebar .nav-link {
+      color: #000000;
+    }
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: absolute;
+        top: 56px; /* Adjust according to the navbar height */
+        left: -250px;
+        transition: left 0.3s;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+    }
+    
+    .card-button {
+      cursor: pointer;
+      transition: transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-button:hover {
+      transform: scale(1.05);
+    }
+    .card {
+      margin: 10px 0;
+      height: 200px; /* Adjust the height of the card */
+    }
+    .card-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, #a8e063, #56ab2f); /* Green gradient background */
+      opacity: 0.8; /* Adjust gradient opacity as needed */
+    }
+    .card-text-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white; /* Text color */
+    }
+    .card-title {
+      font-size: 24px; /* Title font size */
+      margin-bottom: 10px;
+    }
+    .card-text {
+      font-size: 16px; /* Text font size */
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .navbar {
+      background-color: #ffffff; /* Dark background color */
+      
+    }
+    .navbar-brand {
+      color: #000000; /* White color for brand name */
+      font-weight: bold;
+    }
+    .navbar-nav .nav-link {
+      color: #000000; /* White color for nav links */
+    }
+    .navbar-nav .nav-link:hover {
+      color: #000000; /* Light gray color on hover */
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    .wrapper {
+      display: flex;
+      width: 100%;
+      flex: 1;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: rgb(0, 0, 0);
+      flex-shrink: 0;
+    }
+    .sidebar .nav-link {
+      color: #000000;
+    }
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: absolute;
+        top: 56px; /* Adjust according to the navbar height */
+        left: -250px;
+        transition: left 0.3s;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+    }
+   
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark border border-secondary-subtle ">
+      <a class="navbar-brand text-success" href="#">MRR</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="net-worth-box">
+  
+        <h3>Net Worth in ₹2.5cr to ₹3cr</h3>
+      
+      </div>    
+  
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link text-secondary " href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary " href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary " href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary " href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="content">
+        <h1>Welcome to the Asset management Dashboard.</h1>
+        <p>This is the main content area.</p>
+      </div>
+    <div class="container my-5">
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <div class="card card-button" onclick="alert('Card 1 clicked!')">
+              <div class="card-gradient"></div>
+              <div class="card-text-container">
+                <h5 class="card-title">Stocks</h5>
+                <p class="card-text">Check your stocks here</p>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="card card-button" data-toggle="modal" data-target="#goldModal">
+              <div class="card-gradient"></div>
+              <div class="card-text-container">
+                  <h5 class="card-title" id="goldTitle">Gold</h5>
+                  <p class="card-text" id="goldText">Check your Gold investments here</p>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="goldModal" tabindex="-1" role="dialog" aria-labelledby="goldModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="goldModalLabel">Update Gold Investment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="goldForm">
+                          <div class="form-group">
+                              <label for="gramsInput">Grams of Gold</label>
+                              <input type="number" class="form-control" id="gramsInput" placeholder="Enter grams of gold">
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" onclick="updateGold()">Save changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+              <div class="col-md-4 col-sm-6">
+                <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                  <div class="card-gradient"></div>
+                  <div class="card-text-container">
+                    <h5 class="card-title">Jewellery</h5>
+                    <p class="card-text">Check your Jewellery worth here</p>
+                  </div>
+                </div>
+              </div>
+          
+          <!-- Add more cards here -->
+        </div>
+
+        
+        
+        
+        
+        
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="card card-button" onclick="calculateNetWorth()">
+                <div class="card-gradient"></div>
+                <div class="card-text-container">
+                  <h5 class="card-title">Business</h5>
+                  <p class="card-text">Check your business details</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <script>
+          function calculateNetWorth() {
+            // Prompt user for input using JavaScript prompts (you can replace with form inputs as needed)
+            let partnershipPercentage = prompt("Enter the partnership percentage (e.g., 100 for 100%):");
+            let avgAnnualTurnover = prompt("Enter the average annual turnover:");
+            let avgAnnualProfit = prompt("Enter the average annual profit:");
+            let assetMultiplier = prompt("Enter the asset multiplier (based on industry):");
+      
+            // Convert inputs to numbers (assuming they are provided as strings)
+            partnershipPercentage = parseFloat(partnershipPercentage);
+            avgAnnualTurnover = parseFloat(avgAnnualTurnover);
+            avgAnnualProfit = parseFloat(avgAnnualProfit);
+            assetMultiplier = parseFloat(assetMultiplier);
+      
+            // Calculate company's net worth and shareholder's stake
+            let companiesNetWorth = assetMultiplier * avgAnnualTurnover;
+            let shareholdersStake = partnershipPercentage / 100 * companiesNetWorth;
+      
+            // Display results (you can alert, console log, or display in a modal as needed)
+            alert(`Company's Net Worth: $${companiesNetWorth.toFixed(2)}\nShareholder's Stake: $${shareholdersStake.toFixed(2)}`);
+          }
+        </script>
+        
+        
+        
+        
+        
+          <div class="col-md-4 col-sm-6">
+                  <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                    <div class="card-gradient"></div>
+                    <div class="card-text-container">
+                      <h5 class="card-title">Valuable possession</h5>
+                      <p class="card-text">enter any costly objects owned ex:watch</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                  <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                    <div class="card-gradient"></div>
+                    <div class="card-text-container">
+                      <h5 class="card-title">FD</h5>
+                      <p class="card-text">Check your FD here</p>
+                    </div>
+                  </div>
+                </div>
+            
+            <!-- Add more cards here -->
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                <div class="card-gradient"></div>
+                <div class="card-text-container">
+                  <h5 class="card-title">Long term investments</h5>
+                  <p class="card-text">check your long term investments here</p>
+                </div>
+              </div>
+          </div>
+              <div class="col-md-4 col-sm-6">
+                  <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                    <div class="card-gradient"></div>
+                    <div class="card-text-container">
+                      <h5 class="card-title">Cash</h5>
+                      <p class="card-text">Maintain your cash here</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                  <div class="card card-button" onclick="alert('Card 1 clicked!')">
+                    <div class="card-gradient"></div>
+                    <div class="card-text-container">
+                      <h5 class="card-title">Real Estate</h5>
+                      <p class="card-text">Real Estate</p>
+                    </div>
+                  </div>
+                </div>
+            
+    
+            
+            <!-- Add more cards here -->
+          </div>
+        
+        
+      </div>
+      <div class="modal fade" id="goldModal" tabindex="-1" role="dialog" aria-labelledby="goldModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="goldModalLabel">Update Gold Investment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="goldForm">
+                        <div class="form-group">
+                            <label for="gramsInput">Grams of Gold</label>
+                            <input type="number" class="form-control" id="gramsInput" placeholder="Enter grams of gold">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateGold()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+      <script>
+        function updateGold() {
+            var grams = document.getElementById('gramsInput').value;
+            if (grams) {
+                document.getElementById('goldText').textContent = 'You have ' + grams + ' grams of gold';
+            }
+            $('#goldModal').modal('hide');
+        }
+    </script>
+      
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
