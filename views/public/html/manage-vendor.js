@@ -5,7 +5,7 @@ async function fetchAndDisplayVendors(page = 1, limit = 10) {
         const token = localStorage.getItem('token');
 
         // Fetch vendor data from the server using Axios with async/await
-        const response = await axios.get(`https://nemo.ivistaz.co/others/view-vendor?page=${page}&limit=${limit}`, {
+        const response = await axios.get(`http://localhost:4000/others/view-vendor?page=${page}&limit=${limit}`, {
             headers: { "Authorization": token }
         });
 
@@ -156,7 +156,7 @@ document.getElementById('addVendorButton').addEventListener('click', async () =>
         };
 
         // Send data to the server using Axios with async/await
-        const response = await axios.post('https://nemo.ivistaz.co/others/create-vendor', formData,{headers:{"Authorization":token}});
+        const response = await axios.post('http://localhost:4000/others/create-vendor', formData,{headers:{"Authorization":token}});
 
         // Handle success, e.g., show a success message or redirect to another page
         console.log('Vendor added successfully', response.data);
@@ -192,7 +192,7 @@ async function deleteVendor(vendorId) {
         const token = localStorage.getItem('token');
         
         // Send a delete request to the server
-        const response = await axios.delete(`https://nemo.ivistaz.co/others/delete-vendor/${vendorId}`, {
+        const response = await axios.delete(`http://localhost:4000/others/delete-vendor/${vendorId}`, {
             headers: { "Authorization": token }
         });
 
@@ -215,7 +215,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
