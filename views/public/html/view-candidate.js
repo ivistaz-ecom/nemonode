@@ -26,47 +26,50 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json'
-            }
-        });
+      const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json'
+        }
+      });
 
-        const documentDetails = response.data;
+      const documentDetails = response.data;
 
-        const documentTableBody = document.getElementById('documentTableBody');
-        documentTableBody.innerHTML = ''; // Clear existing rows
+      const documentTableBody = document.getElementById('documentTableBody');
+      documentTableBody.innerHTML = ''; // Clear existing rows
 
-        documentDetails.forEach(doc => {
-            const row = document.createElement('tr');
+      for (const doc of documentDetails) {
+        // Fetch files for each document
+        const filesResponse = await axios.get(`/fetch-files4/${candidateId}`);
+        const files = filesResponse.data;
 
-            // Add data to each cell
-            row.innerHTML = `
-                <td>${doc.document}</td>
-                <td>${doc.document_number}</td>
-                <td>${doc.issue_date}</td>
-                <td>${doc.issue_place}</td>
-                <td>${doc.document_files}</td>
-                <td>${doc.stcw}</td>
-                <td>${doc.expiry_date}</td>
-                <td>
-                <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
-                    <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-                </button>
-                <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
-                    <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-                </button>
-            </td>
-            
-            `;
+        const row = document.createElement('tr');
 
-            documentTableBody.appendChild(row);
-        });
+        // Add data to each cell
+        row.innerHTML = `
+          <td>${doc.document}</td>
+          <td>${doc.document_number}</td>
+          <td>${doc.issue_date}</td>
+          <td>${doc.issue_place}</td>
+          <td>${files.join(', ')}</td>
+          <td>${doc.stcw}</td>
+          <td>${doc.expiry_date}</td>
+          <td>
+            <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}', '${doc.document}', '${doc.document_number}', '${doc.issue_date}', '${doc.issue_place}', '${doc.document_files}', '${doc.stcw}', event)">
+              <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+            </button>
+            <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
+              <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+            </button>
+          </td>
+        `;
+
+        documentTableBody.appendChild(row);
+      }
     } catch (error) {
-        console.error('Error fetching document details:', error);
+      console.error('Error fetching document details:', error);
     }
-}
+  }
 
 
 async function fetchAndDisplayBankDetails(candidateId) {
