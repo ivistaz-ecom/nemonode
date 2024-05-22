@@ -281,8 +281,8 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         m_status: document.getElementById('company_status').value.trim(),
         group: document.getElementById('candidate_group').value.trim(),
         vendor: document.getElementById('candidate_vendor').value.trim() ,
-        photos: document.getElementById('candidate_photos').value.trim(),
-        resume: document.getElementById('candidate_resume').value.trim(),
+        // photos: document.getElementById('candidate_photos').value.trim(),
+        // resume: document.getElementById('candidate_resume').value.trim(),
         c_ad1: document.getElementById('candidate_c_ad1').value.trim(),
         c_city: document.getElementById('candidate_city').value.trim(),
         c_state: document.getElementById('candidate_c_state').value.trim(),
@@ -327,7 +327,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         p_tel1: document.getElementById('candidate_p_tel1').value.trim() || '',
         p_tel2: document.getElementById('candidate_p_tel2').value.trim() || '',
         ref_check: document.getElementById('candidate_ref_check').value.trim() || '',
-        resume_upload_date: document.getElementById('candidate_resume_upload_date').value.trim() || null,
+        // resume_upload_date: document.getElementById('candidate_resume_upload_date').value.trim() || null,
         skype: document.getElementById('candidate_skype').value.trim() || '',
         stcw: document.getElementById('candidate_stcw').value.trim() || 0,
         vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
@@ -424,63 +424,3 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-function uploadFile(file, uploadUrl) {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    return axios.post(uploadUrl, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-    .then(response => {
-        if (response.status === 200) {
-            console.log('File uploaded successfully');
-            return response.data; // You can return any data from the response if needed
-        } else {
-            console.error('Error uploading file:', response.statusText);
-            throw new Error('Upload failed');
-        }
-    })
-    .catch(error => {
-        console.error('Error uploading file:', error.message);
-        throw error;
-    });
-}
-
-// Get elements
-const photoInput = document.getElementById('photoInput');
-const resumeInput = document.getElementById('resumeInput');
-const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
-const uploadResumeBtn = document.getElementById('uploadResumeBtn');
-
-// Event listeners for uploading photo and resume
-uploadPhotoBtn.addEventListener('click', function() {
-    const file = photoInput.files[0];
-    if (file) {
-        uploadFile(file, '/upload1')
-            .then(data => {
-                // Handle successful upload
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle upload error
-                console.error(error);
-            });
-    }
-});
-
-uploadResumeBtn.addEventListener('click', function() {
-    const file = resumeInput.files[0];
-    if (file) {
-        uploadFile(file, '/upload3')
-            .then(data => {
-                // Handle successful upload
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle upload error
-                console.error(error);
-            });
-    }
-});
