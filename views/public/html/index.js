@@ -244,8 +244,8 @@ if (rejectedPercentageChange > 0) {
 //  }
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
-  await fetchCandidates();
   await fetchAndLogRankCounts();
+  await fetchCandidates();
   await fetchAndGenerateRankChart()
 
   function getFirstLetterFromName() {
