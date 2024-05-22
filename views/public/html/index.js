@@ -9,9 +9,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Show spinner
   // document.getElementById('spinner').style.display = 'flex';
   
-  await fetchAndLogRankCounts();
-  await fetchCandidates();
-  await fetchAndGenerateRankChart()
+  // await fetchAndLogRankCounts();
+
   // Attach click event to the search button
 
   const token = localStorage.getItem('token');
@@ -32,7 +31,8 @@ try {
   const proposedCounts = discussionCountsData.map(quarterData => quarterData.proposedCount);
   const approvedCounts = discussionCountsData.map(quarterData => quarterData.approvedCount);
   const joinedCounts = discussionCountsData.map(quarterData => quarterData.joinedCount);
-
+  await fetchCandidates();
+  await fetchAndGenerateRankChart()
   // Create a new canvas element to render the chart
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
