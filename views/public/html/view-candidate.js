@@ -34,16 +34,23 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
       });
 
       const documentDetails = response.data;
+      const fileNames = documentDetails.map(doc => doc.document_files).flat();
+
+      // Fetch the actual file paths
+      const filesResponse = await axios.post('/fetch-files4', { fileNames }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const files = filesResponse.data;
 
       const documentTableBody = document.getElementById('documentTableBody');
       documentTableBody.innerHTML = ''; // Clear existing rows
 
-      for (const doc of documentDetails) {
-        // Fetch files for each document
-        const filesResponse = await axios.get(`/fetch-files4/${candidateId}`);
-        const files = filesResponse.data;
-
+      documentDetails.forEach(doc => {
         const row = document.createElement('tr');
+
+        const documentFiles = files.filter(file => file.includes(doc.document_files));
 
         // Add data to each cell
         row.innerHTML = `
@@ -51,7 +58,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
           <td>${doc.document_number}</td>
           <td>${doc.issue_date}</td>
           <td>${doc.issue_place}</td>
-          <td>${files.join(', ')}</td>
+          <td>${documentFiles.join(', ')}</td>
           <td>${doc.stcw}</td>
           <td>${doc.expiry_date}</td>
           <td>
@@ -65,11 +72,12 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
         `;
 
         documentTableBody.appendChild(row);
-      }
+      });
     } catch (error) {
       console.error('Error fetching document details:', error);
     }
   }
+
 
 
 async function fetchAndDisplayBankDetails(candidateId) {
