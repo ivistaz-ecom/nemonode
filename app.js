@@ -656,20 +656,29 @@ const storage3 = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-
+const storage4 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/files');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 const upload = multer({ storage: storage });
 const upload1 = multer({ storage: storage1 });
 const upload2 = multer({ storage: storage2 });
 const upload3 = multer({ storage: storage3 });
+const upload4 = multer({ storage: storage4 });
 const evaluationDirectory = '/views/public/files/evaluation';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
-
+const documentDirectory = '/var/www/html/nemonode/views/public/files'
 // Serve static files from the evaluation directory
 app.use('/evaluation', express.static(evaluationDirectory));
 // Serve static files from various directories
 app.use(express.static('/views/public/files'));
+app.use('/documents',express.static(documentDirectory))
 app.use('/photos', express.static(photosDirectory));
 app.use('/tickets', express.static(ticketsDirectory));  
 app.use('/resume', express.static(resumeDirectory));
@@ -697,6 +706,13 @@ app.post('/upload2', upload2.single('file'), (req, res) => {
     }
 });
 app.post('/upload3', upload3.single('file'), (req, res) => {
+    if (req.file) {
+        res.status(200).send('File uploaded successfully');
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
+app.post('/upload4', upload4.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
@@ -804,6 +820,30 @@ app.get('/fetch-files3/:candidateId', (req, res) => {
     });
 });
 
+app.get('/fetch-files4/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
+
+    // Read the contents of the directory
+    fs.readdir(documentDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/files/${file}`);
+
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
     const viewPath = path.join(__dirname, req.path);
