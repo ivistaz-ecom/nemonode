@@ -602,6 +602,7 @@
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('nkd')">NKD</button>
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('seaService')">Sea Service</button>
                                   <button type="button" class="btn btn-primary mb-2" onclick="loadContent('evaluation')">Evaluation</button>
+                                  <button type="button" class="btn btn-primary mb-2" onclick="loadContent('files')">Photo and Resume</button>
                                   <!-- Content will be dynamically replaced here -->
                               </div>
                               
@@ -1486,32 +1487,35 @@
                                   </div>
                               </div>
                             </div>
-                            <div class="row container mb-3 justify-content-center">
-                              <div class="card">
-                                  <div class="card-body">
-                                      <form id="uploadPhotoForm">
-                                          <h5 class="card-title">Upload Photo</h5>
-                                          <div class="form-floating mb-3">
-                                              <input type="file" class="form-control" id="photoInput" required>
-                                              <label for="photoInput">Choose Photo</label>
-                                          </div>
-                                          <button type="submit" class="btn btn-primary">Upload Photo</button>
-                                      </form>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="card-body">
-                                      <form id="uploadResumeForm">
-                                          <h5 class="card-title">Upload Resume</h5>
-                                          <div class="form-floating mb-3">
-                                              <input type="file" class="form-control" id="resumeInput" required>
-                                              <label for="resumeInput">Choose Resume</label>
-                                          </div>
-                                          <button type="submit" class="btn btn-primary">Upload Resume</button>
-                                      </form>
-                                  </div>
-                              </div>
+                            <div id="filesContent" style="display: none;">
+                              <div class="row container mb-3 justify-content-center">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="uploadPhotoForm">
+                                            <h5 class="card-title">Upload Photo</h5>
+                                            <div class="form-floating mb-3">
+                                                <input type="file" class="form-control" id="photoInput" required>
+                                                <label for="photoInput">Choose Photo</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Upload Photo</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card mt-3">
+                                    <div class="card-body">
+                                        <form id="uploadResumeForm">
+                                            <h5 class="card-title">Upload Resume</h5>
+                                            <div class="form-floating mb-3">
+                                                <input type="file" class="form-control" id="resumeInput" required>
+                                                <label for="resumeInput">Choose Resume</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Upload Resume</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                           </div>
+                            
                           
                           
                           
