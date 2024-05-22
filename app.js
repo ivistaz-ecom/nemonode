@@ -674,7 +674,7 @@ app.use('/photos', express.static(photosDirectory));
 app.use('/tickets', express.static(ticketsDirectory));  
 app.use('/resume', express.static(resumeDirectory));
 
-// Route to handle file uploads
+// Route to handle file uploads 
 app.post('/upload', upload.single('pdf'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
