@@ -2,7 +2,7 @@ const token = localStorage.getItem('token')
 async function displayPortagent(page = 1, limit = 10) {
     try {
         // Fetch port agents from the server with pagination parameters
-        const portAgentResponse = await axios.get(`http://localhost:4000/others/view-port-agent?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get(`https://nemo.ivistaz.co/others/view-port-agent?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const portAgentTable = document.getElementById("port-agent-table");
 
         // Clear existing rows
@@ -145,7 +145,7 @@ async function deletePortagent(portAgentId, event) {
     event.preventDefault();
 
     const id = portAgentId;
-    const url = `http://localhost:4000/others/delete-port-agent/${id}`;
+    const url = `https://nemo.ivistaz.co/others/delete-port-agent/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -164,7 +164,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
