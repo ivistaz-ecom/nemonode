@@ -1090,7 +1090,7 @@ const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
 const uploadResumeBtn = document.getElementById('uploadResumeBtn');
 
 // Event listeners for uploading photo and resume
-uploadPhotoBtn.addEventListener('click', function() {
+uploadPhotoBtn.addEventListener('submit', function() {
     const file = photoInput.files[0];
     if (file) {
         uploadFile(file, '/upload1')
@@ -1105,7 +1105,7 @@ uploadPhotoBtn.addEventListener('click', function() {
     }
 });
 
-uploadResumeBtn.addEventListener('click', function() {
+uploadResumeBtn.addEventListener('submit', function() {
     const file = resumeInput.files[0];
     if (file) {
         uploadFile(file, '/upload3')
