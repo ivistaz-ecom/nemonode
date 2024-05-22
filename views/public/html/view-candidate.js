@@ -39,6 +39,10 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
         const documentTableBody = document.getElementById('documentTableBody');
         documentTableBody.innerHTML = '';
 
+        // Display file URLs separately
+        const fileUrlsContainer = document.getElementById('fileUrlsContainer');
+        fileUrlsContainer.innerHTML = ''; // Clear existing content
+
         for (const doc of documentDetails) {
             const row = document.createElement('tr');
 
@@ -61,28 +65,26 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
             `;
 
             documentTableBody.appendChild(row);
-        }
 
-        // Display file URLs separately
-        const fileUrlsContainer = document.getElementById('fileUrlsContainer');
-        fileUrlsContainer.innerHTML = ''; // Clear existing content
+            // Check if document_files is an array and display file URLs separately
+            if (Array.isArray(doc.document_files)) {
+                const fileUrls = doc.document_files.map(file => `https://nemo.ivistaz.co/views/public/files/${file}`);
 
-        for (const doc of documentDetails) {
-            const fileUrls = doc.document_files.map(file => `https://nemo.ivistaz.co/views/public/files/${file}`);
-
-            fileUrls.forEach(fileUrl => {
-                const fileLink = document.createElement('a');
-                fileLink.href = fileUrl;
-                fileLink.textContent = fileUrl;
-                fileLink.target = '_blank';
-                fileLink.style.display = 'block'; // Each URL in a new line
-                fileUrlsContainer.appendChild(fileLink);
-            });
+                fileUrls.forEach(fileUrl => {
+                    const fileLink = document.createElement('a');
+                    fileLink.href = fileUrl;
+                    fileLink.textContent = fileUrl;
+                    fileLink.target = '_blank';
+                    fileLink.style.display = 'block'; // Each URL in a new line
+                    fileUrlsContainer.appendChild(fileLink);
+                });
+            }
         }
     } catch (error) {
         console.error('Error fetching document details:', error);
     }
 }
+
 
 
 
