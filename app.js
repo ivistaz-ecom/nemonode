@@ -820,25 +820,7 @@ app.get('/fetch-files3/:candidateId', (req, res) => {
     });
 });
 
-app.post('/fetch-files4', (req, res) => {
-    const { fileNames } = req.body;
 
-    if (!Array.isArray(fileNames)) {
-        return res.status(400).send('fileNames should be an array');
-    }
-
-    // Filter files based on the fileNames list
-    const candidateFiles = fileNames.map(fileName => {
-        const filePath = path.join(documentDirectory, fileName);
-        if (fs.existsSync(filePath)) {
-            return `/files/${fileName}`;
-        } else {
-            return null;
-        }
-    }).filter(filePath => filePath !== null);
-
-    res.json(candidateFiles);
-});
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
