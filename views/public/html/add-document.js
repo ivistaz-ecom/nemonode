@@ -5,7 +5,7 @@ document.getElementById("document-form").addEventListener("submit", async (e) =>
     const hideExpiryDate = document.getElementById("hide-expiry-date").checked;
 
     try {
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-document", {
+        const serverResponse = await axios.post("http://localhost:4000/others/create-document", {
             documentType,
             hideExpiryDate,
         },{headers:{"Authorization":token}});
@@ -23,7 +23,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
