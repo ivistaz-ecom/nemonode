@@ -44,40 +44,36 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
       });
       const files = filesResponse.data;
 
-      const documentTableBody = document.getElementById('documentTableBody');
-      documentTableBody.innerHTML = ''; // Clear existing rows
+      const documentCardContainer = document.getElementById('documentCardContainer');
+      documentCardContainer.innerHTML = ''; // Clear existing cards
 
-      documentDetails.forEach(doc => {
-        const row = document.createElement('tr');
+      documentDetails.forEach((doc, index) => {
+        const fileLinks = files.filter(file => doc.document_files.includes(file.split('/').pop())).map(file => `<a href="${file}" target="_blank">${file.split('/').pop()}</a>`).join(', ');
 
-        const documentFiles = files.filter(file => file.includes(doc.document_files));
-
-        // Add data to each cell
-        row.innerHTML = `
-          <td>${doc.document}</td>
-          <td>${doc.document_number}</td>
-          <td>${doc.issue_date}</td>
-          <td>${doc.issue_place}</td>
-          <td>${documentFiles.join(', ')}</td>
-          <td>${doc.stcw}</td>
-          <td>${doc.expiry_date}</td>
-          <td>
-            <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}', '${doc.document}', '${doc.document_number}', '${doc.issue_date}', '${doc.issue_place}', '${doc.document_files}', '${doc.stcw}', event)">
-              <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-            </button>
-            <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
-              <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-            </button>
-          </td>
+        const card = document.createElement('div');
+        card.className = 'col-md-4';
+        card.innerHTML = `
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">${doc.document}</h5>
+              <p class="card-text"><strong>Document Number:</strong> ${doc.document_number}</p>
+              <p class="card-text"><strong>Issue Date:</strong> ${doc.issue_date}</p>
+              <p class="card-text"><strong>Issue Place:</strong> ${doc.issue_place}</p>
+              <p class="card-text"><strong>Files:</strong> ${fileLinks}</p>
+              <p class="card-text"><strong>STCW:</strong> ${doc.stcw}</p>
+              <p class="card-text"><strong>Expiry Date:</strong> ${doc.expiry_date}</p>
+              <button class="btn btn-primary" onclick="editDocument('${doc.id}', '${doc.document}', '${doc.document_number}', '${doc.issue_date}', '${doc.issue_place}', '${doc.document_files}', '${doc.stcw}', event)">Edit</button>
+              <button class="btn btn-danger" onclick="deleteDocument('${doc.id}', event)">Delete</button>
+            </div>
+          </div>
         `;
 
-        documentTableBody.appendChild(row);
+        documentCardContainer.appendChild(card);
       });
     } catch (error) {
       console.error('Error fetching document details:', error);
     }
   }
-
 
 
 async function fetchAndDisplayBankDetails(candidateId) {
