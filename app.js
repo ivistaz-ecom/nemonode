@@ -623,7 +623,7 @@ app.use('/candidate-password', cPasswordRoutes);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/photos');
+        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -632,7 +632,7 @@ const storage = multer.diskStorage({
 
 const storage1 = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/resume');
+        cb(null, '/var/www/html/nemonode/views/public/files/photos');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -650,7 +650,7 @@ const storage2 = multer.diskStorage({
 
 const storage3 = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+        cb(null, '/var/www/html/nemonode/views/public/files/resume');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -671,7 +671,7 @@ app.use('/evaluation', express.static(evaluationDirectory));
 // Serve static files from various directories
 app.use(express.static('/views/public/files'));
 app.use('/photos', express.static(photosDirectory));
-app.use('/tickets', express.static(ticketsDirectory));
+app.use('/tickets', express.static(ticketsDirectory));  
 app.use('/resume', express.static(resumeDirectory));
 
 // Route to handle file uploads
