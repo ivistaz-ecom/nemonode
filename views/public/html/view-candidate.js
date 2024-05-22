@@ -1086,11 +1086,12 @@ function uploadFile(file, uploadUrl) {
 // Get elements
 const photoInput = document.getElementById('photoInput');
 const resumeInput = document.getElementById('resumeInput');
-const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
-const uploadResumeBtn = document.getElementById('uploadResumeBtn');
+const uploadPhotoForm = document.getElementById('uploadPhotoForm');
+const uploadResumeForm = document.getElementById('uploadResumeForm');
 
 // Event listeners for uploading photo and resume
-uploadPhotoBtn.addEventListener('submit', function() {
+uploadPhotoForm.addEventListener('submit', function(e) {
+    e.preventDefault();
     const file = photoInput.files[0];
     if (file) {
         uploadFile(file, 'https://nemo.ivistaz.co/upload1')
@@ -1105,7 +1106,8 @@ uploadPhotoBtn.addEventListener('submit', function() {
     }
 });
 
-uploadResumeBtn.addEventListener('submit', function() {
+uploadResumeForm.addEventListener('submit', function(e) {
+    e.preventDefault();
     const file = resumeInput.files[0];
     if (file) {
         uploadFile(file, 'https://nemo.ivistaz.co/upload3')
