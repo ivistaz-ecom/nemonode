@@ -820,30 +820,26 @@ app.get('/fetch-files3/:candidateId', (req, res) => {
     });
 });
 
-app.get('/fetch-files4/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+app.post('/fetch-files4', (req, res) => {
+    const { fileNames } = req.body;
 
-    // Read the contents of the directory
-    fs.readdir(documentDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
+    if (!Array.isArray(fileNames)) {
+        return res.status(400).send('fileNames should be an array');
+    }
+
+    // Filter files based on the fileNames list
+    const candidateFiles = fileNames.map(fileName => {
+        const filePath = path.join(documentDirectory, fileName);
+        if (fs.existsSync(filePath)) {
+            return `/files/${fileName}`;
+        } else {
+            return null;
         }
+    }).filter(filePath => filePath !== null);
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/files/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
+    res.json(candidateFiles);
 });
+
 // Middleware for serving files dynamically
 app.use((req, res, next) => {
     const viewPath = path.join(__dirname, req.path);
