@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Show spinner
   // document.getElementById('spinner').style.display = 'flex';
   
-
+  await fetchAndLogRankCounts();
+  await fetchCandidates();
+  await fetchAndGenerateRankChart()
   // Attach click event to the search button
 
   const token = localStorage.getItem('token');
@@ -244,9 +246,7 @@ if (rejectedPercentageChange > 0) {
 //  }
   // Hide spinner after everything is done
   document.getElementById('spinner').style.display = 'none';
-  await fetchAndLogRankCounts();
-  await fetchCandidates();
-  await fetchAndGenerateRankChart()
+  
 
   function getFirstLetterFromName() {
     return decodedToken.userName.charAt(0).toUpperCase();
