@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
 
-    
-
   const elements = {
     userName: document.getElementById('user_name'),
     userAvatar: document.getElementById('user-avatar'),
@@ -31,12 +29,21 @@ document.addEventListener('DOMContentLoaded', async function () {
   };
 
   try {
-    const discussionCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/discussion-count', { headers: { "Authorization": token } });
-    const callCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/call-count', { headers: { "Authorization": token } });
-    const statusCountResponse = await axios.get('https://nemo.ivistaz.co/candidate/statuscount', { headers: { "Authorization": token } });
-    const callCountFromModelResponse = await axios.get('https://nemo.ivistaz.co/candidate/percentage', { headers: { "Authorization": token } });
-    const candidateCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } });
-    const rankCountsResponse = await axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } });
+    const [
+      discussionCountsResponse,
+      callCountResponse,
+      statusCountResponse,
+      callCountFromModelResponse,
+      candidateCountsResponse,
+      rankCountsResponse
+    ] = await Promise.all([
+      axios.get('https://nemo.ivistaz.co/candidate/discussion-count', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/call-count', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/statuscount', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/percentage', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } }),
+      axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } })
+    ]);
 
     const discussionCountsData = discussionCountsResponse.data;
     const callCountData = callCountResponse.data;
@@ -48,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     updateDiscussionCounts(discussionCountsData, elements);
     updateCallCounts(callCountData, percentageData, elements);
     updateStatusCounts(statusCountData, percentageData, elements);
-    fetchAndGenerateRankChart(rankCounts);
+    generateDoughnutChart(rankCounts, elements.rankCharts);
     updateCandidatesCounts(candidateCounts, elements);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -60,33 +67,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   setInterval(() => updateDateTime(elements.datetime), 1000);
   setIcon(elements.icon);
 
-  document.getElementById("logout").addEventListener("click", function () {
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
-        .then(response => {
-          console.log('Logged out successfully');
-        })
-        .catch(error => {
-          console.error('Error logging out:', error);
-        });
-    } else {
-      console.error('User ID not found in localStorage');
-    }
-
-    localStorage.clear();
-    
-    setTimeout(function () {
-      document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-
-    setTimeout(function () {
-      window.location.href = "loginpage.html";
-    }, 2000);
-  });
+  document.getElementById("logout").addEventListener("click", handleLogout);
 
   function decodeToken(token) {
     const base64Url = token.split('.')[1];
@@ -132,11 +113,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
           }
         },
-        animation: {
-          duration: 0, // Disable animation
-      },
+        animation: { duration: 0 }
       }
-      
     });
   }
 
@@ -148,7 +126,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (elements.callCount && elements.percentageChange && elements.arrowIcon) {
       elements.callCount.textContent = callCountFromAPI;
       elements.callCount.className = 'text-dark';
-
       elements.percentageChange.textContent = `${Math.abs(percentageChange)}`;
 
       if (percentageChange > 0) {
@@ -197,111 +174,57 @@ document.addEventListener('DOMContentLoaded', async function () {
     elements.inactiveCount.textContent = candidateCounts.inactiveCount;
   }
 
-  async function fetchAndGenerateRankChart (rankCount){
-    try {
-      const rankCounts1 = rankCount
-      // Make an HTTP GET request to your server endpoint
-      // const response = await axios.get('https://nemo.ivistaz.co/candidate/getGraph',{headers:{"Authorization":token}});
-      
-      // // Extract rankCounts from the response data
-      // const rankCounts = response.data.rankCounts;
-      
-      // Generate doughnut chart with the retrieved data
-      generateDoughnutChart(rankCounts1);
-    } catch (error) {
-      console.error('Error fetching rank counts:', error);
-    }
-  };
-  
-  
-  function generateDoughnutChart(rankCounts) {
-    // Sort the rank counts by count in descending order
+  function generateDoughnutChart(rankCounts, rankChartsContainer) {
     const sortedRankCounts = rankCounts.sort((a, b) => b.count - a.count);
-  
-    // Select top 5 ranks or less if there are fewer than 5 ranks
     const topRankCounts = sortedRankCounts.slice(0, 5);
-  
+
     const rankLabels = topRankCounts.map(rank => `${rank.c_rank} : ${rank.count}`);
     const rankData = topRankCounts.map(rank => rank.count);
-  
     const totalCount = rankCounts.reduce((total, rank) => total + rank.count, 0);
-  
-    const rankChartsContainer = document.getElementById('rankCharts');
+
     rankChartsContainer.innerHTML = '<canvas id="rankDoughnutChart"></canvas>';
-  
     const rankDoughnutChartCanvas = document.getElementById('rankDoughnutChart').getContext('2d');
-    
-  
+
     new Chart(rankDoughnutChartCanvas, {
-        type: 'doughnut',
-        data: {
-            labels: rankLabels,
-            datasets: [{
-                label: 'Rank Counts',
-                data: rankData,
-                backgroundColor:['#00222F', 'rgba(39, 139, 222, 0.6)', 'rgba(0, 149, 211, 0.6)', '#008E9C', 'rgba(0, 153, 204, 0.6)']
-  ,
-                borderWidth: 1
-            }]
+      type: 'doughnut',
+      data: {
+        labels: rankLabels,
+        datasets: [{
+          label: 'Rank Counts',
+          data: rankData,
+          backgroundColor: ['#00222F', 'rgba(39, 139, 222, 0.6)', 'rgba(0, 149, 211, 0.6)', '#008E9C', 'rgba(0, 153, 204, 0.6)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: { display: true, position: 'right' },
+        title: {
+          display: true,
+          text: `Top 5 Candidate Ranks\nTotal: ${totalCount}`,
+          fontSize: 18,
+          padding: 20,
+          fontStyle: 'normal',
+          fontColor: '#333'
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: true,
-                position: 'right'
-            },
-            title: {
-                display: true,
-                text: `Top 5 Candidate Ranks`,
-                fontSize: 18,
-                padding: 20,
-                fontStyle: 'normal', // Ensure the total count is not italicized
-                fontColor: '#333', // Specify the color for the total count
-                // Add custom function to generate the title text
-                text: (tooltipItems) => {
-                  const tooltipItem = tooltipItems[0]; // Just using the first item from the tooltip
-                  return [
-                    `Top 5 Candidate Ranks`,
-                    `Total: ${totalCount}`
-                  ];
-                },
-            },
-            layout: {
-                padding: {
-                    left: 20,
-                    right: 20,
-                    top: 20,
-                    bottom: 20
-                }
-            },
-            animation: {
-              duration: 0, // Disable animation
-          },
-        }
-        
+        layout: {
+          padding: { left: 20, right: 20, top: 20, bottom: 20 }
+        },
+        animation: { duration: 0 }
+      }
     });
-    
   }
-  
-  
 
   function updateUserDetails(decodedToken, elements) {
     elements.userName.textContent = decodedToken.userName;
-    if(decodedToken.staff)
-    {
-      elements.userGroup.textContent='Member Staff'
-    }
-    else
-    elements.userGroup.textContent = decodedToken.userGroup;
+    elements.userGroup.textContent = decodedToken.staff ? 'Member Staff' : decodedToken.userGroup;
   }
-
- 
 
   function setIcon(iconElement) {
     iconElement.href = 'path_to_icon';
   }
-  
+
   const datetimeElement = document.getElementById('datetime');
   if (datetimeElement) {
     updateDateTime(datetimeElement);
@@ -313,22 +236,37 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 function updateDateTime(element) {
   const now = new Date();
-
-  // Format time
   const options = { hour: '2-digit', minute: '2-digit', hour12: true };
   const formattedTime = now.toLocaleTimeString('en-IN', options);
-
-  // Get day of the week
   const dayOfWeek = now.toLocaleDateString('en-IN', { weekday: 'long' });
 
-  // Update the element's text content
   element.textContent = `Indian Time: ${formattedTime}, ${dayOfWeek}`;
 }
 
-function createSpinner() {
-  const spinner = document.createElement('div');
-  spinner.classList.add('spinner-border');
-  spinner.setAttribute('role', 'status');
-  spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
-  return spinner;
+function handleLogout() {
+  var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+  myModal.show();
+
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      .then(response => {
+        console.log('Logged out successfully');
+      })
+      .catch(error => {
+        console.error('Error logging out:', error);
+      });
+  } else {
+    console.error('User ID not found in localStorage');
+  }
+
+  localStorage.clear();
+
+  setTimeout(() => {
+    document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+  }, 1000);
+
+  setTimeout(() => {
+    window.location.href = "loginpage.html";
+  }, 2000);
 }

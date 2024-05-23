@@ -2530,6 +2530,55 @@ const evaluation = async (req, res) => {
     }
 };
 
+const getSignupsCountByDate = async (req, res) => {
+    try {
+      const date = new Date();
+      const startDate = new Date(date.setHours(0, 0, 0, 0));
+      const endDate = new Date(date.setHours(23, 59, 59, 999));
+  
+      const count = await Candidate.count({
+        where: {
+          cr_date: {
+            [Op.between]: [startDate, endDate]
+          }
+        }
+      });
+  
+      res.status(200).json({ signupCount: count });
+    } catch (error) {
+      console.error('Error fetching candidate count:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+  const getContractsBySignOnDatedaily = async (req, res) => {
+    try {
+        // Set start and end date to today's date
+        const date = new Date();
+        const startDate = new Date(date.setHours(0, 0, 0, 0));
+        const endDate = new Date(date.setHours(23, 59, 59, 999));
+
+        // Fetch candidates with associated contracts
+        const candidates = await Candidate.count({
+            include: [{
+                model: Contract,
+                where: {
+                    sign_on: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: ['sign_on'] // Include only sign_on date from contracts
+            }],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts by sign_on date:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
 
 module.exports = {
     add_candidate,
@@ -2599,6 +2648,8 @@ module.exports = {
     getStatusDate,
    workedWith,
    evaluation,
-   getEvaluationDetails
+   getSignupsCountByDate,
+   getEvaluationDetails,
+   getContractsBySignOnDatedaily
     
 };
