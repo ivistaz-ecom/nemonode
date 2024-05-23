@@ -2579,6 +2579,92 @@ const getSignupsCountByDate = async (req, res) => {
     }
 };
 
+const getContractsBySignOffDatedaily = async (req, res) => {
+    try {
+        const { days } = req.query;
+        const numDays = parseInt(days, 10);
+
+        if (isNaN(numDays) || numDays <= 0) {
+            return res.status(400).json({ error: 'Invalid number of days. Please provide a positive integer.', success: false });
+        }
+
+        // Calculate the date range
+        const startDate = new Date(); // Start date is today
+        const endDate = new Date();
+        endDate.setDate(startDate.getDate() + numDays - 1); // End date is today + (numDays - 1)
+
+        // Ensure endDate includes the whole day
+        endDate.setHours(23, 59, 59, 999);
+
+        console.log(`Fetching contracts signed off between ${startDate.toISOString()} and ${endDate.toISOString()}`);
+
+        // Fetch candidates with associated contracts within the specified date range
+        const candidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                where: {
+                    sign_off: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: ['sign_off'] // Include only sign_off date from contracts
+            }],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+        });
+
+        res.status(200).json({ candidates: candidates, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts by sign_off date:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+const getContractsAndDiscussions = async (req, res) => {
+    try {
+        // Fetch all candidates with their associated contracts
+        const candidates = await Candidate.findAll({
+            include: [{
+                model: Contract,
+                attributes: ['sign_on', 'sign_off']
+            }],
+            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'],
+        });
+
+        // Filter out candidates with zero contracts
+        const candidatesWithContracts = candidates.filter(candidate => candidate.Contracts.length > 0);
+
+        // Process each candidate to count their completed contracts and determine if they are ex-employees
+        const processedCandidates = candidatesWithContracts.map(candidate => {
+            const contracts = candidate.Contracts;
+
+            // Filter out active contracts (those with sign_on but no sign_off)
+            const completedContracts = contracts.filter(contract => contract.sign_on && contract.sign_off).length;
+
+            // Determine if the candidate is an ex-employee
+            const isExEmployee = contracts.every(contract => contract.sign_off);
+
+            return {
+                candidateId: candidate.candidateId,
+                fname: candidate.fname,
+                nationality: candidate.nationality,
+                c_rank: candidate.c_rank,
+                c_vessel: candidate.c_vessel,
+                completedContracts,
+                isExEmployee
+            };
+        });
+
+        // Sort ex-employees by completed contracts in descending order
+        processedCandidates.sort((a, b) => b.completedContracts - a.completedContracts);
+
+        res.status(200).json({ candidates: processedCandidates, success: true });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
 
 module.exports = {
     add_candidate,
@@ -2650,6 +2736,8 @@ module.exports = {
    evaluation,
    getSignupsCountByDate,
    getEvaluationDetails,
-   getContractsBySignOnDatedaily
+   getContractsBySignOnDatedaily,
+   getContractsBySignOffDatedaily,
+   getContractsAndDiscussions,
     
 };

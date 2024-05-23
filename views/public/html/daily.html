@@ -535,76 +535,27 @@
               </div>
           </nav>
           <div class=" container-fluid mt-3">
-            <div class="row mb-4 g-3">
-              <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="content-left">
-                        <h3 class="mb-0">$24,983</h3>
-                        <small>Total Earning</small>
-                      </div>
-                      <span class="badge bg-label-primary rounded-circle p-2">
-                        <i class="bx bx-dollar bx-sm"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="content-left">
-                        <h3 class="mb-0"><span id="contracts"></span></h3>
-                        <small>Sign On</small>
-                      </div>
-                      <span class="badge bg-label-success rounded-circle p-2">
-                        <i class="bx bx-gift bx-sm"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="content-left">
-                        <h3 class="mb-0"><span id="signupCount"></span></h3>
-                        <small>Created </small>
-                      </div>
-                      <span class="badge bg-label-danger rounded-circle p-2">
-                        <i class="bx bx-user bx-sm"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="content-left">
-                        <h3 class="mb-0"><div class="sign-off"></div></h3>
-                        <small>Conversion Rate</small>
-                      </div>
-                      <span class="badge bg-label-info rounded-circle p-2">
-                        <i class="bx bx-infinite bx-sm"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="d-flex justify-content-center">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-dark ">
+                <input type="radio" name="options" id="dailyButton" autocomplete="off" checked> Daily
+              </label>
+              <label class="btn btn-dark">
+                <input type="radio" name="options" id="weeklyButton" autocomplete="off"> Weekly
+              </label>
+              <label class="btn btn-dark">
+                <input type="radio" name="options" id="monthlyButton" autocomplete="off"> Monthly
+              </label>
             </div>
-            <div class=" rounded-3 card p-3 mt-4 bg-body-tertiary">
+            </div>
+            <div class=" rounded-3 card p-3 mt-2  " style="background-color: rgb(58, 186, 150);">
               <div class="d-flex justify-content-between">
-              <h4 class="text-dark  p-3 mb-0">Today's Progress <div id="datetime" style="font-size: 14px;" class="text-primary p-3 ps-0 pb-0"></div></h4>
+              <h4 class="text-white  p-3 mb-0 ">Nemo Dashboard <div id="datetime" style="font-size: 14px;" class="text-white p-3 ps-0 pb-0"></div></h4>
               <span>
 
     </div>
-            <div class="row">
-            <div class="border border-secondary-subtle mt-3 col m-3 rounded-3 " >
+            <div class="row m-3 mb-0">
+            <div class=" card mt-3 col m-3 rounded-3 " >
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0 me-3">
@@ -637,7 +588,7 @@
             </div>
             
 
-            <div class="border border-secondary-subtle mt-3 col m-3 rounded-3 " >
+            <div class=" card mt-3 col m-3 rounded-3 " >
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                  
@@ -670,7 +621,7 @@
               </div>
             </div>
 
-            <div class="border border-secondary-subtle mt-3 col m-3 rounded-3 " >
+            <div class=" card mt-3 col m-3 rounded-3 " >
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar me-2">
@@ -699,7 +650,7 @@
               </div>
             </div>
 
-            <div class="border border-secondary-subtle mt-3 col m-3 rounded-3 " >
+            <div class=" card mt-3 col m-3 rounded-3 " >
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0 me-3">
@@ -728,7 +679,7 @@
               </div>
             </div>
 
-            <div class="border border-secondary-subtle mt-3 col m-3 rounded-3 " >
+            <div class=" card mt-3 col m-3 rounded-3 " >
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar me-2">
@@ -758,7 +709,106 @@
               </div>
             </div>
             </div>
+            
+            <div class="row m-1 mt-0">
+              <div class="col-sm-6 col-xl-3">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0">0</h3>
+                        <small>Sign Off</small>
+                      </div>
+                      <span class="badge bg-label-primary rounded-circle p-2">
+                        <i class="bx bx-dollar bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0"><span id="contracts"></span></h3>
+                        <small>Sign On</small>
+                      </div>
+                      <span class="badge bg-label-success rounded-circle p-2">
+                        <i class="bx bx-gift bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0"><span id="signupCount"></span></h3>
+                        <small>Created </small>
+                      </div>
+                      <span class="badge bg-label-danger rounded-circle p-2">
+                        <i class="bx bx-user bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0">0</h3>
+                        <small>On Board</small>
+                      </div>
+                      <span class="badge bg-label-info rounded-circle p-2">
+                        <i class="bx bx-infinite bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="col-sm-6 ">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0">0</h3>
+                        <small>Due for Sign Off </small>
+                      </div>
+                      <span class="badge bg-label-danger rounded-circle p-2">
+                        <i class="bx bx-user bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 ">
+                <div class=" card mt-3 col m-3 rounded-3 " >
+                  <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="content-left">
+                        <h3 class="mb-0">0</h3>
+                        <small>Due for Renewal</small>
+                      </div>
+                      <span class="badge bg-label-info rounded-circle p-2">
+                        <i class="bx bx-infinite bx-sm"></i>
+                      </span>
+                    </div>
+                  </div>
+                  
+                </div>
+ 
             </div>
+            
+            
+            
+            </div>
+            
               
           </div>
           
