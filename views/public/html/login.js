@@ -57,30 +57,3 @@ function togglePassword() {
     user_pass.type = inputType;
 }
 
-let deferredPrompt; // Define deferredPrompt variable
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent Chrome 76 and later from automatically showing the prompt
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-});
-
-document.getElementById('downloadButton').addEventListener('click', () => {
-    if (deferredPrompt) {
-        // Show the prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            } else {
-                console.log('User dismissed the install prompt');
-            }
-            // Reset the deferredPrompt variable
-            deferredPrompt = null;
-        });
-    }
-});
-
-// The rest of your code seems fine
