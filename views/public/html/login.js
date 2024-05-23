@@ -56,3 +56,20 @@ function togglePassword() {
     const inputType = user_pass.type === "password" ? "text" : "password";
     user_pass.type = inputType;
 }
+
+document.getElementById('downloadButton').addEventListener('click', () => {
+    if ('beforeinstallprompt' in window) {
+        // Trigger the installation prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+            // Reset the deferredPrompt variable
+            deferredPrompt = null;
+        });
+    }
+});
