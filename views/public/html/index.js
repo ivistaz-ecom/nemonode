@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     icon: document.querySelector('link[rel="icon"]')
   };
 
+  showSkeletonLoading(elements);
+
+
   try {
     const [
       discussionCountsResponse,
@@ -44,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } }),
       axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } })
     ]);
+    hideSkeletonLoading(elements);
 
     const discussionCountsData = discussionCountsResponse.data;
     const callCountData = callCountResponse.data;
@@ -269,4 +273,17 @@ function handleLogout() {
   setTimeout(() => {
     window.location.href = "loginpage.html";
   }, 2000);
+}
+function showSkeletonLoading() {
+  const skeletonElements = document.getElementsByClassName('skeleton-loading');
+  for (let i = 0; i < skeletonElements.length; i++) {
+    skeletonElements[i].style.display = 'block';
+  }
+}
+
+function hideSkeletonLoading() {
+  const skeletonElements = document.getElementsByClassName('skeleton-loading');
+  for (let i = 0; i < skeletonElements.length; i++) {
+    skeletonElements[i].style.display = 'none';
+  }
 }
