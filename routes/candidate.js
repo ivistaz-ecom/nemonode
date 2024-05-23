@@ -98,5 +98,7 @@ router.post('/evaluation/:id',candidateControllers.evaluation)
 router.get('/evaluation-data/:id',candidateControllers.getEvaluationDetails)
 router.get('/signups',candidateControllers.getSignupsCountByDate)
 router.get('/signondaily',candidateControllers.getContractsBySignOnDatedaily)
+router.get('/signoffdaily',candidateControllers.getContractsBySignOffDatedaily)
+router.get('/exemployees',candidateControllers.getContractsAndDiscussions)
 
 module.exports = router;
