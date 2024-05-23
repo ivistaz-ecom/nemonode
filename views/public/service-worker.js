@@ -5,7 +5,6 @@
           '/views/public/html/loginpage.html',
           '/views/public/html/login.js',
           '/views/public/js/script.js',
-          '../../NautilusLogo.png',
         ]);
       })
     );
