@@ -59,7 +59,7 @@
   </head>
 
 <body>
- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,13 +68,13 @@
             <div class="modal-body text-center mb-4">
               <img src="../../public/assets/img/illustrations/undraw_cabin_hkfr.svg" style="width: 50px;height: auto;"/>
                 <p id="logoutMessage">Logging you out...</p>
-                <div class="spinner-border text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                <div class="d-flex justify-content-center">
+                  <div class="loader"></div>
+                  </div>                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
-    </div>
-</div>   <!-- Layout wrapper -->
+    </div>   <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->

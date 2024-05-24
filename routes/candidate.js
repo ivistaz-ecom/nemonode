@@ -100,5 +100,8 @@ router.get('/signups',candidateControllers.getSignupsCountByDate)
 router.get('/signondaily',candidateControllers.getContractsBySignOnDatedaily)
 router.get('/signoffdaily',candidateControllers.getContractsBySignOffDatedaily)
 router.get('/exemployees',candidateControllers.getContractsAndDiscussions)
+router.get('/onboardcount',candidateControllers.getCandidatesCountOnBoardForOneDay)
+router.get('/dueforrenewalcount',candidateControllers.getDueForRenewalCountForOneDay)
+router.get('/signoffcount',candidateControllers.getContractsCountBySignOffDateForOneDay)
 
 module.exports = router;

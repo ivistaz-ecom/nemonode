@@ -2257,6 +2257,51 @@ const dueForRenewal = async (req, res) => {
     }
 };
 
+const getDueForRenewalCountForOneDay = async (req, res) => {
+    try {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the start date to the current date (midnight)
+        const startDate = new Date(currentDate);
+        startDate.setHours(0, 0, 0, 0);
+
+        // Set the end date to the current date (end of the day)
+        const endDate = new Date(currentDate);
+        endDate.setHours(23, 59, 59, 999);
+
+        // Fetch count of documents due for renewal
+        const documentCount = await Documents.count({
+            where: {
+                expiry_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        // Fetch count of medical records due for renewal
+        const medicalCount = await Medical.count({
+            where: {
+                expiry_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        // Combine the counts of document and medical records
+        const totalCandidatesCount = documentCount + medicalCount;
+
+        // Send the count to the client side
+        res.status(200).json({
+            count: totalCandidatesCount,
+            success: true
+        });
+    } catch (error) {
+        console.error('Error fetching count of candidates due for renewal for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
 
 const avbreport = async (req, res) => {
     try {
@@ -2596,28 +2641,27 @@ const getContractsBySignOffDatedaily = async (req, res) => {
         // Ensure endDate includes the whole day
         endDate.setHours(23, 59, 59, 999);
 
-        console.log(`Fetching contracts signed off between ${startDate.toISOString()} and ${endDate.toISOString()}`);
+        console.log(`Fetching count of contracts signed off between ${startDate.toISOString()} and ${endDate.toISOString()}`);
 
-        // Fetch candidates with associated contracts within the specified date range
-        const candidates = await Candidate.findAll({
+        // Fetch count of candidates with associated contracts within the specified date range
+        const count = await Candidate.count({
             include: [{
                 model: Contract,
                 where: {
                     sign_off: {
                         [Op.between]: [startDate, endDate]
                     }
-                },
-                attributes: ['sign_off'] // Include only sign_off date from contracts
-            }],
-            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+                }
+            }]
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
+        res.status(200).json({ count: count, success: true });
     } catch (error) {
-        console.error('Error fetching contracts by sign_off date:', error);
+        console.error('Error fetching count of contracts by sign_off date:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 const getContractsAndDiscussions = async (req, res) => {
     try {
@@ -2664,6 +2708,73 @@ const getContractsAndDiscussions = async (req, res) => {
     }
 };
 
+const getCandidatesCountOnBoardForOneDay = async (req, res) => {
+    try {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the start date to the current date (midnight)
+        const startDate = new Date(currentDate);
+        startDate.setHours(0, 0, 0, 0);
+
+        // Set the end date to the current date (end of the day)
+        const endDate = new Date(currentDate);
+        endDate.setHours(23, 59, 59, 999);
+
+        // Construct the filtering criteria for contracts
+        const contractFilterCriteria = {
+            sign_on: { [Op.between]: [startDate, endDate] }, // Sign-on date falls within the current day
+            sign_off: null // Sign-off date is not present
+        };
+
+        // Fetch onboard candidates with the specified criteria
+        const onboardCandidatesCount = await Candidate.count({
+            include: [{
+                model: Contract,
+                where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
+                attributes: [] // Include only the count, so no need to retrieve attributes
+            }]
+        });
+
+        res.json({ count: onboardCandidatesCount });
+    } catch (error) {
+        console.error("Error fetching count of onboard candidates for one day:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const getContractsCountBySignOffDateForOneDay = async (req, res) => {
+    try {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the start date to the current date (midnight)
+        const startDate = new Date(currentDate);
+        startDate.setHours(0, 0, 0, 0);
+
+        // Set the end date to the current date (end of the day)
+        const endDate = new Date(currentDate);
+        endDate.setHours(23, 59, 59, 999);
+
+        // Fetch count of candidates with associated contracts signed off within the current day
+        const candidatesCount = await Candidate.count({
+            include: [{
+                model: Contract,
+                where: {
+                    sign_off: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: [] // Exclude attributes from contracts
+            }]
+        });
+
+        res.status(200).json({ count: candidatesCount, success: true });
+    } catch (error) {
+        console.error('Error fetching count of contracts by sign_off date for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
 
 
 module.exports = {
@@ -2739,5 +2850,7 @@ module.exports = {
    getContractsBySignOnDatedaily,
    getContractsBySignOffDatedaily,
    getContractsAndDiscussions,
-    
+   getCandidatesCountOnBoardForOneDay,
+   getDueForRenewalCountForOneDay,
+   getContractsCountBySignOffDateForOneDay
 };

@@ -287,3 +287,24 @@ function hideSkeletonLoading() {
     skeletonElements[i].style.display = 'none';
   }
 }
+
+function updateIconBasedOnTime() {
+  const icon = document.getElementById('icon');
+  
+  // Get the current hour
+  const currentHour = new Date().getHours();
+  
+  // Check if it's daytime (6 AM to 6 PM)
+  if (currentHour >= 6 && currentHour < 18) {
+      icon.classList.add('bx-sun'); // Add sun icon class
+      icon.classList.add('text-warning')
+      icon.classList.remove('bx-moon'); // Remove moon icon class if present
+  } else {
+      icon.classList.add('bx-moon'); // Add moon icon class
+      icon.classList.add('text-success')
+      icon.classList.remove('bx-sun'); // Remove sun icon class if present
+  }
+}
+
+// Call the function when the DOM is fully loaded
+ updateIconBasedOnTime()
