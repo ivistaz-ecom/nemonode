@@ -60,9 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       try {
           const response = await axios.get(`https://nemo.ivistaz.co/candidate/signondaily`);
-          console.log(response)
           console.log('Sign on', response);
-          const candidates = response.data.signupCount;
+          const candidates = response.data.count;
           const contractsDiv = document.getElementById('contracts');
           contractsDiv.innerHTML = ''; // Clear previous content
           contractsDiv.textContent=candidates
