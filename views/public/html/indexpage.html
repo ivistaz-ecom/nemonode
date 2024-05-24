@@ -9,6 +9,8 @@
   data-template="vertical-menu-template-free"
 >
 <head>
+  <link rel="icon" type="image/x-icon" href="../assets/img/illustrations/fav-icon.png" />
+
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <meta charset="UTF-8">
@@ -17,7 +19,6 @@
   <title>Dashboard | Nsnemo</title>
   <!-- <link rel="stylesheet" href="../../staticfiles/style/assets/vendor/fonts/boxicons.css"> -->
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../assets/img/illustrations/fav-icon.png" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Fonts -->
@@ -28,6 +29,30 @@
     rel="stylesheet"
   />
   <style>
+.loader {
+  --r1: 154%;
+  --r2: 68.5%;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%; 
+  background:
+    radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+    radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+    radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+    #ccc;
+  background-size: 50.5% 220%;
+  background-position: -100% 0%, 0% 0%, 100% 0%;
+  background-repeat: no-repeat;
+  animation: l9 1.4s linear forwards;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes l9 {
+  33%  {background-position: 0% 33%, 100% 33%, 200% 33%}
+  66%  {background-position: -100% 66%, 0% 66%, 100% 66%}
+  100% {background-position: 0% 100%, 100% 100%, 200% 100%}
+}
 
 .skeleton {
       background: #e0e0e0;
@@ -280,13 +305,14 @@
             <div class="modal-body text-center mb-4">
               <img src="../../public/assets/img/illustrations/undraw_cabin_hkfr.svg" style="width: 50px;height: auto;"/>
                 <p id="logoutMessage">Logging you out...</p>
-                <div class="spinner-border text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                <div class="d-flex justify-content-center">
+                  <div class="loader"></div>
+                  </div>                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
