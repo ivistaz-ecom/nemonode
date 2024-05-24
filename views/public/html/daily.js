@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
   }
 
-  document.getElementById('dailyButton').addEventListener('click', () => fetchData(1));
+  document.getElementById('dailyButton').addEventListener('click', () => fetchData(1),  signOff(1));
   document.getElementById('weeklyButton').addEventListener('click', () => fetchData(7));
   document.getElementById('monthlyButton').addEventListener('click', () => fetchData(30));
 
@@ -196,3 +196,72 @@ console.log(err)
 }
 });
 
+document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+    
+    // Send request to update logged status to false
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+        .then(response => {
+          console.log('Logged out successfully');
+        })
+        .catch(error => {
+          console.error('Error logging out:', error);
+        });
+    } else {
+      console.error('User ID not found in localStorage');
+    }
+  
+    localStorage.clear();
+    
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+  
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+  });
+
+  async function signOff(days) {
+    const response = await axios.get(`https://nemo.ivistaz.co/candidate/signoffdaily/?days=${days}`);
+    console.log(response);
+    const signOffContainer = document.getElementById('sign-off'); // Use a different variable name
+    signOffContainer.innerHTML = ''; // Clear previous content
+    const signOffData = response.data.count;
+    signOffContainer.textContent=signOffData
+}
+async function onboard() {
+    const response = await axios.get(`https://nemo.ivistaz.co/candidate/onboardcount`);
+    console.log(response);
+    const signOffContainer = document.getElementById('onboardcount'); // Use a different variable name
+    signOffContainer.innerHTML = ''; // Clear previous content
+    const signOffData = response.data.count;
+    signOffContainer.textContent=signOffData
+}
+onboard()
+
+async function dueforrenewal() {
+    const response = await axios.get(`https://nemo.ivistaz.co/candidate/dueforrenewalcount`);
+    console.log(response);
+    const signOffContainer = document.getElementById('dueforrenewal'); // Use a different variable name
+    signOffContainer.innerHTML = ''; // Clear previous content
+    const signOffData = response.data.count;
+    signOffContainer.textContent=signOffData
+}
+dueforrenewal()
+
+async function signoffdailycount() {
+    const response = await axios.get(`https://nemo.ivistaz.co/candidate/signoffcount`);
+    console.log(response);
+    const signOffContainer = document.getElementById('signoffcount'); // Use a different variable name
+    signOffContainer.innerHTML = ''; // Clear previous content
+    const signOffData = response.data.count;
+    signOffContainer.textContent=signOffData
+}
+signoffdailycount()

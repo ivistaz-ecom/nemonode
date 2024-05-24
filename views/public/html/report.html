@@ -17,6 +17,32 @@
     <link rel="icon" type="image/x-icon" href="../assets/img/illustrations/fav-icon.png" />
 
     <title>Reports | Nsnemo</title>
+    <style>
+      .loader {
+        --r1: 154%;
+        --r2: 68.5%;
+        width: 60px;
+        aspect-ratio: 1;
+        border-radius: 50%; 
+        background:
+          radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+          radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+          radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+          #ccc;
+        background-size: 50.5% 220%;
+        background-position: -100% 0%, 0% 0%, 100% 0%;
+        background-repeat: no-repeat;
+        animation: l9 1.4s linear forwards;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+      }
+      
+      @keyframes l9 {
+        33%  {background-position: 0% 33%, 100% 33%, 200% 33%}
+        66%  {background-position: -100% 66%, 0% 66%, 100% 66%}
+        100% {background-position: 0% 100%, 100% 100%, 200% 100%}
+      }
+</style>  
 
     <meta name="description" content="" />
     <style>
@@ -144,7 +170,7 @@
   </head>
 
 <body>
- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -153,13 +179,13 @@
             <div class="modal-body text-center mb-4">
               <img src="../../public/assets/img/illustrations/undraw_cabin_hkfr.svg" style="width: 50px;height: auto;"/>
                 <p id="logoutMessage">Logging you out...</p>
-                <div class="spinner-border text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                <div class="d-flex justify-content-center">
+                  <div class="loader"></div>
+                  </div>                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
-    </div>
-</div>   <!-- Content -->
+    </div>   <!-- Content -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -1471,6 +1497,37 @@
           $('.report-content').hide(); // Hide all report contents
           $('#' + reportId + 'Content').show(); // Show the selected report content
         }
+        document.getElementById("logout").addEventListener("click", function() {
+    // Display the modal with initial message
+    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    myModal.show();
+    
+    // Send request to update logged status to false
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+        .then(response => {
+          console.log('Logged out successfully');
+        })
+        .catch(error => {
+          console.error('Error logging out:', error);
+        });
+    } else {
+      console.error('User ID not found in localStorage');
+    }
+  
+    localStorage.clear();
+    
+    // Change the message and spinner after a delay
+    setTimeout(function() {
+        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
+    }, 1000);
+  
+    // Redirect after another delay
+    setTimeout(function() {
+        window.location.href = "loginpage.html";
+    }, 2000);
+  });
       </script>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
