@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-          const response = await axios.get(`https://nemo.ivistaz.co/candidate/signondaily?days=${days}`);
+          const response = await axios.get(`https://nemo.ivistaz.co/candidate/signondaily`);
           console.log(response)
           console.log('Sign on', response);
-          const candidates = response.data.candidates;
+          const candidates = response.data.count;
           const contractsDiv = document.getElementById('contracts');
           contractsDiv.innerHTML = ''; // Clear previous content
-          contractsDiv.innerHTML+=candidates
+          contractsDiv.textContent=candidates
       } catch (error) {
           console.error('Error fetching contracts:', error);
           document.getElementById('contracts').innerText = 'Error fetching contracts';

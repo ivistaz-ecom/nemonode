@@ -2603,26 +2603,25 @@ const getSignupsCountByDate = async (req, res) => {
         const startDate = new Date(date.setHours(0, 0, 0, 0));
         const endDate = new Date(date.setHours(23, 59, 59, 999));
 
-        // Fetch candidates with associated contracts
-        const candidates = await Candidate.count({
+        // Fetch the count of candidates with associated contracts signed on within the current day
+        const count = await Candidate.count({
             include: [{
                 model: Contract,
                 where: {
                     sign_on: {
                         [Op.between]: [startDate, endDate]
                     }
-                },
-                attributes: ['sign_on'] // Include only sign_on date from contracts
-            }],
-            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+                }
+            }]
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
+        res.status(200).json({ count: count, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_on date:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 const getContractsBySignOffDatedaily = async (req, res) => {
     try {
