@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
 
+
   const elements = {
     userName: document.getElementById('user_name'),
     userAvatar: document.getElementById('user-avatar'),
@@ -70,6 +71,15 @@ document.addEventListener('DOMContentLoaded', async function () {
   updateDateTime(elements.datetime);
   setInterval(() => updateDateTime(elements.datetime), 1000);
   setIcon(elements.icon);
+  const hasUserManagement = decodedToken.userManagement;
+const currentuserId = decodedToken.userId
+console.log(currentuserId)
+console.log(hasUserManagement)
+if (hasUserManagement) {
+  document.getElementById('userManagementSection').style.display = 'block';
+  document.getElementById('userManagementSections').style.display = 'block';
+
+}
 
   document.getElementById("logout").addEventListener("click", handleLogout);
 
