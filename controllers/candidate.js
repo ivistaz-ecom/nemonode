@@ -98,11 +98,8 @@ const add_candidate = async (req, res) => {
             us_visa,
             nemo_source,
         } = req.body;
-        console.log(us_visa)
         // Validate required fields
-        if (!validate(fname) || !validate(lname) || !validate(email1) || !validate(c_mobi1)) {
-            return res.status(400).json({ message: "Bad Parameters", success: false });
-        }
+      
 
         // Check for existing data
         const existingCandidate = await Candidate.findOne({

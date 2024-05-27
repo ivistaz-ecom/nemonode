@@ -78,6 +78,7 @@ router.get('/get-hospital/:id', otherControllers.get_hospital);
 router.get('/get-document/:id', otherControllers.get_document);
 
 router.get('/get-vsls', otherControllers.getVsls);
+router.get('/get-vessel', otherControllers.getVessels);
 router.get("/get-ranks",otherControllers.view_ranks)
 
 
