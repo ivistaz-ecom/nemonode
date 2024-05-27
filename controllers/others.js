@@ -2063,6 +2063,23 @@ const getVsls = async (req, res) => {
   }
 };
 
+const getVessels = async (req, res) => {
+  try {
+      // Fetch all vessel data
+      const vessels = await Vessel.findAll({
+      });
+
+      // Extract vessel names from the fetched data
+     
+
+      // Send the vessel names to the client
+      res.json(vessels);
+  } catch (error) {
+      console.error('Error fetching vessel data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 
 
@@ -2128,6 +2145,7 @@ const getVsls = async (req, res) => {
     get_gradeDrop,
     getVsls,
     view_ranks,
+    getVessels
     
   }
 

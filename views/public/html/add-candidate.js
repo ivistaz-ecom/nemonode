@@ -150,7 +150,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
         console.log(serverResponse)
         const vessels = serverResponse.data; // Fix here
 
@@ -331,7 +331,7 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         skype: document.getElementById('candidate_skype').value.trim() || '',
         stcw: document.getElementById('candidate_stcw').value.trim() || 0,
         vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
-        us_visa:document.getElementById('candidate_us_visa').value.trim()||'',
+        us_visa:document.getElementById('candidate_us_visa').value||0,
       };
     try {
 
