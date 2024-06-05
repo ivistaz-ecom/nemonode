@@ -646,7 +646,11 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.document_files}'>Click here to view Document!</a></td>
+
                 <td>${contract.aoa}</td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.aoa}'>Click here to view AOA!</a></td>
+
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
