@@ -646,7 +646,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.document_files}'>Click here to view Document!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.documents}'>Click here to view Document!</a></td>
 
                 <td>${contract.aoa}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.aoa}'>Click here to view AOA!</a></td>
