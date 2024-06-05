@@ -1,10 +1,10 @@
 const express = require("express")
 require('dotenv').config()
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
-const multer = require('multer');
+// const multer = require('multer');
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
@@ -61,33 +61,42 @@ const NKD = require('./models/nkd');
 
 
 
-User.hasMany(Candidate, { foreignKey: 'userId' })
-Candidate.belongsTo(User, { foreignKey: 'userId' })
-Candidate.hasMany(evaluation,{foreignKey:'candidateId'})
-evaluation.belongsTo(Candidate,{foreignKey:'candidateId'})
-Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
-discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(discussion, { foreignKey: 'candidateId' });
-discussion.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(contract, { foreignKey: 'candidateId' });
-contract.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(cdocument, { foreignKey: 'candidateId' });
-cdocument.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(bank, { foreignKey: 'candidateId' });
-bank.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(travel, { foreignKey: 'candidateId' });
-travel.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(medical, { foreignKey: 'candidateId' });
-medical.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(NKD, { foreignKey: 'candidateId' });
-NKD.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(Seaservice,{ foreignKey: 'candidateId' })
-Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
-Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
-User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
-User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
+    User.hasMany(Candidate, { foreignKey: 'userId' })
+    Candidate.belongsTo(User, { foreignKey: 'userId' })
+    Candidate.hasMany(evaluation,{foreignKey:'candidateId'})
+    evaluation.belongsTo(Candidate,{foreignKey:'candidateId'})
+    Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
+    discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(discussion, { foreignKey: 'candidateId' });
+    discussion.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(contract, { foreignKey: 'candidateId' });
+    contract.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(cdocument, { foreignKey: 'candidateId' });
+    cdocument.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(bank, { foreignKey: 'candidateId' });
+    bank.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(travel, { foreignKey: 'candidateId' });
+    travel.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(medical, { foreignKey: 'candidateId' });
+    medical.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(NKD, { foreignKey: 'candidateId' });
+    NKD.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(Seaservice,{ foreignKey: 'candidateId' })
+    Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
+    Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
+    VSL.belongsTo(Vessel, { foreignKey: 'vessel_id' }); // One-to-many relationship
+    User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
+    User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
 
 
+
+    User.hasMany(discussion, { foreignKey: 'post_by' });
+    discussion.belongsTo(User, { foreignKey: 'post_by' });
+
+    Company.hasMany(discussion,{foreignKey:'companyname'})
+    discussion.belongsTo(Company,{foreignKey:'companyname'})
+
+    
 
 app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});
@@ -616,209 +625,210 @@ app.use('/password',PasswordRoutes);
 
 const cPasswordRoutes = require('./routes/c_forgotpassword');
 const cForgotpassword = require('./models/c_forgotpassword');
+const Discussion = require("./models/discussion");
   
 Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage1 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/photos');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage1 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/photos');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage2 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/tickets');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage2 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/tickets');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage3 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/resume');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage4 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
-const upload1 = multer({ storage: storage1 });
-const upload2 = multer({ storage: storage2 });
-const upload3 = multer({ storage: storage3 });
-const upload4 = multer({ storage: storage4 });
-const evaluationDirectory = '/views/public/files/evaluation';
-const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
-const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
-const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
-const documentDirectory = '/var/www/html/nemonode/views/public/files'
-// Serve static files from the evaluation directory
-app.use('/evaluation', express.static(evaluationDirectory));
-// Serve static files from various directories
-app.use(express.static('/views/public/files'));
-app.use('/documents',express.static(documentDirectory))
-app.use('/photos', express.static(photosDirectory));
-app.use('/tickets', express.static(ticketsDirectory));  
-app.use('/resume', express.static(resumeDirectory));
+// const storage3 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/resume');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage4 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const upload = multer({ storage: storage });
+// const upload1 = multer({ storage: storage1 });
+// const upload2 = multer({ storage: storage2 });
+// const upload3 = multer({ storage: storage3 });
+// const upload4 = multer({ storage: storage4 });
+// const evaluationDirectory = '/views/public/files/evaluation';
+// const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
+// const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
+// const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
+// const documentDirectory = '/var/www/html/nemonode/views/public/files'
+// // Serve static files from the evaluation directory
+// app.use('/evaluation', express.static(evaluationDirectory));
+// // Serve static files from various directories
+// app.use(express.static('/views/public/files'));
+// app.use('/documents',express.static(documentDirectory))
+// app.use('/photos', express.static(photosDirectory));
+// app.use('/tickets', express.static(ticketsDirectory));  
+// app.use('/resume', express.static(resumeDirectory));
 
-// Route to handle file uploads 
-app.post('/upload', upload.single('pdf'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload1', upload1.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload2', upload2.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload3', upload3.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload4', upload4.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
+// // Route to handle file uploads 
+// app.post('/upload', upload.single('pdf'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload1', upload1.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload2', upload2.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload3', upload3.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload4', upload4.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
 
 
-// Route to fetch files based on candidateId
-app.get('/fetch-files/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+// // Route to fetch files based on candidateId
+// app.get('/fetch-files/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(evaluationDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     // Read the contents of the directory
+//     fs.readdir(evaluationDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
-app.get('/fetch-files1/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+// app.get('/fetch-files1/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(photosDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     // Read the contents of the directory
+//     fs.readdir(photosDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/photos/${file}`);
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/photos/${file}`);
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files2/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files2/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(resumeDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     // Read the contents of the directory
+//     fs.readdir(resumeDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/resume/${file}`);
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/resume/${file}`);
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files3/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files3/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(ticketsDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     // Read the contents of the directory
+//     fs.readdir(ticketsDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/tickets/${file}`);
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/tickets/${file}`);
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
 

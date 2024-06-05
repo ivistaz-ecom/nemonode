@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function fetchData(days) {
       try {
-          const response = await axios.get(`https://nemo.ivistaz.co/candidate/signups?days=${days}`);
+          const response = await axios.get(`http://localhost:4000/candidate/signups?days=${days}`);
           const signupCount = response.data.signupCount;
           console.log(response);
           document.getElementById('signupCount').innerText = signupCount;
@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-          const callCountResponse = await axios.get(`https://nemo.ivistaz.co/candidate/call-count?days=${days}`, { headers: { "Authorization": token } });
-          const statusCountResponse = await axios.get(`https://nemo.ivistaz.co/candidate/statuscount?days=${days}`, { headers: { "Authorization": token } });
-          const callCountFromModelResponse = await axios.get(`https://nemo.ivistaz.co/candidate/percentage?days=${days}`, { headers: { "Authorization": token } });
+          const callCountResponse = await axios.get(`http://localhost:4000/candidate/call-count?days=${days}`, { headers: { "Authorization": token } });
+          const statusCountResponse = await axios.get(`http://localhost:4000/candidate/statuscount?days=${days}`, { headers: { "Authorization": token } });
+          const callCountFromModelResponse = await axios.get(`http://localhost:4000/candidate/percentage?days=${days}`, { headers: { "Authorization": token } });
       
           const callCountData = callCountResponse.data;
           const statusCountData = statusCountResponse.data.counts[0];
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-          const response = await axios.get(`https://nemo.ivistaz.co/candidate/signondaily`);
+          const response = await axios.get(`http://localhost:4000/candidate/signondaily`);
           console.log('Sign on', response);
           const candidates = response.data.count;
           const contractsDiv = document.getElementById('contracts');
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Send request to update logged status to false
       const userId = localStorage.getItem('userId');
       if (userId) {
-          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+          axios.put(`http://localhost:4000/user/${userId}/logout`)
               .then(response => {
                   console.log('Logged out successfully');
               })
@@ -203,7 +203,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -228,7 +228,7 @@ document.getElementById("logout").addEventListener("click", function() {
   });
 
   async function signOff(days) {
-    const response = await axios.get(`https://nemo.ivistaz.co/candidate/signoffdaily/?days=${days}`);
+    const response = await axios.get(`http://localhost:4000/candidate/signoffdaily/?days=${days}`);
     console.log(response);
     const signOffContainer = document.getElementById('sign-off'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -236,7 +236,7 @@ document.getElementById("logout").addEventListener("click", function() {
     signOffContainer.textContent=signOffData
 }
 async function onboard() {
-    const response = await axios.get(`https://nemo.ivistaz.co/candidate/onboardcount`);
+    const response = await axios.get(`http://localhost:4000/candidate/onboardcount`);
     console.log(response);
     const signOffContainer = document.getElementById('onboardcount'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -246,7 +246,7 @@ async function onboard() {
 onboard()
 
 async function dueforrenewal() {
-    const response = await axios.get(`https://nemo.ivistaz.co/candidate/dueforrenewalcount`);
+    const response = await axios.get(`http://localhost:4000/candidate/dueforrenewalcount`);
     console.log(response);
     const signOffContainer = document.getElementById('dueforrenewal'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -256,7 +256,7 @@ async function dueforrenewal() {
 dueforrenewal()
 
 async function signoffdailycount() {
-    const response = await axios.get(`https://nemo.ivistaz.co/candidate/signoffcount`);
+    const response = await axios.get(`http://localhost:4000/candidate/signoffcount`);
     console.log(response);
     const signOffContainer = document.getElementById('signoffcount'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -264,3 +264,86 @@ async function signoffdailycount() {
     signOffContainer.textContent=signOffData
 }
 signoffdailycount()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function fetchDatas() {
+    try {
+        const url = 'http://localhost:4000/candidate/statusdata';
+        const response = await axios.get(url);
+        renderDiscussionData(response.data);
+    } catch (error) {
+        console.error('Error fetching discussion data:', error);
+    }
+}
+
+// Function to render discussion data
+function renderDiscussionData(data) {
+    const discussionList = document.getElementById('discussionList');
+    discussionList.innerHTML = ''; // Clear existing items
+
+    // Iterate over each status and render discussions for each status
+    for (const status in data) {
+        const discussions = data[status];
+        console.log(status)
+
+        discussions.forEach(discussion => {
+            // Render each discussion item
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.innerHTML = `
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="mb-1 d-flex align-items-center text-white">Candidate ID: <button class="btn btn-link candidate-btn text-dark" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
+                        <p class="mb-1 text-dark">Discussion: ${discussion.discussion}</p>
+                    </div>
+                    <div>
+                        <span class="${getBadgeColor(status)}">${status}</span>
+                    </div>
+                </div>
+                <small class="text-white">Reminder Date: ${discussion.r_date}</small>
+            `;
+            discussionList.appendChild(listItem);
+
+            // Add event listener to candidate ID button
+            listItem.querySelector('.candidate-btn').addEventListener('click', () => {
+                const candidateId = discussion.candidateId;
+                localStorage.setItem('memId', candidateId)
+                // Redirect to view-candidate page with candidateId
+                window.location.href = `view-candidate.html?id=${candidateId}`;
+            });
+        });
+    }
+}
+
+// Function to determine badge color based on discussion status
+function getBadgeColor(status) {
+    switch (status) {
+        case 'Proposed':
+            return 'badge bg-primary';
+        case 'Approved':
+            return 'badge bg-success';
+        case 'Joined':
+            return 'badge bg-info';
+        case 'Rejected':
+            return 'badge bg-danger';
+        default:
+            return 'badge bg-secondary'; // Default badge color for unknown statuses
+    }
+}
+fetchDatas()
