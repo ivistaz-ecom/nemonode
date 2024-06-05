@@ -123,6 +123,7 @@
     <!-- Page -->
     <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
     <!-- Helpers -->
+
     <script src="../assets/vendor/js/helpers.js"></script>
   
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -132,7 +133,18 @@
   
   
         <style>
-      
+         #avatar-container {
+        width: 50px; /* Adjust as needed */
+        height: 50px; /* Adjust as needed */
+        border-radius: 50%; /* Make it round */
+        overflow: hidden; /* Hide any overflow */
+    }
+
+    #avatar-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensure the avatar fills the container */
+    }
       
       
       /* Add spinner styling */
@@ -698,7 +710,7 @@
           <!-- Navbar -->
           
           <nav
-            class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme pe-2"
             id="layout-navbar"
           >
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -724,7 +736,6 @@
                 
                 </div> -->My Profile
                
-                 <div class="ms-3" style="display: none;">Done By Sibbenanthan K for Ivistaz</div>
               </div>
               
               <div class="container-fluid " id="searchresult">
@@ -749,8 +760,11 @@
                     >Star</a
                   >
                 </span>
+      <div id="avatar-container"></div>
 
-                   User -->
+                   User -->      <div id="avatar-container"></div>
+
+                   
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <!-- <div class="avatar avatar-online rounded-circle d-flex justify-content-center align-items-center" id="user-avatar">
@@ -819,7 +833,7 @@
               </div>
           </div>
     <div class="container-fluid mt-3">
-      
+     
         <div class="">
             <div class="">
                 <div class="dashboard-section">
@@ -954,6 +968,22 @@
   }, 2000);
 });
 
+const avatarContainer = document.getElementById('avatar-container');
+
+// Generate a random avatar using the DiceBear API
+function generateRandomAvatar() {
+    // Generate a random seed to ensure unique avatars on each refresh
+    const randomSeed = Math.random().toString(36).substring(7);
+    // Construct the URL for the random avatar
+    const avatarUrl = `https://api.dicebear.com/8.x/lorelei/svg
+?seed=${randomSeed}`;
+
+    // Set the avatar image in the container
+    avatarContainer.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
+}
+
+// Call the function to generate a random avatar when the page loads
+generateRandomAvatar();
     </script>
                   <!-- Bootstrap JS -->
                   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

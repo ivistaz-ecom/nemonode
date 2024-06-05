@@ -136,6 +136,8 @@
             display: flex;
             align-items: center;
         }
+
+     
       </style>
     
 
@@ -704,14 +706,14 @@
     <!-- / Content -->
     <div class="container p-4">
       <a href="./indexpage.html" class="btn btn-primary mb-3 ">Back to Dashboard</a>
-      <div class="card p-3">
+      <div class=" p-3">
         <h4>Reports</h4>
 
         <div class="dropdown mb-3">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select a Report
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item" href="#" onclick="showReport('newProfile')">New Profile</a></li>
             <li><a class="dropdown-item" href="#" onclick="showReport('callsMade')">Calls Made</a></li>
             <li><a class="dropdown-item" href="#" onclick="showReport('proposals')">Proposals</a></li>
@@ -761,7 +763,18 @@
                 <td>
                     <input type="date" class="form-control" id="endDate" name="endDate" required>
                 </td>
+                
             </tr>
+            <tr>
+              <td style="width: 50%;">
+                  <label for="userDropdown" class="form-label">User</label>
+              </td>
+              <td style="width: 50%;">
+                  <select class="form-select" id="appliedBy1" name="appliedBy1">
+                      <!-- Options for user dropdown will be added dynamically -->
+                  </select>
+              </td>
+          </tr>
             <tr>
               <td colspan="2">
                   <p>Select fields to include:</p>
@@ -910,7 +923,7 @@
         </div>
         <div id="callsMadeContent" class="report-content">
           <!-- Content for Calls Made Report -->
-          <div class="card card-body">
+          <div class=" card card-body">
               <h4>Calls Made</h4>
               <form id="callsMadeForm">
                   <table class="table table-bordered">
@@ -936,59 +949,32 @@
                                   <label for="userDropdown" class="form-label">User</label>
                               </td>
                               <td style="width: 50%;">
-                                  <select class="form-select" id="userDropdown" name="userDropdown">
+                                  <select class="form-select" id="appliedBy" name="appliedBy">
                                       <!-- Options for user dropdown will be added dynamically -->
                                   </select>
                               </td>
                           </tr>
                           <tr>
-                              <td colspan="2">
-                                  <p>Select fields to include:</p>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
-                                  <label class="form-check-label" for="candidateId">Candidate ID</label>
-                              </td>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
-                                  <label class="form-check-label" for="nationality">Nationality</label>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="discussion" name="discussion">
-                                  <label class="form-check-label" for="discussion">Discussion</label>
-                              </td>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
-                                  <label class="form-check-label" for="c_rank">Current Rank</label>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
-                                  <label class="form-check-label" for="c_vessel">Vessel</label>
-                              </td>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="r_date" name="r_date">
-                                  <label class="form-check-label" for="r_date">Reminder Date</label>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="width: 50%;">
-                                  <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
-                                  <label class="form-check-label" for="avb_date">Availability</label>
-                              </td>
-                              <td style="width: 50%;"></td>
-                          </tr>
+                            <td style="width: 50%;">
+                                <label for="category" class="form-label">Option</label>
+                            </td>
+                            <td style="width: 50%;">
+                                <select class="form-select" id="category" name="category">
+                                  <option value="">--Select option--</option>
+
+                                    <option value="1">Officer</option>
+                                  <option value="2">Rating</option>
+                                    <option value="6">IV Crew</option>
+                                </select>
+                            </td>
+                        </tr>
+                     
                       </tbody>
                   </table>
                   <button type="submit" class="btn btn-primary float-end mt-3">Submit</button>
               </form>
           </div>
-          <div id="callsMadeTable" class="card card-body mt-3">
+          <div id="callsMadeTable" class=" card card-body mt-3">
               <h4>Data Fetched</h4>
           </div>
       </div>
@@ -1006,10 +992,10 @@
                             <td><label for="status">Status:</label></td>
                             <td>
                                 <select class="form-control" id="status" name="status">
-                                    <option value="proposed">Proposed</option>
-                                    <option value="joined">Joined</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="rejected">Rejected</option>
+                                    <option value="Proposed">Proposed</option>
+                                    <option value="Joined">Joined</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
                                 </select>
                             </td>
                         </tr>
@@ -1021,6 +1007,17 @@
                             <td><label for="endDates">End Date:</label></td>
                             <td><input type="date" class="form-control" id="endDates" name="endDates"></td>
                         </tr>
+                        <tr>
+                        <td style="width: 50%;">
+                          <label for="userDropdown" class="form-label">Company</label>
+                      </td>
+                      <td style="width: 50%;">
+                          <select class="form-select" id="user_client" name="user-client">
+                              <!-- Options for user dropdown will be added dynamically -->
+                          </select>
+                      </td>
+                      </tr>
+                  </tr>
                         <tr>
                             <td colspan="2">
                                 <button type="submit" class="btn btn-primary">Fetch Discussions</button>
@@ -1050,24 +1047,63 @@
                           <td><label for="endDatec" class="form-label">End Date:</label></td>
                           <td><input type="date" id="endDatec" name="endDatec" class="form-control"></td>
                       </tr>
+                      <td style="width: 50%;">
+                        <label for="candidate_c_vessel" class="form-label">Vessel</label>
+                    </td>
+                    <td style="width: 50%;">
+                        <select class="form-select" id="candidate_c_vessel" name="candidate_c_vessel">
+                            <!-- Options for user dropdown will be added dynamically -->
+                        </select>
+                    </td><tr>
+                    <td style="width: 50%;">
+                      <label for="user-client1" class="form-label">Company</label>
+                  </td>
+                  <td style="width: 50%;">
+                      <select class="form-select" id="user_client1" name="user-client1">
+                          <!-- Options for user dropdown will be added dynamically -->
+                      </select>
+                  </td>
+                  </tr>
                   </tbody>
               </table>
               <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
           </form>
           <!-- Table to display Sign On report data -->
-          <table id="signOnTable" class="table table-bordered table-sm">
-              <thead>
-                  <tr>
-                      <th>Candidate ID</th>
-                      <th>Rank</th>
-                      <th>Vessel</th>
-                      <th>Sign On Date</th>
-                  </tr>
-              </thead>
-              <tbody id="signOnTableBody">
-                  <!-- Table body will be populated dynamically -->
-              </tbody>
-          </table>
+          <div class="table-responsive">
+            <p class="text-warning">This is a big table kindly scroll to see the remaining data.</p>
+          <table id="signOnTable" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>S.No</th>
+                    <th>Candidate&nbsp;ID</th>
+                    <th>Rank</th>
+                    <th>Vessel</th>
+                    <th>Sign&nbsp;On&nbsp;Date</th>
+                    <th>Wages</th>
+                    <th>Wages&nbsp;Type</th>
+                    <th>Company</th>
+                    <th>AOA</th>
+                    <th>Currency</th>
+                    <th>Emigrate&nbsp;Number</th>
+                    <th>EOC</th>
+                    <th>Reason</th>
+                    <th>User</th>
+                    <th>Name</th>
+                    <th>Nationality</th>
+                    <th>INDOS</th>
+                    <th>Indian&nbsp;CDC</th>
+                    <th>Indian&nbsp;CDC&nbsp;File</th>
+                    <th>Other&nbsp;CDC&nbsp;present?</th>
+                    <th>PAN&nbsp;Number</th>
+                    <th>PASSPORT</th>
+                    <th>PASSPORT&nbsp;document</th>
+                </tr>
+            </thead>
+            <tbody id="signOnTableBody" style="font-size: 10px;">
+                <!-- Table body will be populated dynamically -->
+            </tbody>
+        </table>
+          </div>
       </div>
   </div>
   
@@ -1089,24 +1125,64 @@
                         <td><label for="endDateoff" class="form-label">End Date:</label></td>
                         <td><input type="date" id="endDateoff" name="endDateoff" class="form-control"></td>
                     </tr>
+                    <td style="width: 50%;">
+                      <label for="candidate_c_vessel1" class="form-label">Vessel</label>
+                  </td>
+                  <td style="width: 50%;">
+                      <select class="form-select" id="candidate_c_vessel1" name="candidate_c_vessel1">
+                          <!-- Options for user dropdown will be added dynamically -->
+                      </select>
+                  </td><tr>
+                  <td style="width: 50%;">
+                    <label for="user-client2" class="form-label">Company</label>
+                </td>
+                <td style="width: 50%;">
+                    <select class="form-select" id="user_client2" name="user-client2">
+                        <!-- Options for user dropdown will be added dynamically -->
+                    </select>
+                </td>
                 </tbody>
             </table>
             <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
         </form>
-        <!-- Table to display Sign Off report data -->
-        <table id="signOffTable" class="table table-bordered table-sm">
+        <p class="text-warning">This is a big table scroll to see the remaining fields.</p>
+        <!-- Table to display Sign Off report data --><div class="container table-responsive">
+        <table id="signOffTable" class="table table-bordered table">
             <thead>
                 <tr>
-                    <th>Candidate ID</th>
+                  <th>S.No</th>
+
+                    <th>Candidate&nbsp;ID</th>
                     <th>Rank</th>
                     <th>Vessel</th>
-                    <th>Sign Off Date</th>
+                    <th>Sign&nbsp;Off&nbsp;Date</th>
+                    <th>Wages</th>
+                    <th>Wages&nbsp;Types</th>
+                    <th>Company</th>
+                    <th>AOA</th>
+                    <th>Currency</th>
+                    <th>Emigrate&nbsp;number</th>
+                    <th>EOC</th>
+                    <th>Reason&nbsp;For&nbsp;Sign&nbsp;Off</th>
+                    <th>Created&nbsp;By</th>
+                    <th>Candidate&nbsp;Name</th>
+                    <th>Nationality</th>
+                    <th>INDOS&nbsp;number</th>
+                    <th>Indian&nbsp;CDC</th>
+                    <th>Indian&nbsp;CDC&nbsp;Document</th>
+                    <th>Other&nbsp;CDC</th>
+                    <th>PAN&nbsp;Number</th>
+                    <th>PASSPORT</th>
+                    <th>PASSPORT&nbsp;document</th>
+
+                
                 </tr>
             </thead>
-            <tbody id="signOffTableBody">
+            <tbody id="signOffTableBody" style="font-size: 10px;">
                 <!-- Table body will be populated dynamically -->
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -1127,24 +1203,34 @@
                       <td><label for="endDated" class="form-label">End Date:</label></td>
                       <td><input type="date" id="endDated" name="endDated" class="form-control"></td>
                   </tr>
+                  <td style="width: 50%;">
+                    <label for="candidate_c_vessel2" class="form-label">Vessel</label>
+                </td>
+                <td style="width: 50%;">
+                    <select class="form-select" id="candidate_c_vessel2" name="candidate_c_vessel2">
+                        <!-- Options for user dropdown will be added dynamically -->
+                    </select>
+                </td><tr>
+                <td style="width: 50%;">
+                  <label for="user-client3" class="form-label">Company</label>
+              </td>
+              <td style="width: 50%;">
+                  <select class="form-select" id="user_client3" name="user-client3">
+                      <!-- Options for user dropdown will be added dynamically -->
+                  </select>
+              </td>
               </tbody>
           </table>
           <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
       </form>
-      <!-- Table to display Sign Off report data -->
-      <table id="DuesignOffTable" class="table table-bordered table-sm">
-          <thead>
-              <tr>
-                  <th>Candidate ID</th>
-                  <th>Rank</th>
-                  <th>Vessel</th>
-                  <th>Sign On Date</th>
-              </tr>
-          </thead>
+      <!-- Table to display Sign Off report data --><div class="container table-responsive">
+      <table id="DuesignOffTable" class="table table-bordered table">
+        
           <tbody id="signOffTableBody">
               <!-- Table body will be populated dynamically -->
           </tbody>
       </table>
+      </div>
   </div>
 </div>
 
@@ -1187,15 +1273,21 @@
                             <td><label for="endDatea" class="form-label">End Date:</label></td>
                             <td><input type="date" id="endDatea" name="endDatea" class="form-control"></td>
                         </tr>
+                        <tr>
+                          <td><label for="avbrank" class="form-label">End Date:</label></td>
+                          <td><select id="avbrank" name="avbrank" class="form-control"></select></td>
+                      </tr>
+                      
                     </tbody>
                 </table>
                 
                     <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
                 </form>
                 <!-- Table to display available candidates data -->
-                <table id="availableCandidatesTable" class="table table-bordered table-sm">
+                <table id="availableCandidatesTable" class="table table-bordered table">
                     <thead>
                         <tr>
+                          <th>S.No</th>
                             <th>Candidate ID</th>
                             <th>Name</th>
                             <th>Rank</th>
@@ -1219,18 +1311,29 @@
                     <tbody>
                         <tr>
                             <td><label for="startDateo">Start Date:</label></td>
-                            <td><input type="date" id="startDateo" name="startDateo" class="form-control"></td>
+                            <td><input type="date" id="startDateo" name="startDateo" class="form-control" required></td>
                         </tr>
+                        <td><label for="user_client4">Client</label></td>
+                        <td style="width: 50%;">
+                          <select class="form-select" id="user_client4" name="user-client4">
+                              <!-- Options for user dropdown will be added dynamically -->
+                          </select>
+                      </td>
                         <tr>
-                            <td><label for="endDateo">End Date:</label></td>
-                            <td><input type="date" id="endDateo" name="endDateo" class="form-control"></td>
+                         
+                            <td><label for="vsl1" class="form-label">Vessel Name:</label></td>
+                          <td>  <select id="vsl1" class="form-select" name="vsl1" >
+                                <option value="">Select Vessel Name</option>
+                                <!-- Options will be dynamically added here -->
+                            </select>
+                          </td>
                         </tr>
                     </tbody>
                 </table>
                 
                     <button type="submit" class="btn btn-primary mb-3 mt-3">Submit</button>
                 </form>
-                <table id="onBoardTable" class="table table-bordered table-sm">
+                <table id="onBoardTable" class="table table-bordered table">
                     <thead>
                         <tr>
                             <th style="font-size: 8px;">Candidate ID</th>
@@ -1299,11 +1402,21 @@
                 <form id="crewListMonthWiseForm">
                     <div class="mb-3">
                         <label for="vsl" class="form-label">Vessel Name:</label>
-                        <select id="vsl" class="form-select" name="vsl" required>
+                        <select id="vsl" class="form-select" name="vsl" >
                             <option value="">Select Vessel Name</option>
                             <!-- Options will be dynamically added here -->
                         </select>
                     </div>
+                    <tr>
+                      <td style="width: 50%;">
+                        <label for="user-client5" class="form-label">Company</label>
+                    </td>
+                    <td style="width: 50%;">
+                        <select class="form-select" id="user_client5" name="user-client5">
+                            <!-- Options for user dropdown will be added dynamically -->
+                        </select>
+                    </td>
+                    </tr>
                     
                     <div class="mb-3">
                         <label for="startDatecl" class="form-label">Start Date:</label>
@@ -1318,7 +1431,7 @@
         
                 <!-- Table to display crew list -->
                 <div class="mt-4">
-                    <table class="table table-bordered table-sm" id="crewlisttable">
+                    <table class="table table-bordered table" id="crewlisttable">
                         <thead>
                             <tr>
                                 <th style="font-size: 8px;">Candidate ID</th>
@@ -1348,12 +1461,21 @@
           <div class="card card-body">
             <h4>Relief Plan Report</h4>
             <form id="reliefPlanForm">
-                
+                  <tr class="table table-bordered">
+                   
+                    <td>
+                      <label>Start Date</label>
+                    </td>
+                    <td>
+                      <input id="reliefPlanDate" type="date" required>
+                    </td>
+                    </tr>
+                  
                 <button type="submit" class="btn btn-primary mb-3">Generate Report</button>
             </form>
             <div id="exportButtonContainer"></div>
 
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table">
                 <thead >
                     <tr>
                         <th style="font-size: 8px;" > ID</th>
@@ -1393,7 +1515,7 @@
                 </form>
                 <div class="card p-3 mb-3 mt-3"><h4 class="text-primary">Document Renewals</h4>
                 <!-- Table to display candidates due for renewal -->
-                <button id="exportDocumentCandidates" class="btn btn-light text-success" style="display: none;">Export to Excel</button>
+                <button id="exportDocumentCandidates" class="btn btn-dark text-success" style="display: none;">Export to Excel</button>
 
                 <table class="table table-bordered text-center">
                     <thead>
@@ -1409,7 +1531,7 @@
                 </table>
             </div>
             <div class="card p-3"><h4 class="text-primary">Medical Renewals</h4>
-                <button id="exportMedicalCandidates" class="btn btn-light text-success" style="display: none;">Export to Excel</button>
+                <button id="exportMedicalCandidates" class="btn btn-dark text-success" style="display: none;">Export to Excel</button>
 
                 <table class="table table-bordered text-center">
                     <thead>
@@ -1452,7 +1574,7 @@
               <!-- Table to display candidates with 'ntbr' -->
               <div class="card p-3 mb-3 mt-3">
                   <h4 class="text-primary">Candidates With NTBR</h4>
-                  <table class="table table-sm table-bordered text-center">
+                  <table class="table table table-bordered text-center">
                       <thead>
                           <tr>
                               <th>Name</th>
@@ -1469,7 +1591,7 @@
               <!-- Table to display onboard contracts -->
               <div class="card p-3 mb-3 mt-3">
                   <h4 class="text-primary">Candidates based on contracts</h4>
-                  <table class="table table-sm table-bordered text-center">
+                  <table class="table table table-bordered text-center">
                       <thead>
                           <tr>
                               <th>Candidate ID</th>
@@ -1505,7 +1627,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

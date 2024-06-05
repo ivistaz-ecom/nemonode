@@ -585,7 +585,7 @@
                     <button type="submit" class="btn btn-primary ms-3">Filter Expiry Date</button>
                 </form>
                 <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark card p-3">Documents List</h4>
-                <table id="documentsTable" class="table table-bordered table-striped table-responsive table-sm text-center">
+                <table id="documentsTable" class="table table-bordered table-striped table-responsive table text-center">
                     <thead>
                         <tr>
                             <th>Document</th>
@@ -617,7 +617,7 @@
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+    axios.put(`http://localhost:4000/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -671,7 +671,7 @@
                       loader.style.display = 'block';
                       error.style.display = 'none';
           
-                      let url = 'https://nemo.ivistaz.co/candidate/expiry-date';
+                      let url = 'http://localhost:4000/candidate/expiry-date';
                       let requestData = {}; // Initialize request data object
           
                       if (selectedDate) {

@@ -19,6 +19,7 @@ const Calls = require('../models/todaysCalls')
 const Evaluation = require('../models/evaluation')
 const uuid = require('uuid');
 const Sib = require('sib-api-v3-sdk');
+const Company = require('../models/company')
 
 const add_candidate = async (req, res) => {
     try {
@@ -287,6 +288,86 @@ const getAllCandidates = async (req, res) => {
     }
 };
 
+const searchCandidates = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+        const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        console.log('User Group:', userGroup);
+
+        let page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = (page - 1) * limit;
+
+        // Get the search input from the query
+        const searchInput = req.query.search || '';
+
+        if (!searchInput) {
+            return res.status(400).json({ message: 'Search input is required', success: false });
+        }
+
+        let searchConditions = {
+            where: {
+                [Op.or]: [
+                    { candidateId: { [Op.like]: `%${searchInput}%` } },
+                    { name: { [Op.like]: `%${searchInput}%` } },
+                    { email: { [Op.like]: `%${searchInput}%` } }
+                ]
+            },
+            include: [
+                { model: CandidateNkd },
+                { model: Medical },
+                { model: Travel },
+                { model: Bank },
+                { model: Documents },
+                { model: Contract },
+                { model: Discussion_plus },
+            ],
+            offset,
+            limit,
+        };
+
+        let allCandidates;
+        let totalCount;
+
+        if (userGroup == 'admin') {
+            // If the user is an admin, fetch all candidates based on search criteria with pagination
+            allCandidates = await Candidate.findAll(searchConditions);
+            totalCount = await Candidate.count({
+                where: searchConditions.where
+            });
+        } else if (userGroup == 'vendor' && readOnly) {
+            // If the user is a vendor with read-only access, fetch candidates associated with the user based on search criteria with pagination
+            searchConditions.where.userId = userId;
+            allCandidates = await Candidate.findAll(searchConditions);
+            totalCount = await Candidate.count({
+                where: {
+                    ...searchConditions.where,
+                    userId: userId,
+                }
+            });
+        } else {
+            return res.status(401).json({ message: 'Unauthorized', success: false });
+        }
+
+        res.status(200).json({
+            candidates: allCandidates,
+            totalCount: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
+
 
 
 
@@ -375,7 +456,7 @@ const new_profile = async (req, res) => {
         // Define the date range filter
         const startDate = req.body.startDate; // Assuming startDate and endDate are provided in the request body
         const endDate = req.body.endDate;
-
+        const user_sort = req.body.user;
         // Check if the date range is provided
         if (startDate && endDate) {
             // If the user is not an admin, fetch candidates associated with the user
@@ -384,6 +465,9 @@ const new_profile = async (req, res) => {
                     where: {
                         cr_date: {
                             [Op.between]: [startDate, endDate], // Filter based on the date range
+                        },
+                        createdBy:{
+                            [Op.eq]:[user_sort]
                         },
                     },
                     attributes: selectedFields, // Provide selectedFields as the attributes
@@ -2059,28 +2143,40 @@ const getQuarterDates = (year, quarter) => {
 
 const calls_made = async (req, res) => {
     try {
-        const userId = req.body.userId;
         const startDate = req.body.startDate;
         const endDate = req.body.endDate;
-        const selectedFields = req.body.selectedFields;
+        const userId = req.body.userId;
+        const category = req.body.category;
 
         // Check if the date range is provided
         if (startDate && endDate) {
-            const callsMade = await Candidate.findAll({
+            const queryOptions = {
+                where: {
+                    created_date: {
+                        [Op.between]: [startDate, endDate], // Filter discussions within the date range
+                    },
+                    post_by: userId
+                },
+                attributes: [
+                    'discussion','r_date','candidateId'
+                ], // Include selected fields
                 include: [
                     {
-                        model: Discussion,
-                        attributes: ['discussion', 'post_by', 'r_date'],
-                        where: {
-                            post_by: userId, // Filter calls made by the user
-                            created_date: {
-                                [Op.between]: [startDate, endDate], // Filter based on the date range
-                            },
-                        },
-                    },
+                        model: Candidate,
+                        attributes: [
+                            'nationality', 'c_rank', 'c_vessel', 'fname', 'lname', 'avb_date', 'category'
+                        ],
+                        where: {} // Initialize where object
+                    }
                 ],
-                attributes: selectedFields // Only include selected fields
-            });
+            };
+
+            // Conditionally add category filter
+            if (category) {
+                queryOptions.include[0].where.category = category;
+            }
+
+            const callsMade = await Discussion.findAll(queryOptions);
 
             res.status(200).json({ callsMade: callsMade, success: true });
         } else {
@@ -2094,30 +2190,32 @@ const calls_made = async (req, res) => {
 };
 
 
+
 const proposals = async (req, res) => {
-    console.log('its inside');
-    
+    console.log('inside proposals');
+
     try {    
         // Extract query parameters
-        const { status, startDate, endDate } = req.query;
+        const { status, startDate, endDate, companyName } = req.query;
 
-        // Fetch candidates based on the discussions' created_date and status
-        const candidates = await Candidate.findAll({
+        // Fetch candidates based on the discussions' join_date and status
+        const candidates = await Discussion.findAll({
+            where: {
+                discussion: {[Op.like]:`%${status}%`},
+                join_date: {
+                    [Op.between]: [startDate, endDate], // Filter by start and end date
+                },
+                companyname:companyName
+            },
             include: [
                 {
-                    model: Discussion,
-                    attributes: ['companyname', 'created_date', 'post_by'],
-                    where: {
-                        discussion: {
-                            [Op.like]: `%${status}%` // Partial match on discussion field
-                        },
-                        created_date: {
-                            [Op.between]: [startDate, endDate] // Filter by start and end date
-                        }
-                    }
-                }
+                    model: Candidate,
+                    attributes: ['fname', 'lname', 'c_rank', 'c_vessel', 'category', 'nationality'],
+                    required: true
+                },
+                
             ],
-            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel']
+            attributes: ['candidateId', 'join_date','companyname']
         });
 
         res.status(200).json({ candidates: candidates, success: true });
@@ -2126,70 +2224,167 @@ const proposals = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error', success: false });
     }
-}
-
+};
 const getContractsBySignOnDate = async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
+        const { startDate, endDate, vessel_type, companyname } = req.query;
 
-        // Fetch candidates with associated contracts
-        const candidates = await Candidate.findAll({
-            include: [{
-                model: Contract,
-                where: {
-                    sign_on: {
-                        [Op.between]: [startDate, endDate]
-                    }
+        // Build the where clause for contracts
+        const contractWhereClause = {
+            sign_on: {
+                [Op.gte]: startDate,
+                [Op.lte]: endDate,
+            }
+        };
+
+        // Add vessel_type condition if present
+        if (vessel_type) {
+            contractWhereClause.vesselType = vessel_type;
+        }
+
+        // Add company condition if present
+        if (companyname) {
+            contractWhereClause.company = companyname;
+        }
+
+        // Fetch contracts with associated candidate details
+        const contracts = await Contract.findAll({
+            where: contractWhereClause,
+            include: [
+                {
+                    model: Candidate,
+                    include: [
+                        { model: Documents },
+                        {model:Bank}
+                        // Add more associated models here if needed
+                    ]
                 },
-                attributes: ['sign_on'] // Include only sign_on date from contracts
-            }],
-            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+            ],
+            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company','created_by']
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
+        res.status(200).json({ contracts: contracts, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_on date:', error);
-        res.status(500).json({ error: 'Internal server error', success: false });
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
+
+
 
 const getContractsBySignOffDate = async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
-        console.log(startDate,endDate)
-        // Fetch candidates with associated contracts
-        const candidates = await Candidate.findAll({
-            include: [{
-                model: Contract,
-                where: {
-                    sign_off: {
-                        [Op.between]: [startDate, endDate]
-                    }
+        const { startDate, endDate, vessel_type, companyname } = req.query;
+
+        // Build the where clause for contracts
+        const contractWhereClause = {
+            sign_off: {
+                [Op.gte]: startDate,
+                [Op.lte]: endDate,
+            }
+        };
+
+        // Add vessel_type condition if present
+        if (vessel_type) {
+            contractWhereClause.vesselType = vessel_type;
+        }
+
+        // Add company condition if present
+        if (companyname) {
+            contractWhereClause.company = companyname;
+        }
+
+        // Fetch contracts with associated candidate details
+        const contracts = await Contract.findAll({
+            where: contractWhereClause,
+            include: [
+                {
+                    model: Candidate,
+                    include: [
+                        { model: Documents },
+                        {model:Bank}
+                        // Add more associated models here if needed
+                    ]
                 },
-                attributes: ['sign_off'] // Include only sign_on date from contracts
-            }],
-            attributes: ['candidateId', 'fname', 'nationality', 'c_rank', 'c_vessel'] // Include candidate attributes
+            ],
+            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company','created_by']
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
+        res.status(200).json({ contracts: contracts, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_off date:', error);
-        res.status(500).json({ error: 'Internal server error', success: false });
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
 
+const getContractsDueForSignOff = async (req, res) => {
+    try {
+        const { startDate, endDate, vessel_type, companyname } = req.query;
+
+        // Build the where clause for contracts
+        const contractWhereClause = {
+            eoc: {
+                [Op.gte]: startDate,
+                [Op.lte]: endDate,
+            },
+            sign_off: {
+                [Op.is]: null, // Add condition for sign_off being null
+            }
+        };
+
+        // Add vessel_type condition if present
+        if (vessel_type) {
+            contractWhereClause.vesselType = vessel_type;
+        }
+
+        // Add company condition if present
+        if (companyname) {
+            contractWhereClause.company = companyname;
+        }
+
+        // Fetch contracts with associated candidate details
+        const contracts = await Contract.findAll({
+            where: contractWhereClause,
+            include: [
+                {
+                    model: Candidate,
+                    include: [
+                        { model: Documents },
+                        {model:Bank}
+                        // Add more associated models here if needed
+                    ]
+                },
+            ],
+            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
+        });
+
+        res.status(200).json({ contracts: contracts, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts due for sign off:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
 
 const avbCandidate = async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
-        console.log('lets see how it works',startDate,endDate)
+        const { startDate, endDate, avbrank } = req.query;
+        console.log('lets see how it works', startDate, endDate);
+
+        // Build the where clause for candidates
+        const candidateWhereClause = {
+            avb_date: {
+                [Op.between]: [startDate, endDate]
+            }
+        };
+
+        // Add c_rank condition if present
+        if (avbrank) {
+            candidateWhereClause.c_rank = avbrank;
+        }
+
         // Fetch candidates available within the specified date range
         const candidates = await Candidate.findAll({
-            where: {
-                avb_date: {
-                    [Op.between]: [startDate, endDate]
-                }
-            }
+            where: candidateWhereClause
         });
 
         res.status(200).json({ candidates: candidates, success: true });
@@ -2199,47 +2394,48 @@ const avbCandidate = async (req, res) => {
     }
 };
 
-
 const dueForRenewal = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
         console.log(startDate, endDate);
 
-        // Fetch documents due for renewal
+        // Fetch candidates with contracts where sign_off is null
+        const candidatesWithContracts = await Candidate.findAll({
+            include: [
+                {
+                    model: Contract,
+                    where: {
+                        sign_off: null
+                    }
+                }
+            ]
+        });
+
+        // Extract candidate IDs from filtered candidates
+        const candidateIds = candidatesWithContracts.map(candidate => candidate.candidateId);
+
+        // Fetch documents due for renewal for filtered candidates
         const documents = await Documents.findAll({
             where: {
                 expiry_date: {
                     [Op.between]: [startDate, endDate]
+                },
+                candidateId: {
+                    [Op.in]: candidateIds
                 }
             }
         });
 
-        // Fetch medical records due for renewal
+        // Fetch medical records due for renewal for filtered candidates
         const medicals = await Medical.findAll({
             where: {
                 expiry_date: {
                     [Op.between]: [startDate, endDate]
+                },
+                candidateId: {
+                    [Op.in]: candidateIds
                 }
             }
-        });
-
-        // Combine the candidate IDs from documents and medicals
-        const documentCandidateIds = documents.map(doc => doc.candidateId);
-        const medicalCandidateIds = medicals.map(medical => medical.candidateId);
-
-        // Fetch candidates based on the combined candidate IDs
-        const documentCandidates = await Candidate.findAll({
-            where: {
-                candidateId: [...documentCandidateIds]
-            },
-            attributes: ['candidateId', 'fname', 'lname', 'nationality', 'c_vessel']
-        });
-
-        const medicalCandidates = await Candidate.findAll({
-            where: {
-                candidateId: [...medicalCandidateIds]
-            },
-            attributes: ['candidateId', 'fname', 'lname', 'nationality', 'c_vessel']
         });
 
         // Send data to the client side including all fields of documents and medicals
@@ -2253,6 +2449,7 @@ const dueForRenewal = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 const getDueForRenewalCountForOneDay = async (req, res) => {
     try {
@@ -2306,7 +2503,7 @@ const avbreport = async (req, res) => {
         const currentDate = new Date();
         const availableCandidates = await Candidate.findAll({
             where: {
-                avb_date: { [Op.gt]: currentDate }
+                avb_date: { [Op.gte]: currentDate }
             }
         });
 
@@ -2319,98 +2516,113 @@ const avbreport = async (req, res) => {
 
 const onBoard = async (req, res) => {
     try {
-        const { startDate, endDate } = req.body;
-
+        const { startDate, vslName,companyname } = req.query;
         // Construct the filtering criteria for contracts
         const contractFilterCriteria = {
-            sign_on: { [Op.not]: null }, // Sign-on date is present
-            sign_off: null // Sign-off date is not present
+            sign_on: { [Op.lte]: startDate }, // Sign-on date is less than or equal to the input date
+            sign_off: { [Op.or]: { [Op.gt]: startDate, [Op.is]: null } } // Sign-off date is greater than the input date or null
         };
 
-        // Add additional filtering based on start and end dates for contracts
-        if (startDate && endDate) {
-            contractFilterCriteria.sign_on = { [Op.between]: [startDate, endDate] };
+        // Add vessel name condition if present
+        if (vslName) {
+            contractFilterCriteria.vslName = vslName;
         }
-
-        // Fetch onboard candidates with the specified criteria
-        const onboardCandidates = await Candidate.findAll({
-            include: [{
-                model: Contract,
-                where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
-                attributes: ['sign_on', 'sign_off', 'sign_on_port', 'sign_off_port']
-            }, {
-                model: Documents,
-                where: {
-                    document: 'Passport' // Fetch only documents where the value is 'Passport'
+        if(companyname){
+            contractFilterCriteria.company=companyname;
+        }
+        // Fetch contracts with associated candidate details
+        const contracts = await Contract.findAll({
+            where: contractFilterCriteria,
+            include: [
+                {
+                    model: Candidate,
+                    include: [
+                        { model: Documents },
+                        {model:Bank}
+                        // Add more associated models here if needed
+                    ]
                 },
-                required: false // Use left join to include documents, but not make it mandatory
-            }]
+            ],
+            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
         });
 
-        // Map the results to include only the required fields
-       
-        res.json(onboardCandidates);
+        res.status(200).json({ contracts: contracts, success: true });
     } catch (error) {
-        console.error("Error fetching onboard candidates:", error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error("Error fetching onboard contracts:", error);
+        res.status(500).json({ error: 'Internal server error', success: false });
     }
 }
+
 
 
 const crewList = async (req, res) => {
     try {
-        const { startDate, endDate, vslName } = req.query;
-        console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName);
+        const { startDate, endDate, vslName,company } = req.query;
+        console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName,company);
 
-        // Construct the filtering criteria for contracts
+        // Construct the filtering criteria for contracts based on sign_on and sign_off dates
         const contractFilterCriteria = {
-            sign_on: { [Op.not]: null }, // Sign-on date is present
-            sign_off: null, // Sign-off date is not present
-            vslName: vslName // Filter by the vslName attribute
-        };
+            [Op.and]: [
+              { sign_off: null },
+              { 
+                [Op.or]: [
+                  { sign_on: { [Op.lte]: endDate } },
+                  { 
+                    sign_off: {
+                      [Op.and]: [
+                        { [Op.gte]: startDate },
+                        { [Op.lte]: endDate }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          };
 
-        // Add additional filtering based on start and end dates for contracts
-        if (startDate && endDate) {
-            contractFilterCriteria.sign_on = { [Op.between]: [startDate, endDate] };
+        // Add vessel name condition if present
+        if (vslName) {
+            contractFilterCriteria.vslname = vslName;
         }
 
-        // Fetch crewlist candidates with the specified criteria
-        const crewlistCandidates = await Candidate.findAll({
-            include: [{
-                model: Contract,
-                where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
-                attributes: ['sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'wages', 'wages_types']
-            }, {
-                model: Documents,
-                where: {
-                    [Op.or]: [
-                        { document: 'Passport' },
-                        { document: 'INDIAN CDC' },
-                        { document: { [Op.like]: '%INDOS%' } },
-                    ] // Fetch documents where the value is 'Passport' or 'INDIAN CDC'
+        // Fetch contracts with the specified criteria
+        const contracts = await Contract.findAll({
+            where: contractFilterCriteria,
+            include: [
+                {
+                    model: Candidate, // Include candidates related to the contracts
+                    include:[
+                        {model:Documents}
+                    ]
                 },
-                required: false // Use left join to include documents, but not make it mandatory
-            }],
+                
+            ],
+            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
         });
 
-        // Send the crewlist candidates data to the client
-        res.json(crewlistCandidates);
+        // Send the crewlist contracts data to the client
+        res.status(200).json({ contracts: contracts, success: true });
     } catch (error) {
-        console.error("Error fetching crewlist candidates:", error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error("Error fetching crewlist contracts:", error);
+        res.status(500).json({ error: 'Internal server error', success: false });
     }
 }
 
+
+
 const reliefPlan = async (req, res) => {
     try {
+    const {startDate,endDate} = req.query
+    console.log(startDate,endDate)
         // Fetching candidates and including the associated contracts with specified conditions
-        const candidatesWithContracts = await Candidate.findAll({
+        const candidatesWithContracts = await Contract.findAll({
+            where: {
+                eoc: { [Op.lte]: startDate }, // EOC is present
+                sign_off: null // Sign-off date is not present
+            },
             include: {
-                model: Contract,
-                where: {
-                    eoc: { [Op.not]: null }, // EOC is present
-                    sign_off: null // Sign-off date is not present
-                }
+                model: Candidate,
+               
             }
         });
 
@@ -2848,5 +3060,7 @@ module.exports = {
    getContractsAndDiscussions,
    getCandidatesCountOnBoardForOneDay,
    getDueForRenewalCountForOneDay,
-   getContractsCountBySignOffDateForOneDay
+   getContractsCountBySignOffDateForOneDay,
+   searchCandidates,
+   getContractsDueForSignOff
 };
