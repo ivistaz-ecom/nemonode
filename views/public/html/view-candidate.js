@@ -1155,7 +1155,7 @@ async function fetchAndDisplayFiles(candidateId) {
         const linkElement = document.createElement('a');
         linkElement.href = resume;
         linkElement.textContent = 'View Resume';
-        linkElement.createElement('<br>')
+       
         resumesContainer.appendChild(linkElement);
       });
 
