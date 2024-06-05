@@ -1151,12 +1151,16 @@ async function fetchAndDisplayFiles(candidateId) {
       const resumes = resumesResponse.data;
       const resumesContainer = document.getElementById('resumesPresent');
       resumesContainer.innerHTML = ''; // Clear previous content
-      resumes.forEach(resume => {
-        const linkElement = document.createElement('a');
-        linkElement.href = resume;
-        linkElement.textContent = 'View Resume';
-        resumesContainer.appendChild(linkElement);
-      });
+      resumes.forEach((resume, index) => {
+        const listItem = document.createElement('li'); // Create list item element
+        const linkElement = document.createElement('a'); // Create link element
+        linkElement.href = resume; // Set href attribute to resume URL
+        linkElement.textContent = 'View Resume'; // Set link text
+        listItem.appendChild(linkElement); // Append link to list item
+        listItem.textContent = `${index + 1}. ` + listItem.textContent; // Add index as a numbered list
+        resumesContainer.appendChild(listItem); // Append list item to resumes container
+    });
+    
 
       // Optionally, you can handle tickets similarly if needed
       // const ticketsResponse = await axios.get(`/fetch-files3/${candidateId}`);
