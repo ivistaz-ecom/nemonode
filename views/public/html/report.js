@@ -1076,6 +1076,7 @@ medicalCandidates.forEach(candidate => {
 const token = localStorage.getItem('token');
 const decodedToken = decodeToken(token);
 const reports = decodedToken.reports;
+console.log(decodedToken)
 
 // Hide export buttons if the user has access to reports
 if (reports) {
