@@ -36,6 +36,8 @@ async function handleNewProfileSubmit(event) {
         const token = localStorage.getItem('token');
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
+        const user = document.getElementById('appliedBy1').value;
+
         const decodedToken = decodeToken(token);
 
         // Gather selected fields
@@ -49,7 +51,8 @@ async function handleNewProfileSubmit(event) {
         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
-            selectedFields: selectedFields
+            user:user,
+            selectedFields: selectedFields,
         }, {
             headers: {
                 "Authorization": token
@@ -66,7 +69,7 @@ async function handleNewProfileSubmit(event) {
         // Create table element
         const table = document.createElement('table');
         table.classList.add('table');
-        table.classList.add('table-sm');
+        table.classList.add('table');
         table.classList.add('table-bordered');
 
         // Create table header
@@ -105,7 +108,7 @@ async function handleNewProfileSubmit(event) {
         if (decodedToken.reports) {
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2','text-success');
             exportButton.addEventListener('click', () => {
                 exportToExcel(table, 'candidates.xlsx');
             });
@@ -127,25 +130,24 @@ async function handleCallsMadeSubmit(event) {
     event.preventDefault();
     try {
         const token = localStorage.getItem('token');
-        const fromDate = document.getElementById('fromDate').value;
-        const toDate = document.getElementById('toDate').value;
-        const user = document.getElementById('userDropdown').value;
+        let fromDate = document.getElementById('fromDate').value;
+        fromDate = fromDate + 'T00:00:00Z';
+        let toDate = document.getElementById('toDate').value;
+        toDate = toDate + 'T23:59:59Z';
+        console.log('from', fromDate);
+        console.log('to', toDate);
+
+        const user = document.getElementById('appliedBy').value;
+        const category = document.getElementById('category').value;
         const decodedToken = decodeToken(token);
         const reports = decodedToken.reports;
-
-        // Gather selected fields, including 'candidateId'
-        const selectedFields = { 'candidateId': true };
-        const checkboxes = document.querySelectorAll('#callsMadeForm input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            selectedFields[checkbox.id] = checkbox.checked;
-        });
 
         // Send data to server using Axios
         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
             userId: user,
-            selectedFields: selectedFields
+            category: category
         }, {
             headers: {
                 "Authorization": token
@@ -163,7 +165,7 @@ async function handleCallsMadeSubmit(event) {
             // Create export button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mb-3', 'text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
             exportButton.style = 'width:300px;';
             exportButton.addEventListener('click', function () {
                 exportToExcel(table, 'callsMade.xlsx');
@@ -176,46 +178,47 @@ async function handleCallsMadeSubmit(event) {
         // Create table element
         const table = document.createElement('table');
         table.classList.add('table');
-        table.classList.add('table-sm');
         table.classList.add('table-bordered');
 
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        for (const field in selectedFields) {
-            if (selectedFields[field]) {
+
+        // Add candidateId as the first column
+        const candidateIdTh = document.createElement('th');
+        candidateIdTh.textContent = 'candidateId';
+        candidateIdTh.classList = 'fw-bolder bg-warning text-white';
+        headerRow.appendChild(candidateIdTh);
+
+        // Add other attributes of the Candidate model to the header
+        Object.keys(response.data.callsMade[0].Candidate).forEach(field => {
+            if (field !== 'candidateId') {
                 const th = document.createElement('th');
                 th.textContent = field;
                 th.classList = 'fw-bolder bg-warning text-white';
                 headerRow.appendChild(th);
             }
-        }
+        });
         tableHeader.appendChild(headerRow);
         table.appendChild(tableHeader);
 
         // Create table body
         const tableBody = document.createElement('tbody');
         response.data.callsMade.forEach(call => {
-            call.discussions.forEach(discussion => {
-                const row = document.createElement('tr');
-                for (const field in selectedFields) {
-                    if (selectedFields[field]) {
-                        const cell = document.createElement('td');
-                        if (field === 'discussion') {
-                            // Access discussion fields
-                            cell.textContent = discussion.discussion || 'N/A';
-                        } else if (field === 'r_date') {
-                            // Access r_date
-                            cell.textContent = discussion.r_date || 'N/A';
-                        } else {
-                            // Access other fields directly from the call object
-                            cell.textContent = call[field] || 'N/A';
-                        }
-                        row.appendChild(cell);
-                    }
-                }
-                tableBody.appendChild(row);
+            const row = document.createElement('tr');
+            
+            // Add candidateId from discussion as the first cell in each row
+            const candidateIdCell = document.createElement('td');
+            candidateIdCell.textContent = call.candidateId || 'N/A';
+            row.appendChild(candidateIdCell);
+
+            // Add other attributes of the Candidate model to each row
+            Object.values(call.Candidate).forEach(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value || 'N/A';
+                row.appendChild(cell);
             });
+            tableBody.appendChild(row);
         });
 
         table.appendChild(tableBody);
@@ -229,7 +232,55 @@ async function handleCallsMadeSubmit(event) {
 
 
 
+async function createCompanyDropdown() {
 
+    const token = localStorage.getItem('token')
+    const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyOptions = companyResponse.data.companies;
+        // console.log(companyOptions)
+        const companyNames = companyOptions.map(company => company.company_name);
+        const companyId = companyOptions.map(company => company.company_id);
+
+
+    const companyDropdown = document.getElementById('user_client');
+    companyDropdown.innerHTML = ''; // Clear existing options
+    const companyDropdown1 = document.getElementById('user_client1');
+    companyDropdown1.innerHTML = ''; 
+    const companyDropdown2 = document.getElementById('user_client2');
+    companyDropdown2.innerHTML = ''; 
+    const companyDropdown3 = document.getElementById('user_client3');
+    companyDropdown3.innerHTML = ''; 
+    const companyDropdown4 = document.getElementById('user_client4');
+    companyDropdown4.innerHTML = ''; 
+    const companyDropdown5 = document.getElementById('user_client5');
+    companyDropdown5.innerHTML = ''; 
+    // Add the default option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = '-- Select Company --';
+    companyDropdown.appendChild(defaultOption.cloneNode(true));
+    companyDropdown1.appendChild(defaultOption.cloneNode(true));
+    companyDropdown2.appendChild(defaultOption.cloneNode(true));
+    companyDropdown3.appendChild(defaultOption.cloneNode(true));
+    companyDropdown4.appendChild(defaultOption.cloneNode(true));
+    companyDropdown5.appendChild(defaultOption.cloneNode(true));
+
+    // Add options for each company
+    for (let i = 0; i < companyNames.length; i++) {
+        const option = document.createElement('option');
+        option.value = companyId[i];
+        option.text = companyNames[i];
+        companyDropdown.appendChild(option.cloneNode(true));
+        companyDropdown1.appendChild(option.cloneNode(true));
+        companyDropdown2.appendChild(option.cloneNode(true));
+        companyDropdown3.appendChild(option.cloneNode(true));
+        companyDropdown4.appendChild(option.cloneNode(true));
+        companyDropdown5.appendChild(option.cloneNode(true));
+        // If you want to clone the options for another dropdown, do it here
+        // companyDropdown.appendChild(option.cloneNode(true));
+    }
+}
+createCompanyDropdown()
 // Function to export table data to Excel
 function exportToExcel(table, fileName) {
     const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
@@ -249,15 +300,22 @@ async function handleDiscussionSubmit(event) {
 
     try {
         const status = document.getElementById('status').value;
-        const startDate = document.getElementById('startDates').value;
-        const endDate = document.getElementById('endDates').value;
+        let startDate = document.getElementById('startDates').value;
+        let endDate = document.getElementById('endDates').value;
+
+        // Format dates to include time
+        startDate = startDate + 'T00:00:00Z';
+        endDate = endDate + 'T23:59:59Z';
+        
+        const companyName = document.getElementById('user_client').value;
 
         // Send data to server using Axios with the GET method and query parameters
         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
             params: {
                 status: status,
                 startDate: startDate,
-                endDate: endDate
+                endDate: endDate,
+                companyName: companyName
             }
         });
 
@@ -279,7 +337,7 @@ async function handleDiscussionSubmit(event) {
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Company Name', 'Created Date', 'Posted By'];
+        const headers = ['Candidate ID', 'First Name', 'Last Name', 'Rank', 'Vessel', 'Category', 'Nationality', 'Join Date'];
         headers.forEach(headerText => {
             const header = document.createElement('th');
             header.textContent = headerText;
@@ -293,24 +351,24 @@ async function handleDiscussionSubmit(event) {
         // Create table body
         const tableBody = document.createElement('tbody');
         candidates.forEach(candidate => {
-            candidate.discussions.forEach(discussion => {
-                const row = document.createElement('tr');
-                const fields = [
-                    candidate.candidateId,
-                    candidate.c_rank,
-                    candidate.c_vessel,
-                    discussion.companyname,
-                    discussion.created_date,
-                    discussion.post_by
-                ];
-                fields.forEach(field => {
-                    const cell = document.createElement('td');
-                    cell.textContent = field;
-                    cell.classList.add('text-center');
-                    row.appendChild(cell);
-                });
-                tableBody.appendChild(row);
+            const row = document.createElement('tr');
+            const fields = [
+                candidate.candidateId,
+                candidate.Candidate.fname,
+                candidate.Candidate.lname,
+                candidate.Candidate.c_rank,
+                candidate.Candidate.c_vessel,
+                candidate.Candidate.category,
+                candidate.Candidate.nationality,
+                candidate.join_date
+            ];
+            fields.forEach(field => {
+                const cell = document.createElement('td');
+                cell.textContent = field;
+                cell.classList.add('text-center');
+                row.appendChild(cell);
             });
+            tableBody.appendChild(row);
         });
         table.appendChild(tableBody);
 
@@ -318,11 +376,11 @@ async function handleDiscussionSubmit(event) {
         discussionResults.appendChild(table);
 
         // Check if reports is true
-        if (reports === true) {
+        if (reports) {
             // Create "Export to Excel" button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
             exportButton.addEventListener('click', () => {
                 exportToExcel(table, 'discussionData.xlsx');
             });
@@ -337,9 +395,47 @@ async function handleDiscussionSubmit(event) {
 
 
 
+async function fetchAndDisplayVessels() {
+    try {
+        const token = localStorage.getItem('token');
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        // console.log(serverResponse);
+        const vessels = serverResponse.data;
 
+        // Get the select elements
+        const vesselSelect = document.getElementById("candidate_c_vessel");
+        const vesselSelect1 = document.getElementById("candidate_c_vessel1");
+        const vesselSelect2 = document.getElementById("candidate_c_vessel2");
 
+        // Clear previous options
+        vesselSelect.innerHTML = '';
+        vesselSelect1.innerHTML = '';
+        vesselSelect2.innerHTML = '';
 
+        // Add a default option to each select element
+        const defaultOption = document.createElement("option");
+        defaultOption.value = '';
+        defaultOption.text = "-- Select Vessel --";
+
+        vesselSelect.appendChild(defaultOption.cloneNode(true));
+        vesselSelect1.appendChild(defaultOption.cloneNode(true));
+        vesselSelect2.appendChild(defaultOption.cloneNode(true));
+
+        // Add vessels to the dropdowns
+        vessels.forEach((vessel) => {
+            const option = document.createElement("option");
+            option.value = vessel.id;
+            option.text = vessel.vesselName;
+            vesselSelect.appendChild(option.cloneNode(true));
+            vesselSelect1.appendChild(option.cloneNode(true));
+            vesselSelect2.appendChild(option.cloneNode(true));
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+}
+
+fetchAndDisplayVessels()
 
 // Add event listener to the discussion form
 document.getElementById('discussionForm').addEventListener('submit', handleDiscussionSubmit);
@@ -350,12 +446,18 @@ async function handleSignOnSubmit(event) {
 
     try {
         const token = localStorage.getItem('token');
-        const startDate = document.getElementById('startDatec').value;
-        const endDate = document.getElementById('endDatec').value;
-
+        let startDate = document.getElementById('startDatec').value;
+        let endDate = document.getElementById('endDatec').value;
+        const companyName = document.getElementById('user_client1').value;
+        const vessel_type = document.getElementById('candidate_c_vessel').value;
+        
+        startDate = startDate + 'T00:00:00Z';
+        endDate = endDate + 'T23:59:59Z';
         const params = {
             startDate: startDate,
             endDate: endDate,
+            vessel_type: vessel_type,
+            companyname: companyName
         };
 
         // Send data to server using Axios
@@ -364,53 +466,75 @@ async function handleSignOnSubmit(event) {
         });
 
         console.log(response.data); // Assuming the server sends back some data
-        const candidates = response.data.candidates;
+        const contracts = response.data.contracts;
 
-        // Clear existing table, if any
-        const tableContainer = document.getElementById('signOnTable');
-        tableContainer.innerHTML = '';
+        // Clear existing table body, if any
+        const tableBody = document.getElementById('signOnTableBody');
+        tableBody.innerHTML = '';
 
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table', 'table-sm', 'table-bordered');
-
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Sign On Date'];
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            header.scope = 'col';
-            header.classList.add('text-center');
-            headerRow.appendChild(header);
-        });
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
-
-        // Create table body
-        const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
+        // Append values to table body
+        let index = 1;
+        contracts.forEach((contract) => {
             const row = document.createElement('tr');
             const fields = [
-                candidate.candidateId,
-                candidate.c_rank,
-                candidate.c_vessel,
-                candidate.Contracts[0].sign_on // Access the sign-on date from the first contract associated with the candidate
+                index++,
+                contract.candidateId,
+                contract.rank,
+                contract.vesselType,
+                contract.sign_on,
+                contract.wages,
+                contract.wages_types,
+                contract.company,
+                contract.aoa_number,
+                contract.currency,
+                contract.emigrate_number,
+                contract.eoc,
+                contract.reason_for_sign_off,
+                contract.created_by,
+                contract.Candidate.fname,
+                contract.Candidate.nationality,
+                contract.Candidate.indos_number,
             ];
+        
+            // Check if 'Indian CDC' exists in cDocuments and add document_files if found
+            const indianCdcDocument = contract.Candidate.cDocuments.find(doc => doc.document === 'Indian CDC');
+            if (indianCdcDocument) {
+                fields.push(indianCdcDocument.document, indianCdcDocument.document_files);
+            } else {
+             
+                fields.push(''); // Add empty fields if 'Indian CDC' is not found
+                fields.push(''); // Add empty fields if 'Indian CDC' is not found
+            }
+            const hasCdcDocument = contract.Candidate.cDocuments.some(doc => doc.document.includes('CDC'));
+            if (hasCdcDocument) {
+                fields.push('PRESENT - press CandidateId for more');
+            } else {
+                fields.push(''); // Add an empty field if 'CDC' is not found
+            }
+            const bankDetails = contract.Candidate.Banks[0]; // Assuming there's at least one bank entry
+            if (bankDetails && bankDetails.pan_num) {
+                fields.push(bankDetails.pan_num);
+            } else {
+                fields.push(''); // Add an empty field if pan_num is not found
+            }
+            const passportDocument = contract.Candidate.cDocuments.find(doc => doc.document.includes('PASSPORT'));
+            if (passportDocument) {
+                fields.push(passportDocument.document, passportDocument.document_files);
+            } else {
+                fields.push(''); // Add empty fields if 'PASSPORT' is not found
+                fields.push(''); // Add empty fields if 'PASSPORT' is not found
+            }
+        
             fields.forEach(field => {
                 const cell = document.createElement('td');
                 cell.textContent = field;
                 cell.classList.add('text-center');
                 row.appendChild(cell);
             });
+        
             tableBody.appendChild(row);
         });
-        table.appendChild(tableBody);
-
-        // Append table to container
-        tableContainer.appendChild(table);
-
+        
         // Check if reports is true
         const decodedToken = decodeToken(token);
         const reports = decodedToken.reports;
@@ -419,17 +543,20 @@ async function handleSignOnSubmit(event) {
             // Create "Export to Excel" button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
             exportButton.addEventListener('click', () => {
-                exportToExcel(table, 'signOnData.xlsx');
+                exportToExcel(tableBody, 'signOnData.xlsx');
             });
-            tableContainer.parentNode.insertBefore(exportButton, tableContainer.nextSibling);
+            // Append export button after the table
+            const tableContainer = document.getElementById('signOnContent');
+            tableContainer.appendChild(exportButton);
         }
 
     } catch (error) {
         console.error(error);
     }
 }
+
 
 
 
@@ -441,83 +568,111 @@ async function handleSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const startDate = document.getElementById('startDateoff').value;
-        const endDate = document.getElementById('endDateoff').value;
-
+        const token = localStorage.getItem('token');
+        let startDate = document.getElementById('startDateoff').value;
+        let endDate = document.getElementById('endDateoff').value;
+        const companyName = document.getElementById('user_client2').value;
+        const vessel_type = document.getElementById('candidate_c_vessel1').value;
+        
+        startDate = startDate + 'T00:00:00Z';
+        endDate = endDate + 'T23:59:59Z';
         const params = {
             startDate: startDate,
             endDate: endDate,
+            vessel_type: vessel_type,
+            companyname: companyName
         };
+
         // Send data to server using Axios
         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
             params: params
         });
 
         console.log(response.data); // Assuming the server sends back some data
-        const candidates = response.data.candidates;
+        const contracts = response.data.contracts;
 
-        // Clear existing table, if any
-        const tableContainer = document.getElementById('signOffTable');
-        tableContainer.innerHTML = '';
+        // Clear existing table body, if any
+        const tableBody = document.getElementById('signOffTableBody');
+        tableBody.innerHTML = '';
 
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table', 'table-sm', 'table-bordered');
-
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Sign Off Date'];
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            header.scope = 'col';
-            header.classList.add('text-center');
-            headerRow.appendChild(header);
-        });
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
-
-        // Create table body
-        const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
+        // Append values to table body
+        let index = 1;
+        contracts.forEach((contract) => {
             const row = document.createElement('tr');
             const fields = [
-                candidate.candidateId,
-                candidate.c_rank,
-                candidate.c_vessel,
-                candidate.Contracts[0].sign_off // Access the sign-off date from the first contract associated with the candidate
+                index++,
+                contract.candidateId,
+                contract.rank,
+                contract.vesselType, // Replace this with the actual name if needed
+                contract.sign_off,
+                contract.wages,
+                contract.wages_types,
+                contract.company, // Replace this with the actual name if needed
+                contract.aoa_number,
+                contract.currency,
+                contract.emigrate_number,
+                contract.eoc,
+                contract.reason_for_sign_off,
+                contract.created_by, // Replace this with the actual name if needed
+                contract.Candidate.fname,
+                contract.Candidate.nationality, // Replace this with the actual name if needed
+                contract.Candidate.indos_number,
             ];
+        
+            // Check if 'Indian CDC' exists in cDocuments and add document_files if found
+            const indianCdcDocument = contract.Candidate.cDocuments.find(doc => doc.document === 'Indian CDC');
+            if (indianCdcDocument) {
+                fields.push(indianCdcDocument.document, indianCdcDocument.document_files);
+            } else {
+                fields.push(''); // Add empty fields if 'Indian CDC' is not found
+                fields.push(''); // Add empty fields if 'Indian CDC' is not found
+            }
+
+            const hasCdcDocument = contract.Candidate.cDocuments.some(doc => doc.document.includes('CDC'));
+            if (hasCdcDocument) {
+                fields.push('PRESENT - press CandidateId for more');
+            } else {
+                fields.push(''); // Add an empty field if 'CDC' is not found
+            }
+
+            const bankDetails = contract.Candidate.Banks[0]; // Assuming there's at least one bank entry
+            if (bankDetails && bankDetails.pan_num) {
+                fields.push(bankDetails.pan_num);
+            } else {
+                fields.push(''); // Add an empty field if pan_num is not found
+            }
+            const passportDocument = contract.Candidate.cDocuments.find(doc => doc.document.includes('PASSPORT'));
+if (passportDocument) {
+    fields.push(passportDocument.document, passportDocument.document_files);
+} else {
+    fields.push(''); // Add empty fields if 'PASSPORT' is not found
+    fields.push(''); // Add empty fields if 'PASSPORT' is not found
+}
+
             fields.forEach(field => {
                 const cell = document.createElement('td');
                 cell.textContent = field;
                 cell.classList.add('text-center');
                 row.appendChild(cell);
             });
+
             tableBody.appendChild(row);
         });
-        table.appendChild(tableBody);
-
-        // Append table to container
-        tableContainer.appendChild(table);
 
         // Check if reports is true
-        const decodedToken = decodeToken(localStorage.getItem('token'));
+        const decodedToken = decodeToken(token);
         const reports = decodedToken.reports;
 
         if (reports === true) {
-            // Add export to Excel button
+            // Create "Export to Excel" button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
-            exportButton.addEventListener('click', async () => {
-                try {
-                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                    await XLSX.writeFile(wb, 'signOffCandidates.xlsx');
-                } catch (error) {
-                    console.error('Error exporting to Excel:', error);
-                }
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.addEventListener('click', () => {
+                exportToExcel(tableBody, 'signOffData.xlsx');
             });
+            // Append export button after the table
+            const tableContainer = document.getElementById('signOffContent');
             tableContainer.appendChild(exportButton);
         }
 
@@ -530,45 +685,37 @@ async function handleSignOffSubmit(event) {
 
 
 
+
 // Add event listener to the Sign On form
 document.getElementById('signOffForm').addEventListener('submit', handleSignOffSubmit);
-
-
-const calculateStatus = (signOffDate) => {
-    const oneDay = 24 * 60 * 60 * 1000; // Hours*minutes*seconds*milliseconds
-    const today = new Date();
-    const signOff = new Date(signOffDate);
-    const diffDays = Math.round((signOff - today) / oneDay);
-
-    if (diffDays > 0) {
-        return { status: 'Active', color: 'success' }; // Status for candidates with sign-off date in the future
-    } else if (diffDays === 0) {
-        return { status: 'Today', color: 'warning' }; // Status for candidates with sign-off date today
-    } else {
-        return { status: 'Overdue', color: 'danger' }; // Status for candidates with sign-off date in the past
-    }
-};
 
 
 async function handleDueforSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const startDate = document.getElementById('startDated').value;
-        const endDate = document.getElementById('endDated').value;
+        let startDate = document.getElementById('startDated').value;
+        let endDate = document.getElementById('endDated').value;
+        const companyName = document.getElementById('user_client3').value;
+        const vessel_type = document.getElementById('candidate_c_vessel2').value;
+
+        startDate = startDate + 'T00:00:00Z';
+        endDate = endDate + 'T23:59:59Z';
 
         const params = {
             startDate: startDate,
             endDate: endDate,
+            companyname: companyName,
+            vessel_type: vessel_type,
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('https://nemo.ivistaz.co/candidate/dueforsignoff', {
             params: params
         });
 
         console.log(response.data); // Assuming the server sends back some data
-        const candidates = response.data.candidates;
+        const contracts = response.data.contracts;
 
         // Clear existing table, if any
         const tableContainer = document.getElementById('DuesignOffTable');
@@ -576,12 +723,12 @@ async function handleDueforSignOffSubmit(event) {
 
         // Create table element
         const table = document.createElement('table');
-        table.classList.add('table', 'table-sm', 'table-bordered');
+        table.classList.add('table', 'table-bordered');
 
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Rank', 'Vessel', 'Sign Off Date', 'Status'];
+        const headers = ['S.no', 'CandidateId', 'First Name', 'Nationality', 'Rank', 'Vessel', 'EOC-Date','Company', 'Status'];
         headers.forEach(headerText => {
             const header = document.createElement('th');
             header.textContent = headerText;
@@ -594,28 +741,44 @@ async function handleDueforSignOffSubmit(event) {
 
         // Create table body
         const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
+
+        // Process each contract and add candidates to the table
+        contracts.forEach((contract, index) => {
             const row = document.createElement('tr');
+            row.classList.add('border'); // Adding border to the row
             const fields = [
-                candidate.candidateId,
-                candidate.c_rank,
-                candidate.c_vessel,
-                candidate.Contracts[0].sign_off, // Access the sign-off date from the first contract associated with the candidate
-                calculateStatus(candidate.Contracts[0].sign_off) // Calculate status based on sign-off date
+                index + 1, // Serial number (sno)
+                contract.Candidate.candidateId,
+                contract.Candidate.fname,
+                contract.Candidate.nationality,
+                contract.rank,
+                contract.vslname,
+                contract.eoc, // Access the EOC date from the contract
+                contract.company
             ];
             fields.forEach((field, index) => {
                 const cell = document.createElement('td');
-                if (index === fields.length - 1) {
-                    const badge = document.createElement('span');
-                    badge.textContent = field.status;
-                    badge.classList.add('badge', 'bg-' + field.color);
-                    cell.appendChild(badge);
+                if (index === 0) {
+                    cell.textContent = field; // Serial number
+                } else if (index === headers.length - 2) {
+                    cell.textContent = new Date(field).toLocaleDateString();
                 } else {
                     cell.textContent = field;
                 }
                 cell.classList.add('text-center');
                 row.appendChild(cell);
             });
+
+            // Calculate status based on EOC date
+            const status = calculateStatus(contract.eoc);
+            const statusCell = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.textContent = status.status;
+            badge.classList.add('badge', 'bg-' + status.color);
+            statusCell.classList.add('text-center');
+            statusCell.appendChild(badge);
+            row.appendChild(statusCell);
+
             tableBody.appendChild(row);
         });
         table.appendChild(tableBody);
@@ -631,7 +794,7 @@ async function handleDueforSignOffSubmit(event) {
             // Add export to Excel button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
             exportButton.addEventListener('click', async () => {
                 try {
                     const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
@@ -648,6 +811,22 @@ async function handleDueforSignOffSubmit(event) {
     }
 }
 
+// Function to calculate status based on sign-off date
+function calculateStatus(signOffDate) {
+    const today = new Date();
+    const signOff = new Date(signOffDate);
+    const diffTime = signOff - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+    if (diffDays < 0) {
+        return { status: `Overdue by ${Math.abs(diffDays)} days`, color: 'danger' };
+    } else if (diffDays <= 30) {
+        return { status: `Need to Renew in ${diffDays} days`, color: 'warning' };
+    } else {
+        return { status: 'Valid', color: 'success' };
+    }
+}
+
 
 
 document.getElementById('dueforsignoffform').addEventListener('submit', handleDueforSignOffSubmit);
@@ -658,10 +837,12 @@ async function handleAvailableCandidatesSubmit(event) {
     try {
         const startDate = document.getElementById('startDatea').value;
         const endDate = document.getElementById('endDatea').value;
+        const avbrank = document.getElementById('avbrank').value;
 
         const params = {
             startDate: startDate,
             endDate: endDate,
+            avbrank: avbrank
         };
 
         // Send data to server using Axios
@@ -677,9 +858,10 @@ async function handleAvailableCandidatesSubmit(event) {
         tableContainer.innerHTML = '';
 
         // Populate table with candidates data
-        candidates.forEach(candidate => {
+        candidates.forEach((candidate, index) => {
             const row = document.createElement('tr');
             const fields = [
+                index + 1, // Serial number (s.no)
                 candidate.candidateId,
                 candidate.fname,
                 candidate.c_rank,
@@ -698,12 +880,11 @@ async function handleAvailableCandidatesSubmit(event) {
         // Check if the user has access to reports
         const decodedToken = decodeToken(localStorage.getItem('token'));
         const reports = decodedToken.reports;
-
         if (reports === true) {
             // Add export to Excel button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mt-3', 'float-end', 'mb-2','text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
             exportButton.addEventListener('click', async () => {
                 try {
                     // Create table element
@@ -713,7 +894,7 @@ async function handleAvailableCandidatesSubmit(event) {
                     // Create table header
                     const tableHeader = document.createElement('thead');
                     const headerRow = document.createElement('tr');
-                    const headers = ['Candidate ID', 'Name', 'Rank', 'Vessel', 'Available Date'];
+                    const headers = ['S.no', 'Candidate ID', 'Name', 'Rank', 'Vessel', 'Available Date'];
                     headers.forEach(headerText => {
                         const header = document.createElement('th');
                         header.textContent = headerText;
@@ -726,9 +907,10 @@ async function handleAvailableCandidatesSubmit(event) {
 
                     // Create table body
                     const tableBody = document.createElement('tbody');
-                    candidates.forEach(candidate => {
+                    candidates.forEach((candidate, index) => {
                         const row = document.createElement('tr');
                         const fields = [
+                            index + 1, // Serial number (s.no)
                             candidate.candidateId,
                             candidate.fname,
                             candidate.c_rank,
@@ -759,6 +941,7 @@ async function handleAvailableCandidatesSubmit(event) {
         console.error(error);
     }
 }
+
 
 
 
@@ -917,13 +1100,15 @@ async function handleOnBoardSubmit(event) {
     try {
         const token = localStorage.getItem('token');
         const startDate = document.getElementById('startDateo').value;
-        const endDate = document.getElementById('endDateo').value;
+        const companyname = document.getElementById('user_client4').value || null;
+        const vesselDropdown = document.getElementById('vsl1').value || null;
 
         // Send request to fetch onboard candidates with filters
         const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
             params: {
                 startDate: startDate,
-                endDate: endDate
+                companyname:companyname,
+                vslName:vesselDropdown,
             },
             headers: {
                 "Authorization": token
@@ -931,7 +1116,7 @@ async function handleOnBoardSubmit(event) {
         });
 
         // Assuming the server sends back some data
-        const onboardCandidates = response.data;
+        const onboardCandidates = response;
         console.log(response);
         
         // Clear existing table body, if any
@@ -964,7 +1149,7 @@ async function handleOnBoardSubmit(event) {
             // Add export to Excel button
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mb-3','text-success');
             exportButton.addEventListener('click', async () => {
                 try {
                     // Create table element
@@ -1146,17 +1331,19 @@ async function handleCrewList(event) {
     try {
         const startDate = document.getElementById('startDatecl').value;
         const endDate = document.getElementById('endDatecl').value;
-        const vslName = document.getElementById('vsl').value;
+        const vslName = document.getElementById('vsl').value || null;
+        const companyname = document.getElementById('user_client5').value || null;
         const params = {
             startDate: startDate,
             endDate: endDate,
-            vslName: vslName
+            vslName: vslName,
+            company:companyname
         };
 
         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
             params: params
         });
-
+        console.log(response)
         const crewlistCandidates = response.data;
 
         // Render crew list table
@@ -1191,7 +1378,7 @@ async function handleCrewList(event) {
             // Add export to Excel button above the table
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-light', 'mb-3', 'text-success');
+            exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
             exportButton.addEventListener('click', () => {
                 exportCrewListToExcel(crewlistCandidates);
             });
@@ -1273,13 +1460,16 @@ const handleCrewListForm = document.getElementById('crewListMonthWiseForm').addE
 const displayVesselDropdown = async function () {
     try {
         const vesselDropdown = document.getElementById('vsl');
+        const vesselDropdown1 = document.getElementById('vsl1');
         vesselDropdown.innerHTML = ''; // Clear existing options
+        vesselDropdown1.innerHTML = ''; // Clear existing options
     
         // Add the default option
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.text = '-- Select Vessel --';
         vesselDropdown.appendChild(defaultOption);
+        vesselDropdown1.appendChild(defaultOption.cloneNode(true));
         
         // Fetch vessel names from the server
         const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls")
@@ -1291,6 +1481,7 @@ const displayVesselDropdown = async function () {
             option.value = vessel.id; // Assuming vesselName is the correct attribute
             option.text = vessel.vesselName; // Assuming vesselName is the correct attribute
             vesselDropdown.appendChild(option);
+            vesselDropdown1.appendChild(option.cloneNode(true));
         });
     } catch (error) {
         console.error('Error fetching vessels:', error);
@@ -1305,7 +1496,7 @@ const handleReliefPlan = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const startDate = document.getElementById('startDate').value;
+        const startDate = document.getElementById('reliefPlanDate').value;
 
         // Get today's date as the end date
         const endDate = new Date().toISOString().split('T')[0];
@@ -1335,6 +1526,8 @@ const fetchReliefPlan = async (startDate, endDate) => {
     try {
         const url = `https://nemo.ivistaz.co/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
+        console.log(response)
+
         return response.data;
     } catch (error) {
         console.error('Error fetching relief plan data:', error);
@@ -1367,7 +1560,7 @@ const displayReliefPlanTable = (reliefPlanData) => {
 const addExportButton = () => {
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export to Excel';
-    exportButton.classList.add('btn', 'btn-light', 'mb-3','text-success');
+    exportButton.classList.add('btn', 'btn-dark', 'mb-3','text-success');
     exportButton.addEventListener('click', exportReliefPlanToExcel);
     
     // Append button to container
@@ -1414,6 +1607,37 @@ const displayUserDropdown = async function () {
 
 // Call the function to display the user dropdown
 displayUserDropdown();
+
+const displayUserDropdown1 = async function () {
+    try {
+        const userDropdown = document.getElementById('appliedBy1');
+        userDropdown.innerHTML = ''; // Clear existing options
+    
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select User --';
+        userDropdown.appendChild(defaultOption);
+        
+        // Fetch user data from the server
+        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
+        const users = userResponse.data;
+    
+        // Populate the user dropdown with fetched user names
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.userName; // Assuming 'id' is the correct attribute for user ID
+            option.text = `${user.userName} ` // Assuming 'userName' and 'lastName' are the correct attributes for user name
+            userDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+}
+
+// Call the function to display the user dropdown
+displayUserDropdown1();
+
 
 
 document.getElementById('exportDocumentCandidates').addEventListener('click', function() {
@@ -1860,3 +2084,47 @@ function formatDate(dateString) {
       document.getElementById('totalPagesContracts').textContent = "Page " + pagenumber +" of "+ totalPagesContracts;
   }
   
+
+  async function getReq() {
+    try {
+        const token = localStorage.getItem('token');
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        console.log('VSLS',serverResponse.data)
+
+        const serverResponsecomp= await axios.get('https://nemo.ivistaz.co/user/userdropdown');
+        console.log('USER',serverResponsecomp.data)
+
+        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/company/dropdown-company')
+        console.log('COMP',serverResponseUser.data.companies)
+
+        const nationality =await axios.get("https://nemo.ivistaz.co/others/country-codes")
+        console.log('CC',nationality.data.countryCodes)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+getReq()
+
+const displayDropdown = async function () {
+    const rankDropdown = document.getElementById('avbrank');
+    rankDropdown.innerHTML = ''; // Clear existing options
+    const token = localStorage.getItem('token')
+    // Add the default option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = '-- Select Rank --';
+    rankDropdown.appendChild(defaultOption);
+
+    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
+    const rankOptions = rankResponse.data.ranks;
+    const rankNames = rankOptions.map(rank => rank.rank);
+
+    for (let i = 0; i < rankNames.length; i++) {
+        const option = document.createElement('option');
+        option.value = rankNames[i];
+        option.text = rankNames[i];
+        rankDropdown.appendChild(option);
+    }
+}
+displayDropdown()

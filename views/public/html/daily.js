@@ -264,3 +264,86 @@ async function signoffdailycount() {
     signOffContainer.textContent=signOffData
 }
 signoffdailycount()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function fetchDatas() {
+    try {
+        const url = 'https://nemo.ivistaz.co/candidate/statusdata';
+        const response = await axios.get(url);
+        renderDiscussionData(response.data);
+    } catch (error) {
+        console.error('Error fetching discussion data:', error);
+    }
+}
+
+// Function to render discussion data
+function renderDiscussionData(data) {
+    const discussionList = document.getElementById('discussionList');
+    discussionList.innerHTML = ''; // Clear existing items
+
+    // Iterate over each status and render discussions for each status
+    for (const status in data) {
+        const discussions = data[status];
+        console.log(status)
+
+        discussions.forEach(discussion => {
+            // Render each discussion item
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.innerHTML = `
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="mb-1 d-flex align-items-center text-white">Candidate ID: <button class="btn btn-link candidate-btn text-dark" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
+                        <p class="mb-1 text-dark">Discussion: ${discussion.discussion}</p>
+                    </div>
+                    <div>
+                        <span class="${getBadgeColor(status)}">${status}</span>
+                    </div>
+                </div>
+                <small class="text-white">Reminder Date: ${discussion.r_date}</small>
+            `;
+            discussionList.appendChild(listItem);
+
+            // Add event listener to candidate ID button
+            listItem.querySelector('.candidate-btn').addEventListener('click', () => {
+                const candidateId = discussion.candidateId;
+                localStorage.setItem('memId', candidateId)
+                // Redirect to view-candidate page with candidateId
+                window.location.href = `view-candidate.html?id=${candidateId}`;
+            });
+        });
+    }
+}
+
+// Function to determine badge color based on discussion status
+function getBadgeColor(status) {
+    switch (status) {
+        case 'Proposed':
+            return 'badge bg-primary';
+        case 'Approved':
+            return 'badge bg-success';
+        case 'Joined':
+            return 'badge bg-info';
+        case 'Rejected':
+            return 'badge bg-danger';
+        default:
+            return 'badge bg-secondary'; // Default badge color for unknown statuses
+    }
+}
+fetchDatas()

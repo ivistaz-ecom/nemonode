@@ -187,7 +187,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         reminder: document.getElementById('set_reminder_checkbox').checked,
         companyname: companyName,
         reason: reason,
-        join_date: null,
+        join_date :null,
         created_date: new Date(),
     };
 

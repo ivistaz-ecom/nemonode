@@ -61,33 +61,42 @@ const NKD = require('./models/nkd');
 
 
 
-User.hasMany(Candidate, { foreignKey: 'userId' })
-Candidate.belongsTo(User, { foreignKey: 'userId' })
-Candidate.hasMany(evaluation,{foreignKey:'candidateId'})
-evaluation.belongsTo(Candidate,{foreignKey:'candidateId'})
-Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
-discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(discussion, { foreignKey: 'candidateId' });
-discussion.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(contract, { foreignKey: 'candidateId' });
-contract.belongsTo(Candidate, { foreignKey: 'candidateId' });
-Candidate.hasMany(cdocument, { foreignKey: 'candidateId' });
-cdocument.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(bank, { foreignKey: 'candidateId' });
-bank.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(travel, { foreignKey: 'candidateId' });
-travel.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(medical, { foreignKey: 'candidateId' });
-medical.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(NKD, { foreignKey: 'candidateId' });
-NKD.belongsTo(Candidate,{ foreignKey:'candidateId'});
-Candidate.hasMany(Seaservice,{ foreignKey: 'candidateId' })
-Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
-Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
-User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
-User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
+    User.hasMany(Candidate, { foreignKey: 'userId' })
+    Candidate.belongsTo(User, { foreignKey: 'userId' })
+    Candidate.hasMany(evaluation,{foreignKey:'candidateId'})
+    evaluation.belongsTo(Candidate,{foreignKey:'candidateId'})
+    Candidate.hasMany(discussionplus, { foreignKey: 'candidateId' });
+    discussionplus.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(discussion, { foreignKey: 'candidateId' });
+    discussion.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(contract, { foreignKey: 'candidateId' });
+    contract.belongsTo(Candidate, { foreignKey: 'candidateId' });
+    Candidate.hasMany(cdocument, { foreignKey: 'candidateId' });
+    cdocument.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(bank, { foreignKey: 'candidateId' });
+    bank.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(travel, { foreignKey: 'candidateId' });
+    travel.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(medical, { foreignKey: 'candidateId' });
+    medical.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(NKD, { foreignKey: 'candidateId' });
+    NKD.belongsTo(Candidate,{ foreignKey:'candidateId'});
+    Candidate.hasMany(Seaservice,{ foreignKey: 'candidateId' })
+    Seaservice.belongsTo(Candidate,{ foreignKey: 'candidateId' })
+    Vessel.hasMany(VSL, { foreignKey: 'vessel_id' }); // One-to-many relationship
+    VSL.belongsTo(Vessel, { foreignKey: 'vessel_id' }); // One-to-many relationship
+    User.belongsTo(Company, { foreignKey: 'client_id' }); // User belongs to one Company
+    User.belongsTo(VSL, { foreignKey: 'vesselNameId' }); // User belongs to one VesselType
 
 
+
+    User.hasMany(discussion, { foreignKey: 'post_by' });
+    discussion.belongsTo(User, { foreignKey: 'post_by' });
+
+    Company.hasMany(discussion,{foreignKey:'companyname'})
+    discussion.belongsTo(Company,{foreignKey:'companyname'})
+
+    
 
 app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});
@@ -616,6 +625,7 @@ app.use('/password',PasswordRoutes);
 
 const cPasswordRoutes = require('./routes/c_forgotpassword');
 const cForgotpassword = require('./models/c_forgotpassword');
+const Discussion = require("./models/discussion");
   
 Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
