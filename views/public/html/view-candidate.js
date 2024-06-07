@@ -106,6 +106,8 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.passbook}</td>
             <td>${bank.pan_num}</td>
             <td>${bank.pan_card}</td>
+            <td><a href='https://nemo.ivistaz.co/views/public/uploads/${doc.document_files}'>Click here to view!</a></td>
+
             <td>
             <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
@@ -237,6 +239,19 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             }
         });
 
+        const hospitalResponse = await axios.get('https://nemo.ivistaz.co/others/get-hospital', {
+            headers: {
+                'Authorization': token
+            }
+        });
+       const hospitalsmed = hospitalResponse.data.hospital
+        const hospitals = {}; // Map to store company details by ID
+        hospitalsmed.forEach(hospital => {
+            hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
+        });
+
+
+
         const medicalDetails = response.data;
         console.log(medicalDetails)
         const medicalTableBody = document.getElementById('hospitalTableBody');
@@ -250,9 +265,10 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 cell.textContent = value;
                 return cell;
             };
+            const hospitalName = hospitals[medical.hospitalName];
 
             // Add data to each cell
-            row.appendChild(createCell(medical.hospitalName));
+            row.appendChild(createCell(hospitalName));
             row.appendChild(createCell(medical.place));
             row.appendChild(createCell(medical.date));
             row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
@@ -442,6 +458,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         // You can call loadContent function here if needed
         // loadContent('personnel'); // Example: Load personnel information by default
+        async function nationalityFetch(nationalityId) {
+            try {
+                console.log(nationalityId)
+                const nationality = await axios.get("https://nemo.ivistaz.co/others/country-codes");
+                const countries = nationality.data.countryCodes;
+                let id = nationalityId
+                for (const country of countries) {
+                    if (id == country.code) {
+                      return country.country
+                    }
+                   
+                }
+        
+                // If no match found
+                
+            } catch (error) {
+                console.error("Error fetching nationality:", error);
+                return null; // or throw error based on your preference
+            }
+        }
+        
 
         
 async function displayCandidateDetails() {
@@ -450,13 +487,22 @@ async function displayCandidateDetails() {
         const id = localStorage.getItem('memId')
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
+      
+
         document.getElementById('candidateId').value = candidateData.candidateId;
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
-        document.getElementById('edit_candidate_nationality').value = candidateData.nationality;
-        document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
+        nationalityFetch(candidateData.nationality)
+        .then(nationality => {
+          document.getElementById('edit_candidate_nationality').value = nationality;
+        })
+        .catch(error => {
+          console.error("Error setting nationality:", error);
+          // Handle error
+        });
+              document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
         document.getElementById('edit_candidate_experience').value = candidateData.experience;
         document.getElementById('edit_candidate_grade').value = candidateData.grade;
-        document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
+        // document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
        
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
@@ -472,7 +518,14 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_safety_shoe_size').value = candidateData.safety_shoe_size;
         document.getElementById('edit_candidate_height').value = candidateData.height;
         document.getElementById('edit_candidate_weight').value = candidateData.weight;
-        document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
+        nationalityFetch(candidateData.l_country)
+        .then(nationality => {
+          document.getElementById('edit_candidate_I_country').value = nationality;
+        })
+        .catch(error => {
+          console.error("Error setting nationality:", error);
+          // Handle error
+        });
         document.getElementById('edit_candidate_indos_number').value = candidateData.indos_number;
         document.getElementById('edit_company_status').value = candidateData.m_status;
         document.getElementById('edit_candidate_group').value = candidateData.group;
@@ -606,8 +659,6 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-
-
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-contract-details/${candidateId}`, {
@@ -617,6 +668,37 @@ async function fetchAndDisplayContractDetails(candidateId) {
             }
         });
 
+        const companyResponse = await axios.get('https://nemo.ivistaz.co/company/dropdown-company', {
+            headers: {
+                'Authorization': token
+            }
+        });
+        const companies = {}; // Map to store company details by ID
+        companyResponse.data.companies.forEach(company => {
+            companies[company.company_id] = company.company_name; // Store company details by ID
+        });
+
+        // Assuming you have similar API endpoints for these fields
+        const portsResponse = await axios.get('https://nemo.ivistaz.co/others/get-ports', {
+            headers: {
+                'Authorization': token
+            }
+        });
+        const ports = {}; // Map to store port details by ID
+        portsResponse.data.ports.forEach(port => {
+            ports[port.id] = port.portName; // Store port details by ID
+        });
+
+        const vesselsResponse = await axios.get('https://nemo.ivistaz.co/others/get-vsls', {
+            headers: {
+                'Authorization': token
+            }
+        });
+        console.log('vessel da ',vesselsResponse.data)
+        const vessels = {}; // Map to store vessel details by ID
+        vesselsResponse.data.forEach(vessel => {
+            vessels[vessel.id] = vessel.vesselName; // Store vessel details by ID
+        });
 
         const contractDetails = response.data;
 
@@ -627,13 +709,19 @@ async function fetchAndDisplayContractDetails(candidateId) {
         contractDetails.forEach(contract => {
             const row = document.createElement('tr');
 
+            // Get company name using company ID
+            const companyName = companies[contract.company];
+            const signOffPortName = ports[contract.sign_off_port];
+            const signOnPortName = ports[contract.sign_on_port];
+            const vesselName = vessels[contract.vslName];
+
             // Add data to each cell
             row.innerHTML = `
                 <td>${contract.rank}</td>
-                <td>${contract.company}</td>
-                <td>${contract.vslName}</td>
+                <td>${companyName}</td> <!-- Display company name instead of ID -->
+                <td>${vesselName}</td> <!-- Display vessel name instead of ID -->
                 <td>${contract.vesselType}</td>
-                <td>${contract.sign_on_port}</td>
+                <td>${signOnPortName}</td> <!-- Display port name instead of ID -->
                 <td>${formatDate(contract.sign_on)}</td>
                 <td>${formatDate(contract.wage_start)}</td>
                 <td>${formatDate(contract.eoc)}</td>
@@ -641,15 +729,15 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
                 <td>${formatDate(contract.sign_off)}</td>
-                <td>${contract.sign_off_port}</td>
+                <td>${signOffPortName}</td> <!-- Display port name instead of ID -->
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.documents}'>Click here to view Document!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}'>Click here to view Document!</a></td>
 
                 <td>${contract.aoa}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${contract.aoa}'>Click here to view AOA!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}'>Click here to view AOA!</a></td>
 
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
@@ -671,6 +759,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
         console.error(err);
     }
 }
+
 
 function editContract (id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa,event){
     event.preventDefault();

@@ -80,6 +80,8 @@ router.get('/get-document/:id', otherControllers.get_document);
 router.get('/get-vsls', otherControllers.getVsls);
 router.get('/get-vessel', otherControllers.getVessels);
 router.get("/get-ranks",otherControllers.view_ranks)
+router.get("/get-ports",otherControllers.view_ports)
+router.get("/get-hospital", otherControllers.view_medicals)
 
 
 
