@@ -1049,6 +1049,28 @@ const view_port = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+const view_ports =  async (req, res) => {
+  try {
+      const ports = await Port.findAll();
+      res.json({ ports });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+const view_medicals =  async (req, res) => {
+  try {
+      const hospital = await Hospital.findAll();
+      res.json({ hospital });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 const view_port_agent = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -2145,7 +2167,9 @@ const getVessels = async (req, res) => {
     get_gradeDrop,
     getVsls,
     view_ranks,
-    getVessels
+    getVessels,
+    view_ports,
+    view_medicals
     
   }
 

@@ -698,6 +698,14 @@ const storage7 = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
+const storage8 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/bank_details');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 const upload = multer({ storage: storage });
 const upload1 = multer({ storage: storage1 });
 const upload2 = multer({ storage: storage2 });
@@ -706,7 +714,9 @@ const upload4 = multer({ storage: storage4 });
 const upload5 = multer({ storage: storage5 });
 const upload6 = multer({ storage: storage6 });
 const upload7 = multer({ storage: storage7 });
+const upload8 = multer({ storage: storage8 });
 const evaluationDirectory = '/views/public/files/evaluation';
+const bankDirectory = '/views/public/bank_details';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
@@ -716,9 +726,11 @@ const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
 const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
 // Serve static files from the evaluation directory
 app.use('/evaluation', express.static(evaluationDirectory));
+app.use('/bank', express.static(bankDirectory));
 // Serve static files from various directories
 app.use(express.static('/views/public/files'));
 app.use(express.static('/views/public/uploads'));
+app.use(express.static('/views/public/bank_details'));
 app.use('/documents',express.static(documentDirectory))
 app.use('/photos', express.static(photosDirectory));
 app.use('/tickets', express.static(ticketsDirectory));  
@@ -778,6 +790,13 @@ app.post('/upload6', upload6.single('file'), (req, res) => {
     }
 });
 app.post('/upload7', upload7.single('file'), (req, res) => {
+    if (req.file) {
+        res.status(200).send('File uploaded successfully');
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
+app.post('/upload8', upload8.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
@@ -958,6 +977,30 @@ app.get('/fetch-files6/:candidateId', (req, res) => {
 
         // Construct the file names (relative paths)
         const fileNames = candidateFiles.map(file => `/medical/${file}`);
+
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
+app.get('/fetch-files7/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
+
+    // Read the contents of the directory
+    fs.readdir(bankDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/bank_details/${file}`);
 
         // Send the list of file names to the client
         res.json(fileNames);

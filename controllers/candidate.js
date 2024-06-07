@@ -457,19 +457,23 @@ const new_profile = async (req, res) => {
         const startDate = req.body.startDate; // Assuming startDate and endDate are provided in the request body
         const endDate = req.body.endDate;
         const user_sort = req.body.user;
+
         // Check if the date range is provided
         if (startDate && endDate) {
             // If the user is not an admin, fetch candidates associated with the user
             if (userGroup === 'admin') {
-                allCandidates = await Candidate.findAll({
-                    where: {
-                        cr_date: {
-                            [Op.between]: [startDate, endDate], // Filter based on the date range
-                        },
-                        createdBy:{
-                            [Op.eq]:[user_sort]
-                        },
+                let whereCondition = {
+                    cr_date: {
+                        [Op.between]: [startDate, endDate], // Filter based on the date range
                     },
+                };
+
+                if (user_sort) {
+                    whereCondition.createdBy = user_sort;
+                }
+
+                allCandidates = await Candidate.findAll({
+                    where: whereCondition,
                     attributes: selectedFields, // Provide selectedFields as the attributes
                 });
             } else if (userGroup === 'vendor' && reports === true) {
@@ -511,6 +515,7 @@ const new_profile = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
 
 
 
@@ -1741,20 +1746,22 @@ const checkExpiry = async (req, res) => {
 const Reminder = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
-        const whereCondition = { reminder: true };
 
-        // If start date input is present, add it to the where condition
-        if (startDate) {
-            whereCondition.r_date = { [Op.gte]: startDate }; // Filter discussions with reminder date greater than or equal to start date
+        // Check if both startDate and endDate are provided
+        if (!startDate || !endDate) {
+            return res.status(400).json({
+                success: false,
+                message: 'Both startDate and endDate are required.',
+            });
         }
 
-        // If end date input is present, add it to the where condition
-        if (endDate) {
-            whereCondition.r_date = {
-                ...whereCondition.r_date,
-                [Op.lte]: endDate, // Filter discussions with reminder date less than or equal to end date
-            };
-        }
+        const whereCondition = { 
+            reminder: true,
+            r_date: {
+                [Op.gte]: startDate,
+                [Op.lte]: endDate
+            }
+        };
 
         // Fetch discussions based on the condition, ordered by r_date in descending order
         const discussions = await Discussion.findAll({
@@ -2140,7 +2147,6 @@ const getQuarterDates = (year, quarter) => {
 
 
 
-
 const calls_made = async (req, res) => {
     try {
         const startDate = req.body.startDate;
@@ -2154,8 +2160,7 @@ const calls_made = async (req, res) => {
                 where: {
                     created_date: {
                         [Op.between]: [startDate, endDate], // Filter discussions within the date range
-                    },
-                    post_by: userId
+                    }
                 },
                 attributes: [
                     'discussion','r_date','candidateId'
@@ -2170,6 +2175,11 @@ const calls_made = async (req, res) => {
                     }
                 ],
             };
+
+            // Conditionally add userId to where condition
+            if (userId) {
+                queryOptions.where.post_by = userId;
+            }
 
             // Conditionally add category filter
             if (category) {
@@ -2198,14 +2208,26 @@ const proposals = async (req, res) => {
         // Extract query parameters
         const { status, startDate, endDate, companyName } = req.query;
 
+        // Initialize the where object
+        const whereCondition = {};
+
+        // Conditionally add status to the where condition
+        if (status) {
+            whereCondition.discussion = { [Op.like]: `%${status}%` };
+        }
+
+        // Conditionally add company name to the where condition
+        if (companyName) {
+            whereCondition.companyname = companyName;
+        }
+
         // Fetch candidates based on the discussions' join_date and status
         const candidates = await Discussion.findAll({
             where: {
-                discussion: {[Op.like]:`%${status}%`},
+                ...whereCondition,
                 join_date: {
                     [Op.between]: [startDate, endDate], // Filter by start and end date
                 },
-                companyname:companyName
             },
             include: [
                 {
@@ -2225,6 +2247,7 @@ const proposals = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
 const getContractsBySignOnDate = async (req, res) => {
     try {
         const { startDate, endDate, vessel_type, companyname } = req.query;
@@ -2562,23 +2585,17 @@ const crewList = async (req, res) => {
 
         // Construct the filtering criteria for contracts based on sign_on and sign_off dates
         const contractFilterCriteria = {
-            [Op.and]: [
-              { sign_off: null },
-              { 
-                [Op.or]: [
-                  { sign_on: { [Op.lte]: endDate } },
-                  { 
-                    sign_off: {
-                      [Op.and]: [
-                        { [Op.gte]: startDate },
-                        { [Op.lte]: endDate }
-                      ]
-                    }
-                  }
-                ]
-              }
-            ]
-          };
+            [Op.or]: [
+                { sign_on: { [Op.lte]: '2024-05-29' } },
+                {
+                    [Op.and]: [
+                        { sign_off: { [Op.gte]: '2024-05-15' } },
+                        { sign_off: { [Op.lte]: '2024-05-29' } }
+                    ]
+                }
+            ],
+            sign_off: null 
+        };
 
         // Add vessel name condition if present
         if (vslName) {
@@ -2612,21 +2629,28 @@ const crewList = async (req, res) => {
 
 const reliefPlan = async (req, res) => {
     try {
-    const {startDate,endDate} = req.query
-    console.log(startDate,endDate)
+        const { startDate  } = req.query;
+        console.log(startDate);
+
         // Fetching candidates and including the associated contracts with specified conditions
         const candidatesWithContracts = await Contract.findAll({
             where: {
-                eoc: { [Op.lte]: startDate }, // EOC is present
-                sign_off: null // Sign-off date is not present
+                sign_off: null, // Conditions related to c_sign_off field
+                eoc: {
+                    [Op.lte]: startDate // Condition for c_eoc field
+                },
+                // Additional conditions can be added here if needed
             },
             include: {
                 model: Candidate,
-               
-            }
+                where: {
+                    // Conditions related to the Candidate model can be added here
+                },
+            },
+            order: [
+                ['eoc', 'ASC'] // Ordering by c_eoc field ascending
+            ]
         });
-
-        // Extracting relief plan contracts from the fetched candidates
 
         // Send the relief plan contracts data to the client
         res.json(candidatesWithContracts);
@@ -2635,6 +2659,7 @@ const reliefPlan = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 const mis = async (req, res) => {
     try {
