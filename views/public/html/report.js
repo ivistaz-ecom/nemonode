@@ -1096,8 +1096,8 @@ if (reports) {
 
 document.getElementById('dueForRenewalForm').addEventListener('submit', handleDueForRenewalSubmit);
 async function handleOnBoardSubmit(event) {
-    event.preventDefault(); // Prevent default form submission behavior
-
+    event.preventDefault();
+    let index =0;
     try {
         const token = localStorage.getItem('token');
         const startDate = document.getElementById('startDateo').value;
@@ -1108,117 +1108,76 @@ async function handleOnBoardSubmit(event) {
         const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
             params: {
                 startDate: startDate,
-                companyname:companyname,
-                vslName:vesselDropdown,
+                companyname: companyname,
+                vslName: vesselDropdown,
             },
             headers: {
                 "Authorization": token
             }
         });
 
-        // Assuming the server sends back some data
-        const onboardCandidates = response;
-        console.log(response);
-        
-        // Clear existing table body, if any
+        const contracts = response.data.contracts;
         const tableBody = document.getElementById('onBoardTableBody');
-        tableBody.innerHTML = '';
+        tableBody.innerHTML = ''; // Clear existing table rows
 
-        // Create table rows for each onboard candidate
-        onboardCandidates.forEach(candidate => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${candidate.candidateId}</td>
-                <td>${candidate.fname} ${candidate.lname}</td>
-                <td>${candidate.c_rank}</td>
-                <td>${candidate.nationality}</td>
-                <td>${candidate.dob}</td>
-                <td>${calculateAge(candidate.dob)}</td>
-                <td>${candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : ''}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : ''}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : ''}</td>
-                <td>${candidate.c_vessel}</td>
+        const rows = contracts.map(contract => {
+            const candidate = contract.Candidate || {};
+            return `
+                <tr>
+                <td style="font-size: 8px;">${index++}</td>
+                <td ><button onclick="viewCandidate(${contract.candidateId})" class="btn btn-link">${contract.candidateId}</button></td>
+                <td style="font-size: 8px;">${candidate.fname}</td>
+                    <td style="font-size: 8px;">${contract.rank}</td>
+                    <td style="font-size: 8px;">${candidate.nationality}</td>
+                    <td style="font-size: 8px;">${candidate.dob}</td>
+                    <td style="font-size: 8px;">${calculateAge(candidate.dob)}</td>
+                    <td style="font-size: 8px;">${contract.sign_on}</td>
+                    <td style="font-size: 8px;">${contract.sign_on_port}</td>
+                    <td style="font-size: 8px;">${contract.vslname}</td>
+                </tr>
             `;
-            tableBody.appendChild(row);
-        });
+        }).join('');
+
+        tableBody.innerHTML = rows;
 
         // Check if the user has access to reports
         const decodedToken = decodeToken(token);
-        const reports = decodedToken.reports;
+        const reports = decodedToken ? decodedToken.reports : false;
 
-        if (reports === true) {
-            // Add export to Excel button
+        if (reports && !document.getElementById('exportButton')) {
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-dark', 'mb-3','text-success');
-            exportButton.addEventListener('click', async () => {
-                try {
-                    // Create table element
-                    const table = document.createElement('table');
-                    table.classList.add('table', 'table-bordered');
+            exportButton.id = 'exportButton';
+            exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
+            exportButton.addEventListener('click', exportToExcel);
 
-                    // Create table header
-                    const tableHeader = document.createElement('thead');
-                    const headerRow = document.createElement('tr');
-                    const headers = ['Candidate ID', 'Name', 'Rank', 'Nationality', 'Date of Birth', 'Age', 'Document Number', 'Sign On Date', 'Sign On Port', 'Vessel'];
-                    headers.forEach(headerText => {
-                        const header = document.createElement('th');
-                        header.textContent = headerText;
-                        header.scope = 'col';
-                        header.classList.add('text-center');
-                        headerRow.appendChild(header);
-                    });
-                    tableHeader.appendChild(headerRow);
-                    table.appendChild(tableHeader);
-
-                    // Create table body
-                    const tableBody = document.createElement('tbody');
-                    onboardCandidates.forEach(candidate => {
-                        const row = document.createElement('tr');
-                        const fields = [
-                            candidate.candidateId,
-                            `${candidate.fname} ${candidate.lname}`,
-                            candidate.c_rank,
-                            candidate.nationality,
-                            candidate.dob,
-                            calculateAge(candidate.dob),
-                            candidate.cDocuments.length > 0 ? candidate.cDocuments[0].document_number : '',
-                            candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
-                            candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on_port : '',
-                            candidate.c_vessel
-                        ];
-                        fields.forEach(field => {
-                            const cell = document.createElement('td');
-                            cell.textContent = field;
-                            cell.classList.add('text-center');
-                            row.appendChild(cell);
-                        });
-                        tableBody.appendChild(row);
-                    });
-                    table.appendChild(tableBody);
-
-                    // Export to Excel
-                    const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                    await XLSX.writeFile(wb, 'onboardCandidates.xlsx');
-                } catch (error) {
-                    console.error('Error exporting to Excel:', error);
-                }
-            });
-
-            // Append export button above the table
             const tableContainer = document.getElementById('onBoardTable');
             tableContainer.parentNode.insertBefore(exportButton, tableContainer);
         }
-
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching onboard contracts:", error);
+        // Handle error (e.g., display a message to the user)
     }
 }
 
 
 
 
+async function exportToExcel() {
+    try {
+        const table = document.getElementById('onBoardTable');
+        const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+        await XLSX.writeFile(wb, 'onboardCandidates.xlsx');
+    } catch (error) {
+        console.error('Error exporting to Excel:', error);
+    }
+}
 
+
+function viewCandidate(candidateId) {
+    localStorage.setItem('memId', candidateId);
+    window.location.href = './view-candidate.html';
+}
 
 // Function to calculate age based on date of birth
 function calculateAge(dob) {
@@ -1237,8 +1196,11 @@ const handleReminder = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-        const startDate = document.getElementById('startDatedr').value;
-        const endDate = document.getElementById('endDatedr').value;
+        let startDate = document.getElementById('startDatedr').value;
+        startDate+='T00:00:00Z';
+
+        let endDate = document.getElementById('endDatedr').value;
+        endDate = endDate + 'T23:59:59Z';
 
         // Function to fetch discussion reminders based on date filters
         const fetchData = async (startDate, endDate) => {
@@ -1326,128 +1288,204 @@ const dateFilterForm = document.getElementById('dateFilterForm');
 dateFilterForm.addEventListener('submit', handleReminder);
 
 
+// async function handleCrewList(event) {
+//     event.preventDefault();
+//     try {
+//         const startDate = document.getElementById('startDatecl').value;
+//         const endDate = document.getElementById('endDatecl').value;
+//         const vslName = document.getElementById('vsl').value || null;
+//         const companyname = document.getElementById('user_client5').value || null;
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vslName: vslName,
+//             company: companyname
+//         };
+
+//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//             params: params
+//         });
+        
+//         const crewlistCandidates = response.data.contracts; // Accessing the contracts array
+
+//         // Render crew list table
+//         const crewListTableBody = document.getElementById('crewListTableBody');
+//         crewListTableBody.innerHTML = ''; // Clear existing rows
+
+//         if (crewlistCandidates && crewlistCandidates.length > 0) {
+//             let index = 1;
+//             crewlistCandidates.forEach(contract => {
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td style='font-size:8px;'>${index++}</td>
+//                     <td style="font-size: 8px;">${contract.candidateId}</td>
+//                     <td style="font-size: 8px;">${contract.Candidate ? contract.Candidate.firstName : ''}</td>
+//                     <td style="font-size: 8px;">${contract.Candidate ? contract.Candidate.nationality : ''}</td>
+//                     <td style="font-size: 8px;">${contract.rank}</td>
+//                     <td style="font-size: 8px;">${contract.vslname}</td>
+//                     <td>${contract.wages}</td>
+//                     <td>${contract.wages_types}</td>
+//                     <td>${contract.sign_on}</td>
+//                     <td>${contract.sign_off}</td>
+//                     <td style="font-size: 8px;">${getDocumentNumber(contract, 'Passport')}</td>
+//                     <td style="font-size: 8px;">${getDocumentNumber(contract, 'INDIAN CDC')}</td>
+//                     <td style="font-size: 8px;">${getDocumentNumber(contract, 'INDOS')}</td>
+//                 `;
+//                 crewListTableBody.appendChild(row);
+//             });
+//         } else {
+//             // No data message
+//             crewListTableBody.innerHTML = '<tr><td colspan="13">No data available</td></tr>';
+//         }
+
+//         // Check if the user has access to reports
+//         const token = localStorage.getItem('token');
+//         const decodedToken = decodeToken(token);
+//         const reports = decodedToken.reports;
+
+//         if (reports === true) {
+//             // Add export to Excel button above the table
+//             const exportButton = document.createElement('button');
+//             exportButton.textContent = 'Export to Excel';
+//             exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
+//             exportButton.addEventListener('click', () => {
+//                 exportCrewListToExcel(crewlistCandidates);
+//             });
+
+//             const crewListTable = document.getElementById('crewlisttable');
+//             crewListTable.parentNode.insertBefore(exportButton, crewListTable);
+//         }
+//     } catch (error) {
+//         console.error("Error handling crew list:", error);
+//         // Handle error here, maybe show an error message to the user
+//     }
+// }
+
+
 async function handleCrewList(event) {
     event.preventDefault();
-
     try {
         const startDate = document.getElementById('startDatecl').value;
         const endDate = document.getElementById('endDatecl').value;
+        
+        // Check if startDate and endDate are empty
+        if (!startDate || !endDate) {
+            console.error("Start date and end date are required");
+            // Show a message to the user indicating that start date and end date are required
+            return;
+        }
+
         const vslName = document.getElementById('vsl').value || null;
         const companyname = document.getElementById('user_client5').value || null;
+
         const params = {
             startDate: startDate,
             endDate: endDate,
             vslName: vslName,
-            company:companyname
+            company: companyname
         };
 
         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
             params: params
         });
-        console.log(response)
-        const crewlistCandidates = response.data;
+        
+        const crewlistCandidates = response.data.contracts; // Accessing the contracts array
 
-        // Render crew list table
         const crewListTableBody = document.getElementById('crewListTableBody');
         crewListTableBody.innerHTML = ''; // Clear existing rows
-
-        crewlistCandidates.forEach(candidate => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td style="font-size: 8px;">${candidate.candidateId}</td>
-                <td style="font-size: 8px;">${candidate.fname}</td>
-                <td style="font-size: 8px;">${candidate.nationality}</td>
-                <td style="font-size: 8px;">${candidate.c_rank}</td>
-                <td style="font-size: 8px;">${candidate.c_vessel}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : ''}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : ''}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : ''}</td>
-                <td>${candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : ''}</td>
-                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'Passport')}</td>
-                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'INDIAN CDC')}</td>
-                <td style="font-size: 8px;">${getDocumentNumber(candidate, 'INDOS')}</td>
-            `;
-            crewListTableBody.appendChild(row);
-        });
-
-        // Check if the user has access to reports
-        const token = localStorage.getItem('token');
-        const decodedToken = decodeToken(token);
-        const reports = decodedToken.reports;
-
-        if (reports === true) {
-            // Add export to Excel button above the table
-            const exportButton = document.createElement('button');
-            exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
-            exportButton.addEventListener('click', () => {
-                exportCrewListToExcel(crewlistCandidates);
+        
+        if (crewlistCandidates && crewlistCandidates.length > 0) {
+            let index = 1;
+            crewlistCandidates.forEach(contract => {
+                console.log(contract);
+        
+                // Check if contract.Candidate exists and has valid properties
+            
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index++}</td>
+                    <td>${contract.candidateId}</td>
+                   
+                    <td>${contract.rank}</td>
+                    <td>${contract.vesselType}</td>
+                    <td>${contract.wages}</td>
+                    <td>${contract.wages_types}</td>
+                    <td>${contract.sign_on}</td>
+                    <td>${contract.sign_off}</td>
+                 
+                `;
+                crewListTableBody.appendChild(row);
             });
-
-            const crewListTable = document.getElementById('crewlisttable');
-            crewListTable.parentNode.insertBefore(exportButton, crewListTable);
+        } else {
+            // No data message
+            crewListTableBody.innerHTML = '<tr><td colspan="13">No data available</td></tr>';
         }
+        
     } catch (error) {
         console.error("Error handling crew list:", error);
+        // Handle error here, maybe show an error message to the user
     }
 }
 
 
-function exportCrewListToExcel(crewlistCandidates) {
-    try {
-        // Create table element
-        const table = document.createElement('table');
-        table.classList.add('table', 'table-bordered');
 
-        // Create table header
-        const tableHeader = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'Name', 'Nationality', 'Rank', 'Vessel', 'Wages', 'Wages Types', 'Sign On Date', 'Sign Off Date', 'Passport', 'INDIAN CDC', 'INDOS'];
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            header.scope = 'col';
-            header.classList.add('text-center');
-            headerRow.appendChild(header);
-        });
-        tableHeader.appendChild(headerRow);
-        table.appendChild(tableHeader);
 
-        // Create table body
-        const tableBody = document.createElement('tbody');
-        crewlistCandidates.forEach(candidate => {
-            const row = document.createElement('tr');
-            const fields = [
-                candidate.candidateId,
-                candidate.fname,
-                candidate.nationality,
-                candidate.c_rank,
-                candidate.c_vessel,
-                candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : '',
-                candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : '',
-                candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
-                candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : '',
-                getDocumentNumber(candidate, 'Passport'),
-                getDocumentNumber(candidate, 'INDIAN CDC'),
-                getDocumentNumber(candidate, 'INDOS')
-            ];
-            fields.forEach(field => {
-                const cell = document.createElement('td');
-                cell.textContent = field;
-                cell.classList.add('text-center');
-                row.appendChild(cell);
-            });
-            tableBody.appendChild(row);
-        });
-        table.appendChild(tableBody);
 
-        // Export to Excel
-        const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-        XLSX.writeFile(wb, 'crewlistCandidates.xlsx');
-    } catch (error) {
-        console.error('Error exporting to Excel:', error);
-    }
-}
+// function exportCrewListToExcel(crewlistCandidates) {
+//     try {
+//         // Create table element
+//         const table = document.createElement('table');
+//         table.classList.add('table', 'table-bordered');
+
+//         // Create table header
+//         const tableHeader = document.createElement('thead');
+//         const headerRow = document.createElement('tr');
+//         const headers = ['Candidate ID', 'Name', 'Nationality', 'Rank', 'Vessel', 'Wages', 'Wages Types', 'Sign On Date', 'Sign Off Date', 'Passport', 'INDIAN CDC', 'INDOS'];
+//         headers.forEach(headerText => {
+//             const header = document.createElement('th');
+//             header.textContent = headerText;
+//             header.scope = 'col';
+//             header.classList.add('text-center');
+//             headerRow.appendChild(header);
+//         });
+//         tableHeader.appendChild(headerRow);
+//         table.appendChild(tableHeader);
+
+//         // Create table body
+//         const tableBody = document.createElement('tbody');
+//         crewlistCandidates.forEach(candidate => {
+//             const row = document.createElement('tr');
+//             const fields = [
+//                 candidate.candidateId,
+//                 candidate.fname,
+//                 candidate.nationality,
+//                 candidate.c_rank,
+//                 candidate.c_vessel,
+//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : '',
+//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : '',
+//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
+//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : '',
+//                 getDocumentNumber(candidate, 'Passport'),
+//                 getDocumentNumber(candidate, 'INDIAN CDC'),
+//                 getDocumentNumber(candidate, 'INDOS')
+//             ];
+//             fields.forEach(field => {
+//                 const cell = document.createElement('td');
+//                 cell.textContent = field;
+//                 cell.classList.add('text-center');
+//                 row.appendChild(cell);
+//             });
+//             tableBody.appendChild(row);
+//         });
+//         table.appendChild(tableBody);
+
+//         // Export to Excel
+//         const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+//         XLSX.writeFile(wb, 'crewlistCandidates.xlsx');
+//     } catch (error) {
+//         console.error('Error exporting to Excel:', error);
+//     }
+// }
 
 
 function getDocumentNumber(candidate, documentType) {
@@ -1680,6 +1718,11 @@ dateFilterForms.addEventListener('submit', async (event) => {
 // Function to fetch discussion reminders based on date filters
 async function fetchData(startDate, endDate) {
     try {
+        // Check if either startDate or endDate is empty, if so, throw an error
+        if (!startDate || !endDate) {
+            throw new Error('Both startDate and endDate must be provided.');
+        }
+
         const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         renderDiscussionReminders(response.data.discussions);
@@ -1688,11 +1731,13 @@ async function fetchData(startDate, endDate) {
     }
 }
 
+
 // Function to render discussion reminders
 function renderDiscussionReminders(discussions) {
     const discussionList = document.getElementById('discussionList');
     discussionList.innerHTML = ''; // Clear existing items
 
+    
     discussions.forEach(discussion => {
         // Calculate the status based on the r_date
         const reminderDate = new Date(discussion.r_date);
@@ -1713,6 +1758,7 @@ function renderDiscussionReminders(discussions) {
         listItem.innerHTML = `
             <div class="d-flex justify-content-between">
                 <div>
+                
                     <h5 class="mb-1 d-flex align-items-center">Candidate ID: <button class="btn btn-link candidate-btn" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
                     <p class="mb-1">Discussion: ${discussion.discussion}</p>
                 </div>
