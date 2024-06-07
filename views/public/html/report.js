@@ -75,6 +75,14 @@ async function handleNewProfileSubmit(event) {
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
+
+        // Add Serial Number column header
+        const snHeader = document.createElement('th');
+        snHeader.textContent = 'S.No';
+        snHeader.classList = 'fw-bolder bg-dark text-white';
+        headerRow.appendChild(snHeader);
+
+        // Add other field columns
         for (const field in selectedFields) {
             if (selectedFields[field]) {
                 const th = document.createElement('th');
@@ -88,8 +96,15 @@ async function handleNewProfileSubmit(event) {
 
         // Create table body
         const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
+        candidates.forEach((candidate, index) => {
             const row = document.createElement('tr');
+
+            // Add Serial Number cell
+            const snCell = document.createElement('td');
+            snCell.textContent = index + 1; // Serial Number starts from 1
+            row.appendChild(snCell);
+
+            // Add other field cells
             for (const field in selectedFields) {
                 if (selectedFields[field]) {
                     const cell = document.createElement('td');
@@ -100,7 +115,7 @@ async function handleNewProfileSubmit(event) {
             tableBody.appendChild(row);
         });
         table.appendChild(tableBody);
-        
+
         // Append table to container
         tableContainer.appendChild(table);
 
@@ -184,6 +199,12 @@ async function handleCallsMadeSubmit(event) {
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
 
+        // Add Serial Number column header
+        const snHeader = document.createElement('th');
+        snHeader.textContent = 'S.No';
+        snHeader.classList = 'fw-bolder bg-warning text-white';
+        headerRow.appendChild(snHeader);
+
         // Add candidateId as the first column
         const candidateIdTh = document.createElement('th');
         candidateIdTh.textContent = 'candidateId';
@@ -204,9 +225,14 @@ async function handleCallsMadeSubmit(event) {
 
         // Create table body
         const tableBody = document.createElement('tbody');
-        response.data.callsMade.forEach(call => {
+        response.data.callsMade.forEach((call, index) => {
             const row = document.createElement('tr');
             
+            // Add Serial Number cell
+            const snCell = document.createElement('td');
+            snCell.textContent = index + 1; // Serial Number starts from 1
+            row.appendChild(snCell);
+
             // Add candidateId from discussion as the first cell in each row
             const candidateIdCell = document.createElement('td');
             candidateIdCell.textContent = call.candidateId || 'N/A';
@@ -337,7 +363,7 @@ async function handleDiscussionSubmit(event) {
         // Create table header
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['Candidate ID', 'First Name', 'Last Name', 'Rank', 'Vessel', 'Category', 'Nationality', 'Join Date'];
+        const headers = ['S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 'Vessel', 'Category', 'Nationality', 'Join Date'];
         headers.forEach(headerText => {
             const header = document.createElement('th');
             header.textContent = headerText;
@@ -350,9 +376,10 @@ async function handleDiscussionSubmit(event) {
 
         // Create table body
         const tableBody = document.createElement('tbody');
-        candidates.forEach(candidate => {
+        candidates.forEach((candidate, index) => {
             const row = document.createElement('tr');
             const fields = [
+                index + 1, // Serial Number (S.No)
                 candidate.candidateId,
                 candidate.Candidate.fname,
                 candidate.Candidate.lname,
@@ -391,6 +418,7 @@ async function handleDiscussionSubmit(event) {
         console.error(error);
     }
 }
+
 
 
 
@@ -969,120 +997,84 @@ async function handleDueForRenewalSubmit(event) {
         const documentCandidates = response.data.documentCandidates;
         const medicalCandidates = response.data.medicalCandidates;
 
+        // Function to create table row with serial number
+        const createRowWithSerialNumber = (candidate, fields) => {
+            const row = document.createElement('tr');
+            const snCell = document.createElement('td');
+            snCell.textContent = fields.sn++;
+            snCell.classList.add('text-center');
+            row.appendChild(snCell);
+
+            fields.keys.forEach(field => {
+                const cell = document.createElement('td');
+                cell.textContent = candidate[field];
+                cell.classList.add('text-center');
+                row.appendChild(cell);
+            });
+            
+            const statusCell = document.createElement('td');
+            const expiryDate = new Date(candidate['expiry_date']);
+            const today = new Date();
+            const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+            let statusText, statusClass;
+            if (expiryDate < today) {
+                statusText = 'Expired';
+                statusClass = 'bg-danger';
+            } else if (expiryDate.toDateString() === today.toDateString()) {
+                statusText = 'Expiring today';
+                statusClass = 'bg-warning';
+            } else {
+                statusText = `Expires in ${daysUntilExpiry} days`;
+                statusClass = 'bg-success';
+            }
+            const badge = document.createElement('span');
+            badge.textContent = statusText;
+            badge.classList.add('badge', statusClass);
+            statusCell.appendChild(badge);
+            statusCell.classList.add('text-center');
+            row.appendChild(statusCell);
+
+            return row;
+        };
+
+        // Function to create table row for document candidates
+        const createDocumentRow = (candidate, fields) => {
+            return createRowWithSerialNumber(candidate, fields);
+        };
+
+        // Function to create table row for medical candidates
+        const createMedicalRow = (candidate, fields) => {
+            return createRowWithSerialNumber(candidate, fields);
+        };
+
         // Clear existing tables, if any
-       
+        const documentTableBody = document.getElementById('documentCandidatesTableBody');
+        const medicalTableBody = document.getElementById('medicalCandidatesTableBody');
+        documentTableBody.innerHTML = '';
+        medicalTableBody.innerHTML = '';
 
-        // Function to create table row
-    // Function to create table row for document candidates
-// Function to create table row for document candidates
-// Function to create table row for document candidates
-// Function to create table row for document candidates
-// Function to create table row for document candidates
-const createDocumentRow = (candidate) => {
-    const row = document.createElement('tr');
-    
-    // Add document fields
-    const documentFields = ['document', 'expiry_date'];
-    documentFields.forEach(field => {
-        const cell = document.createElement('td');
-        cell.textContent = candidate[field];
-        cell.classList.add('text-center');
-        row.appendChild(cell);
-    });
-    
-    // Add status column
-    const statusCell = document.createElement('td');
-    const expiryDate = new Date(candidate['expiry_date']);
-    const today = new Date();
-    const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
-    let statusText, statusClass;
-    if (expiryDate < today) {
-        statusText = 'Expired';
-        statusClass = 'bg-danger';
-    } else if (expiryDate.toDateString() === today.toDateString()) {
-        statusText = 'Expiring today';
-        statusClass = 'bg-warning';
-    } else {
-        statusText = `Expires in ${daysUntilExpiry} days`;
-        statusClass = 'bg-success';
-    }
-    const badge = document.createElement('span');
-    badge.textContent = statusText;
-    badge.classList.add('badge', statusClass);
-    statusCell.appendChild(badge);
-    statusCell.classList.add('text-center');
-    row.appendChild(statusCell);
+        // Populate table with documentCandidates data
+        let documentFields = { keys: ['document', 'expiry_date'], sn: 1 };
+        documentCandidates.forEach(candidate => {
+            documentTableBody.appendChild(createDocumentRow(candidate, documentFields));
+        });
 
-    return row;
-};
+        // Populate table with medicalCandidates data
+        let medicalFields = { keys: ['hospitalName', 'place', 'expiry_date'], sn: 1 };
+        medicalCandidates.forEach(candidate => {
+            medicalTableBody.appendChild(createMedicalRow(candidate, medicalFields));
+        });
 
-// Function to create table row for medical candidates
-const createMedicalRow = (candidate) => {
-    const row = document.createElement('tr');
-    
-    // Add medical fields
-    const medicalFields = ['hospitalName', 'place', 'expiry_date'];
-    medicalFields.forEach(field => {
-        const cell = document.createElement('td');
-        cell.textContent = candidate[field];
-        cell.classList.add('text-center');
-        row.appendChild(cell);
-    });
-    
-    // Add status column
-    const statusCell = document.createElement('td');
-    const expiryDate = new Date(candidate['expiry_date']);
-    const today = new Date();
-    const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
-    let statusText, statusClass;
-    if (expiryDate < today) {
-        statusText = 'Expired';
-        statusClass = 'bg-danger';
-    } else if (expiryDate.toDateString() === today.toDateString()) {
-        statusText = 'Expiring today';
-        statusClass = 'bg-warning';
-    } else {
-        statusText = `Expires in ${daysUntilExpiry} days`;
-        statusClass = 'bg-success';
-    }
-    const badge = document.createElement('span');
-    badge.textContent = statusText;
-    badge.classList.add('badge', statusClass);
-    statusCell.appendChild(badge);
-    statusCell.classList.add('text-center');
-    row.appendChild(statusCell);
+        // Check if the user has access to reports
+        const token = localStorage.getItem('token');
+        const decodedToken = decodeToken(token);
+        const reports = decodedToken.reports;
 
-    return row;
-};
-
-
-// Clear existing tables, if any
-const documentTableBody = document.getElementById('documentCandidatesTableBody');
-const medicalTableBody = document.getElementById('medicalCandidatesTableBody');
-documentTableBody.innerHTML = '';
-medicalTableBody.innerHTML = '';
-
-// Populate table with documentCandidates data
-documentCandidates.forEach(candidate => {
-    documentTableBody.appendChild(createDocumentRow(candidate));
-});
-
-// Populate table with medicalCandidates data
-medicalCandidates.forEach(candidate => {
-    medicalTableBody.appendChild(createMedicalRow(candidate));
-});
-
-// Check if the user has access to reports
-const token = localStorage.getItem('token');
-const decodedToken = decodeToken(token);
-const reports = decodedToken.reports;
-console.log(decodedToken)
-
-// Hide export buttons if the user has access to reports
-if (reports) {
-    document.getElementById('exportDocumentCandidates').style.display = 'block';
-    document.getElementById('exportMedicalCandidates').style.display = 'block';
-}
+        // Hide export buttons if the user has access to reports
+        if (reports) {
+            document.getElementById('exportDocumentCandidates').style.display = 'block';
+            document.getElementById('exportMedicalCandidates').style.display = 'block';
+        }
 
     } catch (error) {
         console.error(error);

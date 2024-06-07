@@ -244,6 +244,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 'Authorization': token
             }
         });
+        console.log(hospitalResponse)
        const hospitalsmed = hospitalResponse.data.hospital
         const hospitals = {}; // Map to store company details by ID
         hospitalsmed.forEach(hospital => {
