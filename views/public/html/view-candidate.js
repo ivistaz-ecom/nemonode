@@ -231,6 +231,7 @@ function formatDates(dateString) {
 
 
 async function fetchAndDisplayMedicalDetails(candidateId) {
+    const token= localStorage.getItem('token')
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-hospital-details/${candidateId}`, {
             headers: {
@@ -244,16 +245,13 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 'Authorization': token
             }
         });
-       const hospitalsmed = hospitalResponse.data.hospital
-        const hospitals = {}; // Map to store company details by ID
-        hospitalsmed.forEach(hospital => {
-            hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
+
+        const hospitals = {}; // Map to store hospital details by ID
+        hospitalResponse.data.forEach(hospital => {
+            hospitals[hospital.id] = hospital.hospitalName; // Store hospital details by ID
         });
 
-
-
         const medicalDetails = response.data;
-        console.log(medicalDetails)
         const medicalTableBody = document.getElementById('hospitalTableBody');
         medicalTableBody.innerHTML = ''; // Clear existing rows
 
@@ -265,7 +263,8 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 cell.textContent = value;
                 return cell;
             };
-            const hospitalName = hospitals[medical.hospitalName];
+
+            const hospitalName = hospitals[medical.hospitalId]; // Corrected to use hospital ID from the response
 
             // Add data to each cell
             row.appendChild(createCell(hospitalName));
@@ -276,6 +275,13 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             row.appendChild(createCell(medical.status));
             row.appendChild(createCell(medical.amount));
             row.appendChild(createCell(medical.upload));
+            
+            const linkCell = document.createElement('td');
+            const link = document.createElement('a');
+            link.href = `https://nemo.ivistaz.co/views/public/uploads/medical/${medical.upload}`;
+            link.textContent = 'Click here to view!';
+            linkCell.appendChild(link);
+            row.appendChild(linkCell);
 
             const actionsCell = document.createElement('td');
             const editButton = document.createElement('button');
@@ -300,6 +306,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
         console.error(err);
     }
 }
+
 
 const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
     event.preventDefault();
