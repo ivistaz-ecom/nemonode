@@ -106,7 +106,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.passbook}</td>
             <td>${bank.pan_num}</td>
             <td>${bank.pan_card}</td>
-            <td><a href='https://nemo.ivistaz.co/views/public/uploads/${doc.document_files}'>Click here to view!</a></td>
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.pan_card}'>Click here to view!</a></td>
 
             <td>
             <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' event)">
