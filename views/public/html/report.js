@@ -1,5 +1,7 @@
-
-
+let nationalityData; // Variable to store nationality data globally
+let vslsData;
+let userData;
+let companyData;
 
 
 
@@ -108,7 +110,13 @@ async function handleNewProfileSubmit(event) {
             for (const field in selectedFields) {
                 if (selectedFields[field]) {
                     const cell = document.createElement('td');
-                    cell.textContent = candidate[field];
+                    if (field === 'nationality' && candidate[field]) {
+                        // Replace code with nationality name
+                        const nationalityName = getNationalityName(candidate[field]);
+                        cell.textContent = nationalityName;
+                    } else {
+                        cell.textContent = candidate[field];
+                    }
                     row.appendChild(cell);
                 }
             }
@@ -136,6 +144,8 @@ async function handleNewProfileSubmit(event) {
     }
 }
 
+// Function to get nationality name from code
+
 
 // Function to handle submission of Calls Made form
 // Function to handle submission of Calls Made form
@@ -156,6 +166,9 @@ async function handleCallsMadeSubmit(event) {
         const category = document.getElementById('category').value;
         const decodedToken = decodeToken(token);
         const reports = decodedToken.reports;
+
+        // Fetch necessary data including nationality
+        await getReq();
 
         // Send data to server using Axios
         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
@@ -220,6 +233,13 @@ async function handleCallsMadeSubmit(event) {
                 headerRow.appendChild(th);
             }
         });
+
+        // Add nationality column header
+        const nationalityHeader = document.createElement('th');
+        nationalityHeader.textContent = 'Nationality';
+        nationalityHeader.classList = 'fw-bolder bg-warning text-white';
+        headerRow.appendChild(nationalityHeader);
+
         tableHeader.appendChild(headerRow);
         table.appendChild(tableHeader);
 
@@ -244,6 +264,12 @@ async function handleCallsMadeSubmit(event) {
                 cell.textContent = value || 'N/A';
                 row.appendChild(cell);
             });
+
+            // Add nationality cell
+            const nationalityCell = document.createElement('td');
+            nationalityCell.textContent = getNationalityName(call.Candidate.nationality);
+            row.appendChild(nationalityCell);
+
             tableBody.appendChild(row);
         });
 
@@ -2127,20 +2153,22 @@ function formatDate(dateString) {
   async function getReq() {
     try {
         const token = localStorage.getItem('token');
+        
+        // Fetch nationality data
+        const nationalityResponse = await axios.get("https://nemo.ivistaz.co/others/country-codes");
+        nationalityData = nationalityResponse.data.countryCodes;
+        
+        // Fetch other necessary data
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
-        console.log('VSLS',serverResponse.data)
-
-        const serverResponsecomp= await axios.get('https://nemo.ivistaz.co/user/userdropdown');
-        console.log('USER',serverResponsecomp.data)
-
-        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/company/dropdown-company')
-        console.log('COMP',serverResponseUser.data.companies)
-
-        const nationality =await axios.get("https://nemo.ivistaz.co/others/country-codes")
-        console.log('CC',nationality.data.countryCodes)
+        vslsData= serverResponse.data
+        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/user/userdropdown');
+        userData = serverResponseUser.data
+        const serverResponsecomp = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');
+        companyData= serverResponsecomp.data.companies
+        console.log('Data fetched successfully');
     }
     catch(err){
-        console.log(err)
+        console.log(err);
     }
 }
 getReq()
@@ -2167,3 +2195,9 @@ const displayDropdown = async function () {
     }
 }
 displayDropdown()
+
+function getNationalityName(code) {
+    console.log(nationalityData,code)
+    const nationality = nationalityData.find(nationality => nationality.code == code);
+    return nationality ? nationality.country : code;
+}
