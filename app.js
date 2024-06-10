@@ -716,14 +716,14 @@ const upload6 = multer({ storage: storage6 });
 const upload7 = multer({ storage: storage7 });
 const upload8 = multer({ storage: storage8 });
 const evaluationDirectory = '/views/public/files/evaluation';
-const bankDirectory = '/views/public/bank_details';
+const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
-const resumeDirectory = '/views/public/files/resume';
-const ticketsDirectory = '/views/public/files/tickets';
-const documentDirectory = '/views/public/files'
-const contractDirectory = '/views/public/uploads/contract'
-const aoaDirectory = '/views/public/uploads/aoa'
-const medicalDirectory = '/views/public/uploads/medical'
+const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
+const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
+const documentDirectory = '/var/www/html/nemonode/views/public/files'
+const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
+const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
+const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
 // Serve static files from the evaluation directory
 
 app.use(express.static('/views/public/files'));
