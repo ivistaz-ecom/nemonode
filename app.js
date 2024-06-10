@@ -1,10 +1,10 @@
 const express = require("express")
 require('dotenv').config()
-// const fs = require('fs-extra')
+const fs = require('fs-extra')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
-// const multer = require('multer');
+const multer = require('multer');
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
