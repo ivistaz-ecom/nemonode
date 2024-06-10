@@ -725,8 +725,7 @@ const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
 const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
 const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
 // Serve static files from the evaluation directory
-app.use('/evaluation', express.static(evaluationDirectory));
-app.use('/bank', express.static(bankDirectory));
+
 // Serve static files from various directories
 app.use(express.static('/views/public/files'));
 app.use(express.static('/views/public/uploads'));
@@ -738,7 +737,8 @@ app.use('/resume', express.static(resumeDirectory));
 app.use('/contract', express.static(contractDirectory));
 app.use('/aoa', express.static(aoaDirectory));
 app.use('/medical', express.static(medicalDirectory));
-
+app.use('/evaluation', express.static(evaluationDirectory));
+app.use('/bank', express.static(bankDirectory));
 // Route to handle file uploads 
 app.post('/upload', upload.single('pdf'), (req, res) => {
     if (req.file) {
