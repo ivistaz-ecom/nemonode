@@ -598,13 +598,14 @@
                     <table id="candidatesTable" class="table table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <th class="border-0 bg-dark text-white">Nemo Id</th>
+                              <th class="border-0 bg-dark text-white">S.No</th>
+                                <th class="border-0 bg-dark text-white">Nemo&nbsp;Id</th>
                                 <th class="border-0 bg-dark text-white">First Name</th>
                                 <th class="border-0 bg-dark text-white">Last Name</th>
                                 <th class="border-0 bg-dark text-white">Rank</th>
                                 <th class="border-0 bg-dark text-white">Mobile</th>
                                 <th class="border-0 bg-dark text-white">Email</th>
-                                <th class="border-0 bg-dark text-white">Date of Birth</th>
+                                <th class="border-0 bg-dark text-white">Date&nbsp;of Birth</th>
                                 <th class="border-0 bg-dark text-white">Birthday</th>
                             </tr>
                         </thead>
@@ -623,7 +624,7 @@
                 const error = document.getElementById('error');
                 const tableContainer = document.getElementById('tableContainer');
                 const candidatesTable = document.getElementById('candidatesTable').getElementsByTagName('tbody')[0];
-    
+              let index=1;
                 submitBtn.addEventListener('click', function () {
                     const selectedDate = dateInput.value;
                     fetchData(selectedDate);
@@ -675,6 +676,7 @@
                         if (upcomingBirthday.daysUntilBirthday <= 7 || dateInput.value) {
                             const row = `
                                 <tr>
+                                <td>${index++}</td>
                                     <td>${candidate.candidateId}</td>
                                     <td>${candidate.fname}</td>
                                     <td>${candidate.lname}</td>
