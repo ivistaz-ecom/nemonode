@@ -740,7 +740,7 @@ app.use('/evaluation', express.static(evaluationDirectory));
 app.use('/bank', express.static(bankDirectory));
 // Serve static files from various directories
 // Route to handle file uploads 
-app.post('/upload', upload.single('pdf'), (req, res) => {
+app.post('/upload', upload.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
