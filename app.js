@@ -1,10 +1,10 @@
 const express = require("express")
 require('dotenv').config()
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
-const multer = require('multer');
+// const multer = require('multer');
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
@@ -715,8 +715,8 @@ const upload5 = multer({ storage: storage5 });
 const upload6 = multer({ storage: storage6 });
 const upload7 = multer({ storage: storage7 });
 const upload8 = multer({ storage: storage8 });
-const evaluationDirectory = '/var/www/html/nemonode/views/public/files/evaluation';
-const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
+const evaluationDirectory = '/views/public/files/evaluation';
+const bankDirectory = '/views/public/bank_details';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
@@ -726,7 +726,6 @@ const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
 const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
 // Serve static files from the evaluation directory
 
-// Serve static files from various directories
 app.use(express.static('/views/public/files'));
 app.use(express.static('/views/public/uploads'));
 app.use(express.static('/views/public/bank_details'));
@@ -739,6 +738,7 @@ app.use('/aoa', express.static(aoaDirectory));
 app.use('/medical', express.static(medicalDirectory));
 app.use('/evaluation', express.static(evaluationDirectory));
 app.use('/bank', express.static(bankDirectory));
+// Serve static files from various directories
 // Route to handle file uploads 
 app.post('/upload', upload.single('pdf'), (req, res) => {
     if (req.file) {
