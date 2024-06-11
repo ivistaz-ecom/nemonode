@@ -15,8 +15,11 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <style>
-      .small-font {
-    font-size: 10px; /* Adjust the font size as needed */
+ .small-font {
+    font-size: 8px; /* Adjust the font size as needed */
+    overflow: hidden; /* Ensure overflow text is handled */
+    white-space: nowrap; /* Prevent text from wrapping */
+    text-overflow: ellipsis; /* Display ellipsis for overflow text */
 }
 
       .loader {
