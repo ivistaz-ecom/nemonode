@@ -15,6 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <style>
+      
       .loader {
         --r1: 154%;
         --r2: 68.5%;
@@ -638,544 +639,205 @@
                                 <!-- Personnel Content -->
                                 <div id="personnelContent" style="display: none;">
                                     <form id="view-candidate-form" >
-
+                                      <div class="" style="max-height: 600px; width: auto; overflow: auto; font-size: 12px;">
+                                        <div id="imageContainer" class="d-flex justify-content-center mt-2">
+                                          <div id="imageContainer" class="d-flex justify-content-center bg-primary text-white" style="width: 70px; height: 70px; border-radius: 50%; line-height: 70px;">
+                                            No&nbsp;Photo
+                                        </div>
+                                                                              </div>
+                                      
                                         <!-- First set of input fields -->
-                                        <div class="card-body pb-0">
-                                          <div class="col-md-6 border border-secondary-subtle rounded-3" >
-                                            <!-- No need for the hidden input here -->
-                                            <div id="imageContainer">
-                                                <img src="" alt=" &nbsp;No Photo present for the candidate">
-                                            </div>
-                                        </div>
+                                        <div class="p-2">
                                             <div class="row">
-                                              
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                      <input type="hidden" id="candidateId">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_fname"
-                                                            placeholder="John Doe"
-                                                            aria-describedby="firstNameHelp"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_fname">First Name</label>
-                                                    </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_fname">First Name</label>
+                                                    <input type="hidden" id="candidateId">
+                                                    <input type="text" class="form-control" id="edit_candidate_fname" aria-describedby="firstNameHelp" required />
                                                 </div>
-                        
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_lname"
-                                                            placeholder="Doe"
-                                                            aria-describedby="lastNameHelp"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_lnmae">Last Name</label>
-                                                    </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_lname">Last Name</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_lname"  aria-describedby="lastNameHelp" required />
                                                 </div>
-                                            </div>
-                                        </div>
-                        
-                                        <!-- Second set of input fields -->
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_c_rank" class="form-control">
+                                                <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_c_rank">Rank</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_c_rank">
                                                 </div>
-                                            </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="edit_candidate_avb_date"
-                                                            placeholder="Availability"
-                                                            aria-describedby="availabilityHelp"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_avb_date">Availability</label>
-                                                    </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_avb_date">Availability</label>
+                                                    <input type="date" class="form-control" id="edit_candidate_avb_date"  aria-describedby="availabilityHelp" required />
                                                 </div>
-                                            </div>
-                                        </div>
-                        
-                                        <!-- Third set of input fields -->
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_nationality" class="form-control">
-
+                                                <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_nationality">Nationality</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_nationality">
                                                 </div>
-                                            </div>
-                                            
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                      <input type="text" id="edit_company_status" class="form-control">
-                                                        <label for="edit_company_status">Marital Status</label>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                        
-                                        <!-- Fourth set of input fields -->
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="edit_candidate_dob"
-                                                            placeholder="Date of Birth"
-                                                            aria-describedby="dateOfBirthHelp"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_dob">Date of Birth</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_birth_place"
-                                                            placeholder="Birth Place"
-                                                            aria-describedby="birthPlaceHelp"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_birth_place">Birth Place</label>
-                                                    </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_company_status">Marital Status</label>
+                                                    <input type="text" class="form-control" id="edit_company_status">
                                                 </div>
                                             </div>
                                         </div>
-                        
-                                        <!-- Additional sets of input fields -->
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input type="text" id="edit_candidate_work_nautilus" class="form-control">
-
-                                                        <label for="edit_candidate_work_nautilus">Worked with us</label>
-                                                    </div>
-                                                </div>
-                                                
-                        
-                                                <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_c_vessel" class="form-control">
-
-                                                    <label for="edit_candidate_c_vessel">Vessel Type</label>
-                                                </div>
-                                            </div>
-                                            
-                                            </div>
-                                        </div>
-                
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_experience" class="form-control">
-
-                                                    <label for="edit_candidate_experience">Experience</label>
-                                                </div>
-                                            </div>
-                                            
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input type="text" id="edit_candidate_zone" class="form-control">
-
-                                                        <label for="edit_candidate_zone">Zone</label>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_grade" class="form-control">
-
-                                                    <label for="edit_candidate_grade">Grade</label>
-                                                </div>
-                                            </div>
-                                            
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_boiler_suit_size"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_boiler_suit_size">Boiler suit size</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_safety_shoe_size"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_safety_shoe_size">Safety Shoe Size</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_height"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_height">Height(cm)</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_weight"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_weight">Weight (KGS)</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_I_country" class="form-control">
-
-                                                    <label for="edit_candidate_I_country">License Country</label>
-                                                </div>
-                                            </div>
-                                            
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_indos_number"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_indos_number">INDOS Number</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input type="text" id="edit_candidate_company_status" class="form-control">
-
-                                                        <label for="edit_candidate_company_status">Candidate Status</label>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" id="edit_candidate_group" class="form-control">
-
-                                                    <label for="edit_candidate_group">Group</label>
-                                                </div>
-                                            </div>
-                                            
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_vendor"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_vendor">Vendor</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0 pt-4 ">
-                                          <div class="col-md-12">
-                                                 <div class="form-floating">
-                                                     <select id="edit_candidate_us_visa" class="form-select" required>
-                                                         <option value="" disabled selected>-- Select Option --</option>
-                                                         <option value="1">Yes</option>
-                                                         <option value="0">No</option>
-                    \                                    </select>
-                                                     <label for="edit_candidate_us_visa">US Visa</label>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                        
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_ad1"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_c_ad1">Address</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_ad2"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_c_ad2">Address</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_city"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_city">City</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_state"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_c_state">State</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_p_city"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_p_city">City</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_p_state"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_p_state">State</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_pin"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_pin">Pincode</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_p_pin"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_p_pin">Pincode</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                            <div class="row">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_mobi1"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_c_mobi1">Mobile</label>
-                                                    </div>
-                                                </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_mobi2"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            required
-                                                        />
-                                                        <label for="edit_candidate_c_mobi2">Mobile</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body pb-0">
-                                          <div class="row">
-                                              <div class="col-md-6 mb-0">
-                                                  <div class="form-floating">
-                                                      <input
-                                                          type="text"
-                                                          class="form-control"
-                                                          id="edit_candidate_email1"
-                                                          placeholder="Field X"
-                                                          aria-describedby="fieldX_1_Help"
-                                                          required
-                                                      />
-                                                      <label for="edit_candidate_email1">Email</label>
-                                                  </div>
-                                              </div>
-                      
-                                              <div class="col-md-6 mb-0">
-                                                  <div class="form-floating">
-                                                      <input
-                                                          type="text"
-                                                          class="form-control mb-4"
-                                                          id="edit_candidate_email2"
-                                                          placeholder="Field X"
-                                                          aria-describedby="fieldX_2_Help"
-                                                          required
-                                                      />
-                                                      <label for="edit_candidate_email2">Email</label>
-                                                  </div>
-                                                  
-                                              </div>
-
-                                          </div>
-                                           
-
-                                          <button type="submit" class="btn btn-primary">Edit Personnel</button>
-
-                                      </div>
-
                                     
-                                        <div class="card-body pb-0">
-                                            <div class="row" style="display: none;">
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_tel1"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_1_Help"
-                                                          
-                                                        />
-                                                        <label for="edit_candidate_c_tel1">Landline</label>
-                                                    </div>
+                                        <!-- Second set of input fields -->
+                                        <div class="p-2">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_dob">Date of Birth</label>
+                                                    <input type="date" class="form-control" id="edit_candidate_dob" placeholder="Date of Birth" aria-describedby="dateOfBirthHelp" required />
                                                 </div>
-                        
-                                                <div class="col-md-6 mb-0">
-                                                    <div class="form-floating">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="edit_candidate_c_tel2"
-                                                            placeholder="Field X"
-                                                            aria-describedby="fieldX_2_Help"
-                                                            
-                                                        />
-                                                        <label for="edit_candidate_c_tel2">Landline</label>
-                                                    </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_birth_place">Birth Place</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_birth_place"  aria-describedby="birthPlaceHelp" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_work_nautilus">Worked with us</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_work_nautilus">
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_c_vessel">Vessel Type</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_c_vessel">
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_experience">Experience</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_experience">
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_zone">Zone</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_zone">
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Repeat the card-body block for each set of fields -->
+                                    
+                                        <!-- Third set of input fields -->
+                                        <div class="p-2">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_grade">Grade</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_grade">
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_boiler_suit_size">Boiler Suit Size</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_boiler_suit_size" aria-describedby="fieldX_2_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_safety_shoe_size">Safety Shoe Size</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_safety_shoe_size" aria-describedby="fieldX_1_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_height">Height</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_height" aria-describedby="fieldX_2_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_weight">Weight</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_weight" aria-describedby="fieldX_1_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_I_country">License Country</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_I_country">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <!-- Fourth set of input fields -->
+                                        <div class="p-2">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_indos_number">INDOS Number</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_indos_number"  aria-describedby="fieldX_1_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_company_status">Candidate Status</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_company_status" />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_group">Group</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_group">
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                    <label for="edit_candidate_vendor">Vendor</label>
+                                                    <input type="text" class="form-control" id="edit_candidate_vendor"  aria-describedby="fieldX_2_Help" required />
+                                                </div>
+                                                <div class="col-md-2 mb-1">
+                                                  <label for="edit_candidate_us_visa">US Visa</label>
+                                                  <select id="edit_candidate_us_visa" class="form-select form-control" required>
+                                                      <option value="" disabled selected></option>
+                                                      <option value="1">Yes</option>
+                                                      <option value="0">No</option>
+                                                  </select>
+                                              </div>
+                                              
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                             
+                                    <div class="p-2 ">
+                                      <div class=" pb-0">
+                                          <!-- Primary Address -->
+                                          <div class="row mb-3" style="font-size: small;">
+                                              
+                                                  <h6 class="fw-bolder text-primary">Primary Address</h6>
+                                            
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_c_ad1">Address</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_ad1"  aria-describedby="fieldX_1_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_city">City</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_city"  aria-describedby="fieldX_1_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_pin">Pincode</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_pin"  aria-describedby="fieldX_1_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_email1">Email</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_email1"  aria-describedby="fieldX_1_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_c_tel1">Landline</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_tel1"  aria-describedby="fieldX_1_Help" />
+                                              </div>
+                                              <div class="col-md-2 mb-3">
+                                                  <label for="edit_candidate_c_mobi1">Mobile</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_mobi1"  aria-describedby="fieldX_1_Help" required />
+                                              </div>
+                                          </div>
+                                          <!-- Secondary Address -->
+                                          <div class="row" style="font-size: small;">
+                                              
+                                            <h6 class="fw-bolder text-primary">Secondary Address</h6>
+                                             
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_c_ad2">Address</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_ad2"  aria-describedby="fieldX_2_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_c_state">State</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_state"  aria-describedby="fieldX_2_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_p_pin">Pincode</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_p_pin"  aria-describedby="fieldX_2_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_email2">Email</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_email2"  aria-describedby="fieldX_2_Help" required />
+                                              </div>
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_c_tel2">Landline</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_tel2"  aria-describedby="fieldX_2_Help" />
+                                              </div>
+                                              <div class="col-md-2 mb-0">
+                                                  <label for="edit_candidate_c_mobi2">Mobile</label>
+                                                  <input type="text" class="form-control" id="edit_candidate_c_mobi2"  aria-describedby="fieldX_2_Help" required />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  
+                                  
+                                                                  <!-- Repeat the card-body block for each set of fields -->
                         
                                         
                                         <input type="hidden" placeholder="Enter active details" id="edit_candidate_active_details" required>
