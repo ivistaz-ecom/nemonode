@@ -32,7 +32,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 'Content-Type': 'application/json'
             }
         });
-
+let index =1;
         const documentDetails = response.data;
 
         const documentTableBody = document.getElementById('documentTableBody');
@@ -43,6 +43,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 
             // Add data to each cell
             row.innerHTML = `
+            <td>${index++}</td>
                 <td>${doc.document}</td>
                 <td>${doc.document_number}</td>
                 <td>${doc.issue_date}</td>
@@ -84,7 +85,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
                 'Content-Type': 'application/json'
             }
         });
-
+        let index=1;
         const bankDetails = response.data;
         console.log(bankDetails)
 
@@ -96,6 +97,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
 
             // Add data to each cell
             row.innerHTML = `
+            <td>${index++}</td>
             <td><span class='badge bg-success'>${bank.beneficiary}</span></td>
             <td>${bank.account_num}</td>
             <td><span class='badge bg-success'>${bank.branch}</span></td>
@@ -148,7 +150,7 @@ async function fetchAndDisplayTravelDetails(candidateId) {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-travel-details/${candidateId}`, {
             headers: { "Authorization": token }
         });
-
+        let index=1;
         // Clear existing table rows
         const travelTableBody = document.getElementById('travelTableBody');
         travelTableBody.innerHTML = '';
@@ -157,6 +159,7 @@ async function fetchAndDisplayTravelDetails(candidateId) {
         response.data.forEach(travel => {
             const row = document.createElement('tr');
             row.innerHTML = `
+            <td>${index++}</td>
                 <td>${travel.travel_date}</td>
                 <td>${travel.travel_from}</td>
                 <td>${travel.travel_to}</td>
@@ -251,7 +254,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
         });
 
-
+        let index=1;
 
         const medicalDetails = response.data;
         console.log(medicalDetails)
@@ -269,6 +272,8 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             const hospitalName = hospitals[medical.hospitalName];
 
             // Add data to each cell
+            row.appendChild(createCell(index++));
+
             row.appendChild(createCell(hospitalName));
             row.appendChild(createCell(medical.place));
             row.appendChild(createCell(medical.date));
@@ -343,7 +348,7 @@ const fetchAndDisplayNkdData = async (candidateId) => {
 
         // Assuming response.data contains an array of NKD objects
         const nkdData = response.data;
-
+        let index=1;
         // Get the table body element
         const tableBody = document.getElementById('nkdTableBody');
         tableBody.innerHTML = ''; // Clear existing table content
@@ -351,13 +356,14 @@ const fetchAndDisplayNkdData = async (candidateId) => {
         // Iterate through the NKD data and append rows to the table
         nkdData.forEach((nkd) => {
             const row = tableBody.insertRow();
-            row.insertCell(0).innerText = nkd.kin_name;
-            row.insertCell(1).innerText = nkd.kin_relation;
-            row.insertCell(2).innerText = nkd.kin_contact_number;
-            row.insertCell(3).innerText = nkd.kin_contact_address;
+            row.insertCell(0).innerText=index++;
+            row.insertCell(1).innerText = nkd.kin_name;
+            row.insertCell(2).innerText = nkd.kin_relation;
+            row.insertCell(3).innerText = nkd.kin_contact_number;
+            row.insertCell(4).innerText = nkd.kin_contact_address;
 
             // Create a new cell for kin_priority with the specified class
-            const priorityCell = row.insertCell(4);
+            const priorityCell = row.insertCell(5);
             priorityCell.innerHTML = `<span class="badge ${getPriorityClass(nkd.kin_priority)}">${nkd.kin_priority}</span>`;
 
             const editButton = document.createElement('button');
@@ -371,7 +377,7 @@ const fetchAndDisplayNkdData = async (candidateId) => {
             deleteButton.addEventListener('click', () => deleteNkd(nkd.id));
 
             // Add buttons to the row
-            const cell = row.insertCell(5);
+            const cell = row.insertCell(6);
             cell.appendChild(editButton);
             cell.appendChild(deleteButton);
         });
@@ -573,6 +579,7 @@ async function displayCandidateDetails() {
 
 });
 
+
 async function editCandidate() {
     // Get values from the form
     var id = document.getElementById('candidateId').value; // Add the ID value if applicable
@@ -713,7 +720,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
         // Assuming contractDetails is an array of objects
         const contractTableBody = document.getElementById('contractTableBody');
         contractTableBody.innerHTML = ''; // Clear existing rows
-
+        let index=1;
         contractDetails.forEach(contract => {
             const row = document.createElement('tr');
 
@@ -725,6 +732,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
             // Add data to each cell
             row.innerHTML = `
+            <td>${index++}</td>
                 <td>${contract.rank}</td>
                 <td>${companyName}</td> <!-- Display company name instead of ID -->
                 <td>${vesselName}</td> <!-- Display vessel name instead of ID -->
@@ -815,6 +823,7 @@ document.getElementById("logout").addEventListener("click", function() {
 
 async function fetchAndDisplaySeaService(candidateId) {
     try {
+        let index=1;
         const token = localStorage.getItem('token');
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-sea-service/${candidateId}`, {
             headers: { "Authorization": token }
@@ -830,6 +839,7 @@ async function fetchAndDisplaySeaService(candidateId) {
             seaServices.forEach(seaService => {
                 const seaServiceRow = document.createElement('tr');
                 seaServiceRow.innerHTML = `
+                <td>${index++}</td>
                     <td>${seaService.company}</td>
                     <td>${seaService.rank}</td>
                     <td>${seaService.vessel}</td>
@@ -1069,7 +1079,7 @@ async function fetchAndDisplayEvaluationData() {
 // Function to display evaluation data in a table
 function displayEvaluationData(evaluationData) {
     const tableBody = document.getElementById('evaluationTableBody');
-
+    let index =1;
     // Clear existing table rows
     tableBody.innerHTML = '';
 
@@ -1077,6 +1087,8 @@ function displayEvaluationData(evaluationData) {
     evaluationData.forEach(evaluation => {
         const row = tableBody.insertRow();
 
+        const indexrow = row.insertCell();
+        indexrow.textContent = index++;
         // Insert cells into the row
         const evalTypeCell = row.insertCell();
         evalTypeCell.textContent = evaluation.eval_type;
