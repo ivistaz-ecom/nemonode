@@ -15,7 +15,10 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <style>
-      
+      .small-font {
+    font-size: 10px; /* Adjust the font size as needed */
+}
+
       .loader {
         --r1: 154%;
         --r2: 68.5%;
@@ -643,7 +646,7 @@
                                         <div  >
                                           <!-- No need for the hidden input here -->
                                           <div id="imageContainer" class="d-flex justify-content-center">
-                                              <img src="" alt=" &nbsp;No Photo present for the candidate" class="rounded-circle" style="width: 70px;height: auto;">
+                                              <img src="" alt=" &nbsp;No Photo present for the candidate" class="rounded-circle border border-light border-5" style="width: 70px;height: 70px;">
                                           </div>
                                       </div>
                                       
@@ -653,11 +656,11 @@
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_fname">First Name</label>
                                                     <input type="hidden" id="candidateId">
-                                                    <input type="text" class="form-control" id="edit_candidate_fname" aria-describedby="firstNameHelp" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_fname" aria-describedby="firstNameHelp" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_lname">Last Name</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_lname"  aria-describedby="lastNameHelp" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_lname"  aria-describedby="lastNameHelp" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_c_rank">Rank</label>
@@ -665,15 +668,15 @@
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_avb_date">Availability</label>
-                                                    <input type="date" class="form-control" id="edit_candidate_avb_date"  aria-describedby="availabilityHelp" required />
+                                                    <input type="date" class="form-control small-font" id="edit_candidate_avb_date"  aria-describedby="availabilityHelp" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_nationality">Nationality</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_nationality">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_nationality">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_company_status">Marital Status</label>
-                                                    <input type="text" class="form-control" id="edit_company_status">
+                                                    <input type="text" class="form-control small-font" id="edit_company_status">
                                                 </div>
                                             </div>
                                         </div>
@@ -683,27 +686,27 @@
                                             <div class="row">
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_dob">Date of Birth</label>
-                                                    <input type="date" class="form-control" id="edit_candidate_dob" placeholder="Date of Birth" aria-describedby="dateOfBirthHelp" required />
+                                                    <input type="date" class="form-control small-font" id="edit_candidate_dob" placeholder="Date of Birth" aria-describedby="dateOfBirthHelp" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_birth_place">Birth Place</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_birth_place"  aria-describedby="birthPlaceHelp" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_birth_place"  aria-describedby="birthPlaceHelp" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_work_nautilus">Worked with us</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_work_nautilus">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_work_nautilus">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_c_vessel">Vessel Type</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_c_vessel">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_c_vessel">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_experience">Experience</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_experience">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_experience">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_zone">Zone</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_zone">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_zone">
                                                 </div>
                                             </div>
                                         </div>
@@ -713,27 +716,27 @@
                                             <div class="row">
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_grade">Grade</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_grade">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_grade">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_boiler_suit_size">Boiler Suit Size</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_boiler_suit_size" aria-describedby="fieldX_2_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_boiler_suit_size" aria-describedby="fieldX_2_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_safety_shoe_size">Safety Shoe Size</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_safety_shoe_size" aria-describedby="fieldX_1_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_safety_shoe_size" aria-describedby="fieldX_1_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_height">Height</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_height" aria-describedby="fieldX_2_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_height" aria-describedby="fieldX_2_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_weight">Weight</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_weight" aria-describedby="fieldX_1_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_weight" aria-describedby="fieldX_1_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_I_country">License Country</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_I_country">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_I_country">
                                                 </div>
                                             </div>
                                         </div>
@@ -743,19 +746,19 @@
                                             <div class="row">
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_indos_number">INDOS Number</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_indos_number"  aria-describedby="fieldX_1_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_indos_number"  aria-describedby="fieldX_1_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_company_status">Candidate Status</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_company_status" />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_company_status" />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_group">Group</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_group">
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_group">
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                     <label for="edit_candidate_vendor">Vendor</label>
-                                                    <input type="text" class="form-control" id="edit_candidate_vendor"  aria-describedby="fieldX_2_Help" required />
+                                                    <input type="text" class="form-control small-font" id="edit_candidate_vendor"  aria-describedby="fieldX_2_Help" required />
                                                 </div>
                                                 <div class="col-md-2 mb-1">
                                                   <label for="edit_candidate_us_visa">US Visa</label>
@@ -781,27 +784,27 @@
                                             
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_c_ad1">Address</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_ad1"  aria-describedby="fieldX_1_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_ad1"  aria-describedby="fieldX_1_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_city">City</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_city"  aria-describedby="fieldX_1_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_city"  aria-describedby="fieldX_1_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_pin">Pincode</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_pin"  aria-describedby="fieldX_1_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_pin"  aria-describedby="fieldX_1_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_email1">Email</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_email1"  aria-describedby="fieldX_1_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_email1"  aria-describedby="fieldX_1_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_c_tel1">Landline</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_tel1"  aria-describedby="fieldX_1_Help" />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_tel1"  aria-describedby="fieldX_1_Help" />
                                               </div>
                                               <div class="col-md-2 mb-3">
                                                   <label for="edit_candidate_c_mobi1">Mobile</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_mobi1"  aria-describedby="fieldX_1_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_mobi1"  aria-describedby="fieldX_1_Help" required />
                                               </div>
                                           </div>
                                           <!-- Secondary Address -->
@@ -811,27 +814,27 @@
                                              
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_c_ad2">Address</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_ad2"  aria-describedby="fieldX_2_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_ad2"  aria-describedby="fieldX_2_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_c_state">State</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_state"  aria-describedby="fieldX_2_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_state"  aria-describedby="fieldX_2_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_p_pin">Pincode</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_p_pin"  aria-describedby="fieldX_2_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_p_pin"  aria-describedby="fieldX_2_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_email2">Email</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_email2"  aria-describedby="fieldX_2_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_email2"  aria-describedby="fieldX_2_Help" required />
                                               </div>
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_c_tel2">Landline</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_tel2"  aria-describedby="fieldX_2_Help" />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_tel2"  aria-describedby="fieldX_2_Help" />
                                               </div>
                                               <div class="col-md-2 mb-0">
                                                   <label for="edit_candidate_c_mobi2">Mobile</label>
-                                                  <input type="text" class="form-control" id="edit_candidate_c_mobi2"  aria-describedby="fieldX_2_Help" required />
+                                                  <input type="text" class="form-control small-font" id="edit_candidate_c_mobi2"  aria-describedby="fieldX_2_Help" required />
                                               </div>
                                           </div>
                                       </div>
