@@ -15,73 +15,8 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <style>
-      * {
-  border: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #83c5be;
-  font-family: "Poppins", sans-serif;
-}
-
-.fancy {
-  position: relative;
-  width: 70px; /* match the image width */
-  height: 70px; /* match the image height */
-  max-width: 100%;
-  background: #edf6f9;
-  border-radius: 50%; /* keep the circular border */
-  overflow: hidden;
-  --offset: 5px;
-}
-
-.fancy::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  background: conic-gradient(transparent 180deg, #006d77, #006d77);
-  transform: translate(-50%, -50%);
-  aspect-ratio: 1;
-  animation: rotate 2s linear infinite;
-}
-
-.fancy::after {
-  content: "";
-  position: absolute;
-  width: calc(100% - 2 * var(--offset));
-  height: calc(100% - 2 * var(--offset));
-  inset: var(--offset);
-  background: inherit;
-  border-radius: inherit;
-}
-
-.fancy img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 10;
-}
-
-@keyframes rotate {
-  from {
-    transform: translate(-50%, -50%) scale(1.4) rotate(0turn);
-  }
-  to {
-    transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
-  }
-}
-
  .small-font {
-    font-size: 8px; /* Adjust the font size as needed */
+    font-size: 9px; /* Adjust the font size as needed */
     overflow: hidden; /* Ensure overflow text is handled */
     white-space: nowrap; /* Prevent text from wrapping */
     text-overflow: ellipsis; /* Display ellipsis for overflow text */
@@ -711,14 +646,12 @@ body {
                                 <div id="personnelContent" style="display: none;">
                                     <form id="view-candidate-form" >
                                       <div class="" style="max-height: 600px; width: auto; overflow: auto; font-size: 12px;">
-                                      
+                                        <div  >
                                           <!-- No need for the hidden input here -->
                                           <div id="imageContainer" class="d-flex justify-content-center">
-                                            <div class="fancy" >
-                                              <img src="" alt="No Photo present for the candidate" class="rounded-circle">
-                                            </div>
+                                              <img src="" alt=" &nbsp;No Photo present for the candidate" class="rounded-circle border border-light border-5" style="width: 70px;height: 70px;">
                                           </div>
-                                     
+                                      </div>
                                       
                                         <!-- First set of input fields -->
                                         <div class="p-2">
