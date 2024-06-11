@@ -1124,7 +1124,8 @@ async function updateCandidatePhoto(id) {
     // Update the src attribute of the img tag
     const imageContainer = document.getElementById('imageContainer');
     const image = imageContainer.querySelector('img');
-    image.src = "https://nemo.ivistaz.co/photos/" + photoName;
+    const url = "https://nemo.ivistaz.co/photos/" + photoName;
+    image.src = url
     image.alt = "Description of the image"; // Add alt attribute if needed
     console.log(image.src); // Check the src attribute in the console
 }
