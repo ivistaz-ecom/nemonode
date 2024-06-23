@@ -639,10 +639,12 @@
                             <div class="accordion-body">
                     <form id="documentForm" >
                         <div class="">
-                           <div class="mb-3">
-                                <label for="documents">Document:</label>
-                                <input type="text" class="form-control" id="documents" name="document" required>
-                            </div>
+                          <div>
+                            <label for="documentTypeDropdown">Document Type:</label>
+                            <select id="documentTypeDropdown" class="form-select">
+                                <option value="" disabled selected>Document type</option>
+                            </select>
+                        </div>
                             <div class="mb-3">
                                 <label for="document_number">Document Number:</label>
                                 <input type="text" class="form-control" id="document_number" name="document_number" required>

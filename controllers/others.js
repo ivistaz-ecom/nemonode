@@ -2085,6 +2085,24 @@ const getVsls = async (req, res) => {
   }
 };
 
+const getPortAgent = async (req, res) => {
+  try {
+      // Fetch all vessel data
+      const portAgent = await PortAgent.findAll({
+      });
+
+      // Extract vessel names from the fetched data
+     
+
+      // Send the vessel names to the client
+      res.json({portAgent});
+  } catch (error) {
+      console.error('Error fetching port data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 const getVessels = async (req, res) => {
   try {
       // Fetch all vessel data
@@ -2095,13 +2113,26 @@ const getVessels = async (req, res) => {
      
 
       // Send the vessel names to the client
-      res.json(vessels);
+      res.json({vessels});
   } catch (error) {
       console.error('Error fetching vessel data:', error);
       res.status(500).json({ error: 'Internal server error' });
   }
 };
 
+const getDocumentType = async(req,res)=>{
+  try{
+    const documents = await Document.findAll({
+    
+    })
+
+    res.json({documents:documents})
+  }
+  catch(err){
+    console.log(err)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 
 
@@ -2169,7 +2200,9 @@ const getVessels = async (req, res) => {
     view_ranks,
     getVessels,
     view_ports,
-    view_medicals
+    view_medicals,
+    getDocumentType,
+    getPortAgent
     
   }
 

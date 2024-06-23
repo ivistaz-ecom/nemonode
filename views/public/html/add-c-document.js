@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       
     const decodedToken = decodeToken(token);
     console.log(decodedToken)
-
+   await fetchDocumentTypes()
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
 if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
@@ -75,7 +75,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/document-delete/${documentId}`,{
+            const response = await axios.delete(`http://localhost:4000/candidate/document-delete/${documentId}`,{
                 headers:{"Authorization":token}
             });
 
@@ -157,7 +157,7 @@ documentForm.addEventListener('submit', async function (event) {
     event.preventDefault();
     const id = localStorage.getItem('memId')
     const formData = {
-        document: document.getElementById('documents').value.trim(),
+        document: document.getElementById('documentTypeDropdown').value.trim(),
         document_number: document.getElementById('document_number').value.trim(),
         issue_date: document.getElementById('issue_date').value.trim(),
         issue_place: document.getElementById('issue_place').value.trim(),
@@ -167,7 +167,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`https://nemo.ivistaz.co/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`http://localhost:4000/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -226,3 +226,21 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+
+async function fetchDocumentTypes() {
+    try {
+        const response = await axios.get('http://localhost:4000/others/get-documenttype');
+        const documents = response.data.documents;
+
+        const dropdown = document.getElementById('documentTypeDropdown');
+        documents.forEach(doc => {
+            const option = document.createElement('option');
+            option.value = doc.documentType;
+            option.textContent = doc.documentType;
+            dropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching document types:', error);
+    }
+}
