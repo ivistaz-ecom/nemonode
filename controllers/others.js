@@ -2078,7 +2078,7 @@ const getVsls = async (req, res) => {
      
 
       // Send the vessel names to the client
-      res.json(vessels);
+      res.json({vessels});
   } catch (error) {
       console.error('Error fetching vessel data:', error);
       res.status(500).json({ error: 'Internal server error' });

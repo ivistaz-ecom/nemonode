@@ -192,7 +192,7 @@ function displayDropdownOptions(dropdown, options, placeholder) {
     if (Array.isArray(options)) {
         options.forEach(option => {
             const dropdownOption = document.createElement("option");
-            dropdownOption.value = option.country; // Use the appropriate ID or value from your data
+            dropdownOption.value = option.code; // Use the appropriate ID or value from your data
             dropdownOption.text = option.country; // Use the appropriate property from your data
             dropdown.appendChild(dropdownOption);
         });
