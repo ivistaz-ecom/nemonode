@@ -3344,7 +3344,7 @@ async function handleDueForRenewalSubmit(event) {
         let startDate = document.getElementById('startDater').value;
         let endDate = document.getElementById('endDater').value;
 
-        startDate=startDate+'T00:00:00Z';
+        startDate = startDate + 'T00:00:00Z';
         endDate = endDate + 'T23:59:59Z';
         const params = {
             startDate: startDate,
@@ -3360,8 +3360,8 @@ async function handleDueForRenewalSubmit(event) {
         const documentCandidates = response.data.documentCandidates;
         const medicalCandidates = response.data.medicalCandidates;
 
-        // Function to create table row with serial number
-        const createRowWithSerialNumber = (candidate, fields) => {
+        // Function to create table row with serial number and status
+        const createRowWithSerialNumberAndStatus = (candidate, fields) => {
             const row = document.createElement('tr');
             const snCell = document.createElement('td');
             snCell.textContent = fields.sn++;
@@ -3374,7 +3374,8 @@ async function handleDueForRenewalSubmit(event) {
                 cell.classList.add('text-center');
                 row.appendChild(cell);
             });
-            
+
+            // Calculate status based on expiry date
             const statusCell = document.createElement('td');
             const expiryDate = new Date(candidate['expiry_date']);
             const today = new Date();
@@ -3402,12 +3403,12 @@ async function handleDueForRenewalSubmit(event) {
 
         // Function to create table row for document candidates
         const createDocumentRow = (candidate, fields) => {
-            return createRowWithSerialNumber(candidate, fields);
+            return createRowWithSerialNumberAndStatus(candidate, fields);
         };
 
         // Function to create table row for medical candidates
         const createMedicalRow = (candidate, fields) => {
-            return createRowWithSerialNumber(candidate, fields);
+            return createRowWithSerialNumberAndStatus(candidate, fields);
         };
 
         // Clear existing tables, if any
@@ -3417,13 +3418,13 @@ async function handleDueForRenewalSubmit(event) {
         medicalTableBody.innerHTML = '';
 
         // Populate table with documentCandidates data
-        let documentFields = { keys: ['document', 'expiry_date'], sn: 1 };
+        let documentFields = { keys: ['candidateId', 'document', 'document_files', 'document_number', 'expiry_date', 'id', 'issue_date', 'issue_place', 'stcw'], sn: 1 };
         documentCandidates.forEach(candidate => {
             documentTableBody.appendChild(createDocumentRow(candidate, documentFields));
         });
 
         // Populate table with medicalCandidates data
-        let medicalFields = { keys: ['hospitalName', 'place', 'expiry_date'], sn: 1 };
+        let medicalFields = { keys: ['amount', 'candidateId', 'created_by', 'date', 'done_by', 'expiry_date', 'hospitalName', 'id', 'place', 'status', 'upload'], sn: 1 };
         medicalCandidates.forEach(candidate => {
             medicalTableBody.appendChild(createMedicalRow(candidate, medicalFields));
         });
@@ -3433,10 +3434,10 @@ async function handleDueForRenewalSubmit(event) {
         const decodedToken = decodeToken(token);
         const reports = decodedToken.reports;
 
-        // Hide export buttons if the user has access to reports
-        if (reports) {
-            document.getElementById('exportDocumentCandidates').style.display = 'block';
-            document.getElementById('exportMedicalCandidates').style.display = 'block';
+        // Hide export buttons if the user has no access to reports
+        if (!reports) {
+            document.getElementById('exportDocumentCandidates').style.display = 'none';
+            document.getElementById('exportMedicalCandidates').style.display = 'none';
         }
 
     } catch (error) {
