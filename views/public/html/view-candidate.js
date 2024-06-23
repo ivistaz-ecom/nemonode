@@ -738,13 +738,13 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${vesselName}</td> <!-- Display vessel name instead of ID -->
                 <td>${contract.vesselType}</td>
                 <td>${signOnPortName}</td> <!-- Display port name instead of ID -->
-                <td>${formatDate(contract.sign_on)}</td>
-                <td>${formatDate(contract.wage_start)}</td>
-                <td>${formatDate(contract.eoc)}</td>
+                <td>${contract.sign_on}</td>
+                <td>${contract.wage_start}</td>
+                <td>${contract.eoc}</td>
                 <td>${contract.wages}</td>
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
-                <td>${formatDate(contract.sign_off)}</td>
+                <td>${contract.sign_off}</td>
                 <td>${signOffPortName}</td> <!-- Display port name instead of ID -->
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>

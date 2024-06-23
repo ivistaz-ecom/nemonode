@@ -436,76 +436,34 @@ const birthday = async (req, res) => {
 
 const new_profile = async (req, res) => {
     try {
+        // Assuming userId is available in req.user.id from authentication middleware
         const userId = req.user.id;
-        let userGroup;
-        const user = await User.findByPk(userId);
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found', success: false });
-        }
-
-        userGroup = user.dataValues.userGroup;
-        let reports = user.dataValues.reports;
-        console.log('User Group:', userGroup);
-
+        const startDate = req.body.startDate ; // Default startDate if not provided
+        const endDate = req.body.endDate ; // Default endDate if not provided
         const selectedFields = req.body.selectedFields; // Get the selectedFields from the request body
-        const group = req.body.group || 'all'; // Get the group parameter from the request body, default to 'all'
 
         let allCandidates;
 
-        // Define the date range filter
-        const startDate = req.body.startDate; // Assuming startDate and endDate are provided in the request body
-        const endDate = req.body.endDate;
-        const user_sort = req.body.user;
-
-        // Check if the date range is provided
-        if (startDate && endDate) {
-            // If the user is not an admin, fetch candidates associated with the user
-            if (userGroup === 'admin') {
-                let whereCondition = {
-                    cr_date: {
-                        [Op.between]: [startDate, endDate], // Filter based on the date range
-                    },
-                };
-
-                if (user_sort) {
-                    whereCondition.createdBy = user_sort;
-                }
-
-                allCandidates = await Candidate.findAll({
-                    where: whereCondition,
-                    attributes: selectedFields, // Provide selectedFields as the attributes
-                });
-            } else if (userGroup === 'vendor' && reports === true) {
-                allCandidates = await Candidate.findAll({
-                    where: {
-                        userId: userId,
-                        cr_date: {
-                            [Op.between]: [startDate, endDate], // Filter based on the date range
-                        },
-                    },
-                    attributes: selectedFields, // Provide selectedFields as the attributes
-                });
-            } else {
-                // If the user is neither admin nor vendor with 'reports' true, handle other cases
-                return res.status(403).json({ message: 'Unauthorized', success: false });
-            }
-        } else {
-            // Handle case when date range is not provided
-            return res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
-        }
+        // Execute the specific SQL query
+        allCandidates = await Candidate.sequelize.query(`
+            SELECT * FROM Candidates 
+            WHERE cr_date BETWEEN :startDate AND :endDate
+        `, {
+            replacements: { startDate, endDate },
+            type: Candidate.sequelize.QueryTypes.SELECT,
+        });
 
         // Filter out fields based on the selectedFields data
         const filteredCandidates = allCandidates.map(candidate => {
             const filteredCandidate = {};
-            for (const field in candidate.dataValues) {
+            for (const field in candidate) {
                 if (selectedFields[field]) {
-                    filteredCandidate[field] = candidate.dataValues[field];
+                    filteredCandidate[field] = candidate[field];
                 }
             }
             return filteredCandidate;
         });
-
+        console.log(filteredCandidates)
         res.status(200).json({
             candidates: filteredCandidates,
             success: true,
@@ -1745,7 +1703,7 @@ const checkExpiry = async (req, res) => {
 
 const Reminder = async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
+        const { startDate, endDate, category } = req.query;
 
         // Check if both startDate and endDate are provided
         if (!startDate || !endDate) {
@@ -1755,18 +1713,35 @@ const Reminder = async (req, res) => {
             });
         }
 
-        const whereCondition = { 
-            reminder: true,
-            r_date: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate
-            }
-        };
+        // Base SQL query
+        let query = `
+            SELECT a.discussion, a.candidateId, a.r_date, b.userName, c.c_rank, c.c_vessel
+            FROM discussion AS a
+            JOIN Users AS b ON a.post_by = b.id
+            JOIN Candidates AS c ON a.candidateId = c.candidateId
+            JOIN Rank AS d ON c.c_rank = d.rank
+            WHERE a.reminder = '1'
+              AND a.r_date BETWEEN :startDate AND :endDate
+        `;
 
-        // Fetch discussions based on the condition, ordered by r_date in descending order
-        const discussions = await Discussion.findAll({
-            where: whereCondition,
-            order: [['r_date', 'DESC']], // Ordering by r_date in descending order
+        // Define replacements object
+        const replacements = { startDate, endDate };
+
+        // Add category condition if present
+        if (category) {
+            query += ` AND c.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with order by clauses
+        query += `
+            ORDER BY d.rankOrder ASC, a.id DESC
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const discussions = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
         });
 
         // If there are discussions with reminders, send them to the client
@@ -1780,6 +1755,7 @@ const Reminder = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
+
 
   
 
@@ -2149,50 +2125,40 @@ const getQuarterDates = (year, quarter) => {
 
 const calls_made = async (req, res) => {
     try {
-        const startDate = req.body.startDate;
-        const endDate = req.body.endDate;
+        const startDate = req.body.startDate ; // Default start date if not provided
+        const endDate = req.body.endDate ; // Default end date if not provided
         const userId = req.body.userId;
         const category = req.body.category;
+        console.log("~~~~~~~~~~~~~~",startDate,endDate,userId,category)
+        // Build the SQL query
+        let query = `
+            SELECT a.candidateId, b.nationality, a.companyname, a.join_date, a.discussion, a.reason, a.r_date, a.post_by, b.c_rank, b.c_vessel, b.fname, b.lname, b.avb_date, b.category, c.userName
+            FROM discussion AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN Users AS c ON a.post_by = c.id
+            WHERE a.created_date >= :startDate AND a.created_date <= :endDate
+        `;
+        
+        const replacements = { startDate, endDate };
 
-        // Check if the date range is provided
-        if (startDate && endDate) {
-            const queryOptions = {
-                where: {
-                    created_date: {
-                        [Op.between]: [startDate, endDate], // Filter discussions within the date range
-                    }
-                },
-                attributes: [
-                    'discussion','r_date','candidateId'
-                ], // Include selected fields
-                include: [
-                    {
-                        model: Candidate,
-                        attributes: [
-                            'nationality', 'c_rank', 'c_vessel', 'fname', 'lname', 'avb_date', 'category'
-                        ],
-                        where: {} // Initialize where object
-                    }
-                ],
-            };
-
-            // Conditionally add userId to where condition
-            if (userId) {
-                queryOptions.where.post_by = userId;
-            }
-
-            // Conditionally add category filter
-            if (category) {
-                queryOptions.include[0].where.category = category;
-            }
-
-            const callsMade = await Discussion.findAll(queryOptions);
-
-            res.status(200).json({ callsMade: callsMade, success: true });
-        } else {
-            // Date range not provided
-            res.status(400).json({ message: 'Start date and end date are required for filtering', success: false });
+        // Conditionally add userId and category to the query
+        if (userId) {
+            query += ' AND a.post_by = :userId';
+            replacements.userId = userId;
         }
+
+        if (category) {
+            query += ' AND b.category = :category';
+            replacements.category = category;
+        }
+
+        // Execute the query
+        const results = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ callsMade: results, success: true });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error', success: false });
@@ -2204,231 +2170,368 @@ const calls_made = async (req, res) => {
 const proposals = async (req, res) => {
     console.log('inside proposals');
 
-    try {    
+    try {
         // Extract query parameters
-        const { status, startDate, endDate, companyName } = req.query;
+        const { status, startDate, endDate, companyName, category } = req.query;
 
-        // Initialize the where object
-        const whereCondition = {};
+        // Build the raw SQL query
+        let query = `
+            SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName, d.company_name
+            FROM discussion AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN Users AS c ON a.post_by = c.id
+            JOIN companies AS d ON a.companyname = d.company_id
+            WHERE 1 = 1
+        `;
 
-        // Conditionally add status to the where condition
+        // Conditionally add status filter if provided
         if (status) {
-            whereCondition.discussion = { [Op.like]: `%${status}%` };
+            query += ` AND a.discussion = :status`;
+        } else {
+            // Include all statuses if status is not provided
+            query += ` AND a.discussion IN ('Proposed', 'Rejected', 'Approved', 'Joined')`;
         }
 
-        // Conditionally add company name to the where condition
+        // Add date range filter
+        query += ` AND a.join_date BETWEEN :startDate AND :endDate`;
+
+        // Conditionally add company name filter
         if (companyName) {
-            whereCondition.companyname = companyName;
+            query += ` AND d.company_id = :companyName`;
         }
 
-        // Fetch candidates based on the discussions' join_date and status
-        const candidates = await Discussion.findAll({
-            where: {
-                ...whereCondition,
-                join_date: {
-                    [Op.between]: [startDate, endDate], // Filter by start and end date
-                },
+        // Conditionally add category filter
+        if (category) {
+            query += ` AND b.category = :category`;
+        }
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements: {
+                status,
+                startDate,
+                endDate,
+                companyName,
+                category
             },
-            include: [
-                {
-                    model: Candidate,
-                    attributes: ['fname', 'lname', 'c_rank', 'c_vessel', 'category', 'nationality'],
-                    required: true
-                },
-                
-            ],
-            attributes: ['candidateId', 'join_date','companyname']
+            type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
-        
+        res.status(200).json({ candidates: results, success: true });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
 
+
+
+// const getContractsBySignOnDate = async (req, res) => {
+//     try {
+//         const { startDate, endDate, vessel_type, companyname, category } = req.query;
+
+//         // Construct the base SQL query
+//         let query = `
+//             SELECT a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
+//                    b.fname, b.lname, b.nationality, c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, b.category, e.company_name
+//             FROM contract AS a
+//             JOIN Candidates AS b ON a.candidateId = b.candidateId
+//             JOIN vsls AS c ON a.vslName = c.id
+//             JOIN rank AS d ON a.rank = d.rank
+//             JOIN companies AS e ON a.company = e.company_id
+//             WHERE a.sign_on BETWEEN :startDate AND :endDate
+//         `;
+
+//         // Add vessel type condition if present
+//         if (vessel_type) {
+//             query += ` AND c.vsl_name = :vessel_type`;
+//         }
+
+//         // Add company name condition if present
+//         if (companyname) {
+//             query += ` AND e.company_name = :companyname`;
+//         }
+
+//         // Add category condition if present
+//         if (category) {
+//             query += ` AND b.category = :category`;
+//         }
+
+//         // Complete the query with group by and order by clauses
+//         query += `
+//             GROUP BY a.candidateId
+//             ORDER BY d.rankOrder ASC
+//         `;
+
+//         // Run the raw SQL query using sequelize.query
+//         const results = await sequelize.query(query, {
+//             replacements: {
+//                 startDate,
+//                 endDate,
+//                 vessel_type,
+//                 companyname,
+//                 category
+//             },
+//             type: sequelize.QueryTypes.SELECT
+//         });
+
+//         res.status(200).json({ contracts: results, success: true });
+//     } catch (error) {
+//         console.error('Error fetching contracts by sign_on date:', error);
+//         res.status(500).json({ error: error.message || 'Internal server error', success: false });
+//     }
+// };
+
+
 const getContractsBySignOnDate = async (req, res) => {
     try {
-        const { startDate, endDate, vessel_type, companyname } = req.query;
+        const { startDate, endDate, vessel_type, companyname, category } = req.query;
 
-        // Build the where clause for contracts
-        const contractWhereClause = {
-            sign_on: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate,
-            }
-        };
-
-        // Add vessel_type condition if present
+        // Construct the base SQL query
+        let query = `
+        SELECT 
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
+            b.fname, b.lname, b.nationality, b.indos_number,
+            c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
+            e.company_name,
+            bd.pan_num AS bank_pan_num,
+            CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
+            EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
+            CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
+            u.userName
+        FROM contract AS a
+        JOIN Candidates AS b ON a.candidateId = b.candidateId
+        JOIN vsls AS c ON a.vslName = c.id
+        JOIN rank AS d ON a.rank = d.rank
+        JOIN companies AS e ON a.company = e.company_id
+        LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId 
+        LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
+        LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
+        LEFT JOIN Users AS u ON a.created_by = u.id
+        WHERE a.sign_on BETWEEN :startDate AND :endDate
+    `;
+        // Add vessel type condition if present
         if (vessel_type) {
-            contractWhereClause.vesselType = vessel_type;
+            query += ` AND c.vsl_name = :vessel_type`;
         }
 
-        // Add company condition if present
+        // Add company name condition if present
         if (companyname) {
-            contractWhereClause.company = companyname;
+            query += ` AND e.company_name = :companyname`;
         }
 
-        // Fetch contracts with associated candidate details
-        const contracts = await Contract.findAll({
-            where: contractWhereClause,
-            include: [
-                {
-                    model: Candidate,
-                    include: [
-                        { model: Documents },
-                        {model:Bank}
-                        // Add more associated models here if needed
-                    ]
-                },
-            ],
-            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company','created_by']
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+            GROUP BY a.candidateId
+            ORDER BY d.rankOrder ASC
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements: {
+                startDate,
+                endDate,
+                vessel_type,
+                companyname,
+                category
+            },
+            type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ contracts: contracts, success: true });
+        res.status(200).json({ contracts: results, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_on date:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
 
-
-
 const getContractsBySignOffDate = async (req, res) => {
     try {
-        const { startDate, endDate, vessel_type, companyname } = req.query;
+        const { startDate, endDate, vessel_type, companyname, category } = req.query;
 
-        // Build the where clause for contracts
-        const contractWhereClause = {
-            sign_off: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate,
-            }
-        };
+        // Construct the base SQL query similar to sign on query
+        let query = `
+            SELECT 
+                a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
+                b.fname, b.lname, b.nationality, b.indos_number,
+                c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
+                d.company_name,
+                bd.pan_num AS bank_pan_num,
+                CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
+                EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
+                CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
+                u.userName
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS d ON a.company = d.company_id
+            LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId 
+            LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
+            LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
+            LEFT JOIN Users AS u ON a.created_by = u.id
+            WHERE a.sign_off BETWEEN :startDate AND :endDate
+              AND a.sign_on != '0000-00-00'
+        `;
 
-        // Add vessel_type condition if present
+        // Add vessel type condition if present
         if (vessel_type) {
-            contractWhereClause.vesselType = vessel_type;
+            query += ` AND c.vesselName = :vessel_type`;
         }
 
-        // Add company condition if present
+        // Add company name condition if present
         if (companyname) {
-            contractWhereClause.company = companyname;
+            query += ` AND d.company_name = :companyname`;
         }
 
-        // Fetch contracts with associated candidate details
-        const contracts = await Contract.findAll({
-            where: contractWhereClause,
-            include: [
-                {
-                    model: Candidate,
-                    include: [
-                        { model: Documents },
-                        {model:Bank}
-                        // Add more associated models here if needed
-                    ]
-                },
-            ],
-            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company','created_by']
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+            GROUP BY a.candidateId
+            ORDER BY a.rank ASC
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements: {
+                startDate,
+                endDate,
+                vessel_type,
+                companyname,
+                category
+            },
+            type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ contracts: contracts, success: true });
+        res.status(200).json({ contracts: results, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_off date:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
 
+
+
 const getContractsDueForSignOff = async (req, res) => {
     try {
-        const { startDate, endDate, vessel_type, companyname } = req.query;
+        const { startDate, endDate, vessel_type, companyname, category } = req.query;
+        console.log('>', startDate, endDate, vessel_type, companyname, category);
 
-        // Build the where clause for contracts
-        const contractWhereClause = {
-            eoc: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate,
-            },
-            sign_off: {
-                [Op.is]: null, // Add condition for sign_off being null
-            }
-        };
+        // Construct the base SQL query
+        let query = `
+            SELECT a.candidateId, a.eoc, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality, c.vesselName, e.company_name
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN rank AS d ON a.rank = d.rank
+            JOIN companies AS e ON a.company = e.company_id
+            WHERE a.sign_off = '0000-00-00'
+              AND a.eoc BETWEEN :startDate AND :endDate
+        `;
 
-        // Add vessel_type condition if present
+        // Define replacements object
+        const replacements = { startDate, endDate };
+
+        // Add optional conditions dynamically
         if (vessel_type) {
-            contractWhereClause.vesselType = vessel_type;
+            query += ` AND c.vesselName = :vessel_type`;
+            replacements.vessel_type = vessel_type;
         }
 
-        // Add company condition if present
         if (companyname) {
-            contractWhereClause.company = companyname;
+            query += ` AND e.company_name = :companyname`;
+            replacements.companyname = companyname;
         }
 
-        // Fetch contracts with associated candidate details
-        const contracts = await Contract.findAll({
-            where: contractWhereClause,
-            include: [
-                {
-                    model: Candidate,
-                    include: [
-                        { model: Documents },
-                        {model:Bank}
-                        // Add more associated models here if needed
-                    ]
-                },
-            ],
-            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with order by clause
+        query += ` ORDER BY d.rankOrder ASC`;
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ contracts: contracts, success: true });
+        res.status(200).json({ contracts: results, success: true });
     } catch (error) {
         console.error('Error fetching contracts due for sign off:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
 
+
+
 const avbCandidate = async (req, res) => {
     try {
-        const { startDate, endDate, avbrank } = req.query;
+        const { startDate, endDate, avbrank, category } = req.query;
         console.log('lets see how it works', startDate, endDate);
 
-        // Build the where clause for candidates
-        const candidateWhereClause = {
-            avb_date: {
-                [Op.between]: [startDate, endDate]
-            }
-        };
+        // Base SQL query
+        let query = `
+            SELECT candidateid, fname, lname, nationality, avb_date, c_rank, category, c_vessel 
+            FROM Candidates 
+            WHERE avb_date BETWEEN :startDate AND :endDate
+              AND active_details = 1
+        `;
 
-        // Add c_rank condition if present
+        // Define replacements object
+        const replacements = { startDate, endDate };
+
+        // Add avbrank condition if present
         if (avbrank) {
-            candidateWhereClause.c_rank = avbrank;
+            query += ` AND c_rank = :avbrank`;
+            replacements.avbrank = avbrank;
         }
 
-        // Fetch candidates available within the specified date range
-        const candidates = await Candidate.findAll({
-            where: candidateWhereClause
+        // Add category condition if present
+        if (category) {
+            query += ` AND category = :category`;
+            replacements.category = category;
+        }
+
+        // Order the results
+        query += ` ORDER BY c_rank ASC, category ASC`;
+
+        // Execute the raw SQL query using sequelize.query
+        const candidates = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ candidates: candidates, success: true });
+        res.status(200).json({ candidates, success: true });
     } catch (error) {
         console.error('Error fetching available candidates:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
 
+
 const dueForRenewal = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
         console.log(startDate, endDate);
 
-        // Fetch candidates with contracts where sign_off is null
+        // Fetch candidates with contracts where sign_off is '0000-00-00'
         const candidatesWithContracts = await Candidate.findAll({
             include: [
                 {
                     model: Contract,
                     where: {
-                        sign_off: null
+                        sign_off: '0000-00-00'
                     }
                 }
             ]
@@ -2441,7 +2544,8 @@ const dueForRenewal = async (req, res) => {
         const documents = await Documents.findAll({
             where: {
                 expiry_date: {
-                    [Op.between]: [startDate, endDate]
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
                 },
                 candidateId: {
                     [Op.in]: candidateIds
@@ -2453,7 +2557,8 @@ const dueForRenewal = async (req, res) => {
         const medicals = await Medical.findAll({
             where: {
                 expiry_date: {
-                    [Op.between]: [startDate, endDate]
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
                 },
                 candidateId: {
                     [Op.in]: candidateIds
@@ -2472,6 +2577,7 @@ const dueForRenewal = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 
 const getDueForRenewalCountForOneDay = async (req, res) => {
@@ -2539,34 +2645,56 @@ const avbreport = async (req, res) => {
 
 const onBoard = async (req, res) => {
     try {
-        const { startDate, vslName,companyname } = req.query;
-        // Construct the filtering criteria for contracts
-        const contractFilterCriteria = {
-            sign_on: { [Op.lte]: startDate }, // Sign-on date is less than or equal to the input date
-            sign_off: { [Op.or]: { [Op.gt]: startDate, [Op.is]: null } } // Sign-off date is greater than the input date or null
-        };
+        const { startDate, vslName, companyname, category } = req.query;
+
+        // Base SQL query
+        let query = `
+            SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
+                   b.fname, b.lname, b.dob, b.birth_place, c.vesselName, b.category, b.nationality, e.company_name
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN Rank AS d ON a.rank = d.rank
+            JOIN companies AS e ON a.company = e.company_id
+            WHERE a.sign_on <= :startDate
+              AND (a.sign_off > :startDate OR a.sign_off = '0000-00-00')
+        `;
+
+        // Define replacements object
+        const replacements = { startDate };
 
         // Add vessel name condition if present
         if (vslName) {
-            contractFilterCriteria.vslName = vslName;
+            query += ` AND c.vesselName = :vslName`;
+            replacements.vslName = vslName;
         }
-        if(companyname){
-            contractFilterCriteria.company=companyname;
+
+        // Add company name condition if present
+        if (companyname) {
+            query += ` AND e.company_name = :companyname`;
+            replacements.companyname = companyname;
         }
-        // Fetch contracts with associated candidate details
-        const contracts = await Contract.findAll({
-            where: contractFilterCriteria,
-            include: [
-                {
-                    model: Candidate,
-                    include: [
-                        { model: Documents },
-                        {model:Bank}
-                        // Add more associated models here if needed
-                    ]
-                },
-            ],
-            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
+
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+            GROUP BY a.candidateId
+            ORDER BY d.rankOrder ASC
+        `;
+
+        // Log query and replacements for debugging
+        console.log('Query:', query);
+        console.log('Replacements:', replacements);
+
+        // Run the raw SQL query using sequelize.query
+        const contracts = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
         });
 
         res.status(200).json({ contracts: contracts, success: true });
@@ -2574,91 +2702,184 @@ const onBoard = async (req, res) => {
         console.error("Error fetching onboard contracts:", error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
-}
+};
 
 
 
+
+
+// const crewList = async (req, res) => {
+//     try {
+//         const { startDate, endDate, vslName, company } = req.query;
+//         console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName, company);
+
+//         // Construct the filtering criteria for contracts based on sign_on and sign_off dates
+//         const contractFilterCriteria = {
+//             [Op.and]: [
+//                 // Condition 1: (sign_on <= endDate)
+//                 { sign_on: { [Op.lte]: endDate } },
+        
+//                 // Condition 2: (sign_off = '0000-00-00' OR (sign_off <= endDate AND sign_off >= startDate))
+//                 {
+//                     [Op.or]: [
+//                         // sub-condition 1: sign_off = '0000-00-00'
+//                         { sign_off: '0000-00-00' },
+        
+//                         // sub-condition 2: (sign_off <= endDate AND sign_off >= startDate)
+//                         {
+                            
+//                                // sign_off <= endDate
+//                                  sign_off: { [Op.gte]: startDate }     // sign_off >= startDate
+                            
+//                         }
+//                     ]
+//                 }
+//             ]
+//         };
+
+//         // Add vessel name condition if present
+//         if (vslName) {
+//             contractFilterCriteria.vslname = vslName;
+//         }
+
+//         // Add company condition if present
+//         if (company) {
+//             contractFilterCriteria.company = company;
+//         }
+
+//         // Fetch contracts with the specified criteria
+//         const contracts = await Contract.findAll({
+//             where: contractFilterCriteria,
+//             include: [
+//                 {
+//                     model: Candidate, // Include candidates related to the contracts
+//                     include: [
+//                         { model: Documents }
+//                     ]
+//                 }
+//             ],
+//             attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
+//         });
+
+//         // Send the crewlist contracts data to the client
+//         res.status(200).json({ contracts: contracts, success: true });
+//     } catch (error) {
+//         console.error("Error fetching crewlist contracts:", error);
+//         res.status(500).json({ error: 'Internal server error', success: false });
+//     }
+// }
 const crewList = async (req, res) => {
+    const { startDate, endDate, vslName, company } = req.query;
+  
+    // Log the parameters to debug
+    console.log({ startDate, endDate, vslName, company });
+  
+    if (!startDate || !endDate) {
+      return res.status(400).send('Missing required query parameters: startDate and endDate');
+    }
+  
+    let query = `
+      SELECT 
+        a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
+        a.wages_types, a.sign_on, a.sign_off, a.eoc, 
+        b.fname, b.lname, b.nationality, 
+        c.id AS vesselId, b.category, e.company_name 
+      FROM 
+        contract AS a
+        JOIN Candidates AS b ON a.candidateId = b.candidateId
+        JOIN vsls AS c ON a.vslName = c.id
+        JOIN rank AS d ON a.rank = d.rank
+        JOIN companies AS e ON a.company = e.company_id
+      WHERE 
+        (a.sign_on <= :endDate AND (a.sign_off = '0000-00-00' OR a.sign_off >= :startDate))
+    `;
+  
+    const replacements = { startDate, endDate };
+  
+    if (vslName) {
+      query += ' AND c.id = :vslName';
+      replacements.vslName = vslName;
+    }
+  
+    if (company) {
+      query += ' AND a.company = :company';
+      replacements.company = company;
+    }
+  
+    query += ' ORDER BY d.rankOrder ASC';
+  
     try {
-        const { startDate, endDate, vslName,company } = req.query;
-        console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName,company);
+      const results = await sequelize.query(query, {
+        type: sequelize.QueryTypes.SELECT,
+        replacements
+      });
+      res.json(results);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('An error occurred while retrieving the crew list.');
+    }
+  };
+  
+  
 
-        // Construct the filtering criteria for contracts based on sign_on and sign_off dates
-        const contractFilterCriteria = {
-            [Op.or]: [
-                { sign_on: { [Op.lte]: '2024-05-29' } },
-                {
-                    [Op.and]: [
-                        { sign_off: { [Op.gte]: '2024-05-15' } },
-                        { sign_off: { [Op.lte]: '2024-05-29' } }
-                    ]
-                }
-            ],
-            sign_off: null 
-        };
+
+  const reliefPlan = async (req, res) => {
+    try {
+        const { startDate, vesselName, companyName, category } = req.query;
+        console.log(startDate, vesselName, companyName, category);
+
+        // Define the base SQL query
+        let query = `
+            SELECT a.candidateId, a.eoc, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality, c.vesselName, e.company_name
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN Rank AS d ON a.rank = d.rank
+            JOIN companies AS e ON a.company = e.company_id
+            WHERE a.sign_off = '0000-00-00'
+              AND a.eoc <= :startDate
+        `;
+
+        // Define replacements object
+        const replacements = { startDate };
 
         // Add vessel name condition if present
-        if (vslName) {
-            contractFilterCriteria.vslname = vslName;
+        if (vesselName) {
+            query += ` AND c.vesselName = :vesselName`;
+            replacements.vesselName = vesselName;
         }
 
-        // Fetch contracts with the specified criteria
-        const contracts = await Contract.findAll({
-            where: contractFilterCriteria,
-            include: [
-                {
-                    model: Candidate, // Include candidates related to the contracts
-                    include:[
-                        {model:Documents}
-                    ]
-                },
-                
-            ],
-            attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
-        });
+        // Add company name condition if present
+        if (companyName) {
+            query += ` AND e.company_name = :companyName`;
+            replacements.companyName = companyName;
+        }
 
-        // Send the crewlist contracts data to the client
-        res.status(200).json({ contracts: contracts, success: true });
-    } catch (error) {
-        console.error("Error fetching crewlist contracts:", error);
-        res.status(500).json({ error: 'Internal server error', success: false });
-    }
-}
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
 
+        // Complete the query with order by clause
+        query += `
+            ORDER BY a.eoc ASC
+        `;
 
-
-const reliefPlan = async (req, res) => {
-    try {
-        const { startDate  } = req.query;
-        console.log(startDate);
-
-        // Fetching candidates and including the associated contracts with specified conditions
-        const candidatesWithContracts = await Contract.findAll({
-            where: {
-                sign_off: null, // Conditions related to c_sign_off field
-                eoc: {
-                    [Op.lte]: startDate // Condition for c_eoc field
-                },
-                // Additional conditions can be added here if needed
-            },
-            include: {
-                model: Candidate,
-                where: {
-                    // Conditions related to the Candidate model can be added here
-                },
-            },
-            order: [
-                ['eoc', 'ASC'] // Ordering by c_eoc field ascending
-            ]
+        // Run the raw SQL query using sequelize.query
+        const contracts = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
         });
 
         // Send the relief plan contracts data to the client
-        res.json(candidatesWithContracts);
+        res.json({ contracts: contracts, success: true });
     } catch (error) {
         console.error("Error fetching relief plan contracts:", error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 
 const mis = async (req, res) => {
@@ -2669,14 +2890,16 @@ const mis = async (req, res) => {
         const misCandidates = await Candidate.findAll({
             include: {
                 model: Discussion,
-                attributes: ['discussion', 'created_date', 'companyname'], // Select the fields you want to include
+                attributes: ['discussion', 'join_date', 'companyname'], // Select the fields you want to include
                 where: {
                     discussion: {
                         [Op.in]: ['proposed', 'approved', 'joined', 'rejected']
                     },
-                    created_date: {
-                        [Op.between]: [startDate, endDate]
-                    }
+                    join_date: {
+                        [Op.between]: [startDate,endDate] // Greater than or equal to startDate
+                          // Less than or equal to endDate
+                    },
+                                  
                 }
             }
         });
