@@ -628,36 +628,44 @@
                                 Click here to Add Sea Service
                             </button>
                         </h2>
+                        <form id="seaServiceForm">
+
                         <div id="seaServiceCollapse" class="accordion-collapse collapse" aria-labelledby="seaServiceHeading" data-bs-parent="#seaServiceAccordion">
                             <div class="accordion-body">
-                                <div class="w-100">
-                                    <form id="seaServiceForm">
-                                        <div class="mb-3">
+                              <div class="mb-3">
                                 <label for="company" class="form-label">Company</label>
-                                <input type="text" class="form-control" id="company" required>
+                                <select class="form-control" id="company" required>
+                                    <option value="" disabled selected>-- Select Company --</option>
+                                </select>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="rank" class="form-label">Rank</label>
+                                    <select class="form-control" id="rank" required>
+                                        <option value="" disabled selected>-- Select Rank --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="vessel" class="form-label">Vessel</label>
+                                    <select class="form-control" id="vessel" required>
+                                        <option value="" disabled selected>-- Select Vessel --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="type" class="form-label">Type</label>
+                                    <select class="form-control" id="type" required>
+                                        <option value="" disabled selected>-- Select Type --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="DWT" class="form-label">DWT</label>
+                                  <input type="text" class="form-control" id="DWT" required>
+                              </div>
                             </div>
                            
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label for="rank" class="form-label">Rank</label>
-                                <input type="text" class="form-control" id="rank" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="vessel" class="form-label">Vessel</label>
-                                <input type="text" class="form-control" id="vessel" required>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label for="type" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="type" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="DWT" class="form-label">DWT</label>
-                                <input type="text" class="form-control" id="DWT" required>
-                            </div>
-                        </div>
+                        
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label for="from1" class="form-label">From</label>
@@ -682,6 +690,7 @@
                               <input type="hidden" class="form-control" id="createdBy" required>
                           </div>
                         </div>
+                      </div>
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">Add Sea Service</button>
@@ -691,9 +700,13 @@
                 </div>
             
             <script>
+       
+        
+
                 document.addEventListener('DOMContentLoaded', async function (e) {
                     e.preventDefault();
                     const id = localStorage.getItem('memId');
+              
                     await fetchAndDisplaySeaService(id);
                     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -749,7 +762,7 @@
                 async function fetchAndDisplaySeaService(candidateId) {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-sea-service/${candidateId}`, {
+                        const response = await axios.get(`http://localhost:4000/candidate/get-sea-service/${candidateId}`, {
                             headers: { "Authorization": token }
                         });
             
@@ -792,7 +805,7 @@
                     if (confirm('Are you sure you want to delete this sea service record?')) {
                         try {
                             const token = localStorage.getItem('token');
-                            await axios.delete(`https://nemo.ivistaz.co/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+                            await axios.delete(`http://localhost:4000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
                             // Remove the corresponding row from the table
                             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
                             seaServiceRow.remove();
@@ -840,7 +853,7 @@
         try {
             const token = localStorage.getItem('token');
             const id = localStorage.getItem('memId');
-            const response = await axios.post(`https://nemo.ivistaz.co/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://localhost:4000/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response.data);
             alert('Sea Service record added successfully!');
             seaServiceForm.reset();
@@ -858,7 +871,7 @@
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+    axios.put(`http://localhost:4000/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -882,6 +895,94 @@
   }, 2000);
 });
 
+async function fetchAndDisplayCompanies() {
+            try {
+                const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", {
+                    headers: { "Authorization": token }
+                });
+                const companies = companyResponse.data.companies;
+                const companySelect = document.getElementById("company");
+
+                companySelect.innerHTML = '<option value="" disabled selected>-- Select Company --</option>';
+
+                companies.forEach((company) => {
+                    const option = document.createElement("option");
+                    option.value = company.company_name;
+                    option.textContent = company.company_name;
+                    companySelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying companies:', error);
+            }
+        }
+
+        async function fetchAndDisplayRanks() {
+            try {
+                const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", {
+                    headers: { "Authorization": token }
+                });
+                const ranks = rankResponse.data.ranks;
+                const rankSelect = document.getElementById("rank");
+
+                rankSelect.innerHTML = '<option value="" disabled selected>-- Select Rank --</option>';
+
+                ranks.forEach((rank) => {
+                    const option = document.createElement("option");
+                    option.value = rank.rank;
+                    option.textContent = rank.rank;
+                    rankSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying ranks:', error);
+            }
+        }
+
+        async function fetchAndDisplayVessels() {
+            try {
+                const vesselResponse = await axios.get("http://localhost:4000/others/get-vessel", {
+                    headers: { "Authorization": token }
+                });
+                const vessels = vesselResponse.data.vessels;
+                const vesselSelect = document.getElementById("vessel");
+
+                vesselSelect.innerHTML = '<option value="" disabled selected>-- Select Vessel --</option>';
+
+                vessels.forEach((vessel) => {
+                    const option = document.createElement("option");
+                    option.value = vessel.vesselName;
+                    option.textContent = vessel.vesselName;
+                    vesselSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying vessels:', error);
+            }
+        }
+
+        async function fetchAndDisplayVesselTypes() {
+            try {
+                const vesselTypeResponse = await axios.get("http://localhost:4000/others/get-vsls", {
+                    headers: { "Authorization": token }
+                });
+                const vesselTypes = vesselTypeResponse.data.vessels;
+                const typeSelect = document.getElementById("type");
+
+                typeSelect.innerHTML = '<option value="" disabled selected>-- Select Type --</option>';
+
+                vesselTypes.forEach((vesselType) => {
+                    const option = document.createElement("option");
+                    option.value = vesselType.vesselName;
+                    option.textContent = vesselType.vesselName;
+                    typeSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying vessel types:', error);
+            }
+        }
+
+             fetchAndDisplayCompanies();
+             fetchAndDisplayRanks();
+             fetchAndDisplayVessels();
+             fetchAndDisplayVesselTypes();
                 
             </script>
             

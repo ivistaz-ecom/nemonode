@@ -9,7 +9,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/view-rank", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -32,7 +32,7 @@ const displayVesselDropdown = async function () {
         defaultOption.text = '-- Select Vessel --';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:4000/others/view-vsl", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vsls;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -62,7 +62,7 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '-- Select Vessel Type --';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/view-vessels", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:4000/others/view-vessels", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vessels;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -151,7 +151,7 @@ const displayCountryDropdown = async function () {
         countryDropdown.appendChild(defaultOption);
 
         // Assuming the country data is an array of objects with the property "country"
-        const countryResponse = await axios.get("https://nemo.ivistaz.co/others/country-codes", { headers: { "Authorization": token } });
+        const countryResponse = await axios.get("http://localhost:4000/others/country-codes", { headers: { "Authorization": token } });
         const countries = countryResponse.data.countryCodes; // Assuming the array is directly returned
 
         for (let i = 0; i < countries.length; i++) {
@@ -197,7 +197,7 @@ const addCrewPlanner = async (e) => {
 
     try {
         // Send data to the server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/others/add-crew-planner', formData, { headers: { "Authorization": token } });
+        const response = await axios.post('http://localhost:4000/others/add-crew-planner', formData, { headers: { "Authorization": token } });
 
         // Handle the response as needed
         console.log(response.data);
@@ -215,7 +215,7 @@ document.getElementById('addCrewForm').addEventListener('submit', addCrewPlanner
 
 async function fetchAndDisplayCrewPlannerDetails() {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/others/view-crew-planner`, {
+        const response = await axios.get(`http://localhost:4000/others/view-crew-planner`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -287,7 +287,7 @@ function deleteCrewPlanner(crewPlannerId) {
 
 async function createCompanyDropdown() {
 
-    const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.company;
         const companyNames = companyOptions.map(company => company.company_name);
 
@@ -320,7 +320,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
