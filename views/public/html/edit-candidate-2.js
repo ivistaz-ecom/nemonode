@@ -142,7 +142,7 @@ async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
-        const vessels = serverResponse.data;
+        const vessels = serverResponse.data.vessels;
         console.log('vsls',serverResponse)
         // Get the select element
         const vesselSelect = document.getElementById("edit_candidate_c_vessel");

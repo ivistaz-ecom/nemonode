@@ -72,9 +72,9 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         });
     }
       
-        const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { headers: { "Authorization": token } });
         console.log(hospitalResponse)
-        const hospitals = hospitalResponse.data.hospitals;
+        const hospitals = hospitalResponse.data.hospital;
         const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
         const hospitalDropdown = document.getElementById('hospital_name');
         hospitalDropdown.innerHTML = ''; // Clear existing options

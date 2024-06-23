@@ -96,8 +96,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             }
         }
 
-        const portAgentResponse = await axios.get("https://nemo.ivistaz.co/others/view-port-agent", { headers: { "Authorization": token } });
-            const portAgents = portAgentResponse.data.portAgents;
+        const portAgentResponse = await axios.get("https://nemo.ivistaz.co/others/get-portAgent", { headers: { "Authorization": token } });
+            const portAgents = portAgentResponse.data.portAgent;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
             const portAgentDropdowns = document.getElementById('portAgent');
