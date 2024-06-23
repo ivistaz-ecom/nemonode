@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 const avbDateInput = document.getElementById('edit_candidate_avb_date');
 const avbDateValue = avbDateInput.value;
-
 // Check if the avb_date is null
 const avbDate = avbDateValue.trim() !== '' ? avbDateValue : null;
 
@@ -70,7 +69,7 @@ async function fetchAndDisplayExp() {
     try {
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
-
+        console.log(serverResponse,'exp')
         // Check if experiences is an array
         if (Array.isArray(experiences)) {
             // Get the dropdown element by its ID
@@ -142,9 +141,9 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-        const vessels = serverResponse.data.vsls;
-
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
+        const vessels = serverResponse.data;
+        console.log('vsls',serverResponse)
         // Get the select element
         const vesselSelect = document.getElementById("edit_candidate_c_vessel");
 
@@ -182,7 +181,7 @@ function displayDropdownOptions(dropdown, options, placeholder) {
     if (Array.isArray(options)) {
         options.forEach(option => {
             const dropdownOption = document.createElement("option");
-            dropdownOption.value = option.country; // Use the appropriate ID or value from your data
+            dropdownOption.value = option.code; // Use the appropriate ID or value from your data
             dropdownOption.text = option.country; // Use the appropriate property from your data
             dropdown.appendChild(dropdownOption);
         });
@@ -201,7 +200,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -224,6 +223,9 @@ async function fetchAndDisplayNationalities() {
         return []; // Return an empty array in case of an error
     }
 }
+
+
+
 async function displayCandidateDetails(candidateData) {
     try {
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
@@ -231,21 +233,21 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
         document.getElementById('edit_candidate_experience').value = candidateData.experience;
         document.getElementById('edit_candidate_grade').value = candidateData.grade;
-        document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
        
         // // Continue with the rest of the form population code
         document.getElementById('edit_candidate_fname').value = candidateData.fname;
         document.getElementById('edit_candidate_lname').value = candidateData.lname;
-    document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avbDate);
+    document.getElementById('edit_candidate_avb_date').value = formatDate(candidateData.avb_date);
         document.getElementById('edit_candidate_dob').value = formatDate(candidateData.dob);  
-              document.getElementById('edit_candidate_company_status').value = candidateData.company_status;
+              document.getElementById('edit_candidate_company_status').value = candidateData.active_details;
+              
         document.getElementById('edit_candidate_birth_place').value = candidateData.birth_place;
         document.getElementById('edit_candidate_work_nautilus').value = candidateData.work_nautilus;
-        // document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
+        document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
         document.getElementById('edit_candidate_experience').value = candidateData.experience;
         document.getElementById('edit_candidate_zone').value = candidateData.zone;
         
-        // document.getElementById('edit_candidate_grade').value = candidateData.grade;
+        document.getElementById('edit_candidate_grade').value = candidateData.grade;
         document.getElementById('edit_candidate_boiler_suit_size').value = candidateData.boiler_suit_size;
         document.getElementById('edit_candidate_safety_shoe_size').value = candidateData.safety_shoe_size;
         document.getElementById('edit_candidate_height').value = candidateData.height;
@@ -253,7 +255,7 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_I_country').value = candidateData.l_country;
         document.getElementById('edit_candidate_indos_number').value = candidateData.indos_number;
         document.getElementById('edit_company_status').value = candidateData.m_status;
-        document.getElementById('edit_candidate_group').value = candidateData.group;
+        document.getElementById('edit_candidate_group').value = candidateData.category;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
         displayFileInput('edit_candidate_photos', candidateData.photos);
         displayFileInput('edit_candidate_resume', candidateData.resume);
