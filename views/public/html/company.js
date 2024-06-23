@@ -31,7 +31,7 @@ addCompanyButton.addEventListener("submit", async (e) => {
 
     console.log(company_details);
     try {
-        const serverResponse = await axios.post("http://localhost:4000/company/create-company", company_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("https://nemo.ivistaz.co/company/create-company", company_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         var successToast = new bootstrap.Toast(document.getElementById('successToast'));
         successToast.show();
@@ -129,7 +129,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
