@@ -1784,14 +1784,21 @@
                 <button id="exportDocumentCandidates" class="btn btn-dark text-success" style="display: none;">Export to Excel</button>
 
                 <table class="table table-bordered text-center">
-                    <thead>
-                        <tr>
-                          <th>S.No</th>
-                            <th>Document</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                  <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Candidate ID</th>
+                        <th>Document</th>
+                        <th>Document Files</th>
+                        <th>Document Number</th>
+                        <th>Expiry Date</th>
+                        <th>ID</th>
+                        <th>Issue Date</th>
+                        <th>Issue Place</th>
+                        <th>STCW</th>
+                        <th>Status</th> <!-- Assuming you want to display status based on expiry date -->
+                    </tr>
+                </thead>
                     <tbody id="documentCandidatesTableBody">
                         <!-- Table rows will be dynamically added here -->
                     </tbody>
@@ -1801,15 +1808,22 @@
                 <button id="exportMedicalCandidates" class="btn btn-dark text-success" style="display: none;">Export to Excel</button>
 
                 <table class="table table-bordered text-center">
-                    <thead>
-                        <tr>
-                          <th>S.No</th>
-                            <th>Hospital Name</th>
-                            <th>Place</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                  <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Amount</th>
+                        <th>Candidate ID</th>
+                        <th>Created By</th>
+                        <th>Date</th>
+                        <th>Done By</th>
+                        <th>Expiry Date</th>
+                        <th>Hospital Name</th>
+                        <th>ID</th>
+                        <th>Place</th>
+                        <th>Status</th>
+                        <th>Upload</th>
+                    </tr>
+                </thead>
                     <tbody id="medicalCandidatesTableBody">
                         <!-- Table rows will be dynamically added here -->
                     </tbody>
@@ -1942,7 +1956,7 @@
     <script src="../assets/js/main.js"></script>
     <script src="./report.js"></script>
     <!-- Page JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
