@@ -79,6 +79,8 @@ const displayVesselTypeDropdown = async function () {
 
 document.addEventListener('DOMContentLoaded', function () {
 
+   fetchAndDisplayCrewPlannerDetails()
+
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
@@ -95,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
     displayVesselDropdown()
     displayVesselTypeDropdown()
     displayCountryDropdown()
-    fetchAndDisplayCrewPlannerDetails()
     createCompanyDropdown()
     const dojInput = document.getElementById('doj');
     const immediateCheckbox = document.getElementById('immediate');
@@ -229,8 +230,8 @@ async function fetchAndDisplayCrewPlannerDetails() {
         crewPlannerTableBody.innerHTML = ''; // Clear existing rows
 
         // Check if crewplanners property exists in crewPlannerDetails
-        if (crewPlannerDetails.crewplanners) {
-            crewPlannerDetails.crewplanners.forEach(crewPlanner => {
+        if (crewPlannerDetails) {
+            crewPlannerDetails.forEach(crewPlanner => {
                 const row = document.createElement('tr');
 
                 // Add data to each cell
