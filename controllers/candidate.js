@@ -2401,7 +2401,7 @@ const getContractsBySignOffDate = async (req, res) => {
             LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
             LEFT JOIN Users AS u ON a.created_by = u.id
             WHERE a.sign_off BETWEEN :startDate AND :endDate
-              AND a.sign_on != '0000-00-00'
+              AND a.sign_on != 0000-00-00
         `;
 
         // Add vessel type condition if present
