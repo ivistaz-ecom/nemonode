@@ -2329,7 +2329,7 @@ const getContractsBySignOnDate = async (req, res) => {
         // Complete the query with group by and order by clauses
         query += `
             GROUP BY a.candidateId
-            ORDER BY d.rankOrder ASC
+           
         `;
 
         // Run the raw SQL query using sequelize.query
@@ -2397,7 +2397,7 @@ const getContractsBySignOffDate = async (req, res) => {
         // Complete the query with group by and order by clauses
         query += `
             GROUP BY a.candidateId
-            ORDER BY a.rank ASC
+           
         `;
 
         // Run the raw SQL query using sequelize.query
@@ -2457,7 +2457,7 @@ const getContractsDueForSignOff = async (req, res) => {
         }
 
         // Complete the query with order by clause
-        query += ` ORDER BY d.rankOrder ASC`;
+       
 
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
