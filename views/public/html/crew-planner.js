@@ -289,7 +289,7 @@ function deleteCrewPlanner(crewPlannerId) {
 async function createCompanyDropdown() {
 
     const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
-        const companyOptions = companyResponse.data.company;
+        const companyOptions = companyResponse.data.companies;
         const companyNames = companyOptions.map(company => company.company_name);
 
 
