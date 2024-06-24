@@ -2401,7 +2401,7 @@ const getContractsBySignOffDate = async (req, res) => {
             LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
             LEFT JOIN Users AS u ON a.created_by = u.id
             WHERE a.sign_off BETWEEN :startDate AND :endDate
-              AND a.sign_on != '0000-00-00'
+              AND a.sign_on != 0000-00-00
         `;
 
         // Add vessel type condition if present
@@ -2421,9 +2421,34 @@ const getContractsBySignOffDate = async (req, res) => {
 
         // Complete the query with group by and order by clauses
         query += `
-            GROUP BY a.candidateId
-           
+            GROUP BY 
+                a.candidateId, 
+                a.rank, 
+                a.vslName, 
+                a.vesselType, 
+                a.wages, 
+                a.currency, 
+                a.wages_types, 
+                a.sign_on, 
+                a.sign_off, 
+                a.eoc, 
+                a.emigrate_number, 
+                a.aoa_number, 
+                a.reason_for_sign_off,
+                b.fname, 
+                b.lname, 
+                b.nationality, 
+                b.indos_number,
+                c.vesselName, 
+                c.imoNumber, 
+                c.vesselFlag, 
+                d.company_name,
+                bd.pan_num, 
+                cd_indian_cdc.document_number, 
+                cd_passport.document_number, 
+                u.userName
         `;
+
 
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
