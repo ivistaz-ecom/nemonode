@@ -216,7 +216,7 @@ document.getElementById('addCrewForm').addEventListener('submit', addCrewPlanner
 
 async function fetchAndDisplayCrewPlannerDetails() {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/others/get-crew`);
+        const response = await axios.get(`https://nemo.ivistaz.co/others/get-crewplanner`);
 
         const crewPlannerDetails = response.data.crewPlanner;
         console.log(crewPlannerDetails);
