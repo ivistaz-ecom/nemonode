@@ -2148,6 +2148,19 @@ const getGrades = async(req,res)=>{
   }
 }
 
+const getCrewPlanner = async(req,res)=>{
+  try{
+    const crewPlanner = await CrewPlanner.findAll({
+    
+    })
+
+    res.json({crewPlanner})
+  }
+  catch(err){
+    console.log(err)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 
   module.exports = {
@@ -2217,7 +2230,8 @@ const getGrades = async(req,res)=>{
     view_medicals,
     getDocumentType,
     getPortAgent,
-    getGrades
+    getGrades,
+    getCrewPlanner
     
   }
 
