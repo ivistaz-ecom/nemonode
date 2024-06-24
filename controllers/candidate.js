@@ -2303,7 +2303,7 @@ const getContractsBySignOnDate = async (req, res) => {
         FROM contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
-        JOIN Rank AS d ON a.rank = d.rank
+       
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId 
         LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
@@ -2432,7 +2432,7 @@ const getContractsDueForSignOff = async (req, res) => {
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
-            JOIN Rank AS d ON a.rank = d.rank 
+            
             JOIN companies AS e ON a.company = e.company_id
             WHERE a.sign_off = '0000-00-00'
               AND a.eoc BETWEEN :startDate AND :endDate
