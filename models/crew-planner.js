@@ -20,7 +20,7 @@ const CrewPlanner = sequelize.define('CrewPlanner', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    vessel: {
+    vesselName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
