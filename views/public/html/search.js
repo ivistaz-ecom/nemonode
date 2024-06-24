@@ -402,7 +402,7 @@ fetchAndDisplayExp()
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-grades", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
