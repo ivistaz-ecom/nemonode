@@ -2134,6 +2134,20 @@ const getDocumentType = async(req,res)=>{
   }
 }
 
+const getGrades = async(req,res)=>{
+  try{
+    const grades = await Grade.findAll({
+    
+    })
+
+    res.json({grades:grades})
+  }
+  catch(err){
+    console.log(err)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 
   module.exports = {
@@ -2202,7 +2216,8 @@ const getDocumentType = async(req,res)=>{
     view_ports,
     view_medicals,
     getDocumentType,
-    getPortAgent
+    getPortAgent,
+    getGrades
     
   }
 
