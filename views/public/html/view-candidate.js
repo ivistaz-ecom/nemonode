@@ -544,7 +544,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_company_status').value = candidateData.m_status;
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
-        document.getElementById('edit_candidate_photos').value= candidateData.photos
+        // document.getElementById('edit_candidate_photos').value= candidateData.photos
         document.getElementById('edit_candidate_resume').value= candidateData.resume
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
@@ -709,9 +709,9 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 'Authorization': token
             }
         });
-        console.log('vessel da ',vesselsResponse.data)
+        console.log('vessel da ',vesselsResponse.data.vessels)
         const vessels = {}; // Map to store vessel details by ID
-        vesselsResponse.data.forEach(vessel => {
+        vesselsResponse.data.vessels.forEach(vessel => {
             vessels[vessel.id] = vessel.vesselName; // Store vessel details by ID
         });
 
