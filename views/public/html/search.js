@@ -322,7 +322,7 @@ async function fetchCandidateData(candidateIds) {
     defaultOption.text = '';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -346,8 +346,8 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-        const vessels = vesselResponse.data.vsls;
+        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        const vessels = vesselResponse.data.vessels;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
         for (let i = 0; i < vesselNames.length; i++) {
