@@ -2856,10 +2856,10 @@ const crewList = async (req, res) => {
         contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
-        JOIN rank AS d ON a.rank = d.rank
+       
         JOIN companies AS e ON a.company = e.company_id
       WHERE 
-        (a.sign_on <= :endDate AND (a.sign_off = '0000-00-00' OR a.sign_off >= :startDate))
+        (a.sign_on <= :endDate AND (a.sign_off = 0000-00-00 OR a.sign_off >= :startDate))
     `;
   
     const replacements = { startDate, endDate };
@@ -2874,7 +2874,7 @@ const crewList = async (req, res) => {
       replacements.company = company;
     }
   
-    query += ' ORDER BY d.rankOrder ASC';
+ 
   
     try {
       const results = await sequelize.query(query, {
