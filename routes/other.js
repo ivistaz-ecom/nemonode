@@ -83,6 +83,7 @@ router.get("/get-ranks",otherControllers.view_ranks)
 router.get("/get-ports",otherControllers.view_ports)
 router.get("/get-portAgent",otherControllers.getPortAgent)
 router.get("/get-hospital", otherControllers.view_medicals)
+router.get("/get-grades", otherControllers.getGrades)
 
 router.get('/get-documenttype',otherControllers.getDocumentType)
 
