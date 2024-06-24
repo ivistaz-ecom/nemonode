@@ -2904,7 +2904,7 @@ const crewList = async (req, res) => {
             JOIN vsls AS c ON a.vslName = c.id
            
             JOIN companies AS e ON a.company = e.company_id
-            WHERE a.sign_off = '0000-00-00'
+            WHERE a.sign_off = 0000-00-00
               AND a.eoc <= :startDate
         `;
 
