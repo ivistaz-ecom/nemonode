@@ -229,42 +229,42 @@ async function fetchAndDisplayCrewPlannerDetails() {
         const crewPlannerTableBody = document.getElementById('crewPlannerTableBody');
         crewPlannerTableBody.innerHTML = ''; // Clear existing rows
 
-        // Check if crewplanners property exists in crewPlannerDetails
-        if (crewPlannerDetails) {
+        // Check if crewPlannerDetails is an array and not empty
+        if (Array.isArray(crewPlannerDetails) && crewPlannerDetails.length > 0) {
             crewPlannerDetails.forEach(crewPlanner => {
                 const row = document.createElement('tr');
-
-                // Add data to each cell
                 row.innerHTML = `
-                <td>${crewPlanner.id}</td>
-                <td>${crewPlanner.rank}</td>
-                <td>${crewPlanner.client}</td>
-                <td>${crewPlanner.vesselType}</td>
-                <td>${crewPlanner.vesselName}</td>
-                <td>${crewPlanner.cocAccepted}</td>
-                <td>${crewPlanner.trading}</td>
-                <td>${crewPlanner.wages}</td>
-                <td>${crewPlanner.doj}</td>
-                <td>${crewPlanner.otherInfo}</td>
-                <td>${crewPlanner.immediate}</td>
-                <td>
-                <button class="btn border-0 m-0 p-0" onclick="editCrewPlanner('${crewPlanner.id}', '${crewPlanner.rank}', '${crewPlanner.client}', '${crewPlanner.vesselType}', '${crewPlanner.vesselName}', '${crewPlanner.cocAccepted}', '${crewPlanner.trading}', '${crewPlanner.wages}', '${crewPlanner.doj}', '${crewPlanner.otherInfo}', '${crewPlanner.status}','${crewPlanner.created_by}', event)">
-                    <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-                </button>
-                <button class="btn border-0 m-0 p-0" onclick="deleteCrewPlanner('${crewPlanner.id}')">
-                    <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-                </button>
-            </td>
-            
+                    <td>${crewPlanner.id}</td>
+                    <td>${crewPlanner.rank}</td>
+                    <td>${crewPlanner.client}</td>
+                    <td>${crewPlanner.vesselType}</td>
+                    <td>${crewPlanner.vesselName}</td>
+                    <td>${crewPlanner.cocAccepted}</td>
+                    <td>${crewPlanner.trading}</td>
+                    <td>${crewPlanner.wages}</td>
+                    <td>${crewPlanner.doj}</td>
+                    <td>${crewPlanner.otherInfo}</td>
+                    <td>${crewPlanner.status}</td>
+                    <td>
+                        <button class="btn border-0 m-0 p-0" onclick="editCrewPlanner('${crewPlanner.id}', '${crewPlanner.rank}', '${crewPlanner.client}', '${crewPlanner.vesselType}', '${crewPlanner.vesselName}', '${crewPlanner.cocAccepted}', '${crewPlanner.trading}', '${crewPlanner.wages}', '${crewPlanner.doj}', '${crewPlanner.otherInfo}', '${crewPlanner.status}','${crewPlanner.created_by}', event)">
+                            <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn border-0 m-0 p-0" onclick="deleteCrewPlanner('${crewPlanner.id}')">
+                            <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                        </button>
+                    </td>
                 `;
-
                 crewPlannerTableBody.appendChild(row);
             });
+        } else {
+            // Handle case where no crew planners are returned
+            crewPlannerTableBody.innerHTML = '<tr><td colspan="12">No crew planners found</td></tr>';
         }
     } catch (error) {
         console.error('Error fetching crew planner details:', error);
     }
 }
+
 
 function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, trading, wages, doj, otherInfo, status,created_by, event) {
     event.preventDefault();
