@@ -554,9 +554,9 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_email1').value = candidateData.email1;
         document.getElementById('edit_candidate_c_tel1').value = candidateData.c_tel1;
         document.getElementById('edit_candidate_c_ad2').value = candidateData.c_ad2;
-        document.getElementById('edit_candidate_p_city').value = candidateData.p_city;
-        document.getElementById('edit_candidate_p_state').value = candidateData.p_state;
-        document.getElementById('edit_candidate_p_pin').value = candidateData.p_pin;
+        document.getElementById('edit_candidate_city').value = candidateData.p_city;
+        document.getElementById('edit_candidate_c_state').value = candidateData.p_state;
+        document.getElementById('edit_candidate_pin').value = candidateData.p_pin;
         document.getElementById('edit_candidate_c_mobi2').value = candidateData.c_mobi2;
         document.getElementById('edit_candidate_c_tel2').value = candidateData.c_tel2;
         document.getElementById('edit_candidate_email2').value = candidateData.email2;
