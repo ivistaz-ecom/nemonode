@@ -1719,7 +1719,7 @@ const Reminder = async (req, res) => {
             FROM discussion AS a
             JOIN Users AS b ON a.post_by = b.id
             JOIN Candidates AS c ON a.candidateId = c.candidateId
-            JOIN Rank AS d ON c.c_rank = d.rank
+            
             WHERE a.reminder = '1'
               AND a.r_date BETWEEN :startDate AND :endDate
         `;
@@ -1734,9 +1734,7 @@ const Reminder = async (req, res) => {
         }
 
         // Complete the query with order by clauses
-        query += `
-            ORDER BY d.rankOrder ASC, a.id DESC
-        `;
+       
 
         // Run the raw SQL query using sequelize.query
         const discussions = await sequelize.query(query, {
