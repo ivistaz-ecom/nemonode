@@ -2432,11 +2432,9 @@ const getContractsDueForSignOff = async (req, res) => {
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
-            JOIN Rank AS d ON a.rank = d.rank
+            JOIN Rank AS d ON a.rank = d.rank 
             JOIN companies AS e ON a.company = e.company_id
-            WHERE a.sign_off = '0000-00-00'
-              AND a.eoc BETWEEN :startDate AND :endDate
-        `;
+            WHERE a.sign_off = '0000-00-00' AND a.eoc BETWEEN :startDate AND :endDate`;
 
         // Define replacements object
         const replacements = { startDate, endDate };
