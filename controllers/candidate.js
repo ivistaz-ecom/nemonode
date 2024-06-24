@@ -2704,10 +2704,10 @@ const onBoard = async (req, res) => {
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
-            JOIN Rank AS d ON a.rank = d.rank
+           
             JOIN companies AS e ON a.company = e.company_id
             WHERE a.sign_on <= :startDate
-              AND (a.sign_off > :startDate OR a.sign_off = '0000-00-00')
+              AND (a.sign_off > :startDate OR a.sign_off = 0000-00-00)
         `;
 
         // Define replacements object
@@ -2733,9 +2733,27 @@ const onBoard = async (req, res) => {
 
         // Complete the query with group by and order by clauses
         query += `
-            GROUP BY a.candidateId
-            ORDER BY d.rankOrder ASC
-        `;
+        GROUP BY 
+            a.candidateId, 
+            a.rank, 
+            a.vslName, 
+            a.sign_on_port, 
+            a.vesselType, 
+            a.wages, 
+            a.currency, 
+            a.wages_types, 
+            a.sign_on, 
+            a.sign_off, 
+            a.eoc,
+            b.fname, 
+            b.lname, 
+            b.dob, 
+            b.birth_place, 
+            c.vesselName, 
+            b.category, 
+            b.nationality, 
+            e.company_name
+    `;
 
         // Log query and replacements for debugging
         console.log('Query:', query);
