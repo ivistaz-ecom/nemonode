@@ -216,12 +216,7 @@ document.getElementById('addCrewForm').addEventListener('submit', addCrewPlanner
 
 async function fetchAndDisplayCrewPlannerDetails() {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/others/get-crew`, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await axios.get(`https://nemo.ivistaz.co/others/get-crew`);
 
         const crewPlannerDetails = response.data.crewPlanner;
         console.log(crewPlannerDetails);
