@@ -2140,7 +2140,7 @@ const getGrades = async(req,res)=>{
     
     })
 
-    res.json({grades:grades})
+    res.json({grades})
   }
   catch(err){
     console.log(err)
