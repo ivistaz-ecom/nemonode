@@ -20,10 +20,11 @@ function generateAccessToken(id, userName,userEmail,
   master_create,
   staff,
   deletes,
-  logged
+  logged,
+  userPhone
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
-    master_create:master_create,staff:staff,deletes:deletes,logged:logged
+    master_create:master_create,staff:staff,deletes:deletes,logged:logged,userPhone:userPhone
   }, 'secretkey');
 }
 
@@ -142,7 +143,7 @@ const login = async (req, res, next) => {
 
               if (passwordMatch) {
                   // Password is correct, generate JWT token
-                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged);
+                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged,user.userPhone);
                   console.log(token);
 
                   // Update logged status to true
@@ -424,6 +425,57 @@ const updateLogout=async (req, res, next) => {
   }
 };
   
+
+const updateUserData = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const {
+      userName,
+      userEmail,
+      userPhone,
+      userPassword
+    } = req.body;
+
+    // Find the user by ID
+    const user = await User.findByPk(userId);
+
+    // If the user does not exist, return a 404 response
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user fields with the new data, excluding the specified fields
+    user.userName = userName || user.userName;
+    user.userEmail = userEmail || user.userEmail;
+    user.userPhone = userPhone || user.userPhone;
+
+    // Check if a new password is provided and hash it
+    if (userPassword && userPassword.length <= 50) {
+      const saltrounds = 10;
+      const hash = await bcrypt.hash(userPassword, saltrounds);
+      user.userPassword = hash; // Hash the new password
+    }
+
+    // Save the updated user
+    await user.save();
+
+    // Fetch the updated user after saving changes
+    const updatedUser = await User.findByPk(userId);
+
+    res.status(200).json({
+      message: 'User updated successfully',
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error('Error during user update:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
+
+
 module.exports = {
   create_user,
   edit_user,
@@ -433,5 +485,6 @@ module.exports = {
   get_user,
   userDropdown,
   updateLogged,
-  updateLogout
+  updateLogout,
+  updateUserData
 };

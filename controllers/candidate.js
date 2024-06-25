@@ -1036,7 +1036,7 @@ const add_discussionplusdetails = async (req, res) => {
     try {
         // Extract data from the request body
         const { companyname, join_date, discussion, reason, post_by, reminder, r_date, created_date } = req.body;
-
+        console.log("Reason",reason)
         const candidateId = req.params.id;
 
         // Ensure default values for optional fields

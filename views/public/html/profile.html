@@ -885,7 +885,45 @@
                       </ul>
                   </div>
              
-          
+                  <button type="button" class="btn btn-primary" id="editProfileBtn" data-toggle="modal" data-target="#editProfileModal">
+                    Edit My Profile
+                  </button>
+                
+                  <!-- Edit Profile Modal -->
+                  <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                          <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="editProfileForm">
+                            <div class="form-group">
+                              <label for="userName">Username</label>
+                              <input type="text" class="form-control" id="userName" name="userName" required>
+                            </div>
+                          
+                            <div class="form-group">
+                              <label for="userEmailInput">Email</label>
+                              <input type="email" class="form-control" id="userEmailInput" name="userEmailInput" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="userPhone">Phone</label>
+                              <input type="text" class="form-control" id="userPhone" name="userPhone" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="userPassword">New Password</label>
+                              <input type="password" class="form-control" id="userPassword" name="userPassword">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
           
             
         </div>
@@ -904,10 +942,10 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Get token from localStorage
             const token = localStorage.getItem("token");
-
+          
             // Decode token (Assuming it's a JWT)
             const decodedToken = decodeToken(token);
-
+          console.log(decodedToken)
             // Function to parse JWT token
             function decodeToken(token) {
     // Implementation depends on your JWT library
@@ -935,6 +973,9 @@
             document.getElementById("deletes").innerText = decodedToken.deletes;
             document.getElementById("write").innerText = decodedToken.Write;
             document.getElementById("staff").innerText = decodedToken.staff;
+            document.getElementById("userName").value = decodedToken.userName;
+    document.getElementById("userEmailInput").value = decodedToken.userEmail;
+    document.getElementById("userPhone").value = decodedToken.userPhone ;
         });
         document.getElementById("logout").addEventListener("click", function() {
   // Display the modal with initial message
@@ -984,6 +1025,51 @@ function generateRandomAvatar() {
 
 // Call the function to generate a random avatar when the page loads
 generateRandomAvatar();
+
+document.getElementById("editProfileForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+          
+          // Decode token (Assuming it's a JWT)
+          const decodedToken = decodeToken(token);
+        console.log(decodedToken)
+          // Function to parse JWT token
+          function decodeToken(token) {
+  // Implementation depends on your JWT library
+  // Here, we're using a simple base64 decode
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(atob(base64));
+          }
+    // Get updated user data from the form
+    const userName = document.getElementById("userName").value;
+    const userEmail = document.getElementById("userEmailInput").value;
+    const userPhone = document.getElementById("userPhone").value;
+    const userPassword = document.getElementById("userPassword").value; // If needed
+
+    // Create payload for updating user data
+    const updateData = {
+      userName: userName,
+      userEmail: userEmail,
+      userPhone: userPhone,
+      userPassword: userPassword // Include only if password is updated
+    };
+
+    // Send PUT request to update user data
+    axios.put(`https://nemo.ivistaz.co/user/edit-userdata/${decodedToken.userId}`, updateData)
+      .then(response => {
+        console.log('User data updated successfully:', response.data);
+        // Display success message
+        alert("User data has been updated successfully");
+
+        // You can optionally close the modal or perform other actions here
+      })
+      .catch(error => {
+        console.error('Error updating user data:', error);
+        // Handle error scenarios, display error message, etc.
+        alert("Failed to update user data. Please try again.");
+      });
+  });
     </script>
                   <!-- Bootstrap JS -->
                   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

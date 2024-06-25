@@ -14,5 +14,6 @@ router.get('/get-user/:id',userControllers.get_user)
 router.get("/view-user",userAuthentication.authenticate,userControllers.view_user)
 router.get('/userdropdown',userControllers.userDropdown)
 router.put('/:userId/logout',userControllers.updateLogout)
+router.put('/edit-userdata/:id',userControllers.updateUserData)
 
 module.exports = router;
