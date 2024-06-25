@@ -33,24 +33,21 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
 });
 
 function formatDate(dateString) {
-    // Check if the date string is empty or null
-    if (!dateString || dateString.trim() === '') {
-        return '0000-00-00'; // Return default value for empty date
+    if (!dateString || dateString === '0000-00-00') {
+        return '0000-00-00';
     }
 
-    // Attempt to parse the date string into YYYY-MM-DD format
     const date = new Date(dateString);
+    
+    // Check if the date is valid
     if (isNaN(date.getTime())) {
-        // Invalid date format, return default value
         return '0000-00-00';
-    } else {
-        // Format the date as YYYY-MM-DD
-        const year = date.getFullYear();
-        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-indexed
-        let day = date.getDate().toString().padStart(2, '0');
-        return `${year}-${month}-${day}`;
     }
+    
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
 }
+
 
 
 
