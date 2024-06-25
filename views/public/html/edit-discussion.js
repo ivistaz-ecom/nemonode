@@ -122,12 +122,14 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
     // Get company name input value
     const companyName = document.getElementById('company_name').value;
 
+    // Get company dropdown text
     const companyDropdown = document.getElementById('company_name');
     const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
 
     // Get status date input value
-    // Get status date input value
     const statusDate = document.getElementById('status_date').value;
+
+    // Get reminder date input value
     const r_date = document.getElementById('reminder_date').value;
 
     // Get reason input value
@@ -178,7 +180,6 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         commentsSection.textContent = `${basicCommentsValue}`;
     }
 
-    
     // Create discussion plus data object
     const discussionPlusData = {
         post_by: localStorage.getItem('userId'),
@@ -187,7 +188,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         reminder: document.getElementById('set_reminder_checkbox').checked,
         companyname: companyName,
         reason: reason,
-        join_date :null,
+        join_date: null, // Ensure this is handled correctly on the server side if necessary
         created_date: new Date(),
     };
 
@@ -210,12 +211,14 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
                 'Content-Type': 'application/json',
             },
         });
-        console.log(response.data);
-        event.target.reset();
+        console.log('Discussion plus detail created:', response.data);
+        event.target.reset(); // Reset form after successful submission
     } catch (error) {
-        console.error(error);
+        console.error('Error creating discussion:', error);
+        // Handle error feedback to the user if needed
     }
 });
+
 
 
 

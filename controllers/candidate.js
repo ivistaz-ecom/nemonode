@@ -1036,19 +1036,24 @@ const add_discussionplusdetails = async (req, res) => {
     try {
         // Extract data from the request body
         const { companyname, join_date, discussion, reason, post_by, reminder, r_date, created_date } = req.body;
+
         const candidateId = req.params.id;
-        console.log("?????????>>>>>>>>>>>",candidateId)
+
+        // Ensure default values for optional fields
+        const discussionStatus = discussion || null;
+        const validCompanyName = companyname || null; // Handle null or empty string
+
         // Create a new discussion entry in the database
         const newDiscussion = await Discussion.create({
-            companyname,
-            join_date,
-            discussion,
-            reason,
-            post_by,
-            r_date,
-            created_date,
-            reminder,
-            candidateId // Assuming candidateId is a field in your discussion table
+            companyname: validCompanyName, // Assign the validated companyname
+            join_date: join_date || null, // Handle other fields similarly
+            discussion: discussionStatus,
+            reason: reason || null,
+            post_by: post_by || null,
+            reminder: reminder || false,
+            r_date: r_date || null,
+            created_date: created_date || new Date(),
+            candidateId: candidateId // Assuming candidateId is a field in your discussion table
         });
 
         res.status(201).json(newDiscussion);
@@ -1057,6 +1062,9 @@ const add_discussionplusdetails = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
+
+
 
 
 

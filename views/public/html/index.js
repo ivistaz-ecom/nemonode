@@ -232,7 +232,7 @@ if (hasUserManagement) {
 
   function updateUserDetails(decodedToken, elements) {
     elements.userName.textContent = decodedToken.userName;
-    elements.userGroup.textContent = decodedToken.staff ? 'Member Staff' : decodedToken.userGroup;
+    elements.userGroup.textContent = decodedToken.staff ? 'Staff' : decodedToken.userGroup;
   }
 
   function setIcon(iconElement) {
