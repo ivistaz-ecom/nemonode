@@ -11,26 +11,46 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     
     // Get form data
     const formData = {
-        avb_date: document.getElementById('avb_date').value || '0000-00-00',
-        las_date: document.getElementById('las_date').value || '0000-00-00',
-        last_salary: document.getElementById('last_salary').value || null,
-        last_company: document.getElementById('last_company').value || null,
-        rank: document.getElementById('rank').value || null,
-        vessel_types: document.getElementById('vessel_types').value || null,
-        status: document.getElementById('status').value || null, 
-        ntbr: document.getElementById('reemploymentStatus').value || null
+        avb_date: formatDate(document.getElementById('avb_date').value.trim()),
+        las_date: formatDate(document.getElementById('las_date').value.trim()),
+        last_salary: document.getElementById('last_salary').value.trim() || null,
+        last_company: document.getElementById('last_company').value.trim() || null,
+        rank: document.getElementById('rank').value.trim() || null,
+        vessel_types: document.getElementById('vessel_types').value.trim() || null,
+        status: document.getElementById('status').value.trim() || null,
+        ntbr: document.getElementById('reemploymentStatus').value.trim() || null
     };
 
     try {
         // Send form data to the backend using Axios
-        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
         console.log("Response:", response.data);
         // Handle the response as needed
-    } catch(error) {
+    } catch (error) {
         // Handle errors
         console.error("Error submitting form:", error);
     }
 });
+
+function formatDate(dateString) {
+    // Check if the date string is empty
+    if (!dateString) {
+        return '0000-00-00'; // Return default value for empty date
+    }
+
+    // Attempt to parse the date string into YYYY-MM-DD format
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        // Invalid date format, return default value
+        return '0000-00-00';
+    } else {
+        // Format the date as YYYY-MM-DD
+        const year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-indexed
+        let day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+}
 
 
 document.addEventListener("DOMContentLoaded", async function () {
