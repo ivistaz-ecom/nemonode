@@ -11,14 +11,14 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     
     // Get form data
     const formData = {
-        avb_date: document.getElementById('avb_date').value,
-        las_date: document.getElementById('las_date').value,
-        last_salary: document.getElementById('last_salary').value,
-        last_company: document.getElementById('last_company').value,
-        rank: document.getElementById('rank').value,
-        vessel_types: document.getElementById('vessel_types').value,
-        status: document.getElementById('status').value,
-        ntbr: document.getElementById('reemploymentStatus').value
+        avb_date: document.getElementById('avb_date').value || null,
+        las_date: document.getElementById('las_date').value || null,
+        last_salary: document.getElementById('last_salary').value || null,
+        last_company: document.getElementById('last_company').value || null,
+        rank: document.getElementById('rank').value || null,
+        vessel_types: document.getElementById('vessel_types').value || null,
+        status: document.getElementById('status').value || null, 
+        ntbr: document.getElementById('reemploymentStatus').value || null
     };
 
     try {

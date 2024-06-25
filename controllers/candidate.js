@@ -20,6 +20,7 @@ const Evaluation = require('../models/evaluation')
 const uuid = require('uuid');
 const Sib = require('sib-api-v3-sdk');
 const Company = require('../models/company')
+const fs = require('fs').promises;
 
 const add_candidate = async (req, res) => {
     try {
@@ -1065,7 +1066,44 @@ const add_discussionplusdetails = async (req, res) => {
 
 
 
+const fetchCandidateDataFromVerloop = async () => {
+    try {
+      // Read data from JSON file
+      const data = await fs.readFile('verloopData.json', 'utf-8');
+      const verloopData = JSON.parse(data); // Parse JSON data to JavaScript object
+      return verloopData;
+    } catch (error) {
+      console.error('Error fetching data from Verloop JSON file:', error);
+      throw error; // Handle error appropriately
+    }
+  };
 
+  const updateOrCreateCandidateFromVerloop = async (req, res) => {
+    try {
+      // Fetch candidate data from Verloop
+      const verloopData = await fetchCandidateDataFromVerloop();
+  
+      // Check if candidate with email1 exists
+      const existingCandidate = await Candidate.findOne({
+        where: { email1: verloopData.email1 }
+      });
+  
+      if (existingCandidate) {
+        // Update existing candidate
+        await existingCandidate.update(verloopData);
+        res.status(200).json({ message: 'Candidate updated successfully' });
+      } else {
+        // Create new candidate
+        await Candidate.create(verloopData);
+        res.status(201).json({ message: 'Candidate created successfully' });
+      }
+    } catch (error) {
+      console.error('Error updating/creating candidate:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+  
 
 
 
@@ -3384,5 +3422,6 @@ module.exports = {
    getDueForRenewalCountForOneDay,
    getContractsCountBySignOffDateForOneDay,
    searchCandidates,
-   getContractsDueForSignOff
+   getContractsDueForSignOff,
+   updateOrCreateCandidateFromVerloop
 };
