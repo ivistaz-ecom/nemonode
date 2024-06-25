@@ -11,8 +11,8 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     
     // Get form data
     const formData = {
-        avb_date: document.getElementById('avb_date').value || null,
-        las_date: document.getElementById('las_date').value || null,
+        avb_date: document.getElementById('avb_date').value || '0000-00-00',
+        las_date: document.getElementById('las_date').value || '0000-00-00',
         last_salary: document.getElementById('last_salary').value || null,
         last_company: document.getElementById('last_company').value || null,
         rank: document.getElementById('rank').value || null,
