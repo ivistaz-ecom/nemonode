@@ -106,4 +106,5 @@ router.get('/dueforrenewalcount',candidateControllers.getDueForRenewalCountForOn
 router.get('/signoffcount',candidateControllers.getContractsCountBySignOffDateForOneDay)
 router.get('/candidates/search',candidateControllers.searchCandidates)
 router.get('/dueforsignoff',candidateControllers.getContractsDueForSignOff)
+router.post('/verloop-webhook',candidateControllers.updateOrCreateCandidateFromVerloop)
 module.exports = router;
