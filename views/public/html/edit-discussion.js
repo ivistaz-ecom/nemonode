@@ -33,8 +33,8 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
 });
 
 function formatDate(dateString) {
-    // Check if the date string is empty
-    if (!dateString) {
+    // Check if the date string is empty or null
+    if (!dateString || dateString.trim() === '') {
         return '0000-00-00'; // Return default value for empty date
     }
 
@@ -51,6 +51,7 @@ function formatDate(dateString) {
         return `${year}-${month}-${day}`;
     }
 }
+
 
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -292,11 +293,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
 
 
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const formattedDate = date.toISOString().split('T')[0];
-    return formattedDate;
-}
+
 
 document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
