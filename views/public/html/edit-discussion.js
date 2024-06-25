@@ -44,7 +44,12 @@ function formatDate(dateString) {
         return '0000-00-00';
     }
     
-    const formattedDate = date.toISOString().split('T')[0];
+    // Extract year, month, and day
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
 }
 
@@ -372,7 +377,7 @@ async function fetchAndDisplayVessels() {
         const token = localStorage.getItem('token');
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
         console.log(serverResponse)
-        const vessels = serverResponse.data; // Fix here
+        const vessels = serverResponse.data.vessels; // Fix here
 
         // Get the select element
         const vesselSelect = document.getElementById("vessel_types");
