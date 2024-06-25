@@ -346,7 +346,7 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessels", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vessels;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
