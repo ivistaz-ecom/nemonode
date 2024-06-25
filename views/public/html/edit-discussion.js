@@ -374,10 +374,8 @@ const displayDropdown = async function () {
 
 async function fetchAndDisplayVessels() {
     try {
-        const token = localStorage.getItem('token');
         const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
-        console.log(serverResponse)
-        const vessels = serverResponse.data.vessels; // Fix here
+        const vessels = serverResponse.data.vessels;
 
         // Get the select element
         const vesselSelect = document.getElementById("vessel_types");
