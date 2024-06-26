@@ -706,33 +706,36 @@
 </div>
 
               
-              <div class="p-3 mb-3 rounded-3 card  mt-3  ">
-              <h4>Search Results : </h4>
+<div class="p-3 mb-3 rounded-3 card mt-3">
+  <h4>Search Results:</h4>
 
-              <div class="table-responsive ">
-                <table class="table table-bordered table" style="font-size: 12px;">
-                  <thead>
-                    <tr>
-                      <th class="col-auto " style="font-size: 8px;">Nemo ID</th>
-                      <th style="font-size: 8px;">First Name</th>
-                      <th style="font-size: 8px;">Last Name</th>
-                      <th style="font-size: 8px;">Rank</th>
-                      <th style="font-size: 8px;">Vessel</th>
-                      <th style="font-size: 8px;">Mobile</th>
-                      <th style="font-size: 8px;">Age</th>
-                      <th style="font-size: 8px;">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="table-body">                    <!-- Sample data, replace with actual data from your server -->
-                    
-                    <!-- Add more rows as needed -->
-                  </tbody>
-                </table>
-              </div>
-                
-<div id="result-container"></div>
+  <div class="table-responsive">
+    <div class="mb-3">
+      <label for="clientSearchInput" class="form-label">Search:</label>
+      <input type="text" id="clientSearchInput" placeholder="Enter search keywords..." class="form-control mb-2">
+  </div>
+        <table class="table table-bordered table" style="font-size: 12px;">
+          <thead>
+              <tr>
+                  <th class="col-auto" style="font-size: 8px;">Nemo ID</th>
+                  <th style="font-size: 8px;">First Name</th>
+                  <th style="font-size: 8px;">Last Name</th>
+                  <th style="font-size: 8px;">Rank</th>
+                  <th style="font-size: 8px;">Vessel</th>
+                  <th style="font-size: 8px;">Mobile</th>
+                  <th style="font-size: 8px;">Age</th>
+                  <th style="font-size: 8px;">Actions</th>
+              </tr>
+          </thead>
+          <tbody id="table-body">
+              <!-- Sample data, replace with actual data from your server -->
+              <!-- Add more rows as needed -->
+          </tbody>
+      </table>
+  </div>
+  <div id="result-container"></div>
+</div>
 
-                </div>
            
             </div>
             <!-- / Content -->
