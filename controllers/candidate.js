@@ -107,6 +107,7 @@ const add_candidate = async (req, res) => {
         const existingCandidate = await Candidate.findOne({
             where: {
                 email1: email1,
+                c_mobi1:c_mobi1
                 // Add more conditions if needed for uniqueness
             },transaction: t,
         });
