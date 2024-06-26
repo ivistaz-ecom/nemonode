@@ -1075,42 +1075,49 @@ const add_discussionplusdetails = async (req, res) => {
 
 
 
-const fetchCandidateDataFromVerloop = async () => {
+const updateOrCreateCandidateFromVerloop = async (req, res) => {
     try {
-      // Read data from JSON file
-      const data = await fs.readFile('verloopData.json', 'utf-8');
-      const verloopData = JSON.parse(data); // Parse JSON data to JavaScript object
-      return verloopData;
-    } catch (error) {
-      console.error('Error fetching data from Verloop JSON file:', error);
-      throw error; // Handle error appropriately
-    }
-  };
+        // Fetch candidate data from the request body
+        const verloopData = req.body;
+        
+        // Check if candidate with emailid exists
+        const existingCandidate = await Candidate.findOne({
+            where: { email1: verloopData.emailid }
+        });
 
-  const updateOrCreateCandidateFromVerloop = async (req, res) => {
-    try {
-      // Fetch candidate data from Verloop
-      const verloopData = await fetchCandidateDataFromVerloop();
-  
-      // Check if candidate with email1 exists
-      const existingCandidate = await Candidate.findOne({
-        where: { email1: verloopData.email1 }
-      });
-  
-      if (existingCandidate) {
-        // Update existing candidate
-        await existingCandidate.update(verloopData);
-        res.status(200).json({ message: 'Candidate updated successfully' });
-      } else {
-        // Create new candidate
-        await Candidate.create(verloopData);
-        res.status(201).json({ message: 'Candidate created successfully' });
-      }
+        if (existingCandidate) {
+            // Update existing candidate
+            await existingCandidate.update({
+                fname: verloopData.name,
+                c_mobi1: verloopData.phonenumber,
+                // helpwith: verloopData.helpwith,
+                c_rank: verloopData.position,
+                email1: verloopData.emailid,
+                c_vessel: verloopData.shipsailed,
+                joined_date: verloopData.expectedjoiningdate,
+            });
+            res.status(200).json({ message: 'Candidate updated successfully' });
+        } else {
+            // Create new candidate
+            await Candidate.create({
+                fname: verloopData.name,
+                c_mobi1: verloopData.phonenumber,
+                // helpwith: verloopData.helpwith,
+                c_rank: verloopData.position,
+                email1: verloopData.emailid,
+                c_vessel: verloopData.shipsailed,
+                joined_date: verloopData.expectedjoiningdate,
+            });
+            res.status(201).json({ message: 'Candidate created successfully' });
+        }
     } catch (error) {
-      console.error('Error updating/creating candidate:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error updating/creating candidate:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };
+};
+
+;
+
   
   
 
