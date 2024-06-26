@@ -446,24 +446,27 @@ const birthday = async (req, res) => {
 
 const new_profile = async (req, res) => {
     try {
-        // Assuming userId is available in req.user.id from authentication middleware
-        const userId = req.user.id;
-        const startDate = req.body.startDate ; // Default startDate if not provided
-        const endDate = req.body.endDate ; // Default endDate if not provided
-        const selectedFields = req.body.selectedFields; // Get the selectedFields from the request body
+        const userId = req.body.id;
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate;
+        const selectedFields = req.body.selectedFields;
 
-        let allCandidates;
-
-        // Execute the specific SQL query
-        allCandidates = await Candidate.sequelize.query(`
+        let query = `
             SELECT * FROM Candidates 
             WHERE cr_date BETWEEN :startDate AND :endDate
-        `, {
-            replacements: { startDate, endDate },
+        `;
+        let replacements = { startDate, endDate };
+
+        if (userId) {
+            query += ' AND createdBy = :userId';
+            replacements.userId = userId;
+        }
+
+        const allCandidates = await Candidate.sequelize.query(query, {
+            replacements,
             type: Candidate.sequelize.QueryTypes.SELECT,
         });
 
-        // Filter out fields based on the selectedFields data
         const filteredCandidates = allCandidates.map(candidate => {
             const filteredCandidate = {};
             for (const field in candidate) {
@@ -473,7 +476,7 @@ const new_profile = async (req, res) => {
             }
             return filteredCandidate;
         });
-        console.log(filteredCandidates)
+
         res.status(200).json({
             candidates: filteredCandidates,
             success: true,
@@ -483,6 +486,8 @@ const new_profile = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
+
 
 
 
@@ -2377,14 +2382,15 @@ const getContractsBySignOnDate = async (req, res) => {
         LEFT JOIN Users AS u ON a.created_by = u.id
         WHERE a.sign_on BETWEEN :startDate AND :endDate
     `;
+    
         // Add vessel type condition if present
         if (vessel_type) {
-            query += ` AND c.vsl_name = :vessel_type`;
+            query += ` AND c.id = :vessel_type`;
         }
 
         // Add company name condition if present
         if (companyname) {
-            query += ` AND e.company_name = :companyname`;
+            query += ` AND e.company_id = :companyname`;
         }
 
         // Add category condition if present
@@ -2472,12 +2478,12 @@ const getContractsBySignOffDate = async (req, res) => {
 
         // Add vessel type condition if present
         if (vessel_type) {
-            query += ` AND c.vesselName = :vessel_type`;
+            query += ` AND c.id = :vessel_type`;
         }
 
         // Add company name condition if present
         if (companyname) {
-            query += ` AND d.company_name = :companyname`;
+            query += ` AND d.company_id= :companyname`;
         }
 
         // Add category condition if present
@@ -2558,12 +2564,12 @@ const getContractsDueForSignOff = async (req, res) => {
 
         // Add optional conditions dynamically
         if (vessel_type) {
-            query += ` AND c.vesselName = :vessel_type`;
+            query += ` AND c.id = :vessel_type`;
             replacements.vessel_type = vessel_type;
         }
 
         if (companyname) {
-            query += ` AND e.company_name = :companyname`;
+            query += ` AND e.company_id = :companyname`;
             replacements.companyname = companyname;
         }
 
@@ -2781,13 +2787,13 @@ const onBoard = async (req, res) => {
 
         // Add vessel name condition if present
         if (vslName) {
-            query += ` AND c.vesselName = :vslName`;
+            query += ` AND c.id = :vslName`;
             replacements.vslName = vslName;
         }
 
         // Add company name condition if present
         if (companyname) {
-            query += ` AND e.company_name = :companyname`;
+            query += ` AND e.company_id = :companyname`;
             replacements.companyname = companyname;
         }
 
@@ -3366,6 +3372,26 @@ const getContractsCountBySignOffDateForOneDay = async (req, res) => {
     }
 };
 
+const hoverDiscussions =async (req, res) => {
+    try {
+        const candidateId = req.params.id;
+
+        // Fetch last 5 discussions for the candidate
+        const discussions = await Discussion.findAll({
+            where: {
+                candidateId: candidateId // Adjust this according to your actual schema
+            },
+            order: [['created_date', 'DESC']], // Order by created_date descending to get the latest discussions first
+            limit: 5 // Limit to fetch only the last 5 discussions
+        });
+
+        res.json(discussions);
+    } catch (error) {
+        console.error('Error fetching discussions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 
 module.exports = {
     add_candidate,
@@ -3445,5 +3471,6 @@ module.exports = {
    getContractsCountBySignOffDateForOneDay,
    searchCandidates,
    getContractsDueForSignOff,
-   updateOrCreateCandidateFromVerloop
+   updateOrCreateCandidateFromVerloop,
+   hoverDiscussions
 };
