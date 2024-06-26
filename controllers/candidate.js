@@ -104,13 +104,21 @@ const add_candidate = async (req, res) => {
       
 
         // Check for existing data
+        const whereClause = {};
+
+        if (email1) {
+            whereClause.email1 = email1;
+        }
+        
+        if (c_mobi1) {
+            whereClause.c_mobi1 = c_mobi1;
+        }
+        
         const existingCandidate = await Candidate.findOne({
-            where: {
-                email1: email1,
-                c_mobi1:c_mobi1
-                // Add more conditions if needed for uniqueness
-            },transaction: t,
+            where: whereClause,
+            transaction: t,
         });
+        
 
         if (existingCandidate) {
             await t.rollback();
