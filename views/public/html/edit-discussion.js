@@ -129,7 +129,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
     // Fetch basic comments value
     let basicCommentsValue = document.getElementById('basic_comments').value;
-
+    console.log(basicCommentsValue)
     // Get the selected status
     let status;
     if (document.getElementById('proposed').checked) {
