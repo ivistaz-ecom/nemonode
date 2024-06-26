@@ -96,43 +96,46 @@ return decodedToken.userGroup
     });
 
 
-    function populateTable(results) {
-      const tableBody = document.getElementById('table-body');
-  
-      // Clear existing rows
-      tableBody.innerHTML = '';
-  
-      // Iterate over results and append rows to the table
-      results.forEach(result => {
+    function populateTable(data) {
+      tableBody.innerHTML = ''; // Clear existing rows
+
+      data.forEach(item => {
           const row = document.createElement('tr');
-          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
-  
+
+          // Nemo ID (candidate ID)
+          const nemoIdCell = document.createElement('td');
+          const nemoIdButton = document.createElement('button');
+          nemoIdButton.textContent = item.nemoId;
+          nemoIdButton.className = 'nemo-id-button';
+          nemoIdButton.addEventListener('click', function() {
+              showDetails(item.nemoId);
+          });
+          nemoIdCell.appendChild(nemoIdButton);
+          row.appendChild(nemoIdCell);
+
+          // Other fields
+          const fieldsToDisplay = ['firstName', 'lastName', 'rank', 'vessel', 'mobile', 'dob'];
           fieldsToDisplay.forEach(field => {
               const cell = document.createElement('td');
-              // Format date fields if needed
-              if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-                  const date = new Date(result[field]).toLocaleDateString();
-                  cell.textContent = date;
-              } else {
-                  cell.textContent = result[field];
-              }
+              cell.textContent = item[field];
               row.appendChild(cell);
           });
-  
-          // Add buttons for delete, edit, and view
-          const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId),'Delete');
-          const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId),'Edit');
-          const viewButton = createButton('fa-eye', () => handleView(result.candidateId),'View');
-  
-          const buttonsCell = document.createElement('td');
-          buttonsCell.appendChild(deleteButton);
-          buttonsCell.appendChild(editButton);
-          buttonsCell.appendChild(viewButton);
-  
-          row.appendChild(buttonsCell);
-  
+
+          // Action buttons (sample buttons)
+          const actionCell = document.createElement('td');
+          const deleteButton = createButton('Delete', () => handleDelete(item.nemoId));
+          const editButton = createButton('Edit', () => handleEdit(item.nemoId));
+          actionCell.appendChild(deleteButton);
+          actionCell.appendChild(editButton);
+          row.appendChild(actionCell);
+
           tableBody.appendChild(row);
       });
+  }
+  
+  // Example function to show candidate details
+  function showCandidateDetails(candidateId) {
+      alert('Candidate ID: ' + candidateId); // Replace with your implementation
   }
   
     
@@ -298,6 +301,7 @@ async function fetchCandidateData(candidateIds) {
     // Check if candidateIds is defined and not empty
     if (candidateIds && candidateIds.length > 0) {
       const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
+      console.log(response)
       return response.data;
     } else {
       // If candidateIds is undefined or empty, return an empty object
@@ -538,20 +542,20 @@ setInterval(updateDateTime, 1000);
 
 // Add event listener to the search input field
 document.getElementById('clientSearchInput').addEventListener('input', function () {
-  const searchText = this.value.toLowerCase().trim();
-  filterTable(searchText);
+    const searchText = this.value.toLowerCase().trim();
+    filterTable(searchText);
 });
 
 // Function to filter table rows based on search input
 function filterTable(searchText) {
-  const tableRows = document.querySelectorAll('#table-body tr');
+    const tableRows = document.querySelectorAll('#table-body tr');
 
-  tableRows.forEach(row => {
-      const textContent = row.textContent.toLowerCase();
-      if (textContent.includes(searchText)) {
-          row.style.display = '';
-      } else {
-          row.style.display = 'none';
-      }
-  });
+    tableRows.forEach(row => {
+        const textContent = row.textContent.toLowerCase();
+        if (textContent.includes(searchText)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
 }
