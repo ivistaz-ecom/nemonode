@@ -1080,14 +1080,19 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
         // Fetch candidate data from the request body
         const verloopData = req.body;
         
-        // Check if candidate with emailid exists
-        const existingCandidate = await Candidate.findOne({
+        // Check for existing candidates with the same emailid
+        const existingCandidates = await Candidate.findAll({
             where: { email1: verloopData.emailid }
         });
 
-        if (existingCandidate) {
-            // Update existing candidate
-            await existingCandidate.update({
+        if (existingCandidates.length > 0) {
+            // There are duplicates, find the candidate with the highest ID
+            const candidateWithHighestId = existingCandidates.reduce((prev, current) => {
+                return (prev.candidateId > current.candidateId) ? prev : current;
+            });
+
+            // Update the candidate with the highest ID
+            await candidateWithHighestId.update({
                 fname: verloopData.name,
                 c_mobi1: verloopData.phonenumber,
                 // helpwith: verloopData.helpwith,
@@ -1098,7 +1103,7 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
             });
             res.status(200).json({ message: 'Candidate updated successfully' });
         } else {
-            // Create new candidate
+            // No duplicates, create a new candidate
             await Candidate.create({
                 fname: verloopData.name,
                 c_mobi1: verloopData.phonenumber,
@@ -1115,6 +1120,7 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 ;
 
