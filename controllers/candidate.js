@@ -1113,7 +1113,7 @@ const fetchCandidateDataFromVerloop = async () => {
 const edit_candidate=  async (req, res) => {
     const candidateId = req.params.id;
     const candidateDetails = req.body;
-
+    console.log
     try {
         const [updatedRows] = await Candidate.update(candidateDetails, {
             where: { candidateId: candidateId },
@@ -2445,7 +2445,7 @@ const getContractsBySignOffDate = async (req, res) => {
             LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
             LEFT JOIN Users AS u ON a.created_by = u.id
             WHERE a.sign_off BETWEEN :startDate AND :endDate
-              AND a.sign_on != 0000-00-00
+              AND a.sign_on != '1970-01-01'
         `;
 
         // Add vessel type condition if present
@@ -2528,7 +2528,7 @@ const getContractsDueForSignOff = async (req, res) => {
             JOIN vsls AS c ON a.vslName = c.id
             
             JOIN companies AS e ON a.company = e.company_id
-            WHERE a.sign_off = 0000-00-00
+            WHERE a.sign_off = '1970-01-01'
               AND a.eoc BETWEEN :startDate AND :endDate
         `;
         // Define replacements object
@@ -2619,13 +2619,13 @@ const dueForRenewal = async (req, res) => {
         const { startDate, endDate } = req.query;
         console.log(startDate, endDate);
 
-        // Fetch candidates with contracts where sign_off is '0000-00-00'
+        // Fetch candidates with contracts where sign_off is '1970-01-01'
         const candidatesWithContracts = await Candidate.findAll({
             include: [
                 {
                     model: Contract,
                     where: {
-                        sign_off: '0000-00-00'
+                        sign_off: '1970-01-01'
                     }
                 }
             ]
@@ -2751,7 +2751,7 @@ const onBoard = async (req, res) => {
            
             JOIN companies AS e ON a.company = e.company_id
             WHERE a.sign_on <= :startDate
-              AND (a.sign_off > :startDate OR a.sign_off = 0000-00-00)
+              AND (a.sign_off > :startDate OR a.sign_off = '1970-01-01')
         `;
 
         // Define replacements object
@@ -2831,11 +2831,11 @@ const onBoard = async (req, res) => {
 //                 // Condition 1: (sign_on <= endDate)
 //                 { sign_on: { [Op.lte]: endDate } },
         
-//                 // Condition 2: (sign_off = '0000-00-00' OR (sign_off <= endDate AND sign_off >= startDate))
+//                 // Condition 2: (sign_off = '1970-01-01' OR (sign_off <= endDate AND sign_off >= startDate))
 //                 {
 //                     [Op.or]: [
-//                         // sub-condition 1: sign_off = '0000-00-00'
-//                         { sign_off: '0000-00-00' },
+//                         // sub-condition 1: sign_off = '1970-01-01'
+//                         { sign_off: '1970-01-01' },
         
 //                         // sub-condition 2: (sign_off <= endDate AND sign_off >= startDate)
 //                         {
@@ -2903,7 +2903,7 @@ const crewList = async (req, res) => {
        
         JOIN companies AS e ON a.company = e.company_id
       WHERE 
-        (a.sign_on <= :endDate AND (a.sign_off = 0000-00-00 OR a.sign_off >= :startDate))
+        (a.sign_on <= :endDate AND (a.sign_off = '1970-01-01' OR a.sign_off >= :startDate))
     `;
   
     const replacements = { startDate, endDate };
@@ -2948,7 +2948,7 @@ const crewList = async (req, res) => {
             JOIN vsls AS c ON a.vslName = c.id
            
             JOIN companies AS e ON a.company = e.company_id
-            WHERE a.sign_off = 0000-00-00
+            WHERE a.sign_off = '1970-01-01'
               AND a.eoc <= :startDate
         `;
 
