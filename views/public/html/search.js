@@ -53,6 +53,7 @@ return decodedToken.userGroup
       const license = document.getElementById('license').value.trim();
       const zone = document.getElementById('zone').value.trim();
       const group = document.getElementById('groupSearch').value
+      const age = document.getElementById('ageNemo').value
     //   const documentNumber = document.getElementById('documentNumber').value;
 
       // Prepare data for the POST request
@@ -69,6 +70,7 @@ return decodedToken.userGroup
         license: license,
         zone: zone,
         group:group,
+        age:age
         // documentNumber: documentNumber
       };
 

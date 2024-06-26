@@ -11,8 +11,8 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     
     // Get form data
     const formData = {
-        avb_date: formatDate(document.getElementById('avb_date').value.trim()) ,
-        las_date: formatDate(document.getElementById('las_date').value.trim()),
+        avb_date: formatDate(document.getElementById('avb_date').value.trim()) || '1970-01-01',
+        las_date: formatDate(document.getElementById('las_date').value.trim()) || '1970-01-01',
         last_salary: document.getElementById('last_salary').value.trim() || null,
         last_company: document.getElementById('last_company').value.trim() || null,
         rank: document.getElementById('rank').value.trim() || null,
@@ -34,14 +34,14 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
 
 function formatDate(dateString) {
     if (!dateString || dateString === '0000-00-00') {
-        return '0000-00-00';
+        return '1970-01-01';
     }
 
     const date = new Date(dateString);
     
     // Check if the date is valid
     if (isNaN(date.getTime())) {
-        return '0000-00-00';
+        return '1970-01-01';
     }
     
     // Extract year, month, and day
