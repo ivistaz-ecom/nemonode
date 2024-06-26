@@ -535,3 +535,23 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+// Add event listener to the search input field
+document.getElementById('clientSearchInput').addEventListener('input', function () {
+  const searchText = this.value.toLowerCase().trim();
+  filterTable(searchText);
+});
+
+// Function to filter table rows based on search input
+function filterTable(searchText) {
+  const tableRows = document.querySelectorAll('#table-body tr');
+
+  tableRows.forEach(row => {
+      const textContent = row.textContent.toLowerCase();
+      if (textContent.includes(searchText)) {
+          row.style.display = '';
+      } else {
+          row.style.display = 'none';
+      }
+  });
+}
