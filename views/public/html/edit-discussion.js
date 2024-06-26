@@ -11,7 +11,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     
     // Get form data
     const formData = {
-        avb_date: formatDate(document.getElementById('avb_date').value.trim()),
+        avb_date: formatDate(document.getElementById('avb_date').value.trim()) ,
         las_date: formatDate(document.getElementById('las_date').value.trim()),
         last_salary: document.getElementById('last_salary').value.trim() || null,
         last_company: document.getElementById('last_company').value.trim() || null,
@@ -20,7 +20,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
         status: document.getElementById('status').value.trim() || null,
         ntbr: document.getElementById('reemploymentStatus').value.trim() || null
     };
-
+    console.log(formData)
     try {
         // Send form data to the backend using Axios
         const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
