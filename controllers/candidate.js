@@ -102,7 +102,7 @@ const add_candidate = async (req, res) => {
         } = req.body;
         // Validate required fields
       
-
+        console.log(c_mobi1)
         // Check for existing data
         const whereClause = {};
 
