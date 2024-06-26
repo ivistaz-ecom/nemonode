@@ -87,7 +87,7 @@ async function handleNewProfileSubmit(event) {
         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
-            user: user,
+            id: user,
             category: category,
             selectedFields: selectedFields,
         }, {
@@ -782,7 +782,6 @@ async function handleCallsMadeSubmit(event) {
 
         // Fetch necessary data including nationality
         await getReq();
-     
         
         // Send data to server using Axios
         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
@@ -827,7 +826,10 @@ async function handleCallsMadeSubmit(event) {
             'current-rank': 'c_rank',
             vessel: 'c_vessel',
             availability: 'avb_date',
-            'reminder-date': 'r_date'
+            'reminder-date': 'r_date',
+            nationality: 'nationality',
+            'user-name': 'userName',
+            discussion: 'discussion'
         };
 
         // Function to filter data based on search input
@@ -835,6 +837,11 @@ async function handleCallsMadeSubmit(event) {
             const searchTerm = searchInput.value.toLowerCase().split(' ').filter(term => term.length > 0);
             return callsMade.filter(contract => {
                 return searchTerm.every(term => {
+                    // Check userName field
+                    if (contract.userName && contract.userName.toLowerCase().includes(term)) {
+                        return true;
+                    }
+                    // Check other selected fields
                     return selectedFields.some(field => {
                         const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
                         return contract[fieldName]?.toString().toLowerCase().includes(term);
@@ -850,202 +857,191 @@ async function handleCallsMadeSubmit(event) {
         });
 
         // Function to render table and pagination
-       // Function to render table and pagination
-function renderTable() {
-    // Clear previous content
-    tableContainer.innerHTML = '';
+        function renderTable() {
+            tableContainer.innerHTML = '';
 
-    const filteredData = filterData();
+            const filteredData = filterData();
 
-    // Check if callsMade is empty
-    if (filteredData.length === 0) {
-        const emptyMessage = document.createElement('p');
-        emptyMessage.textContent = 'No data available';
-        tableContainer.appendChild(emptyMessage);
-        return;
-    }
-
-    // Create rows per page dropdown
-    const rowsPerPageSelect = document.createElement('select');
-    rowsPerPageSelect.id = 'rowsPerPage';
-    [10, 25, 50, 100].forEach(num => {
-        const option = document.createElement('option');
-        option.value = num;
-        option.textContent = num;
-        rowsPerPageSelect.appendChild(option);
-    });
-    rowsPerPageSelect.addEventListener('change', function () {
-        currentPage = 1;
-        rowsPerPage = parseInt(rowsPerPageSelect.value);
-        renderTable();
-    });
-    rowsPerPageSelect.value = rowsPerPage.toString(); // Set initial value
-    tableContainer.appendChild(rowsPerPageSelect);
-
-    // Create export to Excel button
-    const exportButton = document.createElement('button');
-    exportButton.textContent = 'Export to Excel';
-    exportButton.id = 'exportButton';
-    exportButton.classList.add('btn', 'btn-primary', 'ms-2');
-    exportButton.addEventListener('click', function () {
-        exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
-    });
-    tableContainer.appendChild(exportButton);
-
-    // Create table element
-    const table = document.createElement('table');
-    table.classList.add('table', 'table-bordered');
-
-    // Create table header
-    const tableHeader = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-
-    // Add Serial Number column header
-    const snHeader = document.createElement('th');
-    snHeader.textContent = 'S.No';
-    snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-    headerRow.appendChild(snHeader);
-
-    // Add dynamic headers based on selected checkboxes
-    selectedFields.forEach(field => {
-        const th = document.createElement('th');
-        th.textContent = field.label;
-        th.classList.add('fw-bolder', 'bg-warning', 'text-white');
-        headerRow.appendChild(th);
-    });
-
-    tableHeader.appendChild(headerRow);
-    table.appendChild(tableHeader);
-
-    // Create table body
-    const tableBody = document.createElement('tbody');
-
-    // Paginate data
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedData = filteredData.slice(start, end);
-
-    // Render paginated data
-    paginatedData.forEach((contract, index) => {
-        const row = document.createElement('tr');
-
-        // Add Serial Number cell
-        const snCell = document.createElement('td');
-        snCell.textContent = start + index + 1; // Serial Number based on page
-        row.appendChild(snCell);
-
-        // Add cells based on selected checkboxes
-        selectedFields.forEach(field => {
-            const cell = document.createElement('td');
-            const fieldName = fieldMapping[field.id] || field.id.replace('-', '_'); // Adjust field name for object key
-            console.log('fieldname',fieldName,'contract',contract[fieldName])
-            if (fieldName == 'nationality') {
-                cell.textContent = getNationalityName(contract[fieldName]); // Call getCountryName for nationality field
-            } else {
-                cell.textContent = contract[fieldName] || 'N/A';
+            if (filteredData.length === 0) {
+                const emptyMessage = document.createElement('p');
+                emptyMessage.textContent = 'No data available';
+                tableContainer.appendChild(emptyMessage);
+                return;
             }
-            row.appendChild(cell);
-        });
 
-        tableBody.appendChild(row);
-    });
+            const rowsPerPageSelect = document.createElement('select');
+            rowsPerPageSelect.id = 'rowsPerPage';
+            [10, 25, 50, 100].forEach(num => {
+                const option = document.createElement('option');
+                option.value = num;
+                option.textContent = num;
+                rowsPerPageSelect.appendChild(option);
+            });
+            rowsPerPageSelect.addEventListener('change', function () {
+                currentPage = 1;
+                rowsPerPage = parseInt(rowsPerPageSelect.value);
+                renderTable();
+            });
+            rowsPerPageSelect.value = rowsPerPage.toString();
+            tableContainer.appendChild(rowsPerPageSelect);
 
-    table.appendChild(tableBody);
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'Export to Excel';
+            exportButton.id = 'exportButton';
+            exportButton.classList.add('btn', 'btn-primary', 'ms-2');
+            exportButton.addEventListener('click', function () {
+                exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
+            });
+            tableContainer.appendChild(exportButton);
 
-    // Display count of filtered data
-    const fetchedDataCount = document.createElement('p');
-    fetchedDataCount.textContent = `${filteredData.length} data matches`;
-    tableContainer.appendChild(fetchedDataCount);
+            const table = document.createElement('table');
+            table.classList.add('table', 'table-bordered');
 
-    // Display the table
-    tableContainer.appendChild(table);
+            const tableHeader = document.createElement('thead');
+            const headerRow = document.createElement('tr');
 
-    // Create pagination controls with ellipsis using Bootstrap classes
-    const paginationControls = document.createElement('nav');
-    paginationControls.setAttribute('aria-label', 'Page navigation');
-    const ul = document.createElement('ul');
-    ul.classList.add('pagination');
+            const snHeader = document.createElement('th');
+            snHeader.textContent = 'S.No';
+            snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
+            headerRow.appendChild(snHeader);
 
-    // Calculate total pages
-    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            // Always add userName header
+            const userNameHeader = document.createElement('th');
+            userNameHeader.textContent = 'User Name';
+            userNameHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
+            headerRow.appendChild(userNameHeader);
 
-    // Display ellipsis logic
-    const maxVisiblePages = 5; // Number of pages to show before using ellipsis
+            selectedFields.forEach(field => {
+                const th = document.createElement('th');
+                th.textContent = field.label;
+                th.classList.add('fw-bolder', 'bg-warning', 'text-white');
+                headerRow.appendChild(th);
+            });
 
-    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
-    startPage = Math.max(startPage, 1);
-    let endPage = startPage + maxVisiblePages - 1;
-    endPage = Math.min(endPage, totalPages);
+            tableHeader.appendChild(headerRow);
+            table.appendChild(tableHeader);
 
-    if (startPage > 1) {
-        const firstPageLi = document.createElement('li');
-        firstPageLi.classList.add('page-item');
-        const firstPageButton = document.createElement('button');
-        firstPageButton.classList.add('page-link');
-        firstPageButton.textContent = '1';
-        firstPageButton.addEventListener('click', function () {
-            currentPage = 1;
-            renderTable();
-        });
-        firstPageLi.appendChild(firstPageButton);
-        ul.appendChild(firstPageLi);
+            const tableBody = document.createElement('tbody');
 
-        if (startPage > 2) {
-            const ellipsisLi = document.createElement('li');
-            ellipsisLi.classList.add('page-item');
-            const ellipsisSpan = document.createElement('span');
-            ellipsisSpan.classList.add('page-link');
-            ellipsisSpan.textContent = '...';
-            ellipsisLi.appendChild(ellipsisSpan);
-            ul.appendChild(ellipsisLi);
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = filteredData.slice(start, end);
+
+            paginatedData.forEach((contract, index) => {
+                const row = document.createElement('tr');
+
+                const snCell = document.createElement('td');
+                snCell.textContent = start + index + 1;
+                row.appendChild(snCell);
+
+                // Always add userName cell
+                const userNameCell = document.createElement('td');
+                userNameCell.textContent = contract.userName || 'N/A';
+                row.appendChild(userNameCell);
+
+                selectedFields.forEach(field => {
+                    const cell = document.createElement('td');
+                    const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
+                    if (fieldName === 'nationality') {
+                        cell.textContent = getNationalityName(contract[fieldName]);
+                    } else {
+                        cell.textContent = contract[fieldName] || 'N/A';
+                    }
+                    row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+            });
+
+            table.appendChild(tableBody);
+
+            const fetchedDataCount = document.createElement('p');
+            fetchedDataCount.textContent = `${filteredData.length} data matches`;
+            tableContainer.appendChild(fetchedDataCount);
+
+            tableContainer.appendChild(table);
+
+            const paginationControls = document.createElement('nav');
+            paginationControls.setAttribute('aria-label', 'Page navigation');
+            const ul = document.createElement('ul');
+            ul.classList.add('pagination');
+
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+            const maxVisiblePages = 5;
+            let startPage = currentPage - Math.floor(maxVisiblePages / 2);
+            startPage = Math.max(startPage, 1);
+            let endPage = startPage + maxVisiblePages - 1;
+            endPage = Math.min(endPage, totalPages);
+
+            if (startPage > 1) {
+                const firstPageLi = document.createElement('li');
+                firstPageLi.classList.add('page-item');
+                const firstPageButton = document.createElement('button');
+                firstPageButton.classList.add('page-link');
+                firstPageButton.textContent = '1';
+                firstPageButton.addEventListener('click', function () {
+                    currentPage = 1;
+                    renderTable();
+                });
+                firstPageLi.appendChild(firstPageButton);
+                ul.appendChild(firstPageLi);
+
+                if (startPage > 2) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.classList.add('page-item');
+                    const ellipsisSpan = document.createElement('span');
+                    ellipsisSpan.classList.add('page-link');
+                    ellipsisSpan.textContent = '...';
+                    ellipsisLi.appendChild(ellipsisSpan);
+                    ul.appendChild(ellipsisLi);
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const li = document.createElement('li');
+                li.classList.add('page-item');
+                const pageButton = document.createElement('button');
+                pageButton.classList.add('page-link');
+                pageButton.textContent = i;
+                if (i === currentPage) {
+                    li.classList.add('active');
+                }
+                pageButton.addEventListener('click', function () {
+                    currentPage = i;
+                    renderTable();
+                });
+                li.appendChild(pageButton);
+                ul.appendChild(li);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.classList.add('page-item');
+                    const ellipsisSpan = document.createElement('span');
+                    ellipsisSpan.classList.add('page-link');
+                    ellipsisSpan.textContent = '...';
+                    ellipsisLi.appendChild(ellipsisSpan);
+                    ul.appendChild(ellipsisLi);
+                }
+
+                const lastPageLi = document.createElement('li');
+                lastPageLi.classList.add('page-item');
+                const lastPageButton = document.createElement('button');
+                lastPageButton.classList.add('page-link');
+                lastPageButton.textContent = totalPages;
+                lastPageButton.addEventListener('click', function () {
+                    currentPage = totalPages;
+                    renderTable();
+                });
+                lastPageLi.appendChild(lastPageButton);
+                ul.appendChild(lastPageLi);
+            }
+
+            paginationControls.appendChild(ul);
+            tableContainer.appendChild(paginationControls);
         }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-        const li = document.createElement('li');
-        li.classList.add('page-item');
-        const pageButton = document.createElement('button');
-        pageButton.classList.add('page-link');
-        pageButton.textContent = i;
-        if (i === currentPage) {
-            li.classList.add('active');
-        }
-        pageButton.addEventListener('click', function () {
-            currentPage = i;
-            renderTable();
-        });
-        li.appendChild(pageButton);
-        ul.appendChild(li);
-    }
-
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            const ellipsisLi = document.createElement('li');
-            ellipsisLi.classList.add('page-item');
-            const ellipsisSpan = document.createElement('span');
-            ellipsisSpan.classList.add('page-link');
-            ellipsisSpan.textContent = '...';
-            ellipsisLi.appendChild(ellipsisSpan);
-            ul.appendChild(ellipsisLi);
-        }
-
-        const lastPageLi = document.createElement('li');
-        lastPageLi.classList.add('page-item');
-        const lastPageButton = document.createElement('button');
-        lastPageButton.classList.add('page-link');
-        lastPageButton.textContent = totalPages;
-        lastPageButton.addEventListener('click', function () {
-            currentPage = totalPages;
-            renderTable();
-        });
-        lastPageLi.appendChild(lastPageButton);
-        ul.appendChild(lastPageLi);
-    }
-
-    paginationControls.appendChild(ul);
-    tableContainer.appendChild(paginationControls);
-}
-
 
         renderTable();
 
@@ -1053,6 +1049,7 @@ function renderTable() {
         console.error(error);
     }
 }
+
 
 
 
@@ -2376,14 +2373,14 @@ async function handleSignOffSubmit(event) {
         if (contracts.length === 0) {
             const message = document.createElement('tr');
             const messageCell = document.createElement('td');
-            messageCell.colSpan = 22; // Assuming there are 22 columns
+            messageCell.colSpan = 26; // Adjust to the number of fields (columns) you expect
             messageCell.textContent = 'No data available';
             message.appendChild(messageCell);
             signOffTableBody.appendChild(message);
             return;
         }
 
-        // Clear existing search and pagination containers
+        // Clear existing search and export button container
         const signOffSearchContainer = document.getElementById('signOffSearchContainer');
         if (signOffSearchContainer) {
             signOffSearchContainer.innerHTML = '';
@@ -2391,15 +2388,6 @@ async function handleSignOffSubmit(event) {
             const newSearchContainer = document.createElement('div');
             newSearchContainer.id = 'signOffSearchContainer';
             document.querySelector('.container.table-responsive').insertBefore(newSearchContainer, document.getElementById('signOffTable'));
-        }
-
-        const paginationContainersignoff = document.getElementById('paginationContainersignoff');
-        if (paginationContainersignoff) {
-            paginationContainersignoff.innerHTML = '';
-        } else {
-            const newPaginationContainer = document.createElement('div');
-            newPaginationContainer.id = 'paginationContainersignoff';
-            document.querySelector('.container.table-responsive').appendChild(newPaginationContainer);
         }
 
         // Create search input
@@ -2410,110 +2398,143 @@ async function handleSignOffSubmit(event) {
         searchInput.id = 'signOffSearchInput';
         signOffSearchContainer.appendChild(searchInput);
 
-        // Pagination variables
-        let currentPage = 1;
-        const itemsPerPage = 10; // Number of items per page
-        let totalItems = contracts.length;
-        let totalPages = Math.ceil(totalItems / itemsPerPage);
-        const maxVisiblePages = 5; // Maximum number of page buttons to display
+        // Function to export to Excel
+        function exportToExcel() {
+            // Create a new Workbook
+            const wb = XLSX.utils.book_new();
 
-        let filteredContracts = contracts;
+            // Convert data into an array of arrays format suitable for Excel
+            const data = contracts.map(contract => [
+                contract.candidateId,
+                contract.rank,
+                contract.vesselName,
+                contract.vesselType,
+                contract.sign_off,
+                contract.wages,
+                contract.wages_types,
+                contract.company_name,
+                contract.aoa_number,
+                contract.currency,
+                contract.emigrate_number,
+                contract.eoc,
+                contract.reason_for_sign_off,
+                contract.userName,
+                contract.fname + ' ' + contract.lname,
+                getNationalityName(contract.nationality),
+                contract.indos_number,
+                contract.indian_cdc_document_number,
+                contract.bank_pan_num,
+                contract.passport_document_number,
+                // Add all other fields here
+            ]);
 
-        searchInput.addEventListener('input', () => {
-            currentPage = 1;
-            renderTable();
-        });
+            // Create a Worksheet
+            const ws = XLSX.utils.aoa_to_sheet([[
+                'Candidate ID',
+                'Rank',
+                'Vessel Name',
+                'Vessel Type',
+                'Sign Off',
+                'Wages',
+                'Wages Types',
+                'Company Name',
+                'AOA Number',
+                'Currency',
+                'Emigrate Number',
+                'EOC',
+                'Reason for Sign Off',
+                'User Name',
+                'Full Name',
+                'Nationality',
+                'INDOS Number',
+                'Indian CDC Document Number',
+                'Bank PAN Number',
+                'Passport Document Number',
+                // Add headers for all other fields here
+            ], ...data]);
 
-        // Function to render table with pagination and search
-      // Function to render table with pagination and search
-function renderTable() {
-    // Clear existing table content
-    signOffTableBody.innerHTML = '';
+            // Add the Worksheet to the Workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Sign Off Contracts');
 
-    // Apply search filter
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    filteredContracts = contracts.filter(contract => {
-        return Object.values(contract).some(value =>
-            value && value.toString().toLowerCase().includes(searchTerm)
-        );
-    });
+            // Save the Workbook as a .xlsx file
+            XLSX.writeFile(wb, 'sign_off_contracts.xlsx');
+        }
 
-    // Update total items and pages based on filtered contracts
-    totalItems = filteredContracts.length;
-    totalPages = Math.ceil(totalItems / itemsPerPage);
+        // Add Export to Excel button
+        const exportButton = document.createElement('button');
+        exportButton.classList.add('btn', 'btn-outline-success', 'mx-2', 'my-3');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.addEventListener('click', exportToExcel);
+        signOffSearchContainer.appendChild(exportButton);
 
-    // Paginate data
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const displayedContracts = filteredContracts.slice(startIndex, endIndex);
+        // Function to render table without pagination
+        function renderTable() {
+            // Apply search filter
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const filteredContracts = contracts.filter(contract => {
+                return Object.values(contract).some(value =>
+                    value && value.toString().toLowerCase().includes(searchTerm)
+                );
+            });
 
-    // Populate table body with data
-    displayedContracts.forEach((contract, index) => {
-        const row = document.createElement('tr');
-        const fields = [
-            startIndex + index + 1, // Serial Number (S.No)
-            contract.candidateId,
-            contract.rank,
-            contract.vesselType,
-            contract.sign_off,
-            contract.wages,
-            contract.wages_types,
-            contract.company_name,
-            contract.aoa_number,
-            contract.currency,
-            contract.emigrate_number,
-            contract.eoc,
-            contract.reason_for_sign_off,
-            contract.userName,
-            contract.fname + ' ' + contract.lname,
-            getNationalityName(contract.nationality),
-            contract.indos_number,
-            contract.indian_cdc_document_number,
-            contract.bank_pan_num,
-            contract.passport_document_number
-        ];
+            // Clear existing table content
+            signOffTableBody.innerHTML = '';
 
-        fields.forEach(field => {
-            const cell = document.createElement('td');
-            cell.textContent = field;
-            row.appendChild(cell);
-        });
+            // Populate table body with data
+            filteredContracts.forEach((contract, index) => {
+                const row = document.createElement('tr');
+                const fields = [
+                    index + 1, // Serial Number (S.No)
+                    contract.candidateId,
+                    contract.rank,
+                    contract.vesselName,
+                    contract.vesselType,
+                    contract.sign_off,
+                    contract.wages,
+                    contract.wages_types,
+                    contract.company_name,
+                    contract.aoa_number,
+                    contract.currency,
+                    contract.emigrate_number,
+                    contract.eoc,
+                    contract.reason_for_sign_off,
+                    contract.userName,
+                    contract.fname + ' ' + contract.lname,
+                    getNationalityName(contract.nationality),
+                    contract.indos_number,
+                    contract.indian_cdc_document_number,
+                    contract.bank_pan_num,
+                    contract.passport_document_number,
+                    // Add all other fields here
+                ];
 
-        signOffTableBody.appendChild(row);
-    });
+                fields.forEach(field => {
+                    const cell = document.createElement('td');
+                    cell.textContent = field;
+                    row.appendChild(cell);
+                });
 
-    // Display total number of contracts fetched
-    const fetchedDataMessage = document.createElement('p');
-    fetchedDataMessage.textContent = `${totalItems} data fetched`;
-    signOffSearchContainer.appendChild(fetchedDataMessage);
+                signOffTableBody.appendChild(row);
+            });
 
-    // Display number of contracts matching search criteria
-    const matchedDataMessage = document.createElement('p');
-    matchedDataMessage.textContent = `${filteredContracts.length} data match search`;
-    signOffSearchContainer.appendChild(matchedDataMessage);
-    // Create pagination controls (unchanged from your original code)
-
-    // Append pagination controls to tableContainer (unchanged from your original code)
-}
-
-
-        // Helper function to create pagination button
-        function createPaginationButton(text, isEnabled, onClick) {
-            const button = document.createElement('button');
-            button.classList.add('btn', 'btn-outline-primary', 'mx-1');
-            button.textContent = text;
-            button.addEventListener('click', onClick);
-            button.disabled = !isEnabled;
-            return button;
+            // Display total number of contracts fetched
+            const fetchedDataMessage = document.createElement('p');
+            fetchedDataMessage.textContent = `${filteredContracts.length} data fetched`;
+            signOffSearchContainer.appendChild(fetchedDataMessage);
         }
 
         // Initial render of table
         renderTable();
 
+        // Search input event listener
+        searchInput.addEventListener('input', renderTable);
+
     } catch (error) {
         console.error(error);
     }
 }
+
+
 
 
 
