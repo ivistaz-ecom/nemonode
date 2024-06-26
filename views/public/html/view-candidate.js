@@ -544,6 +544,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_company_status').value = candidateData.m_status;
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
+        document.getElementById('edit_candidate_active_details').value = candidateData.active_details === 1 ? 'Active' : 'Inactive';
         // document.getElementById('edit_candidate_photos').value= candidateData.photos
         // document.getElementById('edit_candidate_resume').value= candidateData.resume
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
