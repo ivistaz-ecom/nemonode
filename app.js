@@ -550,146 +550,71 @@ else{
     
 
     
-    // app.post('/searchspl', async (req, res) => {
-    // try {
-    // const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date,group,age } = req.body;
-    // const searchCriteria = {};
-    // if (nemoId) {
-    // searchCriteria.candidateId = nemoId;
-    // }
-    // if (name) {
-    // searchCriteria.fname = name;
-    // }
-    // if (rank) {
-    // searchCriteria.c_rank = rank;
-    // }
-    // if (vsl) {
-    // searchCriteria.c_vessel = vsl;
-    // }
-    // if (experience) {
-    // searchCriteria.experience = experience;
-    // }
-    // if (grade) {
-    // searchCriteria.grade = grade;
-    // }
-    // if (status) {
-    // searchCriteria.company_status = status;
-    // }
-    // if (license) {
-    // searchCriteria.l_country = license;
-    // }
-    // if (zone) {
-    // searchCriteria.zone = zone;
-    // }
-    // if(group)
-    // {
-    // searchCriteria.group = group
-    // }
-    // if (avb_date && las_date) {
-    //     searchCriteria.avb_date = {
-    //         [Op.between]: [avb_date, las_date]
-    //     };
-    // } else if (avb_date) {
-    //     // If only avb_date is provided, search for candidates with avb_date equal to or greater than avb_date
-    //     searchCriteria.avb_date = {
-    //         [Op.gte]: avb_date
-    //     };
-    // } else if (las_date) {
-    //     // If only las_date is provided, search for candidates with las_date equal to or less than las_date
-    //     searchCriteria.avb_date = {
-    //         [Op.lte]: las_date
-    //     };
-    // }
-    
-    
-    // // Perform the search
-    // const results = await Candidate.findAll({
-    // where: searchCriteria
-    // });
-    
-    // res.json(results);
-    // } catch (error) {
-    // console.error('Error:', error);
-    // res.status(500).json({ error: 'Internal Server Error' });
-    // }
-    // });
-
     app.post('/searchspl', async (req, res) => {
-        try {
-            const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, age } = req.body;
-            const searchCriteria = {};
+    try {
+    const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date,group,age } = req.body;
+    const searchCriteria = {};
+    if (nemoId) {
+    searchCriteria.candidateId = nemoId;
+    }
+    if (name) {
+    searchCriteria.fname = name;
+    }
+    if (rank) {
+    searchCriteria.c_rank = rank;
+    }
+    if (vsl) {
+    searchCriteria.c_vessel = vsl;
+    }
+    if (experience) {
+    searchCriteria.experience = experience;
+    }
+    if (grade) {
+    searchCriteria.grade = grade;
+    }
+    if (status) {
+    searchCriteria.company_status = status;
+    }
+    if (license) {
+    searchCriteria.l_country = license;
+    }
+    if (zone) {
+    searchCriteria.zone = zone;
+    }
+    if(group)
+    {
+    searchCriteria.group = group
+    }
+    if (avb_date && las_date) {
+        searchCriteria.avb_date = {
+            [Op.between]: [avb_date, las_date]
+        };
+    } else if (avb_date) {
+        // If only avb_date is provided, search for candidates with avb_date equal to or greater than avb_date
+        searchCriteria.avb_date = {
+            [Op.gte]: avb_date
+        };
+    } else if (las_date) {
+        // If only las_date is provided, search for candidates with las_date equal to or less than las_date
+        searchCriteria.avb_date = {
+            [Op.lte]: las_date
+        };
+    }
     
-            if (nemoId) {
-                searchCriteria.candidateId = nemoId;
-            }
-            if (name) {
-                searchCriteria.fname = name;
-            }
-            if (rank) {
-                searchCriteria.c_rank = rank;
-            }
-            if (vsl) {
-                searchCriteria.c_vessel = vsl;
-            }
-            if (experience) {
-                searchCriteria.experience = experience;
-            }
-            if (grade) {
-                searchCriteria.grade = grade;
-            }
-            if (status) {
-                searchCriteria.company_status = status;
-            }
-            if (license) {
-                searchCriteria.l_country = license;
-            }
-            if (zone) {
-                searchCriteria.zone = zone;
-            }
-            if (group) {
-                searchCriteria.group = group;
-            }
-            if (age) {
-                const currentDate = new Date();
-                const currentYear = currentDate.getFullYear();
-                const currentMonth = currentDate.getMonth();
-                const currentDay = currentDate.getDate();
     
-                // Calculate date range for the age
-                const startDate = new Date(currentYear - age - 1, currentMonth, currentDay + 1);
-                const endDate = new Date(currentYear - age, currentMonth, currentDay + 1);
-    
-                searchCriteria.dob = {
-                    [Op.between]: [startDate, endDate]
-                };
-            }
-            if (avb_date && las_date) {
-                searchCriteria.avb_date = {
-                    [Op.between]: [avb_date, las_date]
-                };
-            } else if (avb_date) {
-                searchCriteria.avb_date = {
-                    [Op.gte]: avb_date
-                };
-            } else if (las_date) {
-                searchCriteria.avb_date = {
-                    [Op.lte]: las_date
-                };
-            }
-    
-           
-    
-            // Perform the search
-            const results = await Candidate.findAll({
-                where: searchCriteria
-            });
-    
-            res.json(results);
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
+    // Perform the search
+    const results = await Candidate.findAll({
+    where: searchCriteria
     });
+    
+    res.json(results);
+    } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    }
+    });
+
+
 
 const PasswordRoutes=require('./routes/forgotpassword');
 const Forgotpassword=require('./models/forgotpassword');
