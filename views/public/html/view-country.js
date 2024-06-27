@@ -4,7 +4,7 @@ const countryTable = document.getElementById("country-code-table");
 const token = localStorage.getItem('token')
 async function displayCountryCodes() {
     try {
-        const response = await axios.get('http://localhost:4000/others/country-codes',{headers:{"Authorization":token}});
+        const response = await axios.get('https://nemo.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {
@@ -67,7 +67,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

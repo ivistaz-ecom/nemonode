@@ -4,7 +4,7 @@ let currentHospitalPage = 1; // Initialize current page for hospitals
 async function displayHospital(page = 1, limit = 10) {
     try {
         // Fetch hospitals from the server with pagination parameters
-        const hospitalResponse = await axios.get(`http://localhost:4000/others/view-hospital?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const hospitalResponse = await axios.get(`https://nemo.ivistaz.co/others/view-hospital?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Hospital Response:', hospitalResponse);
 
         const hospitalTable = document.getElementById("hospital-table");
@@ -141,7 +141,7 @@ async function deleteHospital(hospitalId, event) {
     event.preventDefault();
 
     const id = hospitalId;
-    const url = `http://localhost:4000/others/delete-hospital/${id}`;
+    const url = `https://nemo.ivistaz.co/others/delete-hospital/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -190,7 +190,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
