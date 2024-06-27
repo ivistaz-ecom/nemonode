@@ -41,12 +41,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       candidateCountsResponse,
       rankCountsResponse
     ] = await Promise.all([
-      axios.get('https://nemo.ivistaz.co/candidate/discussion-count', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/call-count', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/statuscount', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/percentage', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/getCount', { headers: { "Authorization": token } }),
-      axios.get('https://nemo.ivistaz.co/candidate/getGraph', { headers: { "Authorization": token } })
+      axios.get('http://localhost:4000/candidate/discussion-count', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:4000/candidate/call-count', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:4000/candidate/statuscount', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:4000/candidate/percentage', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:4000/candidate/getCount', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:4000/candidate/getGraph', { headers: { "Authorization": token } })
     ]);
     hideSkeletonLoading(elements);
 
@@ -263,7 +263,7 @@ function handleLogout() {
 
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+    axios.put(`http://localhost:4000/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })

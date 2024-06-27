@@ -1,10 +1,10 @@
 const express = require("express")
 require('dotenv').config()
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
-const multer = require('multer');
+// const multer = require('multer');
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
@@ -701,402 +701,402 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage1 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/photos');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage1 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/photos');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage2 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/tickets');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage2 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/tickets');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage3 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/resume');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage4 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage5 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/contract');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage6 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/aoa');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage7 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/medical');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage8 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/bank_details');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
-const upload1 = multer({ storage: storage1 });
-const upload2 = multer({ storage: storage2 });
-const upload3 = multer({ storage: storage3 });
-const upload4 = multer({ storage: storage4 });
-const upload5 = multer({ storage: storage5 });
-const upload6 = multer({ storage: storage6 });
-const upload7 = multer({ storage: storage7 });
-const upload8 = multer({ storage: storage8 });
-const evaluationDirectory = '/views/public/files/evaluation';
-const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
-const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
-const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
-const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
-const documentDirectory = '/var/www/html/nemonode/views/public/files'
-const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
-const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
-const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
-// Serve static files from the evaluation directory
+// const storage3 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/resume');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage4 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage5 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/contract');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage6 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/aoa');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage7 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/medical');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage8 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/bank_details');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const upload = multer({ storage: storage });
+// const upload1 = multer({ storage: storage1 });
+// const upload2 = multer({ storage: storage2 });
+// const upload3 = multer({ storage: storage3 });
+// const upload4 = multer({ storage: storage4 });
+// const upload5 = multer({ storage: storage5 });
+// const upload6 = multer({ storage: storage6 });
+// const upload7 = multer({ storage: storage7 });
+// const upload8 = multer({ storage: storage8 });
+// const evaluationDirectory = '/views/public/files/evaluation';
+// const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
+// const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
+// const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
+// const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
+// const documentDirectory = '/var/www/html/nemonode/views/public/files'
+// const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
+// const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
+// const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
+// // Serve static files from the evaluation directory
 
-app.use(express.static('/views/public/files'));
-app.use(express.static('/views/public/uploads'));
-app.use(express.static('/views/public/bank_details'));
-app.use('/documents',express.static(documentDirectory))
-app.use('/photos', express.static(photosDirectory));
-app.use('/tickets', express.static(ticketsDirectory));  
-app.use('/resume', express.static(resumeDirectory));
-app.use('/contract', express.static(contractDirectory));
-app.use('/aoa', express.static(aoaDirectory));
-app.use('/medical', express.static(medicalDirectory));
-app.use('/evaluation', express.static(evaluationDirectory));
-app.use('/bank', express.static(bankDirectory));
-// Serve static files from various directories
-// Route to handle file uploads 
-app.post('/upload', upload.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload1', upload1.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload2', upload2.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload3', upload3.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload4', upload4.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload5', upload5.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload6', upload6.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload7', upload7.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload8', upload8.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-
-
-// Route to fetch files based on candidateId
-app.get('/fetch-files/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(evaluationDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files1/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(photosDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/photos/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files2/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(resumeDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/resume/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files3/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(ticketsDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/tickets/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files4/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(contractDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/contract/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+// app.use(express.static('/views/public/files'));
+// app.use(express.static('/views/public/uploads'));
+// app.use(express.static('/views/public/bank_details'));
+// app.use('/documents',express.static(documentDirectory))
+// app.use('/photos', express.static(photosDirectory));
+// app.use('/tickets', express.static(ticketsDirectory));  
+// app.use('/resume', express.static(resumeDirectory));
+// app.use('/contract', express.static(contractDirectory));
+// app.use('/aoa', express.static(aoaDirectory));
+// app.use('/medical', express.static(medicalDirectory));
+// app.use('/evaluation', express.static(evaluationDirectory));
+// app.use('/bank', express.static(bankDirectory));
+// // Serve static files from various directories
+// // Route to handle file uploads 
+// app.post('/upload', upload.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload1', upload1.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload2', upload2.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload3', upload3.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload4', upload4.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload5', upload5.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload6', upload6.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload7', upload7.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload8', upload8.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
 
 
+// // Route to fetch files based on candidateId
+// app.get('/fetch-files/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-app.get('/fetch-files5/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+//     // Read the contents of the directory
+//     fs.readdir(evaluationDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-    // Read the contents of the directory
-    fs.readdir(aoaDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/aoa/${file}`);
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+// app.get('/fetch-files1/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(photosDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/photos/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files2/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(resumeDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/resume/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files3/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(ticketsDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/tickets/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+
+// app.get('/fetch-files4/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(contractDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/contract/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
 
-app.get('/fetch-files6/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+// app.get('/fetch-files5/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(medicalDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     // Read the contents of the directory
+//     fs.readdir(aoaDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/medical/${file}`);
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/aoa/${file}`);
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files7/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(bankDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/bank_details/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
 
+// app.get('/fetch-files6/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(medicalDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/medical/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files7/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(bankDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/bank_details/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
-// Middleware for serving files dynamically
-app.use((req, res, next) => {
-    const viewPath = path.join(__dirname, req.path);
-    console.log("DIRNAME",__dirname,"PATH",req.path)
-    const decodedPath = decodeURIComponent(viewPath); // Decode URL
-    res.sendFile(decodedPath, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', decodedPath);
-            res.status(err.status || 500).send('Internal Server Error');
-        } else {
-            console.log('File sent successfully:', decodedPath);
-        }
-    });
-});
+
+
+
+// // Middleware for serving files dynamically
+// app.use((req, res, next) => {
+//     const viewPath = path.join(__dirname, req.path);
+//     console.log("DIRNAME",__dirname,"PATH",req.path)
+//     const decodedPath = decodeURIComponent(viewPath); // Decode URL
+//     res.sendFile(decodedPath, (err) => {
+//         if (err) {
+//             console.error('Error serving file:', err);
+//             console.error('Requested URL:', req.url);
+//             console.error('Resolved File Path:', decodedPath);
+//             res.status(err.status || 500).send('Internal Server Error');
+//         } else {
+//             console.log('File sent successfully:', decodedPath);
+//         }
+//     });
+// });
 
 
 
