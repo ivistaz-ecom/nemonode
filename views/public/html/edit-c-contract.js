@@ -107,7 +107,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         defaultOption.text = '-- Select Rank --';
         rankDropdown.appendChild(defaultOption);
     
-        const rankResponse = await axios.get("https://nemo.ivistaz.co/others/view-rank", { headers: { "Authorization": token } });
+        const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
         const rankOptions = rankResponse.data.ranks;
         const rankNames = rankOptions.map(rank => rank.rank);
     
@@ -132,8 +132,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/view-vsl", { headers: { "Authorization": token } });
-            const vessels = vesselResponse.data.vsls;
+            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+            const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
             for (let i = 0; i < vesselNames.length; i++) {
@@ -163,7 +163,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/view-vessels", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
@@ -186,7 +186,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("https://nemo.ivistaz.co/others/view-port", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("https://nemo.ivistaz.co/others/get-ports", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -233,7 +233,7 @@ async function fetchAndDisplayCompanies() {
     try {
         // Fetch ports from the server
         // Fetch companies from the server
-        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/view-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
         const companies = companyResponse.data.company;
         console.log(companies)
         // Get the company select element
