@@ -3408,17 +3408,19 @@ const getCallsCountForOneDay = async (req, res) => {
         const callsCount = await Discussion.count({
             where: {
                 created_date: {
-                    [Op.between]: [startDate, endDate]
+                    [Op.gte]: startDate,
+                    [Op.lt]: endDate
                 }
             }
         });
-        console.log('callscount:',callsCount)
+
         res.status(200).json({ count: callsCount, success: true });
     } catch (error) {
         console.error('Error fetching count of calls made for one day:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 
 
