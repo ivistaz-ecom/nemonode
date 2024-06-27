@@ -226,27 +226,27 @@ async function handleContractForm(event) {
 const contractForm = document.getElementById('contractForm');
 contractForm.addEventListener('submit', handleContractForm);
 
-const displayDropdown = async function () {
-    const rankDropdown = document.getElementById('candidate_c_rank');
-    rankDropdown.innerHTML = ''; // Clear existing options
+async function displayDropdown() {
+    try {
+        const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", {
+            headers: { "Authorization": token }
+        });
+        const ranks = rankResponse.data.ranks;
+        const rankSelect = document.getElementById("candidate_c_rank");
 
-    // Add the default option
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.text = '-- Select Rank --';
-    rankDropdown.appendChild(defaultOption);
+        rankSelect.innerHTML = '<option value="" disabled selected>-- Select Rank --</option>';
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
-    const rankOptions = rankResponse.data.ranks;
-    const rankNames = rankOptions.map(rank => rank.rank);
-
-    for (let i = 0; i < rankNames.length; i++) {
-        const option = document.createElement('option');
-        option.value = rankNames[i];
-        option.text = rankNames[i];
-        rankDropdown.appendChild(option);
+        ranks.forEach((rank) => {
+            const option = document.createElement("option");
+            option.value = rank.rank;
+            option.textContent = rank.rank;
+            rankSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching and displaying ranks:', error);
     }
 }
+
 
 async function fetchAndDisplayVessels() {
     try {
@@ -299,7 +299,7 @@ async function fetchAndDisplayVesselType() {
         // Add vessels to the dropdown
         vessels.forEach((vessel) => {
             const option = document.createElement("option");
-            option.value = vessel.vesselName;
+            option.value = vessel.id;
             option.text = vessel.vesselName;
             vesselSelect.appendChild(option);
         });
@@ -334,7 +334,7 @@ async function fetchAndDisplayDropdowns() {
         // Add ports to the port dropdowns
         ports.forEach((port) => {
             const option = document.createElement("option");
-            option.value = port.portName;
+            option.value = port.id;
             option.text = port.portName;
 
             // Append individual port options to each dropdown
@@ -374,7 +374,7 @@ async function fetchAndDisplayCompanies() {
         // Add companies to the company dropdown
         companies.forEach((company) => {
             const option = document.createElement("option");
-            option.value = company.company_name;
+            option.value = company.company_id;
             option.text = company.company_name;
             companySelect.appendChild(option);
         });
