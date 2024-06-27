@@ -121,63 +121,33 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
     }
 
-    // const displayVesselDropdown = async function () {
-    //     try {
-    //         const vesselDropdown = document.getElementById('editcontract_vesseltype');
-    //         vesselDropdown.innerHTML = ''; // Clear existing options
-        
-    //         // Add the default option
-    //         const defaultOption = document.createElement('option');
-    //         defaultOption.value = '';
-    //         defaultOption.text = '-- Select Vessel --';
-    //         vesselDropdown.appendChild(defaultOption);
-        
-    //         const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
-    //         const vessels = vesselResponse.data.vessels;
-    //         const vesselNames = vessels.map(vessel => vessel.vesselName);
-        
-    //         for (let i = 0; i < vesselNames.length; i++) {
-    //             const option = document.createElement('option');
-    //             option.value = vesselNames[i];
-    //             option.text = vesselNames[i];
-    //             vesselDropdown.appendChild(option);
-    //         }
-    //         vesselDropdown.value = vesselType; // Make sure to set the selected value if needed
-    //     } catch (error) {
-    //         console.error('Error fetching vessels:', error);
-    //     }
-    // }
-    
-    async function displayVesselDropdown() {
+    const displayVesselDropdown = async function () {
         try {
-            const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
-            const vessels = serverResponse.data.vessels;
-    
-            // Get the select element
-            const vesselSelect = document.getElementById("editcontract_vesseltype");
-    
-            // Clear previous options
-            vesselSelect.innerHTML = '';
-    
-            // Add a default option
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.text = "-- Select Vessel --";
-    
-            vesselSelect.appendChild(defaultOption);
-    
-            // Add vessels to the dropdown
-            vessels.forEach((vessel) => {
-                const option = document.createElement("option");
-                option.value = vessel.vesselName;
-                option.text = vessel.vesselName;
-                vesselSelect.appendChild(option);
-            });
-            vesselSelect.vesselName = vesselType
+            const vesselDropdown = document.getElementById('editcontract_vesseltype');
+            vesselDropdown.innerHTML = ''; // Clear existing options
+        
+            // Add the default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = '-- Select Vessel --';
+            vesselDropdown.appendChild(defaultOption);
+        
+            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
+            const vessels = vesselResponse.data.vessels;
+            const vesselNames = vessels.map(vessel => vessel.vesselName);
+        
+            for (let i = 0; i < vesselNames.length; i++) {
+                const option = document.createElement('option');
+                option.value = vesselNames[i];
+                option.text = vesselNames[i];
+                vesselDropdown.appendChild(option);
+            }
+            vesselDropdown.value = vesselType; // Make sure to set the selected value if needed
         } catch (error) {
             console.error('Error fetching vessels:', error);
         }
     }
+    
     // Call the displayVesselDropdown function where needed, for example, after fetching the rank dropdown
    // Call the function to populate the vessel dropdown
     
@@ -193,7 +163,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
