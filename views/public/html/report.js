@@ -4260,167 +4260,747 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //     }
 // }
 
-async function handleCrewList(event) {
-    event.preventDefault();
-    try {
-        let startDate = document.getElementById('startDatecl').value;
-        startDate = startDate + 'T00:00:00Z';
-        let endDate = document.getElementById('endDatecl').value;
-        endDate = endDate + 'T23:59:59Z';
+// async function handleCrewList(event) {
+//     event.preventDefault();
+//     try {
+//         let startDate = document.getElementById('startDatecl').value;
+//         startDate = startDate + 'T00:00:00Z';
+//         let endDate = document.getElementById('endDatecl').value;
+//         endDate = endDate + 'T23:59:59Z';
 
-        // Check if startDate and endDate are empty
-        if (!startDate || !endDate) {
-            console.error("Start date and end date are required");
-            // Show a message to the user indicating that start date and end date are required
+//         // Check if startDate and endDate are empty
+//         if (!startDate || !endDate) {
+//             console.error("Start date and end date are required");
+//             // Show a message to the user indicating that start date and end date are required
+//             return;
+//         }
+
+//         const vslName = document.getElementById('vsl').value || null;
+//         const companyname = document.getElementById('user_client5').value || null;
+
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vslName: vslName,
+//             company: companyname
+//         };
+
+//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//             params: params
+//         });
+//         console.log(response.data);
+//         const crewlistCandidates = response.data; // Directly accessing the array since response.data already contains the data
+
+//         const crewListTableBody = document.getElementById('crewListTableBody');
+//         crewListTableBody.innerHTML = ''; // Clear existing rows
+
+//         if (crewlistCandidates && crewlistCandidates.length > 0) {
+//             setupPagination(crewlistCandidates);
+//         } else {
+//             // No data message
+//             crewListTableBody.innerHTML = '<tr><td colspan="16">No data available</td></tr>';
+//         }
+
+//         function setupPagination(crewlistCandidates) {
+//             const rowsPerPageSelect = document.getElementById('rowsPerPageSelectcl');
+//             const paginationControls = document.getElementById('paginationControlscl');
+//             const tableBody = document.getElementById('crewListTableBody');
+//             const searchInput = document.getElementById('searchInputcl');
+
+//             let currentPage = 1;
+//             let rowsPerPage = parseInt(rowsPerPageSelect.value);
+//             let filteredCandidates = crewlistCandidates;
+
+//             function filterCandidates() {
+//                 const searchQuery = searchInput.value.toLowerCase();
+//                 filteredCandidates = crewlistCandidates.filter(contract =>
+//                     Object.values(contract).some(val =>
+//                         val && val.toString().toLowerCase().includes(searchQuery)
+//                     )
+//                 );
+//                 currentPage = 1; // Reset to first page after filtering
+//                 displayTableRows();
+//                 updatePaginationControls();
+//             }
+
+//             function displayTableRows() {
+//                 tableBody.innerHTML = ''; // Clear existing table rows
+
+//                 const start = (currentPage - 1) * rowsPerPage;
+//                 const end = start + rowsPerPage;
+//                 const paginatedCandidates = filteredCandidates.slice(start, end);
+
+//                 let index = start + 1;
+//                 paginatedCandidates.forEach(contract => {
+//                     const row = document.createElement('tr');
+//                     row.innerHTML = `
+//                         <td>${index++}</td>
+//                         <td>${contract.candidateId}</td>
+//                         <td>${contract.fname}</td>
+//                         <td>${contract.lname}</td>
+//                         <td>${contract.rank}</td>
+//                         <td>${getNationalityName(contract.nationality)}</td>
+//                         <td>${contract.company_name}</td>
+//                         <td>${contract.currency}</td>
+//                         <td>${contract.eoc}</td>
+//                         <td>${contract.sign_on}</td>
+//                         <td>${contract.sign_off}</td>
+//                         <td>${getVesselName(contract.vesselId)}</td>
+//                         <td>${contract.vesselType}</td>
+                      
+//                         <td>${contract.wages}</td>
+//                         <td>${contract.wages_types}</td>
+//                     `;
+//                     tableBody.appendChild(row);
+//                 });
+//             }
+
+//             function updatePaginationControls() {
+//                 paginationControls.innerHTML = '';
+
+//                 const totalPages = Math.ceil(filteredCandidates.length / rowsPerPage);
+
+//                 if (currentPage > 1) {
+//                     const prevButton = document.createElement('button');
+//                     prevButton.textContent = 'Previous';
+//                     prevButton.addEventListener('click', () => {
+//                         currentPage--;
+//                         displayTableRows();
+//                         updatePaginationControls();
+//                     });
+//                     paginationControls.appendChild(prevButton);
+//                 }
+
+//                 const pageButtons = [];
+//                 for (let i = 1; i <= totalPages; i++) {
+//                     const pageButton = document.createElement('button');
+//                     pageButton.textContent = i;
+//                     if (i === currentPage) {
+//                         pageButton.disabled = true;
+//                     } else {
+//                         pageButton.addEventListener('click', () => {
+//                             currentPage = i;
+//                             displayTableRows();
+//                             updatePaginationControls();
+//                         });
+//                     }
+//                     pageButtons.push(pageButton);
+//                 }
+
+//                 pageButtons.forEach(button => paginationControls.appendChild(button));
+
+//                 if (currentPage < totalPages) {
+//                     const nextButton = document.createElement('button');
+//                     nextButton.textContent = 'Next';
+//                     nextButton.addEventListener('click', () => {
+//                         currentPage++;
+//                         displayTableRows();
+//                         updatePaginationControls();
+//                     });
+//                     paginationControls.appendChild(nextButton);
+//                 }
+//             }
+
+//             rowsPerPageSelect.addEventListener('change', () => {
+//                 rowsPerPage = parseInt(rowsPerPageSelect.value);
+//                 currentPage = 1;
+//                 displayTableRows();
+//                 updatePaginationControls();
+//             });
+
+//             searchInput.addEventListener('input', filterCandidates);
+
+//             displayTableRows();
+//             updatePaginationControls();
+//         }
+//         const exportButton = document.createElement('button');
+//         exportButton.textContent = 'Export to Excel';
+//         exportButton.addEventListener('click', exportToExcel);
+//         document.getElementById('exportButtonContainer').appendChild(exportButton);
+    
+//         function exportToExcel() {
+//             const dataToExport = filteredCandidates.length > 0 ? filteredCandidates : crewlistCandidates;
+    
+//             if (dataToExport.length === 0) {
+//                 console.error("No data to export.");
+//                 return;
+//             }
+    
+//             const formattedData = dataToExport.map(contract => ({
+//                 'Index': contract.index, // Adjust this as per your table structure
+//                 'Candidate ID': contract.candidateId,
+//                 'First Name': contract.fname,
+//                 'Last Name': contract.lname,
+//                 'Rank': contract.rank,
+//                 'Nationality': getNationalityName(contract.nationality),
+//                 'Company': contract.company_name,
+//                 'Currency': contract.currency,
+//                 'EOC': contract.eoc,
+//                 'Sign On': contract.sign_on,
+//                 'Sign Off': contract.sign_off,
+//                 'Vessel': getVesselName(contract.vesselId),
+//                 'Vessel Type': contract.vesselType,
+//                 'Wages': contract.wages,
+//                 'Wage Types': contract.wages_types
+//             }));
+    
+//             const worksheet = XLSX.utils.json_to_sheet(formattedData);
+//             const workbook = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(workbook, worksheet, 'Crew List');
+    
+//             // Generate a unique filename with timestamp
+//             const today = new Date();
+//             const filename = `CrewList_${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.xlsx`;
+    
+//             // Save the Excel file
+//             XLSX.writeFile(workbook, filename);
+    
+//             console.log(`Excel file "${filename}" exported successfully.`);
+//         }
+    
+
+//     } catch (error) {
+//         console.error("Error handling crew list:", error);
+//         // Handle error here, maybe show an error message to the user
+//     }
+// }
+
+
+// async function handleCrewList(event) {
+//     event.preventDefault(); // Prevent default form submission behavior
+
+//     try {
+//         let startDate = document.getElementById('startDatecl').value;
+//         startDate = startDate + 'T00:00:00Z';
+//         let endDate = document.getElementById('endDatecl').value;
+//         endDate = endDate + 'T23:59:59Z';
+
+//         // Check if startDate and endDate are empty
+//         if (!startDate || !endDate) {
+//             console.error("Start date and end date are required");
+//             // Show a message to the user indicating that start date and end date are required
+//             return;
+//         }
+
+//         const vslName = document.getElementById('vsl').value || null;
+//         const companyname = document.getElementById('user_client5').value || null;
+
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vslName: vslName,
+//             company: companyname
+//         };
+
+//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//             params: params
+//         });
+//         console.log(response.data);
+//         const crewlist = response.data; //let crewlist = response.data.crewlist; // Adjust according to your API response structure
+
+//         // Clear existing results
+//         const crewListResults = document.getElementById('crewListMonthWiseContainer');
+//         crewListResults.innerHTML = '';
+
+//         if (crewlist.length === 0) {
+//             const message = document.createElement('p');
+//             message.textContent = 'No data available';
+//             crewListResults.appendChild(message);
+//             return;
+//         }
+
+//         // Create search input
+//         const searchInput = document.createElement('input');
+//         searchInput.classList.add('form-control', 'my-3');
+//         searchInput.type = 'text';
+//         searchInput.placeholder = 'Search...';
+//         searchInput.id = 'crewListMonthWiseSearchInput';
+//         crewListResults.appendChild(searchInput);
+
+//         // Create export button
+//         const exportButton = document.createElement('button');
+//         exportButton.classList.add('btn', 'btn-primary', 'my-3');
+//         exportButton.textContent = 'Export to Excel';
+//         exportButton.addEventListener('click', () => exportToExcel(filteredCrewlist));
+//         crewListResults.appendChild(exportButton);
+
+//         // Create table container
+//         const tableContainer = document.createElement('div');
+//         tableContainer.id = 'crewListMonthWiseTableContainer';
+//         crewListResults.appendChild(tableContainer);
+
+//         // Pagination variables
+//         let currentPage = 1;
+//         const itemsPerPage = 10; // Number of items per page
+//         let totalItems = crewlist.length;
+//         let totalPages = Math.ceil(totalItems / itemsPerPage);
+//         const maxVisiblePages = 5; // Maximum number of page buttons to display
+
+//         let filteredCrewlist = crewlist;
+
+//         searchInput.addEventListener('input', () => {
+//             currentPage = 1;
+//             renderTable();
+//         });
+
+//         // Function to render table with pagination and search
+//         function renderTable() {
+//             // Clear existing table content (excluding search input and export button)
+//             tableContainer.innerHTML = '';
+
+//             // Apply search filter
+//             const searchTerm = searchInput.value.trim().toLowerCase();
+//             filteredCrewlist = crewlist.filter(contract => {
+//                 return Object.values(contract).some(value =>
+//                     value && value.toString().toLowerCase().includes(searchTerm)
+//                 );
+//             });
+
+//             // Update total pages based on filtered crewlist
+//             totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
+
+//             // Paginate data
+//             const startIndex = (currentPage - 1) * itemsPerPage;
+//             const endIndex = startIndex + itemsPerPage;
+//             const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
+
+//             // Create table element
+//             const table = document.createElement('table');
+//             table.classList.add('table', 'table-bordered');
+
+//             // Create table header
+//             const tableHeader = document.createElement('thead');
+//             const headerRow = document.createElement('tr');
+//             const headers = [
+//                 'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
+//                 'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
+//                 'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types'
+//             ];
+//             headers.forEach(headerText => {
+//                 const header = document.createElement('th');
+//                 header.textContent = headerText;
+//                 header.scope = 'col';
+//                 header.classList.add('text-center');
+//                 headerRow.appendChild(header);
+//             });
+//             tableHeader.appendChild(headerRow);
+//             table.appendChild(tableHeader);
+
+//             // Create table body
+//             const tableBody = document.createElement('tbody');
+//             displayedCrewlist.forEach((contract, index) => {
+//                 const row = document.createElement('tr');
+//                 const fields = [
+//                     startIndex + index + 1, // Serial Number (S.No)
+//                     contract.candidateId,
+//                     contract.fname,
+//                     contract.lname,
+//                     contract.rank,
+//                     getNationalityName(contract.nationality),
+//                     contract.company_name,
+//                     contract.currency,
+//                     contract.eoc,
+//                     contract.sign_on,
+//                     contract.sign_off,
+//                     contract.vesselName,
+//                     contract.vesselType,
+//                     contract.wages,
+//                     contract.wages_types
+//                 ];
+//                 fields.forEach(field => {
+//                     const cell = document.createElement('td');
+//                     cell.textContent = field;
+//                     cell.classList.add('text-center');
+//                     row.appendChild(cell);
+//                 });
+//                 tableBody.appendChild(row);
+//             });
+//             table.appendChild(tableBody);
+
+//             // Append table to tableContainer
+//             tableContainer.appendChild(table);
+
+//             // Display total number of crewlist fetched
+//             const fetchedDataMessage = document.createElement('p');
+//             fetchedDataMessage.textContent = `${totalItems} data fetched`;
+//             tableContainer.appendChild(fetchedDataMessage);
+
+//             // Display number of crewlist matching search criteria
+//             const matchedDataMessage = document.createElement('p');
+//             matchedDataMessage.textContent = `${filteredCrewlist.length} data match search`;
+//             tableContainer.appendChild(matchedDataMessage);
+
+//             // Create pagination controls
+//             const paginationContainer = document.createElement('div');
+//             paginationContainer.classList.add('pagination', 'justify-content-center');
+
+//             // Previous button
+//             const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
+//                 currentPage--;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(prevButton);
+
+//             // Page buttons
+//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+//             if (endPage - startPage < maxVisiblePages - 1) {
+//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
+//             }
+
+//             if (startPage > 1) {
+//                 const firstEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(firstEllipsis);
+//             }
+
+//             for (let i = startPage; i <= endPage; i++) {
+//                 const pageButton = createPaginationButton(i.toString(), true, () => {
+//                     currentPage = i;
+//                     renderTable();
+//                 });
+//                 if (i === currentPage) {
+//                     pageButton.classList.add('active');
+//                 }
+//                 paginationContainer.appendChild(pageButton);
+//             }
+
+//             if (endPage < totalPages) {
+//                 const lastEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(lastEllipsis);
+//             }
+
+//             // Next button
+//             const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
+//                 currentPage++;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(nextButton);
+
+//             // Append pagination controls to tableContainer
+//             tableContainer.appendChild(paginationContainer);
+//         }
+
+//         // Helper function to create pagination button
+//         function createPaginationButton(text, isEnabled, onClick) {
+//             const button = document.createElement('button');
+//             button.classList.add('btn', 'btn-outline-primary', 'mx-1');
+//             button.textContent = text;
+//             button.addEventListener('click', onClick);
+//             button.disabled = !isEnabled;
+//             return button;
+//         }
+
+//         // Function to export table data to Excel
+//         function exportToExcel(data) {
+//             const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
+//                 'S.No': index + 1,
+//                 'Candidate ID': contract.candidateId,
+//                 'First Name': contract.fname,
+//                 'Last Name': contract.lname,
+//                 'Rank': contract.rank,
+//                 'Nationality': getNationalityName(contract.nationality),
+//                 'Company': contract.company_name,
+//                 'Currency': contract.currency,
+//                 'EOC': contract.eoc,
+//                 'Sign On': contract.sign_on,
+//                 'Sign Off': contract.sign_off,
+//                 'Vessel Name': contract.vesselName,
+//                 'Vessel Type': contract.vesselType,
+//                 'Wages': contract.wages,
+//                 'Wage Types': contract.wages_types
+//             })));
+
+//             const workbook = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(workbook, worksheet, 'Crew List Month Wise');
+
+//             XLSX.writeFile(workbook, 'crew_list_month_wise.xlsx');
+//         }
+
+//         // Initial render of table
+//         renderTable();
+
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
+async function handleCrewList(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    
+        try {
+                    let startDate = document.getElementById('startDatecl').value;
+                    startDate = startDate + 'T00:00:00Z';
+                    let endDate = document.getElementById('endDatecl').value;
+                    endDate = endDate + 'T23:59:59Z';
+            
+                    // Check if startDate and endDate are empty
+                    if (!startDate || !endDate) {
+                        console.error("Start date and end date are required");
+                        // Show a message to the user indicating that start date and end date are required
+                        return;
+                    }
+            
+                    const vslName = document.getElementById('vsl').value || null;
+                    const companyname = document.getElementById('user_client5').value || null;
+            
+                    const params = {
+                        startDate: startDate,
+                        endDate: endDate,
+                        vslName: vslName,
+                        company: companyname
+                    };
+            
+                    const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+                        params: params
+                    });
+                    console.log(response.data);
+                    const crewlist = response.data; //let crewlist = response.data.crewlist; // Adjust according to your API response structure
+            
+                    // Clear existing results
+                    const crewListResults = document.getElementById('crewListMonthWiseContainer');
+                    crewListResults.innerHTML = '';
+
+        if (crewlist.length === 0) {
+            const message = document.createElement('p');
+            message.textContent = 'No data available';
+            crewListResults.appendChild(message);
             return;
         }
 
-        const vslName = document.getElementById('vsl').value || null;
-        const companyname = document.getElementById('user_client5').value || null;
+        // Create search input
+        const searchInput = document.createElement('input');
+        searchInput.classList.add('form-control', 'my-3');
+        searchInput.type = 'text';
+        searchInput.placeholder = 'Search...';
+        searchInput.id = 'crewListMonthWiseSearchInput';
+        crewListResults.appendChild(searchInput);
 
-        const params = {
-            startDate: startDate,
-            endDate: endDate,
-            vslName: vslName,
-            company: companyname
-        };
-
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
-            params: params
+        // Create rows per page select
+        const rowsPerPageSelect = document.createElement('select');
+        rowsPerPageSelect.classList.add('form-select', 'my-3');
+        rowsPerPageSelect.id = 'rowsPerPageSelect';
+        [10, 25, 50, 100, 500].forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            rowsPerPageSelect.appendChild(optionElement);
         });
-        console.log(response.data);
-        const crewlistCandidates = response.data; // Directly accessing the array since response.data already contains the data
+        rowsPerPageSelect.addEventListener('change', () => {
+            renderTable();
+        });
+        crewListResults.appendChild(rowsPerPageSelect);
 
-        const crewListTableBody = document.getElementById('crewListTableBody');
-        crewListTableBody.innerHTML = ''; // Clear existing rows
+        // Create export button
+        const exportButton = document.createElement('button');
+        exportButton.classList.add('btn', 'btn-primary', 'my-3', 'ms-3');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.addEventListener('click', () => exportToExcel(filteredCrewlist));
+        crewListResults.appendChild(exportButton);
 
-        if (crewlistCandidates && crewlistCandidates.length > 0) {
-            setupPagination(crewlistCandidates);
-        } else {
-            // No data message
-            crewListTableBody.innerHTML = '<tr><td colspan="16">No data available</td></tr>';
-        }
+        // Create table container
+        const tableContainer = document.createElement('div');
+        tableContainer.id = 'crewListMonthWiseTableContainer';
+        crewListResults.appendChild(tableContainer);
 
-        function setupPagination(crewlistCandidates) {
-            const rowsPerPageSelect = document.getElementById('rowsPerPageSelectcl');
-            const paginationControls = document.getElementById('paginationControlscl');
-            const tableBody = document.getElementById('crewListTableBody');
-            const searchInput = document.getElementById('searchInputcl');
+        // Pagination variables
+        let currentPage = 1;
+        let itemsPerPage = parseInt(rowsPerPageSelect.value); // Number of items per page
+        let totalItems = crewlist.length;
+        let totalPages = Math.ceil(totalItems / itemsPerPage);
+        const maxVisiblePages = 5; // Maximum number of page buttons to display
 
-            let currentPage = 1;
-            let rowsPerPage = parseInt(rowsPerPageSelect.value);
-            let filteredCandidates = crewlistCandidates;
+        let filteredCrewlist = crewlist;
 
-            function filterCandidates() {
-                const searchQuery = searchInput.value.toLowerCase();
-                filteredCandidates = crewlistCandidates.filter(contract =>
-                    Object.values(contract).some(val =>
-                        val && val.toString().toLowerCase().includes(searchQuery)
-                    )
+        searchInput.addEventListener('input', () => {
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Function to render table with pagination and search
+        function renderTable() {
+            itemsPerPage = parseInt(rowsPerPageSelect.value); // Update items per page based on selection
+
+            // Clear existing table content (excluding search input, rows per page select, and export button)
+            tableContainer.innerHTML = '';
+
+            // Apply search filter
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            filteredCrewlist = crewlist.filter(contract => {
+                return Object.values(contract).some(value =>
+                    value && value.toString().toLowerCase().includes(searchTerm)
                 );
-                currentPage = 1; // Reset to first page after filtering
-                displayTableRows();
-                updatePaginationControls();
-            }
-
-            function displayTableRows() {
-                tableBody.innerHTML = ''; // Clear existing table rows
-
-                const start = (currentPage - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                const paginatedCandidates = filteredCandidates.slice(start, end);
-
-                let index = start + 1;
-                paginatedCandidates.forEach(contract => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index++}</td>
-                        <td>${contract.candidateId}</td>
-                        <td>${contract.fname}</td>
-                        <td>${contract.lname}</td>
-                        <td>${contract.rank}</td>
-                        <td>${getNationalityName(contract.nationality)}</td>
-                        <td>${contract.company_name}</td>
-                        <td>${contract.currency}</td>
-                        <td>${contract.eoc}</td>
-                        <td>${contract.sign_on}</td>
-                        <td>${contract.sign_off}</td>
-                        <td>${getVesselName(contract.vesselId)}</td>
-                        <td>${contract.vesselType}</td>
-                      
-                        <td>${contract.wages}</td>
-                        <td>${contract.wages_types}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            }
-
-            function updatePaginationControls() {
-                paginationControls.innerHTML = '';
-
-                const totalPages = Math.ceil(filteredCandidates.length / rowsPerPage);
-
-                if (currentPage > 1) {
-                    const prevButton = document.createElement('button');
-                    prevButton.textContent = 'Previous';
-                    prevButton.addEventListener('click', () => {
-                        currentPage--;
-                        displayTableRows();
-                        updatePaginationControls();
-                    });
-                    paginationControls.appendChild(prevButton);
-                }
-
-                const pageButtons = [];
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageButton = document.createElement('button');
-                    pageButton.textContent = i;
-                    if (i === currentPage) {
-                        pageButton.disabled = true;
-                    } else {
-                        pageButton.addEventListener('click', () => {
-                            currentPage = i;
-                            displayTableRows();
-                            updatePaginationControls();
-                        });
-                    }
-                    pageButtons.push(pageButton);
-                }
-
-                pageButtons.forEach(button => paginationControls.appendChild(button));
-
-                if (currentPage < totalPages) {
-                    const nextButton = document.createElement('button');
-                    nextButton.textContent = 'Next';
-                    nextButton.addEventListener('click', () => {
-                        currentPage++;
-                        displayTableRows();
-                        updatePaginationControls();
-                    });
-                    paginationControls.appendChild(nextButton);
-                }
-            }
-
-            rowsPerPageSelect.addEventListener('change', () => {
-                rowsPerPage = parseInt(rowsPerPageSelect.value);
-                currentPage = 1;
-                displayTableRows();
-                updatePaginationControls();
             });
 
-            searchInput.addEventListener('input', filterCandidates);
+            // Update total pages based on filtered crewlist
+            totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
 
-            displayTableRows();
-            updatePaginationControls();
+            // Paginate data
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
+
+            // Create table element
+            const table = document.createElement('table');
+            table.classList.add('table', 'table-bordered');
+
+            // Create table header
+            const tableHeader = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            const headers = [
+                'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
+                'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
+                'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types'
+            ];
+            headers.forEach(headerText => {
+                const header = document.createElement('th');
+                header.textContent = headerText;
+                header.scope = 'col';
+                header.classList.add('text-center');
+                headerRow.appendChild(header);
+            });
+            tableHeader.appendChild(headerRow);
+            table.appendChild(tableHeader);
+
+            // Create table body
+            const tableBody = document.createElement('tbody');
+            displayedCrewlist.forEach((contract, index) => {
+                const row = document.createElement('tr');
+                const fields = [
+                    startIndex + index + 1, // Serial Number (S.No)
+                    contract.candidateId,
+                    contract.fname,
+                    contract.lname,
+                    contract.rank,
+                    getNationalityName(contract.nationality),
+                    contract.company_name,
+                    contract.currency,
+                    contract.eoc,
+                    contract.sign_on,
+                    contract.sign_off,
+                    contract.vesselName,
+                    contract.vesselType,
+                    contract.wages,
+                    contract.wages_types
+                ];
+                fields.forEach(field => {
+                    const cell = document.createElement('td');
+                    cell.textContent = field;
+                    cell.classList.add('text-center');
+                    row.appendChild(cell);
+                });
+                tableBody.appendChild(row);
+            });
+            table.appendChild(tableBody);
+
+            // Append table to tableContainer
+            tableContainer.appendChild(table);
+
+            // Display total number of crewlist fetched
+            const fetchedDataMessage = document.createElement('p');
+            fetchedDataMessage.textContent = `${totalItems} data fetched`;
+            tableContainer.appendChild(fetchedDataMessage);
+
+            // Display number of crewlist matching search criteria
+            const matchedDataMessage = document.createElement('p');
+            matchedDataMessage.textContent = `${filteredCrewlist.length} data match search`;
+            tableContainer.appendChild(matchedDataMessage);
+
+            // Create pagination controls
+            const paginationContainer = document.createElement('div');
+            paginationContainer.classList.add('pagination', 'justify-content-center');
+
+            // Previous button
+            const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
+                currentPage--;
+                renderTable();
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // Page buttons
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            if (startPage > 1) {
+                const firstEllipsis = createPaginationButton('...', false, null);
+                paginationContainer.appendChild(firstEllipsis);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = createPaginationButton(i.toString(), true, () => {
+                    currentPage = i;
+                    renderTable();
+                });
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                paginationContainer.appendChild(pageButton);
+            }
+
+            if (endPage < totalPages) {
+                const lastEllipsis = createPaginationButton('...', false, null);
+                paginationContainer.appendChild(lastEllipsis);
+            }
+
+            // Next button
+            const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
+                currentPage++;
+                renderTable();
+            });
+            paginationContainer.appendChild(nextButton);
+
+            // Append pagination controls to tableContainer
+            tableContainer.appendChild(paginationContainer);
         }
 
+        // Helper function to create pagination button
+        function createPaginationButton(text, isEnabled, onClick) {
+            const button = document.createElement('button');
+            button.classList.add('btn', 'btn-outline-primary', 'mx-1');
+            button.textContent = text;
+            button.addEventListener('click', onClick);
+            button.disabled = !isEnabled;
+            return button;
+        }
+
+        // Function to export table data to Excel
+        function exportToExcel(data) {
+            const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
+                'S.No': index + 1,
+                'Candidate ID': contract.candidateId,
+                'First Name': contract.fname,
+                'Last Name': contract.lname,
+                'Rank': contract.rank,
+                'Nationality': getNationalityName(contract.nationality),
+                'Company': contract.company_name,
+                'Currency': contract.currency,
+                'EOC': contract.eoc,
+                'Sign On': contract.sign_on,
+                'Sign Off': contract.sign_off,
+                'Vessel Name': contract.vesselName,
+                'Vessel Type': contract.vesselType,
+                'Wages': contract.wages,
+                'Wage Types': contract.wages_types
+            })));
+
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Crew List Month Wise');
+
+            XLSX.writeFile(workbook, 'crew_list_month_wise.xlsx');
+        }
+
+        // Initial render of table
+        renderTable();
+
     } catch (error) {
-        console.error("Error handling crew list:", error);
-        // Handle error here, maybe show an error message to the user
+        console.error(error);
     }
 }
-
-
 
 
 
