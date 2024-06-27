@@ -347,3 +347,17 @@ function getBadgeColor(status) {
     }
 }
 fetchDatas()
+
+
+async function fetchCallsCount() {
+    try {
+      const response = await axios.get('https://nemo.ivistaz.co/candidate/callsforoneday');
+      const { count } = response.data;
+
+      // Update the DOM with the fetched count
+      document.getElementById('callsCount').textContent = count;
+    } catch (error) {
+      console.error('Error fetching calls count:', error);
+    }
+  }
+  fetchCallsCount()
