@@ -351,7 +351,7 @@ fetchDatas()
 
 async function fetchCallsCount() {
     try {
-      const response = await axios.get('https://nemo.ivistaz.co/candidate/callsforoneday');
+      const response = await axios.get('https://nemo.ivistaz.co/candidate/callforoneday');
       const { count } = response.data;
 
       // Update the DOM with the fetched count
