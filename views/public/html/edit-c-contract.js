@@ -97,28 +97,26 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontract_aoa').value = aoa;
     document.getElementById('created_by').value = created_by;
 
-    const displayDropdown = async function () {
-        const rankDropdown = document.getElementById('editcontract_rank');
-        rankDropdown.innerHTML = ''; // Clear existing options
+    async function displayDropdown() {
+        try {
+            const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", {
+                headers: { "Authorization": token }
+            });
+            const ranks = rankResponse.data.ranks;
+            const rankSelect = document.getElementById("editcontract_rank");
     
-        // Add the default option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.text = '-- Select Rank --';
-        rankDropdown.appendChild(defaultOption);
+            rankSelect.innerHTML = '<option value="" disabled selected>-- Select Rank --</option>';
     
-        const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
-        const rankOptions = rankResponse.data.ranks;
-        const rankNames = rankOptions.map(rank => rank.rank);
-    
-        for (let i = 0; i < rankNames.length; i++) {
-            const option = document.createElement('option');
-            option.value = rankNames[i];
-            option.text = rankNames[i];
-            rankDropdown.appendChild(option);
+            ranks.forEach((rank) => {
+                const option = document.createElement("option");
+                option.value = rank.rank;
+                option.textContent = rank.rank;
+                rankSelect.appendChild(option);
+            });
+            rankSelect.value=ranks_contract
+        } catch (error) {
+            console.error('Error fetching and displaying ranks:', error);
         }
-        rankDropdown.value = ranks_contract
-    
     }
 
     const displayVesselDropdown = async function () {
@@ -152,32 +150,36 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
    // Call the function to populate the vessel dropdown
     
 
-    const displayVesselTypeDropdown = async function () {
-        try {
-            const vesselDropdown = document.getElementById('editcontract_vsl');
-            vesselDropdown.innerHTML = ''; // Clear existing options
-        
-            // Add the default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.text = '-- Select Vessel --';
-            vesselDropdown.appendChild(defaultOption);
-        
-            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
-            const vessels = vesselResponse.data.vessels;
-            const vesselNames = vessels.map(vessel => vessel.vesselName);
-        
-            for (let i = 0; i < vesselNames.length; i++) {
-                const option = document.createElement('option');
-                option.value = vesselNames[i];
-                option.text = vesselNames[i];
-                vesselDropdown.appendChild(option);
-            }
-            vesselDropdown.value = vslName; // Set the selected value if needed
-        } catch (error) {
-            console.error('Error fetching vessels:', error);
-        }
+   async function displayVesselTypeDropdown() {
+    try {
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        const vessels = serverResponse.data.vessels;
+
+        // Get the select element
+        const vesselSelect = document.getElementById("editcontract_vsl");
+
+        // Clear previous options
+        vesselSelect.innerHTML = '';
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "-- Select Vessel --";
+
+        vesselSelect.appendChild(defaultOption);
+
+        // Add vessels to the dropdown
+        vessels.forEach((vessel) => {
+            const option = document.createElement("option");
+            option.value = vessel.id;
+            option.text = vessel.vesselName;
+            vesselSelect.appendChild(option);
+        });
+        vesselSelect.value=vslName
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
     }
+}
     
     // Call the displayVesselTypeDropdown function where needed, for example, after fetching the rank dropdown
     // Call the function to populate the vessel dropdown
@@ -209,7 +211,7 @@ async function fetchAndDisplayDropdowns() {
         // Add ports to the port dropdowns
         ports.forEach((port) => {
             const option = document.createElement("option");
-            option.value = port.portName;
+            option.value = port.id;
             option.text = port.portName;
 
             // Append individual port options to each dropdown
@@ -245,7 +247,7 @@ async function fetchAndDisplayCompanies() {
         // Add options for each company
         companyOptions.forEach(company => {
             const option = document.createElement('option');
-            option.text = company.company_name; // Set the value to company ID
+            option.value = company.company_id; // Set the value to company ID
             option.text = company.company_name;
             companyDropdown.appendChild(option);
         });
