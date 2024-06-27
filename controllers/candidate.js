@@ -3409,11 +3409,11 @@ const getCallsCountForOneDay = async (req, res) => {
             where: {
                 created_date: {
                     [Op.gte]: startDate,
-                    [Op.lt]: endDate
+                    [Op.lte]: endDate
                 }
             }
         });
-
+        console.log(callsCount)
         res.status(200).json({ count: callsCount, success: true });
     } catch (error) {
         console.error('Error fetching count of calls made for one day:', error);
