@@ -999,7 +999,10 @@ app.get('/fetch-files4/:candidateId', (req, res) => {
     });
 });
 
-
+app.get('/home',(req,res)=>{
+    
+    res.status(200).send('Dev mode')
+})
 
 app.get('/fetch-files5/:candidateId', (req, res) => {
     const candidateId = req.params.candidateId;
@@ -1097,7 +1100,6 @@ app.use((req, res, next) => {
         }
     });
 });
-
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
