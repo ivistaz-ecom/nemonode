@@ -999,10 +999,10 @@ app.get('/fetch-files4/:candidateId', (req, res) => {
     });
 });
 
-app.use('/home',(req,res)=>{
-    
-    res.status(200).send('Dev mode')
-})
+app.get('/home', (req, res) => {
+    res.send('Dev Mode');
+});
+
 
 app.get('/fetch-files5/:candidateId', (req, res) => {
     const candidateId = req.params.candidateId;
