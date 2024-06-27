@@ -3391,6 +3391,35 @@ const hoverDiscussions =async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+const getCallsCountForOneDay = async (req, res) => {
+    try {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Set the start date to the current date (midnight)
+        const startDate = new Date(currentDate);
+        startDate.setHours(0, 0, 0, 0);
+
+        // Set the end date to the current date (end of the day)
+        const endDate = new Date(currentDate);
+        endDate.setHours(23, 59, 59, 999);
+
+        // Fetch count of calls made within the current day
+        const callsCount = await Discussion.count({
+            where: {
+                created_date: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        res.status(200).json({ count: callsCount, success: true });
+    } catch (error) {
+        console.error('Error fetching count of calls made for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
 
 
 module.exports = {
@@ -3472,5 +3501,6 @@ module.exports = {
    searchCandidates,
    getContractsDueForSignOff,
    updateOrCreateCandidateFromVerloop,
-   hoverDiscussions
+   hoverDiscussions,
+   getCallsCountForOneDay
 };
