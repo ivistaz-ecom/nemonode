@@ -245,7 +245,7 @@ async function fetchAndDisplayCompanies() {
         // Add options for each company
         companyOptions.forEach(company => {
             const option = document.createElement('option');
-            option.value = company.company_id; // Set the value to company ID
+            option.text = company.company_name; // Set the value to company ID
             option.text = company.company_name;
             companyDropdown.appendChild(option);
         });
