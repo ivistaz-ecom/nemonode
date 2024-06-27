@@ -249,6 +249,8 @@ async function fetchAndDisplayCompanies() {
             option.text = company.company_name;
             companyDropdown.appendChild(option);
         });
+        companyDropdown.value=company
+        
     } catch (error) {
         console.error('Error fetching company data:', error);
     }
