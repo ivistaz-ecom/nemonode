@@ -353,7 +353,7 @@ async function fetchCallsCount() {
     try {
       const response = await axios.get('https://nemo.ivistaz.co/candidate/callforoneday');
       const { count } = response.data;
-
+        console.log(count)
       // Update the DOM with the fetched count
       document.getElementById('callsCount').textContent = count;
     } catch (error) {
