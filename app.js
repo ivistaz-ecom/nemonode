@@ -14,6 +14,10 @@ const candidateRoutes = require("./routes/candidate")
 const userRoutes = require("./routes/user")
 const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
+
+app.get('/home', (req, res) => {
+    res.send('Dev Mode');
+});
 app.use(cors());
 app.use("/company",companyRoutes);  
 app.use("/candidate",candidateRoutes)
@@ -999,9 +1003,7 @@ app.get('/fetch-files4/:candidateId', (req, res) => {
     });
 });
 
-app.get('/home', (req, res) => {
-    res.send('Dev Mode');
-});
+
 
 
 app.get('/fetch-files5/:candidateId', (req, res) => {
