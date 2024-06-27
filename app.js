@@ -999,7 +999,7 @@ app.get('/fetch-files4/:candidateId', (req, res) => {
     });
 });
 
-app.get('/home',(req,res)=>{
+app.use('/home',(req,res)=>{
     
     res.status(200).send('Dev mode')
 })
