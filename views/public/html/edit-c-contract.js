@@ -231,38 +231,26 @@ async function fetchAndDisplayDropdowns() {
 // Modify the fetchAndDisplayDropdowns function
 async function fetchAndDisplayCompanies() {
     try {
-        // Fetch ports from the server
-        // Fetch companies from the server
         const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
-        const companies = companyResponse.data.company;
-        console.log(companies)
-        // Get the company select element
-        const companySelect = document.getElementById("editcontract_company");
+        const companyOptions = companyResponse.data.companies; // Corrected property name
+        const companyDropdown = document.getElementById('user_client');
+        companyDropdown.innerHTML = ''; // Clear existing options
 
-        // Clear previous options
-        companySelect.innerHTML = '';
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select Company --';
+        companyDropdown.appendChild(defaultOption);
 
-        // Add a default option
-        const defaultCompanyOption = document.createElement("option");
-        defaultCompanyOption.value = "";
-        defaultCompanyOption.text = "-- Select Company --";
-        companySelect.appendChild(defaultCompanyOption);
-
-        // Add companies to the company dropdown
-        companies.forEach((company) => {
-            const option = document.createElement("option");
-            option.value = company.company_name;
+        // Add options for each company
+        companyOptions.forEach(company => {
+            const option = document.createElement('option');
+            option.value = company.company_id; // Set the value to company ID
             option.text = company.company_name;
-            companySelect.appendChild(option);
+            companyDropdown.appendChild(option);
         });
-
-        // Set the selected value for the Company dropdown
-        companySelect.value = company;
-
-        // Add event listener to update the selected value
-       
     } catch (error) {
-        console.error('Error fetching and displaying dropdowns:', error);
+        console.error('Error fetching company data:', error);
     }
 }
 
