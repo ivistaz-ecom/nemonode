@@ -96,39 +96,41 @@ return decodedToken.userGroup
     });
 
 
-    function populateTable(data) {
-      tableBody.innerHTML = ''; // Clear existing rows
-
-      data.forEach(item => {
+    function populateTable(results) {
+      const tableBody = document.getElementById('table-body');
+  
+      // Clear existing rows
+      tableBody.innerHTML = '';
+  
+      // Iterate over results and append rows to the table
+      results.forEach(result => {
           const row = document.createElement('tr');
-
-          // Nemo ID (candidate ID)
-          const nemoIdCell = document.createElement('td');
-          const nemoIdButton = document.createElement('button');
-          nemoIdButton.textContent = item.nemoId;
-          nemoIdButton.className = 'nemo-id-button';
-          nemoIdButton.addEventListener('click', function() {
-              showDetails(item.nemoId);
-          });
-          nemoIdCell.appendChild(nemoIdButton);
-          row.appendChild(nemoIdCell);
-
-          // Other fields
-          const fieldsToDisplay = ['firstName', 'lastName', 'rank', 'vessel', 'mobile', 'dob'];
+          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
+  
           fieldsToDisplay.forEach(field => {
               const cell = document.createElement('td');
-              cell.textContent = item[field];
+              // Format date fields if needed
+              if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
+                  const date = new Date(result[field]).toLocaleDateString();
+                  cell.textContent = date;
+              } else {
+                  cell.textContent = result[field];
+              }
               row.appendChild(cell);
           });
-
-          // Action buttons (sample buttons)
-          const actionCell = document.createElement('td');
-          const deleteButton = createButton('Delete', () => handleDelete(item.nemoId));
-          const editButton = createButton('Edit', () => handleEdit(item.nemoId));
-          actionCell.appendChild(deleteButton);
-          actionCell.appendChild(editButton);
-          row.appendChild(actionCell);
-
+  
+          // Add buttons for delete, edit, and view
+          const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId),'Delete');
+          const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId),'Edit');
+          const viewButton = createButton('fa-eye', () => handleView(result.candidateId),'View');
+  
+          const buttonsCell = document.createElement('td');
+          buttonsCell.appendChild(deleteButton);
+          buttonsCell.appendChild(editButton);
+          buttonsCell.appendChild(viewButton);
+  
+          row.appendChild(buttonsCell);
+  
           tableBody.appendChild(row);
       });
   }
