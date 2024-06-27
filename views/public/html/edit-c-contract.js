@@ -233,7 +233,7 @@ async function fetchAndDisplayCompanies() {
     try {
         const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
-        const companyDropdown = document.getElementById('user_client');
+        const companyDropdown = document.getElementById('editcontract_company');
         companyDropdown.innerHTML = ''; // Clear existing options
 
         // Add the default option
