@@ -1,3 +1,8 @@
+let nationalityData = []; // Add this line to declare nationalityData globally
+let portData=[];
+let vslsData =[];
+let companyData =[];
+
 const token = localStorage.getItem('token')
 
 function decodeToken(token) {
@@ -26,14 +31,13 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
         contractDetails.forEach(contract => {
             const row = document.createElement('tr');
-
             // Add data to each cell
             row.innerHTML = `
                 <td>${contract.rank}</td>
-                <td>${contract.company}</td>
-                <td>${contract.vslName}</td>
+                <td>${getCompanyName(contract.company)}</td>
+                <td>${getVesselName(contract.vslName)}</td>
                 <td>${contract.vesselType}</td>
-                <td>${contract.sign_on_port}</td>
+                <td>${getPortName(contract.sign_on_port)}</td>
                 <td>${formatDate(contract.sign_on)}</td>
                 <td>${formatDate(contract.wage_start)}</td>
                 <td>${formatDate(contract.eoc)}</td>
@@ -41,7 +45,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
                 <td>${formatDate(contract.sign_off)}</td>
-                <td>${contract.sign_off_port}</td>
+                <td>${getPortName(contract.sign_off_port)}</td>
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
@@ -96,6 +100,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
 const candidateId= localStorage.getItem('memId')
     const id = candidateId;
+    await getReq();
     await fetchAndDisplayContractDetails(id);
     await displayDropdown();
     await fetchAndDisplayVessels();
@@ -459,3 +464,48 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
+async function getReq() {
+    try {
+        const token = localStorage.getItem('token');
+        
+        // Fetch nationality data
+        const nationalityResponse = await axios.get("https://nemo.ivistaz.co/others/country-codes");
+        nationalityData = nationalityResponse.data.countryCodes;
+        
+        // Fetch other necessary data
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        console.log(serverResponse)
+        vslsData= serverResponse.data.vessels
+        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/user/userdropdown');
+        userData = serverResponseUser.data
+        const serverResponsecomp = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');
+        companyData= serverResponsecomp.data.companies
+        console.log(companyData)
+        console.log('Data fetched successfully');
+
+        const serverrespPort = await axios.get('https://nemo.ivistaz.co/others/get-ports')
+        portData=serverrespPort.data.ports
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+getReq()
+
+function getNationalityName(code) {
+    const nationality = nationalityData.find(nationality => nationality.code == code);
+    return nationality ? nationality.country : code;
+}
+function getPortName(id) {
+    const port = portData.find(port => port.id == id);
+    return port ? port.portName : id;
+}
+function getVesselName(id) {
+    const vessel = vslsData.find(vessel => vessel.id == id);
+    return vessel ? vessel.vesselName : id;
+}
+
+function getCompanyName(id){
+    const companies = companyData.find(companies=>companies.company_id ==id);
+    return companies?companies.company_name:id
+}
