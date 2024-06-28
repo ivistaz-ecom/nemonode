@@ -84,7 +84,7 @@ async function handleNewProfileSubmit(event) {
         });
 
         // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/view-new-profile', {
+        const response = await axios.post('http://localhost:4000/candidate/reports/view-new-profile', {
             startDate: startDate,
             endDate: endDate,
             id: user,
@@ -332,7 +332,7 @@ document.getElementById('searchInput').addEventListener('input', searchTable);
 //         await getReq();
 
 //         // Send data to server using Axios
-//         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
+//         const response = await axios.post('http://localhost:4000/candidate/reports/callsmade', {
 //             startDate: fromDate,
 //             endDate: toDate,
 //             userId: user,
@@ -544,7 +544,7 @@ document.getElementById('searchInput').addEventListener('input', searchTable);
 //         await getReq();
 
 //         // Send data to server using Axios
-//         const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
+//         const response = await axios.post('http://localhost:4000/candidate/reports/callsmade', {
 //             startDate: fromDate,
 //             endDate: toDate,
 //             userId: user,
@@ -784,7 +784,7 @@ async function handleCallsMadeSubmit(event) {
         await getReq();
         
         // Send data to server using Axios
-        const response = await axios.post('https://nemo.ivistaz.co/candidate/reports/callsmade', {
+        const response = await axios.post('http://localhost:4000/candidate/reports/callsmade', {
             startDate: fromDate,
             endDate: toDate,
             userId: user,
@@ -1069,7 +1069,7 @@ document.getElementById('callsMadeForm').addEventListener('submit', handleCallsM
 async function createCompanyDropdown() {
 
     const token = localStorage.getItem('token')
-    const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies;
         // console.log(companyOptions)
         const companyNames = companyOptions.map(company => company.company_name);
@@ -1144,7 +1144,7 @@ document.getElementById('newprofilesubmit').addEventListener('submit', handleNew
 //         endDate = endDate + 'T23:59:59Z';
 
 //         // Send data to server using Axios with the GET method and query parameters
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
+//         const response = await axios.get('http://localhost:4000/candidate/reports/proposals', {
 //             params: {
 //                 status: status,
 //                 startDate: startDate,
@@ -1354,7 +1354,7 @@ async function handleDiscussionSubmit(event) {
         endDate = endDate + 'T23:59:59Z';
 
         // Send data to server using Axios with the GET method and query parameters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/proposals', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/proposals', {
             params: {
                 status: status,
                 startDate: startDate,
@@ -1590,7 +1590,7 @@ async function handleDiscussionSubmit(event) {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/get-vsls", { headers: { "Authorization": token } });
         // console.log(serverResponse);
         const vessels = serverResponse.data.vessels;
 
@@ -1652,7 +1652,7 @@ document.getElementById('discussionForm').addEventListener('submit', handleDiscu
 //         };
 
 //         // Send data to server using Axios
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
+//         const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
 //             params: params
 //         });
 
@@ -1743,7 +1743,7 @@ document.getElementById('discussionForm').addEventListener('submit', handleDiscu
 //         };
 
 //         // Send data to server using Axios
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
+//         const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
 //             params: params
 //         });
 
@@ -1823,7 +1823,7 @@ document.getElementById('discussionForm').addEventListener('submit', handleDiscu
 //         };
 
 //         // Send data to server using Axios
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
+//         const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
 //             params: params
 //         });
 
@@ -2046,6 +2046,284 @@ document.getElementById('discussionForm').addEventListener('submit', handleDiscu
 //     }
 // }
 
+// async function handleSignOnSubmit(event) {
+//     event.preventDefault(); // Prevent default form submission behavior
+
+//     try {
+//         const startDate = document.getElementById('startDatec').value + 'T00:00:00Z';
+//         const endDate = document.getElementById('endDatec').value + 'T23:59:59Z';
+//         const companyName = document.getElementById('user_client1').value;
+//         const vessel_type = document.getElementById('candidate_c_vessel').value;
+//         const category = document.getElementById('categoryso').value;
+
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vessel_type: vessel_type,
+//             companyname: companyName,
+//             category: category
+//         };
+
+//         // Send data to server using Axios
+//         const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
+//             params: params
+//         });
+
+//         console.log(response.data); // Assuming the server sends back some data
+//         let contracts = response.data.contracts;
+
+//         // Clear existing results
+//         const signOnResults = document.getElementById('signOnSearchContainer');
+//         signOnResults.innerHTML = '';
+
+//         if (contracts.length === 0) {
+//             const message = document.createElement('p');
+//             message.textContent = 'No data available';
+//             signOnResults.appendChild(message);
+//             return;
+//         }
+
+//         // Create search input
+//         const searchInput = document.createElement('input');
+//         searchInput.classList.add('form-control', 'my-3');
+//         searchInput.type = 'text';
+//         searchInput.placeholder = 'Search...';
+//         searchInput.id = 'signOnSearchInput';
+//         signOnResults.appendChild(searchInput);
+
+//         // Create export button
+//         const exportButton = document.createElement('button');
+//         exportButton.classList.add('btn', 'btn-primary', 'my-3');
+//         exportButton.textContent = 'Export to Excel';
+//         exportButton.addEventListener('click', () => exportToExcel(filteredContracts));
+//         signOnResults.appendChild(exportButton);
+
+//         // Create table container
+//         const tableContainer = document.createElement('div');
+//         tableContainer.id = 'signOnTableContainer';
+//         signOnResults.appendChild(tableContainer);
+
+//         // Pagination variables
+//         let currentPage = 1;
+//         const itemsPerPage = 10; // Number of items per page
+//         let totalItems = contracts.length;
+//         let totalPages = Math.ceil(totalItems / itemsPerPage);
+//         const maxVisiblePages = 5; // Maximum number of page buttons to display
+
+//         let filteredContracts = contracts;
+
+//         searchInput.addEventListener('input', () => {
+//             currentPage = 1;
+//             renderTable();
+//         });
+
+//         // Function to render table with pagination and search
+//         function renderTable() {
+//             // Clear existing table content (excluding search input and export button)
+//             tableContainer.innerHTML = '';
+
+//             // Apply search filter
+//             const searchTerm = searchInput.value.trim().toLowerCase();
+//             filteredContracts = contracts.filter(contract => {
+//                 return Object.values(contract).some(value =>
+//                     value && value.toString().toLowerCase().includes(searchTerm)
+//                 );
+//             });
+
+//             // Update total pages based on filtered contracts
+//             totalPages = Math.ceil(filteredContracts.length / itemsPerPage);
+
+//             // Paginate data
+//             const startIndex = (currentPage - 1) * itemsPerPage;
+//             const endIndex = startIndex + itemsPerPage;
+//             const displayedContracts = filteredContracts.slice(startIndex, endIndex);
+
+//             // Create table element
+//             const table = document.createElement('table');
+//             table.classList.add('table', 'table-bordered');
+
+//             // Create table header
+//             const tableHeader = document.createElement('thead');
+//             const headerRow = document.createElement('tr');
+//             const headers = [
+//                 'S.No', 'Candidate ID', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 
+//                 'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
+//                 'Wages Types', 'Reason for Sign Off', 'First Name', 'Last Name', 
+//                 'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
+//                 'Category', 'Company Name', 'Bank PAN Number', 'INDOS Number', 
+//                 'Indian CDC Document Number', 'Passport Document Number', 'User Name'
+//             ];
+//             headers.forEach(headerText => {
+//                 const header = document.createElement('th');
+//                 header.textContent = headerText;
+//                 header.scope = 'col';
+//                 header.classList.add('text-center');
+//                 headerRow.appendChild(header);
+//             });
+//             tableHeader.appendChild(headerRow);
+//             table.appendChild(tableHeader);
+
+//             // Create table body
+//             const tableBody = document.createElement('tbody');
+//             displayedContracts.forEach((contract, index) => {
+//                 const row = document.createElement('tr');
+//                 const fields = [
+//                     startIndex + index + 1, // Serial Number (S.No)
+//                     contract.candidateId,
+//                     contract.rank,
+//                     contract.vesselType,
+//                     contract.sign_on,
+//                     contract.sign_off,
+//                     contract.eoc,
+//                     contract.emigrate_number,
+//                     contract.aoa_number,
+//                     contract.currency,
+//                     contract.wages,
+//                     contract.wages_types,
+//                     contract.reason_for_sign_off,
+//                     contract.fname,
+//                     contract.lname,
+//                     getNationalityName(contract.nationality),
+//                     contract.vesselName,
+//                     contract.imoNumber,
+//                     contract.vesselFlag,
+//                     contract.category,
+//                     contract.company_name,
+//                     contract.bank_pan_num || 'N/A', // Display 'N/A' if field is null or undefined
+//                     contract.indos_number || 'N/A',
+//                     contract.indian_cdc_document_number || 'N/A',
+//                     contract.passport_document_number || 'N/A',
+//                     contract.userName || 'N/A'
+//                 ];
+//                 fields.forEach(field => {
+//                     const cell = document.createElement('td');
+//                     cell.textContent = field;
+//                     cell.classList.add('text-center');
+//                     row.appendChild(cell);
+//                 });
+//                 tableBody.appendChild(row);
+//             });
+//             table.appendChild(tableBody);
+
+//             // Append table to tableContainer
+//             tableContainer.appendChild(table);
+
+//             // Display total number of contracts fetched
+//             const fetchedDataMessage = document.createElement('p');
+//             fetchedDataMessage.textContent = `${totalItems} data fetched`;
+//             tableContainer.appendChild(fetchedDataMessage);
+
+//             // Display number of contracts matching search criteria
+//             const matchedDataMessage = document.createElement('p');
+//             matchedDataMessage.textContent = `${filteredContracts.length} data match search`;
+//             tableContainer.appendChild(matchedDataMessage);
+
+//             // Create pagination controls
+//             const paginationContainer = document.createElement('div');
+//             paginationContainer.classList.add('pagination', 'justify-content-center');
+
+//             // Previous button
+//             const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
+//                 currentPage--;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(prevButton);
+
+//             // Page buttons
+//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+//             if (endPage - startPage < maxVisiblePages - 1) {
+//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
+//             }
+
+//             if (startPage > 1) {
+//                 const firstEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(firstEllipsis);
+//             }
+
+//             for (let i = startPage; i <= endPage; i++) {
+//                 const pageButton = createPaginationButton(i.toString(), true, () => {
+//                     currentPage = i;
+//                     renderTable();
+//                 });
+//                 if (i === currentPage) {
+//                     pageButton.classList.add('active');
+//                 }
+//                 paginationContainer.appendChild(pageButton);
+//             }
+
+//             if (endPage < totalPages) {
+//                 const lastEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(lastEllipsis);
+//             }
+
+//             // Next button
+//             const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
+//                 currentPage++;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(nextButton);
+
+//             // Append pagination controls to tableContainer
+//             tableContainer.appendChild(paginationContainer);
+//         }
+
+//         // Helper function to create pagination button
+//         function createPaginationButton(text, isEnabled, onClick) {
+//             const button = document.createElement('button');
+//             button.classList.add('btn', 'btn-outline-primary', 'mx-1');
+//             button.textContent = text;
+//             button.addEventListener('click', onClick);
+//             button.disabled = !isEnabled;
+//             return button;
+//         }
+
+//         // Function to export table data to Excel
+//         function exportToExcel(data) {
+//             const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
+//                 'S.No': index + 1,
+//                 'Candidate ID': contract.candidateId,
+//                 'Rank': contract.rank,
+//                 'Vessel Type': contract.vesselType,
+//                 'Sign On': contract.sign_on,
+//                 'Sign Off': contract.sign_off,
+//                 'EOC': contract.eoc,
+//                 'Emigrate Number': contract.emigrate_number,
+//                 'AOA Number': contract.aoa_number,
+//                 'Currency': contract.currency,
+//                 'Wages': contract.wages,
+//                 'Wages Types': contract.wages_types,
+//                 'Reason for Sign Off': contract.reason_for_sign_off,
+//                 'First Name': contract.fname,
+//                 'Last Name': contract.lname,
+//                 'Nationality': getNationalityName(contract.nationality),
+//                 'Vessel Name': contract.vesselName,
+//                 'IMO Number': contract.imoNumber,
+//                 'Vessel Flag': contract.vesselFlag,
+//                 'Category': contract.category,
+//                 'Company Name': contract.company_name,
+//                 'Bank PAN Number': contract.bank_pan_num || 'N/A',
+//                 'INDOS Number': contract.indos_number || 'N/A',
+//                 'Indian CDC Document Number': contract.indian_cdc_document_number || 'N/A',
+//                 'Passport Document Number': contract.passport_document_number || 'N/A',
+//                 'User Name': contract.userName || 'N/A'
+//             })));
+
+//             const workbook = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(workbook, worksheet, 'Sign On Contracts');
+
+//             XLSX.writeFile(workbook, 'sign_on_contracts.xlsx');
+//         }
+
+//         // Initial render of table
+//         renderTable();
+
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
 async function handleSignOnSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -2065,7 +2343,7 @@ async function handleSignOnSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-on', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/sign-on', {
             params: params
         });
 
@@ -2169,7 +2447,7 @@ async function handleSignOnSubmit(event) {
                 const row = document.createElement('tr');
                 const fields = [
                     startIndex + index + 1, // Serial Number (S.No)
-                    contract.candidateId,
+                    `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
                     contract.rank,
                     contract.vesselType,
                     contract.sign_on,
@@ -2197,7 +2475,7 @@ async function handleSignOnSubmit(event) {
                 ];
                 fields.forEach(field => {
                     const cell = document.createElement('td');
-                    cell.textContent = field;
+                    cell.innerHTML = field; // Use innerHTML to allow HTML content
                     cell.classList.add('text-center');
                     row.appendChild(cell);
                 });
@@ -2333,10 +2611,219 @@ async function handleSignOnSubmit(event) {
 
 
 
+
 // Add event listener to the Sign On form
 document.getElementById('signOnForm').addEventListener('submit', handleSignOnSubmit);
 
 
+// async function handleSignOffSubmit(event) {
+//     event.preventDefault(); // Prevent default form submission behavior
+
+//     try {
+//         const token = localStorage.getItem('token');
+//         let startDate = document.getElementById('startDateoff').value;
+//         let endDate = document.getElementById('endDateoff').value;
+//         const companyName = document.getElementById('user_client2').value;
+//         const vesselType = document.getElementById('candidate_c_vessel1').value;
+//         const category = document.getElementById('categorysoff').value;
+
+//         startDate = startDate + 'T00:00:00Z';
+//         endDate = endDate + 'T23:59:59Z';
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vessel_type: vesselType,
+//             companyname: companyName,
+//             category: category,
+//         };
+
+//         // Send data to server using Axios
+//         const response = await axios.get('http://localhost:4000/candidate/reports/sign-off', {
+//             params: params
+//         });
+
+//         console.log(response.data); // Assuming the server sends back some data
+//         const contracts = response.data.contracts;
+
+//         // Clear existing results
+//         const signOffTableBody = document.getElementById('signOffTableBody');
+//         signOffTableBody.innerHTML = '';
+
+//         if (contracts.length === 0) {
+//             const message = document.createElement('tr');
+//             const messageCell = document.createElement('td');
+//             messageCell.colSpan = 26; // Adjust to the number of fields (columns) you expect
+//             messageCell.textContent = 'No data available';
+//             message.appendChild(messageCell);
+//             signOffTableBody.appendChild(message);
+//             return;
+//         }
+
+//         // Clear existing search and export button container
+//         const signOffSearchContainer = document.getElementById('signOffSearchContainer');
+//         if (signOffSearchContainer) {
+//             signOffSearchContainer.innerHTML = '';
+//         } else {
+//             const newSearchContainer = document.createElement('div');
+//             newSearchContainer.id = 'signOffSearchContainer';
+//             document.querySelector('.container.table-responsive').insertBefore(newSearchContainer, document.getElementById('signOffTable'));
+//         }
+
+//         // Create search input
+//         const searchInput = document.createElement('input');
+//         searchInput.classList.add('form-control', 'my-3');
+//         searchInput.type = 'text';
+//         searchInput.placeholder = 'Search...';
+//         searchInput.id = 'signOffSearchInput';
+//         signOffSearchContainer.appendChild(searchInput);
+
+//         // Function to export to Excel
+//         function exportToExcel() {
+//             // Create a new Workbook
+//             const wb = XLSX.utils.book_new();
+
+//             // Convert data into an array of arrays format suitable for Excel
+//             const data = contracts.map(contract => [
+//                 contract.candidateId,
+//                 contract.rank,
+//                 contract.vesselName,
+//                 contract.vesselType,
+//                 contract.sign_off,
+//                 contract.wages,
+//                 contract.wages_types,
+//                 contract.company_name,
+//                 contract.aoa_number,
+//                 contract.currency,
+//                 contract.emigrate_number,
+//                 contract.eoc,
+//                 contract.reason_for_sign_off,
+//                 contract.userName,
+//                 contract.fname + ' ' + contract.lname,
+//                 getNationalityName(contract.nationality),
+//                 contract.indos_number,
+//                 contract.indian_cdc_document_number,
+//                 contract.bank_pan_num,
+//                 contract.passport_document_number,
+//                 // Add all other fields here
+//             ]);
+
+//             // Create a Worksheet
+//             const ws = XLSX.utils.aoa_to_sheet([[
+//                 'Candidate ID',
+//                 'Rank',
+//                 'Vessel Name',
+//                 'Vessel Type',
+//                 'Sign Off',
+//                 'Wages',
+//                 'Wages Types',
+//                 'Company Name',
+//                 'AOA Number',
+//                 'Currency',
+//                 'Emigrate Number',
+//                 'EOC',
+//                 'Reason for Sign Off',
+//                 'User Name',
+//                 'Full Name',
+//                 'Nationality',
+//                 'INDOS Number',
+//                 'Indian CDC Document Number',
+//                 'Bank PAN Number',
+//                 'Passport Document Number',
+//                 // Add headers for all other fields here
+//             ], ...data]);
+
+//             // Add the Worksheet to the Workbook
+//             XLSX.utils.book_append_sheet(wb, ws, 'Sign Off Contracts');
+
+//             // Save the Workbook as a .xlsx file
+//             XLSX.writeFile(wb, 'sign_off_contracts.xlsx');
+//         }
+
+//         // Add Export to Excel button
+//         const exportButton = document.createElement('button');
+//         exportButton.classList.add('btn', 'btn-outline-success', 'mx-2', 'my-3');
+//         exportButton.textContent = 'Export to Excel';
+//         exportButton.addEventListener('click', exportToExcel);
+//         signOffSearchContainer.appendChild(exportButton);
+
+//         // Function to render table without pagination
+//         function renderTable() {
+//             // Apply search filter
+//             const searchTerm = searchInput.value.trim().toLowerCase();
+//             const filteredContracts = contracts.filter(contract => {
+//                 return Object.values(contract).some(value =>
+//                     value && value.toString().toLowerCase().includes(searchTerm)
+//                 );
+//             });
+
+//             // Clear existing table content
+//             signOffTableBody.innerHTML = '';
+
+//             // Populate table body with data
+//             filteredContracts.forEach((contract, index) => {
+//                 const row = document.createElement('tr');
+//                 const fields = [
+//                     index + 1, // Serial Number (S.No)
+//                     contract.candidateId,
+//                     contract.rank,
+//                     contract.vesselName,
+//                     contract.vesselType,
+//                     contract.sign_off,
+//                     contract.wages,
+//                     contract.wages_types,
+//                     contract.company_name,
+//                     contract.aoa_number,
+//                     contract.currency,
+//                     contract.emigrate_number,
+//                     contract.eoc,
+//                     contract.reason_for_sign_off,
+//                     contract.userName,
+//                     contract.fname + ' ' + contract.lname,
+//                     getNationalityName(contract.nationality),
+//                     contract.indos_number,
+//                     contract.indian_cdc_document_number,
+//                     contract.bank_pan_num,
+//                     contract.passport_document_number,
+//                     // Add all other fields here
+//                 ];
+
+//                 fields.forEach(field => {
+//                     const cell = document.createElement('td');
+//                     cell.textContent = field;
+//                     row.appendChild(cell);
+//                 });
+
+//                 signOffTableBody.appendChild(row);
+//             });
+
+//             // Display total number of contracts fetched
+//             const fetchedDataMessage = document.createElement('p');
+//             fetchedDataMessage.textContent = `${filteredContracts.length} data fetched`;
+//             signOffSearchContainer.appendChild(fetchedDataMessage);
+//         }
+
+//         // Initial render of table
+//         renderTable();
+
+//         // Search input event listener
+//         searchInput.addEventListener('input', renderTable);
+
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+// Add event listener to the Sign On form
 async function handleSignOffSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -2359,7 +2846,7 @@ async function handleSignOffSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/sign-off', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/sign-off', {
             params: params
         });
 
@@ -2485,7 +2972,7 @@ async function handleSignOffSubmit(event) {
                 const row = document.createElement('tr');
                 const fields = [
                     index + 1, // Serial Number (S.No)
-                    contract.candidateId,
+                    `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
                     contract.rank,
                     contract.vesselName,
                     contract.vesselType,
@@ -2510,7 +2997,7 @@ async function handleSignOffSubmit(event) {
 
                 fields.forEach(field => {
                     const cell = document.createElement('td');
-                    cell.textContent = field;
+                    cell.innerHTML = field; // Use innerHTML to allow HTML content
                     row.appendChild(cell);
                 });
 
@@ -2534,17 +3021,6 @@ async function handleSignOffSubmit(event) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-// Add event listener to the Sign On form
 document.getElementById('signOffForm').addEventListener('submit', handleSignOffSubmit);
 
 
@@ -2570,7 +3046,7 @@ document.getElementById('signOffForm').addEventListener('submit', handleSignOffS
 //         };
 
 //         // Send data to server using Axios
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/dueforsignoff', {
+//         const response = await axios.get('http://localhost:4000/candidate/dueforsignoff', {
 //             params: params
 //         });
 
@@ -2709,7 +3185,7 @@ document.getElementById('signOffForm').addEventListener('submit', handleSignOffS
 //         };
 
 //         // Send data to server using Axios
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/dueforsignoff', {
+//         const response = await axios.get('http://localhost:4000/candidate/dueforsignoff', {
 //             params: params
 //         });
 
@@ -2950,7 +3426,7 @@ async function handleDueforSignOffSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/dueforsignoff', {
+        const response = await axios.get('http://localhost:4000/candidate/dueforsignoff', {
             params: params
         });
 
@@ -3207,7 +3683,7 @@ async function handleAvailableCandidatesSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/avb-date', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/avb-date', {
             params: params
         });
 
@@ -3373,7 +3849,7 @@ async function handleDueForRenewalSubmit(event) {
         };
 
         // Send data to server using Axios
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/reports/renewal', {
+        const response = await axios.get('http://localhost:4000/candidate/reports/renewal', {
             params: params
         });
 
@@ -3483,7 +3959,7 @@ document.getElementById('dueForRenewalForm').addEventListener('submit', handleDu
 //         const category = document.getElementById('categoryob').value;
 
 //         // Send request to fetch onboard candidates with filters
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
+//         const response = await axios.get('http://localhost:4000/candidate/onboard', {
 //             params: {
 //                 startDate: startDate,
 //                 companyname: companyname,
@@ -3627,7 +4103,7 @@ document.getElementById('dueForRenewalForm').addEventListener('submit', handleDu
 //         const category = document.getElementById('categoryob').value;
 
 //         // Send request to fetch onboard candidates with filters
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
+//         const response = await axios.get('http://localhost:4000/candidate/onboard', {
 //             params: {
 //                 startDate: startDate,
 //                 companyname: companyname,
@@ -3816,7 +4292,7 @@ async function handleOnBoardSubmit(event) {
         const category = document.getElementById('categoryob').value;
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
+        const response = await axios.get('http://localhost:4000/candidate/onboard', {
             params: {
                 startDate: startDate,
                 companyname: companyname,
@@ -4029,7 +4505,7 @@ const handleReminder = async (event) => {
         // Function to fetch discussion reminders based on date filters
         const fetchData = async (startDate, endDate) => {
             try {
-                const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+                const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
                 const response = await axios.get(url);
                 return response.data.discussions;
             } catch (error) {
@@ -4131,7 +4607,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //             company: companyname
 //         };
 
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
 //             params: params
 //         });
         
@@ -4216,7 +4692,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //             company: companyname
 //         };
 
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
 //             params: params
 //         });
 //         console.log(response.data)
@@ -4285,7 +4761,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //             company: companyname
 //         };
 
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
 //             params: params
 //         });
 //         console.log(response.data);
@@ -4492,7 +4968,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //             company: companyname
 //         };
 
-//         const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
 //             params: params
 //         });
 //         console.log(response.data);
@@ -4752,7 +5228,7 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //                         company: companyname
 //                     };
             
-//                     const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+//                     const response = await axios.get('http://localhost:4000/candidate/crewlist', {
 //                         params: params
 //                     });
 //                     console.log(response.data);
@@ -5002,6 +5478,300 @@ dateFilterForm.addEventListener('submit', handleReminder);
 //     }
 // }
 
+// async function handleCrewList(event) {
+//     event.preventDefault(); // Prevent default form submission behavior
+
+//     try {
+//         let startDate = document.getElementById('startDatecl').value;
+//         startDate = startDate + 'T00:00:00Z';
+//         let endDate = document.getElementById('endDatecl').value;
+//         endDate = endDate + 'T23:59:59Z';
+
+//         // Check if startDate and endDate are empty
+//         if (!startDate || !endDate) {
+//             console.error("Start date and end date are required");
+//             // Show a message to the user indicating that start date and end date are required
+//             return;
+//         }
+
+//         const vslName = document.getElementById('vsl').value || null;
+//         const companyname = document.getElementById('user_client5').value || null;
+
+//         const params = {
+//             startDate: startDate,
+//             endDate: endDate,
+//             vslName: vslName,
+//             company: companyname
+//         };
+
+//         const response = await axios.get('http://localhost:4000/candidate/crewlist', {
+//             params: params
+//         });
+//         console.log(response.data);
+//         const crewlist = response.data; // Adjust according to your API response structure
+
+//         // Clear existing results
+//         const crewListResults = document.getElementById('crewListMonthWiseContainer');
+//         crewListResults.innerHTML = '';
+
+//         if (crewlist.length === 0) {
+//             const message = document.createElement('p');
+//             message.textContent = 'No data available';
+//             crewListResults.appendChild(message);
+//             return;
+//         }
+
+//         // Create search input
+//         const searchInput = document.createElement('input');
+//         searchInput.classList.add('form-control', 'my-3');
+//         searchInput.type = 'text';
+//         searchInput.placeholder = 'Search...';
+//         searchInput.id = 'crewListMonthWiseSearchInput';
+//         crewListResults.appendChild(searchInput);
+
+//         // Create rows per page select
+//         const rowsPerPageSelect = document.createElement('select');
+//         rowsPerPageSelect.classList.add('form-select', 'my-3');
+//         rowsPerPageSelect.id = 'rowsPerPageSelect';
+//         [10, 25, 50, 100, 500].forEach(option => {
+//             const optionElement = document.createElement('option');
+//             optionElement.value = option;
+//             optionElement.textContent = option;
+//             rowsPerPageSelect.appendChild(optionElement);
+//         });
+//         rowsPerPageSelect.addEventListener('change', () => {
+//             renderTable();
+//         });
+//         crewListResults.appendChild(rowsPerPageSelect);
+
+//         // Create export button
+//         const exportButton = document.createElement('button');
+//         exportButton.classList.add('btn', 'btn-primary', 'my-3', 'ms-3');
+//         exportButton.textContent = 'Export to Excel';
+//         exportButton.addEventListener('click', () => exportToExcel(filteredCrewlist));
+//         crewListResults.appendChild(exportButton);
+
+//         // Create table container
+//         const tableContainer = document.createElement('div');
+//         tableContainer.id = 'crewListMonthWiseTableContainer';
+//         crewListResults.appendChild(tableContainer);
+
+//         // Pagination variables
+//         let currentPage = 1;
+//         let itemsPerPage = parseInt(rowsPerPageSelect.value); // Number of items per page
+//         let totalItems = crewlist.length;
+//         let totalPages = Math.ceil(totalItems / itemsPerPage);
+//         const maxVisiblePages = 5; // Maximum number of page buttons to display
+
+//         let filteredCrewlist = crewlist;
+
+//         searchInput.addEventListener('input', () => {
+//             currentPage = 1;
+//             renderTable();
+//         });
+
+//         // Function to render table with pagination and search
+//         function renderTable() {
+//             itemsPerPage = parseInt(rowsPerPageSelect.value); // Update items per page based on selection
+
+//             // Clear existing table content (excluding search input, rows per page select, and export button)
+//             tableContainer.innerHTML = '';
+
+//             // Apply search filter
+//             const searchTerm = searchInput.value.trim().toLowerCase();
+//             filteredCrewlist = crewlist.filter(contract => {
+//                 return Object.values(contract).some(value =>
+//                     value && value.toString().toLowerCase().includes(searchTerm)
+//                 );
+//             });
+
+//             // Update total pages based on filtered crewlist
+//             totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
+
+//             // Paginate data
+//             const startIndex = (currentPage - 1) * itemsPerPage;
+//             const endIndex = startIndex + itemsPerPage;
+//             const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
+
+//             // Create table element
+//             const table = document.createElement('table');
+//             table.classList.add('table', 'table-bordered');
+
+//             // Create table header
+//             const tableHeader = document.createElement('thead');
+//             const headerRow = document.createElement('tr');
+//             const headers = [
+//                 'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
+//                 'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
+//                 'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types',
+//                 'Account Number', 'Bank Name', 'Branch', 'IFSC Code', 
+//                 'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address'
+//             ];
+//             headers.forEach(headerText => {
+//                 const header = document.createElement('th');
+//                 header.textContent = headerText;
+//                 header.scope = 'col';
+//                 header.classList.add('text-center');
+//                 headerRow.appendChild(header);
+//             });
+//             tableHeader.appendChild(headerRow);
+//             table.appendChild(tableHeader);
+
+//             // Create table body
+//             const tableBody = document.createElement('tbody');
+//             displayedCrewlist.forEach((contract, index) => {
+//                 const row = document.createElement('tr');
+//                 const fields = [
+//                     startIndex + index + 1, // Serial Number (S.No)
+//                     contract.candidateId,
+//                     contract.fname,
+//                     contract.lname,
+//                     contract.rank,
+//                     getNationalityName(contract.nationality),
+//                     contract.company_name,
+//                     contract.currency,
+//                     contract.eoc,
+//                     contract.sign_on,
+//                     contract.sign_off,
+//                     getVesselName(contract.vslName),
+//                     contract.vesselType,
+//                     contract.wages,
+//                     contract.wages_types,
+//                     contract.account_num, // New field
+//                     contract.bank_name, // New field
+//                     contract.branch, // New field
+//                     contract.ifsc_code, // New field
+//                     contract.swift_code, // New field
+//                     contract.beneficiary, // New field
+//                     contract.beneficiary_addr, // New field
+//                     contract.bank_addr // New field
+//                 ];
+//                 fields.forEach(field => {
+//                     const cell = document.createElement('td');
+//                     cell.textContent = field;
+//                     cell.classList.add('text-center');
+//                     row.appendChild(cell);
+//                 });
+//                 tableBody.appendChild(row);
+//             });
+//             table.appendChild(tableBody);
+
+//             // Append table to tableContainer
+//             tableContainer.appendChild(table);
+
+//             // Display total number of crewlist fetched
+//             const fetchedDataMessage = document.createElement('p');
+//             fetchedDataMessage.textContent = `${totalItems} data fetched`;
+//             tableContainer.appendChild(fetchedDataMessage);
+
+//             // Display number of crewlist matching search criteria
+//             const matchedDataMessage = document.createElement('p');
+//             matchedDataMessage.textContent = `${filteredCrewlist.length} data match search`;
+//             tableContainer.appendChild(matchedDataMessage);
+
+//             // Create pagination controls
+//             const paginationContainer = document.createElement('div');
+//             paginationContainer.classList.add('pagination', 'justify-content-center');
+
+//             // Previous button
+//             const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
+//                 currentPage--;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(prevButton);
+
+//             // Page buttons
+//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+//             if (endPage - startPage < maxVisiblePages - 1) {
+//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
+//             }
+
+//             if (startPage > 1) {
+//                 const firstEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(firstEllipsis);
+//             }
+
+//             for (let i = startPage; i <= endPage; i++) {
+//                 const pageButton = createPaginationButton(i.toString(), true, () => {
+//                     currentPage = i;
+//                     renderTable();
+//                 });
+//                 if (i === currentPage) {
+//                     pageButton.classList.add('active');
+//                 }
+//                 paginationContainer.appendChild(pageButton);
+//             }
+
+//             if (endPage < totalPages) {
+//                 const lastEllipsis = createPaginationButton('...', false, null);
+//                 paginationContainer.appendChild(lastEllipsis);
+//             }
+
+//             // Next button
+//             const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
+//                 currentPage++;
+//                 renderTable();
+//             });
+//             paginationContainer.appendChild(nextButton);
+
+//             // Append pagination controls to tableContainer
+//             tableContainer.appendChild(paginationContainer);
+//         }
+
+//         // Helper function to create pagination button
+//         function createPaginationButton(text, isEnabled, onClick) {
+//             const button = document.createElement('button');
+//             button.classList.add('btn', 'btn-outline-primary', 'mx-1');
+//             button.textContent = text;
+//             button.addEventListener('click', onClick);
+//             button.disabled = !isEnabled;
+//             return button;
+//         }
+
+//         // Function to export table data to Excel
+//         function exportToExcel(data) {
+//             const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
+//                 'S.No': index + 1,
+//                 'Candidate ID': contract.candidateId,
+//                 'First Name': contract.fname,
+//                 'Last Name': contract.lname,
+//                 'Rank': contract.rank,
+//                 'Nationality': getNationalityName(contract.nationality),
+//                 'Company': contract.company_name,
+//                 'Currency': contract.currency,
+//                 'EOC': contract.eoc,
+//                 'Sign On': contract.sign_on,
+//                 'Sign Off': contract.sign_off,
+//                 'Vessel Name': contract.vesselName,
+//                 'Vessel Type': contract.vesselType,
+//                 'Wages': contract.wages,
+//                 'Wage Types': contract.wages_types,
+//                 'Account Number': contract.account_num, // New field
+//                 'Bank Name': contract.bank_name, // New field
+//                 'Branch': contract.branch, // New field
+//                 'IFSC Code': contract.ifsc_code, // New field
+//                 'SWIFT Code': contract.swift_code, // New field
+//                 'Beneficiary': contract.beneficiary, // New field
+//                 'Beneficiary Address': contract.beneficiary_addr, // New field
+//                 'Bank Address': contract.bank_addr // New field
+//             })));
+
+//             const workbook = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(workbook, worksheet, 'Crew List Month Wise');
+
+//             XLSX.writeFile(workbook, 'crew_list_month_wise.xlsx');
+//         }
+
+//         // Initial render of table
+//         renderTable();
+
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
 async function handleCrewList(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -5028,7 +5798,7 @@ async function handleCrewList(event) {
             company: companyname
         };
 
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/crewlist', {
+        const response = await axios.get('http://localhost:4000/candidate/crewlist', {
             params: params
         });
         console.log(response.data);
@@ -5095,154 +5865,160 @@ async function handleCrewList(event) {
         });
 
         // Function to render table with pagination and search
-        function renderTable() {
-            itemsPerPage = parseInt(rowsPerPageSelect.value); // Update items per page based on selection
+        // Function to render table with pagination and search
+function renderTable() {
+    itemsPerPage = parseInt(rowsPerPageSelect.value); // Update items per page based on selection
 
-            // Clear existing table content (excluding search input, rows per page select, and export button)
-            tableContainer.innerHTML = '';
+    // Clear existing table content (excluding search input, rows per page select, and export button)
+    tableContainer.innerHTML = '';
 
-            // Apply search filter
-            const searchTerm = searchInput.value.trim().toLowerCase();
-            filteredCrewlist = crewlist.filter(contract => {
-                return Object.values(contract).some(value =>
-                    value && value.toString().toLowerCase().includes(searchTerm)
-                );
-            });
+    // Apply search filter
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    filteredCrewlist = crewlist.filter(contract => {
+        return Object.values(contract).some(value =>
+            value && value.toString().toLowerCase().includes(searchTerm)
+        );
+    });
 
-            // Update total pages based on filtered crewlist
-            totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
+    // Update total pages based on filtered crewlist
+    totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
 
-            // Paginate data
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
+    // Paginate data
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
 
-            // Create table element
-            const table = document.createElement('table');
-            table.classList.add('table', 'table-bordered');
+    // Create table element
+    const table = document.createElement('table');
+    table.classList.add('table', 'table-bordered');
 
-            // Create table header
-            const tableHeader = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            const headers = [
-                'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
-                'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
-                'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types',
-                'Account Number', 'Bank Name', 'Branch', 'IFSC Code', 
-                'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address'
-            ];
-            headers.forEach(headerText => {
-                const header = document.createElement('th');
-                header.textContent = headerText;
-                header.scope = 'col';
-                header.classList.add('text-center');
-                headerRow.appendChild(header);
-            });
-            tableHeader.appendChild(headerRow);
-            table.appendChild(tableHeader);
+    // Create table header
+    const tableHeader = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headers = [
+        'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
+        'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
+        'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types',
+        'Account Number', 'Bank Name', 'Branch', 'IFSC Code', 
+        'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address'
+    ];
+    headers.forEach(headerText => {
+        const header = document.createElement('th');
+        header.textContent = headerText;
+        header.scope = 'col';
+        header.classList.add('text-center');
+        headerRow.appendChild(header);
+    });
+    tableHeader.appendChild(headerRow);
+    table.appendChild(tableHeader);
 
-            // Create table body
-            const tableBody = document.createElement('tbody');
-            displayedCrewlist.forEach((contract, index) => {
-                const row = document.createElement('tr');
-                const fields = [
-                    startIndex + index + 1, // Serial Number (S.No)
-                    contract.candidateId,
-                    contract.fname,
-                    contract.lname,
-                    contract.rank,
-                    getNationalityName(contract.nationality),
-                    contract.company_name,
-                    contract.currency,
-                    contract.eoc,
-                    contract.sign_on,
-                    contract.sign_off,
-                    getVesselName(contract.vslName),
-                    contract.vesselType,
-                    contract.wages,
-                    contract.wages_types,
-                    contract.account_num, // New field
-                    contract.bank_name, // New field
-                    contract.branch, // New field
-                    contract.ifsc_code, // New field
-                    contract.swift_code, // New field
-                    contract.beneficiary, // New field
-                    contract.beneficiary_addr, // New field
-                    contract.bank_addr // New field
-                ];
-                fields.forEach(field => {
-                    const cell = document.createElement('td');
-                    cell.textContent = field;
-                    cell.classList.add('text-center');
-                    row.appendChild(cell);
-                });
-                tableBody.appendChild(row);
-            });
-            table.appendChild(tableBody);
-
-            // Append table to tableContainer
-            tableContainer.appendChild(table);
-
-            // Display total number of crewlist fetched
-            const fetchedDataMessage = document.createElement('p');
-            fetchedDataMessage.textContent = `${totalItems} data fetched`;
-            tableContainer.appendChild(fetchedDataMessage);
-
-            // Display number of crewlist matching search criteria
-            const matchedDataMessage = document.createElement('p');
-            matchedDataMessage.textContent = `${filteredCrewlist.length} data match search`;
-            tableContainer.appendChild(matchedDataMessage);
-
-            // Create pagination controls
-            const paginationContainer = document.createElement('div');
-            paginationContainer.classList.add('pagination', 'justify-content-center');
-
-            // Previous button
-            const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
-                currentPage--;
-                renderTable();
-            });
-            paginationContainer.appendChild(prevButton);
-
-            // Page buttons
-            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-            if (endPage - startPage < maxVisiblePages - 1) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    // Create table body
+    const tableBody = document.createElement('tbody');
+    displayedCrewlist.forEach((contract, index) => {
+        const row = document.createElement('tr');
+        const fields = [
+            startIndex + index + 1, // Serial Number (S.No)
+            `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+            contract.fname,
+            contract.lname,
+            contract.rank,
+            getNationalityName(contract.nationality),
+            contract.company_name,
+            contract.currency,
+            contract.eoc,
+            contract.sign_on,
+            contract.sign_off,
+            getVesselName(contract.vslName),
+            contract.vesselType,
+            contract.wages,
+            contract.wages_types,
+            contract.account_num, // New field
+            contract.bank_name, // New field
+            contract.branch, // New field
+            contract.ifsc_code, // New field
+            contract.swift_code, // New field
+            contract.beneficiary, // New field
+            contract.beneficiary_addr, // New field
+            contract.bank_addr // New field
+        ];
+        fields.forEach(field => {
+            const cell = document.createElement('td');
+            if (typeof field === 'string') {
+                cell.innerHTML = field; // Use innerHTML to allow HTML content
+            } else {
+                cell.textContent = field;
             }
+            cell.classList.add('text-center');
+            row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+    });
+    table.appendChild(tableBody);
 
-            if (startPage > 1) {
-                const firstEllipsis = createPaginationButton('...', false, null);
-                paginationContainer.appendChild(firstEllipsis);
-            }
+    // Append table to tableContainer
+    tableContainer.appendChild(table);
 
-            for (let i = startPage; i <= endPage; i++) {
-                const pageButton = createPaginationButton(i.toString(), true, () => {
-                    currentPage = i;
-                    renderTable();
-                });
-                if (i === currentPage) {
-                    pageButton.classList.add('active');
-                }
-                paginationContainer.appendChild(pageButton);
-            }
+    // Display total number of crewlist fetched
+    const fetchedDataMessage = document.createElement('p');
+    fetchedDataMessage.textContent = `${totalItems} data fetched`;
+    tableContainer.appendChild(fetchedDataMessage);
 
-            if (endPage < totalPages) {
-                const lastEllipsis = createPaginationButton('...', false, null);
-                paginationContainer.appendChild(lastEllipsis);
-            }
+    // Display number of crewlist matching search criteria
+    const matchedDataMessage = document.createElement('p');
+    matchedDataMessage.textContent = `${filteredCrewlist.length} data match search`;
+    tableContainer.appendChild(matchedDataMessage);
 
-            // Next button
-            const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
-                currentPage++;
-                renderTable();
-            });
-            paginationContainer.appendChild(nextButton);
+    // Create pagination controls
+    const paginationContainer = document.createElement('div');
+    paginationContainer.classList.add('pagination', 'justify-content-center');
 
-            // Append pagination controls to tableContainer
-            tableContainer.appendChild(paginationContainer);
+    // Previous button
+    const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
+        currentPage--;
+        renderTable();
+    });
+    paginationContainer.appendChild(prevButton);
+
+    // Page buttons
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+        const firstEllipsis = createPaginationButton('...', false, null);
+        paginationContainer.appendChild(firstEllipsis);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = createPaginationButton(i.toString(), true, () => {
+            currentPage = i;
+            renderTable();
+        });
+        if (i === currentPage) {
+            pageButton.classList.add('active');
         }
+        paginationContainer.appendChild(pageButton);
+    }
+
+    if (endPage < totalPages) {
+        const lastEllipsis = createPaginationButton('...', false, null);
+        paginationContainer.appendChild(lastEllipsis);
+    }
+
+    // Next button
+    const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
+        currentPage++;
+        renderTable();
+    });
+    paginationContainer.appendChild(nextButton);
+
+    // Append pagination controls to tableContainer
+    tableContainer.appendChild(paginationContainer);
+}
+
 
         // Helper function to create pagination button
         function createPaginationButton(text, isEnabled, onClick) {
@@ -5295,7 +6071,6 @@ async function handleCrewList(event) {
         console.error(error);
     }
 }
-
 
 
 
@@ -5381,7 +6156,7 @@ const displayVesselDropdown = async function () {
         vesselDropdown1.appendChild(defaultOption.cloneNode(true));
         
         // Fetch vessel names from the server
-        const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls")
+        const vesselResponse = await axios.get("http://localhost:4000/others/get-vsls")
         const vessels = vesselResponse.data.vessels;
     
         // Populate the vessel dropdown with fetched vessel names
@@ -5410,7 +6185,7 @@ const handleReliefPlan = async (event) => {
         const endDate = new Date().toISOString();
 
         // Fetch relief plan data based on start date and today's date as end date
-        const url = `https://nemo.ivistaz.co/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
+        const url = `http://localhost:4000/candidate/reliefplan?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         const reliefPlanData = response.data.contracts;
         console.log('Relief Plan Data:', reliefPlanData);
@@ -5601,7 +6376,7 @@ const displayUserDropdown = async function () {
         userDropdown.appendChild(defaultOption);
         
         // Fetch user data from the server
-        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
+        const userResponse = await axios.get("http://localhost:4000/user/userdropdown");
         const users = userResponse.data;
     
         // Populate the user dropdown with fetched user names
@@ -5631,7 +6406,7 @@ const displayUserDropdown1 = async function () {
         userDropdown.appendChild(defaultOption);
         
         // Fetch user data from the server
-        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
+        const userResponse = await axios.get("http://localhost:4000/user/userdropdown");
         const users = userResponse.data;
     
         // Populate the user dropdown with fetched user names
@@ -5695,7 +6470,7 @@ async function fetchData(startDate, endDate) {
             throw new Error('Both startDate and endDate must be provided.');
         }
 
-        const url = `https://nemo.ivistaz.co/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+        const url = `http://localhost:4000/candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
         const response = await axios.get(url);
         renderDiscussionReminders(response.data.discussions);
     } catch (error) {
@@ -5779,7 +6554,7 @@ document.getElementById('getData').addEventListener('click', async () => {
     endDate=endDate+'T23:59:59Z'
 
     try {
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/mis', {
+        const response = await axios.get('http://localhost:4000/candidate/mis', {
             params: {
                 startDate,
                 endDate
@@ -5918,7 +6693,7 @@ async function fetchCompanyName(companyId) {
         }
 
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nemo.ivistaz.co/company/get-company/${companyId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:4000/company/get-company/${companyId}`, { headers: { "Authorization": token } });
         console.log(response)
         return response.data.company.company_name;
     } catch (error) {
@@ -5943,7 +6718,7 @@ function formatDate(dateString) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -5981,7 +6756,7 @@ function formatDate(dateString) {
           const pageSize = document.getElementById('pageSizeSelect').value;
   
           // Send request to fetch candidates with 'ntbr' and contracts with pagination parameters
-          const response = await axios.get('https://nemo.ivistaz.co/candidate/worked', {
+          const response = await axios.get('http://localhost:4000/candidate/worked', {
               params: {
                   pages, // Use the provided page number
                   pageSize // Use selected page size
@@ -6110,20 +6885,20 @@ function formatDate(dateString) {
         const token = localStorage.getItem('token');
         
         // Fetch nationality data
-        const nationalityResponse = await axios.get("https://nemo.ivistaz.co/others/country-codes");
+        const nationalityResponse = await axios.get("http://localhost:4000/others/country-codes");
         nationalityData = nationalityResponse.data.countryCodes;
         
         // Fetch other necessary data
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/get-vsls", { headers: { "Authorization": token } });
         console.log(serverResponse)
         vslsData= serverResponse.data.vessels
-        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/user/userdropdown');
+        const serverResponseUser = await axios.get('http://localhost:4000/user/userdropdown');
         userData = serverResponseUser.data
-        const serverResponsecomp = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');
+        const serverResponsecomp = await axios.get('http://localhost:4000/company/dropdown-company');
         companyData= serverResponsecomp.data.companies
         console.log('Data fetched successfully');
 
-        const serverrespPort = await axios.get('https://nemo.ivistaz.co/others/get-ports')
+        const serverrespPort = await axios.get('http://localhost:4000/others/get-ports')
         portData=serverrespPort.data.ports
     }
     catch(err){
@@ -6142,7 +6917,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
