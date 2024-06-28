@@ -100,49 +100,216 @@ return decodedToken.userGroup
 
 
 
-    function populateTable(results) {
-      const tableBody = document.getElementById('table-body');
-  
-      // Clear existing rows
-      tableBody.innerHTML = '';
-  
-      // Iterate over results and append rows to the table
-      results.forEach(result => {
-          const row = document.createElement('tr');
-          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
-  
-          fieldsToDisplay.forEach(field => {
-              const cell = document.createElement('td');
-              // Format date fields if needed
-              if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-                  const date = new Date(result[field]).toLocaleDateString();
-                  cell.textContent = date;
-              } else {
-                  cell.textContent = result[field];
-              }
-              row.appendChild(cell);
-          });
-  
-          // Add buttons for delete, edit, and view
-          const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId),'Delete');
-          const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId),'Edit');
-          const viewButton = createButton('fa-eye', () => handleView(result.candidateId),'View');
-  
-          const buttonsCell = document.createElement('td');
-          buttonsCell.appendChild(deleteButton);
-          buttonsCell.appendChild(editButton);
-          buttonsCell.appendChild(viewButton);
-  
-          row.appendChild(buttonsCell);
-  
-          tableBody.appendChild(row);
-      });
+// function populateTable(results) {
+//   const tableBody = document.getElementById('table-body');
+
+//   // Clear existing rows
+//   tableBody.innerHTML = '';
+
+//   // Iterate over results and append rows to the table
+//   results.forEach(result => {
+//       const row = document.createElement('tr');
+//       const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
+
+//       fieldsToDisplay.forEach(field => {
+//           const cell = document.createElement('td');
+//           // Format date fields if needed
+//           if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
+//               const date = new Date(result[field]).toLocaleDateString();
+//               cell.textContent = date;
+//           } else if (field === 'candidateId') {
+//               // Create a clickable link for candidateId
+//               const link = document.createElement('a');
+//               link.href = '#';
+//               link.textContent = result[field];
+//               link.onclick = () => viewCandidate(result[field]);
+//               cell.appendChild(link);
+//           } else {
+//               cell.textContent = result[field];
+//           }
+//           row.appendChild(cell);
+//       });
+
+//       // Add buttons for delete, edit, and view
+//       const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
+//       const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
+//       const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
+
+//       const buttonsCell = document.createElement('td');
+//       buttonsCell.appendChild(deleteButton);
+//       buttonsCell.appendChild(editButton);
+//       buttonsCell.appendChild(viewButton);
+
+//       row.appendChild(buttonsCell);
+
+//       tableBody.appendChild(row);
+//   });
+// }
+function populateTable(results) {
+  const tableBody = document.getElementById('table-body');
+
+  // Clear existing rows
+  tableBody.innerHTML = '';
+
+  // Iterate over results and append rows to the table
+  results.forEach(result => {
+    const row = document.createElement('tr');
+    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
+
+    fieldsToDisplay.forEach(field => {
+      const cell = document.createElement('td');
+      // Format date fields if needed
+      if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
+        const date = new Date(result[field]).toLocaleDateString();
+        cell.textContent = date;
+      } else if (field === 'candidateId') {
+        // Create a clickable link for candidateId
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = result[field];
+        link.onclick = () => viewCandidate(result[field]);
+
+        // Hover event to show discussion popup
+        link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
+        link.addEventListener('mouseleave', () => hideDiscussionPopup());
+
+        cell.appendChild(link);
+      } else {
+        cell.textContent = result[field];
+      }
+      row.appendChild(cell);
+    });
+
+    // Add buttons for delete, edit, and view
+    const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
+    const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
+    const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
+
+    const buttonsCell = document.createElement('td');
+    buttonsCell.appendChild(deleteButton);
+    buttonsCell.appendChild(editButton);
+    buttonsCell.appendChild(viewButton);
+
+    row.appendChild(buttonsCell);
+
+    tableBody.appendChild(row);
+  });
+}
+
+// Function to show discussion popup inside a Bootstrap card
+// Function to show discussion popup inside a Bootstrap card
+let discussionTimeout; // Variable to store timeout ID
+
+// Function to show discussion popup inside a Bootstrap card
+async function showDiscussionPopup(link, candidateId) {
+  try {
+    // Clear any existing timeout to prevent premature hiding
+    clearTimeout(discussionTimeout);
+
+    // Replace with your logic to fetch and display discussions related to candidateId
+    const discussions = await fetchDiscussions(candidateId); // Example function to fetch discussions
+
+    // Create Bootstrap card
+    const card = document.createElement('div');
+    card.className = 'card discussion-popup-card';
+
+    // Card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Header with candidate ID
+    const header = document.createElement('h5');
+    header.className = 'card-title';
+    header.textContent = `Discussions for Candidate ID: ${candidateId}`;
+    cardBody.appendChild(header);
+
+    // Discussions content
+    discussions.forEach(discussion => {
+      const discussionItem = document.createElement('p');
+      discussionItem.className = 'card-text';
+      discussionItem.textContent = discussion;
+      cardBody.appendChild(discussionItem);
+    });
+
+    card.appendChild(cardBody);
+
+    // Position relative to the link
+    const linkRect = link.getBoundingClientRect();
+    const popupWidth = card.offsetWidth;
+    const popupHeight = card.offsetHeight;
+
+    // Calculate position above and to the right of the link
+    const topPosition = linkRect.top + window.scrollY - popupHeight;
+    const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
+
+    card.style.position = 'absolute';
+    card.style.top = `${topPosition}px`;
+    card.style.left = `${leftPosition}px`;
+
+    // Append card to the body
+    document.body.appendChild(card);
+  } catch (error) {
+    console.error('Error showing discussion popup:', error);
   }
-  
-  // Example function to show candidate details
-  function showCandidateDetails(candidateId) {
-      alert('Candidate ID: ' + candidateId); // Replace with your implementation
+}
+
+// Function to hide discussion popup
+function hideDiscussionPopup() {
+  const card = document.querySelector('.discussion-popup-card');
+  if (card) {
+    card.remove();
   }
+}
+
+// Event listener to show discussion popup on hover
+document.addEventListener('mouseover', (event) => {
+  const link = event.target;
+  if (link.tagName === 'A' && link.classList.contains('candidate-link')) {
+    const candidateId = link.textContent;
+    showDiscussionPopup(link, candidateId);
+  }
+});
+
+// Event listener to hide discussion popup when mouse leaves
+document.addEventListener('mouseleave', (event) => {
+  const link = event.target;
+  if (link.tagName === 'A' && link.classList.contains('candidate-link')) {
+    hideDiscussionPopup();
+  }
+});
+
+// Example function to fetch discussions (placeholder)
+async function fetchDiscussions(candidateId) {
+  try {
+    // Replace with actual fetch logic from your data source
+    const response = await axios.post(`https://nemo.ivistaz.co/candidate/hover-disc/${candidateId}`);
+    const discussions = response.data;
+
+    // Check if discussions is an array (or convert if necessary based on actual API response structure)
+    if (Array.isArray(discussions)) {
+      return discussions.map(discussion => discussion.discussion);
+    } else {
+      // If discussions is not an array, handle it accordingly
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching discussions:', error);
+    return []; // Return an empty array or handle the error as needed
+  }
+}
+
+
+
+// Function to hide discussion popup
+
+
+function viewCandidate(candidateId) {
+  localStorage.setItem('memId', candidateId);
+  window.location.href = './view-candidate.html';
+}
+
+  
+
   
     
   function createButton(iconClass, onClickHandler, buttonText = null) {
@@ -247,40 +414,48 @@ return decodedToken.userGroup
       }
       
       // Function to display candidateResults in the main table
-      function displayCandidateResults(candidateResults) {
-        const tableBody = document.getElementById('table-body');
-      
-        candidateResults.forEach(result => {
-          const row = document.createElement('tr');
-          const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
-      
-          fieldsToDisplay.forEach(field => {
+      function displayCandidateResults(results) {
+    const tableBody = document.getElementById('table-body');
+
+    // Iterate over results and append rows to the table
+    results.forEach(result => {
+        const row = document.createElement('tr');
+        const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
+
+        fieldsToDisplay.forEach(field => {
             const cell = document.createElement('td');
             // Format date fields if needed
             if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-              const date = new Date(result[field]).toLocaleDateString();
-              cell.textContent = date;
+                const date = new Date(result[field]).toLocaleDateString();
+                cell.textContent = date;
+            } else if (field === 'candidateId') {
+                // Create a clickable link for candidateId
+                const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = result[field];
+                link.onclick = () => viewCandidate(result[field]);
+                cell.appendChild(link);
             } else {
-              cell.textContent = result[field];
+                cell.textContent = result[field];
             }
             row.appendChild(cell);
-          });
-          const deleteButton = createButton('Delete', () => handleDelete(result.candidateId),'Delete');
-        const editButton = createButton('Edit', () => handleEdit(result.candidateId),'Edit');
-        const viewButton = createButton('View', () => handleView(result.candidateId),'View');
+        });
+
+        // Add buttons for delete, edit, and view
+        const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
+        const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
+        const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
 
         const buttonsCell = document.createElement('td');
-        
-        buttonsCell.appendChild(viewButton);
-        buttonsCell.appendChild(editButton);
         buttonsCell.appendChild(deleteButton);
+        buttonsCell.appendChild(editButton);
+        buttonsCell.appendChild(viewButton);
 
         row.appendChild(buttonsCell);
 
         tableBody.appendChild(row);
-          tableBody.appendChild(row);
-        });
-      } 
+    });
+}
       // Function to display bankResults in a separate table
       // Function to display bankResults in a separate table
       function displayBankResults(bankResults) {
