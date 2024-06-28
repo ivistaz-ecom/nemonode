@@ -46,7 +46,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
             // Get the memId from localStorage
  
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-documents/${documentId}`, formData, {
+            const response = await axios.put(`http://localhost:4000/candidate/update-documents/${documentId}`, formData, {
                 headers: { "Authorization": token } // Replace with your authorization header
             });
 
@@ -84,7 +84,7 @@ function formatDate(dateString) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
