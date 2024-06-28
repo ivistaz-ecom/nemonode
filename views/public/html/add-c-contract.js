@@ -15,7 +15,7 @@ function decodeToken(token) {
 
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:4000/candidate/get-contract-details/${candidateId}`, {
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ async function handleContractForm(event) {
     };
 
     try {
-        const response = await axios.post(`http://localhost:4000/candidate/contract-details/${candidateId}`, contractDetails, {
+        const response = await axios.post(`https://nemo.ivistaz.co/candidate/contract-details/${candidateId}`, contractDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -233,7 +233,7 @@ contractForm.addEventListener('submit', handleContractForm);
 
 async function displayDropdown() {
     try {
-        const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", {
+        const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", {
             headers: { "Authorization": token }
         });
         const ranks = rankResponse.data.ranks;
@@ -255,7 +255,7 @@ async function displayDropdown() {
 
 async function fetchAndDisplayVessels() {
     try {
-        const serverResponse = await axios.get("http://localhost:4000/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -285,7 +285,7 @@ async function fetchAndDisplayVessels() {
 
 async function fetchAndDisplayVesselType() {
     try {
-        const serverResponse = await axios.get("http://localhost:4000/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -316,7 +316,7 @@ async function fetchAndDisplayVesselType() {
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("http://localhost:4000/others/get-ports", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("https://nemo.ivistaz.co/others/get-ports", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -361,7 +361,7 @@ async function fetchAndDisplayCompanies() {
     try {
         // Fetch ports from the server
         // Fetch companies from the server
-        const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
         const companies = companyResponse.data.companies;
         console.log(companies)
         // Get the company select element
@@ -406,7 +406,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -469,21 +469,21 @@ async function getReq() {
         const token = localStorage.getItem('token');
         
         // Fetch nationality data
-        const nationalityResponse = await axios.get("http://localhost:4000/others/country-codes");
+        const nationalityResponse = await axios.get("https://nemo.ivistaz.co/others/country-codes");
         nationalityData = nationalityResponse.data.countryCodes;
         
         // Fetch other necessary data
-        const serverResponse = await axios.get("http://localhost:4000/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
         console.log(serverResponse)
         vslsData= serverResponse.data.vessels
-        const serverResponseUser = await axios.get('http://localhost:4000/user/userdropdown');
+        const serverResponseUser = await axios.get('https://nemo.ivistaz.co/user/userdropdown');
         userData = serverResponseUser.data
-        const serverResponsecomp = await axios.get('http://localhost:4000/company/dropdown-company');
+        const serverResponsecomp = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');
         companyData= serverResponsecomp.data.companies
         console.log(companyData)
         console.log('Data fetched successfully');
 
-        const serverrespPort = await axios.get('http://localhost:4000/others/get-ports')
+        const serverrespPort = await axios.get('https://nemo.ivistaz.co/others/get-ports')
         portData=serverrespPort.data.ports
     }
     catch(err){
