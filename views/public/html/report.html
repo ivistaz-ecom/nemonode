@@ -9,12 +9,15 @@
   data-template="vertical-menu-template-free"
 >
   <head>
+
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <link rel="icon" type="image/x-icon" href="./fav-icon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <title>Reports | Nsnemo</title>
     <style>
@@ -41,6 +44,9 @@
         33%  {background-position: 0% 33%, 100% 33%, 200% 33%}
         66%  {background-position: -100% 66%, 0% 66%, 100% 66%}
         100% {background-position: 0% 100%, 100% 100%, 200% 100%}
+      }
+      .select2{
+        width:100% !important;
       }
 </style>  
 
@@ -769,7 +775,7 @@
               <td style="width: 50%;">
                   <label for="userDropdown" class="form-label">User</label>
               </td>
-              <td style="width: 50%;">
+              <td style="width: 100%;">
                   <select class="form-select" id="appliedBy1" name="appliedBy1">
                       <!-- Options for user dropdown will be added dynamically -->
                   </select>
@@ -1890,6 +1896,74 @@
           </div>
       </div>
       </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!-- Select2 -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+      <script>
+        $("#appliedBy1").select2({
+            placeholder: "Select a User",
+            allowClear: true
+        });
+        $("#appliedBy").select2({
+            placeholder: "Select a User",
+            allowClear: true
+        });
+        
+        $("#user_client").select2({
+            placeholder: "Select a Company",
+            allowClear: true
+        });
+
+        $("#candidate_c_vessel").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        
+        $("#user_client1").select2({
+            placeholder: "Select a Company",
+            allowClear: true
+        });
+        $("#candidate_c_vessel1").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        $("#user_client2").select2({
+            placeholder: "Select a Company",
+            allowClear: true
+        });
+        $("#candidate_c_vessel2").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        $("#user_client3").select2({
+            placeholder: "Select a Company",
+            allowClear: true
+        });
+        $("#avbrank").select2({
+            placeholder: "Select a Rank",
+            allowClear: true
+        });
+        $("#user_client4").select2({
+            placeholder: "Select a User",
+            allowClear: true
+        });
+        $("#vsl1").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        $("#vsl").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        $("#user_client5").select2({
+            placeholder: "Select a User",
+            allowClear: true
+        });
+       
+      </script>
+
+
       <!-- Bootstrap JS and jQuery -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -1942,6 +2016,14 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script>
+      
+
+
+var $disabledResults = $(".js-example-disabled-results");
+$disabledResults.select2();
+
+    </script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -1959,5 +2041,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
   </body>
 </html>
