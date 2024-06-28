@@ -618,9 +618,81 @@ else{
     // }
     // });
 
+// app.post('/searchspl', async (req, res) => {
+//     try {
+//         const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, age } = req.body;
+//         const searchCriteria = {};
+
+//         if (nemoId) {
+//             searchCriteria.candidateId = nemoId;
+//         }
+//         if (name) {
+//             searchCriteria.fname = name;
+//         }
+//         if (rank) {
+//             searchCriteria.c_rank = rank;
+//         }
+//         if (vsl) {
+//             searchCriteria.c_vessel = vsl;
+//         }
+//         if (experience) {
+//             searchCriteria.experience = experience;
+//         }
+//         if (grade) {
+//             searchCriteria.grade = grade;
+//         }
+//         if (status) {
+//             searchCriteria.company_status = status;
+//         }
+//         if (license) {
+//             searchCriteria.l_country = license;
+//         }
+//         if (zone) {
+//             searchCriteria.zone = zone;
+//         }
+//         if (group) {
+//             searchCriteria.group = group;
+//         }
+//         if (avb_date && las_date) {
+//             searchCriteria.avb_date = {
+//                 [Op.between]: [avb_date, las_date]
+//             };
+//         } else if (avb_date) {
+//             searchCriteria.avb_date = {
+//                 [Op.gte]: avb_date
+//             };
+//         } else if (las_date) {
+//             searchCriteria.avb_date = {
+//                 [Op.lte]: las_date
+//             };
+//         }
+
+//         // Calculate age based on date of birth (dob) if age is provided
+//         if (age) {
+//             const today = new Date();
+//             const birthDateCriteria = {
+//                 [Op.lte]: new Date(today.getFullYear() - age, today.getMonth(), today.getDate()),
+//                 [Op.gte]: new Date(today.getFullYear() - age - 1, today.getMonth(), today.getDate())
+//             };
+
+//             searchCriteria.dob = birthDateCriteria;
+//         }
+
+//         // Perform the search
+//         const results = await Candidate.findAll({
+//             where: searchCriteria
+//         });
+
+//         res.json(results);
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
+
 app.post('/searchspl', async (req, res) => {
     try {
-        const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, age } = req.body;
+        const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, fromAge, toAge } = req.body;
         const searchCriteria = {};
 
         if (nemoId) {
@@ -667,12 +739,15 @@ app.post('/searchspl', async (req, res) => {
             };
         }
 
-        // Calculate age based on date of birth (dob) if age is provided
-        if (age) {
+        // Calculate age range based on fromAge and toAge
+        if (fromAge || toAge) {
             const today = new Date();
+            const from = fromAge ? parseInt(fromAge) : 18;
+            const to = toAge ? parseInt(toAge) : 100;
+            
             const birthDateCriteria = {
-                [Op.lte]: new Date(today.getFullYear() - age, today.getMonth(), today.getDate()),
-                [Op.gte]: new Date(today.getFullYear() - age - 1, today.getMonth(), today.getDate())
+                [Op.lte]: new Date(today.getFullYear() - from, today.getMonth(), today.getDate()),
+                [Op.gte]: new Date(today.getFullYear() - to, today.getMonth(), today.getDate())
             };
 
             searchCriteria.dob = birthDateCriteria;
@@ -689,6 +764,7 @@ app.post('/searchspl', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 const PasswordRoutes=require('./routes/forgotpassword');
 const Forgotpassword=require('./models/forgotpassword');
