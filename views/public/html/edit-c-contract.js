@@ -408,6 +408,11 @@ function formatDate(dateString) {
 
         // Handle the response from the server, e.g., show a success message
         console.log('Contract updated successfully:', response.data);
+
+        alert('Contract updated successfully')
+        window.location.href="./add-c-contract.html"
+
+        
     } catch (error) {
         // Handle errors, e.g., show an error message
         console.error('Error updating contract:', error);
