@@ -4,7 +4,7 @@ let currentPage = 1; // Initialize current page
 async function displayRank(page = 1, limit = 10) {
     try {
         // Fetch ranks from the server with pagination parameters
-        const rankResponse = await axios.get(`https://nemo.ivistaz.co/others/view-rank?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const rankResponse = await axios.get(`http://localhost:4000/others/view-rank?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Rank Response:', rankResponse);
 
         const rankTable = document.getElementById("rank-table");
@@ -137,7 +137,7 @@ async function deleteRank(rankId, event) {
     event.preventDefault();
 
     const id = rankId;
-    const url = `https://nemo.ivistaz.co/others/delete-rank/${id}`;
+    const url = `http://localhost:4000/others/delete-rank/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -173,7 +173,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
