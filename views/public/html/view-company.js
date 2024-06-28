@@ -38,7 +38,7 @@ function decodeToken(token) {
 
 async function displayCompanies(page = 1, limit = 10) {
     try {
-        const response = await axios.get(`http://localhost:4000/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`https://nemo.ivistaz.co/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const companies = response.data.company;
         const companyList = document.getElementById("company-list");
         companyList.innerHTML = "";
@@ -121,7 +121,7 @@ async function deleteCompany(companyId, event) {
     event.preventDefault();
     let id = companyId;
     console.log(id);
-    const url = `http://localhost:4000/company/delete-company/${id}`;
+    const url = `https://nemo.ivistaz.co/company/delete-company/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -185,7 +185,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
