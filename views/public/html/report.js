@@ -1,3 +1,6 @@
+
+
+
 let nationalityData = []; // Add this line to declare nationalityData globally
 let portData=[];
 let vslsData =[];
@@ -6947,3 +6950,4 @@ function getVesselName(id) {
     const vessel = vslsData.find(vessel => vessel.id == id);
     return vessel ? vessel.vesselName : id;
 }
+
