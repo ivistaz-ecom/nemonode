@@ -390,90 +390,183 @@ function viewCandidate(candidateId) {
     
       
     
-      function populateTables(data) {
-        // Clear existing rows
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = '';
-      
-        // Display candidateResults in the main table
-        if (data.candidateResults && data.candidateResults.length > 0) {
-          displayCandidateResults(data.candidateResults);
-        }
-      
-        // Display bankResults in a separate table
-        if (data.bankResults && data.bankResults.length > 0) {
-          displayBankResults(data.bankResults);
-        }
-      
-        // Display cdocumentsResults in a separate table
-        if (data.cdocumentsResults && data.cdocumentsResults.length > 0) {
-          displayCDocumentsResults(data.cdocumentsResults);
-        }
-      
-        // Add more sections for other types of results as needed
+    function populateTables(data) {
+      // Clear existing rows
+      const tableBody = document.getElementById('table-body');
+      tableBody.innerHTML = '';
+    
+      // Display candidateResults in the main table
+      if (data.candidateResults && data.candidateResults.length > 0) {
+        displayCandidateResults(data.candidateResults);
       }
-      
-      // Function to display candidateResults in the main table
-      function displayCandidateResults(results) {
-    const tableBody = document.getElementById('table-body');
-
-    // Iterate over results and append rows to the table
-    results.forEach(result => {
+    
+      // Display bankResults in a separate table
+      if (data.bankResults && data.bankResults.length > 0) {
+        displayBankResults(data.bankResults);
+      }
+    
+      // Display cdocumentsResults in a separate table
+      if (data.cdocumentsResults && data.cdocumentsResults.length > 0) {
+        displayCDocumentsResults(data.cdocumentsResults);
+      }
+    
+      // Add more sections for other types of results as needed
+    }
+    
+    // Function to display candidateResults in the main table
+    function displayCandidateResults(results) {
+      const tableBody = document.getElementById('table-body');
+    
+      // Iterate over results and append rows to the table
+      results.forEach(result => {
         const row = document.createElement('tr');
         const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
-
+    
         fieldsToDisplay.forEach(field => {
-            const cell = document.createElement('td');
-            // Format date fields if needed
-            if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-                const date = new Date(result[field]).toLocaleDateString();
-                cell.textContent = date;
-            } else if (field === 'candidateId') {
-                // Create a clickable link for candidateId
-                const link = document.createElement('a');
-                link.href = '#';
-                link.textContent = result[field];
-                link.onclick = () => viewCandidate(result[field]);
-                cell.appendChild(link);
-            } else {
-                cell.textContent = result[field];
-            }
-            row.appendChild(cell);
+          const cell = document.createElement('td');
+          // Format date fields if needed
+          if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
+            const date = new Date(result[field]).toLocaleDateString();
+            cell.textContent = date;
+          } else if (field === 'candidateId') {
+            // Create a clickable link for candidateId
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = result[field];
+            link.onclick = () => viewCandidate(result[field]);
+    
+            // Hover event to show discussion popup
+            link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
+            link.addEventListener('mouseleave', () => hideDiscussionPopup());
+    
+            cell.appendChild(link);
+          } else {
+            cell.textContent = result[field];
+          }
+          row.appendChild(cell);
         });
-
+    
         // Add buttons for delete, edit, and view
         const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
         const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
         const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
-
+    
         const buttonsCell = document.createElement('td');
         buttonsCell.appendChild(deleteButton);
         buttonsCell.appendChild(editButton);
         buttonsCell.appendChild(viewButton);
-
-        row.appendChild(buttonsCell);
-
-        tableBody.appendChild(row);
-    });
-}
-      // Function to display bankResults in a separate table
-      // Function to display bankResults in a separate table
-      function displayBankResults(bankResults) {
-        const candidateIds = bankResults.map(result => result.candidateId);
     
-        // Check if there are candidateIds to fetch
-        if (candidateIds.length > 0) {
-            // Fetch candidate data for the unique candidateIds
-            fetchCandidateData(candidateIds)
-                .then(candidateData => {
-                    // Display candidate data in the main table
-                    displayCandidateResults(candidateData.candidateResults);
-                })
-                .catch(error => {
-                    console.error('Error fetching candidate data:', error);
-                });
-        }
+        row.appendChild(buttonsCell);
+    
+        tableBody.appendChild(row);
+      });
     }
+    
+    // Function to display bankResults in a separate table
+    function displayBankResults(bankResults) {
+      const candidateIds = bankResults.map(result => result.candidateId);
+    
+      // Check if there are candidateIds to fetch
+      if (candidateIds.length > 0) {
+        // Fetch candidate data for the unique candidateIds
+        fetchCandidateData(candidateIds)
+          .then(candidateData => {
+            // Display candidate data in the main table
+            displayCandidateResults(candidateData.candidateResults);
+          })
+          .catch(error => {
+            console.error('Error fetching candidate data:', error);
+          });
+      }
+    }
+    
+    // Function to display cdocumentsResults in a separate table
+    function displayCDocumentsResults(cdocumentsResults) {
+      // Similar implementation to displayBankResults
+    }
+    
+    // Function to show discussion popup inside a Bootstrap card
+    
+    async function showDiscussionPopup(link, candidateId) {
+      try {
+        // Clear any existing timeout to prevent premature hiding
+        clearTimeout(discussionTimeout);
+    
+        // Replace with your logic to fetch and display discussions related to candidateId
+        const discussions = await fetchDiscussions(candidateId); // Example function to fetch discussions
+    
+        // Create Bootstrap card
+        const card = document.createElement('div');
+        card.className = 'card discussion-popup-card';
+    
+        // Card body
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+    
+        // Header with candidate ID
+        const header = document.createElement('h5');
+        header.className = 'card-title';
+        header.textContent = `Discussions for Candidate ID: ${candidateId}`;
+        cardBody.appendChild(header);
+    
+        // Discussions content
+        discussions.forEach(discussion => {
+          const discussionItem = document.createElement('p');
+          discussionItem.className = 'card-text';
+          discussionItem.textContent = discussion;
+          cardBody.appendChild(discussionItem);
+        });
+    
+        card.appendChild(cardBody);
+    
+        // Position relative to the link
+        const linkRect = link.getBoundingClientRect();
+        const popupWidth = card.offsetWidth;
+        const popupHeight = card.offsetHeight;
+    
+        // Calculate position above and to the right of the link
+        const topPosition = linkRect.top + window.scrollY - popupHeight;
+        const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
+    
+        card.style.position = 'absolute';
+        card.style.top = `${topPosition}px`;
+        card.style.left = `${leftPosition}px`;
+    
+        // Append card to the body
+        document.body.appendChild(card);
+      } catch (error) {
+        console.error('Error showing discussion popup:', error);
+      }
+    }
+    
+    // Function to hide discussion popup
+    function hideDiscussionPopup() {
+      const card = document.querySelector('.discussion-popup-card');
+      if (card) {
+        card.remove();
+      }
+    }
+    
+    // Example function to fetch discussions (placeholder)
+    async function fetchDiscussions(candidateId) {
+      try {
+        // Replace with actual fetch logic from your data source
+        const response = await axios.post(`https://nemo.ivistaz.co/candidate/hover-disc/${candidateId}`);
+        const discussions = response.data;
+    
+        // Check if discussions is an array (or convert if necessary based on actual API response structure)
+        if (Array.isArray(discussions)) {
+          return discussions.map(discussion => discussion.discussion);
+        } else {
+          // If discussions is not an array, handle it accordingly
+          return [];
+        }
+      } catch (error) {
+        console.error('Error fetching discussions:', error);
+        return []; // Return an empty array or handle the error as needed
+      }
+    }
+    
 
 // Function to fetch candidate data based on candidateIds
 // Function to fetch candidate data based on candidateIds
