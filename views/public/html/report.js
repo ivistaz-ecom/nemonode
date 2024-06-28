@@ -4879,7 +4879,7 @@ async function handleCrewList(event) {
                     contract.eoc,
                     contract.sign_on,
                     contract.sign_off,
-                    contract.vesselName,
+                    getVesselName(contract.vslName),
                     contract.vesselType,
                     contract.wages,
                     contract.wages_types
