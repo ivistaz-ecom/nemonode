@@ -2,7 +2,7 @@ let nationalityData = []; // Add this line to declare nationalityData globally
 let portData=[];
 let vslsData =[];
 let userData;
-let companyData;
+let companyData =[];
 
 
 
@@ -6929,6 +6929,11 @@ const displayDropdown = async function () {
     }
 }
 displayDropdown()
+
+function getCompanyName(code){
+    const companies = companiesData.find(companies=>companies.company_id ==code);
+    return companies?companies.company_name:code
+}
 
 function getNationalityName(code) {
     const nationality = nationalityData.find(nationality => nationality.code == code);
