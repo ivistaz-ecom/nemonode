@@ -99,7 +99,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
     async function displayDropdown() {
         try {
-            const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", {
+            const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", {
                 headers: { "Authorization": token }
             });
             const ranks = rankResponse.data.ranks;
@@ -130,7 +130,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("http://localhost:4000/others/get-vessel", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
@@ -152,7 +152,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
    async function displayVesselTypeDropdown() {
     try {
-        const serverResponse = await axios.get("http://localhost:4000/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -188,7 +188,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("http://localhost:4000/others/get-ports", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("https://nemo.ivistaz.co/others/get-ports", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -233,7 +233,7 @@ async function fetchAndDisplayDropdowns() {
 // Modify the fetchAndDisplayDropdowns function
 async function fetchAndDisplayCompanies() {
     try {
-        const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('editcontract_company');
         companyDropdown.innerHTML = ''; // Clear existing options
@@ -404,7 +404,7 @@ function formatDate(dateString) {
         // }
 
         // Send a PUT request to update the contract in the database
-        const response = await axios.put(`http://localhost:4000/candidate/update-contract-details/${contractId}`, formData, config);
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-contract-details/${contractId}`, formData, config);
 
         // Handle the response from the server, e.g., show a success message
         console.log('Contract updated successfully:', response.data);
@@ -427,7 +427,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

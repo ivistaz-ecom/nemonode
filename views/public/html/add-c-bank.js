@@ -77,7 +77,7 @@ if (hasUserManagement) {
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:4000/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -140,7 +140,7 @@ function deleteBank(bankId) {
     // Confirm with the user before deleting
     if (confirm("Are you sure you want to delete this bank?")) {
         // Send an AJAX request to delete the bank
-        axios.delete(`http://localhost:4000/candidate/delete-bank/${bankId}`,{headers:{"Authorization":token}})
+        axios.delete(`https://nemo.ivistaz.co/candidate/delete-bank/${bankId}`,{headers:{"Authorization":token}})
             .then(response => {
                 // Handle success response
                 console.log(response.data.message);
@@ -195,7 +195,7 @@ console.log(currentuserId)
 
     console.log(bankDetails)
     try {
-        const response = await axios.post(`http://localhost:4000/candidate/bank-details/${currentCandidateId}`, bankDetails, {
+        const response = await axios.post(`https://nemo.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -230,7 +230,7 @@ const storedName = localStorage.getItem('username');
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`http://localhost:4000/user/${userId}/logout`)
+          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })
