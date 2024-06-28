@@ -2923,13 +2923,14 @@ const crewList = async (req, res) => {
         a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
         a.wages_types, a.sign_on, a.sign_off, a.eoc, 
         b.fname, b.lname, b.nationality, 
-        c.id AS vesselId, b.category, e.company_name 
+        c.id AS vesselId, b.category, e.company_name,
+        bd.* -- Select all fields from the bank table
       FROM 
         contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
-       
         JOIN companies AS e ON a.company = e.company_id
+        LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
       WHERE 
         (a.sign_on <= :endDate AND (a.sign_off = '1970-01-01' OR a.sign_off >= :startDate))
     `;
@@ -2946,8 +2947,6 @@ const crewList = async (req, res) => {
       replacements.company = company;
     }
   
- 
-  
     try {
       const results = await sequelize.query(query, {
         type: sequelize.QueryTypes.SELECT,
@@ -2958,7 +2957,8 @@ const crewList = async (req, res) => {
       console.error(error);
       res.status(500).send('An error occurred while retrieving the crew list.');
     }
-  };
+};
+
   
   
 
