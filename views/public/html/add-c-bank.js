@@ -156,27 +156,69 @@ function deleteBank(bankId) {
 
 async function handleBankDetailsForm(event) {
     event.preventDefault();
-    const decodedToken = decodeToken(token)
-    const currentuserId = decodedToken.userId
-console.log(currentuserId)
-    // Regular Bank Account Details
-  // Regular Bank Account Details
-  const bankName = document.getElementById('bank_name').value.trim();
-  const accountNumber = document.getElementById('bank_acc_num').value.trim();
-  const bankAddress = document.getElementById('bank_acc_addr').value.trim();
-  const ifscCode = document.getElementById('bank_ifsc').value.trim();
-  const swiftCode = document.getElementById('bank_swift').value.trim();
-  const beneficiary = document.getElementById('bank_beneficiary').value.trim();
-  const address = document.getElementById('bank_addr').value.trim();
-  const panNumber = document.getElementById('bank_pan').value.trim();
-  const panCardFile = document.getElementById('bank_pan_card').value.trim();
-  const passbookFile = document.getElementById('bank_passbook').value.trim();
-  const branch = document.getElementById('branch').value.trim();
-  const types = document.getElementById('types').value.trim();
-  const created_by = currentuserId
-  
-    const currentCandidateId= localStorage.getItem('memId')
-    // Create an object to hold all the bank details
+    const decodedToken = decodeToken(token);
+    const currentuserId = decodedToken.userId;
+    const currentCandidateId = localStorage.getItem('memId');
+
+    const bankName = document.getElementById('bank_name').value.trim();
+    const accountNumber = document.getElementById('bank_acc_num').value.trim();
+    const bankAddress = document.getElementById('bank_acc_addr').value.trim();
+    const ifscCode = document.getElementById('bank_ifsc').value.trim();
+    const swiftCode = document.getElementById('bank_swift').value.trim();
+    const beneficiary = document.getElementById('bank_beneficiary').value.trim();
+    const address = document.getElementById('bank_addr').value.trim();
+    const panNumber = document.getElementById('bank_pan').value.trim();
+    const branch = document.getElementById('branch').value.trim();
+    const types = document.getElementById('types').value.trim();
+    const created_by = currentuserId;
+
+    const passbookFile = document.getElementById('bank_passbook').files[0];
+    const panCardFile = document.getElementById('bank_pan_card').files[0];
+
+    let passbookFileName = '';
+    let panCardFileName = '';
+
+    // Upload Passbook file
+    if (passbookFile) {
+        const passbookFormData = new FormData();
+        passbookFormData.append('file', passbookFile);
+
+        try {
+            const response = await axios.post('/upload8', passbookFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            passbookFileName = passbookFile.name;
+            console.log('Passbook file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading passbook file:', err);
+            return;
+        }
+    }
+
+    // Upload PAN Card file
+    if (panCardFile) {
+        const panCardFormData = new FormData();
+        panCardFormData.append('file', panCardFile);
+
+        try {
+            const response = await axios.post('/upload9', panCardFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            panCardFileName = panCardFile.name;
+            console.log('PAN Card file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading PAN Card file:', err);
+            return;
+        }
+    }
+
+    // Submit the rest of the form data
     const bankDetails = {
         bankName,
         accountNumber,
@@ -186,14 +228,13 @@ console.log(currentuserId)
         beneficiary,
         address,
         panNumber,
-        panCardFile,
-        passbookFile,
+        passbookFile: passbookFileName,
+        panCardFile: panCardFileName,
         branch,
         types,
         created_by
     };
 
-    console.log(bankDetails)
     try {
         const response = await axios.post(`https://nemo.ivistaz.co/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
@@ -202,12 +243,16 @@ console.log(currentuserId)
             }
         });
         console.log(response.data);
-        fetchAndDisplayBankDetails(currentCandidateId)
-        bankDetailsForm.reset();
+        await fetchAndDisplayBankDetails(currentCandidateId);
+        document.getElementById('bankForm').reset();
     } catch (err) {
         console.error(err);
     }
 }
+
+const bankForm = document.getElementById('bankForm');
+bankForm.addEventListener('submit', handleBankDetailsForm);
+
 
 // Attach the form submission handler to the form
 const bankDetailsForm = document.getElementById('bankForm');
