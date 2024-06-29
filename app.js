@@ -856,6 +856,14 @@ const storage8 = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
+const storage9 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/bank_details/pan_card');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 const upload = multer({ storage: storage });
 const upload1 = multer({ storage: storage1 });
 const upload2 = multer({ storage: storage2 });
@@ -865,8 +873,10 @@ const upload5 = multer({ storage: storage5 });
 const upload6 = multer({ storage: storage6 });
 const upload7 = multer({ storage: storage7 });
 const upload8 = multer({ storage: storage8 });
+const upload9 = multer({ storage: storage9 });
 const evaluationDirectory = '/views/public/files/evaluation';
 const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
+const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
 const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
 const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
 const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
@@ -887,7 +897,8 @@ app.use('/contract', express.static(contractDirectory));
 app.use('/aoa', express.static(aoaDirectory));
 app.use('/medical', express.static(medicalDirectory));
 app.use('/evaluation', express.static(evaluationDirectory));
-app.use('/bank', express.static(bankDirectory));
+app.use('/bank_details', express.static(bankDirectory));
+app.use('/bank_details/pan_card', express.static(pancardDirectory));
 // Serve static files from various directories
 // Route to handle file uploads 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -947,6 +958,14 @@ app.post('/upload7', upload7.single('file'), (req, res) => {
     }
 });
 app.post('/upload8', upload8.single('file'), (req, res) => {
+    if (req.file) {
+        res.status(200).send('File uploaded successfully');
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
+
+app.post('/upload9', upload9.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
     } else {
@@ -1158,6 +1177,30 @@ app.get('/fetch-files7/:candidateId', (req, res) => {
     });
 });
 
+app.get('/fetch-files8/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
+
+    // Read the contents of the directory
+    fs.readdir(pancardDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/bank_details/pan_card/${file}`);
+
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
 
 
 
