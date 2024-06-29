@@ -2932,7 +2932,7 @@ const crewList = async (req, res) => {
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
       WHERE 
-        (a.sign_on <= :endDate OR (a.sign_off <= :endDate AND a.sign_off >= :startDate))AND a.sign_off='1970-01-01'
+        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
     `;
   
     const replacements = { startDate, endDate };
