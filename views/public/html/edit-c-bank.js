@@ -1,3 +1,11 @@
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // Get the dropdown items
     let dropdownItems = document.querySelectorAll(".dropdown-item");
