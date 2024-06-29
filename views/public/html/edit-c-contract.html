@@ -768,14 +768,27 @@
           
                               <div class="row mb-3">
                                   <div class="col-md-6">
+                                    <div class="card card-body border border-2 mb-2">
+                                    <label>Previous Document Uploaded</label>
+
+                                    <input name="doc" disabled type="" id="prevDoc" class="form-control"/>
+                                      </div>
+
                                       <div class="form-floating">
-                                          <input name="doc" type="text" id="editcontract_document" class="form-control"/>
+                                       
+                                          <input name="doc" type="file" id="editcontract_document" class="form-control"/>
                                           <label for="editcontract_document">Document</label>
                                       </div>
                                   </div>
                                   <div class="col-md-6">
+                                    <div class="card card-body border border-2 mb-2">
+                                      <label>Previous AOA Uploaded</label>
+  
+                                      <input name="doc" disabled type="text" id="prevAoa" class="form-control"/>
+                                    </div>
                                       <div class="form-floating">
-                                          <input name="aoa" type="text" id="editcontract_aoa" class="form-control"/>
+
+                                          <input name="aoa" type="file" id="editcontract_aoa" class="form-control"/>
                                           <label for="editcontract_aoa">AOA</label>
                                       </div>
                                   </div>
