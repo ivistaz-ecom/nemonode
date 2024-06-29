@@ -93,8 +93,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontracts_reason').value = reason_for_sign_off;
     document.getElementById('editcontract_aoa_num').value = aoa_number;
     document.getElementById('editcontract_emigrate').value = emigrate_number;
-    document.getElementById('editcontract_document').value = documents;
-    document.getElementById('editcontract_aoa').value = aoa;
+    document.getElementById('prevDoc').value = documents;
+    document.getElementById('prevAoa').value = aoa;
     document.getElementById('created_by').value = created_by;
 
     async function displayDropdown() {
@@ -339,85 +339,113 @@ function formatDate(dateString) {
 
 
 
-  document.getElementById('contractForm').addEventListener('submit', async function (event) {
+async function handleEditContractForm(event) {
     event.preventDefault();
+    const decodedToken = decodeToken(token);
+    const contractId = document.getElementById('contractId').value;
+    const candidateId = localStorage.getItem('memId');
+    const created_by = decodedToken.userId;
+
+    const rank = document.getElementById('editcontract_rank').value.trim();
+    const company = document.getElementById('editcontract_company').value.trim();
+    const vslName = document.getElementById('editcontract_vsl').value.trim();
+    const vesselType = document.getElementById('editcontract_vesseltype').value.trim();
+    const signOnPort = document.getElementById('editcontract_signonport').value.trim();
+    const signOn = document.getElementById('editcontract_signon').value.trim();
+    const wageStart = document.getElementById('editcontract_wage_start').value.trim();
+    const eoc = document.getElementById('editcontract_eoc').value.trim();
+    const wages = document.getElementById('editcontract_wages').value.trim();
+    const currency = document.getElementById('editcontract_currency').value.trim();
+    const wagesType = document.getElementById('editcontract_wagestype').value.trim();
+    const signOff = document.getElementById('editcontract_signoff').value.trim();
+    const signOffPort = document.getElementById('editcontract_signoffport').value.trim();
+    const reasonForSignOff = document.getElementById('editcontracts_reason').value.trim();
+    const aoaNumber = document.getElementById('editcontract_aoa_num').value.trim();
+    const emigrateNumber = document.getElementById('editcontract_emigrate').value.trim();
+
+    const documentFile = document.getElementById('editcontract_document').files[0];
+    const aoaFile = document.getElementById('editcontract_aoa').files[0];
+
+    let documentFileName = document.getElementById('editcontract_document').value.trim();
+    let aoaFileName = document.getElementById('editcontract_aoa').value.trim();
+
+    // Upload Document file if it exists
+    if (documentFile) {
+        const documentFormData = new FormData();
+        documentFormData.append('file', documentFile);
+
+        try {
+            const response = await axios.post('/upload5', documentFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            documentFileName = documentFile.name;
+            console.log('Document file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading document file:', err);
+            return;
+        }
+    }
+
+    // Upload AOA file if it exists
+    if (aoaFile) {
+        const aoaFormData = new FormData();
+        aoaFormData.append('file', aoaFile);
+
+        try {
+            const response = await axios.post('/upload6', aoaFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            aoaFileName = aoaFile.name;
+            console.log('AOA file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading AOA file:', err);
+            return;
+        }
+    }
+
+    // Submit the rest of the form data
+    const contractDetails = {
+        rank,
+        company,
+        vslName,
+        vesselType,
+        signOnPort,
+        signOn,
+        wageStart,
+        eoc,
+        wages,
+        currency,
+        wagesType,
+        signOff,
+        signOffPort,
+        reasonForSignOff,
+        documentFile: documentFileName,
+        aoaFile: aoaFileName,
+        aoaNumber,
+        emigrateNumber,
+        created_by
+    };
 
     try {
-        const contractId = document.getElementById('contractId').value;
-        const rank = document.getElementById('editcontract_rank').value;
-        const company = document.getElementById('editcontract_company').value;
-        const vessel = document.getElementById('editcontract_vsl').value;
-        const vesselType = document.getElementById('editcontract_vesseltype').value;
-        const signOnPort = document.getElementById('editcontract_signonport').value;
-        const signOnDate = document.getElementById('editcontract_signon').value;
-        const wagesStart = document.getElementById('editcontract_wage_start').value;
-        const eoc = document.getElementById('editcontract_eoc').value;
-        const wages = document.getElementById('editcontract_wages').value;
-        const currency = document.getElementById('editcontract_currency').value;
-        const wagesType = document.getElementById('editcontract_wagestype').value;
-        const signOffDate = document.getElementById('editcontract_signoff').value;
-        const signOffPort = document.getElementById('editcontract_signoffport').value;
-        const reasonForSignOff = document.getElementById('editcontracts_reason').value;
-        const documentFile = document.getElementById('editcontract_document').value;
-        const aoaFile = document.getElementById('editcontract_aoa').value;
-        const aoaNum = document.getElementById('editcontract_aoa_num').value;
-        const emigrateNumber = document.getElementById('editcontract_emigrate').value;
-        const created_by = document.getElementById('created_by').value
-        const formData = {
-            rank: rank,
-            company: company,
-            vslName: vessel, 
-            vesselType: vesselType,
-            signOnPort: signOnPort,
-            signOnDate: signOnDate,
-            wagesStart: wagesStart,
-            eoc: eoc,
-            wages: wages,
-            currency: currency,
-            wagesType: wagesType,
-            signOffDate: signOffDate,
-            signOffPort: signOffPort,
-            reasonForSignOff: reasonForSignOff,
-            aoaNum: aoaNum ,
-            emigrateNumber: emigrateNumber,
-            documentFile:documentFile,
-            aoaFile:aoaFile,
-            created_by:created_by
-            // Include other form fields as needed
-        };
-        console.log(formData)
-
-        const config = {
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-contract-details/${contractId}`, contractDetails, {
             headers: {
-                'Authorization': token, // Include your authorization token if required
-                'Content-Type': 'application/json', // Set the content type based on your API's requirements
-            },
-        };
-
-        // Append files to formData if they exist
-        // if (documentFile) {
-        //     formData.document = documentFile;
-        // }
-
-        // if (aoaFile) {
-        //     formData.aoa = aoaFile;
-        // }
-
-        // Send a PUT request to update the contract in the database
-        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-contract-details/${contractId}`, formData, config);
-
-        // Handle the response from the server, e.g., show a success message
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
         console.log('Contract updated successfully:', response.data);
-
-        alert('Contract updated successfully')
-        window.location.href="./add-c-contract.html"
-
-        
-    } catch (error) {
-        // Handle errors, e.g., show an error message
-        console.error('Error updating contract:', error);
+        alert('Contract updated successfully');
+        window.location.href = "./add-c-contract.html";
+    } catch (err) {
+        console.error('Error updating contract:', err);
     }
-});
+}
 
 
 
