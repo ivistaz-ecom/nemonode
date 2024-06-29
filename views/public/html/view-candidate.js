@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
         await fetchFilesByCandidateId(candidateId)
-        // updateCandidatePhoto(candidateId)
+        updateCandidatePhoto(candidateId)
         fetchAndDisplayFiles(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
