@@ -256,36 +256,47 @@ async function handleContractForm(event) {
     const documentFile = document.getElementById('contract_document').files[0];
     const aoaFile = document.getElementById('contract_aoa').files[0];
 
-    // Upload Document file
-    const documentFormData = new FormData();
-    documentFormData.append('file', documentFile);
+    let documentFileName = '';
+    let aoaFileName = '';
 
-    try {
-        await axios.post('/upload5', documentFormData, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-    } catch (err) {
-        console.error('Error uploading document file:', err);
-        return;
+    // Upload Document file
+    if (documentFile) {
+        const documentFormData = new FormData();
+        documentFormData.append('file', documentFile);
+
+        try {
+            const response = await axios.post('/upload5', documentFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            documentFileName = documentFile.name;
+            console.log('Document file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading document file:', err);
+            return;
+        }
     }
 
     // Upload AOA file
-    const aoaFormData = new FormData();
-    aoaFormData.append('file', aoaFile);
+    if (aoaFile) {
+        const aoaFormData = new FormData();
+        aoaFormData.append('file', aoaFile);
 
-    try {
-        await axios.post('/upload6', aoaFormData, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-    } catch (err) {
-        console.error('Error uploading AOA file:', err);
-        return;
+        try {
+            const response = await axios.post('/upload6', aoaFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            aoaFileName = aoaFile.name;
+            console.log('AOA file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading AOA file:', err);
+            return;
+        }
     }
 
     // Submit the rest of the form data
@@ -304,6 +315,8 @@ async function handleContractForm(event) {
         signOff,
         signOffPort,
         reasonForSignOff,
+        documentFile: documentFileName,
+        aoaFile: aoaFileName,
         aoaNumber,
         emigrateNumber,
         created_by
