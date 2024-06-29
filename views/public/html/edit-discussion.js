@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const memId = localStorage.getItem('memId');
             let destinationPage = "";
             switch (itemId) {
-                case "personnel":
+                case "personal":
                     destinationPage = `./edit-candidate-2.html?memId=${memId}`;
                     break;
                 case "discussion":
