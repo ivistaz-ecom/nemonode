@@ -681,17 +681,28 @@
                 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="passbook" class="form-label">Pan card</label>
+                                  <div class="card card-body border border-2 mb-2">
+                                    <label>Previous Passbook Uploaded</label>
+  
+                                    <input name="doc" disabled type="" id="prevPass" class="form-control"/>
+                                      </div>
+                                    <label for="passbook" class="form-label">Passbook</label>
                                     <input name="passbook" type="file" id="passbook" class="form-control" required/>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="pan_card" class="form-label">Passbook</label>
+                                  <div class="card card-body border border-2 mb-2">
+                                    <label>Previous Pan Card Uploaded</label>
+  
+                                    <input name="doc1" disabled type="" id="prevPan" class="form-control"/>
+                                      </div>
+                                    <label for="pan_card" class="form-label">Pan Card</label>
                                     <input name="pan_card" type="file" id="pan_card" class="form-control" required/>
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
                               <div class="col-md-6">
+                                
                                   <label for="branch" class="form-label">Branch</label>
                                   <input name="branch" type="text" id="branch" class="form-control" required/>
                               </div>
