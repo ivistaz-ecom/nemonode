@@ -104,7 +104,10 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.beneficiary_addr}</td>
             <td>${bank.pan_num}</td>
             <td>${bank.passbook}</td>
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}'>Click here to view Document!</a></td>
+
             <td>${bank.pan_card}</td>
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card${bank.pan_card}'>Click here to view Document!</a></td>
             <td>${bank.branch}</td>
             <td>${bank.types}</td>
             <td>${bank.created_by}</td>
