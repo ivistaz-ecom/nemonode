@@ -1,5 +1,7 @@
 const token = localStorage.getItem('token')
+let memId = document.getElementById('memId')
 
+memId.value =
 function formatDate(dateString) {
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
@@ -447,7 +449,7 @@ const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const candidateId = localStorage.getItem('memId');
-        console.log(candidateId)
+       memId.textContent= candidateId
         await   fetchAndDisplayDiscussions(candidateId);
         await displayCandidateDetails();
         await fetchAndDisplayContractDetails(candidateId)
@@ -472,6 +474,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('vendorManagementSections').style.display = 'block';
     
         }
+
+        
         // You can call loadContent function here if needed
         // loadContent('personal'); // Example: Load personal information by default
         async function nationalityFetch(nationalityId) {
@@ -1195,7 +1199,7 @@ function uploadFile(file, uploadUrl) {
     })
     .then(response => {
         if (response.status === 200) {
-            console.log('File uploaded successfully');
+            alert('Resume uploaded succesfully')
             return response.data; // You can return any data from the response if needed
         } else {
             console.error('Error uploading file:', response.statusText);
@@ -1222,6 +1226,7 @@ uploadPhotoForm.addEventListener('submit', function(e) {
         uploadFile(file, 'https://nemo.ivistaz.co/upload1')
             .then(data => {
                 // Handle successful upload
+                alert('Photo uploaded successfully ')
                 console.log(data);
             })
             .catch(error => {
