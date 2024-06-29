@@ -124,7 +124,7 @@ const candidateId= localStorage.getItem('memId')
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
            switch (itemId) {
-                case "personnel":
+                case "personal":
                     destinationPage = `./edit-candidate-2.html?memId=${memId}`;
                     break;
                 case "discussion":

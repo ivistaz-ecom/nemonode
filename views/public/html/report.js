@@ -6047,7 +6047,7 @@ function renderTable() {
                 'EOC': contract.eoc,
                 'Sign On': contract.sign_on,
                 'Sign Off': contract.sign_off,
-                'Vessel Name': contract.vesselName,
+                'Vessel Name': contract.vslName,
                 'Vessel Type': contract.vesselType,
                 'Wages': contract.wages,
                 'Wage Types': contract.wages_types,

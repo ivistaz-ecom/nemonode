@@ -8,7 +8,7 @@ function formatDate(dateString) {
   }
 function loadContent(section) {
     // Hide all content divs
-    document.getElementById('personnelContent').style.display = 'none';
+    document.getElementById('personalContent').style.display = 'none';
     document.getElementById('discussionContent').style.display = 'none';
     document.getElementById('contractContent').style.display = 'none';
     document.getElementById('documentContent').style.display = 'none';
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         }
         // You can call loadContent function here if needed
-        // loadContent('personnel'); // Example: Load personnel information by default
+        // loadContent('personal'); // Example: Load personal information by default
         async function nationalityFetch(nationalityId) {
             try {
                 console.log(nationalityId)
