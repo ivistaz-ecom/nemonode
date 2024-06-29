@@ -162,10 +162,79 @@ const candidateId= localStorage.getItem('memId')
     });
 });
 
+// async function handleContractForm(event) {
+//     event.preventDefault();
+//     const decodedToken = decodeToken(token)
+//     console.log(decodedToken.userId)
+//     const rank = document.getElementById('candidate_c_rank').value.trim();
+//     const company = document.getElementById('contract_company').value.trim();
+//     const vslName = document.getElementById('contract_vsl').value.trim();
+//     const vesselType = document.getElementById('candidate_c_vessel').value.trim();
+//     const signOnPort = document.getElementById('contract_signonport').value.trim();
+//     const signOn = document.getElementById('contract_signon').value.trim();
+//     const wageStart = document.getElementById('contract_wage_start').value.trim();
+//     const eoc = document.getElementById('contract_eoc').value.trim();
+//     const wages = document.getElementById('contract_wages').value.trim();
+//     const currency = document.getElementById('contract_currency').value.trim();
+//     const wagesType = document.getElementById('contract_wagestype').value.trim();
+//     const signOff = document.getElementById('contract_signoff').value.trim();
+//     const signOffPort = document.getElementById('contract_signoffport').value.trim();
+//     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
+//     const documentFile = document.getElementById('contract_document').value.trim();
+//     const aoaFile = document.getElementById('contract_aoa').value.trim();
+//     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
+//     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
+//     const candidateId= localStorage.getItem('memId')
+//     const created_by = decodedToken.userId
+
+//     const contractDetails = {
+//         rank,
+//         company,
+//         vslName,
+//         vesselType,
+//         signOnPort,
+//         signOn,
+//         wageStart,
+//         eoc,
+//         wages,
+//         currency,
+//         wagesType,
+//         signOff,
+//         signOffPort,
+//         reasonForSignOff,
+//         documentFile,
+//         aoaFile,
+//         aoaNumber,
+//         emigrateNumber,
+//         created_by
+//     };
+
+//     try {
+//         const response = await axios.post(`https://nemo.ivistaz.co/candidate/contract-details/${candidateId}`, contractDetails, {
+//             headers: {
+//                 'Authorization': token,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         console.log(response.data);
+//         await fetchAndDisplayContractDetails(candidateId);
+//         contractForm.reset();
+//     } catch (err) {
+//         console.error(err);
+//     }
+// }
+
+
+
+
+// Attach the form submission handler to the form
+
 async function handleContractForm(event) {
     event.preventDefault();
-    const decodedToken = decodeToken(token)
-    console.log(decodedToken.userId)
+    const decodedToken = decodeToken(token);
+    const candidateId = localStorage.getItem('memId');
+    const created_by = decodedToken.userId;
+
     const rank = document.getElementById('candidate_c_rank').value.trim();
     const company = document.getElementById('contract_company').value.trim();
     const vslName = document.getElementById('contract_vsl').value.trim();
@@ -180,13 +249,46 @@ async function handleContractForm(event) {
     const signOff = document.getElementById('contract_signoff').value.trim();
     const signOffPort = document.getElementById('contract_signoffport').value.trim();
     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
-    const documentFile = document.getElementById('contract_document').value.trim();
-    const aoaFile = document.getElementById('contract_aoa').value.trim();
     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
-    const candidateId= localStorage.getItem('memId')
-    const created_by = decodedToken.userId
 
+    // Files
+    const documentFile = document.getElementById('contract_document').files[0];
+    const aoaFile = document.getElementById('contract_aoa').files[0];
+
+    // Upload Document file
+    const documentFormData = new FormData();
+    documentFormData.append('file', documentFile);
+
+    try {
+        await axios.post('/upload5', documentFormData, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (err) {
+        console.error('Error uploading document file:', err);
+        return;
+    }
+
+    // Upload AOA file
+    const aoaFormData = new FormData();
+    aoaFormData.append('file', aoaFile);
+
+    try {
+        await axios.post('/upload6', aoaFormData, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (err) {
+        console.error('Error uploading AOA file:', err);
+        return;
+    }
+
+    // Submit the rest of the form data
     const contractDetails = {
         rank,
         company,
@@ -202,8 +304,6 @@ async function handleContractForm(event) {
         signOff,
         signOffPort,
         reasonForSignOff,
-        documentFile,
-        aoaFile,
         aoaNumber,
         emigrateNumber,
         created_by
@@ -218,7 +318,7 @@ async function handleContractForm(event) {
         });
         console.log(response.data);
         await fetchAndDisplayContractDetails(candidateId);
-        contractForm.reset();
+        document.getElementById('contractForm').reset();
     } catch (err) {
         console.error(err);
     }
@@ -226,10 +326,11 @@ async function handleContractForm(event) {
 
 
 
-
-// Attach the form submission handler to the form
 const contractForm = document.getElementById('contractForm');
 contractForm.addEventListener('submit', handleContractForm);
+
+
+
 
 async function displayDropdown() {
     try {
