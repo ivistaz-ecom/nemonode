@@ -1,7 +1,7 @@
 const token = localStorage.getItem('token')
 let memId = document.getElementById('memId')
 
-memId.value =
+
 function formatDate(dateString) {
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
         await fetchFilesByCandidateId(candidateId)
-        updateCandidatePhoto(candidateId)
+        // updateCandidatePhoto(candidateId)
         fetchAndDisplayFiles(candidateId)
         const hasUserManagement = decodedToken.userManagement;
         const vendorManagement = decodedToken.vendorManagement;
