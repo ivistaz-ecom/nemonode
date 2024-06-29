@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('beneficiary').value = beneficiary;
     document.getElementById('beneficiary_addr').value = beneficiaryAddr;
     document.getElementById('pan_num').value = panNum;
-    // document.getElementById('passbook').value = passbook || null;
-    // document.getElementById('pan_card').value = panCard || null;
+    document.getElementById('passbook').value = passbook || null;
+    document.getElementById('pan_card').value = panCard || null;
     document.getElementById('branch').value = branch;
     document.getElementById('types').value = types;
     document.getElementById('created_by').value = created_by;
