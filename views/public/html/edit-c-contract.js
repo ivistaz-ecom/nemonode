@@ -339,7 +339,7 @@ function formatDate(dateString) {
 
 
 
-async function handleEditContractForm(event) {
+  document.getElementById('contractForm').addEventListener('submit', async function (event) {
     event.preventDefault();
     const decodedToken = decodeToken(token);
     const contractId = document.getElementById('contractId').value;
@@ -445,7 +445,8 @@ async function handleEditContractForm(event) {
     } catch (err) {
         console.error('Error updating contract:', err);
     }
-}
+})
+
 
 
 
