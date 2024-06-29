@@ -97,62 +97,101 @@ document.addEventListener('DOMContentLoaded', async function () {
     const bankForm = document.getElementById('bankForm');
 
     // Add submit event listener to the form
-    bankForm.addEventListener('submit', async function (event) {
+    document.getElementById('bankForm').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent the default form submission
-
-        // Extract values from the form fields
-        const id = document.getElementById('bank_id').value;
-        const bankName = document.getElementById('bank_name').value;
-        const accountNum = document.getElementById('account_num').value;
-        const bankAddr = document.getElementById('bank_addr').value;
-        const ifscCode = document.getElementById('ifsc_code').value;
-        const swiftCode = document.getElementById('swift_code').value;
-        const beneficiary = document.getElementById('beneficiary').value;
-        const beneficiaryAddr = document.getElementById('beneficiary_addr').value;
-        const panNum = document.getElementById('pan_num').value;
-        const passbook = document.getElementById('passbook').value;
-        const panCard = document.getElementById('pan_card').value;
-        const branch = document.getElementById('branch').value;
-        const types = document.getElementById('types').value;
-        const created_by = document.getElementById('created_by').value;
-        
-        try {
-            // Make an axios request to update the bank details
-            const response = await axios.put(
-                `https://nemo.ivistaz.co/candidate/update-bank-details/${id}`,
-                {
-                    bank_name: bankName,
-                    account_num: accountNum,
-                    bank_addr: bankAddr,
-                    ifsc_code: ifscCode,
-                    swift_code: swiftCode,
-                    beneficiary: beneficiary,
-                    beneficiary_addr: beneficiaryAddr,
-                    pan_num: panNum,
-                    passbook: passbook,
-                    pan_card: panCard,
-                    branch:branch,
-                    types:types,
-                    created_by:created_by,
-                },
-                {
+    
+        const decodedToken = decodeToken(token);
+        const bankId = document.getElementById('bank_id').value;
+        const created_by = decodedToken.userId;
+    
+        const bankName = document.getElementById('bank_name').value.trim();
+        const accountNum = document.getElementById('account_num').value.trim();
+        const bankAddr = document.getElementById('bank_addr').value.trim();
+        const ifscCode = document.getElementById('ifsc_code').value.trim();
+        const swiftCode = document.getElementById('swift_code').value.trim();
+        const beneficiary = document.getElementById('beneficiary').value.trim();
+        const beneficiaryAddr = document.getElementById('beneficiary_addr').value.trim();
+        const panNum = document.getElementById('pan_num').value.trim();
+        const branch = document.getElementById('branch').value.trim();
+        const types = document.getElementById('types').value.trim();
+    
+        const passbookFile = document.getElementById('passbook').files[0];
+        const panCardFile = document.getElementById('pan_card').files[0];
+    
+        let passbookFileName = document.getElementById('prevPass').value.trim();
+        let panCardFileName = document.getElementById('prevPan').value.trim();
+    
+        // Upload Passbook file if it exists
+        if (passbookFile) {
+            const passbookFormData = new FormData();
+            passbookFormData.append('file', passbookFile);
+    
+            try {
+                const response = await axios.post('/upload8', passbookFormData, {
                     headers: {
                         'Authorization': token,
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-
-            // Handle the response as needed
-            console.log('Bank details updated successfully:', response.data);
-            window.location.href='./add-c-bank.html'
-            // Optionally, redirect the user to a success page or perform other actions
-
-        } catch (error) {
-            console.error('Error updating bank details:', error);
-            // Handle the error, display an alert, or redirect to an error page
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                passbookFileName = passbookFile.name;
+                console.log('Passbook file uploaded successfully');
+            } catch (err) {
+                console.error('Error uploading passbook file:', err);
+                return;
+            }
         }
-    })
+    
+        // Upload PAN Card file if it exists
+        if (panCardFile) {
+            const panCardFormData = new FormData();
+            panCardFormData.append('file', panCardFile);
+    
+            try {
+                const response = await axios.post('/upload9', panCardFormData, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                panCardFileName = panCardFile.name;
+                console.log('PAN Card file uploaded successfully');
+            } catch (err) {
+                console.error('Error uploading PAN Card file:', err);
+                return;
+            }
+        }
+    
+        // Submit the rest of the form data
+        const bankDetails = {
+            bank_name: bankName,
+            account_num: accountNum,
+            bank_addr: bankAddr,
+            ifsc_code: ifscCode,
+            swift_code: swiftCode,
+            beneficiary: beneficiary,
+            beneficiary_addr: beneficiaryAddr,
+            pan_num: panNum,
+            passbook: passbookFileName,
+            pan_card: panCardFileName,
+            branch: branch,
+            types: types,
+            created_by: created_by
+        };
+    
+        try {
+            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-bank-details/${bankId}`, bankDetails, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log('Bank details updated successfully:', response.data);
+            window.location.href = './add-c-bank.html';
+        } catch (err) {
+            console.error('Error updating bank details:', err);
+        }
+    });
+    
 
     document.getElementById("logout").addEventListener("click", function() {
         // Display the modal with initial message
