@@ -2908,112 +2908,62 @@ const onBoard = async (req, res) => {
 //         res.status(500).json({ error: 'Internal server error', success: false });
 //     }
 // }
-// const crewList = async (req, res) => {
-//     const { startDate, endDate, vslName, company } = req.query;
-  
-//     // Log the parameters to debug
-//     console.log({ startDate, endDate, vslName, company });
-  
-//     if (!startDate || !endDate) {
-//       return res.status(400).send('Missing required query parameters: startDate and endDate');
-//     }
-  
-//     let query = `
-//       SELECT 
-//         a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
-//         a.wages_types, a.sign_on, a.sign_off, a.eoc, 
-//         b.fname, b.lname, b.nationality, 
-//         c.id AS vesselId, b.category, e.company_name,
-//         bd.* -- Select all fields from the bank table
-//       FROM 
-//         contract AS a
-//         JOIN Candidates AS b ON a.candidateId = b.candidateId
-//         JOIN vsls AS c ON a.vslName = c.id
-//         JOIN companies AS e ON a.company = e.company_id
-//         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-//       WHERE 
-//         ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
-//     `;
-  
-//     const replacements = { startDate, endDate };
-  
-//     if (vslName) {
-//       query += ' AND c.id = :vslName';
-//       replacements.vslName = vslName;
-//     }
-  
-//     if (company) {
-//       query += ' AND a.company = :company';
-//       replacements.company = company;
-//     }
-  
-//     try {
-//       const results = await sequelize.query(query, {
-//         type: sequelize.QueryTypes.SELECT,
-//         replacements
-//       });
-//       res.json(results);
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send('An error occurred while retrieving the crew list.');
-//     }
-// };
-
-  
 const crewList = async (req, res) => {
     const { startDate, endDate, vslName, company } = req.query;
-
+  
     // Log the parameters to debug
     console.log({ startDate, endDate, vslName, company });
-
+  
     if (!startDate || !endDate) {
-        return res.status(400).send('Missing required query parameters: startDate and endDate');
+      return res.status(400).send('Missing required query parameters: startDate and endDate');
     }
-
+  
     let query = `
-        SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
-            a.wages_types, a.sign_on, a.sign_off, a.eoc, 
-            b.fname, b.lname, b.nationality, 
-            c.id AS vesselId, b.category, e.company_name,
-            bd.*, 
-            r.rankOrder 
-        FROM 
-            contract AS a
-            JOIN Candidates AS b ON a.candidateId = b.candidateId
-            JOIN vsls AS c ON a.vslName = c.id
-            JOIN companies AS e ON a.company = e.company_id
-            LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-            JOIN Rank AS r ON a.rank = r.rank 
-        WHERE 
-            ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
+      SELECT 
+        a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
+        a.wages_types, a.sign_on, a.sign_off, a.eoc, 
+        b.fname, b.lname, b.nationality, 
+        c.id AS vesselId, b.category, e.company_name,
+        bd.* ,
+        r.rankOrder
+      FROM 
+        contract AS a
+        JOIN Candidates AS b ON a.candidateId = b.candidateId
+        JOIN vsls AS c ON a.vslName = c.id
+        JOIN companies AS e ON a.company = e.company_id
+        LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
+        JOIN Rank AS r ON a.rank = r.rank
+      WHERE 
+        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on <= :endDate AND a.sign_off >= :endDate) )AND (a.sign_on <=: endDate)
     `;
-
+  
     const replacements = { startDate, endDate };
-
+  
     if (vslName) {
-        query += ' AND c.id = :vslName';
-        replacements.vslName = vslName;
+      query += ' AND c.id = :vslName';
+      replacements.vslName = vslName;
     }
-
+  
     if (company) {
-        query += ' AND a.company = :company';
-        replacements.company = company;
+      query += ' AND a.company = :company';
+      replacements.company = company;
     }
-
-    query += ' ORDER BY r.rankOrder ASC'; // Order by rankOrder in ascending order
-
+query += ' ORDER BY r.rankOrder ASC'; // Order by rankOrder in ascending order
+  
     try {
-        const results = await sequelize.query(query, {
-            type: sequelize.QueryTypes.SELECT,
-            replacements
-        });
-        res.json(results);
+      const results = await sequelize.query(query, {
+        type: sequelize.QueryTypes.SELECT,
+        replacements
+      });
+      res.json(results);
     } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while retrieving the crew list.');
+      console.error(error);
+      res.status(500).send('An error occurred while retrieving the crew list.');
     }
 };
+
+  
+
 
 
 
