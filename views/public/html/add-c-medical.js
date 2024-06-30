@@ -138,37 +138,72 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
     
       // Add event listener to the submit button
-      document.getElementById('medicalForm').addEventListener('submit', async(e)=>{
-        try {
-            e.preventDefault();
-            const memId= localStorage.getItem('memId')
-
-          // Collect form data
-          const formData = {
-            hospitalName: document.getElementById('hospital_name').value.trim(),
-            place: document.getElementById('place').value.trim(),
-            date: document.getElementById('date').value.trim(),
-            expiry_date: document.getElementById('expiry_date').value.trim(),
-            done_by: document.getElementById('done_by').value.trim(),
-            status: document.getElementById('status').value.trim(),
-            amount: document.getElementById('amount').value.trim(),
-            upload: document.getElementById('upload').value.trim(),
-            created_by: decodedToken.userId,
-        };
-          console.log(formData)
-          // Send data to the server using Axios with async/await
-          const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, formData,{headers:{"Authorization":token}});
+      document.getElementById('medicalForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
     
-          // Handle success
-          console.log('Data sent successfully:', response.data);
-          // You can perform additional actions here after a successful submission
-        } catch (error) {
-          // Handle error
-          console.error('Error sending data:', error);
-          // You can handle errors and display appropriate messages to the user
+        const token = localStorage.getItem('token');
+        const decodedToken = decodeToken(token);
+        const memId = localStorage.getItem('memId');
+        const hospitalName = document.getElementById('hospital_name').value.trim();
+        const place = document.getElementById('place').value.trim();
+        const date = document.getElementById('date').value.trim();
+        const expiryDate = document.getElementById('expiry_date').value.trim();
+        const doneBy = document.getElementById('done_by').value.trim();
+        const status = document.getElementById('status').value.trim();
+        const amount = document.getElementById('amount').value.trim();
+        const newMedicalFile = document.getElementById('upload').files[0];
+    
+        let uploadFileName = '';
+    
+        // Upload the file if it exists
+        if (newMedicalFile) {
+            const medicalFormData = new FormData();
+            medicalFormData.append('file', newMedicalFile);
+    
+            try {
+                const response = await axios.post('/upload7', medicalFormData, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                uploadFileName = newMedicalFile.name;
+                console.log('Medical file uploaded successfully');
+                alert('Medical file uploaded successfully');
+            } catch (err) {
+                console.error('Error uploading medical file:', err);
+                return;
+            }
         }
-      }
-      )
+    
+        // Prepare medical details
+        const medicalDetails = {
+            hospital_name: hospitalName,
+            place: place,
+            date: date,
+            expiry_date: expiryDate,
+            done_by: doneBy,
+            status: status,
+            amount: amount,
+            upload: uploadFileName,
+            created_by: decodedToken.userId
+        };
+    
+        // Submit the form data
+        try {
+            const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, medicalDetails, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log('Medical data sent successfully:', response.data);
+            window.location.href = './add-c-medical.html';
+        } catch (error) {
+            console.error('Error sending medical data:', error);
+        }
+    });
+    
 
     });
     function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload,created_by) {
