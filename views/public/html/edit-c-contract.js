@@ -351,16 +351,16 @@ function formatDate(dateString) {
     const vslName = document.getElementById('editcontract_vsl').value.trim();
     const vesselType = document.getElementById('editcontract_vesseltype').value.trim();
     const signOnPort = document.getElementById('editcontract_signonport').value.trim();
-    const signOn = document.getElementById('editcontract_signon').value.trim();
+    const signOnDate = document.getElementById('editcontract_signon').value.trim();
     const wageStart = document.getElementById('editcontract_wage_start').value.trim();
     const eoc = document.getElementById('editcontract_eoc').value.trim();
     const wages = document.getElementById('editcontract_wages').value.trim();
     const currency = document.getElementById('editcontract_currency').value.trim();
     const wagesType = document.getElementById('editcontract_wagestype').value.trim();
-    const signOff = document.getElementById('editcontract_signoff').value.trim();
+    const signOffDate = document.getElementById('editcontract_signoff').value.trim();
     const signOffPort = document.getElementById('editcontract_signoffport').value.trim();
     const reasonForSignOff = document.getElementById('editcontracts_reason').value.trim();
-    const aoaNumber = document.getElementById('editcontract_aoa_num').value.trim();
+    const aoaNum = document.getElementById('editcontract_aoa_num').value.trim();
     const emigrateNumber = document.getElementById('editcontract_emigrate').value.trim();
 
     const documentFile = document.getElementById('editcontract_document').files[0];
