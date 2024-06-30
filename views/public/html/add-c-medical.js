@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const id = candidateId;
         const decodedToken = decodeToken(token);
     console.log(decodedToken)
-
+   await populateHospitalDropdown()
 const hasUserManagement = decodedToken.userManagement;
 console.log(hasUserManagement)
 if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
@@ -72,18 +72,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         });
     }
       
-        const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { headers: { "Authorization": token } });
-        console.log(hospitalResponse)
-        const hospitals = hospitalResponse.data.hospital;
-        const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
-        const hospitalDropdown = document.getElementById('hospital_name');
-        hospitalDropdown.innerHTML = ''; // Clear existing options
-        for (let i = 0; i < hospitalNames.length; i++) {
-            const option = document.createElement('option');
-            option.value = hospitalNames[i];
-            option.text = hospitalNames[i];
-            hospitalDropdown.appendChild(option);
-        }
+       
 
         let dropdownItems = document.querySelectorAll(".dropdown-item");
     
@@ -136,7 +125,26 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             
         });
 
-    
+        async function populateHospitalDropdown() {
+            const token = localStorage.getItem('token');
+            try {
+                const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { 
+                    headers: { "Authorization": token } 
+                });
+                console.log(hospitalResponse);
+                const hospitals = hospitalResponse.data.hospital;
+                const hospitalDropdown = document.getElementById('hospital_name');
+                hospitalDropdown.innerHTML = ''; // Clear existing options
+                for (let i = 0; i < hospitals.length; i++) {
+                    const option = document.createElement('option');
+                    option.value = hospitals[i].id;
+                    option.text = hospitals[i].hospitalName;
+                    hospitalDropdown.appendChild(option);
+                }
+            } catch (error) {
+                console.error('Error fetching hospital names:', error);
+            }
+        }
       // Add event listener to the submit button
       document.getElementById('medicalForm').addEventListener('submit', async function (event) {
         event.preventDefault();
