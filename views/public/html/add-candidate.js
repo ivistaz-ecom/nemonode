@@ -245,107 +245,146 @@ function getCurrentDateTime() {
 }
 
 const addcandidateButton = document.getElementById("candidate-form");
-addcandidateButton.addEventListener("submit", async(e) =>{
-    e.preventDefault() // Prevent the default form submission behavior
-    const countryCode = document.getElementById('countryCodeSelect').value
-    const mobileInput = document.getElementById('candidate_c_mobi1').value
+addcandidateButton.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    const countryCode = document.getElementById('countryCodeSelect').value;
+    const mobileInput = document.getElementById('candidate_c_mobi1').value;
     const combinedMobile = countryCode + mobileInput;
-    const countryCode2 = document.getElementById('countryCodeSelect2').value
-    const mobileInput2 = document.getElementById('candidate_c_mobi2').value
+    const countryCode2 = document.getElementById('countryCodeSelect2').value;
+    const mobileInput2 = document.getElementById('candidate_c_mobi2').value;
     const combinedMobile2 = countryCode2 + mobileInput2;
-    console.log(combinedMobile,combinedMobile2)
+
     const { date, time } = getCurrentDateTime();
 
-    
-    const candidate_details = {
-        
-        fname: document.getElementById('candidate_fname').value.trim(),
-        lname: document.getElementById('candidate_lname').value.trim(),
-        c_rank: document.getElementById('candidate_c_rank').value.trim(),
-        avb_date: document.getElementById('candidate_avb_date').value.trim(),
-        nationality: document.getElementById('candidate_nationality').value.trim(),
-        company_status: document.getElementById('candidate_company_status').value.trim(),
-        dob: document.getElementById('candidate_dob').value.trim(),
-        birth_place: document.getElementById('candidate_birth_place').value.trim(),
-        work_nautilus: document.getElementById('candidate_work_nautilus').value.trim(),
-        c_vessel: document.getElementById('candidate_c_vessel').value.trim(),
-        experience: document.getElementById('candidate_experience').value.trim(),
-        zone: document.getElementById('candidate_zone').value.trim(),
-        grade: document.getElementById('candidate_grade').value.trim(),
-        boiler_suit_size: document.getElementById('candidate_boiler_suit_size').value.trim(),
-        safety_shoe_size: document.getElementById('candidate_safety_shoe_size').value.trim(),
-        height: document.getElementById('candidate_height').value.trim(),
-        weight: document.getElementById('candidate_weight').value.trim(),
-        l_country: document.getElementById('candidate_I_country').value.trim(),
-        indos_number: document.getElementById('candidate_indos_number').value.trim(),
-        m_status: document.getElementById('company_status').value.trim(),
-        group: document.getElementById('candidate_group').value.trim(),
-        vendor: document.getElementById('candidate_vendor').value.trim() ,
-        // photos: document.getElementById('candidate_photos').value.trim(),
-        // resume: document.getElementById('candidate_resume').value.trim(),
-        c_ad1: document.getElementById('candidate_c_ad1').value.trim(),
-        c_city: document.getElementById('candidate_city').value.trim(),
-        c_state: document.getElementById('candidate_c_state').value.trim(),
-        c_pin: document.getElementById('candidate_pin').value.trim(),
-        c_mobi1: combinedMobile,
-        email1: document.getElementById('candidate_email1').value.trim(),
-        c_tel1: document.getElementById('candidate_c_tel1').value.trim(),
-        c_ad2: document.getElementById('candidate_c_ad2').value.trim(),
-        p_city: document.getElementById('candidate_p_city').value.trim(),
-        p_state: document.getElementById('candidate_p_state').value.trim(),
-        p_pin: document.getElementById('candidate_p_pin').value.trim(),
-        c_mobi2: combinedMobile2,
-        c_tel2: document.getElementById('candidate_c_tel2').value.trim(),
-        email2: document.getElementById('candidate_email2').value.trim(),
-        nemo_source: document.getElementById('nemo_source').value.trim() || null,
-        active_details: document.getElementById('candidate_active_details').value.trim() || 0,
-        area_code1: document.getElementById('candidate_area_code1').value.trim() || '',
-        area_code2: document.getElementById('candidate_area_code2').value.trim() || '',
-        category: document.getElementById('candidate_category').value.trim() || 0,
-        createdby: localStorage.getItem('username'),    
-        cr_date: date,
-        cr_time: time,
-        editedby: document.getElementById('candidate_editedby').value.trim() || '',
-        imp_discussion: document.getElementById('candidate_imp_discussion').value.trim() || '',
-        ipadress: document.getElementById('candidate_ipadress').value.trim() || '',
-        joined_date: document.getElementById('candidate_joined_date').value.trim() || null,       
-         last_company: document.getElementById('candidate_last_company').value || '',
-        last_salary: document.getElementById('candidate_last_salary').value.trim() || '',
-        las_date: document.getElementById('candidate_last_date').value.trim() || null,
-        las_time: document.getElementById('candidate_last_time').value.trim() || '',
-        mobile_code1: document.getElementById('candidate_mobile_code1').value.trim() || '',
-        mobile_code2: document.getElementById('candidate_mobile_code2').value.trim() || '',
-        mobile_status: document.getElementById('candidate_mobile_status').value.trim() || '',
-        other_mobile_code: document.getElementById('candidate_other_mobile_code').value.trim() || '',
-        other_numbers: document.getElementById('candidate_other_numbers').value.trim() || '',
-        p_ad1: document.getElementById('candidate_p_ad1').value.trim() || '',
-        p_ad2: document.getElementById('candidate_p_ad2').value.trim() || '',
-        p_country: document.getElementById('candidate_p_country').value.trim() || '',
-        p_mobi1: document.getElementById('candidate_p_mobi1').value.trim() || '',
-        p_mobi2: document.getElementById('candidate_p_mobi2').value.trim() || '',
-        p_rank: document.getElementById('candidate_p_rank').value.trim() || '',
-        p_tel1: document.getElementById('candidate_p_tel1').value.trim() || '',
-        p_tel2: document.getElementById('candidate_p_tel2').value.trim() || '',
-        ref_check: document.getElementById('candidate_ref_check').value.trim() || '',
-        // resume_upload_date: document.getElementById('candidate_resume_upload_date').value.trim() || null,
-        skype: document.getElementById('candidate_skype').value.trim() || '',
-        stcw: document.getElementById('candidate_stcw').value.trim() || 0,
-        vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
-        us_visa:document.getElementById('candidate_us_visa').value.trim()||0,
-      };
-    try {
+    // Get files
+    const photoFile = document.getElementById('candidate_photo').files[0];
+    const resumeFile = document.getElementById('candidate_resume').files[0];
 
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/candidate/add-candidate", candidate_details,{headers:{"Authorization":token}});
+    // Function to upload a file
+    const uploadFile = async (file, url) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await axios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": token
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error;
+        }
+    };
+
+    try {
+        // Upload files if provided
+        let photoFileName = '';
+        let resumeFileName = '';
+
+        if (photoFile) {
+            photoFileName = photoFile.name;
+            await uploadFile(photoFile, 'https://nemo.ivistaz.co/upload1');
+        }
+
+        if (resumeFile) {
+            resumeFileName = resumeFile.name;
+            await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
+        }
+
+        // Prepare candidate details
+        const candidate_details = {
+            fname: document.getElementById('candidate_fname').value.trim(),
+            lname: document.getElementById('candidate_lname').value.trim(),
+            c_rank: document.getElementById('candidate_c_rank').value.trim(),
+            avb_date: document.getElementById('candidate_avb_date').value.trim(),
+            nationality: document.getElementById('candidate_nationality').value.trim(),
+            company_status: document.getElementById('candidate_company_status').value.trim(),
+            dob: document.getElementById('candidate_dob').value.trim(),
+            birth_place: document.getElementById('candidate_birth_place').value.trim(),
+            work_nautilus: document.getElementById('candidate_work_nautilus').value.trim(),
+            c_vessel: document.getElementById('candidate_c_vessel').value.trim(),
+            experience: document.getElementById('candidate_experience').value.trim(),
+            zone: document.getElementById('candidate_zone').value.trim(),
+            grade: document.getElementById('candidate_grade').value.trim(),
+            boiler_suit_size: document.getElementById('candidate_boiler_suit_size').value.trim(),
+            safety_shoe_size: document.getElementById('candidate_safety_shoe_size').value.trim(),
+            height: document.getElementById('candidate_height').value.trim(),
+            weight: document.getElementById('candidate_weight').value.trim(),
+            l_country: document.getElementById('candidate_I_country').value.trim(),
+            indos_number: document.getElementById('candidate_indos_number').value.trim(),
+            m_status: document.getElementById('company_status').value.trim(),
+            group: document.getElementById('candidate_group').value.trim(),
+            vendor: document.getElementById('candidate_vendor').value.trim(),
+            photos: photoFileName,
+            resume: resumeFileName,
+            c_ad1: document.getElementById('candidate_c_ad1').value.trim(),
+            c_city: document.getElementById('candidate_city').value.trim(),
+            c_state: document.getElementById('candidate_c_state').value.trim(),
+            c_pin: document.getElementById('candidate_pin').value.trim(),
+            c_mobi1: combinedMobile,
+            email1: document.getElementById('candidate_email1').value.trim(),
+            c_tel1: document.getElementById('candidate_c_tel1').value.trim(),
+            c_ad2: document.getElementById('candidate_c_ad2').value.trim(),
+            p_city: document.getElementById('candidate_p_city').value.trim(),
+            p_state: document.getElementById('candidate_p_state').value.trim(),
+            p_pin: document.getElementById('candidate_p_pin').value.trim(),
+            c_mobi2: combinedMobile2,
+            c_tel2: document.getElementById('candidate_c_tel2').value.trim(),
+            email2: document.getElementById('candidate_email2').value.trim(),
+            nemo_source: document.getElementById('nemo_source').value.trim() || null,
+            active_details: document.getElementById('candidate_active_details').value.trim() || 0,
+            area_code1: document.getElementById('candidate_area_code1').value.trim() || '',
+            area_code2: document.getElementById('candidate_area_code2').value.trim() || '',
+            category: document.getElementById('candidate_category').value.trim() || 0,
+            createdby: localStorage.getItem('username'),
+            cr_date: date,
+            cr_time: time,
+            editedby: document.getElementById('candidate_editedby').value.trim() || '',
+            imp_discussion: document.getElementById('candidate_imp_discussion').value.trim() || '',
+            ipadress: document.getElementById('candidate_ipadress').value.trim() || '',
+            joined_date: document.getElementById('candidate_joined_date').value.trim() || null,
+            last_company: document.getElementById('candidate_last_company').value || '',
+            last_salary: document.getElementById('candidate_last_salary').value.trim() || '',
+            las_date: document.getElementById('candidate_last_date').value.trim() || null,
+            las_time: document.getElementById('candidate_last_time').value.trim() || '',
+            mobile_code1: document.getElementById('candidate_mobile_code1').value.trim() || '',
+            mobile_code2: document.getElementById('candidate_mobile_code2').value.trim() || '',
+            mobile_status: document.getElementById('candidate_mobile_status').value.trim() || '',
+            other_mobile_code: document.getElementById('candidate_other_mobile_code').value.trim() || '',
+            other_numbers: document.getElementById('candidate_other_numbers').value.trim() || '',
+            p_ad1: document.getElementById('candidate_p_ad1').value.trim() || '',
+            p_ad2: document.getElementById('candidate_p_ad2').value.trim() || '',
+            p_country: document.getElementById('candidate_p_country').value.trim() || '',
+            p_mobi1: document.getElementById('candidate_p_mobi1').value.trim() || '',
+            p_mobi2: document.getElementById('candidate_p_mobi2').value.trim() || '',
+            p_rank: document.getElementById('candidate_p_rank').value.trim() || '',
+            p_tel1: document.getElementById('candidate_p_tel1').value.trim() || '',
+            p_tel2: document.getElementById('candidate_p_tel2').value.trim() || '',
+            ref_check: document.getElementById('candidate_ref_check').value.trim() || '',
+            skype: document.getElementById('candidate_skype').value.trim() || '',
+            stcw: document.getElementById('candidate_stcw').value.trim() || 0,
+            vendor_id: document.getElementById('candidate_vendor_id').value.trim() || '',
+            us_visa: document.getElementById('candidate_us_visa').value.trim() || 0,
+        };
+
+        // Send candidate details to the server
+        const serverResponse = await axios.post("https://nemo.ivistaz.co/candidate/add-candidate", candidate_details, {
+            headers: {
+                "Authorization": token
+            }
+        });
         console.log('Response:', serverResponse.data);
-        // addcandidateButton.reset();
         alert("Candidate Added Successfully!");
     } catch (error) {
         console.error('Error:', error);
         // Handle error as needed
     }
-    console.log(candidate_details);
-    // Now you can use axios to send the data to the server if needed
 });
+
 
 // const findStudentsWithUpcomingBirthdays = async () => {
 //     const currentDate = new Date();
