@@ -194,7 +194,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, medicalDetails, {
                 headers: {
                     'Authorization': token,
-                    'Content-Type': 'application/json'
+                    
                 }
             });
             console.log('Medical data sent successfully:', response.data);
