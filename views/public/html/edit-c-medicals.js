@@ -1,6 +1,7 @@
 const token = localStorage.getItem('token')
 document.addEventListener("DOMContentLoaded", async function() {
     // Get the dropdown items
+   await populateHospitalDropdown()
   
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -40,19 +41,28 @@ document.addEventListener("DOMContentLoaded", async function() {
     document.getElementById('created_by').value = created_by;
     // document.getElementById('hospital_upload').value = upload;
 
-    const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/view-hospital", { headers: { "Authorization": token } });
-    console.log(hospitalResponse)
-    const hospitals = hospitalResponse.data.hospitals;
-    const hospitalNames = hospitals.map(hospital => hospital.hospitalName);
-    const hospitalDropdown = document.getElementById('hospital_name');
-    hospitalDropdown.innerHTML = ''; // Clear existing options
-    for (let i = 0; i < hospitalNames.length; i++) {
-        const option = document.createElement('option');
-        option.value = hospitalNames[i];
-        option.text = hospitalNames[i];
-        hospitalDropdown.appendChild(option);
+    async function populateHospitalDropdown() {
+        const token = localStorage.getItem('token');
+        try {
+            const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { 
+                headers: { "Authorization": token } 
+            });
+            console.log(hospitalResponse);
+            const hospitals = hospitalResponse.data.hospital;
+            const hospitalDropdown = document.getElementById('hospital_name');
+            hospitalDropdown.innerHTML = ''; // Clear existing options
+            for (let i = 0; i < hospitals.length; i++) {
+                const option = document.createElement('option');
+                option.value = hospitals[i].id;
+                option.text = hospitals[i].hospitalName;
+                hospitalDropdown.appendChild(option);
+            }
+            hospitalDropdown.value=hospitalName
+
+        } catch (error) {
+            console.error('Error fetching hospital names:', error);
+        }
     }
-hospitalDropdown.value=hospitalName
 
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -106,40 +116,72 @@ hospitalDropdown.value=hospitalName
 });
 
 document.getElementById('updateForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const med_id = document.getElementById('med_id').value;
+    const newUploadFile = document.getElementById('hospital_new_upload').files[0];
+    let uploadedFileName = document.getElementById('hospital_upload').value.trim();
+
+    // Check if there's a new file to upload
+    if (newUploadFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', newUploadFile);
+        
+        try {
+            const uploadResponse = await axios.post('/upload7', uploadFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            uploadedFileName = newUploadFile.name;
+            console.log('File uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading file:', err);
+            return;
+        }
+    }
+
+    // Collect form data
+    const formData = {
+        id: med_id,
+        hospitalName: document.getElementById('hospital_name').value,
+        place: document.getElementById('hospital_place').value,
+        date: document.getElementById('hospital_date').value,
+        expiry_date: document.getElementById('hospital_exp_date').value,
+        done_by: document.getElementById('hospital_done').value,
+        status: document.getElementById('hospital_status').value,
+        amount: document.getElementById('hospital_amount').value,
+        upload: uploadedFileName,
+        created_by: document.getElementById('created_by').value,
+    };
+
+    console.log(formData);
+
     try {
-        e.preventDefault();
-        let med_id = document.getElementById('med_id').value
-        // Collect form data
-        const formData = {
-            id: med_id,
-            hospitalName: document.getElementById('hospital_name').value,
-            place: document.getElementById('hospital_place').value,
-            date: document.getElementById('hospital_date').value,
-            expiry_date: document.getElementById('hospital_exp_date').value,
-            done_by: document.getElementById('hospital_done').value,
-            status: document.getElementById('hospital_status').value,
-            amount: document.getElementById('hospital_amount').value,
-            upload: document.getElementById('hospital_upload')?.value || null,
-            created_by: document.getElementById('created_by').value,
-        };
-
-        console.log(formData);
-
         // Send data to the server using Axios with async/await
-        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-c-hospital/${med_id}`, formData, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-c-hospital/${med_id}`, formData, {
+            headers: { 
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
 
         console.log(response);
 
         // Handle success
         console.log('Data updated successfully:', response.data);
-        window.location.href='./add-c-medicals.html'
-        // You can perform additional actions here after a successful update
+        window.location.href = './add-c-medicals.html';
     } catch (error) {
         // Handle error
         console.error('Error updating data:', error);
         // You can handle errors and display appropriate messages to the user
     }
 });
+
+// Call the function to populate the dropdown when the page loads
+document.addEventListener('DOMContentLoaded', populateHospitalDropdown);
+
 
 document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
