@@ -73,7 +73,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     
         // Prepare document details
         const documentDetails = {
-            documents: documents,
+            document: documents,
             document_number: documentNumber,
             issue_date: issueDate,
             issue_place: issuePlace,
