@@ -774,9 +774,11 @@ const add_hospitaldetails = async (req, res) => {
             upload,
             created_by
         } = req.body;
-
+        console.log(hospitalName)
         // Validate required fields
-     
+        if (!validate(hospitalName) || !validate(date) || !validate(done_by)) {
+            return res.status(400).json({ message: "Bad Parameters", success: false });
+        }
 
         // Create a new hospital entry
         await Medical.create({
