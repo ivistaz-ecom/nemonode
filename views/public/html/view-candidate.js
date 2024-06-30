@@ -551,8 +551,37 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
         document.getElementById('edit_candidate_active_details').value = candidateData.active_details === 1 ? 'Active' : 'Inactive';
-        document.getElementById('prevPhoto').value= candidateData.photos
-        document.getElementById('prevRes').value= candidateData.resume
+        // Assuming you have the candidateData object available
+const photoName = candidateData.photos;
+const resumeName = candidateData.resume;
+
+const prevPhotoButton = document.getElementById('prevPhoto');
+const prevResButton = document.getElementById('prevRes');
+
+if (photoName) {
+    prevPhotoButton.value = photoName;
+    prevPhotoButton.onclick = function() {
+        window.location.href = `https://nemo.ivistaz.co/views/public/files/photos/${photoName}`;
+    };
+} else {
+    prevPhotoButton.value = 'No photo available';
+    prevPhotoButton.onclick = function() {
+        alert('No photo available');
+    };
+}
+
+if (resumeName) {
+    prevResButton.value = resumeName;
+    prevResButton.onclick = function() {
+        window.location.href = `https://nemo.ivistaz.co/views/public/files/resume/${resumeName}`;
+    };
+} else {
+    prevResButton.value = 'No resume available';
+    prevResButton.onclick = function() {
+        alert('No resume available');
+    };
+}
+
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
         document.getElementById('edit_candidate_c_state').value = candidateData.c_state;
@@ -590,50 +619,50 @@ async function displayCandidateDetails() {
 async function editCandidate() {
     // Get values from the form
     var id = document.getElementById('candidateId').value; // Add the ID value if applicable
-    var fname = document.getElementById('edit_candidate_fname').value;
-    var lname = document.getElementById('edit_candidate_lname').value;
-    var rank = document.getElementById('edit_candidate_c_rank').value;
-    var avbDate = document.getElementById('edit_candidate_avb_date').value;
-    var nationality = document.getElementById('edit_candidate_nationality').value;
-    var maritalStatus = document.getElementById('edit_company_status').value;
-    var dob = document.getElementById('edit_candidate_dob').value;
-    var birthPlace = document.getElementById('edit_candidate_birth_place').value;
-    var workNautilus = document.getElementById('edit_candidate_work_nautilus').value;
-    var vesselType = document.getElementById('edit_candidate_c_vessel').value;
-    var experience = document.getElementById('edit_candidate_experience').value;
-    var zone = document.getElementById('edit_candidate_zone').value;
-    var grade = document.getElementById('edit_candidate_grade').value;
-    var boilerSuitSize = document.getElementById('edit_candidate_boiler_suit_size').value;
-    var safetyShoeSize = document.getElementById('edit_candidate_safety_shoe_size').value;
-    var height = document.getElementById('edit_candidate_height').value;
-    var weight = document.getElementById('edit_candidate_weight').value;
-    var licenseCountry = document.getElementById('edit_candidate_I_country').value;
-    var indosNumber = document.getElementById('edit_candidate_indos_number').value;
-    var candidateStatus = document.getElementById('edit_candidate_company_status').value;
-    var group = document.getElementById('edit_candidate_group').value;
-    var vendor = document.getElementById('edit_candidate_vendor').value;
-    var photo = document.getElementById('edit_candidate_photos').value; // Assuming this is a file input, consider handling file uploads appropriately
-    var resume = document.getElementById('edit_candidate_resume').value;
+    // var fname = document.getElementById('edit_candidate_fname').value;
+    // var lname = document.getElementById('edit_candidate_lname').value;
+    // var rank = document.getElementById('edit_candidate_c_rank').value;
+    // var avbDate = document.getElementById('edit_candidate_avb_date').value;
+    // var nationality = document.getElementById('edit_candidate_nationality').value;
+    // var maritalStatus = document.getElementById('edit_company_status').value;
+    // var dob = document.getElementById('edit_candidate_dob').value;
+    // var birthPlace = document.getElementById('edit_candidate_birth_place').value;
+    // var workNautilus = document.getElementById('edit_candidate_work_nautilus').value;
+    // var vesselType = document.getElementById('edit_candidate_c_vessel').value;
+    // var experience = document.getElementById('edit_candidate_experience').value;
+    // var zone = document.getElementById('edit_candidate_zone').value;
+    // var grade = document.getElementById('edit_candidate_grade').value;
+    // var boilerSuitSize = document.getElementById('edit_candidate_boiler_suit_size').value;
+    // var safetyShoeSize = document.getElementById('edit_candidate_safety_shoe_size').value;
+    // var height = document.getElementById('edit_candidate_height').value;
+    // var weight = document.getElementById('edit_candidate_weight').value;
+    // var licenseCountry = document.getElementById('edit_candidate_I_country').value;
+    // var indosNumber = document.getElementById('edit_candidate_indos_number').value;
+    // var candidateStatus = document.getElementById('edit_candidate_company_status').value;
+    // var group = document.getElementById('edit_candidate_group').value;
+    // var vendor = document.getElementById('edit_candidate_vendor').value;
+    // var photo = document.getElementById('edit_candidate_photos').value; // Assuming this is a file input, consider handling file uploads appropriately
+    // var resume = document.getElementById('edit_candidate_resume').value;
         
-    // Assuming this is a file input, consider handling file uploads appropriately
-    var address1 = document.getElementById('edit_candidate_c_ad1').value;
-    var address2 = document.getElementById('edit_candidate_c_ad2').value;
-    var city = document.getElementById('edit_candidate_city').value;
-    var state = document.getElementById('edit_candidate_c_state').value;
-    var permanentCity = document.getElementById('edit_candidate_p_city').value;
-    var permanentState = document.getElementById('edit_candidate_p_state').value;
-    var pincode = document.getElementById('edit_candidate_pin').value;
-    var permanentPincode = document.getElementById('edit_candidate_p_pin').value;
-    var mobile1 = document.getElementById('edit_candidate_c_mobi1').value;
-    var mobile2 = document.getElementById('edit_candidate_c_mobi2').value;
-    var landline1 = document.getElementById('edit_candidate_c_tel1').value;
-    var landline2 = document.getElementById('edit_candidate_c_tel2').value;
-    var email1 = document.getElementById('edit_candidate_email1').value;
-    var email2 = document.getElementById('edit_candidate_email2').value;
-    var us_visa = document.getElementById('edit_candidate_us_visa').value;
+    // // Assuming this is a file input, consider handling file uploads appropriately
+    // var address1 = document.getElementById('edit_candidate_c_ad1').value;
+    // var address2 = document.getElementById('edit_candidate_c_ad2').value;
+    // var city = document.getElementById('edit_candidate_city').value;
+    // var state = document.getElementById('edit_candidate_c_state').value;
+    // var permanentCity = document.getElementById('edit_candidate_p_city').value;
+    // var permanentState = document.getElementById('edit_candidate_p_state').value;
+    // var pincode = document.getElementById('edit_candidate_pin').value;
+    // var permanentPincode = document.getElementById('edit_candidate_p_pin').value;
+    // var mobile1 = document.getElementById('edit_candidate_c_mobi1').value;
+    // var mobile2 = document.getElementById('edit_candidate_c_mobi2').value;
+    // var landline1 = document.getElementById('edit_candidate_c_tel1').value;
+    // var landline2 = document.getElementById('edit_candidate_c_tel2').value;
+    // var email1 = document.getElementById('edit_candidate_email1').value;
+    // var email2 = document.getElementById('edit_candidate_email2').value;
+    // var us_visa = document.getElementById('edit_candidate_us_visa').value;
 
     // Construct the URL with the values
-    var url = `edit-candidate-2.html?memId=${id}&fname=${fname}&lname=${lname}&rank=${rank}&avbDate=${avbDate}&nationality=${nationality}&maritalStatus=${maritalStatus}&dob=${dob}&birthPlace=${birthPlace}&workNautilus=${workNautilus}&vesselType=${vesselType}&experience=${experience}&zone=${zone}&grade=${grade}&boilerSuitSize=${boilerSuitSize}&safetyShoeSize=${safetyShoeSize}&height=${height}&weight=${weight}&licenseCountry=${licenseCountry}&indosNumber=${indosNumber}&candidateStatus=${candidateStatus}&group=${group}&vendor=${vendor}&photo=${photo}&resume=${resume}&address1=${address1}&address2=${address2}&city=${city}&state=${state}&permanentCity=${permanentCity}&permanentState=${permanentState}&pincode=${pincode}&permanentPincode=${permanentPincode}&mobile1=${mobile1}&mobile2=${mobile2}&landline1=${landline1}&landline2=${landline2}&email1=${email1}&email2=${email2}&us_visa=${us_visa}`;
+    var url = `edit-candidate-2.html?memId=${id}`
 
     // Redirect to the edit-candidate-2.html page
     window.location.href = url;
