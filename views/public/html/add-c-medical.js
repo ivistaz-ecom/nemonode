@@ -198,7 +198,6 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 }
             });
             console.log('Medical data sent successfully:', response.data);
-            window.location.href = './add-c-medical.html';
         } catch (error) {
             console.error('Error sending medical data:', error);
         }
