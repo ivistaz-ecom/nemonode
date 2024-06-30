@@ -153,19 +153,49 @@ async function deleteDocument(documentId) {
 
 const documentForm = document.getElementById('documentForm');
 
-documentForm.addEventListener('submit', async function (event) {
+document.getElementById('documentForm').addEventListener('submit', async function (event) {
     event.preventDefault();
-    const id = localStorage.getItem('memId')
+
+    const id = localStorage.getItem('memId');
+    const documentType = document.getElementById('documentTypeDropdown').value.trim();
+    const documentNumber = document.getElementById('document_number').value.trim();
+    const issueDate = document.getElementById('issue_date').value.trim();
+    const issuePlace = document.getElementById('issue_place').value.trim();
+    const stcw = document.getElementById('stcw').value.trim();
+    const documentFiles = document.getElementById('document_files').files[0];
+
+    let documentFileName = '';
+
+    // Upload document file if it exists
+    if (documentFiles) {
+        const documentFormData = new FormData();
+        documentFormData.append('file', documentFiles);
+
+        try {
+            const response = await axios.post('/upload4', documentFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            documentFileName = documentFiles.name;
+            console.log('Document file uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading document file:', err);
+            return;
+        }
+    }
+
+    // Submit the rest of the form data
     const formData = {
-        document: document.getElementById('documentTypeDropdown').value.trim(),
-        document_number: document.getElementById('document_number').value.trim(),
-        issue_date: document.getElementById('issue_date').value.trim(),
-        issue_place: document.getElementById('issue_place').value.trim(),
-        document_files: document.getElementById('document_files').value.trim(),
-        stcw: document.getElementById('stcw').value.trim(),
+        document: documentType,
+        document_number: documentNumber,
+        issue_date: issueDate,
+        issue_place: issuePlace,
+        document_files: documentFileName,
+        stcw: stcw,
     };
 
-    console.log(formData)
     try {
         const response = await axios.post(`https://nemo.ivistaz.co/candidate/document-details/${id}`, formData, {
             headers: {
@@ -177,12 +207,13 @@ documentForm.addEventListener('submit', async function (event) {
         console.log('Document added successfully:', response.data);
         fetchAndDisplayDocumentDetails(id);
 
-        // Redirect to the destination page
+        // Optionally redirect to another page or show a success message
     } catch (error) {
         console.error('Error adding document:', error);
         // Handle error and display appropriate messages to the user
     }
 });
+
 
  document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
