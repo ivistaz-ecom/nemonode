@@ -2976,15 +2976,15 @@ const crewList = async (req, res) => {
             a.wages_types, a.sign_on, a.sign_off, a.eoc, 
             b.fname, b.lname, b.nationality, 
             c.id AS vesselId, b.category, e.company_name,
-            bd.*, -- Select all fields from the bank table
-            r.rankOrder -- Include rankOrder from the Rank table
+            bd.*, 
+            r.rankOrder 
         FROM 
             contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
             LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-            JOIN Rank AS r ON a.rank = r.rank -- Assuming rankName is the field in Rank table
+            JOIN Rank AS r ON a.rank = r.rank 
         WHERE 
             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
     `;
