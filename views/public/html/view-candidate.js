@@ -1242,44 +1242,6 @@ function uploadFile(file, uploadUrl) {
 }
 
 // Get elements
-const photoInput = document.getElementById('photoInput');
-const resumeInput = document.getElementById('resumeInput');
-const uploadPhotoForm = document.getElementById('uploadPhotoForm');
-const uploadResumeForm = document.getElementById('uploadResumeForm');
-
-// Event listeners for uploading photo and resume
-uploadPhotoForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const file = photoInput.files[0];
-    if (file) {
-        uploadFile(file, 'https://nemo.ivistaz.co/upload1')
-            .then(data => {
-                // Handle successful upload
-                alert('Photo uploaded successfully ')
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle upload error
-                console.error(error);
-            });
-    }
-});
-
-uploadResumeForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const file = resumeInput.files[0];
-    if (file) {
-        uploadFile(file, 'https://nemo.ivistaz.co/upload3')
-            .then(data => {
-                // Handle successful upload
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle upload error
-                console.error(error);
-            });
-    }
-});
 
 async function fetchAndDisplayFiles(candidateId) {
     try {
