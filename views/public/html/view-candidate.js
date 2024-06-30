@@ -745,7 +745,6 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 'Authorization': token
             }
         });
-        console.log('vessel da ',vesselsResponse.data.vessels)
         const vessels = {}; // Map to store vessel details by ID
         vesselsResponse.data.vessels.forEach(vessel => {
             vessels[vessel.id] = vessel.vesselName; // Store vessel details by ID
@@ -753,10 +752,13 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
         const contractDetails = response.data;
 
+        // Sort contracts by ID in descending order
+        contractDetails.sort((a, b) => b.id - a.id);
+
         // Assuming contractDetails is an array of objects
         const contractTableBody = document.getElementById('contractTableBody');
         contractTableBody.innerHTML = ''; // Clear existing rows
-        let index=1;
+        let index = 1;
         contractDetails.forEach(contract => {
             const row = document.createElement('tr');
 
@@ -768,7 +770,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
             // Add data to each cell
             row.innerHTML = `
-            <td>${index++}</td>
+                <td>${index++}</td>
                 <td>${contract.rank}</td>
                 <td>${companyName}</td> <!-- Display company name instead of ID -->
                 <td>${vesselName}</td> <!-- Display vessel name instead of ID -->
@@ -787,30 +789,26 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}'>Click here to view Document!</a></td>
-
                 <td>${contract.aoa}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}'>Click here to view AOA!</a></td>
-
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
-                    <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-                </button>
-                <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
-                    <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-                </button>
-            </td>
-            
+                    <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
+                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
+                        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                    </button>
+                </td>
             `;
 
             // Append the row to the table body
             contractTableBody.appendChild(row);
-
         });
-        
     } catch (err) {
         console.error(err);
     }
 }
+
 
 
 function editContract (id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa,event){
