@@ -1,3 +1,4 @@
+
 const token = localStorage.getItem('token')
 function decodeToken(token) {
     // Implementation depends on your JWT library
@@ -25,7 +26,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                     'Authorization': token,
                 },
             });
-
+            console.log(response.data)
             // Check if the request was successful
             if (response.status) {
                 const data = response.data;
@@ -186,7 +187,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
         // Prepare medical details
         const medicalDetails = {
-            hospital_name: hospitalName,
+            hospitalName: hospitalName,
             place: place,
             date: date,
             expiry_date: expiryDate,
@@ -196,15 +197,16 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             upload: uploadFileName,
             created_by: decodedToken.userId
         };
-    
+            console.log(medicalDetails)
         // Submit the form data
         try {
             const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, medicalDetails, {
                 headers: {
                     'Authorization': token,
-                    
+                   
                 }
             });
+
             console.log('Medical data sent successfully:', response.data);
         } catch (error) {
             console.error('Error sending medical data:', error);
