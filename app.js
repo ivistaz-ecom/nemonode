@@ -1202,7 +1202,30 @@ app.get('/fetch-files8/:candidateId', (req, res) => {
     });
 });
 
+app.get('/fetch-files9/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
 
+    // Read the contents of the directory
+    fs.readdir(documentDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/${file}`);
+
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
 
 
 // Middleware for serving files dynamically
