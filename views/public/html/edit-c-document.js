@@ -18,7 +18,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     document.getElementById('document_number').value = documentNumber;
     document.getElementById('issue_date').value = formatDate(issueDate);
     document.getElementById('issue_place').value = issuePlace;
-    document.getElementById('document_files').value = documentFiles;
+    document.getElementById('prev_document_files').value = documentFiles;
     document.getElementById('stcw').value = stcw;
 
 // Now you can use these parameters to pre-fill form fields or perform other actions on the edit page.
@@ -27,45 +27,68 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
 
     
     // Add submit event listener to the form
-    editDocumentForm.addEventListener("submit", async function(event) {
-        // Prevent the default form submission behavior
+    document.getElementById('editdocForm').addEventListener('submit', async function(event) {
         event.preventDefault();
-
-        try {
-            // Collect form data
-            // Collect form data
-            const formData = {
-                id:document.getElementById('doc_id').value,
-                document:    document.getElementById('documents').value,
-                document_number:document.getElementById('document_number').value,
-                issue_date:document.getElementById('issue_date').value,
-                issue_place:document.getElementById('issue_place').value,
-                document_files:document.getElementById('document_files').value,
-                stcw:document.getElementById('stcw').value
+    
+        const token = localStorage.getItem('token');
+        const decodedToken = decodeToken(token);
+        const documentId = document.getElementById('doc_id').value;
+    
+        const document = document.getElementById('documents').value.trim();
+        const documentNumber = document.getElementById('document_number').value.trim();
+        const issueDate = document.getElementById('issue_date').value.trim();
+        const issuePlace = document.getElementById('issue_place').value.trim();
+        const stcw = document.getElementById('stcw').value.trim();
+        
+        const newDocumentFile = document.getElementById('document_files').files[0];
+        let documentFilesName = document.getElementById('prev_document_files').value.trim();
+    
+        // Upload new document file if it exists
+        if (newDocumentFile) {
+            const documentFormData = new FormData();
+            documentFormData.append('file', newDocumentFile);
+    
+            try {
+                const response = await axios.post('/upload4', documentFormData, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                documentFilesName = newDocumentFile.name;
+                console.log('Document file uploaded successfully');
+                alert('Document file uploaded successfully');
+            } catch (err) {
+                console.error('Error uploading document file:', err);
+                return;
             }
-            // Get the memId from localStorage
- 
-            // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-documents/${documentId}`, formData, {
-                headers: { "Authorization": token } // Replace with your authorization header
+        }
+    
+        // Prepare document details
+        const documentDetails = {
+            document: document,
+            document_number: documentNumber,
+            issue_date: issueDate,
+            issue_place: issuePlace,
+            document_files: documentFilesName,
+            stcw: stcw
+        };
+    
+        // Submit the form data
+        try {
+            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-documents/${documentId}`, documentDetails, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
             });
-
-            // Handle success
             console.log('Document data updated successfully:', response.data);
-            // You can perform additional actions here after a successful update
-
-            // Redirect to the destination page
-           
-
-            // Redirect to the destination page
             window.location.href = './add-c-document.html';
         } catch (error) {
-            // Handle error
             console.error('Error updating document data:', error);
-            // You can handle errors and display appropriate messages to the user
         }
-        
     });
+    
     
 });
 
