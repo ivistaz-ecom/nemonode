@@ -41,7 +41,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
         const decodedToken = decodeToken(token);
         const documentId = document.getElementById('doc_id').value;
     
-        const document = document.getElementById('documents').value.trim();
+        const documents = document.getElementById('documents').value.trim();
         const documentNumber = document.getElementById('document_number').value.trim();
         const issueDate = document.getElementById('issue_date').value.trim();
         const issuePlace = document.getElementById('issue_place').value.trim();
@@ -73,7 +73,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     
         // Prepare document details
         const documentDetails = {
-            document: document,
+            documents: documents,
             document_number: documentNumber,
             issue_date: issueDate,
             issue_place: issuePlace,
