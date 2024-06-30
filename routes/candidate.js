@@ -20,9 +20,9 @@ router.post('/kin-details/:id',userAuthentication.authenticate, candidateControl
 router.get('/get-nkd-details/:id',userAuthentication.authenticate, candidateControllers.get_NKDDetails);
 router.put('/update-nkd/:id',userAuthentication.authenticate, candidateControllers.update_NKDDetails);
 
-router.post('/hospital-details/:id',userAuthentication.authenticate, candidateControllers.add_hospitaldetails);
-router.get('/get-hospital-details/:id',userAuthentication.authenticate, candidateControllers.get_HospitalDetails);
-router.put('/update-c-hospital/:id',userAuthentication.authenticate, candidateControllers.update_HospitalDetails);
+router.post('/hospital-details/:id', candidateControllers.add_hospitaldetails);
+router.get('/get-hospital-details/:id', candidateControllers.get_HospitalDetails);
+router.put('/update-c-hospital/:id',candidateControllers.update_HospitalDetails);
 
 
 router.post('/travel-details/:id',userAuthentication.authenticate, candidateControllers.add_traveldetails);
