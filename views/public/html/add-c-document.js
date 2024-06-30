@@ -97,6 +97,8 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}'>Click here to view Document!</a></td>
+
                 <td>${doc.stcw}</td>
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
