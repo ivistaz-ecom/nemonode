@@ -2924,17 +2924,15 @@ const crewList = async (req, res) => {
         a.wages_types, a.sign_on, a.sign_off, a.eoc, 
         b.fname, b.lname, b.nationality, 
         c.id AS vesselId, b.category, e.company_name,
-        bd.* ,
-        r.rankOrder
+        bd.* -- Select all fields from the bank table
       FROM 
         contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-        JOIN Rank AS r ON a.rank = r.rank
       WHERE 
-        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on <= :endDate AND a.sign_off >= :endDate) )AND (a.sign_on <=: endDate)
+        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
     `;
   
     const replacements = { startDate, endDate };
@@ -2948,7 +2946,6 @@ const crewList = async (req, res) => {
       query += ' AND a.company = :company';
       replacements.company = company;
     }
-query += ' ORDER BY r.rankOrder ASC'; // Order by rankOrder in ascending order
   
     try {
       const results = await sequelize.query(query, {
@@ -2963,8 +2960,7 @@ query += ' ORDER BY r.rankOrder ASC'; // Order by rankOrder in ascending order
 };
 
   
-
-
+  
 
 
   const reliefPlan = async (req, res) => {
