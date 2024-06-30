@@ -352,7 +352,7 @@ function formatDate(dateString) {
     const vesselType = document.getElementById('editcontract_vesseltype').value.trim();
     const signOnPort = document.getElementById('editcontract_signonport').value.trim();
     const signOnDate = document.getElementById('editcontract_signon').value.trim();
-    const wageStart = document.getElementById('editcontract_wage_start').value.trim();
+    const wagesStart = document.getElementById('editcontract_wage_start').value.trim();
     const eoc = document.getElementById('editcontract_eoc').value.trim();
     const wages = document.getElementById('editcontract_wages').value.trim();
     const currency = document.getElementById('editcontract_currency').value.trim();
@@ -417,7 +417,7 @@ function formatDate(dateString) {
         vesselType,
         signOnPort,
         signOnDate,
-        wageStart,
+        wagesStart,
         eoc,
         wages,
         currency,
