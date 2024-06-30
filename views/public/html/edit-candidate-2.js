@@ -257,8 +257,9 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_company_status').value = candidateData.m_status;
         document.getElementById('edit_candidate_group').value = candidateData.category;
         document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
-        displayFileInput('edit_candidate_photos', candidateData.photos);
-        displayFileInput('edit_candidate_resume', candidateData.resume);
+        document.getElementById('edit_candidate_photos').value = candidateData.photos;
+        document.getElementById('edit_candidate_resume').value = candidateData.resume;
+
 
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
@@ -353,23 +354,69 @@ function displayFileInput(inputId, fileName) {
     }
 }
 
-const addcandidateButton = document.getElementById("edit-candidate-form");
-addcandidateButton.addEventListener("submit", async(e) =>{
-    e.preventDefault() // Prevent the default form submission behavior
+document.getElementById('edit-candidate-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const token = localStorage.getItem('token');
+    const candidateId = currentCandidateId
+    const newPhotoFile = document.getElementById('newPhoto').files[0];
+    const newResumeFile = document.getElementById('newRes').files[0];
+    let uploadedPhotoName = document.getElementById('edit_candidate_photos').value.trim();
+    let uploadedResumeName = document.getElementById('edit_candidate_resume').value.trim();
 
+    // Check if there's a new photo to upload
+    if (newPhotoFile) {
+        const photoFormData = new FormData();
+        photoFormData.append('file', newPhotoFile);
+        
+        try {
+            const photoUploadResponse = await axios.post('/upload1', photoFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            uploadedPhotoName = newPhotoFile.name;
+            console.log('Photo uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading photo:', err);
+            return;
+        }
+    }
+
+    // Check if there's a new resume to upload
+    if (newResumeFile) {
+        const resumeFormData = new FormData();
+        resumeFormData.append('file', newResumeFile);
+        
+        try {
+            const resumeUploadResponse = await axios.post('/upload3', resumeFormData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            uploadedResumeName = newResumeFile.name;
+            console.log('Resume uploaded successfully');
+        } catch (err) {
+            console.error('Error uploading resume:', err);
+            return;
+        }
+    }
+
+    // Collect form data
     const candidate_details = {
         fname: document.getElementById('edit_candidate_fname').value || null,
         lname: document.getElementById('edit_candidate_lname').value || null,
         c_rank: document.getElementById('edit_candidate_c_rank').value || null,
-        avb_date:avbDate || null,
-        
+        avb_date: avbDate || null,
         nationality: document.getElementById('edit_candidate_nationality').value || null,
-        company_status: document.getElementById('edit_candidate_company_status').value|| null,
+        company_status: document.getElementById('edit_candidate_company_status').value || null,
         dob: document.getElementById('edit_candidate_dob').value || null,
         birth_place: document.getElementById('edit_candidate_birth_place').value || null,
         work_nautilus: document.getElementById('edit_candidate_work_nautilus').value || null,
         c_vessel: document.getElementById('edit_candidate_c_vessel').value || null,
-        experience: document.getElementById('edit_candidate_experience').value|| null,
+        experience: document.getElementById('edit_candidate_experience').value || null,
         zone: document.getElementById('edit_candidate_zone').value || null,
         grade: document.getElementById('edit_candidate_grade').value || null,
         boiler_suit_size: document.getElementById('edit_candidate_boiler_suit_size').value || null,
@@ -381,8 +428,8 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         m_status: document.getElementById('edit_company_status').value || null,
         group: document.getElementById('edit_candidate_group').value || '',
         vendor: document.getElementById('edit_candidate_vendor').value || '',
-        photos: document.getElementById('edit_candidate_photos').value || null,
-        resume: document.getElementById('edit_candidate_resume').value || null,
+        photos: uploadedPhotoName,
+        resume: uploadedResumeName,
         c_ad1: document.getElementById('edit_candidate_c_ad1').value || null,
         c_city: document.getElementById('edit_candidate_city').value || null,
         c_state: document.getElementById('edit_candidate_c_state').value || null,
@@ -397,7 +444,6 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         c_mobi2: document.getElementById('edit_candidate_c_mobi2').value || null,
         c_tel2: document.getElementById('edit_candidate_c_tel2').value || null,
         email2: document.getElementById('edit_candidate_email2').value || null,
-        
         active_details: document.getElementById('edit_candidate_active_details').value || 0,
         area_code1: document.getElementById('edit_candidate_area_code1').value || '',
         area_code2: document.getElementById('edit_candidate_area_code2').value || '',
@@ -431,21 +477,24 @@ addcandidateButton.addEventListener("submit", async(e) =>{
         skype: document.getElementById('edit_candidate_skype').value || '',
         stcw: document.getElementById('edit_candidate_stcw').value || 0,
         vendor_id: document.getElementById('edit_candidate_vendor_id').value || '',
-        us_visa:document.getElementById('edit_candidate_us_visa').value || ''
-        
-      };
+        us_visa: document.getElementById('edit_candidate_us_visa').value || ''
+    };
+
     try {
-        const serverResponse = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, candidate_details,{headers:{"Authorization":token}});
-        console.log('Response:', serverResponse.data);
-        alert("Candidate Added Successfully!");
-        window.location.href="./edit-candidate.html"
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${candidateId}`, candidate_details, {
+            headers: {
+                'Authorization': token
+            }
+        });
+        console.log('Response:', response.data);
+        alert('Candidate Updated Successfully!');
+        window.location.href = './edit-candidate.html';
     } catch (error) {
-        console.error('Error:', error);
-        // Handle error as needed
+        console.error('Error updating candidate:', error);
     }
-    console.log(candidate_details);
-    // Now you can use axios to send the data to the server if needed
 });
+
+
 
 
 
