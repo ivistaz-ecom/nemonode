@@ -58,6 +58,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
                 <td>${hospital.upload}</td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/medical/${hospital.upload}'>Click here to view Document!</a></td>
+
                 <td>${hospital.created_by}</td>
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editMedical('${hospital.id}', '${hospital.hospitalName}', '${hospital.place}', '${hospital.date}', '${hospital.expiry_date}', '${hospital.done_by}', '${hospital.status}', '${hospital.amount}', '${hospital.upload}','${hospital.created_by}')">
