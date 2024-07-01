@@ -580,37 +580,17 @@ const create_exp = async (req, res) => {
   }
 };
 //rank 
-const create_rank = async (req, res) => {
-  const { rank, rankOrder, category,eval_type } = req.body;
-
+async function create_rank(req, res) {
   try {
-    const userId = req.user.id;
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const userGroup = user.userGroup;
-    const isWritePermission = user.Write;
-
-    if (userGroup === 'admin' || (userGroup === 'vendor' && isWritePermission)) {
-      const newRank = await Rank.create({
-        rank,
-        rankOrder,
-        category,
-        eval_type
-      });
-
-      return res.json({ message: 'Rank created successfully', rank: newRank });
-    } else {
-      return res.status(403).json({ message: 'Not authorized to create a rank' });
-    }
+      const { rank, rankOrder, category, eval_type } = req.body;
+      const newRank = await Rank.create({ rank, rankOrder, category, eval_type });
+      res.status(201).send(newRank);
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error creating rank:', error);
+      res.status(500).send({ error: 'Internal server error' });
   }
-};
+}
+
 const view_rank = async (req, res) => {
   try {
     const userId = req.user.id;
