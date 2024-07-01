@@ -109,6 +109,7 @@ document.getElementById('exportCandidatesButton').addEventListener('click', asyn
             }
 
             const candidatesData = response.data.candidates;
+            console.log(candidatesData)
             exportToExcel(candidatesData);
         } catch (error) {
             console.error('Error exporting candidates data:', error.message);
@@ -125,22 +126,6 @@ const exportToExcel = (data) => {
     XLSX.writeFile(workbook, 'candidates.xlsx');
 };
 
-const handleGenerateAllCandidatesReport = async () => {
-    try {
-        const endpoint = 'https://nemo.ivistaz.co/candidate/view-candidate';
-        const token = localStorage.getItem('token');
-        const response = await axios.get(endpoint, { headers: { "Authorization": token } });
-
-        if (!response.data || !response.data.candidates) {
-            throw new Error('Error fetching candidates data');
-        }
-
-        const candidatesData = response.data.candidates;
-        renderTable(candidatesData);
-    } catch (error) {
-        console.error('Error generating report:', error.message);
-    }
-};
 
     </script>
     
