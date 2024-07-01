@@ -1,7 +1,7 @@
 const Vessel = require("../models/vessel")
 const VSL = require("../models/VSL")
 const Experience = require("../models/experience")
-const Rank = require("../models/rank")
+const Rank = require("../models/ranks")
 const Grade = require("../models/grade")
 const Port = require("../models/port")
 const PortAgent = require("../models/port_agent")
@@ -599,6 +599,7 @@ const create_rank = async (req, res) => {
         rank,
         rankOrder,
         category,
+        eval_type:null
       });
 
       return res.json({ message: 'Rank created successfully', rank: newRank });
