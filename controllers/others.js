@@ -599,6 +599,7 @@ const create_rank = async (req, res) => {
         rank,
         rankOrder,
         category,
+        eval_type:null
       });
 
       return res.json({ message: 'Rank created successfully', rank: newRank });
