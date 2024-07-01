@@ -1636,7 +1636,7 @@ const delete_discussionplus = async (req, res) => {
 
 
 const reportAll = async(req,res)=>{
-    const id = req.params.id;
+    const id = req.user.id;
     try{
         const user = User.findByPk(id)
         let reportAccess = user.dataValues.reports_all
