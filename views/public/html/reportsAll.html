@@ -100,7 +100,7 @@ console.log(decodedToken, permission);
 document.getElementById('exportCandidatesButton').addEventListener('click', async () => {
     if (permission) {
         try {
-            const endpoint = 'https://nemo.ivistaz.co/candidate/view-candidate';
+            const endpoint = 'https://nemo.ivistaz.co/candidate/reportsAll';
             const token = localStorage.getItem('token');
             const response = await axios.get(endpoint, { headers: { "Authorization": token } });
 
