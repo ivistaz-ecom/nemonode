@@ -1636,9 +1636,10 @@ const delete_discussionplus = async (req, res) => {
 
 
 const reportAll = async(req,res)=>{
-    const id = req.user.id;
+    const id = req.user.userId;
     try{
         const user = User.findByPk(id)
+        console.log(user)
         let reportAccess = user.dataValues.reports_all
         let userGroup = user.dataValues.userGroup
         let allCandidates;
