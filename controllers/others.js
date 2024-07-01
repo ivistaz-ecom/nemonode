@@ -581,7 +581,7 @@ const create_exp = async (req, res) => {
 };
 //rank 
 const create_rank = async (req, res) => {
-  const { rank, rankOrder, category } = req.body;
+  const { rank, rankOrder, category,eval_type } = req.body;
 
   try {
     const userId = req.user.id;
@@ -599,7 +599,7 @@ const create_rank = async (req, res) => {
         rank,
         rankOrder,
         category,
-        eval_type:null
+        eval_type
       });
 
       return res.json({ message: 'Rank created successfully', rank: newRank });
