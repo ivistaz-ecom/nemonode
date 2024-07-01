@@ -1636,10 +1636,10 @@ const delete_discussionplus = async (req, res) => {
 
 
 const reportAll = async(req,res)=>{
-    const userId = req.user.id;
+    const id = req.params.id;
     try{
-        const user = User.findByPk(userId)
-        console.log(user)
+        const user = await User.findByPk(id)
+        console.log("hello",user)
         let reportAccess = user.dataValues.reports_all
         let userGroup = user.dataValues.userGroup
         let allCandidates;
@@ -1650,7 +1650,7 @@ const reportAll = async(req,res)=>{
             // If the user is not an admin, fetch candidates associated with the user with pagination
             allCandidates = await Candidate.findAll({
                 where: {
-                    userId: userId,
+                    userId: id,
                 },
             });
         }
