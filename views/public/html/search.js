@@ -154,7 +154,7 @@ function populateTable(results) {
   // Iterate over results and append rows to the table
   results.forEach(result => {
     const row = document.createElement('tr');
-    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
+    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob','email1','resume'];
 
     fieldsToDisplay.forEach(field => {
       const cell = document.createElement('td');
@@ -420,7 +420,7 @@ function viewCandidate(candidateId) {
       // Iterate over results and append rows to the table
       results.forEach(result => {
         const row = document.createElement('tr');
-        const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob','email1'];
+        const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob','email1','resume'];
     
         fieldsToDisplay.forEach(field => {
           const cell = document.createElement('td');
