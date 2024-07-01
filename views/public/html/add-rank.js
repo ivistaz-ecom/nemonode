@@ -4,12 +4,14 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
     const rank = document.getElementById("rank").value.trim();
     const rankOrder = document.getElementById("rank_order").value.trim();
     const category = document.getElementById("category").value.trim();
+    const eval_type = document.getElementById("eval_type").value.trim();
 
     try {
         const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-rank", {
             rank,
             rankOrder,
             category,
+            eval_type
         },{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
     } catch (error) {
