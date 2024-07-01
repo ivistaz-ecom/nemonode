@@ -100,9 +100,9 @@ console.log(decodedToken, permission);
 document.getElementById('exportCandidatesButton').addEventListener('click', async () => {
     if (permission) {
         try {
-            const endpoint = 'https://nemo.ivistaz.co/candidate/reportsAll';
+            
             const token = localStorage.getItem('token');
-            const response = await axios.get(endpoint, { headers: { "Authorization": token } });
+            const response = await axios.get('https://nemo.ivistaz.co/candidate/reportsAll', { headers: { "Authorization": token } });
 
             if (!response.data || !response.data.candidates) {
                 throw new Error('Error fetching candidates data');
