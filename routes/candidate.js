@@ -55,7 +55,7 @@ router.post("/login", candidateControllers.login)
 
 router.get("/get-c-candidate/:id", candidateControllers.get_candidate)
 router.put("/update-c-candidate/:id", candidateControllers.edit_candidate)
-router.get('/reportsAll',userAuthentication.authenticate,candidateControllers.reportAll)
+router.get('/reportsAll/:id',userAuthentication.authenticate,candidateControllers.reportAll)
 router.get('/expiry-date/:id', userAuthentication.authenticate, candidateControllers.checkExpiry);
 router.get('/reminder', candidateControllers.Reminder)
 
