@@ -115,7 +115,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}'>Click here to view!</a></td>
 
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
