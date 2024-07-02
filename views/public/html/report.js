@@ -6549,7 +6549,7 @@ function getBadgeColor(status) {
 function handleView(id) {
     alert(`View button clicked for candidateId ${id}`);
     localStorage.setItem('memId', id);
-    window.location.href = './view-candidate.html';
+    window.open('./view-candidate.html', '_blank');
 }
 
 document.getElementById('getData').addEventListener('click', async () => {
@@ -6874,7 +6874,7 @@ function formatDate(dateString) {
   // Function to handle viewing a candidate
   function viewCandidate(candidateId) {
       localStorage.setItem('memId', candidateId);
-      window.location.href = './view-candidate.html';
+      window.open('./view-candidate.html', '_blank');
   }
   
   // Function to update pagination info

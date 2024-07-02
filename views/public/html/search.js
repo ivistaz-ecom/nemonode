@@ -305,7 +305,7 @@ async function fetchDiscussions(candidateId) {
 
 function viewCandidate(candidateId) {
   localStorage.setItem('memId', candidateId);
-  window.location.href = './view-candidate.html';
+  window.open('./view-candidate.html', '_blank');
 }
 
   
