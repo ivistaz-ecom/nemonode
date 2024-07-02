@@ -381,12 +381,14 @@ function viewCandidate(candidateId) {
     }
     
     function handleView(candidateId) {
-        console.log(`View button clicked for candidateId ${candidateId}`);
-        // Add your view logic here
-          localStorage.setItem('memId', candidateId);
-          window.location.href = './view-candidate.html';
+      console.log(`View button clicked for candidateId ${candidateId}`);
+      // Add your view logic here
+      localStorage.setItem('memId', candidateId);
       
-    }
+      // Open the page in a new tab
+      window.open('./view-candidate.html', '_blank');
+  }
+  
     
       
     
