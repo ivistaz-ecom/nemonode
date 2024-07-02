@@ -225,14 +225,16 @@ function viewCandidate(candidateId) {
 function editCandidate(memId) {
     console.log('memId:', memId);
     localStorage.setItem('memId', memId);
-    const canEdit = decodedToken.Write;
+    const canEdit = decodedToken.Write; // Assuming decodedToken is globally accessible
+
     if (canEdit) {
         console.log('Edited:', memId);
-        window.location.href = `./edit-candidate-2.html?memId=${memId}`;
+        window.open(`./edit-candidate-2.html?memId=${memId}`, '_blank'); // Open in new tab
     } else {
         alert('You do not have permission to edit this candidate.');
     }
 }
+
 
 document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message

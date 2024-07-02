@@ -822,10 +822,11 @@
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(atob(base64));
 }
-                function editSeaService(id) {
-                    // Redirect to seaserviceedit.html with the ID parameter
-                    window.location.href = `seaserviceedit.html?memId=${id}`;
-                }
+function editSeaService(id) {
+    // Open seaserviceedit.html in a new tab with the ID parameter
+    window.open(`seaserviceedit.html?memId=${id}`, '_blank');
+}
+
                 const token = localStorage.getItem('token')
                 const decodedToken = decodeToken(token)
     const createdBy = document.getElementById('createdBy');

@@ -261,18 +261,22 @@ async function fetchAndDisplayCrewPlannerDetails() {
 }
 
 
-function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, trading, wages, doj, otherInfo, status,created_by, event) {
+function editCrewPlanner(id, rank, client, vesselType, vesselName, cocAccepted, trading, wages, doj, otherInfo, status, created_by, event) {
     event.preventDefault();
     console.log('Edit clicked for crew planner ID:', id);
     
-    // Encode parameters
+    // Encode parameters to handle special characters
     rank = encodeURIComponent(rank);
     client = encodeURIComponent(client);
     vesselType = encodeURIComponent(vesselType);
     vesselName = encodeURIComponent(vesselName);
-    
-    window.location.href = `edit-crew-planner.html?id=${id}&rank=${rank}&client=${client}&vesselType=${vesselType}&vesselName=${vesselName}&cocAccepted=${cocAccepted}&trading=${trading}&wages=${wages}&doj=${doj}&otherInfo=${otherInfo}&status=${status}&created_by=${created_by}`; // Include all parameters
-    // ...
+    otherInfo = encodeURIComponent(otherInfo);
+
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&rank=${rank}&client=${client}&vesselType=${vesselType}&vesselName=${vesselName}&cocAccepted=${cocAccepted}&trading=${trading}&wages=${wages}&doj=${doj}&otherInfo=${otherInfo}&status=${status}&created_by=${created_by}`;
+
+    // Open edit-crew-planner.html in a new tab with the constructed query parameters
+    window.open(`edit-crew-planner.html${queryParams}`, '_blank');
 }
 
 

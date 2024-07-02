@@ -132,12 +132,17 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card,branch, event) {
-event.preventDefault();
+function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, event) {
+    event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
-    window.location.href = `edit-c-bank.html?id=${id}&bank_name=${bank_name}&account_num=${account_num}&bank_addr=${bank_addr}&ifsc_code=${ifsc_code}&swift_code=${swift_code}&beneficiary=${beneficiary}&beneficiary_addr=${beneficiary_addr}&pan_num=${pan_num}&passbook=${passbook}&pan_card=${pan_card}&branch=${branch}`;
-    // ...
+
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}`;
+
+    // Open edit-c-bank.html in a new tab with query parameters
+    window.open(`edit-c-bank.html${queryParams}`, '_blank');
 }
+
 
 
 function deleteBank(bankId) {
@@ -194,9 +199,14 @@ async function fetchAndDisplayTravelDetails(candidateId) {
 function editTravel(id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, event) {
     event.preventDefault();
     console.log('Edit clicked for travel ID:', id);
-    window.location.href = `edit-c-travel.html?id=${id}&travel_date=${travel_date}&travel_from=${travel_from}&travel_to=${travel_to}&travel_mode=${travel_mode}&travel_status=${travel_status}&ticket_number=${ticket_number}&agent_name=${agent_name}&portAgent=${portAgent}&travel_amount=${travel_amount}`; // Include all parameters
-    // ...
+
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}`;
+
+    // Open edit-c-travel.html in a new tab with query parameters
+    window.open(`edit-c-travel.html${queryParams}`, '_blank');
 }
+
 
 // ... At the end of your JavaScript code
 async function deleteTravel(travelId) {
@@ -322,8 +332,14 @@ const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, s
     event.preventDefault();
     console.log(id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile);
 
-    // Update the URL parameters to match the expected parameter names in the edit-c-medicals.html page
-    window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${formatDate(expiryDate)}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${uploadFile}`;
+    // Format the expiryDate parameter using formatDate function if needed
+    const formattedExpiryDate = formatDate(expiryDate); // Assuming formatDate function is defined and formats the date appropriately
+
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(formattedExpiryDate)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(uploadFile)}`;
+
+    // Open edit-c-medicals.html in a new tab with query parameters
+    window.open(`edit-c-medicals.html${queryParams}`, '_blank');
 };
 
 
@@ -405,13 +421,16 @@ function getPriorityClass(priority) {
 
 
 function editNkd(id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
-    // Your edit logic here, you can open a modal or navigate to an edit page
     console.log(`Editing NKD with ID: ${id}`);
 
-    window.location.href = `edit-c-nkd.html?id=${id}&kinName=${kinName}&kinRelation=${kinRelation}&kinContactNumber=${kinContactNumber}&kinContactAddress=${kinContactAddress}&kinPriority=${kinPriority}`;
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
 
-    // Populate the edit form with the provided details if needed
+    // Open edit-c-nkd.html in a new tab with query parameters
+    window.open(`edit-c-nkd.html${queryParams}`, '_blank');
 }
+
+
 
 
 // Function to delete NKD entry
@@ -557,11 +576,10 @@ const resumeName = candidateData.resume;
 
 const prevPhotoButton = document.getElementById('prevPhoto');
 const prevResButton = document.getElementById('prevRes');
-
 if (photoName) {
     prevPhotoButton.value = photoName;
     prevPhotoButton.onclick = function() {
-        window.location.href = `https://nemo.ivistaz.co/views/public/files/photos/${photoName}`;
+        window.open(`https://nemo.ivistaz.co/views/public/files/photos/${photoName}`, '_blank');
     };
 } else {
     prevPhotoButton.value = 'No photo available';
@@ -573,7 +591,7 @@ if (photoName) {
 if (resumeName) {
     prevResButton.value = resumeName;
     prevResButton.onclick = function() {
-        window.location.href = `https://nemo.ivistaz.co/views/public/files/resume/${resumeName}`;
+        window.open(`https://nemo.ivistaz.co/views/public/files/resume/${resumeName}`, '_blank');
     };
 } else {
     prevResButton.value = 'No resume available';
@@ -581,6 +599,7 @@ if (resumeName) {
         alert('No resume available');
     };
 }
+
 
         document.getElementById('edit_candidate_c_ad1').value = candidateData.c_ad1;
         document.getElementById('edit_candidate_city').value = candidateData.c_city;
@@ -681,11 +700,15 @@ document.getElementById('view-candidate-form').addEventListener('submit', functi
 
 
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
-    // Redirect to the edit-c-document.html page with parameters
+    // Retrieve memId from localStorage
     const memId = localStorage.getItem('memId');
-    window.location.href = `./edit-c-document.html?memId=${memId}&documentId=${documentId}&documents=${documents}&documentNumber=${documentNumber}&issueDate=${issueDate}&issuePlace=${issuePlace}&documentFiles=${documentFiles}&stcw=${stcw}`;
-}
 
+    // Construct the query parameters string
+    const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
+
+    // Open edit-c-document.html in a new tab with query parameters
+    window.open(`./edit-c-document.html${queryParams}`, '_blank');
+}
 
 function updateDateTime() {
     const dateTimeElement = document.getElementById('datetime');
@@ -811,13 +834,17 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
 
 
-function editContract (id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa,event){
+function editContract(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, event) {
     event.preventDefault();
-    console.log(id,rank,company,vslName,vesselType,sign_on_port,sign_on,wage_start,eoc,wages,currency,wages_types,sign_off,sign_off_port,reason_for_sign_off,aoa_number,emigrate_number,documents,aoa)
-        window.location.href = `edit-c-contract.html?id=${id}&rank=${rank}&company=${company}&vslName=${vslName}&vesselType=${vesselType}&sign_on_port=${sign_on_port}&sign_on=${sign_on}&wage_start=${wage_start}&eoc=${eoc}&wages=${wages}&currency=${currency}&wages_types=${wages_types}&sign_off=${sign_off}&sign_off_port=${sign_off_port}&reason_for_sign_off=${reason_for_sign_off}&aoa_number=${aoa_number}&emigrate_number=${emigrate_number}&documents=${documents}&aoa=${aoa}`; // Include all parameters
-      
+    console.log(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa);
 
+    // Construct the query parameters string
+    const queryParams = `?id=${id}&rank=${encodeURIComponent(rank)}&company=${encodeURIComponent(company)}&vslName=${encodeURIComponent(vslName)}&vesselType=${encodeURIComponent(vesselType)}&sign_on_port=${encodeURIComponent(sign_on_port)}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(wage_start)}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(wages)}&currency=${encodeURIComponent(currency)}&wages_types=${encodeURIComponent(wages_types)}&sign_off=${encodeURIComponent(sign_off)}&sign_off_port=${encodeURIComponent(sign_off_port)}&reason_for_sign_off=${encodeURIComponent(reason_for_sign_off)}&aoa_number=${encodeURIComponent(aoa_number)}&emigrate_number=${encodeURIComponent(emigrate_number)}&documents=${encodeURIComponent(documents)}&aoa=${encodeURIComponent(aoa)}`;
+
+    // Open edit-c-contract.html in a new tab with query parameters
+    window.open(`edit-c-contract.html${queryParams}`, '_blank');
 }
+
 function deleteContract(id) {
     console.log('deleted',id)
 }
@@ -919,9 +946,10 @@ async function deleteSeaService(id) {
 }
 
 function editSeaService(id) {
-    // Redirect to seaservice.html with the ID parameter
-    window.location.href = `seaserviceedit.html?memId=${id}`;
+    // Open seaserviceedit.html in a new tab with the ID parameter
+    window.open(`seaserviceedit.html?memId=${id}`, '_blank');
 }
+
 
 async function fetchAndDisplayDiscussions(candidateId) {
     try {
