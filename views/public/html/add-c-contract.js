@@ -334,7 +334,7 @@ async function handleContractForm(event) {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response.data);
+        alert('Contract added successfully!');
         await fetchAndDisplayContractDetails(candidateId);
         document.getElementById('contractForm').reset();
     } catch (err) {
