@@ -692,7 +692,7 @@ else{
 
 app.post('/searchspl', async (req, res) => {
     try {
-        const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, fromAge, toAge } = req.body;
+        const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, fromAge, toAge, c_mobi1,email1 } = req.body;
         const searchCriteria = {};
 
         if (nemoId) {
@@ -724,6 +724,12 @@ app.post('/searchspl', async (req, res) => {
         }
         if (group) {
             searchCriteria.group = group;
+        }
+        if(c_mobi1){
+            searchCriteria.c_mobi1=c_mobi1
+        }
+        if(email1){
+            searchCriteria.email1=email1
         }
         if (avb_date && las_date) {
             searchCriteria.avb_date = {
