@@ -771,7 +771,7 @@ function handleView(id) {
     alert(`View button clicked for candidateId ${id}`);
     // Add your view logic here
     localStorage.setItem('memId', id);
-    window.location.href = './view-candidate.html';
+    window.open('./view-candidate.html', '_blank');
 }
 
 
