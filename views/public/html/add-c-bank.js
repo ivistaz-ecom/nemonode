@@ -130,12 +130,15 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card,branch,types,created_by, event) {
-event.preventDefault();
+function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, types, created_by, event) {
+    event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
-    window.location.href = `edit-c-bank.html?id=${id}&bank_name=${bank_name}&account_num=${account_num}&bank_addr=${bank_addr}&ifsc_code=${ifsc_code}&swift_code=${swift_code}&beneficiary=${beneficiary}&beneficiary_addr=${beneficiary_addr}&pan_num=${pan_num}&passbook=${passbook}&pan_card=${pan_card}&branch=${branch}&types=${types}&created_by=${created_by}`; // Include all parameters
-    // ...
+
+    const queryParams = `?id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}&types=${encodeURIComponent(types)}&created_by=${encodeURIComponent(created_by)}`;
+
+    window.open(`edit-c-bank.html${queryParams}`, '_blank');
 }
+
 
 
 function deleteBank(bankId) {

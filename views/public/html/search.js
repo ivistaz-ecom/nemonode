@@ -365,20 +365,21 @@ function viewCandidate(candidateId) {
   const decodedToken = decodeToken(token);
   
     
-    function handleEdit(candidateId) {
-        console.log(`Edit button clicked for candidateId ${candidateId}`);
-          console.log('memId:', candidateId);
-          localStorage.setItem('memId',candidateId);
-          const canEdit = decodedToken.Write;
-          if (canEdit) {
-              console.log('Edited:', candidateId);
-              window.location.href = `./edit-candidate-2.html?memId=${candidateId}`;
-              // Add your logic for editing here
-          } else {
-              alert('You do not have permission to edit this candidate.');
-          }
-      
+function handleEdit(candidateId) {
+    console.log(`Edit button clicked for candidateId ${candidateId}`);
+    
+    localStorage.setItem('memId', candidateId);
+    
+    const canEdit = decodedToken.Write;
+    if (canEdit) {
+        console.log('Edited:', candidateId);
+        window.open(`./edit-candidate-2.html?memId=${candidateId}`, '_blank');
+        // Add your logic for editing here
+    } else {
+        alert('You do not have permission to edit this candidate.');
     }
+}
+
     
     function handleView(candidateId) {
       console.log(`View button clicked for candidateId ${candidateId}`);
