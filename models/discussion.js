@@ -11,6 +11,7 @@ const Discussion = sequelize.define('discussion', {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
+    
     join_date: {
         type: DataTypes.DATE,
         allowNull: true,
