@@ -55,6 +55,8 @@ return decodedToken.userGroup
     const group = document.getElementById('groupSearch').value;
     const fromAge = document.getElementById('fromAge').value.trim();
     const toAge = document.getElementById('toAge').value.trim();
+    const c_mobi1 = document.getElementById('c_mobi1').value.trim();
+    const email1 = document.getElementById('email1').value.trim();
 
     // Prepare data for the POST request
     const searchData = {
@@ -69,7 +71,9 @@ return decodedToken.userGroup
         las_date: availableTo,
         license: license,
         zone: zone,
-        group: group
+        group: group,
+        c_mobi1:c_mobi1,
+        email1:email1
     };
 
     // Add age range if provided
