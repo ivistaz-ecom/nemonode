@@ -160,13 +160,16 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
 
     function editNkd(id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
-        // Your edit logic here, you can open a modal or navigate to an edit page
+        // Log to console for debugging
         console.log(`Editing NKD with ID: ${id}`);
     
-        window.location.href = `edit-c-nkd.html?id=${id}&kinName=${kinName}&kinRelation=${kinRelation}&kinContactNumber=${kinContactNumber}&kinContactAddress=${kinContactAddress}&kinPriority=${kinPriority}`;
+        // Construct the query parameters string
+        const queryParams = `?id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
     
-        // Populate the edit form with the provided details if needed
+        // Open edit-c-nkd.html in a new tab with the constructed query parameters
+        window.open(`edit-c-nkd.html${queryParams}`, '_blank');
     }
+    
     
     
     // Function to delete NKD entry

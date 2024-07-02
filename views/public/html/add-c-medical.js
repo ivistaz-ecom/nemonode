@@ -217,14 +217,17 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
 
     });
-    function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload,created_by) {
-        // You can use this function to perform any actions needed for editing
+    function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload, created_by) {
+        // Log to console for debugging
         console.log('Edit clicked for medical ID:', id);
     
-        // You can modify this part to send the data to the server for editing
-        // Example: Redirect to an edit page with parameters
-        window.location.href = `edit-c-medicals.html?id=${id}&hospitalName=${hospitalName}&place=${place}&date=${date}&expiry_date=${expiry_date}&done_by=${done_by}&status=${status}&amount=${amount}&upload=${upload}&created_by=${created_by}`;
+        // Construct the query parameters string
+        const queryParams = `?id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(expiry_date)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(upload)}&created_by=${encodeURIComponent(created_by)}`;
+    
+        // Open edit-c-medicals.html in a new tab with the constructed query parameters
+        window.open(`edit-c-medicals.html${queryParams}`, '_blank');
     }
+    
 
     document.getElementById("logout").addEventListener("click", function() {
         // Display the modal with initial message

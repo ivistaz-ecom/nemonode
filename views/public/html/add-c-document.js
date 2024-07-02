@@ -123,8 +123,11 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Redirect to the edit-c-document.html page with parameters
     const memId = localStorage.getItem('memId');
-    window.location.href = `./edit-c-document.html?memId=${memId}&documentId=${documentId}&documents=${documents}&documentNumber=${documentNumber}&issueDate=${issueDate}&issuePlace=${issuePlace}&documentFiles=${documentFiles}&stcw=${stcw}`;
+    const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
+
+    window.open(`./edit-c-document.html${queryParams}`, '_blank');
 }
+
 
 
 // Delete document function
