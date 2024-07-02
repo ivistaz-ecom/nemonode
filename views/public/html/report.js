@@ -6547,7 +6547,6 @@ function getBadgeColor(status) {
 }
 
 function handleView(id) {
-    alert(`View button clicked for candidateId ${id}`);
     localStorage.setItem('memId', id);
     window.open('./view-candidate.html', '_blank');
 }
