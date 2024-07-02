@@ -743,6 +743,7 @@ async function populateCandidatesTable() {
         candidates.forEach(candidate => {
             const row = document.createElement('tr');
             row.innerHTML = `
+              <td>${candidate.candidateId}</td>
                 <td>${candidate.fname}</td>
                 <td>${candidate.c_rank}</td>
                 <td>${formatDate(candidate.avb_date)}</td>
@@ -768,7 +769,6 @@ function formatDate(date) {
 // Function to handle the "View" button click
 // Function to handle the "View" button click
 function handleView(id) {
-    alert(`View button clicked for candidateId ${id}`);
     // Add your view logic here
     localStorage.setItem('memId', id);
     window.open('./view-candidate.html', '_blank');
