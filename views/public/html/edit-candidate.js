@@ -217,8 +217,10 @@ function formatDate(dateString) {
 
 function viewCandidate(candidateId) {
     localStorage.setItem('memId', candidateId);
-    window.location.href = './view-candidate.html';
+    // Open the link in a new window
+    window.open('./view-candidate.html', '_blank');
 }
+
 
 function editCandidate(memId) {
     console.log('memId:', memId);
