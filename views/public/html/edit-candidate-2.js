@@ -488,7 +488,6 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
         });
         console.log('Response:', response.data);
         alert('Candidate Updated Successfully!');
-        window.location.href = './view-candidate.html';
     } catch (error) {
         console.error('Error updating candidate:', error);
     }
