@@ -4479,8 +4479,10 @@ function exportToExcel5(contracts) {
 
 function viewCandidate(candidateId) {
     localStorage.setItem('memId', candidateId);
-    window.location.href = './view-candidate.html';
+    // Open the link in a new window
+    window.open('./view-candidate.html', '_blank');
 }
+
 
 // Function to calculate age based on date of birth
 function calculateAge(dob) {

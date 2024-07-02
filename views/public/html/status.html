@@ -712,8 +712,10 @@ function exportToExcel(table, status) {
 }
 function viewCandidate(candidateId) {
     localStorage.setItem('memId', candidateId);
-    window.location.href = './view-candidate.html';
+    // Open the link in a new window
+    window.open('./view-candidate.html', '_blank');
 }
+
 
     // Call insertData function to insert the example data
     async function createCompanyDropdown() {
