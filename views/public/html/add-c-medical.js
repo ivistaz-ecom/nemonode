@@ -58,7 +58,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
                 <td>${hospital.upload}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/uploads/medical/${hospital.upload}'>Click here to view Document!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${hospital.created_by}</td>
                 <td>

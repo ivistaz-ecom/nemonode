@@ -97,7 +97,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}'>Click here to view Document!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${doc.stcw}</td>
                 <td>

@@ -51,7 +51,7 @@ let index =1;
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}'>Click here to view!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
                 <td>${doc.stcw}</td>
                 <td>${doc.expiry_date}</td>
                 <td>
@@ -108,11 +108,11 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.swift_code}</td>
             <td>${bank.ifsc_code}</td>
             <td>${bank.passbook}</td>
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}'>Click here to view!</a></td>
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view!</a></td>
 
             <td>${bank.pan_num}</td>
             <td>${bank.pan_card}</td>
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}'>Click here to view!</a></td>
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view!</a></td>
 
             <td>
             <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
@@ -788,9 +788,9 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}'>Click here to view Document!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}'>Click here to view AOA!</a></td>
+                <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
                 <td>
                     <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
