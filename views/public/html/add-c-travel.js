@@ -166,12 +166,17 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     });
     
     
-    function editTravel(id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount,reason,created_by, event) {
+    function editTravel(id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, reason, created_by, event) {
         event.preventDefault();
         console.log('Edit clicked for travel ID:', id);
-        window.location.href = `edit-c-travel.html?id=${id}&travel_date=${travel_date}&travel_from=${travel_from}&travel_to=${travel_to}&travel_mode=${travel_mode}&travel_status=${travel_status}&ticket_number=${ticket_number}&agent_name=${agent_name}&portAgent=${portAgent}&travel_amount=${travel_amount}&reason=${reason}&created_by=${created_by}`; // Include all parameters
-        // ...
+    
+        // Construct the query parameters string
+        const queryParams = `?id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}&reason=${encodeURIComponent(reason)}&created_by=${encodeURIComponent(created_by)}`;
+    
+        // Open edit-c-travel.html in a new tab with the constructed query parameters
+        window.open(`edit-c-travel.html${queryParams}`, '_blank');
     }
+    
     
 
     document.getElementById("logout").addEventListener("click", function() {

@@ -62,10 +62,16 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 // Edit document function
 // Edit document function
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
-    // Redirect to the edit-c-document.html page with parameters
-    const memId = localStorage.getItem('cmemId');
-    window.location.href = `./edit-cDocuments2.html?memId=${memId}&documentId=${documentId}&documents=${documents}&documentNumber=${documentNumber}&issueDate=${issueDate}&issuePlace=${issuePlace}&documentFiles=${documentFiles}&stcw=${stcw}`;
+    // Retrieve memId from localStorage
+    const memId = localStorage.getItem('memId');
+
+    // Construct the query parameters string
+    const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
+
+    // Open edit-cDocuments2.html in a new tab with query parameters
+    window.open(`./edit-cDocuments2.html${queryParams}`, '_blank');
 }
+
 
 
 // Delete document function
