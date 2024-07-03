@@ -1105,6 +1105,8 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
                 email1: verloopData.emailid,
                 c_vessel: verloopData.shipsailed,
                 joined_date: verloopData.expectedjoiningdate,
+                nemo_source: 'c'
+
             });
             res.status(200).json({ message: 'Candidate updated successfully' });
         } else {
@@ -1117,6 +1119,8 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
                 email1: verloopData.emailid,
                 c_vessel: verloopData.shipsailed,
                 joined_date: verloopData.expectedjoiningdate,
+                nemo_source: 'c'
+
             });
             res.status(201).json({ message: 'Candidate created successfully' });
         }
