@@ -15,6 +15,11 @@ const userRoutes = require("./routes/user")
 const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
 
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+
+
 app.get('/home', (req, res) => {
     res.send('Dev Mode');
 });
@@ -876,7 +881,7 @@ const upload = multer({ storage: storage });
 const upload1 = multer({ storage: storage1 });
 const upload2 = multer({ storage: storage2 });
 const upload3 = multer({ storage: storage3,
-    limits: { fileSize: 5 * 1024 * 1024 } 
+    limits: { fileSize: 10 * 1024 * 1024 } 
  });
 const upload4 = multer({ storage: storage4 });
 const upload5 = multer({ storage: storage5 });
