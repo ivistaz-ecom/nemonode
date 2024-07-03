@@ -444,57 +444,65 @@ function handleEdit(candidateId) {
     
     // Function to show discussion popup inside a Bootstrap card
     
-    async function showDiscussionPopup(link, candidateId) {
-      try {
-        // Clear any existing timeout to prevent premature hiding
-        clearTimeout(discussionTimeout);
-    
-        // Replace with your logic to fetch and display discussions related to candidateId
-        const discussions = await fetchDiscussions(candidateId); // Example function to fetch discussions
-    
-        // Create Bootstrap card
-        const card = document.createElement('div');
-        card.className = 'card discussion-popup-card';
-    
-        // Card body
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card-body';
-    
-        // Header with candidate ID
-        const header = document.createElement('h5');
-        header.className = 'card-title';
-        header.textContent = `Discussions for Candidate ID: ${candidateId}`;
-        cardBody.appendChild(header);
-    
-        // Discussions content
-        discussions.forEach(discussion => {
-          const discussionItem = document.createElement('p');
-          discussionItem.className = 'card-text';
-          discussionItem.textContent = discussion;
-          cardBody.appendChild(discussionItem);
-        });
-    
-        card.appendChild(cardBody);
-    
-        // Position relative to the link
-        const linkRect = link.getBoundingClientRect();
-        const popupWidth = card.offsetWidth;
-        const popupHeight = card.offsetHeight;
-    
-        // Calculate position above and to the right of the link
-        const topPosition = linkRect.top + window.scrollY - popupHeight;
-        const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
-    
-        card.style.position = 'absolute';
-        card.style.top = `${topPosition}px`;
-        card.style.left = `${leftPosition}px`;
-    
-        // Append card to the body
-        document.body.appendChild(card);
-      } catch (error) {
-        console.error('Error showing discussion popup:', error);
-      }
-    }
+  // Function to show discussion popup inside a Bootstrap card
+async function showDiscussionPopup(link, candidateId) {
+  try {
+    // Clear any existing timeout to prevent premature hiding
+    clearTimeout(discussionTimeout);
+    hideAllDiscussionPopups(); // Ensure only one popup is open at a time
+
+    // Fetch discussions and created_date
+    const { discussions, createdDate } = await fetchDiscussions(candidateId);
+
+    // Create Bootstrap card
+    const card = document.createElement('div');
+    card.className = 'card discussion-popup-card';
+
+    // Card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Header with candidate ID and created_date
+    const header = document.createElement('h5');
+    header.className = 'card-title';
+    header.textContent = `Discussions for Candidate ID: ${candidateId} (Created: ${new Date(createdDate).toLocaleDateString()})`;
+    cardBody.appendChild(header);
+
+    // Discussions content
+    discussions.forEach(discussion => {
+      const discussionItem = document.createElement('p');
+      discussionItem.className = 'card-text';
+      discussionItem.textContent = discussion;
+      cardBody.appendChild(discussionItem);
+    });
+
+    card.appendChild(cardBody);
+
+    // Position relative to the link
+    const linkRect = link.getBoundingClientRect();
+    const popupWidth = card.offsetWidth;
+    const popupHeight = card.offsetHeight;
+
+    // Calculate position above and to the right of the link
+    const topPosition = linkRect.top + window.scrollY - popupHeight;
+    const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
+
+    card.style.position = 'absolute';
+    card.style.top = `${topPosition}px`;
+    card.style.left = `${leftPosition}px`;
+
+    // Append card to the body
+    document.body.appendChild(card);
+
+    // Set a timeout to hide the popup after 3 seconds
+    discussionTimeout = setTimeout(() => {
+      hideDiscussionPopup();
+    }, 3000);
+  } catch (error) {
+    console.error('Error showing discussion popup:', error);
+  }
+}
+
     
     // Function to hide discussion popup
     function hideDiscussionPopup() {
@@ -503,26 +511,32 @@ function handleEdit(candidateId) {
         card.remove();
       }
     }
+    function hideAllDiscussionPopups() {
+      const existingPopups = document.querySelectorAll('.discussion-popup-card');
+      existingPopups.forEach(popup => popup.remove());
+    }
     
     // Example function to fetch discussions (placeholder)
     async function fetchDiscussions(candidateId) {
       try {
-        // Replace with actual fetch logic from your data source
+        // Fetch discussions and created_date from your API
         const response = await axios.post(`https://nemo.ivistaz.co/candidate/hover-disc/${candidateId}`);
-        const discussions = response.data;
+        const discussionsData = response.data;
     
-        // Check if discussions is an array (or convert if necessary based on actual API response structure)
-        if (Array.isArray(discussions)) {
-          return discussions.map(discussion => discussion.discussion);
+        // Check if discussionsData has discussions and created_date
+        if (Array.isArray(discussionsData.discussions)) {
+          const discussions = discussionsData.discussions.map(discussion => discussion.discussion);
+          const createdDate = discussionsData.created_date; // Assuming created_date is available in discussionsData
+          return { discussions, createdDate };
         } else {
-          // If discussions is not an array, handle it accordingly
-          return [];
+          return { discussions: [], createdDate: null }; // Return empty discussions and null created_date if not found
         }
       } catch (error) {
         console.error('Error fetching discussions:', error);
-        return []; // Return an empty array or handle the error as needed
+        return { discussions: [], createdDate: null }; // Return empty discussions and null created_date on error
       }
     }
+    
     
 
 
