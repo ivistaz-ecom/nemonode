@@ -2938,6 +2938,7 @@ const crewList = async (req, res) => {
         JOIN vsls AS c ON a.vslName = c.id
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
+        LEFT JOIN ranks AS r ON a.rank = r.rank
       WHERE 
         ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
          (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
@@ -2956,6 +2957,8 @@ const crewList = async (req, res) => {
       query += ' AND a.company = :company';
       replacements.company = company;
     }
+  
+    query += '  ORDER BY r.rankOrder ASC';
   
     try {
       const results = await sequelize.query(query, {
