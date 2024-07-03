@@ -822,6 +822,8 @@ const storage3 = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
+
+
 const storage4 = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '/var/www/html/nemonode/views/public/files');
@@ -873,7 +875,9 @@ const storage9 = multer.diskStorage({
 const upload = multer({ storage: storage });
 const upload1 = multer({ storage: storage1 });
 const upload2 = multer({ storage: storage2 });
-const upload3 = multer({ storage: storage3 });
+const upload3 = multer({ storage: storage3,
+    limits: { fileSize: 5 * 1024 * 1024 } 
+ });
 const upload4 = multer({ storage: storage4 });
 const upload5 = multer({ storage: storage5 });
 const upload6 = multer({ storage: storage6 });
