@@ -374,7 +374,7 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'multipart/form-data'
-                }
+                },
             });
             uploadedPhotoName = newPhotoFile.name;
             console.log('Photo uploaded successfully');
@@ -394,7 +394,10 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'multipart/form-data'
-                }
+                },
+                maxBodyLength: 10000000,
+                maxContentLength: 10000000,
+
             });
             uploadedResumeName = newResumeFile.name;
             console.log('Resume uploaded successfully');
