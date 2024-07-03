@@ -747,20 +747,19 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 'Authorization': token
             }
         });
-        const companies = {}; // Map to store company details by ID
+        const companies = {};
         companyResponse.data.companies.forEach(company => {
-            companies[company.company_id] = company.company_name; // Store company details by ID
+            companies[company.company_id] = company.company_name;
         });
 
-        // Assuming you have similar API endpoints for these fields
         const portsResponse = await axios.get('https://nemo.ivistaz.co/others/get-ports', {
             headers: {
                 'Authorization': token
             }
         });
-        const ports = {}; // Map to store port details by ID
+        const ports = {};
         portsResponse.data.ports.forEach(port => {
-            ports[port.id] = port.portName; // Store port details by ID
+            ports[port.id] = port.portName;
         });
 
         const vesselsResponse = await axios.get('https://nemo.ivistaz.co/others/get-vsls', {
@@ -768,37 +767,54 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 'Authorization': token
             }
         });
-        const vessels = {}; // Map to store vessel details by ID
+        const vessels = {};
         vesselsResponse.data.vessels.forEach(vessel => {
-            vessels[vessel.id] = vessel.vesselName; // Store vessel details by ID
+            vessels[vessel.id] = vessel.vesselName;
         });
 
         const contractDetails = response.data;
-
-        // Sort contracts by ID in descending order
         contractDetails.sort((a, b) => b.id - a.id);
 
-        // Assuming contractDetails is an array of objects
         const contractTableBody = document.getElementById('contractTableBody');
-        contractTableBody.innerHTML = ''; // Clear existing rows
+        contractTableBody.innerHTML = '';
         let index = 1;
         contractDetails.forEach(contract => {
             const row = document.createElement('tr');
 
-            // Get company name using company ID
             const companyName = companies[contract.company];
             const signOffPortName = ports[contract.sign_off_port];
             const signOnPortName = ports[contract.sign_on_port];
             const vesselName = vessels[contract.vslName];
 
-            // Add data to each cell
+            // Calculate duration between sign_on and sign_off dates
+            let badgeText = '';
+            if (contract.sign_off === '1970-01-01') {
+                // Calculate duration from sign_on to today's date
+                const signOnDate = new Date(contract.sign_on);
+                const today = new Date();
+                const diffTime = Math.abs(today - signOnDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const months = Math.floor(diffDays / 30);
+                const days = diffDays % 30;
+                badgeText = `${months} months and ${days} days`;
+            } else {
+                // Calculate duration between sign_on and sign_off
+                const signOnDate = new Date(contract.sign_on);
+                const signOffDate = new Date(contract.sign_off);
+                const diffTime = Math.abs(signOffDate - signOnDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const months = Math.floor(diffDays / 30);
+                const days = diffDays % 30;
+                badgeText = `${months} months and ${days} days`;
+            }
+
             row.innerHTML = `
                 <td>${index++}</td>
                 <td>${contract.rank}</td>
-                <td>${companyName}</td> <!-- Display company name instead of ID -->
-                <td>${vesselName}</td> <!-- Display vessel name instead of ID -->
+                <td>${companyName}</td>
+                <td>${vesselName}</td>
                 <td>${contract.vesselType}</td>
-                <td>${signOnPortName}</td> <!-- Display port name instead of ID -->
+                <td>${signOnPortName}</td>
                 <td>${contract.sign_on}</td>
                 <td>${contract.wage_start}</td>
                 <td>${contract.eoc}</td>
@@ -806,7 +822,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
                 <td>${contract.sign_off}</td>
-                <td>${signOffPortName}</td> <!-- Display port name instead of ID -->
+                <td>${signOffPortName}</td>
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
@@ -814,6 +830,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td >${badgeText}</td>
                 <td>
                     <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
@@ -824,13 +841,13 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 </td>
             `;
 
-            // Append the row to the table body
             contractTableBody.appendChild(row);
         });
     } catch (err) {
         console.error(err);
     }
 }
+
 
 
 
