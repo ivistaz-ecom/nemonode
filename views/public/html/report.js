@@ -53,7 +53,7 @@ async function handleNewProfileSubmit(event) {
         const decodedToken = decodeToken(token);
 
         // Gather selected fields
-        let selectedFields = {}; // Clear previous selectedFields
+        selectedFields = {}; // Clear previous selectedFields
         const checkboxes = document.querySelectorAll('#newProfileContent input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             selectedFields[checkbox.id] = checkbox.checked; // Store checkbox state in selectedFields object
@@ -73,8 +73,8 @@ async function handleNewProfileSubmit(event) {
         });
 
         console.log(response.data); // Assuming the server sends back some data
-        const allCandidates = response.data.candidates;
-        let filteredCandidates = allCandidates; // Initialize filteredCandidates with all data
+        allCandidates = response.data.candidates;
+        filteredCandidates = allCandidates; // Initialize filteredCandidates with all data
 
         displayTable();
 
@@ -94,11 +94,6 @@ async function handleNewProfileSubmit(event) {
     } catch (error) {
         console.error(error);
     }
-
-    // Helper function to get nationality name from code
-  
-
-    // Function to export data to Excel
     function exportToExcel(data, filename) {
         // Convert data to array of arrays for XLSX conversion
         const dataArray = data.map(candidate => {
@@ -114,21 +109,20 @@ async function handleNewProfileSubmit(event) {
             }
             return row;
         });
-
+    
         // Insert headers
         const headers = Object.keys(selectedFields).filter(field => selectedFields[field]);
         dataArray.unshift(headers);
-
+    
         // Create worksheet and workbook
         const worksheet = XLSX.utils.aoa_to_sheet(dataArray);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
+    
         // Save workbook and trigger download
         XLSX.writeFile(workbook, filename);
     }
 }
-
 
 function displayTable() {
     // Clear existing table
