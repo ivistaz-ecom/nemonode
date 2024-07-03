@@ -442,17 +442,15 @@ function handleEdit(candidateId) {
       // Similar implementation to displayBankResults
     }
     
-    // Function to show discussion popup inside a Bootstrap card
-    
-  // Function to show discussion popup inside a Bootstrap card
+
 async function showDiscussionPopup(link, candidateId) {
   try {
     // Clear any existing timeout to prevent premature hiding
     clearTimeout(discussionTimeout);
     hideAllDiscussionPopups(); // Ensure only one popup is open at a time
 
-    // Fetch discussions and created_date
-    const { discussions, createdDate } = await fetchDiscussions(candidateId);
+    // Fetch discussions data
+    const discussions = await fetchDiscussions(candidateId);
 
     // Create Bootstrap card
     const card = document.createElement('div');
@@ -462,17 +460,17 @@ async function showDiscussionPopup(link, candidateId) {
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
-    // Header with candidate ID and created_date
+    // Header with candidate ID
     const header = document.createElement('h5');
     header.className = 'card-title';
-    header.textContent = `Discussions for Candidate ID: ${candidateId} (Created: ${new Date(createdDate).toLocaleDateString()})`;
+    header.textContent = `Discussions for Candidate ID: ${candidateId}`;
     cardBody.appendChild(header);
 
     // Discussions content
     discussions.forEach(discussion => {
       const discussionItem = document.createElement('p');
       discussionItem.className = 'card-text';
-      discussionItem.textContent = discussion;
+      discussionItem.textContent = `${discussion.discussion} - Created: ${new Date(discussion.created_date).toLocaleDateString()}`;
       cardBody.appendChild(discussionItem);
     });
 
@@ -503,6 +501,7 @@ async function showDiscussionPopup(link, candidateId) {
   }
 }
 
+
     
     // Function to hide discussion popup
     function hideDiscussionPopup() {
@@ -519,23 +518,25 @@ async function showDiscussionPopup(link, candidateId) {
     // Example function to fetch discussions (placeholder)
     async function fetchDiscussions(candidateId) {
       try {
-        // Fetch discussions and created_date from your API
+        // Replace with actual fetch logic from your data source
         const response = await axios.post(`https://nemo.ivistaz.co/candidate/hover-disc/${candidateId}`);
         const discussionsData = response.data;
     
-        // Check if discussionsData has discussions and created_date
-        if (Array.isArray(discussionsData.discussions)) {
-          const discussions = discussionsData.discussions.map(discussion => discussion.discussion);
-          const createdDate = discussionsData.created_date; // Assuming created_date is available in discussionsData
-          return { discussions, createdDate };
+        // Check if discussionsData has discussions array
+        if (Array.isArray(discussionsData)) {
+          return discussionsData.map(discussion => ({
+            discussion: discussion.discussion,
+            created_date: discussion.created_date
+          }));
         } else {
-          return { discussions: [], createdDate: null }; // Return empty discussions and null created_date if not found
+          return []; // Return empty array if no discussions found
         }
       } catch (error) {
         console.error('Error fetching discussions:', error);
-        return { discussions: [], createdDate: null }; // Return empty discussions and null created_date on error
+        return []; // Return empty array on error
       }
     }
+    
     
     
 
