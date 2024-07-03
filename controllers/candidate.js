@@ -2929,7 +2929,9 @@ const crewList = async (req, res) => {
         a.wages_types, a.sign_on, a.sign_off, a.eoc, 
         b.fname, b.lname, b.nationality, 
         c.id AS vesselId, b.category, e.company_name,
-        bd.* -- Select all fields from the bank table
+        bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
+        bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
+        bd.branch, bd.types, bd.created_by
       FROM 
         contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
@@ -2937,7 +2939,10 @@ const crewList = async (req, res) => {
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
       WHERE 
-        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR (a.sign_on<=:endDate AND a.sign_off>=:endDate) )AND (a.sign_on<=:endDate)
+        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
+         (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
+         (a.sign_on <= :endDate AND a.sign_off >= :endDate)) AND 
+        (a.sign_on <= :endDate)
     `;
   
     const replacements = { startDate, endDate };
@@ -2962,7 +2967,8 @@ const crewList = async (req, res) => {
       console.error(error);
       res.status(500).send('An error occurred while retrieving the crew list.');
     }
-};
+  };
+  
 
   
   
