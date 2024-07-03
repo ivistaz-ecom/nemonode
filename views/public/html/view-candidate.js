@@ -84,7 +84,10 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
     }
 }
 
-
+document.getElementById('documentSearchInput').addEventListener('input', function() {
+    const candidateId = localStorage.getItem('memId');
+    fetchAndDisplayDocumentDetails(candidateId);
+});
 
 
 
