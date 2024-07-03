@@ -37,7 +37,70 @@ return decodedToken.userGroup
   const resultContainer = document.getElementById('result-container'); // Get the result container div
   const searchForm = document.getElementById('search-form');
 
+  searchForm.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
 
+    // Get values from all form fields
+    const nemoId = document.getElementById('nemoId').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const rank = document.getElementById('rank').value.trim();
+    const vsl = document.getElementById('vsl').value.trim();
+    const experience = document.getElementById('experience').value.trim();
+    const grade = document.getElementById('grade').value.trim();
+    const status = document.getElementById('status').value.trim();
+    const availableFrom = document.getElementById('availableFrom').value.trim();
+    const availableTo = document.getElementById('availableTo').value.trim();
+    const license = document.getElementById('license').value.trim();
+    const zone = document.getElementById('zone').value.trim();
+    const group = document.getElementById('groupSearch').value;
+    const fromAge = document.getElementById('fromAge').value.trim();
+    const toAge = document.getElementById('toAge').value.trim();
+    const c_mobi1 = document.getElementById('c_mobi1').value.trim();
+    const email1 = document.getElementById('email1').value.trim();
+
+    // Prepare data for the POST request
+    const searchData = {
+        nemoId: nemoId,
+        name: name,
+        rank: rank,
+        vsl: vsl,
+        experience: experience,
+        grade: grade,
+        status: status,
+        avb_date: availableFrom,
+        las_date: availableTo,
+        license: license,
+        zone: zone,
+        group: group,
+        c_mobi1:c_mobi1,
+        email1:email1
+    };
+
+    // Add age range if provided
+    if (fromAge) {
+        searchData.fromAge = fromAge;
+    }
+    if (toAge) {
+        searchData.toAge = toAge;
+    }
+
+    // Make a POST request using Axios
+    axios.post('https://nemo.ivistaz.co/searchspl', searchData, { headers: { 'Authorization': token } })
+        .then(function (response) {
+            // Handle the successful response
+            const searchResults = response.data;
+            console.log(response);
+            // Process and display the search results in the table
+            populateTable(searchResults);
+
+            console.log(response.data); // Log the retrieved data to the console
+        })
+        .catch(function (error) {
+            // Handle errors
+            console.error('Error:', error);
+            // You can update the UI to show an error message or perform other error handling
+        });
+});
 
 
 // function populateTable(results) {
