@@ -321,6 +321,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
             vendor: document.getElementById('candidate_vendor').value.trim(),
             photos: photoFileName,
             resume: resumeFileName,
+            resume_upload_date: resumeFile ? `${date} ${time}` : null, 
             c_ad1: document.getElementById('candidate_c_ad1').value.trim(),
             c_city: document.getElementById('candidate_city').value.trim(),
             c_state: document.getElementById('candidate_c_state').value.trim(),
