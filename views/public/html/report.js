@@ -1060,6 +1060,10 @@ async function handleCallsMadeSubmit(event) {
 function exportToExcel(data, filename) {
     const worksheet = XLSX.utils.json_to_sheet(data.map((call, index) => {
         const candidateData = { 'S.No': index + 1, ...call };
+        // Add logic to replace nationality code with name
+        if (candidateData.nationality) {
+            candidateData.nationality = getNationalityName(candidateData.nationality);
+        }
         return candidateData;
     }));
     const workbook = XLSX.utils.book_new();
