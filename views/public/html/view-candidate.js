@@ -34,47 +34,56 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 'Content-Type': 'application/json'
             }
         });
-let index =1;
-        const documentDetails = response.data;
 
+        const documentDetails = response.data;
         const documentTableBody = document.getElementById('documentTableBody');
         documentTableBody.innerHTML = ''; // Clear existing rows
 
+        const searchInput = document.getElementById('documentSearchInput').value.toLowerCase(); // Get search input and convert to lowercase
+
+        let index = 1;
         documentDetails.forEach(doc => {
-            const row = document.createElement('tr');
+            // Check if search input matches any document details
+            if (
+                doc.document.toLowerCase().includes(searchInput) ||
+                doc.document_number.toLowerCase().includes(searchInput) ||
+                doc.issue_date.toLowerCase().includes(searchInput) ||
+                doc.issue_place.toLowerCase().includes(searchInput) ||
+                doc.stcw.toLowerCase().includes(searchInput) ||
+                doc.expiry_date.toLowerCase().includes(searchInput)
+            ) {
+                const row = document.createElement('tr');
 
-            // Add data to each cell
-            row.innerHTML = `
-            <td>${index++}</td>
-                <td>${doc.document}</td>
-                <td>${doc.document_number}</td>
-                <td>${doc.issue_date}</td>
-                <td>${doc.issue_place}</td>
-                <td>${doc.document_files}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
-                <td>${doc.stcw}</td>
-                <td>${doc.expiry_date}</td>
-                <td>
-                <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
-                    <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-                </button>
-                <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
-                    <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-                </button>
-            </td>
-            `;
-
-            
-            
-            documentTableBody.appendChild(row);
+                // Add data to each cell
+                row.innerHTML = `
+                    <td>${index++}</td>
+                    <td>${doc.document}</td>
+                    <td>${doc.document_number}</td>
+                    <td>${doc.issue_date}</td>
+                    <td>${doc.issue_place}</td>
+                    <td>${doc.document_files}</td>
+                    <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
+                    <td>${doc.stcw}</td>
+                    <td>${doc.expiry_date}</td>
+                    <td>
+                        <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
+                            <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
+                            <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                documentTableBody.appendChild(row);
+            }
         });
 
-        // Display URLs in a list
-       
     } catch (error) {
         console.error('Error fetching document details:', error);
     }
 }
+
 
 
 
