@@ -11,7 +11,34 @@ let companyData =[];
 
 
 // Function to export table data to Excel
+function exportToExcelnp(data, filename) {
+    // Convert data to array of arrays for XLSX conversion
+    const dataArray = data.map(candidate => {
+        const row = [];
+        for (const field in selectedFields) {
+            if (selectedFields[field]) {
+                let value = candidate[field];
+                if (field === 'nationality' && value) {
+                    value = getNationalityName(value); // Replace code with nationality name
+                }
+                row.push(value || ''); // Push empty string if value is undefined or null
+            }
+        }
+        return row;
+    });
 
+    // Insert headers
+    const headers = Object.keys(selectedFields).filter(field => selectedFields[field]);
+    dataArray.unshift(headers);
+
+    // Create worksheet and workbook
+    const worksheet = XLSX.utils.aoa_to_sheet(dataArray);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Save workbook and trigger download
+    XLSX.writeFile(workbook, filename);
+}
 
 
 // Function to handle form submission for fetching discussions
@@ -84,7 +111,7 @@ async function handleNewProfileSubmit(event) {
             exportButton.textContent = 'Export to Excel';
             exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
             exportButton.addEventListener('click', () => {
-                exportToExcel(filteredCandidates, 'candidates.xlsx'); // Use filteredCandidates for export
+                exportToExcelnp(filteredCandidates, 'candidates.xlsx'); // Use filteredCandidates for export
             });
             // Append export button
             document.getElementById('exportContainer').innerHTML = ''; // Clear previous export button
@@ -93,34 +120,6 @@ async function handleNewProfileSubmit(event) {
 
     } catch (error) {
         console.error(error);
-    }
-    function exportToExcel(data, filename) {
-        // Convert data to array of arrays for XLSX conversion
-        const dataArray = data.map(candidate => {
-            const row = [];
-            for (const field in selectedFields) {
-                if (selectedFields[field]) {
-                    let value = candidate[field];
-                    if (field === 'nationality' && value) {
-                        value = getNationalityName(value); // Replace code with nationality name
-                    }
-                    row.push(value || ''); // Push empty string if value is undefined or null
-                }
-            }
-            return row;
-        });
-    
-        // Insert headers
-        const headers = Object.keys(selectedFields).filter(field => selectedFields[field]);
-        dataArray.unshift(headers);
-    
-        // Create worksheet and workbook
-        const worksheet = XLSX.utils.aoa_to_sheet(dataArray);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    
-        // Save workbook and trigger download
-        XLSX.writeFile(workbook, filename);
     }
 }
 
