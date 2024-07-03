@@ -336,7 +336,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
             c_mobi2: combinedMobile2,
             c_tel2: document.getElementById('candidate_c_tel2').value.trim(),
             email2: document.getElementById('candidate_email2').value.trim(),
-            nemo_source: document.getElementById('nemo_source').value.trim() || null,
+            nemo_source: 'm',
             active_details: document.getElementById('candidate_active_details').value.trim() || 0,
             area_code1: document.getElementById('candidate_area_code1').value.trim() || '',
             area_code2: document.getElementById('candidate_area_code2').value.trim() || '',
