@@ -580,7 +580,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_indos_number').value = candidateData.indos_number;
         document.getElementById('edit_company_status').value = candidateData.m_status;
         document.getElementById('edit_candidate_group').value = candidateData.group;
-        document.getElementById('edit_candidate_vendor').value = candidateData.vendor;
+        document.getElementById('edit_candidate_nemo_source').value = candidateData.nemo_source;
         document.getElementById('edit_candidate_active_details').value = candidateData.active_details === 1 ? 'Active' : 'Inactive';
         // Assuming you have the candidateData object available
 const photoName = candidateData.photos;
