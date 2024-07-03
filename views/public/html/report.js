@@ -4,7 +4,7 @@
 let nationalityData = []; // Add this line to declare nationalityData globally
 let portData=[];
 let vslsData =[];
-let userData;
+let userData =[];
 let companyData =[];
 
 
@@ -1063,6 +1063,9 @@ function exportToExcel(data, filename) {
         // Add logic to replace nationality code with name
         if (candidateData.nationality) {
             candidateData.nationality = getNationalityName(candidateData.nationality);
+        }
+        if (candidateData.post_by) {
+            candidateData.post_by = getUserName(candidateData.post_by);
         }
         return candidateData;
     }));
@@ -6955,4 +6958,7 @@ function getVesselName(id) {
     const vessel = vslsData.find(vessel => vessel.id == id);
     return vessel ? vessel.vesselName : id;
 }
-
+function getUserName(id){
+    const user = userData.find(user=>user.id==id);
+    return user ? user.userName : id;
+}
