@@ -102,52 +102,6 @@ return decodedToken.userGroup
         });
 });
 
-
-// function populateTable(results) {
-//   const tableBody = document.getElementById('table-body');
-
-//   // Clear existing rows
-//   tableBody.innerHTML = '';
-
-//   // Iterate over results and append rows to the table
-//   results.forEach(result => {
-//       const row = document.createElement('tr');
-//       const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob'];
-
-//       fieldsToDisplay.forEach(field => {
-//           const cell = document.createElement('td');
-//           // Format date fields if needed
-//           if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-//               const date = new Date(result[field]).toLocaleDateString();
-//               cell.textContent = date;
-//           } else if (field === 'candidateId') {
-//               // Create a clickable link for candidateId
-//               const link = document.createElement('a');
-//               link.href = '#';
-//               link.textContent = result[field];
-//               link.onclick = () => viewCandidate(result[field]);
-//               cell.appendChild(link);
-//           } else {
-//               cell.textContent = result[field];
-//           }
-//           row.appendChild(cell);
-//       });
-
-//       // Add buttons for delete, edit, and view
-//       const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
-//       const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
-//       const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
-
-//       const buttonsCell = document.createElement('td');
-//       buttonsCell.appendChild(deleteButton);
-//       buttonsCell.appendChild(editButton);
-//       buttonsCell.appendChild(viewButton);
-
-//       row.appendChild(buttonsCell);
-
-//       tableBody.appendChild(row);
-//   });
-// }
 function populateTable(results) {
   const tableBody = document.getElementById('table-body');
 
@@ -199,11 +153,8 @@ function populateTable(results) {
   });
 }
 
-// Function to show discussion popup inside a Bootstrap card
-// Function to show discussion popup inside a Bootstrap card
-let discussionTimeout; // Variable to store timeout ID
 
-// Function to show discussion popup inside a Bootstrap card
+let discussionTimeout; // Variable to store timeout ID
 async function showDiscussionPopup(link, candidateId) {
   try {
     // Clear any existing timeout to prevent premature hiding
@@ -574,8 +525,7 @@ function handleEdit(candidateId) {
     }
     
 
-// Function to fetch candidate data based on candidateIds
-// Function to fetch candidate data based on candidateIds
+
 async function fetchCandidateData(candidateIds) {
   try {
     // Check if candidateIds is defined and not empty
