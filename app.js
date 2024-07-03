@@ -877,18 +877,27 @@ const storage9 = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-const upload = multer({ storage: storage });
-const upload1 = multer({ storage: storage1 });
-const upload2 = multer({ storage: storage2 });
+const upload = multer({ storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload1 = multer({ storage: storage1,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload2 = multer({ storage: storage2,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
 const upload3 = multer({ storage: storage3,
     limits: { fileSize: 10 * 1024 * 1024 } 
  });
-const upload4 = multer({ storage: storage4 });
-const upload5 = multer({ storage: storage5 });
-const upload6 = multer({ storage: storage6 });
-const upload7 = multer({ storage: storage7 });
-const upload8 = multer({ storage: storage8 });
-const upload9 = multer({ storage: storage9 });
+const upload4 = multer({ storage: storage4,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload5 = multer({ storage: storage5,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload6 = multer({ storage: storage6,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload7 = multer({ storage: storage7,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload8 = multer({ storage: storage8,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
+const upload9 = multer({ storage: storage9,
+    limits: { fileSize: 10 * 1024 * 1024 }  });
 const evaluationDirectory = '/views/public/files/evaluation';
 const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
 const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
