@@ -202,7 +202,7 @@ const add_candidate = async (req, res) => {
                 group,
                 vendor,
                 password,
-                nemo_source,
+                nemo_source:'m',
                 us_visa,
                 userId:userId,
                 
