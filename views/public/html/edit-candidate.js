@@ -42,7 +42,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 
 async function searchCandidates(query) {
     try {
-        const url = `http://localhost:4000/candidate/search?search=${query}`;
+        const url = `https://nemo.ivistaz.co/candidate/search?search=${query}`;
         const responseData = await fetchData(url);
         const candidates = responseData.candidates;
         const candidateTable = document.getElementById("candidate-table");
@@ -88,7 +88,7 @@ async function searchCandidates(query) {
 
 async function displayCandidates(page = 1, limit = 10, search = '') {
     try {
-        const url = `http://localhost:4000/candidate/view-candidate?page=${page}&limit=${limit}&search=${search}`;
+        const url = `https://nemo.ivistaz.co/candidate/view-candidate?page=${page}&limit=${limit}&search=${search}`;
         const responseData = await fetchData(url);
         const candidates = responseData.candidates;
         const candidateTable = document.getElementById("candidate-table");
@@ -185,7 +185,7 @@ async function deleteCandidate(candidateId, event) {
     event.preventDefault();
     let id = candidateId;
     console.log(id);
-    const url = `http://localhost:4000/candidate/delete-candidate/${id}`;
+    const url = `https://nemo.ivistaz.co/candidate/delete-candidate/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -244,7 +244,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
