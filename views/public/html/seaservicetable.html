@@ -765,7 +765,7 @@
                 async function fetchAndDisplaySeaService(candidateId) {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-sea-service/${candidateId}`, {
+                        const response = await axios.get(`http://localhost:4000/candidate/get-sea-service/${candidateId}`, {
                             headers: { "Authorization": token }
                         });
             
@@ -808,7 +808,7 @@
                     if (confirm('Are you sure you want to delete this sea service record?')) {
                         try {
                             const token = localStorage.getItem('token');
-                            await axios.delete(`https://nemo.ivistaz.co/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+                            await axios.delete(`http://localhost:4000/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
                             // Remove the corresponding row from the table
                             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
                             seaServiceRow.remove();
@@ -862,7 +862,7 @@ function editSeaService(id) {
         try {
             const token = localStorage.getItem('token');
             const id = localStorage.getItem('memId');
-            const response = await axios.post(`https://nemo.ivistaz.co/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://localhost:4000/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response.data);
             alert('Sea Service record added successfully!');
             seaServiceForm.reset();
@@ -880,7 +880,7 @@ function editSeaService(id) {
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+    axios.put(`http://localhost:4000/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -906,7 +906,7 @@ function editSeaService(id) {
 
 async function fetchAndDisplayCompanies() {
             try {
-                const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", {
+                const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", {
                     headers: { "Authorization": token }
                 });
                 const companies = companyResponse.data.companies;
@@ -927,7 +927,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayRanks() {
             try {
-                const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", {
+                const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", {
                     headers: { "Authorization": token }
                 });
                 const ranks = rankResponse.data.ranks;
@@ -948,7 +948,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayVessels() {
             try {
-                const vesselResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", {
+                const vesselResponse = await axios.get("http://localhost:4000/others/get-vessel", {
                     headers: { "Authorization": token }
                 });
                 const vessels = vesselResponse.data.vessels;
@@ -970,7 +970,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayVesselTypes() {
             try {
-                const vesselTypeResponse = await axios.get("https://nemo.ivistaz.co/others/get-vsls", {
+                const vesselTypeResponse = await axios.get("http://localhost:4000/others/get-vsls", {
                     headers: { "Authorization": token }
                 });
                 const vesselTypes = vesselTypeResponse.data.vessels;
