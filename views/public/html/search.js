@@ -502,7 +502,7 @@ async function showDiscussionPopup(link, candidateId) {
     // Set a timeout to hide the popup after 3 seconds
     discussionTimeout = setTimeout(() => {
       hideDiscussionPopup();
-    }, 3000);
+    }, 5000);
   } catch (error) {
     console.error('Error showing discussion popup:', error);
   }
