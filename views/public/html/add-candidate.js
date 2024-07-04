@@ -254,7 +254,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
     const countryCode2 = document.getElementById('countryCodeSelect2').value;
     const mobileInput2 = document.getElementById('candidate_c_mobi2').value;
     const combinedMobile2 = countryCode2 + mobileInput2;
-
+    const abc = 'm'
     const { date, time } = getCurrentDateTime();
 
     // Get files
@@ -336,7 +336,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
             c_mobi2: combinedMobile2,
             c_tel2: document.getElementById('candidate_c_tel2').value.trim(),
             email2: document.getElementById('candidate_email2').value.trim(),
-            nemo_source: 'm',
+            nemo_source: abc,
             active_details: document.getElementById('candidate_active_details').value.trim() || 0,
             area_code1: document.getElementById('candidate_area_code1').value.trim() || '',
             area_code2: document.getElementById('candidate_area_code2').value.trim() || '',
