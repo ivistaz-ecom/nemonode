@@ -1105,7 +1105,10 @@ doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')
 async function generateAndSavePDF(doc) {
     // Your existing PDF generation code...
 
-    const candidateId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
     const now = new Date();
     const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
 

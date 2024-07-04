@@ -277,7 +277,10 @@ async function fetchAndDisplayCompanies() {
         item.addEventListener("click", function () {
             // Get the id attribute of the clicked item
             var itemId = item.id;
-            const memId = localStorage.getItem('memId');
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
 
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
@@ -343,7 +346,10 @@ function formatDate(dateString) {
     event.preventDefault();
     const decodedToken = decodeToken(token);
     const contractId = document.getElementById('contractId').value;
-    const candidateId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
     const created_by = decodedToken.userId;
 
     const rank = document.getElementById('editcontract_rank').value.trim();

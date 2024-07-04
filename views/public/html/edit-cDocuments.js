@@ -63,7 +63,10 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 // Edit document function
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Retrieve memId from localStorage
-    const memId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
 
     // Construct the query parameters string
     const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;

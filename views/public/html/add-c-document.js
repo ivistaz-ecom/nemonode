@@ -17,9 +17,12 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-    const candidateId = localStorage.getItem('memId');
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');
     fetchAndDisplayDocumentDetails(candidateId);
-goBack(candidateId)
+
         
             let dropdownItems = document.querySelectorAll(".dropdown-item");
         
@@ -28,7 +31,10 @@ goBack(candidateId)
                 item.addEventListener("click", function() {
                     // Get the id attribute of the clicked item
                     var itemId = item.id;
-                    const memId= localStorage.getItem('memId')
+                    const urlParams = new URLSearchParams(window.location.search);
+    
+                    // Get the candidateId from the URL parameter
+                    const memId = urlParams.get('memId');
                     // Define the destination URLs based on the clicked item
                     var destinationPage = "";
                     switch (itemId) {
@@ -122,7 +128,10 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 // Edit document function
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Redirect to the edit-c-document.html page with parameters
-    const memId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
     const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
 
     window.open(`./edit-c-document.html${queryParams}`, '_blank');
@@ -161,7 +170,10 @@ const documentForm = document.getElementById('documentForm');
 document.getElementById('documentForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    const id = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const id = urlParams.get('memId');
     const documentType = document.getElementById('documentTypeDropdown').value.trim();
     const documentNumber = document.getElementById('document_number').value.trim();
     const issueDate = document.getElementById('issue_date').value.trim();
@@ -281,9 +293,17 @@ async function fetchDocumentTypes() {
     }
 }
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
+
