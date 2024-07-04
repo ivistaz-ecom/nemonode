@@ -2371,20 +2371,21 @@ const getContractsBySignOnDate = async (req, res) => {
             b.fname, b.lname, b.nationality, b.indos_number,
             c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
             e.company_name,
-            bd.pan_num AS bank_pan_num,
+            bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code, bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card, bd.branch, bd.types, bd.created_by,
             CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
             EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
             CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
-            u.userName
+            u.userName,
+            r.rankOrder
         FROM contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
-       
         JOIN companies AS e ON a.company = e.company_id
         LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId 
         LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
         LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
         LEFT JOIN Users AS u ON a.created_by = u.id
+        JOIN ranks AS r ON a.rank = r.rank
         WHERE a.sign_on BETWEEN :startDate AND :endDate
     `;
     
@@ -2403,35 +2404,9 @@ const getContractsBySignOnDate = async (req, res) => {
             query += ` AND b.category = :category`;
         }
 
-        // Complete the query with group by and order by clauses
+        // Complete the query with order by clause
         query += `
-        GROUP BY 
-        a.candidateId, 
-        a.rank, 
-        a.vslName, 
-        a.vesselType, 
-        a.wages, 
-        a.currency, 
-        a.wages_types, 
-        a.sign_on, 
-        a.sign_off, 
-        a.eoc, 
-        a.emigrate_number, 
-        a.aoa_number, 
-        a.reason_for_sign_off,
-        b.fname, 
-        b.lname, 
-        b.nationality, 
-        b.indos_number,
-        c.vesselName, 
-        c.imoNumber, 
-        c.vesselFlag, 
-        e.company_name,
-        bd.pan_num, 
-        cd_indian_cdc.document_number, 
-        cd_passport.document_number, 
-        u.userName;
-           
+        ORDER BY r.rankOrder ASC
         `;
 
         // Run the raw SQL query using sequelize.query
@@ -2453,6 +2428,8 @@ const getContractsBySignOnDate = async (req, res) => {
     }
 };
 
+
+
 const getContractsBySignOffDate = async (req, res) => {
     try {
         const { startDate, endDate, vessel_type, companyname, category } = req.query;
@@ -2464,7 +2441,7 @@ const getContractsBySignOffDate = async (req, res) => {
                 b.fname, b.lname, b.nationality, b.indos_number,
                 c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
                 d.company_name,
-                bd.pan_num AS bank_pan_num,
+                bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code, bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card, bd.branch, bd.types,
                 CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
                 EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
                 CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
@@ -2477,6 +2454,7 @@ const getContractsBySignOffDate = async (req, res) => {
             LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
             LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
             LEFT JOIN Users AS u ON a.created_by = u.id
+            LEFT JOIN ranks AS r ON a.rank = r.rank
             WHERE a.sign_off BETWEEN :startDate AND :endDate
               AND a.sign_on != '1970-01-01'
         `;
@@ -2520,12 +2498,13 @@ const getContractsBySignOffDate = async (req, res) => {
                 c.imoNumber, 
                 c.vesselFlag, 
                 d.company_name,
-                bd.pan_num, 
+                bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code, bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card, bd.branch, bd.types,
                 cd_indian_cdc.document_number, 
                 cd_passport.document_number, 
-                u.userName
+                u.userName,
+                r.rankOrder
+            ORDER BY r.rankOrder ASC
         `;
-
 
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
@@ -2545,6 +2524,7 @@ const getContractsBySignOffDate = async (req, res) => {
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
+
 
 
 
