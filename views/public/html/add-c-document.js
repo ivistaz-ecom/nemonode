@@ -19,7 +19,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
     const candidateId = localStorage.getItem('memId');
     fetchAndDisplayDocumentDetails(candidateId);
-
+goBack(candidateId)
         
             let dropdownItems = document.querySelectorAll(".dropdown-item");
         
@@ -279,4 +279,11 @@ async function fetchDocumentTypes() {
     } catch (error) {
         console.error('Error fetching document types:', error);
     }
+}
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
 }

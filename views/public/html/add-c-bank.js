@@ -21,6 +21,7 @@ if (hasUserManagement) {
 
 }
     const candidateId = localStorage.getItem('memId');
+    goBack(candidateId)
     fetchAndDisplayBankDetails(candidateId);
 
 
@@ -329,3 +330,10 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}

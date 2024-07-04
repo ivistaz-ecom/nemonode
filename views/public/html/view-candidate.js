@@ -1342,3 +1342,54 @@ async function fetchAndDisplayFiles(candidateId) {
       console.error('Error fetching files:', error);
     }
   }
+  function addDiscussion() {
+    openInNewTab('addDisc', './edit-discussion.html');
+  }
+  function addContract() {
+    openInNewTab('addCont', './add-c-contract.html');
+  }
+  
+  function addDocument() {
+    openInNewTab('addDoc', './add-c-document.html');
+  }
+  
+  function addBank() {
+    openInNewTab('addBank', './add-c-bank.html');
+  }
+  
+  function addMedical() {
+    openInNewTab('addMed', './add-c-medicals.html');
+  }
+  
+  function addTravel() {
+    openInNewTab('addTravel', './add-c-travel.html');
+  }
+  
+  function addNkd() {
+    openInNewTab('addNkd', './add-c-nkd.html');
+  }
+  
+  function addSeaservice() {
+    openInNewTab('addSeaservice', './seaservicetable.html');
+  }
+  
+  function addEval() {
+    openInNewTab('addEval', './add-c-evaluation.html');
+  }
+  
+  function openInNewTab(elementId, baseUrl) {
+    // Get candidateId from localStorage
+    const candidateId = localStorage.getItem('memId');
+    
+    // Check if candidateId exists
+    if (candidateId) {
+      // Update href attribute with candidateId
+      const addDiscButton = document.getElementById(elementId);
+      const url = `${baseUrl}?memId=${candidateId}`;
+      
+      // Open the URL in a new tab
+      window.open(url, '_blank');
+    } else {
+      console.error('Candidate ID not found in localStorage');
+    }
+  }
