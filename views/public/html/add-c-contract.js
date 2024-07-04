@@ -112,7 +112,7 @@ const candidateId= localStorage.getItem('memId')
     await fetchAndDisplayVesselType();
     await fetchAndDisplayDropdowns();
     await fetchAndDisplayCompanies();
-
+    goBack(candidateId)
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
     // Add click event listener to each dropdown item
@@ -627,4 +627,12 @@ function getVesselName(id) {
 function getCompanyName(id){
     const companies = companyData.find(companies=>companies.company_id ==id);
     return companies?companies.company_name:id
+}
+
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
 }
