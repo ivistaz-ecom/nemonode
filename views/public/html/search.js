@@ -111,7 +111,7 @@ function populateTable(results) {
   // Iterate over results and append rows to the table
   results.forEach(result => {
     const row = document.createElement('tr');
-    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob','email1','resume'];
+    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob', 'email1', 'resume'];
 
     fieldsToDisplay.forEach(field => {
       const cell = document.createElement('td');
@@ -124,7 +124,10 @@ function populateTable(results) {
         const link = document.createElement('a');
         link.href = '#';
         link.textContent = result[field];
-        link.onclick = () => viewCandidate(result[field]);
+        link.onclick = (event) => {
+          event.preventDefault(); // Prevent default link behavior
+          viewCandidate(result[field]);
+        };
 
         // Hover event to show discussion popup
         link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
