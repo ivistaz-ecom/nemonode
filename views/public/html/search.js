@@ -388,9 +388,12 @@ function handleEdit(candidateId) {
           } else if (field === 'candidateId') {
             // Create a clickable link for candidateId
             const link = document.createElement('a');
-            link.href = '#';
+            link.href = '#'; // Replace '#' with actual link or leave it as '#' if it's handled by click event
             link.textContent = result[field];
-            link.onclick = () => viewCandidate(result[field]);
+            link.onclick = (event) => {
+              event.preventDefault(); // Prevent default anchor behavior
+              viewCandidate(result[field]);
+            };
     
             // Hover event to show discussion popup
             link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
@@ -418,6 +421,7 @@ function handleEdit(candidateId) {
         tableBody.appendChild(row);
       });
     }
+    
     
     // Function to display bankResults in a separate table
     function displayBankResults(bankResults) {

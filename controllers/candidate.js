@@ -2895,62 +2895,67 @@ const onBoard = async (req, res) => {
 // }
 const crewList = async (req, res) => {
     const { startDate, endDate, vslName, company } = req.query;
-  
+
     // Log the parameters to debug
     console.log({ startDate, endDate, vslName, company });
-  
+
     if (!startDate || !endDate) {
-      return res.status(400).send('Missing required query parameters: startDate and endDate');
+        return res.status(400).send('Missing required query parameters: startDate and endDate');
     }
-  
+
     let query = `
-      SELECT 
-        a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
-        a.wages_types, a.sign_on, a.sign_off, a.eoc, 
-        b.fname, b.lname, b.nationality, 
-        c.id AS vesselId, b.category, e.company_name,
-        bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
-        bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
-        bd.branch, bd.types, bd.created_by
-      FROM 
-        contract AS a
-        JOIN Candidates AS b ON a.candidateId = b.candidateId
-        JOIN vsls AS c ON a.vslName = c.id
-        JOIN companies AS e ON a.company = e.company_id
-        LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-        LEFT JOIN ranks AS r ON a.rank = r.rank
-      WHERE 
-        ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
-         (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
-         (a.sign_on <= :endDate AND a.sign_off >= :endDate)) AND 
-        (a.sign_on <= :endDate)
+        SELECT 
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
+            a.wages_types, a.sign_on, a.sign_off, a.eoc, 
+            b.fname, b.lname, b.nationality, 
+            c.id AS vesselId, b.category, e.company_name,
+            bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
+            bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
+            bd.branch, bd.types, bd.created_by,
+            CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
+            CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number
+        FROM 
+            contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
+            LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
+            LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
+            LEFT JOIN ranks AS r ON a.rank = r.rank
+        WHERE 
+            ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
+            (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
+            (a.sign_on <= :endDate AND a.sign_off >= :endDate)) AND 
+            (a.sign_on <= :endDate)
     `;
-  
+
     const replacements = { startDate, endDate };
-  
+
     if (vslName) {
-      query += ' AND c.id = :vslName';
-      replacements.vslName = vslName;
+        query += ' AND c.id = :vslName';
+        replacements.vslName = vslName;
     }
-  
+
     if (company) {
-      query += ' AND a.company = :company';
-      replacements.company = company;
+        query += ' AND a.company = :company';
+        replacements.company = company;
     }
-  
-    query += '  ORDER BY r.rankOrder ASC';
-  
+
+    query += ' ORDER BY r.rankOrder ASC';
+
     try {
-      const results = await sequelize.query(query, {
-        type: sequelize.QueryTypes.SELECT,
-        replacements
-      });
-      res.json(results);
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT,
+            replacements
+        });
+        res.json(results);
     } catch (error) {
-      console.error(error);
-      res.status(500).send('An error occurred while retrieving the crew list.');
+        console.error(error);
+        res.status(500).send('An error occurred while retrieving the crew list.');
     }
-  };
+};
+
   
 
   
