@@ -542,9 +542,9 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="./profile.html">
-                        <i class="bx bx-user me-2"></i>
-                      li>
+                      <a class="dropdown-item" href="./profile.html"><i class="bx bx-user me-2"></i>My Profile </a>
+                        
+                      </li>
                      
                       <div class="dropdown-divider"></div>
                     </li>
@@ -593,6 +593,9 @@
             <div id="seaServiceContent">
                 <div class="content-wrapper  rounded-3">
                     <div class="w-100 ">
+                      <div class="d-flex justify-content-end">
+                        <a class="btn btn-danger text-white m-3" id="goback">Go Back to View Candidate Page</a>
+                          </div>
                         <div class="">
                             <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark card p-3">Sea Service Records</h4>
             
@@ -706,7 +709,7 @@
                 document.addEventListener('DOMContentLoaded', async function (e) {
                     e.preventDefault();
                     const id = localStorage.getItem('memId');
-              
+                    goBack(id)
                     await fetchAndDisplaySeaService(id);
                     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -814,7 +817,12 @@
                         }
                     }
                 }
-            
+                function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}
                 function decodeToken(token) {
     // Implementation depends on your JWT library
     // Here, we're using a simple base64 decode
@@ -958,6 +966,7 @@ async function fetchAndDisplayCompanies() {
                 console.error('Error fetching and displaying vessels:', error);
             }
         }
+        
 
         async function fetchAndDisplayVesselTypes() {
             try {
