@@ -20,8 +20,10 @@ if (hasUserManagement) {
   document.getElementById('userManagementSections').style.display = 'block';
 
 }
-    const candidateId = localStorage.getItem('memId');
-    goBack(candidateId)
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');
     fetchAndDisplayBankDetails(candidateId);
 
 
@@ -32,7 +34,10 @@ if (hasUserManagement) {
         item.addEventListener("click", function() {
             // Get the id attribute of the clicked item
             var itemId = item.id;
-            const memId= localStorage.getItem('memId')
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const candidateId = urlParams.get('memId');
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
            switch (itemId) {
@@ -164,7 +169,10 @@ async function handleBankDetailsForm(event) {
     event.preventDefault();
     const decodedToken = decodeToken(token);
     const currentuserId = decodedToken.userId;
-    const currentCandidateId = localStorage.getItem('memId');
+      const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const currentCandidateId = urlParams.get('memId');
 
     const bankName = document.getElementById('bank_name').value.trim();
     const accountNumber = document.getElementById('bank_acc_num').value.trim();
@@ -331,9 +339,17 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
+

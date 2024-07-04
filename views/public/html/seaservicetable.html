@@ -594,7 +594,7 @@
                 <div class="content-wrapper  rounded-3">
                     <div class="w-100 ">
                       <div class="d-flex justify-content-end">
-                        <a class="btn btn-danger text-white m-3" id="goback">Go Back to View Candidate Page</a>
+                        <a class="btn btn-danger text-white m-3" id="goback" onclick="goBack()" >Go Back to View Candidate Page</a>
                           </div>
                         <div class="">
                             <h4 class="text-center mt-3 mb-0 rounded-0 shadow-none border border-dark card p-3">Sea Service Records</h4>
@@ -708,8 +708,11 @@
 
                 document.addEventListener('DOMContentLoaded', async function (e) {
                     e.preventDefault();
-                    const id = localStorage.getItem('memId');
-                    goBack(id)
+                    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const id = urlParams.get('memId');
+                   
                     await fetchAndDisplaySeaService(id);
                     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -718,7 +721,10 @@
         item.addEventListener("click", function() {
             // Get the id attribute of the clicked item
             var itemId = item.id;
-            const memId= localStorage.getItem('memId')
+            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
            switch (itemId) {
@@ -817,12 +823,20 @@
                         }
                     }
                 }
-                function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+                function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
+
                 function decodeToken(token) {
     // Implementation depends on your JWT library
     // Here, we're using a simple base64 decode
@@ -861,7 +875,10 @@ function editSeaService(id) {
         console.log(formData)
         try {
             const token = localStorage.getItem('token');
-            const id = localStorage.getItem('memId');
+            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const id = urlParams.get('memId');
             const response = await axios.post(`https://nemo.ivistaz.co/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response.data);
             alert('Sea Service record added successfully!');

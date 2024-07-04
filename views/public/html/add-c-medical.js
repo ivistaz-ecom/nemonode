@@ -8,7 +8,10 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 document.addEventListener('DOMContentLoaded', async function () {
-    const candidateId= localStorage.getItem('memId')
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
     
         const id = candidateId;
         const decodedToken = decodeToken(token);
@@ -20,7 +23,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-goBack(candidateId)
+
         try {
             const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-hospital-details/${id}`, {
                 headers: {
@@ -85,7 +88,10 @@ goBack(candidateId)
             item.addEventListener("click", function() {
                 // Get the id attribute of the clicked item
                 var itemId = item.id;
-                const memId= localStorage.getItem('memId')
+                const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
                 // Define the destination URLs based on the clicked item
                 var destinationPage = "";
                 switch (itemId) {
@@ -155,7 +161,10 @@ goBack(candidateId)
     
         const token = localStorage.getItem('token');
         const decodedToken = decodeToken(token);
-        const memId = localStorage.getItem('memId');
+        const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
         const hospitalName = document.getElementById('hospital_name').value.trim();
         const place = document.getElementById('place').value.trim();
         const date = document.getElementById('date').value.trim();
@@ -288,9 +297,16 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }

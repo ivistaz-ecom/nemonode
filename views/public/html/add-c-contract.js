@@ -103,8 +103,11 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-const candidateId= localStorage.getItem('memId')
-    const id = candidateId;
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');    
+const id = candidateId;
     await getReq();
     await fetchAndDisplayContractDetails(id);
     await displayDropdown();
@@ -112,7 +115,7 @@ const candidateId= localStorage.getItem('memId')
     await fetchAndDisplayVesselType();
     await fetchAndDisplayDropdowns();
     await fetchAndDisplayCompanies();
-    goBack(candidateId)
+    
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
     // Add click event listener to each dropdown item
@@ -120,7 +123,10 @@ const candidateId= localStorage.getItem('memId')
         item.addEventListener("click", function() {
             // Get the id attribute of the clicked item
             var itemId = item.id;
-            const memId= localStorage.getItem('memId')
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
            switch (itemId) {
@@ -167,77 +173,14 @@ const candidateId= localStorage.getItem('memId')
     });
 });
 
-// async function handleContractForm(event) {
-//     event.preventDefault();
-//     const decodedToken = decodeToken(token)
-//     console.log(decodedToken.userId)
-//     const rank = document.getElementById('candidate_c_rank').value.trim();
-//     const company = document.getElementById('contract_company').value.trim();
-//     const vslName = document.getElementById('contract_vsl').value.trim();
-//     const vesselType = document.getElementById('candidate_c_vessel').value.trim();
-//     const signOnPort = document.getElementById('contract_signonport').value.trim();
-//     const signOn = document.getElementById('contract_signon').value.trim();
-//     const wageStart = document.getElementById('contract_wage_start').value.trim();
-//     const eoc = document.getElementById('contract_eoc').value.trim();
-//     const wages = document.getElementById('contract_wages').value.trim();
-//     const currency = document.getElementById('contract_currency').value.trim();
-//     const wagesType = document.getElementById('contract_wagestype').value.trim();
-//     const signOff = document.getElementById('contract_signoff').value.trim();
-//     const signOffPort = document.getElementById('contract_signoffport').value.trim();
-//     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
-//     const documentFile = document.getElementById('contract_document').value.trim();
-//     const aoaFile = document.getElementById('contract_aoa').value.trim();
-//     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
-//     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
-//     const candidateId= localStorage.getItem('memId')
-//     const created_by = decodedToken.userId
-
-//     const contractDetails = {
-//         rank,
-//         company,
-//         vslName,
-//         vesselType,
-//         signOnPort,
-//         signOn,
-//         wageStart,
-//         eoc,
-//         wages,
-//         currency,
-//         wagesType,
-//         signOff,
-//         signOffPort,
-//         reasonForSignOff,
-//         documentFile,
-//         aoaFile,
-//         aoaNumber,
-//         emigrateNumber,
-//         created_by
-//     };
-
-//     try {
-//         const response = await axios.post(`https://nemo.ivistaz.co/candidate/contract-details/${candidateId}`, contractDetails, {
-//             headers: {
-//                 'Authorization': token,
-//                 'Content-Type': 'application/json'
-//             }
-//         });
-//         console.log(response.data);
-//         await fetchAndDisplayContractDetails(candidateId);
-//         contractForm.reset();
-//     } catch (err) {
-//         console.error(err);
-//     }
-// }
-
-
-
-
-// Attach the form submission handler to the form
 
 async function handleContractForm(event) {
     event.preventDefault();
     const decodedToken = decodeToken(token);
-    const candidateId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
     const created_by = decodedToken.userId;
 
     const rank = document.getElementById('candidate_c_rank').value.trim();
@@ -630,9 +573,17 @@ function getCompanyName(id){
 }
 
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
+

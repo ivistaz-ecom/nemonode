@@ -15,8 +15,11 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-    const candidateId= localStorage.getItem('memId')
-    goBack(candidateId)
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');
+   
         const id = candidateId;
         fetchAndDisplayNkdData()
       
@@ -27,7 +30,10 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             item.addEventListener("click", function() {
                 // Get the id attribute of the clicked item
                 var itemId = item.id;
-                const memId= localStorage.getItem('memId')
+                const urlParams = new URLSearchParams(window.location.search);
+    
+                // Get the candidateId from the URL parameter
+                const memId = urlParams.get('memId');
                 // Define the destination URLs based on the clicked item
                 var destinationPage = "";
                 switch (itemId) {
@@ -75,7 +81,10 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('nkd_form').addEventListener('submit', async (e) => {
         try {
             e.preventDefault();
-            const memId = localStorage.getItem('memId')
+            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
 
             // Collect form data
             const formData = {
@@ -104,7 +113,10 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 
     const fetchAndDisplayNkdData = async () => {
         try {
-            const memId = localStorage.getItem('memId');
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
             const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-nkd-details/${memId}`, { headers: { "Authorization": token } });
     
             // Assuming response.data contains an array of NKD objects
@@ -247,9 +259,16 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
