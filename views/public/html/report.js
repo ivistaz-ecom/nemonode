@@ -6020,7 +6020,8 @@ function renderTable() {
         'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
         'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types',
         'Account Number', 'Bank Name', 'Branch', 'IFSC Code', 
-        'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address','PAN num','PAN card'
+        'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address','PAN num','PAN card',
+        'Indian CDC','Passport Document Number'
     ];
     headers.forEach(headerText => {
         const header = document.createElement('th');
@@ -6062,6 +6063,8 @@ function renderTable() {
             contract.bank_addr, // New field
             contract.pan_num,
             contract.pan_card,
+            contract.indian_cdc_document_number,
+            contract.passport_document_number,
            
         ];
         fields.forEach(field => {
@@ -6181,6 +6184,8 @@ function renderTable() {
                 'Bank Address': contract.bank_addr, // New field
                 'PAN num':contract.pan_num,
                 'PAN card':contract.pan_card,
+                'Indian CDC':contract.indian_cdc_document_number,
+                'Passport Doc number':contract.passport_document_number
                 
             })));
 
