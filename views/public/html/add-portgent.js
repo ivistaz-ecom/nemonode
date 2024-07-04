@@ -11,7 +11,7 @@ document.getElementById("port-agent-form").addEventListener("submit", async (e) 
     const country = document.getElementById("port-agent-country").value.trim();
 
     try {
-        const serverResponse = await axios.post("http://localhost:4000/others/create-port-agent", {
+        const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-port-agent", {
             portAgentName,
             contactPerson,
             address,
@@ -35,7 +35,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
