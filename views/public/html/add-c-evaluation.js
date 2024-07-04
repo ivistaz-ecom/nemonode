@@ -18,9 +18,12 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-    const candidateId = localStorage.getItem('memId');
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');
 
-    goBack(candidateId)
+    
             let dropdownItems = document.querySelectorAll(".dropdown-item");
         
             // Add click event listener to each dropdown item
@@ -28,7 +31,10 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 item.addEventListener("click", function() {
                     // Get the id attribute of the clicked item
                     var itemId = item.id;
-                    const memId= localStorage.getItem('memId')
+                    const urlParams = new URLSearchParams(window.location.search);
+    
+                    // Get the candidateId from the URL parameter
+                    const memId = urlParams.get('memId');
                     // Define the destination URLs based on the clicked item
                     var destinationPage = "";
                     switch (itemId) {
@@ -185,7 +191,10 @@ const displayUserDropdown = async function () {
         event.preventDefault(); // Prevent the default form submission
 
         // Collect form data
-        const id = localStorage.getItem('memId')
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        // Get the candidateId from the URL parameter
+        const id = urlParams.get('memId');
         const evalType = document.getElementById('evalType').value;
         const appliedRank = document.getElementById('appliedRank').value;
         const appliedDate = document.getElementById('appliedDate').value;
@@ -239,9 +248,17 @@ const displayUserDropdown = async function () {
 
 // Call the function to attach the event listener
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
+

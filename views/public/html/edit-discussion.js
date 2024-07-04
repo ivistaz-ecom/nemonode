@@ -71,14 +71,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById('vendorManagementSections').style.display = 'block';
 
     }
-    const candidateId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
     currentCandidateId = candidateId;
     console.log(currentCandidateId)
     await displayDropdown();
     await fetchAndDisplayVessels();
     await fetchAndDisplayCompanies();
     await fetchAndDisplayDiscussions(candidateId);
-    goBack(candidateId);
+   
 
     // Move fetchSpecialComments call here
     // await fetchSpecialComments(currentCandidateId, token);
@@ -88,7 +91,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     dropdownItems.forEach(function (item) {
         item.addEventListener("click", function () {
             let itemId = item.id;
-            const memId = localStorage.getItem('memId');
+            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
             let destinationPage = "";
             switch (itemId) {
                 case "personal":
@@ -542,19 +548,21 @@ const proposedCheckbox = document.getElementById('proposed');
     handleCheckboxChanges();
     
 
-    // function goBack(candidateId){
-
-    //     localStorage.setItem('memId', candidateId);
-    //     // Open the link in a new window
-    //     window.location.href='./view-candidate.html';
-    // }
-
-    function goBack(candidateId) {
-        document.getElementById('goback').addEventListener('click', () => {
-            localStorage.setItem('memId', candidateId);
+   
+    function goBack() {
+        // Get the search parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Get the candidateId from the URL parameter
+        const candidateId = urlParams.get('memId');
+        
+        if (candidateId) {
             window.location.href = './view-candidate.html';
-        });
+        } else {
+            console.error('Candidate ID not found in URL parameters');
+        }
     }
+    
     
     
     

@@ -509,7 +509,10 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
             item.addEventListener("click", function() {
                 // Get the id attribute of the clicked item
                 var itemId = item.id;
-                const memId= localStorage.getItem('memId')
+                const urlParams = new URLSearchParams(window.location.search);
+    
+                // Get the candidateId from the URL parameter
+                const memId = urlParams.get('memId');
                 // Define the destination URLs based on the clicked item
                 var destinationPage = "";
                 switch (itemId) {

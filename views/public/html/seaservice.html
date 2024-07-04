@@ -768,7 +768,10 @@
                         // Fetch and display sea service records
                         try {
                             const token = localStorage.getItem('token');
-                            const id = localStorage.getItem('memId')
+                            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const id = urlParams.get('memId');
                             const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-sea-service/${id}`, { headers: { "Authorization": token } });
                             console.log(response);
                             const seaServices = response.data;
@@ -821,7 +824,10 @@
                 
                             try {
                                 const token = localStorage.getItem('token');
-                                const id = localStorage.getItem('memId');
+                                const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const id = urlParams.get('memId');
                                 const response = await axios.post(`https://nemo.ivistaz.co/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
                                 console.log(response.data);
                                 alert('Sea Service record added successfully!');

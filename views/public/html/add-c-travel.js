@@ -17,9 +17,12 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-    const candidateId= localStorage.getItem('memId')
+const urlParams = new URLSearchParams(window.location.search);
+    
+// Get the candidateId from the URL parameter
+const candidateId = urlParams.get('memId');
     const id = candidateId;
-    goBack(candidateId)
+   
         document.getElementById('travelForm').addEventListener('submit', async function (event) {
             // Prevent the default form submission
             event.preventDefault();
@@ -120,7 +123,10 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             item.addEventListener("click", function() {
                 // Get the id attribute of the clicked item
                 var itemId = item.id;
-                const memId= localStorage.getItem('memId')
+                const urlParams = new URLSearchParams(window.location.search);
+    
+                // Get the candidateId from the URL parameter
+                const memId = urlParams.get('memId');
                 // Define the destination URLs based on the clicked item
                 var destinationPage = "";
                 switch (itemId) {
@@ -257,9 +263,16 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-function goBack(candidateId) {
-    document.getElementById('goback').addEventListener('click', () => {
-        localStorage.setItem('memId', candidateId);
+function goBack() {
+    // Get the search parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    
+    if (candidateId) {
         window.location.href = './view-candidate.html';
-    });
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
 }
