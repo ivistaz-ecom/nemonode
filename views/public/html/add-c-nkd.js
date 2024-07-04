@@ -16,6 +16,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSections').style.display = 'block';
 }
     const candidateId= localStorage.getItem('memId')
+    goBack(candidateId)
         const id = candidateId;
         fetchAndDisplayNkdData()
       
@@ -245,3 +246,10 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}

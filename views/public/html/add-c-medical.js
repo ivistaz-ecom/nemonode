@@ -9,6 +9,7 @@ function decodeToken(token) {
 }
 document.addEventListener('DOMContentLoaded', async function () {
     const candidateId= localStorage.getItem('memId')
+    
         const id = candidateId;
         const decodedToken = decodeToken(token);
     console.log(decodedToken)
@@ -19,7 +20,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';
 }
-
+goBack(candidateId)
         try {
             const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-hospital-details/${id}`, {
                 headers: {
@@ -286,3 +287,10 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}

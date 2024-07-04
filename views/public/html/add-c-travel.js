@@ -19,7 +19,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
     const candidateId= localStorage.getItem('memId')
     const id = candidateId;
-  
+    goBack(candidateId)
         document.getElementById('travelForm').addEventListener('submit', async function (event) {
             // Prevent the default form submission
             event.preventDefault();
@@ -256,3 +256,10 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}

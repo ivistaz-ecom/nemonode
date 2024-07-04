@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     await fetchAndDisplayVessels();
     await fetchAndDisplayCompanies();
     await fetchAndDisplayDiscussions(candidateId);
+    goBack(candidateId);
+
     // Move fetchSpecialComments call here
     // await fetchSpecialComments(currentCandidateId, token);
 
@@ -538,4 +540,21 @@ const proposedCheckbox = document.getElementById('proposed');
     
     // Call the function to set up event listeners
     handleCheckboxChanges();
+    
+
+    // function goBack(candidateId){
+
+    //     localStorage.setItem('memId', candidateId);
+    //     // Open the link in a new window
+    //     window.location.href='./view-candidate.html';
+    // }
+
+    function goBack(candidateId) {
+        document.getElementById('goback').addEventListener('click', () => {
+            localStorage.setItem('memId', candidateId);
+            window.location.href = './view-candidate.html';
+        });
+    }
+    
+    
     

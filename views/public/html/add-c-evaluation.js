@@ -20,7 +20,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
     const candidateId = localStorage.getItem('memId');
 
-        
+    goBack(candidateId)
             let dropdownItems = document.querySelectorAll(".dropdown-item");
         
             // Add click event listener to each dropdown item
@@ -239,3 +239,9 @@ const displayUserDropdown = async function () {
 
 // Call the function to attach the event listener
 
+function goBack(candidateId) {
+    document.getElementById('goback').addEventListener('click', () => {
+        localStorage.setItem('memId', candidateId);
+        window.location.href = './view-candidate.html';
+    });
+}
