@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // You can perform additional actions here after a successful update
 
             // Redirect to the destination page
-            window.location.href = './edit-cDocuments.html';
         } catch (error) {
             // Handle error
             console.error('Error updating document data:', error);
