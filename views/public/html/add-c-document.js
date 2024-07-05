@@ -106,6 +106,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${doc.stcw}</td>
+                <td>${doc.expiry_date}</td>
                 <td>
                 <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
@@ -180,6 +181,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
     const issuePlace = document.getElementById('issue_place').value.trim();
     const stcw = document.getElementById('stcw').value.trim();
     const documentFiles = document.getElementById('document_files').files[0];
+    const expiry_date = document.getElementById('expiry_date').value.trim();
 
     let documentFileName = '';
 
@@ -211,6 +213,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
         issue_place: issuePlace,
         document_files: documentFileName,
         stcw: stcw,
+        expiry_date:expiry_date
     };
 
     try {
