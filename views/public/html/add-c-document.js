@@ -181,7 +181,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
     const issuePlace = document.getElementById('issue_place').value.trim();
     const stcw = document.getElementById('stcw').value.trim();
     const documentFiles = document.getElementById('document_files').files[0];
-    const expiry_date = document.getElementById('expiry_date').value.trim();
+    const expiry_date = document.getElementById('expiry_date').value || '1970-01-01';
 
     let documentFileName = '';
 
