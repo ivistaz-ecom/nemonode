@@ -56,4 +56,3 @@ function togglePassword() {
     const inputType = user_pass.type === "password" ? "text" : "password";
     user_pass.type = inputType;
 }
-
