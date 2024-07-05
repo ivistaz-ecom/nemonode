@@ -199,6 +199,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
             });
             documentFileName = documentFiles.name;
             console.log('Document file uploaded successfully');
+            alert('Document Added successfully!')
         } catch (err) {
             console.error('Error uploading document file:', err);
             return;
