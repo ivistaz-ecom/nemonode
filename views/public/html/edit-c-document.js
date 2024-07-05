@@ -25,7 +25,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     document.getElementById('documents').value = documents;
     document.getElementById('document_number').value = documentNumber;
     document.getElementById('issue_date').value = formatDate(issueDate);
-    document.getElementById('expiry_date').value = formatDate(expiry_date) || '1970-01-01';
+    document.getElementById('expiry_date').value = formatDate(expiry_date) ;
     document.getElementById('issue_place').value = issuePlace;
     document.getElementById('prev_document_files').value = documentFiles;
     document.getElementById('stcw').value = stcw;
