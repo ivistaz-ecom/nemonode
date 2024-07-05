@@ -228,6 +228,8 @@ async function fetchAndDisplayNationalities() {
 
 async function displayCandidateDetails(candidateData) {
     try {
+        const userName = localStorage.getItem('username');
+
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
         document.getElementById('edit_candidate_nationality').value = candidateData.nationality;
         document.getElementById('edit_candidate_c_vessel').value = candidateData.c_vessel;
@@ -284,7 +286,7 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_created_by').value = candidateData.createdby;
         document.getElementById('edit_candidate_created_date').value = candidateData.cr_date;
         document.getElementById('edit_candidate_created_time').value = candidateData.cr_time;
-        document.getElementById('edit_candidate_editedby').value = candidateData.editedby;
+        document.getElementById('edit_candidate_editedby').value = userName;
         document.getElementById('edit_candidate_imp_discussion').value = candidateData.imp_discussion;
         document.getElementById('edit_candidate_ipadress').value = candidateData.ipadress;
         document.getElementById('edit_candidate_joined_date').value = candidateData.joined_date;
@@ -406,8 +408,8 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
             return;
         }
     }
-
-    // Collect form data
+const userName = localStorage.getItem('username')
+    // Collect form    data
     const candidate_details = {
         fname: document.getElementById('edit_candidate_fname').value || null,
         lname: document.getElementById('edit_candidate_lname').value || null,
@@ -454,7 +456,7 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
         createdby: document.getElementById('edit_candidate_created_by').value || '',
         cr_date: document.getElementById('edit_candidate_created_date').value || null,
         cr_time: document.getElementById('edit_candidate_created_time').value || '',
-        editedby: localStorage.getItem('username'),
+        editedby:userName,
         imp_discussion: document.getElementById('edit_candidate_imp_discussion').value || '',
         ipadress: document.getElementById('edit_candidate_ipadress').value || '',
         joined_date: document.getElementById('edit_candidate_joined_date').value || null,
