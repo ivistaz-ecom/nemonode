@@ -178,6 +178,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
                     'Content-Type': 'application/json',
                 },
             });
+
         } catch (error) {
             console.error('Error updating basic comments value:', error);
         }
@@ -243,6 +244,9 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
             },
         });
         console.log('Discussion plus detail created:', response.data);
+        alert('Discussion plus details created!')
+        location.reload();
+
         event.target.reset(); // Reset form after successful submission
     } catch (error) {
         console.error('Error creating discussion:', error);
