@@ -16,6 +16,7 @@ const documentNumber = urlParams.get('documentNumber');
 const issueDate = urlParams.get('issueDate');
 const issuePlace = urlParams.get('issuePlace');
 const documentFiles = urlParams.get('documentFiles');
+const expiry_date = urlParams.get('expiry_Date')
 const stcw = urlParams.get('stcw');
 
 console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFiles,stcw)
@@ -24,6 +25,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     document.getElementById('documents').value = documents;
     document.getElementById('document_number').value = documentNumber;
     document.getElementById('issue_date').value = formatDate(issueDate);
+    document.getElementById('expiry_date').value = formatDate(expiry_date);
     document.getElementById('issue_place').value = issuePlace;
     document.getElementById('prev_document_files').value = documentFiles;
     document.getElementById('stcw').value = stcw;
