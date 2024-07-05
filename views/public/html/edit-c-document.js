@@ -93,6 +93,8 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
                 }
             });
             console.log('Document data updated successfully:', response.data);
+            alert('Document Added successfully!')
+
         } catch (error) {
             console.error('Error updating document data:', error);
         }
