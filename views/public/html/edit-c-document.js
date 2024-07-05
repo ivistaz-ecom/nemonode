@@ -46,7 +46,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
         const issueDate = document.getElementById('issue_date').value.trim();
         const issuePlace = document.getElementById('issue_place').value.trim();
         const stcw = document.getElementById('stcw').value.trim();
-        
+        const expiry_date = document.getElementById('expiry_date').value.trim();
         const newDocumentFile = document.getElementById('document_files').files[0];
         let documentFilesName = document.getElementById('prev_document_files').value.trim();
     
@@ -78,6 +78,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
             issue_date: issueDate,
             issue_place: issuePlace,
             document_files: documentFilesName,
+            expiry_date:expiry_date,
             stcw: stcw
         };
     
