@@ -51,7 +51,7 @@ function getURLParameter(name) {
 
       // Send data to the server using Axios with async/await
       const token = localStorage.getItem('token');
-      const response = await axios.put(`https://nemo.ivistaz.co/others/update-vendor/${vendorId}`, formData, {
+      const response = await axios.put(`http://localhost:4000/others/update-vendor/${vendorId}`, formData, {
         headers: { "Authorization": token }
       });
 
@@ -72,7 +72,7 @@ function getURLParameter(name) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

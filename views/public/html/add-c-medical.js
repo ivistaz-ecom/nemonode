@@ -25,7 +25,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
 
         try {
-            const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-hospital-details/${id}`, {
+            const response = await axios.get(`http://localhost:4000/candidate/get-hospital-details/${id}`, {
                 headers: {
                     'Authorization': token,
                 },
@@ -62,7 +62,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
                 <td>${hospital.upload}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='http://localhost:4000/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${hospital.created_by}</td>
                 <td>
@@ -138,7 +138,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         async function populateHospitalDropdown() {
             const token = localStorage.getItem('token');
             try {
-                const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { 
+                const hospitalResponse = await axios.get("http://localhost:4000/others/get-hospital", { 
                     headers: { "Authorization": token } 
                 });
                 console.log(hospitalResponse);
@@ -212,7 +212,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             console.log(medicalDetails)
         // Submit the form data
         try {
-            const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, medicalDetails, {
+            const response = await axios.post(`http://localhost:4000/candidate/hospital-details/${memId}`, medicalDetails, {
                 headers: {
                     'Authorization': token,
                    
@@ -247,7 +247,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+          axios.put(`http://localhost:4000/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })

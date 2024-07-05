@@ -81,7 +81,7 @@ const candidateId = urlParams.get('memId');
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:4000/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
-                <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='http://localhost:4000/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${doc.stcw}</td>
                 <td>
@@ -148,7 +148,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/document-delete/${documentId}`,{
+            const response = await axios.delete(`http://localhost:4000/candidate/document-delete/${documentId}`,{
                 headers:{"Authorization":token}
             });
 
@@ -214,7 +214,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
     };
 
     try {
-        const response = await axios.post(`https://nemo.ivistaz.co/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`http://localhost:4000/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -278,7 +278,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchDocumentTypes() {
     try {
-        const response = await axios.get('https://nemo.ivistaz.co/others/get-documenttype');
+        const response = await axios.get('http://localhost:4000/others/get-documenttype');
         const documents = response.data.documents;
 
         const dropdown = document.getElementById('documentTypeDropdown');

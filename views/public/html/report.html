@@ -1869,7 +1869,221 @@
       
       <div id="resumeDiscussionContent" class="report-content">
         <!-- Content for Due for Renewal Report -->
-        <h1>Hello</h1>
+          <!-- Content for New Profile Report --><form id="newprofilesubmit">
+            <div class="card card-body p-3 ">
+              <h4>Candidate with Discussions</h4>
+              <!-- <div class="row">
+              <div class="form-group col mb-2">
+                <label for="startDate">Start Date:</label>
+                <input type="date" class="form-control" id="startDate" name="startDate">
+            </div>
+            <div class="form-group col mb-2">
+                <label for="endDate">End Date:</label>
+                <input type="date" class="form-control" id="endDate" name="endDate">
+            </div>
+              </div> -->
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>
+                        <label for="startDate" class="form-label">From Date</label>
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="endDate" class="form-label">To Date</label>
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                    </td>
+                    
+                </tr>
+                <tr>
+                  <td style="width: 50%;">
+                      <label for="userDropdown" class="form-label">User</label>
+                  </td>
+                  <td style="width: 100%;">
+                      <select class="form-select" id="appliedBy1" name="appliedBy1">
+                          <!-- Options for user dropdown will be added dynamically -->
+                      </select>
+                  </td>
+              </tr>
+              <tr>
+                <td style="width: 50%;">
+                    <label for="category" class="form-label">Option</label>
+                </td>
+                <td style="width: 50%;">
+                    <select class="form-select" id="category" name="category">
+                      <option value="">--Select option--</option>
+    
+                        <option value="1">Officer</option>
+                      <option value="2">Rating</option>
+                        <option value="6">IV Crew</option>
+                    </select>
+                </td>
+            </tr>
+                <tr>
+                  <td colspan="2">
+                      <p>Select fields to include:</p>
+                  </td>
+              </tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="candidateId" name="candidateId">
+                        <label class="form-check-label" for="candidateId">Candidate ID</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="fname" name="fname">
+                        <label class="form-check-label" for="fname">First Name</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="c_rank" name="c_rank">
+                        <label class="form-check-label" for="c_rank">Rank</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="c_vessel" name="c_vessel">
+                        <label class="form-check-label" for="c_vessel">Vessel Type</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="c_ad1" name="c_ad1">
+                        <label class="form-check-label" for="c_ad1">Address</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="c_city" name="c_city">
+                        <label class="form-check-label" for="c_city">City</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="nationality" name="nationality">
+                        <label class="form-check-label" for="nationality">Nationality</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="c_mobi1" name="c_mobi1">
+                        <label class="form-check-label" for="c_mobi1">Contact Number</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="last_company" name="last_company">
+                        <label class="form-check-label" for="last_company">Previous Company</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="email1" name="email1">
+                        <label class="form-check-label" for="email1">Email</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="last_salary" name="last_salary">
+                        <label class="form-check-label" for="last_salary">Last Salary</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="experience" name="experience">
+                        <label class="form-check-label" for="experience">Experience</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dob" name="dob">
+                        <label class="form-check-label" for="dob">Date of Birth</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="avb_date" name="avb_date">
+                        <label class="form-check-label" for="avb_date">Availability</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="height" name="height">
+                        <label class="form-check-label" for="height">Height</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="weight" name="weight">
+                        <label class="form-check-label" for="weight">Weight</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="safety_shoe_size" name="safety_shoe_size">
+                        <label class="form-check-label" for="safety_shoe_size">Safety Shoe Size</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="boiler_suit_size" name="boiler_suit_size">
+                        <label class="form-check-label" for="boiler_suit_size">Boiler Suit Size</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            
+            <div>
+            <button type="submit" class="btn btn-primary float-end mt-3" >Generate New Profile Report</button>
+              </div>
+            
+              
+              </div>
+              <p class=" mb-0 pb-0 mt-1 text-end" style="font-size: 10px;" > <strong class="text-primary">Note : </strong>Scroll Horizontally if multiple fields are selected</p>
+              <div class=" rounded-3 bg-white">
+                <div>
+                  <input type="text" id="searchInput" placeholder="Search...">
+                  <select id="rowsPerPage">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="500">500</option>
+                  </select>
+              </div>
+              
+              
+              <div id="exportContainer"></div>
+    
+              <div id="candidateTable" style="overflow-x: scroll;"></div>
+              <div id="pagination"></div>
+              </div>
+            </form>
     </div>
       </div>
 
@@ -1958,7 +2172,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
