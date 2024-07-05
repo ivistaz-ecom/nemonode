@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Handle success
             console.log('NKD data updated successfully:', response.data);
-            window.location.replace('./add-c-nkd.html');
             // You can perform additional actions here after a successful update
         } catch (error) {
             // Handle error

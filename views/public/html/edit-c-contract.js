@@ -447,7 +447,6 @@ function formatDate(dateString) {
         });
         console.log('Contract updated successfully:', response.data);
         alert('Contract updated successfully');
-        window.location.href = "./add-c-contract.html";
     } catch (err) {
         console.error('Error updating contract:', err);
     }
