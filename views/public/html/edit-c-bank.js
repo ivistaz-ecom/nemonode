@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         };
     
         try {
-            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-bank-details/${bankId}`, bankDetails, {
+            const response = await axios.put(`http://localhost:4000/candidate/update-bank-details/${bankId}`, bankDetails, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json'
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+          axios.put(`http://localhost:4000/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })
