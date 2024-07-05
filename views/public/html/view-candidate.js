@@ -66,7 +66,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     <td>${doc.stcw}</td>
                     <td>${doc.expiry_date}</td>
                     <td>
-                        <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
+                        <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}','${doc.expiry_date}', event)">
                             <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                         </button>
                         <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
