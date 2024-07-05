@@ -569,6 +569,7 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_safety_shoe_size').value = candidateData.safety_shoe_size;
         document.getElementById('edit_candidate_height').value = candidateData.height;
         document.getElementById('edit_candidate_weight').value = candidateData.weight;
+        document.getElementById('edit_candidate_p_mobi1').value=candidateData.p_mobi1
         nationalityFetch(candidateData.l_country)
         .then(nationality => {
           document.getElementById('edit_candidate_I_country').value = nationality;
