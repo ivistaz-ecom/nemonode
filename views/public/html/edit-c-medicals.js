@@ -174,7 +174,6 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
         // Handle success
         console.log('Data updated successfully:', response.data);
-        window.location.href = './add-c-medicals.html';
     } catch (error) {
         // Handle error
         console.error('Error updating data:', error);

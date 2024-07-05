@@ -197,7 +197,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             });
             console.log('Bank details updated successfully:', response.data);
-            window.location.href = './add-c-bank.html';
         } catch (err) {
             console.error('Error updating bank details:', err);
         }
