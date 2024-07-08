@@ -206,6 +206,7 @@ const displayUserDropdown = async function () {
         console.log(appliedBy)
         // Create evaluation object
         const evaluationData = {
+        
             eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
