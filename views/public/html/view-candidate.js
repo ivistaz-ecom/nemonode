@@ -1380,19 +1380,18 @@ async function fetchAndDisplayFiles(candidateId) {
   }
   
   function openInNewTab(elementId, baseUrl) {
-    // Get candidateId from URL query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const candidateId = urlParams.get('memId');
+    // Get candidateId from localStorage
+    const candidateId = localStorage.getItem('memId');
     
     // Check if candidateId exists
     if (candidateId) {
-        // Update href attribute with candidateId
-        const addDiscButton = document.getElementById(elementId);
-        const url = `${baseUrl}?memId=${candidateId}`;
-        
-        // Open the URL in a new tab
-        window.open(url, '_blank');
+      // Update href attribute with candidateId
+      const addDiscButton = document.getElementById(elementId);
+      const url = `${baseUrl}?memId=${candidateId}`;
+      
+      // Open the URL in a new tab
+      window.open(url, '_blank');
     } else {
-        console.error('Candidate ID not found in URL parameters');
+      console.error('Candidate ID not found in localStorage');
     }
-}
+  }
