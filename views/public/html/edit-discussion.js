@@ -561,7 +561,11 @@ const proposedCheckbox = document.getElementById('proposed');
         const candidateId = urlParams.get('memId');
         
         if (candidateId) {
-            window.location.href = './view-candidate.html';
+            // Construct the URL with candidateId as a query parameter
+            const url = `./view-candidate.html?id=${candidateId}`;
+            
+            // Redirect to the new URL
+            window.location.href = url;
         } else {
             console.error('Candidate ID not found in URL parameters');
         }
