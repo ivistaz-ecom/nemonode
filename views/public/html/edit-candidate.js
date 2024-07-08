@@ -216,13 +216,10 @@ function formatDate(dateString) {
 }
 
 function viewCandidate(candidateId) {
-    // Construct the URL with candidateId as a query parameter
-    const url = `./view-candidate.html?memId=${candidateId}`;
-    
-    // Open the URL in a new tab
-    window.open(url, '_blank');
+    localStorage.setItem('memId', candidateId);
+    // Open the link in a new window
+    window.open('./view-candidate.html', '_blank');
 }
-
 
 
 function editCandidate(memId) {
