@@ -4593,9 +4593,11 @@ function exportToExcel5(contracts) {
 
 
 function viewCandidate(candidateId) {
-    localStorage.setItem('memId', candidateId);
-    // Open the link in a new window
-    window.open('./view-candidate.html', '_blank');
+    // Construct the URL with candidateId as a query parameter
+    const url = `./view-candidate.html?memId=${candidateId}`;
+    
+    // Open the URL in a new tab
+    window.open(url, '_blank');
 }
 
 
@@ -6672,10 +6674,14 @@ function getBadgeColor(status) {
     }
 }
 
-function handleView(id) {
-    localStorage.setItem('memId', id);
-    window.open('./view-candidate.html', '_blank');
+function viewCandidate(candidateId) {
+    // Construct the URL with candidateId as a query parameter
+    const url = `./view-candidate.html?memId=${candidateId}`;
+    
+    // Open the URL in a new tab
+    window.open(url, '_blank');
 }
+
 
 document.getElementById('getData').addEventListener('click', async () => {
     let startDate = document.getElementById('startDatemis').value;
@@ -6998,10 +7004,13 @@ function formatDate(dateString) {
   
   // Function to handle viewing a candidate
   function viewCandidate(candidateId) {
-      localStorage.setItem('memId', candidateId);
-      window.open('./view-candidate.html', '_blank');
-  }
-  
+    // Construct the URL with candidateId as a query parameter
+    const url = `./view-candidate.html?memId=${candidateId}`;
+    
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+}
+
   // Function to update pagination info
   function updatePaginationInfo() {
      
