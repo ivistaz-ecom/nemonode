@@ -854,6 +854,77 @@
 <label for="medical_no">No</label><br><br>
 </div>
 
+<div class="border p-3 rounded-3 mb-3">
+  <fieldset>
+    <legend class="mb-3">Practical Skills</legend>
+    <div class="mb-3">
+      <label for="number_of_contracts" class="form-label">Number of contracts in rank</label>
+      <input type="text" class="form-control" id="number_of_contracts" name="number_of_contracts" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="type_size_of_vessels" class="form-label">Type/Size of the vessels served</label>
+      <input type="text" class="form-control" id="type_size_of_vessels" name="type_size_of_vessels" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="last_contract_sign_off_date" class="form-label">Last contract sign off date</label>
+      <input type="text" class="form-control" id="last_contract_sign_off_date" name="last_contract_sign_off_date" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="type_of_main_engine_exp" class="form-label">Type of main engine exp</label>
+      <input type="text" class="form-control" id="type_of_main_engine_exp" name="type_of_main_engine_exp" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="type_of_aux_engines_exp" class="form-label">Type of aux engines exp</label>
+      <input type="text" class="form-control" id="type_of_aux_engines_exp" name="type_of_aux_engines_exp" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="cargo_cranes_gear_exp" class="form-label">Cargo cranes/gear (marker) exp</label>
+      <input type="text" class="form-control" id="cargo_cranes_gear_exp" name="cargo_cranes_gear_exp" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="type_of_cargo_carried" class="form-label">Type of cargo carried</label>
+      <input type="text" class="form-control" id="type_of_cargo_carried" name="type_of_cargo_carried" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="type_of_cargo_pumps" class="form-label">Type of cargo pumps (tankers)</label>
+      <input type="text" class="form-control" id="type_of_cargo_pumps" name="type_of_cargo_pumps" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="trading_area" class="form-label">Trading Area (limited/WW)</label>
+      <input type="text" class="form-control" id="trading_area" name="trading_area" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="mixed_crew_exp" class="form-label">Mixed crew (nationalities) exp</label>
+      <input type="text" class="form-control" id="mixed_crew_exp" name="mixed_crew_exp" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="ecdis_experience" class="form-label">ECDIS experience in previous 12 months</label>
+      <input type="text" class="form-control" id="ecdis_experience" name="ecdis_experience" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="psc_experience" class="form-label">PSC Experience</label>
+      <input type="text" class="form-control" id="psc_experience" name="psc_experience" value="Yes">
+    </div>
+
+    <div class="mb-3">
+      <label for="sire_cid_experience" class="form-label">SIRE / CID experience</label>
+      <input type="text" class="form-control" id="sire_cid_experience" name="sire_cid_experience" value="Yes">
+    </div>
+  </fieldset>
+</div>
+
+
 <!-- Remaining Questions -->
 <div class="border rounded-3 p-3 mb-3">
     <div class="row">
@@ -1165,6 +1236,22 @@ doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')
     doc.text(`Grading: ${formData.get('grading')}`, 10, 220);
     doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
     doc.text(`Date: ${formData.get('date')}`, 10, 250);
+
+
+    doc.text(`Number of contracts in rank: ${formData.get('number_of_contracts')}`, 10, 240);
+    doc.text(`Type/Size of the vessels served: ${formData.get('type_size_of_vessels')}`, 10, 250);
+    doc.text(`Last contract sign off date: ${formData.get('last_contract_sign_off_date')}`, 10, 260);
+    doc.text(`Type of main engine exp: ${formData.get('type_of_main_engine_exp')}`, 10, 270);
+    doc.text(`Type of aux engines exp: ${formData.get('type_of_aux_engines_exp')}`, 10, 280);
+    doc.text(`Cargo cranes/gear (marker) exp: ${formData.get('cargo_cranes_gear_exp')}`, 10, 290);
+    doc.text(`Type of cargo carried: ${formData.get('type_of_cargo_carried')}`, 10, 300);
+    doc.text(`Type of cargo pumps (tankers): ${formData.get('type_of_cargo_pumps')}`, 10, 310);
+    doc.text(`Trading Area (limited/WW): ${formData.get('trading_area')}`, 10, 320);
+    doc.text(`Mixed crew (nationalities) exp: ${formData.get('mixed_crew_exp')}`, 10, 330);
+    doc.text(`ECDIS experience in previous 12 months: ${formData.get('ecdis_experience')}`, 10, 340);
+    doc.text(`PSC Experience: ${formData.get('psc_experience')}`, 10, 350);
+    doc.text(`SIRE / CID experience: ${formData.get('sire_cid_experience')}`, 10, 360);
+
 
    await generateAndSavePDF(doc)
 }
