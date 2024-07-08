@@ -539,7 +539,7 @@ async function displayCandidateDetails() {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
       
-        document.getElementById('creator').value = candidateData.createdby
+        document.getElementById('creator').textContent = candidateData.createdby
         document.getElementById('candidateId').value = candidateData.candidateId;
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
         nationalityFetch(candidateData.nationality)
