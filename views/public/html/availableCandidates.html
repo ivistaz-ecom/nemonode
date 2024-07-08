@@ -771,8 +771,8 @@ function formatDate(date) {
 // Function to handle the "View" button click
 function handleView(id) {
     // Add your view logic here
-    localStorage.setItem('memId', id);
-    window.open('./view-candidate.html', '_blank');
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
 }
 
 

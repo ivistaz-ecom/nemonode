@@ -479,8 +479,20 @@ const decodedToken = decodeToken(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const candidateId = localStorage.getItem('memId');
-       memId.textContent= candidateId
+        function getCandidateIdFromUrl() {
+            // Get the query parameters from the current URL
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Retrieve the candidateId from the query parameters
+            const candidateId = urlParams.get('id');
+            
+            return candidateId;
+          }
+          
+          // Example usage
+          const candidateId = getCandidateIdFromUrl();
+          console.log(`Candidate ID from URL: ${candidateId}`);
+                 memId.textContent= candidateId
         await   fetchAndDisplayDiscussions(candidateId);
         await displayCandidateDetails();
         await fetchAndDisplayContractDetails(candidateId)
@@ -1378,20 +1390,22 @@ async function fetchAndDisplayFiles(candidateId) {
   function addEval() {
     openInNewTab('addEval', './add-c-evaluation.html');
   }
-  
   function openInNewTab(elementId, baseUrl) {
-    // Get candidateId from localStorage
-    const candidateId = localStorage.getItem('memId');
+    // Get the query parameters from the current URL
+    const urlParams = new URLSearchParams(window.location.search);
     
-    // Check if candidateId exists
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+    
+    // Check if candidateId exists in the URL
     if (candidateId) {
-      // Update href attribute with candidateId
-      const addDiscButton = document.getElementById(elementId);
-      const url = `${baseUrl}?memId=${candidateId}`;
-      
-      // Open the URL in a new tab
-      window.open(url, '_blank');
+        // Update href attribute with candidateId
+        const addDiscButton = document.getElementById(elementId);
+        const url = `${baseUrl}?memId=${candidateId}`;
+        
+        // Open the URL in a new tab
+        window.open(url, '_blank');
     } else {
-      console.error('Candidate ID not found in localStorage');
+        console.error('Candidate ID not found in URL parameters');
     }
-  }
+}

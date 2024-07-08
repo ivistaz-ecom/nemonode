@@ -261,8 +261,11 @@ async function fetchDiscussions(candidateId) {
 
 
 function viewCandidate(candidateId) {
-  localStorage.setItem('memId', candidateId);
-  window.open('./view-candidate.html', '_blank');
+  // Construct the URL with query parameter
+  let url = './view-candidate.html?id=' + candidateId;
+  
+  // Open the URL in a new tab/window
+  window.open(url, '_blank');
 }
 
   
@@ -338,15 +341,16 @@ function handleEdit(candidateId) {
 }
 
     
-    function handleView(candidateId) {
-      console.log(`View button clicked for candidateId ${candidateId}`);
-      // Add your view logic here
-      localStorage.setItem('memId', candidateId);
-      
-      // Open the page in a new tab
-      window.open('./view-candidate.html', '_blank');
-  }
+function handleView(candidateId) {
+  console.log(`View button clicked for candidateId ${candidateId}`);
   
+  // Construct the URL with query parameter
+  let url = `./view-candidate.html?id=${candidateId}`;
+  
+  // Open the URL in a new tab/window
+  window.open(url, '_blank');
+}
+
     
       
     
