@@ -259,10 +259,12 @@ async function fetchDiscussions(candidateId) {
 
 // Function to hide discussion popup
 
-
 function viewCandidate(candidateId) {
-  localStorage.setItem('memId', candidateId);
-  window.open('./view-candidate.html', '_blank');
+  // Construct the URL with candidateId as a query parameter
+  const url = `./view-candidate.html?memId=${candidateId}`;
+  
+  // Open the URL in a new tab
+  window.open(url, '_blank');
 }
 
   
@@ -338,15 +340,14 @@ function handleEdit(candidateId) {
 }
 
     
-    function handleView(candidateId) {
-      console.log(`View button clicked for candidateId ${candidateId}`);
-      // Add your view logic here
-      localStorage.setItem('memId', candidateId);
-      
-      // Open the page in a new tab
-      window.open('./view-candidate.html', '_blank');
-  }
+function viewCandidate(candidateId) {
+  // Construct the URL with candidateId as a query parameter
+  const url = `./view-candidate.html?memId=${candidateId}`;
   
+  // Open the URL in a new tab
+  window.open(url, '_blank');
+}
+
     
       
     

@@ -267,7 +267,7 @@ function goBack() {
     const candidateId = urlParams.get('memId');
     
     if (candidateId) {
-        window.location.href = './view-candidate.html';
+        window.location.href = `./view-candidate.html?memId=${candidateId}`;
     } else {
         console.error('Candidate ID not found in URL parameters');
     }
