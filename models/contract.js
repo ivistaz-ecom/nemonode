@@ -26,12 +26,15 @@ const Contract = sequelize.define('Contract', {
     },
     sign_on :{
         type:DataTypes.DATE
+      
     },
     wage_start :{
-        type:DataTypes.DATE
+        type:DataTypes.DATE,
+        allowNull:true
     },
        eoc :{
-        type:DataTypes.DATE
+        type:DataTypes.DATE,
+        allowNull:true
     },
     wages :{
         type:DataTypes.STRING
@@ -39,22 +42,19 @@ const Contract = sequelize.define('Contract', {
     currency: {
         type: DataTypes.STRING,
         allowNull: true,
-        // validate: {
-        //   isIn: [['AED', 'BMD', 'EUR', 'GBP', 'INR', 'MYR', 'SGD', 'USD']],
-        // },
+        
       },
       wages_types: {
         type: DataTypes.STRING,
         allowNull: true,
-        // validate: {
-        //   isIn: [['NETT', 'GROSS', 'PER DAY', 'PER MONTH']],
-        // }
+    
     },
     sign_off_port :{
         type:DataTypes.STRING
     },
     sign_off :{
-        type:DataTypes.DATE
+        type:DataTypes.DATE,
+        allowNull:true
     },
     reason_for_sign_off:{
         type:DataTypes.STRING
@@ -75,58 +75,70 @@ const Contract = sequelize.define('Contract', {
         type:DataTypes.STRING,
     },
 
-    salary_total_basic:{
+    openingBalance:{
         type:DataTypes.INTEGER
     },
-    salary_basic:{
+    basicWages:{
         type:DataTypes.INTEGER
     },
-    salary_bonus:{
+    leaveWages:{
         type:DataTypes.INTEGER
     },
-    salary_leave_wage:{
+    overtimeWages:{
         type:DataTypes.INTEGER
     },
-    salary_overtime:{
+    leaveSubsistence:{
         type:DataTypes.INTEGER
     },
-    salary_fixed_overtime:{
+    consolidateAllowance:{
         type:DataTypes.INTEGER
     },
-    susbistence_allowance:{
+    fixedOvertime:{
         type:DataTypes.INTEGER
     },
-    salary_consolidated_allowances:{
+    subsistenceAllowance:{
         type:DataTypes.INTEGER
     },
-    salary_uniform_allowance:{
+    uniformAllowance:{
         type:DataTypes.INTEGER
     },
-    salary_ot:{
+    miscAllowance:{
         type:DataTypes.INTEGER
     },
-    salary_miscellaneous_allowance:{
+    otherAllowance:{
         type:DataTypes.INTEGER
     },
-    salary_other_allowance:{
+    onboardOtWages:{
         type:DataTypes.INTEGER
     },
-    salary_tax:{
+    joiningBasic:{
         type:DataTypes.INTEGER
     },
-    salary_pf:{
+    tankCleaningBonus:{
         type:DataTypes.INTEGER
     },
-    leave_susbistence_allowance:{
+    additionalWorks:{
         type:DataTypes.INTEGER
     },
-    salary_pension_fund:{
+    prevMonthBalance:{
         type:DataTypes.INTEGER
     },
-    salary_others:{
+    reimbursement:{
         type:DataTypes.INTEGER
     },
-    salary_additional_works:{
+    radio:{
+        type:DataTypes.INTEGER
+    },
+    onboardFinalSettlement:{
+        type:DataTypes.INTEGER
+    },
+    otherDeductions:{
+        type:DataTypes.INTEGER
+    },
+    training:{
+        type:DataTypes.INTEGER
+    },
+    bondStore:{
         type:DataTypes.INTEGER
     },
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)

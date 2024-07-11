@@ -215,10 +215,10 @@ function formatDate(dateString) {
     return formattedDate;
 }
 
-function viewCandidate(candidateId) {
-    localStorage.setItem('memId', candidateId);
-    // Open the link in a new window
-    window.open('./view-candidate.html', '_blank');
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
 }
 
 

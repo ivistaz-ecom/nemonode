@@ -4591,12 +4591,12 @@ function exportToExcel5(contracts) {
 
 
 
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
 
-function viewCandidate(candidateId) {
-    localStorage.setItem('memId', candidateId);
-    // Open the link in a new window
-    window.open('./view-candidate.html', '_blank');
 }
+
 
 
 // Function to calculate age based on date of birth
@@ -6673,9 +6673,11 @@ function getBadgeColor(status) {
 }
 
 function handleView(id) {
-    localStorage.setItem('memId', id);
-    window.open('./view-candidate.html', '_blank');
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
 }
+
 
 document.getElementById('getData').addEventListener('click', async () => {
     let startDate = document.getElementById('startDatemis').value;
@@ -6997,10 +6999,12 @@ function formatDate(dateString) {
   });
   
   // Function to handle viewing a candidate
-  function viewCandidate(candidateId) {
-      localStorage.setItem('memId', candidateId);
-      window.open('./view-candidate.html', '_blank');
-  }
+  function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
+
   
   // Function to update pagination info
   function updatePaginationInfo() {

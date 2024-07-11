@@ -189,12 +189,12 @@ async function handleContractForm(event) {
     const vesselType = document.getElementById('candidate_c_vessel').value.trim();
     const signOnPort = document.getElementById('contract_signonport').value.trim();
     const signOn = document.getElementById('contract_signon').value.trim();
-    const wageStart = document.getElementById('contract_wage_start').value.trim();
-    const eoc = document.getElementById('contract_eoc').value.trim();
+    const wageStart = document.getElementById('contract_wage_start').value.trim() || '1970-01-01';
+    const eoc = document.getElementById('contract_eoc').value.trim() || '1970-01-01';
     const wages = document.getElementById('contract_wages').value.trim();
     const currency = document.getElementById('contract_currency').value.trim();
     const wagesType = document.getElementById('contract_wagestype').value.trim();
-    const signOff = document.getElementById('contract_signoff').value.trim();
+    const signOff = document.getElementById('contract_signoff').value.trim() || '1970-01-01';
     const signOffPort = document.getElementById('contract_signoffport').value.trim();
     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
@@ -581,7 +581,11 @@ function goBack() {
     const candidateId = urlParams.get('memId');
     
     if (candidateId) {
-        window.location.href = './view-candidate.html';
+        // Construct the URL with candidateId as a query parameter
+        const url = `./view-candidate.html?id=${candidateId}`;
+        
+        // Redirect to the new URL
+        window.location.href = url;
     } else {
         console.error('Candidate ID not found in URL parameters');
     }

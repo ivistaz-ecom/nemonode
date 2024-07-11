@@ -2250,46 +2250,65 @@ const proposals = async (req, res) => {
         // Extract query parameters
         const { status, startDate, endDate, companyName, category } = req.query;
 
-        // Build the raw SQL query
+        // Base query without company join
         let query = `
-            SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName, d.company_name
-            FROM discussion AS a
-            JOIN Candidates AS b ON a.candidateId = b.candidateId
-            JOIN Users AS c ON a.post_by = c.id
-            JOIN companies AS d ON a.companyname = d.company_id
-            WHERE 1 = 1
+            SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName
+            FROM discussion AS a, Candidates AS b, Users AS c
+            WHERE a.candidateId = b.candidateId
+           
         `;
+
+        // Conditionally add company join and select if companyName is provided
+        if (companyName) {
+            query = `
+                SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName, d.company_name
+                FROM discussion AS a, Candidates AS b, Users AS c, companies AS d
+                WHERE a.candidateId = b.candidateId
+                AND a.post_by = c.id
+                AND a.companyname = d.company_id
+                AND d.company_id = :companyName
+            `;
+        }
 
         // Conditionally add status filter if provided
         if (status) {
-            query += ` AND a.discussion = :status`;
+            query += ` AND a.discussion LIKE :status`;
         } else {
             // Include all statuses if status is not provided
             query += ` AND a.discussion IN ('Proposed', 'Rejected', 'Approved', 'Joined')`;
         }
 
-        // Add date range filter
-        query += ` AND a.join_date BETWEEN :startDate AND :endDate`;
-
-        // Conditionally add company name filter
-        if (companyName) {
-            query += ` AND d.company_id = :companyName`;
+        // Conditionally add date range filter if provided
+        if (startDate && endDate) {
+            query += ` AND a.join_date BETWEEN :startDate AND :endDate`;
         }
 
-        // Conditionally add category filter
+        // Conditionally add category filter if provided
         if (category) {
             query += ` AND b.category = :category`;
         }
 
+        // Build the replacements object dynamically
+        const replacements = {
+            status: status ? `%${status}%` : null
+        };
+
+        if (startDate && endDate) {
+            replacements.startDate = startDate;
+            replacements.endDate = endDate;
+        }
+
+        if (companyName) {
+            replacements.companyName = companyName;
+        }
+
+        if (category) {
+            replacements.category = category;
+        }
+
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
-            replacements: {
-                status,
-                startDate,
-                endDate,
-                companyName,
-                category
-            },
+            replacements,
             type: sequelize.QueryTypes.SELECT
         });
 
@@ -2300,6 +2319,10 @@ const proposals = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
+
+
+
 
 
 
