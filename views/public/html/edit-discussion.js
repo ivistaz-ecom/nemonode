@@ -25,6 +25,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
         // Send form data to the backend using Axios
         const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
         console.log("Response:", response.data);
+        alert('successfully updated!')
         // Handle the response as needed
     } catch (error) {
         // Handle errors
