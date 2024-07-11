@@ -208,7 +208,7 @@ const add_candidate = async (req, res) => {
             }, { transaction: t });
 
             await t.commit();
-            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.id });
+            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.candidateId });
         } catch (err) {
             await t.rollback();
 

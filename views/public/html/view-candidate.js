@@ -867,7 +867,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
                 <td >${badgeText}</td>
                 <td>
-                    <button class="btn border-0 m-0 p-0" onclick="editContract('${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
+                    <button class="btn border-0 m-0 p-0" onclick="editContract('${candidateId}','${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
@@ -886,12 +886,12 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
 
 
-function editContract(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, event) {
+function editContract(candidateId,id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, event) {
     event.preventDefault();
     console.log(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa);
 
     // Construct the query parameters string
-    const queryParams = `?id=${id}&rank=${encodeURIComponent(rank)}&company=${encodeURIComponent(company)}&vslName=${encodeURIComponent(vslName)}&vesselType=${encodeURIComponent(vesselType)}&sign_on_port=${encodeURIComponent(sign_on_port)}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(wage_start)}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(wages)}&currency=${encodeURIComponent(currency)}&wages_types=${encodeURIComponent(wages_types)}&sign_off=${encodeURIComponent(sign_off)}&sign_off_port=${encodeURIComponent(sign_off_port)}&reason_for_sign_off=${encodeURIComponent(reason_for_sign_off)}&aoa_number=${encodeURIComponent(aoa_number)}&emigrate_number=${encodeURIComponent(emigrate_number)}&documents=${encodeURIComponent(documents)}&aoa=${encodeURIComponent(aoa)}`;
+    const queryParams = `?candidateId=${candidateId}&id=${id}&rank=${encodeURIComponent(rank)}&company=${encodeURIComponent(company)}&vslName=${encodeURIComponent(vslName)}&vesselType=${encodeURIComponent(vesselType)}&sign_on_port=${encodeURIComponent(sign_on_port)}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(wage_start)}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(wages)}&currency=${encodeURIComponent(currency)}&wages_types=${encodeURIComponent(wages_types)}&sign_off=${encodeURIComponent(sign_off)}&sign_off_port=${encodeURIComponent(sign_off_port)}&reason_for_sign_off=${encodeURIComponent(reason_for_sign_off)}&aoa_number=${encodeURIComponent(aoa_number)}&emigrate_number=${encodeURIComponent(emigrate_number)}&documents=${encodeURIComponent(documents)}&aoa=${encodeURIComponent(aoa)}`;
 
     // Open edit-c-contract.html in a new tab with query parameters
     window.open(`edit-c-contract.html${queryParams}`, '_blank');

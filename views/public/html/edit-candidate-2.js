@@ -493,6 +493,7 @@ const userName = localStorage.getItem('username')
         });
         console.log('Response:', response.data);
         alert('Candidate Updated Successfully!');
+        viewCandidate(candidateId)
     } catch (error) {
         console.error('Error updating candidate:', error);
     }
@@ -634,3 +635,8 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
