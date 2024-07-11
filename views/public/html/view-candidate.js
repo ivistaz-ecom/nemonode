@@ -273,47 +273,20 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 'Authorization': token
             }
         });
-        console.log(hospitalResponse);
-        const hospitalsmed = hospitalResponse.data.hospital;
+        console.log(hospitalResponse)
+       const hospitalsmed = hospitalResponse.data.hospital
         const hospitals = {}; // Map to store company details by ID
         hospitalsmed.forEach(hospital => {
             hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
         });
 
-        let index = 1;
+        let index=1;
 
         const medicalDetails = response.data;
-        console.log(medicalDetails);
+        console.log(medicalDetails)
+        const medicalTableBody = document.getElementById('hospitalTableBody');
+        medicalTableBody.innerHTML = ''; // Clear existing rows
 
-        const medicalDetailsContainer = document.getElementById('medicalDetailsContainer');
-
-        // Create and insert the search input field
-        const searchInput = document.createElement('input');
-        searchInput.type = 'text';
-        searchInput.id = 'searchInput';
-        searchInput.placeholder = 'Search for medical details...';
-        medicalDetailsContainer.appendChild(searchInput);
-
-        // Create and insert the table
-        const table = document.createElement('table');
-        const tableHead = document.createElement('thead');
-        const tableBody = document.createElement('tbody');
-        tableBody.id = 'hospitalTableBody';
-
-        // Define table headers
-        const headers = ['#', 'Hospital Name', 'Place', 'Date', 'Expiry Date', 'Done By', 'Status', 'Amount', 'Upload', 'Actions'];
-        const headerRow = document.createElement('tr');
-        headers.forEach(headerText => {
-            const header = document.createElement('th');
-            header.textContent = headerText;
-            headerRow.appendChild(header);
-        });
-        tableHead.appendChild(headerRow);
-        table.appendChild(tableHead);
-        table.appendChild(tableBody);
-        medicalDetailsContainer.appendChild(table);
-
-        // Populate the table with medical details
         medicalDetails.forEach(medical => {
             const row = document.createElement('tr');
 
@@ -359,34 +332,13 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             row.appendChild(actionsCell);
 
             // Append the row to the table body
-            tableBody.appendChild(row);
+            medicalTableBody.appendChild(row);
         });
-
-        // Add event listener to the search input for filtering rows
-        searchInput.addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#hospitalTableBody tr');
-
-            rows.forEach(row => {
-                const cells = row.getElementsByTagName('td');
-                let rowContainsSearchTerm = false;
-
-                for (let cell of cells) {
-                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
-                        rowContainsSearchTerm = true;
-                        break;
-                    }
-                }
-
-                row.style.display = rowContainsSearchTerm ? '' : 'none';
-            });
-        });
+        
     } catch (err) {
         console.error(err);
     }
 }
-
-
 
 const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
     event.preventDefault();
