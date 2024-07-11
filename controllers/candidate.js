@@ -3426,27 +3426,23 @@ const getCallsCountForOneDay = async (req, res) => {
         const endDate = new Date(currentDate);
         endDate.setHours(23, 59, 59, 999);
 
-        // Convert dates to ISO strings for the raw query
-        const startDateString = startDate.toISOString();
-        const endDateString = endDate.toISOString();
-
-        // Raw query to fetch count of calls made within the current day
-        const result = await sequelize.query(
-            `SELECT COUNT(*) as count FROM Discussions WHERE created_date BETWEEN :startDate AND :endDate`,
-            {
-                replacements: { startDate: startDateString, endDate: endDateString },
-                type: sequelize.QueryTypes.SELECT
+        // Fetch count of calls made within the current day
+        const callsCount = await Discussion.count({
+            where: {
+                created_date: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
+                }
             }
-        );
-
-        const callsCount = result[0].count;
-        console.log(callsCount);
+        });
+        console.log(callsCount)
         res.status(200).json({ count: callsCount, success: true });
     } catch (error) {
         console.error('Error fetching count of calls made for one day:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
 
 
 
