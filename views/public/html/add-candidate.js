@@ -389,7 +389,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
     }
 });
 
-function redirectToViewCandiadate(){
+function redirectToViewCandiadate(id){
     window.open(`./view-candidate.html?id=${id}`, '_blank');
 
 }
