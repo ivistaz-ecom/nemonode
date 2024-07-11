@@ -547,7 +547,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function displayCandidateDetails() {
     try {
         // Fetch candidate data based on the candidate ID
-        const id = localStorage.getItem('memId')
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        // Get the candidateId from the URL parameter
+        const id = urlParams.get('id');
+        console.log(id)
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
       

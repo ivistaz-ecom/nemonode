@@ -1,10 +1,10 @@
 const express = require("express")
 require('dotenv').config()
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
 const PORT = process.env.PORT;
 const app = express()
 const path = require('path'); // Add this line to import the path module
-const multer = require('multer');
+// const multer = require('multer');
 const cors = require("cors")
 const bodyParser=require('body-parser');
 app.use(bodyParser.json({extended:false}));
@@ -14,6 +14,7 @@ const candidateRoutes = require("./routes/candidate")
 const userRoutes = require("./routes/user")
 const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
+const { QueryTypes } = require('sequelize');
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -110,452 +111,452 @@ const NKD = require('./models/nkd');
 app.get('/', async (req, res) => {
 res.redirect("/views/public/html/loginpage.html")});
 
-app.post('/search', async (req, res) => {
-    const userIdSearch = req.body.userId;
-    const searchValue = req.body.search;
-    try {
-    const userGroup = req.body.userGroup
-    if (userGroup !== 'admin' && userGroup!=='vendor') {
-    return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
-    }
-    if(userGroup ==='admin'){
-    const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
-    Candidate.findAll({
-    where: {
-    [Op.or]: [
-    { candidateId: { [Op.like]: `%${searchValue}%` } },
-    { active_details: { [Op.like]: `%${searchValue}%` } },
-    { area_code1: { [Op.like]: `%${searchValue}%` } },
-    { area_code2: { [Op.like]: `%${searchValue}%` } },
-    { avb_date: { [Op.like]: `%${searchValue}%` } },
-    { birth_place: { [Op.like]: `%${searchValue}%` } },
-    { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
-    { category: { [Op.like]: `%${searchValue}%` } },
-    { company_status: { [Op.like]: `%${searchValue}%` } },
-    { createdby: { [Op.like]: `%${searchValue}%` } },
-    { cr_date: { [Op.like]: `%${searchValue}%` } },
-    { cr_time: { [Op.like]: `%${searchValue}%` } },
-    { c_ad1: { [Op.like]: `%${searchValue}%` } },
-    { c_ad2: { [Op.like]: `%${searchValue}%` } },
-    { c_city: { [Op.like]: `%${searchValue}%` } },
-    { c_mobi1: { [Op.like]: `%${searchValue}%` } },
-    { c_mobi2: { [Op.like]: `%${searchValue}%` } },
-    { c_pin: { [Op.like]: `%${searchValue}%` } },
-    { c_rank: { [Op.like]: `%${searchValue}%` } },
-    { c_state: { [Op.like]: `%${searchValue}%` } },
-    { c_tel1: { [Op.like]: `%${searchValue}%` } },
-    { c_tel2: { [Op.like]: `%${searchValue}%` } },
-    { c_vessel: { [Op.like]: `%${searchValue}%` } },
-    { dob: { [Op.like]: `%${searchValue}%` } },
-    { editedby: { [Op.like]: `%${searchValue}%` } },
-    { email1: { [Op.like]: `%${searchValue}%` } },
-    { email2: { [Op.like]: `%${searchValue}%` } },
-    { experience: { [Op.like]: `%${searchValue}%` } },
-    { fname: { [Op.like]: `%${searchValue}%` } },
-    { grade: { [Op.like]: `%${searchValue}%` } },
-    { height: { [Op.like]: `%${searchValue}%` } },
-    { imp_discussion: { [Op.like]: `%${searchValue}%` } },
-    { indos_number: { [Op.like]: `%${searchValue}%` } },
-    { ipadress: { [Op.like]: `%${searchValue}%` } },
-    { joined_date: { [Op.like]: `%${searchValue}%` } },
-    { last_company: { [Op.like]: `%${searchValue}%` } },
-    { last_salary: { [Op.like]: `%${searchValue}%` } },
-    { las_date: { [Op.like]: `%${searchValue}%` } },
-    { las_time: { [Op.like]: `%${searchValue}%` } },
-    { lname: { [Op.like]: `%${searchValue}%` } },
-    { l_country: { [Op.like]: `%${searchValue}%` } },
-    { mobile_code1: { [Op.like]: `%${searchValue}%` } },
-    { mobile_code2: { [Op.like]: `%${searchValue}%` } },
-    { m_status: { [Op.like]: `%${searchValue}%` } },
-    { nationality: { [Op.like]: `%${searchValue}%` } },
-    { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
-    { other_numbers: { [Op.like]: `%${searchValue}%` } },
-    { photos: { [Op.like]: `%${searchValue}%` } },
-    { p_ad1: { [Op.like]: `%${searchValue}%` } },
-    { p_ad2: { [Op.like]: `%${searchValue}%` } },
-    { p_city: { [Op.like]: `%${searchValue}%` } },
-    { p_country: { [Op.like]: `%${searchValue}%` } },
-    { p_mobi1: { [Op.like]: `%${searchValue}%` } },
-    { p_mobi2: { [Op.like]: `%${searchValue}%` } },
-    { p_pin: { [Op.like]: `%${searchValue}%` } },
-    { p_rank: { [Op.like]: `%${searchValue}%` } },
-    { p_state: { [Op.like]: `%${searchValue}%` } },
-    { p_tel1: { [Op.like]: `%${searchValue}%` } },
-    { p_tel2: { [Op.like]: `%${searchValue}%` } },
-    { ref_check: { [Op.like]: `%${searchValue}%` } },
-    { resume: { [Op.like]: `%${searchValue}%` } },
-    { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
-    { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
-    { skype: { [Op.like]: `%${searchValue}%` } },
-    { stcw: { [Op.like]: `%${searchValue}%` } },
-    { weight: { [Op.like]: `%${searchValue}%` } },
-    { work_nautilus: { [Op.like]: `%${searchValue}%` } },
-    { zone: { [Op.like]: `%${searchValue}%` } },
-    { group: { [Op.like]: `%${searchValue}%` } },
-    { vendor: { [Op.like]: `%${searchValue}%` } },
-    ]
-    },
-    include: [
-    discussionplus,
-    contract,
-    cdocument,
-    bank,
-    travel,
-    medical,
-    NKD, // Include CandidateNkds here
-    // Add more models to include here...
-    ]
-    }),
-    NKD.findAll({
-    where: {
-    [Op.or]: [
-    { candidateId: { [Op.like]: `%${searchValue}%` } },
-    { kin_name: { [Op.like]: `%${searchValue}%` } },
-    { kin_relation: { [Op.like]: `%${searchValue}%` } },
-    { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
-    { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
-    { kin_priority: { [Op.like]: `%${searchValue}%` } },
-    // Add more conditions for NKD model...
-    ]
-    },
-    }),
-    bank.findAll({
-    where: {
-    [Op.or]: [
-    { bank_name: { [Op.like]: `%${searchValue}%` } },
-    { account_num: { [Op.like]: `%${searchValue}%` } },
-    { bank_addr: { [Op.like]: `%${searchValue}%` } },
-    { ifsc_code: { [Op.like]: `%${searchValue}%` } },
-    { swift_code: { [Op.like]: `%${searchValue}%` } },
-    { beneficiary: { [Op.like]: `%${searchValue}%` } },
-    { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
-    { pan_num: { [Op.like]: `%${searchValue}%` } },
-    { passbook: { [Op.like]: `%${searchValue}%` } },
-    { pan_card: { [Op.like]: `%${searchValue}%` } },
-    { branch: { [Op.like]: `%${searchValue}%` } },
-    { types: { [Op.like]: `%${searchValue}%` } },
-    { created_by: { [Op.like]: `%${searchValue}%` } },
-    // Add more conditions for Bank model...
-    ],
-    },
-    }),
-    medical.findAll({
-    where: {
-    [Op.or]: [
-    { hospitalName: { [Op.like]: `%${searchValue}%` } },
-    { place: { [Op.like]: `%${searchValue}%` } },
-    { date: { [Op.like]: `%${searchValue}%` } },
-    { expiry_date: { [Op.like]: `%${searchValue}%` } },
-    { done_by: { [Op.like]: `%${searchValue}%` } },
-    { status: { [Op.like]: `%${searchValue}%` } },
-    { amount: { [Op.like]: `%${searchValue}%` } },
-    { upload: { [Op.like]: `%${searchValue}%` } },
-    { created_by: { [Op.like]: `%${searchValue}%` } },
+// app.post('/search', async (req, res) => {
+//     const userIdSearch = req.body.userId;
+//     const searchValue = req.body.search;
+//     try {
+//     const userGroup = req.body.userGroup
+//     if (userGroup !== 'admin' && userGroup!=='vendor') {
+//     return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
+//     }
+//     if(userGroup ==='admin'){
+//     const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
+//     Candidate.findAll({
+//     where: {
+//     [Op.or]: [
+//     { candidateId: { [Op.like]: `%${searchValue}%` } },
+//     { active_details: { [Op.like]: `%${searchValue}%` } },
+//     { area_code1: { [Op.like]: `%${searchValue}%` } },
+//     { area_code2: { [Op.like]: `%${searchValue}%` } },
+//     { avb_date: { [Op.like]: `%${searchValue}%` } },
+//     { birth_place: { [Op.like]: `%${searchValue}%` } },
+//     { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
+//     { category: { [Op.like]: `%${searchValue}%` } },
+//     { company_status: { [Op.like]: `%${searchValue}%` } },
+//     { createdby: { [Op.like]: `%${searchValue}%` } },
+//     { cr_date: { [Op.like]: `%${searchValue}%` } },
+//     { cr_time: { [Op.like]: `%${searchValue}%` } },
+//     { c_ad1: { [Op.like]: `%${searchValue}%` } },
+//     { c_ad2: { [Op.like]: `%${searchValue}%` } },
+//     { c_city: { [Op.like]: `%${searchValue}%` } },
+//     { c_mobi1: { [Op.like]: `%${searchValue}%` } },
+//     { c_mobi2: { [Op.like]: `%${searchValue}%` } },
+//     { c_pin: { [Op.like]: `%${searchValue}%` } },
+//     { c_rank: { [Op.like]: `%${searchValue}%` } },
+//     { c_state: { [Op.like]: `%${searchValue}%` } },
+//     { c_tel1: { [Op.like]: `%${searchValue}%` } },
+//     { c_tel2: { [Op.like]: `%${searchValue}%` } },
+//     { c_vessel: { [Op.like]: `%${searchValue}%` } },
+//     { dob: { [Op.like]: `%${searchValue}%` } },
+//     { editedby: { [Op.like]: `%${searchValue}%` } },
+//     { email1: { [Op.like]: `%${searchValue}%` } },
+//     { email2: { [Op.like]: `%${searchValue}%` } },
+//     { experience: { [Op.like]: `%${searchValue}%` } },
+//     { fname: { [Op.like]: `%${searchValue}%` } },
+//     { grade: { [Op.like]: `%${searchValue}%` } },
+//     { height: { [Op.like]: `%${searchValue}%` } },
+//     { imp_discussion: { [Op.like]: `%${searchValue}%` } },
+//     { indos_number: { [Op.like]: `%${searchValue}%` } },
+//     { ipadress: { [Op.like]: `%${searchValue}%` } },
+//     { joined_date: { [Op.like]: `%${searchValue}%` } },
+//     { last_company: { [Op.like]: `%${searchValue}%` } },
+//     { last_salary: { [Op.like]: `%${searchValue}%` } },
+//     { las_date: { [Op.like]: `%${searchValue}%` } },
+//     { las_time: { [Op.like]: `%${searchValue}%` } },
+//     { lname: { [Op.like]: `%${searchValue}%` } },
+//     { l_country: { [Op.like]: `%${searchValue}%` } },
+//     { mobile_code1: { [Op.like]: `%${searchValue}%` } },
+//     { mobile_code2: { [Op.like]: `%${searchValue}%` } },
+//     { m_status: { [Op.like]: `%${searchValue}%` } },
+//     { nationality: { [Op.like]: `%${searchValue}%` } },
+//     { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
+//     { other_numbers: { [Op.like]: `%${searchValue}%` } },
+//     { photos: { [Op.like]: `%${searchValue}%` } },
+//     { p_ad1: { [Op.like]: `%${searchValue}%` } },
+//     { p_ad2: { [Op.like]: `%${searchValue}%` } },
+//     { p_city: { [Op.like]: `%${searchValue}%` } },
+//     { p_country: { [Op.like]: `%${searchValue}%` } },
+//     { p_mobi1: { [Op.like]: `%${searchValue}%` } },
+//     { p_mobi2: { [Op.like]: `%${searchValue}%` } },
+//     { p_pin: { [Op.like]: `%${searchValue}%` } },
+//     { p_rank: { [Op.like]: `%${searchValue}%` } },
+//     { p_state: { [Op.like]: `%${searchValue}%` } },
+//     { p_tel1: { [Op.like]: `%${searchValue}%` } },
+//     { p_tel2: { [Op.like]: `%${searchValue}%` } },
+//     { ref_check: { [Op.like]: `%${searchValue}%` } },
+//     { resume: { [Op.like]: `%${searchValue}%` } },
+//     { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
+//     { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
+//     { skype: { [Op.like]: `%${searchValue}%` } },
+//     { stcw: { [Op.like]: `%${searchValue}%` } },
+//     { weight: { [Op.like]: `%${searchValue}%` } },
+//     { work_nautilus: { [Op.like]: `%${searchValue}%` } },
+//     { zone: { [Op.like]: `%${searchValue}%` } },
+//     { group: { [Op.like]: `%${searchValue}%` } },
+//     { vendor: { [Op.like]: `%${searchValue}%` } },
+//     ]
+//     },
+//     include: [
+//     discussionplus,
+//     contract,
+//     cdocument,
+//     bank,
+//     travel,
+//     medical,
+//     NKD, // Include CandidateNkds here
+//     // Add more models to include here...
+//     ]
+//     }),
+//     NKD.findAll({
+//     where: {
+//     [Op.or]: [
+//     { candidateId: { [Op.like]: `%${searchValue}%` } },
+//     { kin_name: { [Op.like]: `%${searchValue}%` } },
+//     { kin_relation: { [Op.like]: `%${searchValue}%` } },
+//     { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
+//     { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
+//     { kin_priority: { [Op.like]: `%${searchValue}%` } },
+//     // Add more conditions for NKD model...
+//     ]
+//     },
+//     }),
+//     bank.findAll({
+//     where: {
+//     [Op.or]: [
+//     { bank_name: { [Op.like]: `%${searchValue}%` } },
+//     { account_num: { [Op.like]: `%${searchValue}%` } },
+//     { bank_addr: { [Op.like]: `%${searchValue}%` } },
+//     { ifsc_code: { [Op.like]: `%${searchValue}%` } },
+//     { swift_code: { [Op.like]: `%${searchValue}%` } },
+//     { beneficiary: { [Op.like]: `%${searchValue}%` } },
+//     { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
+//     { pan_num: { [Op.like]: `%${searchValue}%` } },
+//     { passbook: { [Op.like]: `%${searchValue}%` } },
+//     { pan_card: { [Op.like]: `%${searchValue}%` } },
+//     { branch: { [Op.like]: `%${searchValue}%` } },
+//     { types: { [Op.like]: `%${searchValue}%` } },
+//     { created_by: { [Op.like]: `%${searchValue}%` } },
+//     // Add more conditions for Bank model...
+//     ],
+//     },
+//     }),
+//     medical.findAll({
+//     where: {
+//     [Op.or]: [
+//     { hospitalName: { [Op.like]: `%${searchValue}%` } },
+//     { place: { [Op.like]: `%${searchValue}%` } },
+//     { date: { [Op.like]: `%${searchValue}%` } },
+//     { expiry_date: { [Op.like]: `%${searchValue}%` } },
+//     { done_by: { [Op.like]: `%${searchValue}%` } },
+//     { status: { [Op.like]: `%${searchValue}%` } },
+//     { amount: { [Op.like]: `%${searchValue}%` } },
+//     { upload: { [Op.like]: `%${searchValue}%` } },
+//     { created_by: { [Op.like]: `%${searchValue}%` } },
     
-    // Add more conditions for Medical model...
-    ],
-    },
-    }),
-    travel.findAll({
-    where: {
-    [Op.or]: [
-    { travel_date: { [Op.like]: `%${searchValue}%` } },
-    { travel_from: { [Op.like]: `%${searchValue}%` } },
-    { travel_to: { [Op.like]: `%${searchValue}%` } },
-    { travel_mode: { [Op.like]: `%${searchValue}%` } },
-    { travel_status: { [Op.like]: `%${searchValue}%` } },
-    { ticket_number: { [Op.like]: `%${searchValue}%` } },
-    { agent_name: { [Op.like]: `%${searchValue}%` } },
-    { portAgent: { [Op.like]: `%${searchValue}%` } },
-    { travel_amount: { [Op.like]: `%${searchValue}%` } },
-    {reason: { [Op.like]: `%${searchValue}%` } },
-    { created_by: { [Op.like]: `%${searchValue}%` } },
-    
-    
-    // Add more conditions for Travel model...
-    ],
-    },
-    }),
-    contract.findAll({
-    where: {
-    [Op.or]: [
-    { rank: { [Op.like]: `%${searchValue}%` } },
-    { company: { [Op.like]: `%${searchValue}%` } },
-    { vslName: { [Op.like]: `%${searchValue}%` } },
-    { vesselType: { [Op.like]: `%${searchValue}%` } },
-    { sign_on_port: { [Op.like]: `%${searchValue}%` } },
-    { sign_on: { [Op.like]: `%${searchValue}%` } },
-    { wages: { [Op.like]: `%${searchValue}%` } },
-    { wage_start: { [Op.like]: `%${searchValue}%` } },
-    { eoc: { [Op.like]: `%${searchValue}%` } },
-    { currency: { [Op.like]: `%${searchValue}%` } },
-    { wages_types: { [Op.like]: `%${searchValue}%` } },
-    { sign_off_port: { [Op.like]: `%${searchValue}%` } },
-    { sign_off: { [Op.like]: `%${searchValue}%` } },
-    { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
-    { documents: { [Op.like]: `%${searchValue}%` } },
-    { aoa: { [Op.like]: `%${searchValue}%` } },
-    { aoa_number: { [Op.like]: `%${searchValue}%` } },
-    { emigrate_number: { [Op.like]: `%${searchValue}%` } },
-    { created_by: { [Op.like]: `%${searchValue}%` } },
-    
-    // Add more conditions for Contract model...
-    ]
-    },
-    }),
-    cdocument.findAll({
-    where: {
-    [Op.or]: [
-    { document: { [Op.like]: `%${searchValue}%` } },
-    { document_number: { [Op.like]: `%${searchValue}%` } },
-    { issue_date: { [Op.like]: `%${searchValue}%` } },
-    { issue_place: { [Op.like]: `%${searchValue}%` } },
-    { expiry_date: { [Op.like]: `%${searchValue}%` } },
-    { document_files: { [Op.like]: `%${searchValue}%` } },
-    { stcw: { [Op.like]: `%${searchValue}%` } },
-    // Add more conditions for cDocument model...
-    ]
-    },
-    })
+//     // Add more conditions for Medical model...
+//     ],
+//     },
+//     }),
+//     travel.findAll({
+//     where: {
+//     [Op.or]: [
+//     { travel_date: { [Op.like]: `%${searchValue}%` } },
+//     { travel_from: { [Op.like]: `%${searchValue}%` } },
+//     { travel_to: { [Op.like]: `%${searchValue}%` } },
+//     { travel_mode: { [Op.like]: `%${searchValue}%` } },
+//     { travel_status: { [Op.like]: `%${searchValue}%` } },
+//     { ticket_number: { [Op.like]: `%${searchValue}%` } },
+//     { agent_name: { [Op.like]: `%${searchValue}%` } },
+//     { portAgent: { [Op.like]: `%${searchValue}%` } },
+//     { travel_amount: { [Op.like]: `%${searchValue}%` } },
+//     {reason: { [Op.like]: `%${searchValue}%` } },
+//     { created_by: { [Op.like]: `%${searchValue}%` } },
     
     
-    ]);
+//     // Add more conditions for Travel model...
+//     ],
+//     },
+//     }),
+//     contract.findAll({
+//     where: {
+//     [Op.or]: [
+//     { rank: { [Op.like]: `%${searchValue}%` } },
+//     { company: { [Op.like]: `%${searchValue}%` } },
+//     { vslName: { [Op.like]: `%${searchValue}%` } },
+//     { vesselType: { [Op.like]: `%${searchValue}%` } },
+//     { sign_on_port: { [Op.like]: `%${searchValue}%` } },
+//     { sign_on: { [Op.like]: `%${searchValue}%` } },
+//     { wages: { [Op.like]: `%${searchValue}%` } },
+//     { wage_start: { [Op.like]: `%${searchValue}%` } },
+//     { eoc: { [Op.like]: `%${searchValue}%` } },
+//     { currency: { [Op.like]: `%${searchValue}%` } },
+//     { wages_types: { [Op.like]: `%${searchValue}%` } },
+//     { sign_off_port: { [Op.like]: `%${searchValue}%` } },
+//     { sign_off: { [Op.like]: `%${searchValue}%` } },
+//     { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
+//     { documents: { [Op.like]: `%${searchValue}%` } },
+//     { aoa: { [Op.like]: `%${searchValue}%` } },
+//     { aoa_number: { [Op.like]: `%${searchValue}%` } },
+//     { emigrate_number: { [Op.like]: `%${searchValue}%` } },
+//     { created_by: { [Op.like]: `%${searchValue}%` } },
     
-    // Check if there are any results
-    const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
+//     // Add more conditions for Contract model...
+//     ]
+//     },
+//     }),
+//     cdocument.findAll({
+//     where: {
+//     [Op.or]: [
+//     { document: { [Op.like]: `%${searchValue}%` } },
+//     { document_number: { [Op.like]: `%${searchValue}%` } },
+//     { issue_date: { [Op.like]: `%${searchValue}%` } },
+//     { issue_place: { [Op.like]: `%${searchValue}%` } },
+//     { expiry_date: { [Op.like]: `%${searchValue}%` } },
+//     { document_files: { [Op.like]: `%${searchValue}%` } },
+//     { stcw: { [Op.like]: `%${searchValue}%` } },
+//     // Add more conditions for cDocument model...
+//     ]
+//     },
+//     })
     
-    if (hasResults) {
-    console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
-    res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
-    } else {
-    console.log('No results found');
-    res.json({ success: false, message: 'No results found' });
-    }
-}
-else if(userGroup === 'vendor'){
-    const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
-        Candidate.findAll({
-        where: {
-            userId: userIdSearch,
-        [Op.or]: [
-        { candidateId: { [Op.like]: `%${searchValue}%` } },
-        { active_details: { [Op.like]: `%${searchValue}%` } },
-        { area_code1: { [Op.like]: `%${searchValue}%` } },
-        { area_code2: { [Op.like]: `%${searchValue}%` } },
-        { avb_date: { [Op.like]: `%${searchValue}%` } },
-        { birth_place: { [Op.like]: `%${searchValue}%` } },
-        { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
-        { category: { [Op.like]: `%${searchValue}%` } },
-        { company_status: { [Op.like]: `%${searchValue}%` } },
-        { createdby: { [Op.like]: `%${searchValue}%` } },
-        { cr_date: { [Op.like]: `%${searchValue}%` } },
-        { cr_time: { [Op.like]: `%${searchValue}%` } },
-        { c_ad1: { [Op.like]: `%${searchValue}%` } },
-        { c_ad2: { [Op.like]: `%${searchValue}%` } },
-        { c_city: { [Op.like]: `%${searchValue}%` } },
-        { c_mobi1: { [Op.like]: `%${searchValue}%` } },
-        { c_mobi2: { [Op.like]: `%${searchValue}%` } },
-        { c_pin: { [Op.like]: `%${searchValue}%` } },
-        { c_rank: { [Op.like]: `%${searchValue}%` } },
-        { c_state: { [Op.like]: `%${searchValue}%` } },
-        { c_tel1: { [Op.like]: `%${searchValue}%` } },
-        { c_tel2: { [Op.like]: `%${searchValue}%` } },
-        { c_vessel: { [Op.like]: `%${searchValue}%` } },
-        { dob: { [Op.like]: `%${searchValue}%` } },
-        { editedby: { [Op.like]: `%${searchValue}%` } },
-        { email1: { [Op.like]: `%${searchValue}%` } },
-        { email2: { [Op.like]: `%${searchValue}%` } },
-        { experience: { [Op.like]: `%${searchValue}%` } },
-        { fname: { [Op.like]: `%${searchValue}%` } },
-        { grade: { [Op.like]: `%${searchValue}%` } },
-        { height: { [Op.like]: `%${searchValue}%` } },
-        { imp_discussion: { [Op.like]: `%${searchValue}%` } },
-        { indos_number: { [Op.like]: `%${searchValue}%` } },
-        { ipadress: { [Op.like]: `%${searchValue}%` } },
-        { joined_date: { [Op.like]: `%${searchValue}%` } },
-        { last_company: { [Op.like]: `%${searchValue}%` } },
-        { last_salary: { [Op.like]: `%${searchValue}%` } },
-        { las_date: { [Op.like]: `%${searchValue}%` } },
-        { las_time: { [Op.like]: `%${searchValue}%` } },
-        { lname: { [Op.like]: `%${searchValue}%` } },
-        { l_country: { [Op.like]: `%${searchValue}%` } },
-        { mobile_code1: { [Op.like]: `%${searchValue}%` } },
-        { mobile_code2: { [Op.like]: `%${searchValue}%` } },
-        { m_status: { [Op.like]: `%${searchValue}%` } },
-        { nationality: { [Op.like]: `%${searchValue}%` } },
-        { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
-        { other_numbers: { [Op.like]: `%${searchValue}%` } },
-        { photos: { [Op.like]: `%${searchValue}%` } },
-        { p_ad1: { [Op.like]: `%${searchValue}%` } },
-        { p_ad2: { [Op.like]: `%${searchValue}%` } },
-        { p_city: { [Op.like]: `%${searchValue}%` } },
-        { p_country: { [Op.like]: `%${searchValue}%` } },
-        { p_mobi1: { [Op.like]: `%${searchValue}%` } },
-        { p_mobi2: { [Op.like]: `%${searchValue}%` } },
-        { p_pin: { [Op.like]: `%${searchValue}%` } },
-        { p_rank: { [Op.like]: `%${searchValue}%` } },
-        { p_state: { [Op.like]: `%${searchValue}%` } },
-        { p_tel1: { [Op.like]: `%${searchValue}%` } },
-        { p_tel2: { [Op.like]: `%${searchValue}%` } },
-        { ref_check: { [Op.like]: `%${searchValue}%` } },
-        { resume: { [Op.like]: `%${searchValue}%` } },
-        { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
-        { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
-        { skype: { [Op.like]: `%${searchValue}%` } },
-        { stcw: { [Op.like]: `%${searchValue}%` } },
-        { weight: { [Op.like]: `%${searchValue}%` } },
-        { work_nautilus: { [Op.like]: `%${searchValue}%` } },
-        { zone: { [Op.like]: `%${searchValue}%` } },
-        { group: { [Op.like]: `%${searchValue}%` } },
-        { vendor: { [Op.like]: `%${searchValue}%` } },
-        ]
-        },
-        include: [
-        discussionplus,
-        contract,
-        cdocument,
-        bank,
-        travel,
-        medical,
-        NKD, // Include CandidateNkds here
-        // Add more models to include here...
-        ]
-        }),
-        NKD.findAll({
-        where: {
-        [Op.or]: [
-        { candidateId: { [Op.like]: `%${searchValue}%` } },
-        { kin_name: { [Op.like]: `%${searchValue}%` } },
-        { kin_relation: { [Op.like]: `%${searchValue}%` } },
-        { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
-        { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
-        { kin_priority: { [Op.like]: `%${searchValue}%` } },
-        // Add more conditions for NKD model...
-        ]
-        },
-        }),
-        bank.findAll({
-        where: {
-        [Op.or]: [
-        { bank_name: { [Op.like]: `%${searchValue}%` } },
-        { account_num: { [Op.like]: `%${searchValue}%` } },
-        { bank_addr: { [Op.like]: `%${searchValue}%` } },
-        { ifsc_code: { [Op.like]: `%${searchValue}%` } },
-        { swift_code: { [Op.like]: `%${searchValue}%` } },
-        { beneficiary: { [Op.like]: `%${searchValue}%` } },
-        { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
-        { pan_num: { [Op.like]: `%${searchValue}%` } },
-        { passbook: { [Op.like]: `%${searchValue}%` } },
-        { pan_card: { [Op.like]: `%${searchValue}%` } },
-        { branch: { [Op.like]: `%${searchValue}%` } },
-        { types: { [Op.like]: `%${searchValue}%` } },
-        { created_by: { [Op.like]: `%${searchValue}%` } },
-        // Add more conditions for Bank model...
-        ],
-        },
-        }),
-        medical.findAll({
-        where: {
-        [Op.or]: [
-        { hospitalName: { [Op.like]: `%${searchValue}%` } },
-        { place: { [Op.like]: `%${searchValue}%` } },
-        { date: { [Op.like]: `%${searchValue}%` } },
-        { expiry_date: { [Op.like]: `%${searchValue}%` } },
-        { done_by: { [Op.like]: `%${searchValue}%` } },
-        { status: { [Op.like]: `%${searchValue}%` } },
-        { amount: { [Op.like]: `%${searchValue}%` } },
-        { upload: { [Op.like]: `%${searchValue}%` } },
-        { created_by: { [Op.like]: `%${searchValue}%` } },
+    
+//     ]);
+    
+//     // Check if there are any results
+//     const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
+    
+//     if (hasResults) {
+//     console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
+//     res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
+//     } else {
+//     console.log('No results found');
+//     res.json({ success: false, message: 'No results found' });
+//     }
+// }
+// else if(userGroup === 'vendor'){
+//     const [candidateResults, nkdResults,bankResults,medicalResults,travelResults,contractResults,cdocumentsResults] = await Promise.all([
+//         Candidate.findAll({
+//         where: {
+//             userId: userIdSearch,
+//         [Op.or]: [
+//         { candidateId: { [Op.like]: `%${searchValue}%` } },
+//         { active_details: { [Op.like]: `%${searchValue}%` } },
+//         { area_code1: { [Op.like]: `%${searchValue}%` } },
+//         { area_code2: { [Op.like]: `%${searchValue}%` } },
+//         { avb_date: { [Op.like]: `%${searchValue}%` } },
+//         { birth_place: { [Op.like]: `%${searchValue}%` } },
+//         { boiler_suit_size: { [Op.like]: `%${searchValue}%` } },
+//         { category: { [Op.like]: `%${searchValue}%` } },
+//         { company_status: { [Op.like]: `%${searchValue}%` } },
+//         { createdby: { [Op.like]: `%${searchValue}%` } },
+//         { cr_date: { [Op.like]: `%${searchValue}%` } },
+//         { cr_time: { [Op.like]: `%${searchValue}%` } },
+//         { c_ad1: { [Op.like]: `%${searchValue}%` } },
+//         { c_ad2: { [Op.like]: `%${searchValue}%` } },
+//         { c_city: { [Op.like]: `%${searchValue}%` } },
+//         { c_mobi1: { [Op.like]: `%${searchValue}%` } },
+//         { c_mobi2: { [Op.like]: `%${searchValue}%` } },
+//         { c_pin: { [Op.like]: `%${searchValue}%` } },
+//         { c_rank: { [Op.like]: `%${searchValue}%` } },
+//         { c_state: { [Op.like]: `%${searchValue}%` } },
+//         { c_tel1: { [Op.like]: `%${searchValue}%` } },
+//         { c_tel2: { [Op.like]: `%${searchValue}%` } },
+//         { c_vessel: { [Op.like]: `%${searchValue}%` } },
+//         { dob: { [Op.like]: `%${searchValue}%` } },
+//         { editedby: { [Op.like]: `%${searchValue}%` } },
+//         { email1: { [Op.like]: `%${searchValue}%` } },
+//         { email2: { [Op.like]: `%${searchValue}%` } },
+//         { experience: { [Op.like]: `%${searchValue}%` } },
+//         { fname: { [Op.like]: `%${searchValue}%` } },
+//         { grade: { [Op.like]: `%${searchValue}%` } },
+//         { height: { [Op.like]: `%${searchValue}%` } },
+//         { imp_discussion: { [Op.like]: `%${searchValue}%` } },
+//         { indos_number: { [Op.like]: `%${searchValue}%` } },
+//         { ipadress: { [Op.like]: `%${searchValue}%` } },
+//         { joined_date: { [Op.like]: `%${searchValue}%` } },
+//         { last_company: { [Op.like]: `%${searchValue}%` } },
+//         { last_salary: { [Op.like]: `%${searchValue}%` } },
+//         { las_date: { [Op.like]: `%${searchValue}%` } },
+//         { las_time: { [Op.like]: `%${searchValue}%` } },
+//         { lname: { [Op.like]: `%${searchValue}%` } },
+//         { l_country: { [Op.like]: `%${searchValue}%` } },
+//         { mobile_code1: { [Op.like]: `%${searchValue}%` } },
+//         { mobile_code2: { [Op.like]: `%${searchValue}%` } },
+//         { m_status: { [Op.like]: `%${searchValue}%` } },
+//         { nationality: { [Op.like]: `%${searchValue}%` } },
+//         { other_mobile_code: { [Op.like]: `%${searchValue}%` } },
+//         { other_numbers: { [Op.like]: `%${searchValue}%` } },
+//         { photos: { [Op.like]: `%${searchValue}%` } },
+//         { p_ad1: { [Op.like]: `%${searchValue}%` } },
+//         { p_ad2: { [Op.like]: `%${searchValue}%` } },
+//         { p_city: { [Op.like]: `%${searchValue}%` } },
+//         { p_country: { [Op.like]: `%${searchValue}%` } },
+//         { p_mobi1: { [Op.like]: `%${searchValue}%` } },
+//         { p_mobi2: { [Op.like]: `%${searchValue}%` } },
+//         { p_pin: { [Op.like]: `%${searchValue}%` } },
+//         { p_rank: { [Op.like]: `%${searchValue}%` } },
+//         { p_state: { [Op.like]: `%${searchValue}%` } },
+//         { p_tel1: { [Op.like]: `%${searchValue}%` } },
+//         { p_tel2: { [Op.like]: `%${searchValue}%` } },
+//         { ref_check: { [Op.like]: `%${searchValue}%` } },
+//         { resume: { [Op.like]: `%${searchValue}%` } },
+//         { resume_upload_date: { [Op.like]: `%${searchValue}%` } },
+//         { safety_shoe_size: { [Op.like]: `%${searchValue}%` } },
+//         { skype: { [Op.like]: `%${searchValue}%` } },
+//         { stcw: { [Op.like]: `%${searchValue}%` } },
+//         { weight: { [Op.like]: `%${searchValue}%` } },
+//         { work_nautilus: { [Op.like]: `%${searchValue}%` } },
+//         { zone: { [Op.like]: `%${searchValue}%` } },
+//         { group: { [Op.like]: `%${searchValue}%` } },
+//         { vendor: { [Op.like]: `%${searchValue}%` } },
+//         ]
+//         },
+//         include: [
+//         discussionplus,
+//         contract,
+//         cdocument,
+//         bank,
+//         travel,
+//         medical,
+//         NKD, // Include CandidateNkds here
+//         // Add more models to include here...
+//         ]
+//         }),
+//         NKD.findAll({
+//         where: {
+//         [Op.or]: [
+//         { candidateId: { [Op.like]: `%${searchValue}%` } },
+//         { kin_name: { [Op.like]: `%${searchValue}%` } },
+//         { kin_relation: { [Op.like]: `%${searchValue}%` } },
+//         { kin_contact_number: { [Op.like]: `%${searchValue}%` } },
+//         { kin_contact_address: { [Op.like]: `%${searchValue}%` } },
+//         { kin_priority: { [Op.like]: `%${searchValue}%` } },
+//         // Add more conditions for NKD model...
+//         ]
+//         },
+//         }),
+//         bank.findAll({
+//         where: {
+//         [Op.or]: [
+//         { bank_name: { [Op.like]: `%${searchValue}%` } },
+//         { account_num: { [Op.like]: `%${searchValue}%` } },
+//         { bank_addr: { [Op.like]: `%${searchValue}%` } },
+//         { ifsc_code: { [Op.like]: `%${searchValue}%` } },
+//         { swift_code: { [Op.like]: `%${searchValue}%` } },
+//         { beneficiary: { [Op.like]: `%${searchValue}%` } },
+//         { beneficiary_addr: { [Op.like]: `%${searchValue}%` } },
+//         { pan_num: { [Op.like]: `%${searchValue}%` } },
+//         { passbook: { [Op.like]: `%${searchValue}%` } },
+//         { pan_card: { [Op.like]: `%${searchValue}%` } },
+//         { branch: { [Op.like]: `%${searchValue}%` } },
+//         { types: { [Op.like]: `%${searchValue}%` } },
+//         { created_by: { [Op.like]: `%${searchValue}%` } },
+//         // Add more conditions for Bank model...
+//         ],
+//         },
+//         }),
+//         medical.findAll({
+//         where: {
+//         [Op.or]: [
+//         { hospitalName: { [Op.like]: `%${searchValue}%` } },
+//         { place: { [Op.like]: `%${searchValue}%` } },
+//         { date: { [Op.like]: `%${searchValue}%` } },
+//         { expiry_date: { [Op.like]: `%${searchValue}%` } },
+//         { done_by: { [Op.like]: `%${searchValue}%` } },
+//         { status: { [Op.like]: `%${searchValue}%` } },
+//         { amount: { [Op.like]: `%${searchValue}%` } },
+//         { upload: { [Op.like]: `%${searchValue}%` } },
+//         { created_by: { [Op.like]: `%${searchValue}%` } },
         
-        // Add more conditions for Medical model...
-        ],
-        },
-        }),
-        travel.findAll({
-        where: {
-        [Op.or]: [
-        { travel_date: { [Op.like]: `%${searchValue}%` } },
-        { travel_from: { [Op.like]: `%${searchValue}%` } },
-        { travel_to: { [Op.like]: `%${searchValue}%` } },
-        { travel_mode: { [Op.like]: `%${searchValue}%` } },
-        { travel_status: { [Op.like]: `%${searchValue}%` } },
-        { ticket_number: { [Op.like]: `%${searchValue}%` } },
-        { agent_name: { [Op.like]: `%${searchValue}%` } },
-        { portAgent: { [Op.like]: `%${searchValue}%` } },
-        { travel_amount: { [Op.like]: `%${searchValue}%` } },
-        {reason: { [Op.like]: `%${searchValue}%` } },
-        { created_by: { [Op.like]: `%${searchValue}%` } },
-        
-        
-        // Add more conditions for Travel model...
-        ],
-        },
-        }),
-        contract.findAll({
-        where: {
-        [Op.or]: [
-        { rank: { [Op.like]: `%${searchValue}%` } },
-        { company: { [Op.like]: `%${searchValue}%` } },
-        { vslName: { [Op.like]: `%${searchValue}%` } },
-        { vesselType: { [Op.like]: `%${searchValue}%` } },
-        { sign_on_port: { [Op.like]: `%${searchValue}%` } },
-        { sign_on: { [Op.like]: `%${searchValue}%` } },
-        { wages: { [Op.like]: `%${searchValue}%` } },
-        { wage_start: { [Op.like]: `%${searchValue}%` } },
-        { eoc: { [Op.like]: `%${searchValue}%` } },
-        { currency: { [Op.like]: `%${searchValue}%` } },
-        { wages_types: { [Op.like]: `%${searchValue}%` } },
-        { sign_off_port: { [Op.like]: `%${searchValue}%` } },
-        { sign_off: { [Op.like]: `%${searchValue}%` } },
-        { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
-        { documents: { [Op.like]: `%${searchValue}%` } },
-        { aoa: { [Op.like]: `%${searchValue}%` } },
-        { aoa_number: { [Op.like]: `%${searchValue}%` } },
-        { emigrate_number: { [Op.like]: `%${searchValue}%` } },
-        { created_by: { [Op.like]: `%${searchValue}%` } },
-        
-        // Add more conditions for Contract model...
-        ]
-        },
-        }),
-        cdocument.findAll({
-        where: {
-        [Op.or]: [
-        { document: { [Op.like]: `%${searchValue}%` } },
-        { document_number: { [Op.like]: `%${searchValue}%` } },
-        { issue_date: { [Op.like]: `%${searchValue}%` } },
-        { issue_place: { [Op.like]: `%${searchValue}%` } },
-        { expiry_date: { [Op.like]: `%${searchValue}%` } },
-        { document_files: { [Op.like]: `%${searchValue}%` } },
-        { stcw: { [Op.like]: `%${searchValue}%` } },
-        // Add more conditions for cDocument model...
-        ]
-        },
-        })
+//         // Add more conditions for Medical model...
+//         ],
+//         },
+//         }),
+//         travel.findAll({
+//         where: {
+//         [Op.or]: [
+//         { travel_date: { [Op.like]: `%${searchValue}%` } },
+//         { travel_from: { [Op.like]: `%${searchValue}%` } },
+//         { travel_to: { [Op.like]: `%${searchValue}%` } },
+//         { travel_mode: { [Op.like]: `%${searchValue}%` } },
+//         { travel_status: { [Op.like]: `%${searchValue}%` } },
+//         { ticket_number: { [Op.like]: `%${searchValue}%` } },
+//         { agent_name: { [Op.like]: `%${searchValue}%` } },
+//         { portAgent: { [Op.like]: `%${searchValue}%` } },
+//         { travel_amount: { [Op.like]: `%${searchValue}%` } },
+//         {reason: { [Op.like]: `%${searchValue}%` } },
+//         { created_by: { [Op.like]: `%${searchValue}%` } },
         
         
-        ]);
+//         // Add more conditions for Travel model...
+//         ],
+//         },
+//         }),
+//         contract.findAll({
+//         where: {
+//         [Op.or]: [
+//         { rank: { [Op.like]: `%${searchValue}%` } },
+//         { company: { [Op.like]: `%${searchValue}%` } },
+//         { vslName: { [Op.like]: `%${searchValue}%` } },
+//         { vesselType: { [Op.like]: `%${searchValue}%` } },
+//         { sign_on_port: { [Op.like]: `%${searchValue}%` } },
+//         { sign_on: { [Op.like]: `%${searchValue}%` } },
+//         { wages: { [Op.like]: `%${searchValue}%` } },
+//         { wage_start: { [Op.like]: `%${searchValue}%` } },
+//         { eoc: { [Op.like]: `%${searchValue}%` } },
+//         { currency: { [Op.like]: `%${searchValue}%` } },
+//         { wages_types: { [Op.like]: `%${searchValue}%` } },
+//         { sign_off_port: { [Op.like]: `%${searchValue}%` } },
+//         { sign_off: { [Op.like]: `%${searchValue}%` } },
+//         { reason_for_sign_off: { [Op.like]: `%${searchValue}%` } },
+//         { documents: { [Op.like]: `%${searchValue}%` } },
+//         { aoa: { [Op.like]: `%${searchValue}%` } },
+//         { aoa_number: { [Op.like]: `%${searchValue}%` } },
+//         { emigrate_number: { [Op.like]: `%${searchValue}%` } },
+//         { created_by: { [Op.like]: `%${searchValue}%` } },
         
-        // Check if there are any results
-        const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
+//         // Add more conditions for Contract model...
+//         ]
+//         },
+//         }),
+//         cdocument.findAll({
+//         where: {
+//         [Op.or]: [
+//         { document: { [Op.like]: `%${searchValue}%` } },
+//         { document_number: { [Op.like]: `%${searchValue}%` } },
+//         { issue_date: { [Op.like]: `%${searchValue}%` } },
+//         { issue_place: { [Op.like]: `%${searchValue}%` } },
+//         { expiry_date: { [Op.like]: `%${searchValue}%` } },
+//         { document_files: { [Op.like]: `%${searchValue}%` } },
+//         { stcw: { [Op.like]: `%${searchValue}%` } },
+//         // Add more conditions for cDocument model...
+//         ]
+//         },
+//         })
         
-        if (hasResults) {
-        console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
-        res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
-        } else {
-        console.log('No results found');
-        res.json({ success: false, message: 'No results found' });
-        }
-}
-else{
-    console.log('No results found');
-    res.json({ success: false, message: 'No results found' });
-}
-    } catch (error) {
-    console.error('Error in search operation:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
-    }
-    });
+        
+//         ]);
+        
+//         // Check if there are any results
+//         const hasResults = candidateResults.length > 0 || nkdResults.length > 0 || bankResults.length > 0 || medicalResults.length > 0 || travelResults.length > 0 || contractResults.length > 0 || cdocumentsResults.length > 0;
+        
+//         if (hasResults) {
+//         console.log('Search Results:', candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults);
+//         res.json({ success: true, candidateResults, nkdResults, bankResults, medicalResults, travelResults, contractResults, cdocumentsResults });
+//         } else {
+//         console.log('No results found');
+//         res.json({ success: false, message: 'No results found' });
+//         }
+// }
+// else{
+//     console.log('No results found');
+//     res.json({ success: false, message: 'No results found' });
+// }
+//     } catch (error) {
+//     console.error('Error in search operation:', error);
+//     res.status(500).json({ success: false, error: 'Internal Server Error' });
+//     }
+//     });
     
 
     
@@ -695,6 +696,177 @@ else{
 //     }
 // });
 
+//search
+// app.post('/search', async (req, res) => {
+//     const userIdSearch = req.body.userId;
+//     const searchValue = req.body.search;
+//     const userGroup = req.body.userGroup;
+
+//     if (userGroup !== 'admin' && userGroup !== 'vendor') {
+//         return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
+//     }
+
+//     try {
+//         const fields = [
+//             'candidateId', 'active_details', 'area_code1', 'area_code2', 'avb_date', 'birth_place', 
+//             'boiler_suit_size', 'category', 'company_status', 'createdby', 'cr_date', 'cr_time', 
+//             'c_ad1', 'c_ad2', 'c_city', 'c_mobi1', 'c_mobi2', 'c_pin', 'c_rank', 'c_state', 
+//             'c_tel1', 'c_tel2', 'c_vessel', 'dob', 'editedby', 'email1', 'email2', 'experience', 
+//             'fname', 'grade', 'height', 'imp_discussion', 'indos_number', 'ipadress', 'joined_date', 
+//             'last_company', 'last_salary', 'las_date', 'las_time', 'lname', 'l_country', 'mobile_code1', 
+//             'mobile_code2', 'm_status', 'nationality', 'other_mobile_code', 'other_numbers', 'photos', 
+//             'p_ad1', 'p_ad2', 'p_city', 'p_country', 'p_mobi1', 'p_mobi2', 'p_pin', 'p_rank', 'p_state', 
+//             'p_tel1', 'p_tel2', 'ref_check', 'resume', 'resume_upload_date', 'safety_shoe_size', 
+//             'skype', 'stcw', 'weight', 'work_nautilus', 'zone', 'vendor'
+//         ];
+
+//         const searchConditions = fields.map(field => `${field} LIKE :searchValue`).join(' OR ');
+
+//         let query = `SELECT * FROM Candidates WHERE (${searchConditions})`;
+
+//         if (userGroup === 'vendor') {
+//             query += ` AND userId = :userIdSearch`;
+//         }
+
+//         const replacements = {
+//             searchValue: `%${searchValue}%`,
+//             userIdSearch: userIdSearch,
+//         };
+
+//         const candidateResults = await sequelize.query(query, {
+//             replacements,
+//             type: QueryTypes.SELECT,
+//         });
+
+//         if (candidateResults.length > 0) {
+//             console.log('Search Results:', candidateResults);
+//             res.json({ success: true, candidateResults });
+//         } else {
+//             console.log('No results found');
+//             res.json({ success: false, message: 'No results found' });
+//         }
+//     } catch (error) {
+//         console.error('Error in search operation:', error);
+//         res.status(500).json({ success: false, error: 'Internal Server Error' });
+//     }
+// });
+
+// app.post('/search', async (req, res) => {
+//     const userIdSearch = req.body.userId;
+//     const searchValue = req.body.search;
+//     const userGroup = req.body.userGroup;
+
+//     if (userGroup !== 'admin' && userGroup !== 'vendor') {
+//         return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
+//     }
+
+//     try {
+//         const fields = [
+//             'candidateId', 'active_details', 'area_code1', 'area_code2', 'avb_date', 'birth_place', 
+//             'boiler_suit_size', 'category', 'company_status', 'createdby', 'cr_date', 'cr_time', 
+//             'c_ad1', 'c_ad2', 'c_city', 'c_mobi1', 'c_mobi2', 'c_pin', 'c_rank', 'c_state', 
+//             'c_tel1', 'c_tel2', 'c_vessel', 'dob', 'editedby', 'email1', 'email2', 'experience', 
+//             'fname', 'grade', 'height', 'imp_discussion', 'indos_number', 'ipadress', 'joined_date', 
+//             'last_company', 'last_salary', 'las_date', 'las_time', 'lname', 'l_country', 'mobile_code1', 
+//             'mobile_code2', 'm_status', 'nationality', 'other_mobile_code', 'other_numbers', 'photos', 
+//             'p_ad1', 'p_ad2', 'p_city', 'p_country', 'p_mobi1', 'p_mobi2', 'p_pin', 'p_rank', 'p_state', 
+//             'p_tel1', 'p_tel2', 'ref_check', 'resume', 'resume_upload_date', 'safety_shoe_size', 
+//             'skype', 'stcw', 'weight', 'work_nautilus', 'zone', 'vendor'
+//         ];
+
+//         const searchConditions = fields.map(field => `${field} LIKE :searchValue`).join(' OR ');
+
+//         let query = `SELECT * FROM Candidates WHERE (${searchConditions})`;
+
+//         if (userGroup === 'vendor') {
+//             query += ` AND userId = :userIdSearch`;
+//         }
+
+//         const replacements = {
+//             searchValue: `%${searchValue}%`,
+//             userIdSearch: userIdSearch,
+//         };
+
+//         const candidateResults = await sequelize.query(query, {
+//             replacements,
+//             type: QueryTypes.SELECT,
+//         });
+
+//         if (candidateResults.length > 0) {
+//             console.log('Search Results:', candidateResults);
+//             res.json({ success: true, candidateResults });
+//         } else {
+//             console.log('No results found');
+//             res.json({ success: false, message: 'No results found' });
+//         }
+//     } catch (error) {
+//         console.error('Error in search operation:', error);
+//         res.status(500).json({ success: false, error: 'Internal Server Error' });
+//     }
+// });
+app.post('/search', async (req, res) => {
+    const userIdSearch = req.body.userId;
+    const searchValue = req.body.search;
+    const userGroup = req.body.userGroup;
+
+    if (userGroup !== 'admin' && userGroup !== 'vendor') {
+        return res.status(403).json({ success: false, message: 'You are not authorized to perform this action' });
+    }
+
+    try {
+        const fields = [
+            'candidateId', 'active_details', 'area_code1', 'area_code2', 'avb_date', 'birth_place', 
+            'boiler_suit_size', 'category', 'company_status', 'createdby', 'cr_date', 'cr_time', 
+            'c_ad1', 'c_ad2', 'c_city', 'c_mobi1', 'c_mobi2', 'c_pin', 'c_rank', 'c_state', 
+            'c_tel1', 'c_tel2', 'c_vessel', 'dob', 'editedby', 'email1', 'email2', 'experience', 
+            'fname', 'grade', 'height', 'imp_discussion', 'indos_number', 'ipadress', 'joined_date', 
+            'last_company', 'last_salary', 'las_date', 'las_time', 'lname', 'l_country', 'mobile_code1', 
+            'mobile_code2', 'm_status', 'nationality', 'other_mobile_code', 'other_numbers', 'photos', 
+            'p_ad1', 'p_ad2', 'p_city', 'p_country', 'p_mobi1', 'p_mobi2', 'p_pin', 'p_rank', 'p_state', 
+            'p_tel1', 'p_tel2', 'ref_check', 'resume', 'resume_upload_date', 'safety_shoe_size', 
+            'skype', 'stcw', 'weight', 'work_nautilus', 'zone', 'vendor'
+        ];
+
+        const searchConditions = fields.map(field => `${field} LIKE :searchValue`).join(' OR ');
+        const orderByCase = fields.map((field, index) => `WHEN ${field} LIKE :searchValue THEN ${index}`).join(' ');
+
+        let query = `
+            SELECT * FROM Candidates
+            WHERE (${searchConditions})
+            ORDER BY CASE 
+                ${orderByCase}
+                ELSE ${fields.length}
+            END
+        `;
+
+        if (userGroup === 'vendor') {
+            query += ` AND userId = :userIdSearch`;
+        }
+
+        const replacements = {
+            searchValue: `%${searchValue}%`,
+            userIdSearch: userIdSearch,
+        };
+
+        const candidateResults = await sequelize.query(query, {
+            replacements,
+            type: QueryTypes.SELECT,
+        });
+
+        if (candidateResults.length > 0) {
+            console.log('Search Results:', candidateResults);
+            res.json({ success: true, candidateResults });
+        } else {
+            console.log('No results found');
+            res.json({ success: false, message: 'No results found' });
+        }
+    } catch (error) {
+        console.error('Error in search operation:', error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+});
+
+
 app.post('/searchspl', async (req, res) => {
     try {
         const { nemoId, name, rank, vsl, experience, grade, status, license, zone, avb_date, las_date, group, fromAge, toAge, c_mobi1,email1 } = req.body;
@@ -792,482 +964,482 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage1 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/photos');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage1 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/photos');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage2 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/tickets');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+// const storage2 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/tickets');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const storage3 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files/resume');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-
-
-const storage4 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/files');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage5 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/contract');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage6 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/aoa');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage7 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/uploads/medical');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage8 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/bank_details');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const storage9 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/var/www/html/nemonode/views/public/bank_details/pan_card');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({ storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload1 = multer({ storage: storage1,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload2 = multer({ storage: storage2,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload3 = multer({ storage: storage3,
-    limits: { fileSize: 10 * 1024 * 1024 } 
- });
-const upload4 = multer({ storage: storage4,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload5 = multer({ storage: storage5,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload6 = multer({ storage: storage6,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload7 = multer({ storage: storage7,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload8 = multer({ storage: storage8,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const upload9 = multer({ storage: storage9,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
-const evaluationDirectory = '/views/public/files/evaluation';
-const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
-const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
-const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
-const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
-const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
-const documentDirectory = '/var/www/html/nemonode/views/public/files'
-const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
-const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
-const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
-// Serve static files from the evaluation directory
-
-app.use(express.static('/views/public/files'));
-app.use(express.static('/views/public/uploads'));
-app.use(express.static('/views/public/bank_details'));
-app.use('/documents',express.static(documentDirectory))
-app.use('/photos', express.static(photosDirectory));
-app.use('/tickets', express.static(ticketsDirectory));  
-app.use('/resume', express.static(resumeDirectory));
-app.use('/contract', express.static(contractDirectory));
-app.use('/aoa', express.static(aoaDirectory));
-app.use('/medical', express.static(medicalDirectory));
-app.use('/evaluation', express.static(evaluationDirectory));
-app.use('/bank_details', express.static(bankDirectory));
-app.use('/bank_details/pan_card', express.static(pancardDirectory));
-// Serve static files from various directories
-// Route to handle file uploads 
-app.post('/upload', upload.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload1', upload1.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload2', upload2.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload3', upload3.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload4', upload4.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload5', upload5.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload6', upload6.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload7', upload7.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-app.post('/upload8', upload8.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
-
-app.post('/upload9', upload9.single('file'), (req, res) => {
-    if (req.file) {
-        res.status(200).send('File uploaded successfully');
-    } else {
-        res.status(400).send('Error uploading file');
-    }
-});
+// const storage3 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files/resume');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
 
 
-// Route to fetch files based on candidateId
-app.get('/fetch-files/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+// const storage4 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/files');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage5 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/contract');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage6 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/aoa');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage7 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/uploads/medical');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage8 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/bank_details');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const storage9 = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, '/var/www/html/nemonode/views/public/bank_details/pan_card');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const upload = multer({ storage: storage,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload1 = multer({ storage: storage1,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload2 = multer({ storage: storage2,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload3 = multer({ storage: storage3,
+//     limits: { fileSize: 10 * 1024 * 1024 } 
+//  });
+// const upload4 = multer({ storage: storage4,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload5 = multer({ storage: storage5,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload6 = multer({ storage: storage6,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload7 = multer({ storage: storage7,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload8 = multer({ storage: storage8,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const upload9 = multer({ storage: storage9,
+//     limits: { fileSize: 10 * 1024 * 1024 }  });
+// const evaluationDirectory = '/views/public/files/evaluation';
+// const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
+// const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
+// const photosDirectory = '/var/www/html/nemonode/views/public/files/photos';
+// const resumeDirectory = '/var/www/html/nemonode/views/public/files/resume';
+// const ticketsDirectory = '/var/www/html/nemonode/views/public/files/tickets';
+// const documentDirectory = '/var/www/html/nemonode/views/public/files'
+// const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
+// const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
+// const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
+// // Serve static files from the evaluation directory
 
-    // Read the contents of the directory
-    fs.readdir(evaluationDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+// app.use(express.static('/views/public/files'));
+// app.use(express.static('/views/public/uploads'));
+// app.use(express.static('/views/public/bank_details'));
+// app.use('/documents',express.static(documentDirectory))
+// app.use('/photos', express.static(photosDirectory));
+// app.use('/tickets', express.static(ticketsDirectory));  
+// app.use('/resume', express.static(resumeDirectory));
+// app.use('/contract', express.static(contractDirectory));
+// app.use('/aoa', express.static(aoaDirectory));
+// app.use('/medical', express.static(medicalDirectory));
+// app.use('/evaluation', express.static(evaluationDirectory));
+// app.use('/bank_details', express.static(bankDirectory));
+// app.use('/bank_details/pan_card', express.static(pancardDirectory));
+// // Serve static files from various directories
+// // Route to handle file uploads 
+// app.post('/upload', upload.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload1', upload1.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload2', upload2.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload3', upload3.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload4', upload4.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload5', upload5.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload6', upload6.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload7', upload7.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
+// app.post('/upload8', upload8.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files1/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(photosDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/photos/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files2/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(resumeDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/resume/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files3/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(ticketsDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/tickets/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files4/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(contractDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/contract/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+// app.post('/upload9', upload9.single('file'), (req, res) => {
+//     if (req.file) {
+//         res.status(200).send('File uploaded successfully');
+//     } else {
+//         res.status(400).send('Error uploading file');
+//     }
+// });
 
 
+// // Route to fetch files based on candidateId
+// app.get('/fetch-files/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
+//     // Read the contents of the directory
+//     fs.readdir(evaluationDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-app.get('/fetch-files5/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-    // Read the contents of the directory
-    fs.readdir(aoaDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/evaluation/${file}`);
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/aoa/${file}`);
+// app.get('/fetch-files1/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+//     // Read the contents of the directory
+//     fs.readdir(photosDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/photos/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files2/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(resumeDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/resume/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files3/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(ticketsDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/tickets/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+
+// app.get('/fetch-files4/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(contractDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/contract/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
 
-app.get('/fetch-files6/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
 
-    // Read the contents of the directory
-    fs.readdir(medicalDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+// app.get('/fetch-files5/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
 
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
+//     // Read the contents of the directory
+//     fs.readdir(aoaDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/medical/${file}`);
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
 
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-app.get('/fetch-files7/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/aoa/${file}`);
 
-    // Read the contents of the directory
-    fs.readdir(bankDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/bank_details/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files8/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(pancardDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/bank_details/pan_card/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
-
-app.get('/fetch-files9/:candidateId', (req, res) => {
-    const candidateId = req.params.candidateId;
-
-    // Read the contents of the directory
-    fs.readdir(documentDirectory, (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        // Filter files based on the candidateId pattern
-        const candidateFiles = files.filter(file => {
-            const fileName = file.split('_')[0]; // Get the part before the first underscore
-            return fileName === candidateId;
-        });
-
-        // Construct the file names (relative paths)
-        const fileNames = candidateFiles.map(file => `/${file}`);
-
-        // Send the list of file names to the client
-        res.json(fileNames);
-    });
-});
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
 
 
-// Middleware for serving files dynamically
-app.use((req, res, next) => {
-    const viewPath = path.join(__dirname, req.path);
-    console.log("DIRNAME",__dirname,"PATH",req.path)
-    const decodedPath = decodeURIComponent(viewPath); // Decode URL
-    res.sendFile(decodedPath, (err) => {
-        if (err) {
-            console.error('Error serving file:', err);
-            console.error('Requested URL:', req.url);
-            console.error('Resolved File Path:', decodedPath);
-            res.status(err.status || 500).send('Internal Server Error');
-        } else {
-            console.log('File sent successfully:', decodedPath);
-        }
-    });
-});
+
+// app.get('/fetch-files6/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(medicalDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/medical/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+// app.get('/fetch-files7/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(bankDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/bank_details/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+
+// app.get('/fetch-files8/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(pancardDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/bank_details/pan_card/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+
+// app.get('/fetch-files9/:candidateId', (req, res) => {
+//     const candidateId = req.params.candidateId;
+
+//     // Read the contents of the directory
+//     fs.readdir(documentDirectory, (err, files) => {
+//         if (err) {
+//             console.error('Error reading directory:', err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Filter files based on the candidateId pattern
+//         const candidateFiles = files.filter(file => {
+//             const fileName = file.split('_')[0]; // Get the part before the first underscore
+//             return fileName === candidateId;
+//         });
+
+//         // Construct the file names (relative paths)
+//         const fileNames = candidateFiles.map(file => `/${file}`);
+
+//         // Send the list of file names to the client
+//         res.json(fileNames);
+//     });
+// });
+
+
+// // Middleware for serving files dynamically
+// app.use((req, res, next) => {
+//     const viewPath = path.join(__dirname, req.path);
+//     console.log("DIRNAME",__dirname,"PATH",req.path)
+//     const decodedPath = decodeURIComponent(viewPath); // Decode URL
+//     res.sendFile(decodedPath, (err) => {
+//         if (err) {
+//             console.error('Error serving file:', err);
+//             console.error('Requested URL:', req.url);
+//             console.error('Resolved File Path:', decodedPath);
+//             res.status(err.status || 500).send('Internal Server Error');
+//         } else {
+//             console.log('File sent successfully:', decodedPath);
+//         }
+//     });
+// });
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
