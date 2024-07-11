@@ -379,10 +379,10 @@ addcandidateButton.addEventListener("submit", async (e) => {
                 "Authorization": token
             }
         });
-        console.log('Response:', serverResponse.data);
+        console.log('Response:', serverResponse);
         alert("Candidate Added Successfully!");
         
-        redirectToViewCandiadate(response.data.candidateId)
+        redirectToViewCandiadate(response.candidateId)
     } catch (error) {
         console.error('Error:', error);
         // Handle error as needed
