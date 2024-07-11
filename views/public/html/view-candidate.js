@@ -353,7 +353,11 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
 }
 
 document.getElementById('medicalSearchInput').addEventListener('input', function() {
-    const candidateId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+    
     fetchAndDisplayMedicalDetails(candidateId);
 });
 
