@@ -273,93 +273,120 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 'Authorization': token
             }
         });
-
+        console.log(hospitalResponse);
         const hospitalsmed = hospitalResponse.data.hospital;
-        const hospitals = {}; // Map to store hospital details by ID
+        const hospitals = {}; // Map to store company details by ID
         hospitalsmed.forEach(hospital => {
-            hospitals[hospital.id] = hospital.hospitalName; // Store hospital details by ID
+            hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
         });
 
         let index = 1;
 
         const medicalDetails = response.data;
-        const medicalTableBody = document.getElementById('hospitalTableBody');
-        medicalTableBody.innerHTML = ''; // Clear existing rows
+        console.log(medicalDetails);
 
-        const searchInput = document.getElementById('medicalSearchInput').value.toLowerCase(); // Get search input and convert to lowercase
+        const medicalDetailsContainer = document.getElementById('medicalDetailsContainer');
 
-        medicalDetails.forEach(medical => {
-            // Check if search input matches any medical details
-            if (
-                hospitals[medical.hospitalName].toLowerCase().includes(searchInput) ||
-                medical.place.toLowerCase().includes(searchInput) ||
-                medical.date.toLowerCase().includes(searchInput) ||
-                medical.expiry_date.toLowerCase().includes(searchInput) ||
-                medical.done_by.toLowerCase().includes(searchInput) ||
-                medical.status.toLowerCase().includes(searchInput) ||
-                medical.amount.toLowerCase().includes(searchInput) ||
-                medical.upload.toLowerCase().includes(searchInput)
-            ) {
-                const row = document.createElement('tr');
+        // Create and insert the search input field
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.id = 'searchInput';
+        searchInput.placeholder = 'Search for medical details...';
+        medicalDetailsContainer.appendChild(searchInput);
 
-                const createCell = (value) => {
-                    const cell = document.createElement('td');
-                    cell.textContent = value;
-                    return cell;
-                };
-                const hospitalName = hospitals[medical.hospitalName];
+        // Create and insert the table
+        const table = document.createElement('table');
+        const tableHead = document.createElement('thead');
+        const tableBody = document.createElement('tbody');
+        tableBody.id = 'hospitalTableBody';
 
-                // Add data to each cell
-                row.appendChild(createCell(index++));
-                row.appendChild(createCell(hospitalName));
-                row.appendChild(createCell(medical.place));
-                row.appendChild(createCell(medical.date));
-                row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
-                row.appendChild(createCell(medical.done_by));
-                row.appendChild(createCell(medical.status));
-                row.appendChild(createCell(medical.amount));
-                row.appendChild(createCell(medical.upload));
-                
-                const linkCell = document.createElement('td');
-                const link = document.createElement('a');
-                link.href = `https://nemo.ivistaz.co/views/public/uploads/medical/${medical.upload}`;
-                link.textContent = 'Click here to view!';
-                linkCell.appendChild(link);
-                row.appendChild(linkCell);
-
-                const actionsCell = document.createElement('td');
-                const editButton = document.createElement('button');
-                editButton.className = 'btn border-0 m-0 p-0';
-                editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-                editButton.addEventListener('click', () => editMedical(medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn border-0 m-0 p-0';
-                deleteButton.innerHTML = '<i class="fa fa-trash" onMouseOver="this.style.color=\'red\'" onMouseOut="this.style.color=\'gray\'"></i>';
-                deleteButton.addEventListener('click', () => deleteMedical(medical.id, event));
-
-                actionsCell.appendChild(editButton);
-                actionsCell.appendChild(deleteButton);
-                row.appendChild(actionsCell);
-
-                // Append the row to the table body
-                medicalTableBody.appendChild(row);
-            }
+        // Define table headers
+        const headers = ['#', 'Hospital Name', 'Place', 'Date', 'Expiry Date', 'Done By', 'Status', 'Amount', 'Upload', 'Actions'];
+        const headerRow = document.createElement('tr');
+        headers.forEach(headerText => {
+            const header = document.createElement('th');
+            header.textContent = headerText;
+            headerRow.appendChild(header);
         });
-        
+        tableHead.appendChild(headerRow);
+        table.appendChild(tableHead);
+        table.appendChild(tableBody);
+        medicalDetailsContainer.appendChild(table);
+
+        // Populate the table with medical details
+        medicalDetails.forEach(medical => {
+            const row = document.createElement('tr');
+
+            const createCell = (value) => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                return cell;
+            };
+            const hospitalName = hospitals[medical.hospitalName];
+
+            // Add data to each cell
+            row.appendChild(createCell(index++));
+
+            row.appendChild(createCell(hospitalName));
+            row.appendChild(createCell(medical.place));
+            row.appendChild(createCell(medical.date));
+            row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
+            row.appendChild(createCell(medical.done_by));
+            row.appendChild(createCell(medical.status));
+            row.appendChild(createCell(medical.amount));
+            row.appendChild(createCell(medical.upload));
+            
+            const linkCell = document.createElement('td');
+            const link = document.createElement('a');
+            link.href = `https://nemo.ivistaz.co/views/public/uploads/medical/${medical.upload}`;
+            link.textContent = 'Click here to view!';
+            linkCell.appendChild(link);
+            row.appendChild(linkCell);
+
+            const actionsCell = document.createElement('td');
+            const editButton = document.createElement('button');
+            editButton.className = 'btn border-0 m-0 p-0';
+            editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
+            editButton.addEventListener('click', () => editMedical(medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn border-0 m-0 p-0';
+            deleteButton.innerHTML = '<i class="fa fa-trash" onMouseOver="this.style.color=\'red\'" onMouseOut="this.style.color=\'gray\'"></i>';
+            deleteButton.addEventListener('click', () => deleteMedical(medical.id, event));
+
+            actionsCell.appendChild(editButton);
+            actionsCell.appendChild(deleteButton);
+            row.appendChild(actionsCell);
+
+            // Append the row to the table body
+            tableBody.appendChild(row);
+        });
+
+        // Add event listener to the search input for filtering rows
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#hospitalTableBody tr');
+
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                let rowContainsSearchTerm = false;
+
+                for (let cell of cells) {
+                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                        rowContainsSearchTerm = true;
+                        break;
+                    }
+                }
+
+                row.style.display = rowContainsSearchTerm ? '' : 'none';
+            });
+        });
     } catch (err) {
         console.error(err);
     }
 }
 
-document.getElementById('medicalSearchInput').addEventListener('input', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    // Get the candidateId from the URL parameter
-    const candidateId = urlParams.get('id');
-    
-    fetchAndDisplayMedicalDetails(candidateId);
-});
+
 
 const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
     event.preventDefault();
