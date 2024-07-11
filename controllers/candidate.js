@@ -1994,13 +1994,7 @@ const getCallCount = async (req, res) => {
             where: {
                 created_date: {
                     [Op.between]: [startOfDay, currentTime] // Filter discussions within the current day
-                },
-                [Op.or]: [ // Filter discussions containing proposed, approved, joined, or rejected
-                    { discussion: { [Op.like]: '%Proposed%' } },
-                    { discussion: { [Op.like]: '%Approved%' } },
-                    { discussion: { [Op.like]: '%Joined%' } },
-                    { discussion: { [Op.like]: '%Rejected%' } }
-                ]
+                }
             }
         });
         
