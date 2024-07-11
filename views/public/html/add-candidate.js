@@ -382,7 +382,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         console.log('Response:', serverResponse);
         alert("Candidate Added Successfully!");
         
-        redirectToViewCandiadate(response.candidateId)
+        redirectToViewCandiadate(serverResponse.data.candidateId)
     } catch (error) {
         console.error('Error:', error);
         // Handle error as needed
