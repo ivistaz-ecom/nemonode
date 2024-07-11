@@ -101,24 +101,23 @@ const add_candidate = async (req, res) => {
             nemo_source,
         } = req.body;
         // Validate required fields
-      
-        console.log(c_mobi1)
+
+        console.log(c_mobi1);
         // Check for existing data
         const whereClause = {};
 
         if (email1) {
             whereClause.email1 = email1;
         }
-        
+
         if (c_mobi1) {
             whereClause.c_mobi1 = c_mobi1;
         }
-        
+
         const existingCandidate = await Candidate.findOne({
             where: whereClause,
             transaction: t,
         });
-        
 
         if (existingCandidate) {
             await t.rollback();
@@ -127,10 +126,10 @@ const add_candidate = async (req, res) => {
 
         // If no duplicate, create a new entry
         try {
-            const userId = req.user.id
-            console.log(userId)
-            
-                        await Candidate.create({
+            const userId = req.user.id;
+            console.log(userId);
+
+            const newCandidate = await Candidate.create({
                 active_details,
                 area_code1,
                 area_code2,
@@ -202,13 +201,14 @@ const add_candidate = async (req, res) => {
                 group,
                 vendor,
                 password,
-                nemo_source:'m',
+                nemo_source: 'm',
                 us_visa,
-                userId:userId,
-                
+                userId: userId,
+
             }, { transaction: t });
+
             await t.commit();
-            res.status(201).json({ message: "Successfully Created New Candidate!", success: true });
+            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.id });
         } catch (err) {
             await t.rollback();
 
@@ -221,6 +221,7 @@ const add_candidate = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 }
+
 const getAllCandidates = async (req, res) => {
     try {
         const userId = req.user.id;
