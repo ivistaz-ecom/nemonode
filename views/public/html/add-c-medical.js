@@ -163,8 +163,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         const decodedToken = decodeToken(token);
         const urlParams = new URLSearchParams(window.location.search);
     
-    // Get the candidateId from the URL parameter
-    const memId = urlParams.get('memId');
+        // Get the candidateId from the URL parameter
+        const memId = urlParams.get('memId');
         const hospitalName = document.getElementById('hospital_name').value.trim();
         const place = document.getElementById('place').value.trim();
         const date = document.getElementById('date').value.trim();
@@ -209,21 +209,26 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
             upload: uploadFileName,
             created_by: decodedToken.userId
         };
-            console.log(medicalDetails)
+    
+        console.log(medicalDetails);
+    
         // Submit the form data
         try {
             const response = await axios.post(`https://nemo.ivistaz.co/candidate/hospital-details/${memId}`, medicalDetails, {
                 headers: {
                     'Authorization': token,
-                   
                 }
             });
-
+    
             console.log('Medical data sent successfully:', response.data);
+            // Reset the form after successful submission
+            document.getElementById('medicalForm').reset();
+            alert('Medical data sent successfully');
         } catch (error) {
             console.error('Error sending medical data:', error);
         }
     });
+    
     
 
     });
