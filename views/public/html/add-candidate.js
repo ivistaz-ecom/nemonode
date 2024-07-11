@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const token = localStorage.getItem('token')
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -380,11 +382,18 @@ addcandidateButton.addEventListener("submit", async (e) => {
         });
         console.log('Response:', serverResponse.data);
         alert("Candidate Added Successfully!");
+        
+        redirectToViewCandiadate(response.data.candidateId)
     } catch (error) {
         console.error('Error:', error);
         // Handle error as needed
     }
 });
+
+function redirectToViewCandiadate(){
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
 
 
 // const findStudentsWithUpcomingBirthdays = async () => {
