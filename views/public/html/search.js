@@ -328,7 +328,6 @@ function viewCandidate(candidateId) {
 function handleEdit(candidateId) {
     console.log(`Edit button clicked for candidateId ${candidateId}`);
     
-    localStorage.setItem('memId', candidateId);
     
     const canEdit = decodedToken.Write;
     if (canEdit) {
