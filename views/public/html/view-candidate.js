@@ -273,72 +273,89 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
                 'Authorization': token
             }
         });
-        console.log(hospitalResponse)
-       const hospitalsmed = hospitalResponse.data.hospital
-        const hospitals = {}; // Map to store company details by ID
+
+        const hospitalsmed = hospitalResponse.data.hospital;
+        const hospitals = {}; // Map to store hospital details by ID
         hospitalsmed.forEach(hospital => {
-            hospitals[hospital.id] = hospital.hospitalName; // Store company details by ID
+            hospitals[hospital.id] = hospital.hospitalName; // Store hospital details by ID
         });
 
-        let index=1;
+        let index = 1;
 
         const medicalDetails = response.data;
-        console.log(medicalDetails)
         const medicalTableBody = document.getElementById('hospitalTableBody');
         medicalTableBody.innerHTML = ''; // Clear existing rows
 
+        const searchInput = document.getElementById('medicalSearchInput').value.toLowerCase(); // Get search input and convert to lowercase
+
         medicalDetails.forEach(medical => {
-            const row = document.createElement('tr');
+            // Check if search input matches any medical details
+            if (
+                hospitals[medical.hospitalName].toLowerCase().includes(searchInput) ||
+                medical.place.toLowerCase().includes(searchInput) ||
+                medical.date.toLowerCase().includes(searchInput) ||
+                medical.expiry_date.toLowerCase().includes(searchInput) ||
+                medical.done_by.toLowerCase().includes(searchInput) ||
+                medical.status.toLowerCase().includes(searchInput) ||
+                medical.amount.toLowerCase().includes(searchInput) ||
+                medical.upload.toLowerCase().includes(searchInput)
+            ) {
+                const row = document.createElement('tr');
 
-            const createCell = (value) => {
-                const cell = document.createElement('td');
-                cell.textContent = value;
-                return cell;
-            };
-            const hospitalName = hospitals[medical.hospitalName];
+                const createCell = (value) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    return cell;
+                };
+                const hospitalName = hospitals[medical.hospitalName];
 
-            // Add data to each cell
-            row.appendChild(createCell(index++));
+                // Add data to each cell
+                row.appendChild(createCell(index++));
+                row.appendChild(createCell(hospitalName));
+                row.appendChild(createCell(medical.place));
+                row.appendChild(createCell(medical.date));
+                row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
+                row.appendChild(createCell(medical.done_by));
+                row.appendChild(createCell(medical.status));
+                row.appendChild(createCell(medical.amount));
+                row.appendChild(createCell(medical.upload));
+                
+                const linkCell = document.createElement('td');
+                const link = document.createElement('a');
+                link.href = `https://nemo.ivistaz.co/views/public/uploads/medical/${medical.upload}`;
+                link.textContent = 'Click here to view!';
+                linkCell.appendChild(link);
+                row.appendChild(linkCell);
 
-            row.appendChild(createCell(hospitalName));
-            row.appendChild(createCell(medical.place));
-            row.appendChild(createCell(medical.date));
-            row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
-            row.appendChild(createCell(medical.done_by));
-            row.appendChild(createCell(medical.status));
-            row.appendChild(createCell(medical.amount));
-            row.appendChild(createCell(medical.upload));
-            
-            const linkCell = document.createElement('td');
-            const link = document.createElement('a');
-            link.href = `https://nemo.ivistaz.co/views/public/uploads/medical/${medical.upload}`;
-            link.textContent = 'Click here to view!';
-            linkCell.appendChild(link);
-            row.appendChild(linkCell);
+                const actionsCell = document.createElement('td');
+                const editButton = document.createElement('button');
+                editButton.className = 'btn border-0 m-0 p-0';
+                editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
+                editButton.addEventListener('click', () => editMedical(medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
 
-            const actionsCell = document.createElement('td');
-            const editButton = document.createElement('button');
-            editButton.className = 'btn border-0 m-0 p-0';
-            editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            editButton.addEventListener('click', () => editMedical(medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn border-0 m-0 p-0';
+                deleteButton.innerHTML = '<i class="fa fa-trash" onMouseOver="this.style.color=\'red\'" onMouseOut="this.style.color=\'gray\'"></i>';
+                deleteButton.addEventListener('click', () => deleteMedical(medical.id, event));
 
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'btn border-0 m-0 p-0';
-            deleteButton.innerHTML = '<i class="fa fa-trash" onMouseOver="this.style.color=\'red\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            deleteButton.addEventListener('click', () => deleteMedical(medical.id, event));
+                actionsCell.appendChild(editButton);
+                actionsCell.appendChild(deleteButton);
+                row.appendChild(actionsCell);
 
-            actionsCell.appendChild(editButton);
-            actionsCell.appendChild(deleteButton);
-            row.appendChild(actionsCell);
-
-            // Append the row to the table body
-            medicalTableBody.appendChild(row);
+                // Append the row to the table body
+                medicalTableBody.appendChild(row);
+            }
         });
         
     } catch (err) {
         console.error(err);
     }
 }
+
+document.getElementById('medicalSearchInput').addEventListener('input', function() {
+    const candidateId = localStorage.getItem('memId');
+    fetchAndDisplayMedicalDetails(candidateId);
+});
 
 const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
     event.preventDefault();
