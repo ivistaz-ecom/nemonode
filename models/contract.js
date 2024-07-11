@@ -141,6 +141,7 @@ const Contract = sequelize.define('Contract', {
     bondStore:{
         type:DataTypes.INTEGER
     },
+    
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {
     tableName: 'contract',
