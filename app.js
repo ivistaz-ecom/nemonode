@@ -22,7 +22,6 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 
 app.get('/home', (req, res) => {
-    res.send('New test');
     res.redirect("/aaaa.html");
 });
 app.use(cors());
