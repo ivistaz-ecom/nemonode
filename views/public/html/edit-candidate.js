@@ -224,7 +224,6 @@ function viewCandidate(id) {
 
 function editCandidate(memId) {
     console.log('memId:', memId);
-    localStorage.setItem('memId', memId);
     const canEdit = decodedToken.Write; // Assuming decodedToken is globally accessible
 
     if (canEdit) {
