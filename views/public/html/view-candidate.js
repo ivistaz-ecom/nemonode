@@ -1,5 +1,4 @@
 const token = localStorage.getItem('token')
-let memId = document.getElementById('memId')
 
 
 function formatDate(dateString) {
@@ -84,8 +83,12 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 }
 
 document.getElementById('documentSearchInput').addEventListener('input', function() {
-    const candidateId = localStorage.getItem('memId');
-    fetchAndDisplayDocumentDetails(candidateId);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+        fetchAndDisplayDocumentDetails(candidateId);
 });
 
 
@@ -729,7 +732,11 @@ document.getElementById('view-candidate-form').addEventListener('submit', functi
 
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Retrieve memId from localStorage
-    const memId = localStorage.getItem('memId');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+    
 
     // Construct the query parameters string
     const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
@@ -1169,7 +1176,11 @@ async function fetchAndDisplayDiscussions(candidateId) {
 async function fetchAndDisplayEvaluationData() {
     try {
         // Fetch evaluation data from the server
-        const id = localStorage.getItem('memId');
+        const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+    
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/evaluation-data/${id}`);
 
         // Extract evaluation data from the response
