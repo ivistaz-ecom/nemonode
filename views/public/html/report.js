@@ -838,6 +838,12 @@ async function handleCallsMadeSubmit(event) {
             discussion: 'discussion'
         };
 
+        // Function to format date from yyyy-mm-dd to dd-mm-yyyy
+        function formatDateNew(dateString) {
+            const [year, month, day] = dateString.split('-');
+            return `${day}-${month}-${year}`;
+        }
+
         // Function to filter data based on search input
         function filterData() {
             const searchTerm = searchInput.value.toLowerCase().split(' ').filter(term => term.length > 0);
@@ -950,6 +956,8 @@ async function handleCallsMadeSubmit(event) {
                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
                     if (fieldName === 'nationality') {
                         cell.textContent = getNationalityName(contract[fieldName]);
+                    } else if (fieldName === 'avb_date' || fieldName === 'r_date') {
+                        cell.textContent = formatDateNew(contract[fieldName]);
                     } else {
                         cell.textContent = contract[fieldName] || 'N/A';
                     }
@@ -1055,6 +1063,7 @@ async function handleCallsMadeSubmit(event) {
         console.error(error);
     }
 }
+
 
 
 
@@ -4472,7 +4481,7 @@ function setupPagination(contracts) {
                 <td style="font-size: 8px;">${contract.birth_place}</td>
                 <td style="font-size: 8px;">${contract.rank}</td>
                 <td style="font-size: 8px;">${getNationalityName(contract.nationality)}</td>
-                <td style="font-size: 8px;">${contract.dob}</td>
+                <td style="font-size: 8px;">${formatDateNew(contract.dob)}</td>
                 <td style="font-size: 8px;">${calculateAge(contract.dob)}</td>
                 <td style="font-size: 8px;">${contract.company_name}</td>
                 <td style="font-size: 8px;">${contract.currency}</td>
@@ -4566,7 +4575,7 @@ function exportToExcel5(contracts) {
         contract.birth_place,
         contract.rank,
         contract.nationality,
-        contract.dob,
+        formatDateNew(contract.dob),
         calculateAge(contract.dob),
         contract.company_name,
         contract.currency,
