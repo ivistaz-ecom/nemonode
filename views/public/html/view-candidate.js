@@ -129,7 +129,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view!</a></td>
 
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
@@ -146,12 +146,12 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, event) {
+function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, event) {
     event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
 
     // Construct the query parameters string
-    const queryParams = `?id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}`;
+    const queryParams = `?memId=${candidateId}&id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}`;
 
     // Open edit-c-bank.html in a new tab with query parameters
     window.open(`edit-c-bank.html${queryParams}`, '_blank');
@@ -193,7 +193,7 @@ async function fetchAndDisplayTravelDetails(candidateId) {
                 <td>${travel.portAgent}</td>
                 <td>${travel.travel_amount}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editTravel('${travel.id}','${travel.travel_date}','${travel.travel_from}','${travel.travel_to}','${travel.travel_mode}','${travel.travel_status}','${travel.ticket_number}','${travel.agent_name}','${travel.portAgent}','${travel.travel_amount}',event)">
+                <button class="btn border-0 m-0 p-0" onclick="editTravel('${candidateId}','${travel.id}','${travel.travel_date}','${travel.travel_from}','${travel.travel_to}','${travel.travel_mode}','${travel.travel_status}','${travel.ticket_number}','${travel.agent_name}','${travel.portAgent}','${travel.travel_amount}',event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteTravel('${travel.id}')">
@@ -210,12 +210,12 @@ async function fetchAndDisplayTravelDetails(candidateId) {
     }
 }
 
-function editTravel(id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, event) {
+function editTravel(candidateId,id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, event) {
     event.preventDefault();
     console.log('Edit clicked for travel ID:', id);
 
     // Construct the query parameters string
-    const queryParams = `?id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}`;
+    const queryParams = `?memId=${candidateId}&id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}`;
 
     // Open edit-c-travel.html in a new tab with query parameters
     window.open(`edit-c-travel.html${queryParams}`, '_blank');
@@ -317,11 +317,13 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             linkCell.appendChild(link);
             row.appendChild(linkCell);
 
+
+
             const actionsCell = document.createElement('td');
             const editButton = document.createElement('button');
             editButton.className = 'btn border-0 m-0 p-0';
             editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            editButton.addEventListener('click', () => editMedical(medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
+            editButton.addEventListener('click', () => editMedical(candidateId,medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn border-0 m-0 p-0';
@@ -341,7 +343,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
     }
 }
 
-const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
+const editMedical = async (candidateId,id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
     event.preventDefault();
     console.log(id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile);
 
@@ -349,7 +351,7 @@ const editMedical = async (id, hospitalName, place, date, expiryDate, done_by, s
     const formattedExpiryDate = formatDate(expiryDate); // Assuming formatDate function is defined and formats the date appropriately
 
     // Construct the query parameters string
-    const queryParams = `?id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(formattedExpiryDate)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(uploadFile)}`;
+    const queryParams = `?memId=${candidateId}&id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(formattedExpiryDate)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(uploadFile)}`;
 
     // Open edit-c-medicals.html in a new tab with query parameters
     window.open(`edit-c-medicals.html${queryParams}`, '_blank');
@@ -377,6 +379,7 @@ const deleteMedical = async (id, event) => {
 
 const fetchAndDisplayNkdData = async (candidateId) => {
     try {
+        
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
 
         // Assuming response.data contains an array of NKD objects
@@ -394,6 +397,10 @@ const fetchAndDisplayNkdData = async (candidateId) => {
             row.insertCell(2).innerText = nkd.kin_relation;
             row.insertCell(3).innerText = nkd.kin_contact_number;
             row.insertCell(4).innerText = nkd.kin_contact_address;
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const candidateId = urlParams.get('memId');
 
             // Create a new cell for kin_priority with the specified class
             const priorityCell = row.insertCell(5);
@@ -402,7 +409,7 @@ const fetchAndDisplayNkdData = async (candidateId) => {
             const editButton = document.createElement('button');
             editButton.className = 'btn border-0 m-0 p-0';
             editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            editButton.addEventListener('click', () => editNkd(nkd.id, nkd.kin_name, nkd.kin_relation, nkd.kin_contact_number, nkd.kin_contact_address, nkd.kin_priority));
+            editButton.addEventListener('click', () => editNkd(candidateId,nkd.id, nkd.kin_name, nkd.kin_relation, nkd.kin_contact_number, nkd.kin_contact_address, nkd.kin_priority));
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn border-0 m-0 p-0';
@@ -433,11 +440,11 @@ function getPriorityClass(priority) {
 }
 
 
-function editNkd(id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
+function editNkd(candidateId,id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
     console.log(`Editing NKD with ID: ${id}`);
 
     // Construct the query parameters string
-    const queryParams = `?id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
+    const queryParams = `?memId=${candidateId}&id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
 
     // Open edit-c-nkd.html in a new tab with query parameters
     window.open(`edit-c-nkd.html${queryParams}`, '_blank');
@@ -739,7 +746,7 @@ function editDocument(documentId, documents, documentNumber, issueDate, issuePla
     
 
     // Construct the query parameters string
-    const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
+    const queryParams = `?memId=${candidateId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
 
     // Open edit-c-document.html in a new tab with query parameters
     window.open(`./edit-c-document.html${queryParams}`, '_blank');
@@ -964,7 +971,7 @@ async function fetchAndDisplaySeaService(candidateId) {
                     <td>${seaService.reason_for_sign_off}</td>
                     <td>
                       
-                        <button class="btn border-0 m-0 p-0" onclick="editSeaService('${seaService.id}')">
+                        <button class="btn border-0 m-0 p-0" onclick="editSeaService('${candidateId}','${seaService.id}')">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteSeaService('${seaService.id}',event)">
@@ -997,9 +1004,9 @@ async function deleteSeaService(id) {
     }
 }
 
-function editSeaService(id) {
+function editSeaService(candidateId,id) {
     // Open seaserviceedit.html in a new tab with the ID parameter
-    window.open(`seaserviceedit.html?memId=${id}`, '_blank');
+    window.open(`seaserviceedit.html?memId=${candidateId}&id=${id}`, '_blank');
 }
 
 

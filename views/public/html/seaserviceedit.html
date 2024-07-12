@@ -674,7 +674,7 @@ function decodeToken(token) {
 }
                             async function editSeaService() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('memId');
+    const id = urlParams.get('id');
     console.log(id)
     try {
         const token = localStorage.getItem('token');
@@ -731,6 +731,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             const response = await axios.put(`https://nemo.ivistaz.co/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response);
             alert('Sea Service record updated successfully!');
+            const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const memId = urlParams.get('memId');
+    alert('Updated successfully!')
+viewCandidate(memId)
+  // Handle the response, e.g., show a success message or redirect to another page
+
             // editSeaServiceForm.reset();
         } catch (error) {
             console.error('Error updating sea service record:', error);
@@ -740,6 +748,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 
+function viewCandidate(id) {
+// Add your view logic here
+window.location.href=`./view-candidate.html?id=${id}`;
+
+}
 
                    
                 

@@ -447,7 +447,11 @@ function formatDate(dateString) {
         });
         console.log('Contract updated successfully:', response.data);
         alert('Contract updated successfully');
-        viewCandidate(candidateId)
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        // Get the candidateId from the URL parameter
+        const memId = urlParams.get('candidateId');
+        viewCandidate(memId)
     } catch (err) {
         console.error('Error updating contract:', err);
     }
