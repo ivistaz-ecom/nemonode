@@ -154,7 +154,7 @@ function formatDate(dateString) {
 
   function viewCandidate(id) {
     // Add your view logic here
-    window.open(`./view-candidate.html?id=${id}`, '_blank');
+    window.location.href=`./view-candidate.html?id=${id}`;
 
 }
   document.getElementById("logout").addEventListener("click", function() {

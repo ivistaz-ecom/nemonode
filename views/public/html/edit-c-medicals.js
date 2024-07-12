@@ -188,7 +188,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
 function viewCandidate(id) {
     // Add your view logic here
-    window.open(`./view-candidate.html?id=${id}`, '_blank');
+    window.location.href=`./view-candidate.html?id=${id}`;
 
 }
 // Call the function to populate the dropdown when the page loads
