@@ -94,6 +94,11 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
             });
             console.log('Document data updated successfully:', response.data);
             alert('Document Added successfully!')
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
+        viewCandidate(memId)
 
         } catch (error) {
             console.error('Error updating document data:', error);
@@ -102,6 +107,14 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     
     
 });
+
+    
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
+
 
 function formatDate(dateString) {
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"

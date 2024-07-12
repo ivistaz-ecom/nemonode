@@ -141,12 +141,22 @@ function formatDate(dateString) {
           // Make a request to update the travel data
           const updateResponse = await axios.put(`https://nemo.ivistaz.co/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
           
+          const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
+            alert('Updated successfully!')
+        viewCandidate(memId)
           // Handle the response, e.g., show a success message or redirect to another page
-          console.log(updateResponse);
       } catch (err) {
           console.error(err);
   }})
 
+  function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
   document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
