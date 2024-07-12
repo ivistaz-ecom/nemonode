@@ -838,6 +838,12 @@ async function handleCallsMadeSubmit(event) {
             discussion: 'discussion'
         };
 
+        // Function to format date from yyyy-mm-dd to dd-mm-yyyy
+        function formatDateNew(dateString) {
+            const [year, month, day] = dateString.split('-');
+            return `${day}-${month}-${year}`;
+        }
+
         // Function to filter data based on search input
         function filterData() {
             const searchTerm = searchInput.value.toLowerCase().split(' ').filter(term => term.length > 0);
@@ -950,6 +956,8 @@ async function handleCallsMadeSubmit(event) {
                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
                     if (fieldName === 'nationality') {
                         cell.textContent = getNationalityName(contract[fieldName]);
+                    } else if (fieldName === 'avb_date' || fieldName === 'r_date') {
+                        cell.textContent = formatDateNew(contract[fieldName]);
                     } else {
                         cell.textContent = contract[fieldName] || 'N/A';
                     }
@@ -1055,6 +1063,7 @@ async function handleCallsMadeSubmit(event) {
         console.error(error);
     }
 }
+
 
 
 
