@@ -118,7 +118,7 @@ const candidateId = urlParams.get('memId');
             // Get the candidateId from the URL parameter
             const memId = urlParams.get('memId');
             const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-nkd-details/${memId}`, { headers: { "Authorization": token } });
-    
+            const candidateId = memId
             // Assuming response.data contains an array of NKD objects
             const nkdData = response.data;
     
@@ -141,7 +141,7 @@ const candidateId = urlParams.get('memId');
                 const editButton = document.createElement('button');
                 editButton.className = 'btn border-0 m-0 p-0';
                 editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-                editButton.addEventListener('click', () => editNkd(nkd.id, nkd.kin_name, nkd.kin_relation, nkd.kin_contact_number, nkd.kin_contact_address, nkd.kin_priority));
+                editButton.addEventListener('click', () => editNkd(candidateId,nkd.id, nkd.kin_name, nkd.kin_relation, nkd.kin_contact_number, nkd.kin_contact_address, nkd.kin_priority));
     
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'btn border-0 m-0 p-0';
@@ -172,12 +172,12 @@ const candidateId = urlParams.get('memId');
     }
     
 
-    function editNkd(id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
+    function editNkd(candidateId,id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
         // Log to console for debugging
         console.log(`Editing NKD with ID: ${id}`);
     
         // Construct the query parameters string
-        const queryParams = `?id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
+        const queryParams = `?candidateId=${candidateId}&id=${id}&kinName=${encodeURIComponent(kinName)}&kinRelation=${encodeURIComponent(kinRelation)}&kinContactNumber=${encodeURIComponent(kinContactNumber)}&kinContactAddress=${encodeURIComponent(kinContactAddress)}&kinPriority=${encodeURIComponent(kinPriority)}`;
     
         // Open edit-c-nkd.html in a new tab with the constructed query parameters
         window.open(`edit-c-nkd.html${queryParams}`, '_blank');
