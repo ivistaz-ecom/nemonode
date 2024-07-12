@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await fetchAndDisplayVessels();
     await fetchAndDisplayCompanies();
     await fetchAndDisplayDiscussions(candidateId);
-   
+    await fetchAndDisplayCandidateDetails(candidateId);
 
     // Move fetchSpecialComments call here
     // await fetchSpecialComments(currentCandidateId, token);
@@ -574,4 +574,7 @@ const proposedCheckbox = document.getElementById('proposed');
     
     
     
-    
+   async function fetchAndDisplayCandidateDetails(candidateId){
+        const response = await axios.get(`https:/nemo.ivistaz.co/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
+        console.log('Candidate:',response)
+    }

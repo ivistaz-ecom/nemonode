@@ -61,12 +61,11 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.done_by}</td>
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
-                <td>${hospital.upload}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${hospital.created_by}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editMedical('${hospital.id}', '${hospital.hospitalName}', '${hospital.place}', '${hospital.date}', '${hospital.expiry_date}', '${hospital.done_by}', '${hospital.status}', '${hospital.amount}', '${hospital.upload}','${hospital.created_by}')">
+                <button class="btn border-0 m-0 p-0" onclick="editMedical('${candidateId}','${hospital.id}', '${hospital.hospitalName}', '${hospital.place}', '${hospital.date}', '${hospital.expiry_date}', '${hospital.done_by}', '${hospital.status}', '${hospital.amount}', '${hospital.upload}','${hospital.created_by}')">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteMedical('${hospital.id}')">
@@ -232,12 +231,12 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
 
     });
-    function editMedical(id, hospitalName, place, date, expiry_date, done_by, status, amount, upload, created_by) {
+    function editMedical(candidateId,id, hospitalName, place, date, expiry_date, done_by, status, amount, upload, created_by) {
         // Log to console for debugging
         console.log('Edit clicked for medical ID:', id);
     
         // Construct the query parameters string
-        const queryParams = `?id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(expiry_date)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(upload)}&created_by=${encodeURIComponent(created_by)}`;
+        const queryParams = `?candidateId=${candidateId}&id=${id}&hospitalName=${encodeURIComponent(hospitalName)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&expiry_date=${encodeURIComponent(expiry_date)}&done_by=${encodeURIComponent(done_by)}&status=${encodeURIComponent(status)}&amount=${encodeURIComponent(amount)}&upload=${encodeURIComponent(upload)}&created_by=${encodeURIComponent(created_by)}`;
     
         // Open edit-c-medicals.html in a new tab with the constructed query parameters
         window.open(`edit-c-medicals.html${queryParams}`, '_blank');
