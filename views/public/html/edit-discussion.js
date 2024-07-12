@@ -577,4 +577,18 @@ const proposedCheckbox = document.getElementById('proposed');
    async function fetchAndDisplayCandidateDetails(candidateId){
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
         console.log('Candidate:',response)
+
+        document.getElementById('avb_date').value = response.data.candidate.avb_date;
+        document.getElementById('las_date').value = response.data.candidate.las_date;
+        document.getElementById('last_salary').value = response.data.candidate.last_salary;
+        document.getElementById('last_company').value = response.data.candidate.last_salary;
+        document.getElementById('rank').value = response.data.candidate.c_rank;
+        document.getElementById('vessel_types').value = response.data.candidate.c_vessel;
+        document.getElementById('status').value = response.data.candidate.active_details;
+        document.getElementById('reemploymentStatus').value = response.data.candidate.ntbr;
+
     }
+   
+     
+         
+        
