@@ -82,7 +82,7 @@ const candidateId = urlParams.get('memId');
                         <td>${travel.reason}</td>
                         <td>${travel.created_by}</td>
                         <td>
-                        <button class="btn border-0 m-0 p-0" onclick="editTravel('${travel.id}','${travel.travel_date}','${travel.travel_from}','${travel.travel_to}','${travel.travel_mode}','${travel.travel_status}','${travel.ticket_number}','${travel.agent_name}','${travel.portAgent}','${travel.travel_amount}','${travel.reason}','${travel.created_by}',event)">
+                        <button class="btn border-0 m-0 p-0" onclick="editTravel('${candidateId}','${travel.id}','${travel.travel_date}','${travel.travel_from}','${travel.travel_to}','${travel.travel_mode}','${travel.travel_status}','${travel.ticket_number}','${travel.agent_name}','${travel.portAgent}','${travel.travel_amount}','${travel.reason}','${travel.created_by}',event)">
                             <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                         </button>
                         <button class="btn border-0 m-0 p-0" onclick="deleteTravel('${travel.id}')">
@@ -172,12 +172,12 @@ const candidateId = urlParams.get('memId');
     });
     
     
-    function editTravel(id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, reason, created_by, event) {
+    function editTravel(candidateId,id, travel_date, travel_from, travel_to, travel_mode, travel_status, ticket_number, agent_name, portAgent, travel_amount, reason, created_by, event) {
         event.preventDefault();
         console.log('Edit clicked for travel ID:', id);
     
         // Construct the query parameters string
-        const queryParams = `?id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}&reason=${encodeURIComponent(reason)}&created_by=${encodeURIComponent(created_by)}`;
+        const queryParams = `?candidateid=${candidateId}&id=${id}&travel_date=${encodeURIComponent(travel_date)}&travel_from=${encodeURIComponent(travel_from)}&travel_to=${encodeURIComponent(travel_to)}&travel_mode=${encodeURIComponent(travel_mode)}&travel_status=${encodeURIComponent(travel_status)}&ticket_number=${encodeURIComponent(ticket_number)}&agent_name=${encodeURIComponent(agent_name)}&portAgent=${encodeURIComponent(portAgent)}&travel_amount=${encodeURIComponent(travel_amount)}&reason=${encodeURIComponent(reason)}&created_by=${encodeURIComponent(created_by)}`;
     
         // Open edit-c-travel.html in a new tab with the constructed query parameters
         window.open(`edit-c-travel.html${queryParams}`, '_blank');

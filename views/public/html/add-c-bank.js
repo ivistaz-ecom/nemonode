@@ -109,9 +109,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.beneficiary}</td>
             <td>${bank.beneficiary_addr}</td>
             <td>${bank.pan_num}</td>
-            <td>${bank.passbook}</td>
             <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></td>
-            <td>${bank.pan_card}</td>
             <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
             <td>${bank.branch}</td>
             <td>${bank.types}</td>
@@ -119,7 +117,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             
             
             <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}','${bank.types}','${bank.created_by}', event)">
+            <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}','${bank.types}','${bank.created_by}', event)">
                 <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
             </button>
             <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
@@ -136,11 +134,11 @@ async function fetchAndDisplayBankDetails(candidateId) {
     }
 }
 
-function editBank(id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, types, created_by, event) {
+function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, types, created_by, event) {
     event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
 
-    const queryParams = `?id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}&types=${encodeURIComponent(types)}&created_by=${encodeURIComponent(created_by)}`;
+    const queryParams = `?candidateId=${candidateId}&id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}&types=${encodeURIComponent(types)}&created_by=${encodeURIComponent(created_by)}`;
 
     window.open(`edit-c-bank.html${queryParams}`, '_blank');
 }

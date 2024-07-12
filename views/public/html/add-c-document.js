@@ -102,13 +102,12 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.document_number}</td>
                 <td>${doc.issue_date}</td>
                 <td>${doc.issue_place}</td>
-                <td>${doc.document_files}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${doc.stcw}</td>
                 <td>${doc.expiry_date}</td>
                 <td>
-                <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
+                <button class="btn border-0 m-0 p-0" onclick="editDocument('${candidateId}','${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}', event)">
                     <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                 </button>
                 <button class="btn border-0 m-0 p-0" onclick="deleteDocument('${doc.id}', event)">
@@ -127,13 +126,13 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
 
 // Edit document function
 // Edit document function
-function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
+function editDocument(candidateId,documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Redirect to the edit-c-document.html page with parameters
     const urlParams = new URLSearchParams(window.location.search);
     
     // Get the candidateId from the URL parameter
-    const memId = urlParams.get('memId');
-    const queryParams = `?memId=${memId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
+   
+    const queryParams = `?memId=${candidateId}&documentId=${documentId}&documents=${encodeURIComponent(documents)}&documentNumber=${encodeURIComponent(documentNumber)}&issueDate=${encodeURIComponent(issueDate)}&issuePlace=${encodeURIComponent(issuePlace)}&documentFiles=${encodeURIComponent(documentFiles)}&stcw=${encodeURIComponent(stcw)}`;
 
     window.open(`./edit-c-document.html${queryParams}`, '_blank');
 }

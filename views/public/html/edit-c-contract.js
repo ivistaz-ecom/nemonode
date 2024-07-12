@@ -447,12 +447,18 @@ function formatDate(dateString) {
         });
         console.log('Contract updated successfully:', response.data);
         alert('Contract updated successfully');
+        viewCandidate(candidateId)
     } catch (err) {
         console.error('Error updating contract:', err);
     }
 })
 
 
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
 
 
 
