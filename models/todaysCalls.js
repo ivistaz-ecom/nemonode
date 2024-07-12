@@ -1,4 +1,3 @@
-
 const { DataTypes, Op } = require('sequelize');
 const sequelize = require('../util/database');
 const Discussion = require('./discussion');
@@ -38,19 +37,23 @@ const Calls = sequelize.define('Calls', {
 const updateCallCount = async () => {
     try {
         const currentTime = new Date();
-        const yesterday = new Date(currentTime);
-        yesterday.setDate(yesterday.getDate() - 1); // Get the timestamp for yesterday
+        const startDate = new Date(currentTime);
+        startDate.setDate(startDate.getDate() - 1);
+        startDate.setUTCHours(0, 0, 0, 0); // Set start time to 00:00:00
 
-        // Fetch the count of discussions created yesterday
+        const endDate = new Date(currentTime);
+        endDate.setUTCHours(23, 59, 59, 999); // Set end time to 23:59:59
+
+        // Fetch the count of discussions created within the date range
         const callCount = await Discussion.count({
             where: {
                 created_date: {
-                    [Op.between]: [yesterday, currentTime] // Filter discussions from yesterday until now
+                    [Op.between]: [startDate, endDate] // Filter discussions from startDate to endDate
                 }
             }
         });
 
-        // Find the record for yesterday's calls and update call_count directly
+        // Update call_count directly
         await Calls.update({ call_count: callCount }, { where: {} });
     } catch (error) {
         console.error('Error updating call count:', error);
@@ -61,10 +64,14 @@ const updateCallCount = async () => {
 const updateDiscussionCounts = async () => {
     try {
         const currentTime = new Date();
-        const yesterday = new Date(currentTime);
-        yesterday.setDate(yesterday.getDate() - 1); // Get the timestamp for yesterday
+        const startDate = new Date(currentTime);
+        startDate.setDate(startDate.getDate() - 1);
+        startDate.setUTCHours(0, 0, 0, 0); // Set start time to 00:00:00
 
-        // Fetch the counts of discussions created yesterday
+        const endDate = new Date(currentTime);
+        endDate.setUTCHours(23, 59, 59, 999); // Set end time to 23:59:59
+
+        // Fetch the counts of discussions created within the date range
         const counts = await Discussion.findAll({
             attributes: [
                 [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "%Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
@@ -74,7 +81,7 @@ const updateDiscussionCounts = async () => {
             ],
             where: {
                 created_date: {
-                    [Op.between]: [yesterday, currentTime] // Filter discussions from yesterday until now
+                    [Op.between]: [startDate, endDate] // Filter discussions from startDate to endDate
                 }
             },
             raw: true
@@ -92,15 +99,13 @@ const updateDiscussionCounts = async () => {
                 where: {} // This empty object means update all rows in the table
             }
         );
-        
+
     } catch (error) {
         console.error('Error updating counts:', error);
     }
 };
 
-
 setInterval(updateCallCount, 24 * 60 * 60 * 1000); // 24 hours
-
 setInterval(updateDiscussionCounts, 24 * 60 * 60 * 1000); // 24 hours
 
 module.exports = Calls;
