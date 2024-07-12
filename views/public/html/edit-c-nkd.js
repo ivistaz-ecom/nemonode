@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
     
             // Get the candidateId from the URL parameter
-            const memId = urlParams.get('memId');
+            const memId = urlParams.get('candidateId');
         viewCandidate(memId)
             // You can perform additional actions here after a successful update
         } catch (error) {
