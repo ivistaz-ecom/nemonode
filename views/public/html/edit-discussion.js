@@ -575,6 +575,6 @@ const proposedCheckbox = document.getElementById('proposed');
     
     
    async function fetchAndDisplayCandidateDetails(candidateId){
-        const response = await axios.get(`https:/nemo.ivistaz.co/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
         console.log('Candidate:',response)
     }
