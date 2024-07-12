@@ -4472,7 +4472,7 @@ function setupPagination(contracts) {
                 <td style="font-size: 8px;">${contract.birth_place}</td>
                 <td style="font-size: 8px;">${contract.rank}</td>
                 <td style="font-size: 8px;">${getNationalityName(contract.nationality)}</td>
-                <td style="font-size: 8px;">${contract.dob}</td>
+                <td style="font-size: 8px;">${formatDateNew(contract.dob)}</td>
                 <td style="font-size: 8px;">${calculateAge(contract.dob)}</td>
                 <td style="font-size: 8px;">${contract.company_name}</td>
                 <td style="font-size: 8px;">${contract.currency}</td>
@@ -4566,7 +4566,7 @@ function exportToExcel5(contracts) {
         contract.birth_place,
         contract.rank,
         contract.nationality,
-        contract.dob,
+        formatDateNew(contract.dob),
         calculateAge(contract.dob),
         contract.company_name,
         contract.currency,
