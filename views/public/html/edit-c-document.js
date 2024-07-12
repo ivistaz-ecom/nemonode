@@ -111,7 +111,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     
 function viewCandidate(id) {
     // Add your view logic here
-    window.open(`./view-candidate.html?id=${id}`, '_blank');
+    window.location.href=`./view-candidate.html?id=${id}`;
 
 }
 
