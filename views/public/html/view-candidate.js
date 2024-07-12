@@ -1,4 +1,8 @@
 const token = localStorage.getItem('token')
+function formatDateNew(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+}
 
 
 function formatDate(dateString) {
@@ -58,11 +62,11 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     <td>${index++}</td>
                     <td>${doc.document}</td>
                     <td>${doc.document_number}</td>
-                    <td>${doc.issue_date}</td>
-                    <td>${doc.issue_place}</td>
+                    <td>${formatDateNew(doc.issue_date)}</td>
+                    <td>${formatDateNew(doc.issue_place)}</td>
                     <td><a href='https://nemo.ivistaz.co/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
                     <td>${doc.stcw}</td>
-                    <td>${doc.expiry_date}</td>
+                    <td>${formatDateNew(doc.expiry_date)}</td>
                     <td>
                         <button class="btn border-0 m-0 p-0" onclick="editDocument('${doc.id}','${doc.document}','${doc.document_number}','${doc.issue_date}','${doc.issue_place}','${doc.document_files}','${doc.stcw}','${doc.expiry_date}', event)">
                             <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
@@ -183,7 +187,7 @@ async function fetchAndDisplayTravelDetails(candidateId) {
             const row = document.createElement('tr');
             row.innerHTML = `
             <td>${index++}</td>
-                <td>${travel.travel_date}</td>
+                <td>${formatDateNew(travel.travel_date)}</td>
                 <td>${travel.travel_from}</td>
                 <td>${travel.travel_to}</td>
                 <td>${travel.travel_mode}</td>
@@ -303,8 +307,8 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
 
             row.appendChild(createCell(hospitalName));
             row.appendChild(createCell(medical.place));
-            row.appendChild(createCell(medical.date));
-            row.appendChild(createCell(medical.expiry_date)); // Update to match the Sequelize model
+            row.appendChild(createCell(formatDateNew(medical.date)));
+            row.appendChild(createCell(formatDateNew(medical.expiry_date))); // Update to match the Sequelize model
             row.appendChild(createCell(medical.done_by));
             row.appendChild(createCell(medical.status));
             row.appendChild(createCell(medical.amount));
@@ -854,13 +858,13 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${vesselName}</td>
                 <td>${contract.vesselType}</td>
                 <td>${signOnPortName}</td>
-                <td>${contract.sign_on}</td>
-                <td>${contract.wage_start}</td>
-                <td>${contract.eoc}</td>
+                <td>${formatDateNew(contract.sign_on)}</td>
+                <td>${formatDateNew(contract.wage_start)}</td>
+                <td>${formatDateNew(contract.eoc)}</td>
                 <td>${contract.wages}</td>
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
-                <td>${contract.sign_off}</td>
+                <td>${formatDateNew(contract.sign_off)}</td>
                 <td>${signOffPortName}</td>
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
@@ -962,8 +966,8 @@ async function fetchAndDisplaySeaService(candidateId) {
                     <td>${seaService.vessel}</td>
                     <td>${seaService.type}</td>
                     <td>${seaService.DWT}</td>
-                    <td>${seaService.from1}</td>
-                    <td>${seaService.to1}</td>
+                    <td>${formatDateNew(seaService.from1)}</td>
+                    <td>${formatDateNew(seaService.to1)}</td>
                     <td>${seaService.total_MMDD}</td>
                     <td>${seaService.reason_for_sign_off}</td>
                     <td>
