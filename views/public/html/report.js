@@ -8,7 +8,10 @@ let userData =[];
 let companyData =[];
 
 
-
+function formatDateNew(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+}
 
 // Function to export table data to Excel
 function exportToExcelnp(data, filename) {
@@ -4473,9 +4476,9 @@ function setupPagination(contracts) {
                 <td style="font-size: 8px;">${calculateAge(contract.dob)}</td>
                 <td style="font-size: 8px;">${contract.company_name}</td>
                 <td style="font-size: 8px;">${contract.currency}</td>
-                <td style="font-size: 8px;">${contract.eoc}</td>
-                <td style="font-size: 8px;">${contract.sign_on}</td>
-                <td style="font-size: 8px;">${contract.sign_off}</td>
+                <td style="font-size: 8px;">${formatDateNew(contract.eoc)}</td>
+                <td style="font-size: 8px;">${formatDateNew(contract.sign_on)}</td>
+                <td style="font-size: 8px;">${formatDateNew(contract.sign_off)}</td>
                 <td style="font-size: 8px;">${getPortName(contract.sign_on_port)}</td>
                 <td style="font-size: 8px;">${contract.vesselName}</td>
                 <td style="font-size: 8px;">${contract.vesselType}</td>
@@ -4567,9 +4570,9 @@ function exportToExcel5(contracts) {
         calculateAge(contract.dob),
         contract.company_name,
         contract.currency,
-        contract.eoc,
-        contract.sign_on,
-        contract.sign_off,
+        formatDateNew(contract.eoc),
+        formatDateNew(contract.sign_on),
+        formatDateNew(contract.sign_off),
         contract.sign_on_port,
         contract.vesselName,
         contract.vesselType,
@@ -6046,9 +6049,9 @@ function renderTable() {
             getNationalityName(contract.nationality),
             contract.company_name,
             contract.currency,
-            contract.eoc,
-            contract.sign_on,
-            contract.sign_off,
+            formatDateNew(contract.eoc),
+            formatDateNew(contract.sign_on),
+            formatDateNew(contract.sign_off),
             getVesselName(contract.vslName),
             contract.vesselType,
             contract.wages,
@@ -6167,9 +6170,9 @@ function renderTable() {
                 'Nationality': getNationalityName(contract.nationality),
                 'Company': contract.company_name,
                 'Currency': contract.currency,
-                'EOC': contract.eoc,
-                'Sign On': contract.sign_on,
-                'Sign Off': contract.sign_off,
+                'EOC': formatDateNew(contract.eoc),
+                'Sign On': formatDateNew(contract.sign_on),
+                'Sign Off': formatDateNew(contract.sign_off),
                 'Vessel Name': getVesselName(contract.vslName),
                 'Vessel Type': contract.vesselType,
                 'Wages': contract.wages,
@@ -6385,7 +6388,7 @@ const handleReliefPlan = async (event) => {
                     <td>${contract.vesselName}</td>
                     <td>${contract.company_name}</td>
                     <td>${contract.category}</td>
-                    <td>${contract.eoc}</td>
+                    <td>${formatDateNew(contract.eoc)}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -6479,7 +6482,7 @@ const handleReliefPlan = async (event) => {
             contract.vesselName,
             contract.company_name,
             contract.category,
-            contract.eoc
+            formatDateNew(contract.eoc)
         ]);
         const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
         const workbook = XLSX.utils.book_new();
