@@ -174,6 +174,11 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
         // Handle success
         console.log('Data updated successfully:', response.data);
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        // Get the candidateId from the URL parameter
+        const memId = urlParams.get('memId');
+    viewCandidate(memId)
     } catch (error) {
         // Handle error
         console.error('Error updating data:', error);
@@ -181,6 +186,11 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
     }
 });
 
+function viewCandidate(id) {
+    // Add your view logic here
+    window.open(`./view-candidate.html?id=${id}`, '_blank');
+
+}
 // Call the function to populate the dropdown when the page loads
 document.addEventListener('DOMContentLoaded', populateHospitalDropdown);
 

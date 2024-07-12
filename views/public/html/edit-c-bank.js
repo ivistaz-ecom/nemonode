@@ -197,11 +197,21 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             });
             console.log('Bank details updated successfully:', response.data);
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            // Get the candidateId from the URL parameter
+            const memId = urlParams.get('memId');
+        viewCandidate(memId)
         } catch (err) {
             console.error('Error updating bank details:', err);
         }
     });
     
+    function viewCandidate(id) {
+        // Add your view logic here
+        window.open(`./view-candidate.html?id=${id}`, '_blank');
+    
+    }
 
     document.getElementById("logout").addEventListener("click", function() {
         // Display the modal with initial message
