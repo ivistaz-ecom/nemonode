@@ -397,10 +397,7 @@ const fetchAndDisplayNkdData = async (candidateId) => {
             row.insertCell(2).innerText = nkd.kin_relation;
             row.insertCell(3).innerText = nkd.kin_contact_number;
             row.insertCell(4).innerText = nkd.kin_contact_address;
-            const urlParams = new URLSearchParams(window.location.search);
-    
-            // Get the candidateId from the URL parameter
-            const candidateId = urlParams.get('memId');
+          
 
             // Create a new cell for kin_priority with the specified class
             const priorityCell = row.insertCell(5);
