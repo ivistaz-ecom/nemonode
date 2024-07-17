@@ -176,7 +176,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
     const id = urlParams.get('memId');
     const documentType = document.getElementById('documentTypeDropdown').value.trim();
     const documentNumber = document.getElementById('document_number').value.trim();
-    const issueDate = document.getElementById('issue_date').value.trim();
+    const issueDate = document.getElementById('issue_date').value.trim() || '1970-01-01';
     const issuePlace = document.getElementById('issue_place').value.trim();
     const stcw = document.getElementById('stcw').value.trim();
     const documentFiles = document.getElementById('document_files').files[0];
