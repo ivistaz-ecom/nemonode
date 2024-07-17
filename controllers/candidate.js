@@ -100,18 +100,33 @@ const add_candidate = async (req, res) => {
             us_visa,
             nemo_source,
         } = req.body;
+
         // Validate required fields
 
         console.log(c_mobi1);
+
+        // Calculate age
+        const calculateAge = (dob) => {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        };
+
+        const age = calculateAge(dob);
+        if (age < 16) {
+            return res.status(400).json({ message: "Candidate must be at least 16 years old", success: false });
+        }
+
         // Check for existing data
         const whereClause = {};
 
         if (email1) {
             whereClause.email1 = email1;
-        }
-
-        if (c_mobi1) {
-            whereClause.c_mobi1 = c_mobi1;
         }
 
         const existingCandidate = await Candidate.findOne({
@@ -221,6 +236,7 @@ const add_candidate = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 }
+
 
 const getAllCandidates = async (req, res) => {
     try {
