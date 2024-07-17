@@ -292,7 +292,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         }
 
         if (resumeFile) {
-            resumeFileName = resumeFile.name;
+            resumeFileName = resumeFile.name; 
             await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
         }
 

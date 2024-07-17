@@ -1125,11 +1125,13 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 app.post('/upload1', upload1.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
+
 app.post('/upload2', upload2.single('file'), (req, res) => {
     if (req.file) {
         res.status(200).send('File uploaded successfully');
