@@ -981,7 +981,7 @@ const fileFilter1 = (req, file, cb) => {
 
 const fileFilter3 = (req, file, cb) => {
     // Allowed ext
-    const filetypes = /pdf|docx|xls|xlsx/;
+    const filetypes = /pdf|docx|xls|xlsx|doc/;
     // Check ext
     const extname = filetypes.test(file.originalname.toLowerCase());
     // Check mime
@@ -1215,7 +1215,7 @@ const upload3 = multer({ storage: storage3,
     fileFilter:fileFilter3
  });
 const upload4 = multer({ storage: storage4,
-    limits: { fileSize: 10 * 1024 * 1024 },
+    limits: { fileSize: 30 * 1024 * 1024 },
     fileFilter:fileFilter4
   });
 const upload5 = multer({ storage: storage5,
@@ -1225,7 +1225,7 @@ const upload6 = multer({ storage: storage6,
     limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter:fileFilter6  });
 const upload7 = multer({ storage: storage7,
-    limits: { fileSize: 10 * 1024 * 1024 },
+    limits: { fileSize: 30 * 1024 * 1024 },
     fileFilter:fileFilter7
     });
 const upload8 = multer({ storage: storage8,
