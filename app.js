@@ -966,7 +966,7 @@ app.use('/candidate-password', cPasswordRoutes);
 
 const fileFilter1 = (req, file, cb) => {
     // Allowed ext
-    const filetypes = /jpeg|jpg|png/;
+    const filetypes = /jpeg|jpg|png|img/;
     // Check ext
     const extname = filetypes.test(file.originalname.toLowerCase());
     // Check mime
@@ -979,13 +979,132 @@ const fileFilter1 = (req, file, cb) => {
     }
 };
 
+const fileFilter3 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf|docx|xls|xlsx/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf, .docx, .xls and .xlsx format allowed!'));
+    }
+};
+const fileFilter2 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf format allowed!'));
+    }
+};
+
+const fileFilter4 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf|png|jpg|jpeg|img/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf, .png, .jpg, .jpeg, .img file format allowed!'));
+    }
+};
+const fileFilter5 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf format allowed!'));
+    }
+};
+const fileFilter6 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf format allowed!'));
+    }
+};
+
+const fileFilter8 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf|png|jpg|jpeg|img/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf, .png, .jpg, .jpeg, .img format allowed!'));
+    }
+};
+
+const fileFilter9 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf|png|jpg|jpeg|img/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf, .png, .jpg, .jpeg, .img format allowed!'));
+    }
+};
+const fileFilter7 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /pdf/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .pdf format allowed!'));
+    }
+};
+
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 
@@ -1005,7 +1124,9 @@ const storage2 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/files/tickets');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 
@@ -1014,7 +1135,9 @@ const storage3 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/files/resume');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 
@@ -1024,7 +1147,9 @@ const storage4 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/files');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const storage5 = multer.diskStorage({
@@ -1032,7 +1157,9 @@ const storage5 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/uploads/contract');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const storage6 = multer.diskStorage({
@@ -1040,7 +1167,9 @@ const storage6 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/uploads/aoa');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const storage7 = multer.diskStorage({
@@ -1048,7 +1177,9 @@ const storage7 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/uploads/medical');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const storage8 = multer.diskStorage({
@@ -1056,7 +1187,9 @@ const storage8 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/bank_details');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const storage9 = multer.diskStorage({
@@ -1064,7 +1197,9 @@ const storage9 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/bank_details/pan_card');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 const upload = multer({ storage: storage,
@@ -1073,22 +1208,32 @@ const upload1 = multer({ storage: storage1,
     limits: { fileSize: 10 * 1024 * 1024 },
 fileFilter:fileFilter1  });
 const upload2 = multer({ storage: storage2,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter2 });
 const upload3 = multer({ storage: storage3,
-    limits: { fileSize: 10 * 1024 * 1024 } 
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter3
  });
 const upload4 = multer({ storage: storage4,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter4
+  });
 const upload5 = multer({ storage: storage5,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter5  });
 const upload6 = multer({ storage: storage6,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter6  });
 const upload7 = multer({ storage: storage7,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter7
+    });
 const upload8 = multer({ storage: storage8,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter8  });
 const upload9 = multer({ storage: storage9,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter:fileFilter9  });
 const evaluationDirectory = '/views/public/files/evaluation';
 const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
 const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
@@ -1134,49 +1279,56 @@ app.post('/upload1', upload1.single('file'), (req, res) => {
 
 app.post('/upload2', upload2.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload3', upload3.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload4', upload4.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload5', upload5.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload6', upload6.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload7', upload7.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
 });
 app.post('/upload8', upload8.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1184,7 +1336,8 @@ app.post('/upload8', upload8.single('file'), (req, res) => {
 
 app.post('/upload9', upload9.single('file'), (req, res) => {
     if (req.file) {
-        res.status(200).send('File uploaded successfully');
+        const filename = req.file.filename;
+        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
     } else {
         res.status(400).send('Error uploading file');
     }
