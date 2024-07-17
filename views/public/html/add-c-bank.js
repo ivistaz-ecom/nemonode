@@ -37,7 +37,7 @@ const candidateId = urlParams.get('memId');
             const urlParams = new URLSearchParams(window.location.search);
     
             // Get the candidateId from the URL parameter
-            const candidateId = urlParams.get('memId');
+            const memId = urlParams.get('memId');
             // Define the destination URLs based on the clicked item
             var destinationPage = "";
            switch (itemId) {
