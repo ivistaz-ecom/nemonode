@@ -244,7 +244,24 @@ function getCurrentDateTime() {
 
     return { date, time };
 }
+const uploadFile = async (file, url) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
+    try {
+        const response = await axios.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": token
+            },
+        });
+        console.log('File uploaded successfully:', response.data);
+        return response.data.filename; // Return the filename received from the server
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        throw error;
+    }
+};
 const addcandidateButton = document.getElementById("candidate-form");
 addcandidateButton.addEventListener("submit", async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -262,39 +279,17 @@ addcandidateButton.addEventListener("submit", async (e) => {
     const photoFile = document.getElementById('candidate_photo').files[0];
     const resumeFile = document.getElementById('candidate_resume').files[0];
 
-    // Function to upload a file
-    const uploadFile = async (file, url) => {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const response = await axios.post(url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    "Authorization": token
-                },
-            });
-            console.log(response)
-            return response.data.filename;
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            throw error;
-        }
-    };
-
     try {
-        // Upload files if provided
+        // Upload files if provided and get filenames
         let photoFileName = '';
         let resumeFileName = '';
 
         if (photoFile) {
-            photoFileName = photoFile.name;
-            await uploadFile(photoFile, 'https://nemo.ivistaz.co/upload1');
+            photoFileName = await uploadFile(photoFile, 'https://nemo.ivistaz.co/upload1');
         }
 
         if (resumeFile) {
-            resumeFileName = resumeFile.name; 
-            await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
+            resumeFileName = await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
         }
 
         // Prepare candidate details
@@ -383,7 +378,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         console.log('Response:', serverResponse);
         alert("Candidate Added Successfully!");
         
-        redirectToViewCandiadate(serverResponse.data.candidateId)
+        redirectToViewCandidate(serverResponse.data.candidateId);
     } catch (error) {
         console.error('Error:', error);
         // Handle error as needed
