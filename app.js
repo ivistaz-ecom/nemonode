@@ -995,7 +995,7 @@ const storage1 = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
-        const uniqueName = `${timestamp}-${file.originalname}`;
+        const uniqueName = `${timestamp}_${file.originalname}`;
         cb(null, uniqueName);
     }
 });
