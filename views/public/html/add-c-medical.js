@@ -187,7 +187,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                uploadFileName = newMedicalFile.name;
+                uploadFileName = response.data.filename
                 console.log('Medical file uploaded successfully');
                 alert('Medical file uploaded successfully');
             } catch (err) {
