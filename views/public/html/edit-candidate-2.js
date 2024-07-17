@@ -378,6 +378,7 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
                     'Content-Type': 'multipart/form-data'
                 },
             });
+            console.log(photoUploadResponse)
             uploadedPhotoName = photoUploadResponse.data.filename; // Use the returned filename
             console.log('Photo uploaded successfully');
         } catch (err) {
@@ -401,6 +402,7 @@ document.getElementById('edit-candidate-form').addEventListener('submit', async 
                 maxContentLength: 10000000,
 
             });
+            console.log(resumeUploadResponse)
             uploadedResumeName = resumeUploadResponse.data.filename; // Use the returned filename
             console.log('Resume uploaded successfully');
         } catch (err) {
