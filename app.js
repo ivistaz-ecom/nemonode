@@ -994,7 +994,9 @@ const storage1 = multer.diskStorage({
         cb(null, '/var/www/html/nemonode/views/public/files/photos');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}-${file.originalname}`;
+        cb(null, uniqueName);
     }
 });
 
