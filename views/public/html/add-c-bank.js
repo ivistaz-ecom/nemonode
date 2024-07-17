@@ -202,7 +202,7 @@ async function handleBankDetailsForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            passbookFileName = passbookFile.name;
+            passbookFileName = response.data.filename
             console.log('Passbook file uploaded successfully');
         } catch (err) {
             console.error('Error uploading passbook file:', err);
@@ -222,7 +222,7 @@ async function handleBankDetailsForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            panCardFileName = panCardFile.name;
+            panCardFileName = response.data.filename
             console.log('PAN Card file uploaded successfully');
         } catch (err) {
             console.error('Error uploading PAN Card file:', err);

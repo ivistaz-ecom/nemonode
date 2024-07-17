@@ -274,7 +274,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
                     "Authorization": token
                 },
             });
-            return response.data;
+            return response.data.filename;
         } catch (error) {
             console.error('Error uploading file:', error);
             throw error;
@@ -292,7 +292,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         }
 
         if (resumeFile) {
-            resumeFileName = resumeFile.name;
+            resumeFileName = resumeFile.name; 
             await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
         }
 

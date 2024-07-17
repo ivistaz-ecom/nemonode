@@ -64,7 +64,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                documentFilesName = newDocumentFile.name;
+                documentFilesName = response.data.filename
                 console.log('Document file uploaded successfully');
                 alert('Document file uploaded successfully');
             } catch (err) {
