@@ -1271,7 +1271,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.post('/upload1', upload1.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1280,7 +1280,7 @@ app.post('/upload1', upload1.single('file'), (req, res) => {
 app.post('/upload2', upload2.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1288,7 +1288,7 @@ app.post('/upload2', upload2.single('file'), (req, res) => {
 app.post('/upload3', upload3.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1296,7 +1296,7 @@ app.post('/upload3', upload3.single('file'), (req, res) => {
 app.post('/upload4', upload4.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1304,7 +1304,7 @@ app.post('/upload4', upload4.single('file'), (req, res) => {
 app.post('/upload5', upload5.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1312,7 +1312,7 @@ app.post('/upload5', upload5.single('file'), (req, res) => {
 app.post('/upload6', upload6.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1320,7 +1320,7 @@ app.post('/upload6', upload6.single('file'), (req, res) => {
 app.post('/upload7', upload7.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1328,7 +1328,7 @@ app.post('/upload7', upload7.single('file'), (req, res) => {
 app.post('/upload8', upload8.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
@@ -1337,7 +1337,7 @@ app.post('/upload8', upload8.single('file'), (req, res) => {
 app.post('/upload9', upload9.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
-        res.status(200).send(`File ${filename} has been uploaded successfully to the server`);
+        res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
