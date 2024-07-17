@@ -964,6 +964,22 @@ Candidate.hasMany(cForgotpassword);
 cForgotpassword.belongsTo(Candidate);
 app.use('/candidate-password', cPasswordRoutes);
 
+const fileFilter1 = (req, file, cb) => {
+    // Allowed ext
+    const filetypes = /jpeg|jpg|png/;
+    // Check ext
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
+};
+
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '/var/www/html/nemonode/views/public/files/evaluation');
@@ -1052,7 +1068,8 @@ const storage9 = multer.diskStorage({
 const upload = multer({ storage: storage,
     limits: { fileSize: 10 * 1024 * 1024 }  });
 const upload1 = multer({ storage: storage1,
-    limits: { fileSize: 10 * 1024 * 1024 }  });
+    limits: { fileSize: 10 * 1024 * 1024 },
+fileFilter:fileFilter1  });
 const upload2 = multer({ storage: storage2,
     limits: { fileSize: 10 * 1024 * 1024 }  });
 const upload3 = multer({ storage: storage3,
