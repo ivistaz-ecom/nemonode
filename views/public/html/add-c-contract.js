@@ -219,7 +219,7 @@ async function handleContractForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            documentFileName = documentFile.name;
+            documentFileName = response.data.filename
             console.log('Document file uploaded successfully');
         } catch (err) {
             console.error('Error uploading document file:', err);
@@ -239,7 +239,7 @@ async function handleContractForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            aoaFileName = aoaFile.name;
+            aoaFileName = response.data.filename
             console.log('AOA file uploaded successfully');
         } catch (err) {
             console.error('Error uploading AOA file:', err);

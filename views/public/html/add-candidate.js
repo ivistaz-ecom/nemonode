@@ -274,7 +274,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
                     "Authorization": token
                 },
             });
-            return response.data;
+            return response.data.filename;
         } catch (error) {
             console.error('Error uploading file:', error);
             throw error;

@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const token = localStorage.getItem('token')
 document.addEventListener("DOMContentLoaded", async function() {
     // Get the dropdown items
@@ -137,7 +139,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            uploadedFileName = newUploadFile.name;
+            uploadedFileName = uploadResponse.data.filename
             console.log('File uploaded successfully');
         } catch (err) {
             console.error('Error uploading file:', err);

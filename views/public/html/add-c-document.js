@@ -196,7 +196,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            documentFileName = documentFiles.name;
+            documentFileName = response.data.filename;
             console.log('Document file uploaded successfully');
             alert('Document Added successfully!')
         } catch (err) {
