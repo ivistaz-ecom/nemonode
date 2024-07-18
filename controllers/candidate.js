@@ -2941,7 +2941,7 @@ const crewList = async (req, res) => {
         SELECT 
             a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
             a.wages_types, a.sign_on, a.sign_off, a.eoc, 
-            b.fname, b.lname, b.nationality, 
+            b.fname, b.lname, b.nationality, b.rank, 
             c.id AS vesselId, b.category, e.company_name,
             bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
             bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
@@ -2956,7 +2956,7 @@ const crewList = async (req, res) => {
             LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
             LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
             LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
-            LEFT JOIN ranks AS r ON a.rank = r.rank
+            LEFT JOIN ranks AS r ON b.rank = r.rank
         WHERE 
             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
             (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
