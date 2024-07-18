@@ -166,8 +166,8 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         const memId = urlParams.get('memId');
         const hospitalName = document.getElementById('hospital_name').value.trim();
         const place = document.getElementById('place').value.trim();
-        const date = document.getElementById('date').value.trim();
-        const expiryDate = document.getElementById('expiry_date').value.trim();
+        const date = document.getElementById('date').value.trim() || '1970-01-01';
+        const expiryDate = document.getElementById('expiry_date').value.trim() || '1970-01-01';
         const doneBy = document.getElementById('done_by').value.trim();
         const status = document.getElementById('status').value.trim();
         const amount = document.getElementById('amount').value.trim();
