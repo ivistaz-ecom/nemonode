@@ -14,6 +14,35 @@ document.getElementById("vessel-form").addEventListener("submit", async (e) => {
     }
 });
 
+// Function to fetch data using Axios for companies
+const fetchCompanyData = async () => {
+    try {
+        const response = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');  // Adjust URL as per your backend setup
+        const companies = response.data.companies;
+
+        // Reference to the select element for companies
+        const selectElement = document.getElementById('vsl_company');
+
+        // Clear existing options
+        selectElement.innerHTML = '<option value="" selected disabled>Select company</option>';
+
+        // Populate dropdown with fetched data
+        companies.forEach(company => {
+            const option = document.createElement('option');
+            option.value = company.company_id;  // Adjust based on your company object structure
+            option.textContent = company.company_name; // Display text
+            selectElement.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching company data:', error);
+        // Handle error appropriately, e.g., show an alert
+    }
+};
+
+// Call the fetchCompanyData function when the page loads or as needed
+fetchCompanyData();
+
+
 document.getElementById("vsl-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const vesselName = document.getElementById("vessel_name_vsl").value;
