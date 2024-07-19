@@ -23,7 +23,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     console.log(formData)
     try {
         // Send form data to the backend using Axios
-        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
+        const response = await axios.put(`http://localhost:4000/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
         console.log("Response:", response.data);
         alert('successfully updated!')
         // Handle the response as needed
@@ -173,7 +173,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
         // Update basic comments value in candidate table
         try {
-            await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         
         // Update reference check text value in candidate table
         try {
-            await axios.put(`https://nemo.ivistaz.co/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+            await axios.put(`http://localhost:4000/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
     }
 
     try {
-        const response = await axios.post(`https://nemo.ivistaz.co/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+        const response = await axios.post(`http://localhost:4000/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 async function fetchAndDisplayDiscussions(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get(`https://nemo.ivistaz.co/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`http://localhost:4000/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
         let discussions = serverResponse.data.discussions;
 
         // Sort discussions by created_date in descending order
@@ -276,7 +276,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
             discussionElement.classList.add('discussion'); // Add CSS class for styling
             
             // Fetch username based on user ID (post_by value)
-            const usernameResponse = await axios.get(`https://nemo.ivistaz.co/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const usernameResponse = await axios.get(`http://localhost:4000/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
             const username = usernameResponse.data.user.userName;
 
             // Format the created date
@@ -318,7 +318,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`http://localhost:4000/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -373,7 +373,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:4000/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -387,7 +387,7 @@ const displayDropdown = async function () {
 
 async function fetchAndDisplayVessels() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:4000/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -416,7 +416,7 @@ async function fetchAndDisplayVessels() {
 }
 async function fetchAndDisplayCompanies() {
     try {
-        const companyResponse = await axios.get("https://nemo.ivistaz.co/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("http://localhost:4000/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('company_name');
         companyDropdown.innerHTML = ''; // Clear existing options
@@ -575,7 +575,7 @@ const proposedCheckbox = document.getElementById('proposed');
     
     
    async function fetchAndDisplayCandidateDetails(candidateId){
-        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
+        const response = await axios.get(`http://localhost:4000/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
         console.log('Candidate:',response)
 
         document.getElementById('avb_date').value = response.data.candidate.avb_date;
