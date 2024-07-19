@@ -641,7 +641,7 @@
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`http://localhost:4000/user/${userId}/logout`)
+    axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -678,7 +678,7 @@ function decodeToken(token) {
     console.log(id)
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:4000/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-sea/${id}`, { headers: { "Authorization": token } });
         console.log(response)
         const seaService = response.data.editSea[0];
         console.log("edit response", response.data)
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Send PUT request to update sea service data
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:4000/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`https://nemo.ivistaz.co/candidate/edit-sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response);
             alert('Sea Service record updated successfully!');
             const urlParams = new URLSearchParams(window.location.search);

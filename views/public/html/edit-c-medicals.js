@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function populateHospitalDropdown() {
         const token = localStorage.getItem('token');
         try {
-            const hospitalResponse = await axios.get("http://localhost:4000/others/get-hospital", { 
+            const hospitalResponse = await axios.get("https://nemo.ivistaz.co/others/get-hospital", { 
                 headers: { "Authorization": token } 
             });
             console.log(hospitalResponse);
@@ -165,7 +165,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
     try {
         // Send data to the server using Axios with async/await
-        const response = await axios.put(`http://localhost:4000/candidate/update-c-hospital/${med_id}`, formData, {
+        const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-c-hospital/${med_id}`, formData, {
             headers: { 
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -205,7 +205,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

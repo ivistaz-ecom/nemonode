@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`http://localhost:4000/candidate/update-cdocument/${documentId}`, formData);
+            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-cdocument/${documentId}`, formData);
 
             // Handle success
             console.log('Document data updated successfully:', response.data);
@@ -68,7 +68,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:4000/user/${userId}/logout`)
+      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
