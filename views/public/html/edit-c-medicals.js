@@ -1,4 +1,3 @@
-const { response } = require("express");
 
 const token = localStorage.getItem('token')
 document.addEventListener("DOMContentLoaded", async function() {
@@ -176,6 +175,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
         // Handle success
         console.log('Data updated successfully:', response.data);
+        alert('Medical details updated successfully!')
         const urlParams = new URLSearchParams(window.location.search);
     
         // Get the candidateId from the URL parameter
