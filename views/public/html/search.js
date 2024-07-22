@@ -1,4 +1,10 @@
 const token = localStorage.getItem('token')
+
+if(!token)
+{
+  window.location.href='./loginpage.html'
+}
+
 document.getElementById('search_btn').addEventListener('click', async function (e) {
   e.preventDefault();
   // Get the value from the input field
