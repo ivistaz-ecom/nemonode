@@ -1,4 +1,9 @@
 const token = localStorage.getItem('token')
+if(!token)
+{
+  alert('Please login to continue')
+  window.location.href='./loginpage.html'
+}
 function decodeToken(token) {
     // Implementation depends on your JWT library
     // Here, we're using a simple base64 decode

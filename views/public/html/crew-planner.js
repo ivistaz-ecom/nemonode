@@ -1,4 +1,14 @@
-const token = localStorage.getItem('token')
+// Get the token from localStorage
+const token = localStorage.getItem('token');
+
+// Check if the token is not present
+if (!token) {
+  // Redirect to the login page
+alert('Please login to continue using Nemo');
+
+  window.location.href = './loginpage.html';
+}
+
 const displayDropdown = async function () {
     const rankDropdown = document.getElementById('candidate_c_rank');
     rankDropdown.innerHTML = ''; // Clear existing options

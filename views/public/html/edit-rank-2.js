@@ -20,8 +20,17 @@ updateRankButton.addEventListener("submit", async (e) => {
         console.error('Error:', error);
     }
 });
+// Get the token from localStorage
+const token = localStorage.getItem('token');
 
-const token = localStorage.getItem('token')
+// Check if the token is not present
+if (!token) {
+  // Redirect to the login page
+alert('Please login to continue using Nemo');
+
+  window.location.href = './loginpage.html';
+}
+
 window.onload = async function(){ 
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
