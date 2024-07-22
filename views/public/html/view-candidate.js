@@ -863,6 +863,22 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 badgeText = `${months} months and ${days} days`;
             }
 
+            function calculateContractDuration(signOn, eoc) {
+                if (!signOn || signOn === '1970-01-01' || !eoc || eoc === '1970-01-01') {
+                    return 'Both sign_on and eoc must be updated for duration of contract to reflect';
+                }
+
+                const signOnDate = new Date(signOn);
+                const endDate = new Date(eoc);
+                const diffTime = Math.abs(endDate - signOnDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const months = Math.floor(diffDays / 30);
+                const days = diffDays % 30;
+                return `${months} months and ${days} days`;
+            }
+
+            const contractDuration = calculateContractDuration(contract.sign_on, contract.eoc);
+
             row.innerHTML = `
                 <td>${index++}</td>
                 <td>${contract.rank}</td>
@@ -885,6 +901,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                 <td>
                     <button class="btn border-0 m-0 p-0" onclick="editContract('${candidateId}','${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
