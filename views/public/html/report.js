@@ -863,191 +863,201 @@ async function handleCallsMadeSubmit(event) {
         });
 
         // Function to render table and pagination
-        function renderTable() {
-            tableContainer.innerHTML = '';
+     // Replace the relevant section in your renderTable function
+function renderTable() {
+    tableContainer.innerHTML = '';
 
-            const filteredData = filterData();
+    const filteredData = filterData();
 
-            if (filteredData.length === 0) {
-                const emptyMessage = document.createElement('p');
-                emptyMessage.textContent = 'No data available';
-                tableContainer.appendChild(emptyMessage);
-                return;
-            }
+    if (filteredData.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.textContent = 'No data available';
+        tableContainer.appendChild(emptyMessage);
+        return;
+    }
 
-            const rowsPerPageSelect = document.createElement('select');
-            rowsPerPageSelect.id = 'rowsPerPage';
-            [10, 25, 50, 100].forEach(num => {
-                const option = document.createElement('option');
-                option.value = num;
-                option.textContent = num;
-                rowsPerPageSelect.appendChild(option);
-            });
-            rowsPerPageSelect.addEventListener('change', function () {
-                currentPage = 1;
-                rowsPerPage = parseInt(rowsPerPageSelect.value);
-                renderTable();
-            });
-            rowsPerPageSelect.value = rowsPerPage.toString();
-            tableContainer.appendChild(rowsPerPageSelect);
+    const rowsPerPageSelect = document.createElement('select');
+    rowsPerPageSelect.id = 'rowsPerPage';
+    [10, 25, 50, 100].forEach(num => {
+        const option = document.createElement('option');
+        option.value = num;
+        option.textContent = num;
+        rowsPerPageSelect.appendChild(option);
+    });
+    rowsPerPageSelect.addEventListener('change', function () {
+        currentPage = 1;
+        rowsPerPage = parseInt(rowsPerPageSelect.value);
+        renderTable();
+    });
+    rowsPerPageSelect.value = rowsPerPage.toString();
+    tableContainer.appendChild(rowsPerPageSelect);
 
-            const exportButton = document.createElement('button');
-            exportButton.textContent = 'Export to Excel';
-            exportButton.id = 'exportButton';
-            exportButton.classList.add('btn', 'btn-primary', 'ms-2');
-            exportButton.addEventListener('click', function () {
-                exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
-            });
-            tableContainer.appendChild(exportButton);
+    const exportButton = document.createElement('button');
+    exportButton.textContent = 'Export to Excel';
+    exportButton.id = 'exportButton';
+    exportButton.classList.add('btn', 'btn-primary', 'ms-2');
+    exportButton.addEventListener('click', function () {
+        exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
+    });
+    tableContainer.appendChild(exportButton);
 
-            const table = document.createElement('table');
-            table.classList.add('table', 'table-bordered');
+    const table = document.createElement('table');
+    table.classList.add('table', 'table-bordered');
 
-            const tableHeader = document.createElement('thead');
-            const headerRow = document.createElement('tr');
+    const tableHeader = document.createElement('thead');
+    const headerRow = document.createElement('tr');
 
-            const snHeader = document.createElement('th');
-            snHeader.textContent = 'S.No';
-            snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-            headerRow.appendChild(snHeader);
+    const snHeader = document.createElement('th');
+    snHeader.textContent = 'S.No';
+    snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
+    headerRow.appendChild(snHeader);
 
-            // Always add userName header
-            const userNameHeader = document.createElement('th');
-            userNameHeader.textContent = 'User Name';
-            userNameHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-            headerRow.appendChild(userNameHeader);
+    // Always add userName header
+    const userNameHeader = document.createElement('th');
+    userNameHeader.textContent = 'User Name';
+    userNameHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
+    headerRow.appendChild(userNameHeader);
 
-            selectedFields.forEach(field => {
-                const th = document.createElement('th');
-                th.textContent = field.label;
-                th.classList.add('fw-bolder', 'bg-warning', 'text-white');
-                headerRow.appendChild(th);
-            });
+    selectedFields.forEach(field => {
+        const th = document.createElement('th');
+        th.textContent = field.label;
+        th.classList.add('fw-bolder', 'bg-warning', 'text-white');
+        headerRow.appendChild(th);
+    });
 
-            tableHeader.appendChild(headerRow);
-            table.appendChild(tableHeader);
+    tableHeader.appendChild(headerRow);
+    table.appendChild(tableHeader);
 
-            const tableBody = document.createElement('tbody');
+    const tableBody = document.createElement('tbody');
 
-            const start = (currentPage - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const paginatedData = filteredData.slice(start, end);
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedData = filteredData.slice(start, end);
 
-            paginatedData.forEach((contract, index) => {
-                const row = document.createElement('tr');
+    paginatedData.forEach((contract, index) => {
+        const row = document.createElement('tr');
 
-                const snCell = document.createElement('td');
-                snCell.textContent = start + index + 1;
-                row.appendChild(snCell);
+        const snCell = document.createElement('td');
+        snCell.textContent = start + index + 1;
+        row.appendChild(snCell);
 
-                // Always add userName cell
-                const userNameCell = document.createElement('td');
-                userNameCell.textContent = contract.userName || 'N/A';
-                row.appendChild(userNameCell);
+        // Always add userName cell
+        const userNameCell = document.createElement('td');
+        userNameCell.textContent = contract.userName || 'N/A';
+        row.appendChild(userNameCell);
 
-                selectedFields.forEach(field => {
-                    const cell = document.createElement('td');
-                    const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
-                    if (fieldName === 'nationality') {
-                        cell.textContent = getNationalityName(contract[fieldName]);
-                    } else {
-                        cell.textContent = contract[fieldName] || 'N/A';
-                    }
-                    row.appendChild(cell);
+        selectedFields.forEach(field => {
+            const cell = document.createElement('td');
+            const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
+            if (fieldName === 'nationality') {
+                cell.textContent = getNationalityName(contract[fieldName]);
+            } else if (fieldName === 'candidateId') {
+                const candidateIdButton = document.createElement('button');
+                candidateIdButton.textContent = contract[fieldName] || 'N/A';
+                candidateIdButton.classList.add('btn', 'btn-info');
+                candidateIdButton.addEventListener('click', function () {
+                    alert(`Candidate ${contract[fieldName]} id is clicked`);
                 });
-
-                tableBody.appendChild(row);
-            });
-
-            table.appendChild(tableBody);
-
-            const fetchedDataCount = document.createElement('p');
-            fetchedDataCount.textContent = `${filteredData.length} data matches`;
-            tableContainer.appendChild(fetchedDataCount);
-
-            tableContainer.appendChild(table);
-
-            const paginationControls = document.createElement('nav');
-            paginationControls.setAttribute('aria-label', 'Page navigation');
-            const ul = document.createElement('ul');
-            ul.classList.add('pagination');
-
-            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
-            const maxVisiblePages = 5;
-            let startPage = currentPage - Math.floor(maxVisiblePages / 2);
-            startPage = Math.max(startPage, 1);
-            let endPage = startPage + maxVisiblePages - 1;
-            endPage = Math.min(endPage, totalPages);
-
-            if (startPage > 1) {
-                const firstPageLi = document.createElement('li');
-                firstPageLi.classList.add('page-item');
-                const firstPageButton = document.createElement('button');
-                firstPageButton.classList.add('page-link');
-                firstPageButton.textContent = '1';
-                firstPageButton.addEventListener('click', function () {
-                    currentPage = 1;
-                    renderTable();
-                });
-                firstPageLi.appendChild(firstPageButton);
-                ul.appendChild(firstPageLi);
-
-                if (startPage > 2) {
-                    const ellipsisLi = document.createElement('li');
-                    ellipsisLi.classList.add('page-item');
-                    const ellipsisSpan = document.createElement('span');
-                    ellipsisSpan.classList.add('page-link');
-                    ellipsisSpan.textContent = '...';
-                    ellipsisLi.appendChild(ellipsisSpan);
-                    ul.appendChild(ellipsisLi);
-                }
+                cell.appendChild(candidateIdButton);
+            } else {
+                cell.textContent = contract[fieldName] || 'N/A';
             }
+            row.appendChild(cell);
+        });
 
-            for (let i = startPage; i <= endPage; i++) {
-                const li = document.createElement('li');
-                li.classList.add('page-item');
-                const pageButton = document.createElement('button');
-                pageButton.classList.add('page-link');
-                pageButton.textContent = i;
-                if (i === currentPage) {
-                    li.classList.add('active');
-                }
-                pageButton.addEventListener('click', function () {
-                    currentPage = i;
-                    renderTable();
-                });
-                li.appendChild(pageButton);
-                ul.appendChild(li);
-            }
+        tableBody.appendChild(row);
+    });
 
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    const ellipsisLi = document.createElement('li');
-                    ellipsisLi.classList.add('page-item');
-                    const ellipsisSpan = document.createElement('span');
-                    ellipsisSpan.classList.add('page-link');
-                    ellipsisSpan.textContent = '...';
-                    ellipsisLi.appendChild(ellipsisSpan);
-                    ul.appendChild(ellipsisLi);
-                }
+    table.appendChild(tableBody);
 
-                const lastPageLi = document.createElement('li');
-                lastPageLi.classList.add('page-item');
-                const lastPageButton = document.createElement('button');
-                lastPageButton.classList.add('page-link');
-                lastPageButton.textContent = totalPages;
-                lastPageButton.addEventListener('click', function () {
-                    currentPage = totalPages;
-                    renderTable();
-                });
-                lastPageLi.appendChild(lastPageButton);
-                ul.appendChild(lastPageLi);
-            }
+    const fetchedDataCount = document.createElement('p');
+    fetchedDataCount.textContent = `${filteredData.length} data matches`;
+    tableContainer.appendChild(fetchedDataCount);
 
-            paginationControls.appendChild(ul);
-            tableContainer.appendChild(paginationControls);
+    tableContainer.appendChild(table);
+
+    const paginationControls = document.createElement('nav');
+    paginationControls.setAttribute('aria-label', 'Page navigation');
+    const ul = document.createElement('ul');
+    ul.classList.add('pagination');
+
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+    const maxVisiblePages = 5;
+    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
+    startPage = Math.max(startPage, 1);
+    let endPage = startPage + maxVisiblePages - 1;
+    endPage = Math.min(endPage, totalPages);
+
+    if (startPage > 1) {
+        const firstPageLi = document.createElement('li');
+        firstPageLi.classList.add('page-item');
+        const firstPageButton = document.createElement('button');
+        firstPageButton.classList.add('page-link');
+        firstPageButton.textContent = '1';
+        firstPageButton.addEventListener('click', function () {
+            currentPage = 1;
+            renderTable();
+        });
+        firstPageLi.appendChild(firstPageButton);
+        ul.appendChild(firstPageLi);
+
+        if (startPage > 2) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.classList.add('page-item');
+            const ellipsisSpan = document.createElement('span');
+            ellipsisSpan.classList.add('page-link');
+            ellipsisSpan.textContent = '...';
+            ellipsisLi.appendChild(ellipsisSpan);
+            ul.appendChild(ellipsisLi);
         }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const li = document.createElement('li');
+        li.classList.add('page-item');
+        const pageButton = document.createElement('button');
+        pageButton.classList.add('page-link');
+        pageButton.textContent = i;
+        if (i === currentPage) {
+            li.classList.add('active');
+        }
+        pageButton.addEventListener('click', function () {
+            currentPage = i;
+            renderTable();
+        });
+        li.appendChild(pageButton);
+        ul.appendChild(li);
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.classList.add('page-item');
+            const ellipsisSpan = document.createElement('span');
+            ellipsisSpan.classList.add('page-link');
+            ellipsisSpan.textContent = '...';
+            ellipsisLi.appendChild(ellipsisSpan);
+            ul.appendChild(ellipsisLi);
+        }
+
+        const lastPageLi = document.createElement('li');
+        lastPageLi.classList.add('page-item');
+        const lastPageButton = document.createElement('button');
+        lastPageButton.classList.add('page-link');
+        lastPageButton.textContent = totalPages;
+        lastPageButton.addEventListener('click', function () {
+            currentPage = totalPages;
+            renderTable();
+        });
+        lastPageLi.appendChild(lastPageButton);
+        ul.appendChild(lastPageLi);
+    }
+
+    paginationControls.appendChild(ul);
+    tableContainer.appendChild(paginationControls);
+}
+
 
         renderTable();
 
