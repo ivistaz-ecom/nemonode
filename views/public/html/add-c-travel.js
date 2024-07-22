@@ -5,6 +5,13 @@ function decodeToken(token) {
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(atob(base64));
 }
+    const token = localStorage.getItem('token')
+
+if(!token)
+{
+  alert('Please login to continue')
+  window.location.href='./loginpage.html'
+}
 document.addEventListener('DOMContentLoaded', async function () {
     const token = localStorage.getItem('token')
 

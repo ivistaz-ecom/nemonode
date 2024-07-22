@@ -1,7 +1,17 @@
 // Client-side JavaScript with Axios
 
 const countryTable = document.getElementById("country-code-table");
-const token = localStorage.getItem('token')
+// Get the token from localStorage
+const token = localStorage.getItem('token');
+
+// Check if the token is not present
+if (!token) {
+  // Redirect to the login page
+alert('Please login to continue using Nemo');
+
+  window.location.href = './loginpage.html';
+}
+
 async function displayCountryCodes() {
     try {
         const response = await axios.get('https://nemo.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});

@@ -1,4 +1,14 @@
-const token = localStorage.getItem('token')
+// Get the token from localStorage
+const token = localStorage.getItem('token');
+
+// Check if the token is not present
+if (!token) {
+  // Redirect to the login page
+alert('Please login to continue using Nemo');
+
+  window.location.href = './loginpage.html';
+}
+
 document.getElementById("grade-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const gradeExp = document.getElementById("grade_exp").value.trim();

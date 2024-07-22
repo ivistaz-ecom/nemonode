@@ -1,6 +1,14 @@
 
 const token = localStorage.getItem('token')
 
+// Get the token from localStorage
+
+// Check if the token is not present
+if (!token) {
+  // Redirect to the login page
+  window.location.href = './loginpage.html';
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
     await fetchCountryCodes()
 
