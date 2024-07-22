@@ -948,13 +948,28 @@ async function handleCallsMadeSubmit(event) {
                 selectedFields.forEach(field => {
                     const cell = document.createElement('td');
                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
+                
+                    // Handle nationality field
                     if (fieldName === 'nationality') {
                         cell.textContent = getNationalityName(contract[fieldName]);
                     } else {
                         cell.textContent = contract[fieldName] || 'N/A';
                     }
+                
+                    // Handle candidateId field
+                    if (fieldName === 'candidateId') {
+                        const viewButton = document.createElement('button');
+                        viewButton.textContent = 'View';
+                        viewButton.classList.add('btn', 'btn-link', 'p-0');
+                        viewButton.addEventListener('click', function () {
+                            viewCandidate(contract[fieldName]);
+                        });
+                        cell.appendChild(viewButton);
+                    }
+                
                     row.appendChild(cell);
                 });
+                
 
                 tableBody.appendChild(row);
             });
