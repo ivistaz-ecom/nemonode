@@ -956,7 +956,11 @@ function renderTable() {
                 candidateIdButton.textContent = contract[fieldName] || 'N/A';
                 candidateIdButton.classList.add('btn', 'btn-info');
                 candidateIdButton.addEventListener('click', function () {
-                    alert(`Candidate ${contract[fieldName]} id is clicked`);
+                  
+                        // Add your view logic here
+                        window.open(`./view-candidate.html?id=${contract[fieldName]}`, '_blank');
+                    
+                  
                 });
                 cell.appendChild(candidateIdButton);
             } else {
