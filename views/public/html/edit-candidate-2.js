@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 const avbDateInput = document.getElementById('edit_candidate_avb_date');
 const avbDateValue = avbDateInput.value;
 // Check if the avb_date is null
-const avbDate = avbDateValue.trim() !== '' ? avbDateValue : null;
+const avbDate = avbDateValue.trim() !== '' ? avbDateValue : '1970-01-01';
 
 
 async function fetchAndDisplayExp() {
