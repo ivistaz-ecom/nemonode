@@ -416,7 +416,7 @@ const userName = localStorage.getItem('username')
         fname: document.getElementById('edit_candidate_fname').value || null,
         lname: document.getElementById('edit_candidate_lname').value || null,
         c_rank: document.getElementById('edit_candidate_c_rank').value || null,
-        avb_date: avbDate || null,
+        avb_date: avbDate,
         nationality: document.getElementById('edit_candidate_nationality').value || null,
         company_status: document.getElementById('edit_candidate_company_status').value || null,
         dob: document.getElementById('edit_candidate_dob').value || null,
