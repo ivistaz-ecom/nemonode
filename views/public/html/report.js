@@ -957,7 +957,7 @@ async function handleCallsMadeSubmit(event) {
                     }
                 
                     // Handle candidateId field
-                    if (fieldName === 'candidateId') {
+                    if (fieldName === 'id') {
                         const viewButton = document.createElement('button');
                         viewButton.textContent = 'View';
                         viewButton.classList.add('btn', 'btn-link', 'p-0');
