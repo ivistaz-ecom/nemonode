@@ -130,19 +130,24 @@ async function fetchAndDisplayBankDetails(candidateId) {
             // Add data to each cell
             row.innerHTML = `
             <td>${index++}</td>
-            <td><span class='badge bg-success'>${bank.beneficiary}</span></td>
+            <td><span class='badge bg-success'>${bank.bank_name}</span></td>
             <td>${bank.account_num}</td>
-            <td><span class='badge bg-success'>${bank.branch}</span></td>
             <td>${bank.bank_addr}</td>
-            <td>${bank.beneficiary_addr}</td>
-            <td>${bank.swift_code}</td>
             <td>${bank.ifsc_code}</td>
-            <td>${bank.passbook}</td>
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view!</a></td>
-
+            <td>${bank.swift_code}</td>
+            <td>${bank.beneficiary}</td>
+            <td>${bank.beneficiary_addr}</td>
             <td>${bank.pan_num}</td>
+            <td>${bank.passbook}</td>
+
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></td>
             <td>${bank.pan_card}</td>
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view!</a></td>
+
+            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
+            <td>${bank.branch}</td>
+            <td>${bank.types}</td>
+            <td>${bank.created_by}</td>
+            
 
             <td>
             <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
