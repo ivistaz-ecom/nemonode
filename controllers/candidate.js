@@ -871,7 +871,6 @@ const add_bankdetails = async (req, res) => {
     try {
         const candidateId = req.params.id;
 
-
         // Destructure data from the request body
         const {
             bankName,
@@ -890,30 +889,38 @@ const add_bankdetails = async (req, res) => {
         } = req.body;
 
         // Validate required fields
-        if ( !bankName || !accountNumber || !bankAddress || !ifscCode || !swiftCode || !beneficiary || !address || !panNumber) {
+        if (!bankName || !accountNumber || !bankAddress || !ifscCode || !swiftCode || !beneficiary || !address || !panNumber) {
             return res.status(400).json({ message: "Bad Parameters", success: false });
+        }
+
+        // Check the number of existing bank records for the candidate
+        const bankRecordsCount = await Bank.count({
+            where: { candidateId: candidateId }
+        });
+
+        if (bankRecordsCount >= 2) {
+            return res.status(400).json({ message: "Each candidate can only have a maximum of 2 bank records.", success: false });
         }
 
         // Create a new BankDetails entry
         const bankDetails = await Bank.create({
-            bank_name:bankName,
-            account_num:accountNumber,
-            bank_addr:bankAddress,
-            ifsc_code:ifscCode,
-            swift_code:swiftCode,
+            bank_name: bankName,
+            account_num: accountNumber,
+            bank_addr: bankAddress,
+            ifsc_code: ifscCode,
+            swift_code: swiftCode,
             beneficiary,
-            beneficiary_addr:address,
-            pan_num:panNumber,
-            pan_card:panCardFile,
-            passbook:passbookFile,
+            beneficiary_addr: address,
+            pan_num: panNumber,
+            pan_card: panCardFile,
+            passbook: passbookFile,
             // NRI Bank Details
-            branch:branch,
-            types:types,
-            created_by:created_by,
-            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your BankDetails model
+            branch: branch,
+            types: types,
+            created_by: created_by,
+            candidateId: candidateId // Assuming you have a foreign key 'candidateId' in your BankDetails model
         });
 
-        
         // Save the updated BankDetails entry
         await bankDetails.save();
 
@@ -923,6 +930,7 @@ const add_bankdetails = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
+
 
 
 const add_documentdetails = async (req, res) => {
