@@ -147,7 +147,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            uploadedFileName = uploadResponse.data.filename
+            uploadedFileName = uploadResponse.data.filename;
             console.log('File uploaded successfully');
         } catch (err) {
             console.error('Error uploading file:', err);
@@ -157,7 +157,6 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
     // Collect form data
     const formData = {
-        id: med_id,
         hospitalName: document.getElementById('hospital_name').value,
         place: document.getElementById('hospital_place').value,
         date: document.getElementById('hospital_date').value,
@@ -165,9 +164,13 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
         done_by: document.getElementById('hospital_done').value,
         status: document.getElementById('hospital_status').value,
         amount: document.getElementById('hospital_amount').value,
-        upload: uploadedFileName,
         created_by: document.getElementById('created_by').value,
     };
+
+    // Only add the 'upload' field if a new file was uploaded
+    if (newUploadFile) {
+        formData.upload = uploadedFileName;
+    }
 
     console.log(formData);
 
@@ -184,18 +187,17 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
 
         // Handle success
         console.log('Data updated successfully:', response.data);
-        alert('Medical details updated successfully!')
+        alert('Medical details updated successfully!');
+        
         const urlParams = new URLSearchParams(window.location.search);
-    
-        // Get the candidateId from the URL parameter
         const memId = urlParams.get('memId');
-    viewCandidate(memId)
+        viewCandidate(memId);
     } catch (error) {
         // Handle error
         console.error('Error updating data:', error);
-        // You can handle errors and display appropriate messages to the user
     }
 });
+
 
 function viewCandidate(id) {
     // Add your view logic here
