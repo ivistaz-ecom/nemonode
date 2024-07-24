@@ -108,7 +108,70 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 });
 
 
+// async function fetchAndDisplayBankDetails(candidateId) {
+//     try {
+//         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
+//             headers: {
+//                 'Authorization': token,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
 
+//         const bankDetails = response.data;
+//         console.log(bankDetails);
+
+//         const generalBankList = document.getElementById('general-bank-list');
+//         const nriBankList = document.getElementById('nri-bank-list');
+
+//         generalBankList.innerHTML = ''; // Clear existing general bank list
+//         nriBankList.innerHTML = ''; // Clear existing NRI bank list
+
+//         let generalCount = 0;
+//         let nriCount = 0;
+
+//         bankDetails.forEach((bank, index) => {
+//             const bankDetailsHTML = `
+//                 <li><strong>S.no:</strong> ${index + 1}</li>
+//                 <li><strong>Bank Name:</strong> ${bank.bank_name}</li>
+//                 <li><strong>Account Number:</strong> ${bank.account_num}</li>
+//                 <li><strong>Bank Address:</strong> ${bank.bank_addr}</li>
+//                 <li><strong>IFSC Code:</strong> ${bank.ifsc_code}</li>
+//                 <li><strong>Swift Code:</strong> ${bank.swift_code}</li>
+//                 <li><strong>Beneficiary:</strong> ${bank.beneficiary}</li>
+//                 <li><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</li>
+//                 <li><strong>PAN Number:</strong> ${bank.pan_num}</li>
+//                 <li><strong>Passbook:</strong> <a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></li>
+//                 <li><strong>PAN Card:</strong> <a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></li>
+//                 <li><strong>Branch:</strong> ${bank.branch}</li>
+//                 <li><strong>Type:</strong> ${bank.types}</li>
+//                 <li><strong>Created By:</strong> ${bank.created_by}</li>
+//                 <li>
+//                     <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}', event)">
+//                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+//                     </button>
+//                     <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
+//                         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+//                     </button>
+//                 </li>
+//                 <hr/>
+//             `;
+
+//             if (bank.types.toLowerCase() === 'nri') {
+//                 nriBankList.innerHTML += bankDetailsHTML;
+//                 nriCount++;
+//             } else if (bank.types.toLowerCase() === 'general') {
+//                 generalBankList.innerHTML += bankDetailsHTML;
+//                 generalCount++;
+//             }
+//         });
+
+//         if (generalCount > 1) {
+//             alert('Invalid bank details. Contact admin.');
+//         }
+//     } catch (error) {
+//         console.error('Error fetching bank details:', error);
+//     }
+// }
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-bank-details/${candidateId}`, {
@@ -117,56 +180,63 @@ async function fetchAndDisplayBankDetails(candidateId) {
                 'Content-Type': 'application/json'
             }
         });
-        let index=1;
+
         const bankDetails = response.data;
-        console.log(bankDetails)
+        console.log(bankDetails);
 
-        const bankTableBody = document.getElementById('bankTableBody');
-        bankTableBody.innerHTML = ''; // Clear existing rows
+        const generalBankList = document.getElementById('general-bank-list');
+        const nriBankList = document.getElementById('nri-bank-list');
 
-        bankDetails.forEach(bank => {
-            const row = document.createElement('tr');
+        generalBankList.innerHTML = ''; // Clear existing general bank list
+        nriBankList.innerHTML = ''; // Clear existing NRI bank list
 
-            // Add data to each cell
-            row.innerHTML = `
-            <td>${index++}</td>
-            <td>${bank.bank_name}</td>
-            <td>${bank.account_num}</td>
-            <td>${bank.bank_addr}</td>
-            <td>${bank.ifsc_code}</td>
-            <td>${bank.swift_code}</td>
-            <td>${bank.beneficiary}</td>
-            <td>${bank.beneficiary_addr}</td>
-            <td>${bank.pan_num}</td>
-            <td>${bank.passbook}</td>
+        let generalCount = 0;
+        let nriCount = 0;
 
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></td>
-            <td>${bank.pan_card}</td>
-
-            <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
-            <td>${bank.branch}</td>
-            <td><span class='badge bg-primary>${bank.types}</span></td>
-            <td>${bank.created_by}</td>
-            
-
-            <td>
-            <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}' ,event)">
-                <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-            </button>
-            <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
-                <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-            </button>
-        </td>
-        
+        bankDetails.forEach((bank, index) => {
+            const bankDetailsHTML = `
+                <li class="list-group-item">
+                    <h5>S.no: ${index + 1}</h5>
+                    <p><strong>Bank Name:</strong> ${bank.bank_name}</p>
+                    <p><strong>Account Number:</strong> ${bank.account_num}</p>
+                    <p><strong>Bank Address:</strong> ${bank.bank_addr}</p>
+                    <p><strong>IFSC Code:</strong> ${bank.ifsc_code}</p>
+                    <p><strong>Swift Code:</strong> ${bank.swift_code}</p>
+                    <p><strong>Beneficiary:</strong> ${bank.beneficiary}</p>
+                    <p><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</p>
+                    <p><strong>PAN Number:</strong> ${bank.pan_num}</p>
+                    <p><strong>Passbook:</strong> <a href='https://nemo.ivistaz.co/views/public/bank_details/${bank.passbook}' target="_blank">View Document</a></p>
+                    <p><strong>PAN Card:</strong> <a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">View Document</a></p>
+                    <p><strong>Branch:</strong> ${bank.branch}</p>
+                    <p><strong>Type:</strong> ${bank.types}</p>
+                    <p><strong>Created By:</strong> ${bank.created_by}</p>
+                    <div>
+                        <button class="btn btn-primary btn-sm" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}', event)">
+                            <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i> Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBank('${bank.id}', event)">
+                            <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </li>
             `;
 
-            bankTableBody.appendChild(row);
+            if (bank.types.toLowerCase() === 'nri') {
+                nriBankList.innerHTML += bankDetailsHTML;
+                nriCount++;
+            } else if (bank.types.toLowerCase() === 'general') {
+                generalBankList.innerHTML += bankDetailsHTML;
+                generalCount++;
+            }
         });
+
+        if (generalCount > 1) {
+            alert('Invalid bank details. Contact admin.');
+        }
     } catch (error) {
         console.error('Error fetching bank details:', error);
     }
 }
-
 function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, event) {
     event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
