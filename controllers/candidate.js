@@ -1265,7 +1265,6 @@ const get_contractdetails= async (req, res) => {
 const update_contractdetails = async (req, res) => {
     const contractId = req.params.id;
     const updatedContractData = req.body;
-    console.log(updatedContractData)
 
     try {
         const contract = await Contract.findByPk(contractId);
@@ -1288,9 +1287,16 @@ const update_contractdetails = async (req, res) => {
             contract.reason_for_sign_off = updatedContractData.reasonForSignOff;
             contract.aoa_number = updatedContractData.aoaNum;
             contract.emigrate_number = updatedContractData.emigrateNumber;
-            contract.documents = updatedContractData.documentFile; // Assuming 'documents' is a file path or something similar
-            contract.aoa = updatedContractData.aoaFile; // Assuming 'aoa' is a file path or something similar
-            contract.created_by= updatedContractData.created_by;
+            contract.created_by = updatedContractData.created_by;
+
+            // Conditionally update the documents and aoa fields
+            if (updatedContractData.documentFile) {
+                contract.documents = updatedContractData.documentFile; // Assuming 'documents' is a file path or something similar
+            }
+            if (updatedContractData.aoaFile) {
+                contract.aoa = updatedContractData.aoaFile; // Assuming 'aoa' is a file path or something similar
+            }
+
             // Save the changes
             await contract.save();
 
@@ -1303,6 +1309,7 @@ const update_contractdetails = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error updating contract' });
     }
 };
+
 
 const get_discussiondetails=async (req, res) => {
     try {
@@ -1437,7 +1444,6 @@ const get_NKDDetails = async (req, res) => {
 
 const update_HospitalDetails = async (req, res) => {
     try {
-        console.log('its working')
         const memId = req.params.id;
         const updatedFields = req.body;
 
@@ -1445,10 +1451,26 @@ const update_HospitalDetails = async (req, res) => {
         const hospital = await Medical.findOne({
             where: { id: memId },
         });
-        console.log(hospital)
+
         // If the hospital record exists, update the fields
         if (hospital) {
-            await hospital.update(updatedFields);
+            // Conditionally update the 'upload' field if it exists in the request body
+            if (updatedFields.upload) {
+                hospital.upload = updatedFields.upload;
+            }
+
+            // Update other fields
+            await hospital.update({
+                hospitalName: updatedFields.hospitalName,
+                place: updatedFields.place,
+                date: updatedFields.date,
+                expiry_date: updatedFields.expiry_date,
+                done_by: updatedFields.done_by,
+                status: updatedFields.status,
+                amount: updatedFields.amount,
+                created_by: updatedFields.created_by,
+            });
+
             res.status(200).json({ message: 'Hospital details updated successfully' });
         } else {
             res.status(404).json({ message: 'Hospital record not found' });
@@ -1458,6 +1480,7 @@ const update_HospitalDetails = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 const update_NKDDetails = async (req, res) => {
     try {
         const memId = req.params.id;
