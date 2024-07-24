@@ -130,7 +130,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
             // Add data to each cell
             row.innerHTML = `
             <td>${index++}</td>
-            <td><span class='badge bg-success'>${bank.bank_name}</span></td>
+            <td>${bank.bank_name}</td>
             <td>${bank.account_num}</td>
             <td>${bank.bank_addr}</td>
             <td>${bank.ifsc_code}</td>
@@ -145,7 +145,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
 
             <td><a href='https://nemo.ivistaz.co/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
             <td>${bank.branch}</td>
-            <td>${bank.types}</td>
+            <td><span class='badge bg-primary>${bank.types}</span></td>
             <td>${bank.created_by}</td>
             
 
