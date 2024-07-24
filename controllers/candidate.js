@@ -2946,16 +2946,22 @@ const crewList = async (req, res) => {
             bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
             bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
             bd.branch, bd.types, bd.created_by,
-            CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
-            CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number
+            (SELECT cd_indian_cdc.document_number 
+                FROM cdocuments cd_indian_cdc 
+                WHERE cd_indian_cdc.candidateId = b.candidateId 
+                AND cd_indian_cdc.document = 'Indian CDC' 
+                LIMIT 1) AS indian_cdc_document_number,
+            (SELECT cd_passport.document_number 
+                FROM cdocuments cd_passport 
+                WHERE cd_passport.candidateId = b.candidateId 
+                AND cd_passport.document = 'Passport' 
+                LIMIT 1) AS passport_document_number
         FROM 
             contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
             LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
-            LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
-            LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
             LEFT JOIN ranks AS r ON b.c_rank = r.rank
         WHERE 
             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
@@ -2989,6 +2995,7 @@ const crewList = async (req, res) => {
         res.status(500).send('An error occurred while retrieving the crew list.');
     }
 };
+
 
   
 
