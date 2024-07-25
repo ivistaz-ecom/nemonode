@@ -89,4 +89,6 @@ router.get("/get-crewplanner", otherControllers.getCrewPlanner)
 router.get('/get-documenttype',otherControllers.getDocumentType)
 
 
+router.get('/getcompanyviavsl/:id',otherControllers.getVslsByCompany)
+
 module.exports = router;

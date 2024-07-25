@@ -2143,6 +2143,29 @@ const getCrewPlanner = async(req,res)=>{
   }
 }
 
+const getVslsByCompany =async(req,res)=>{
+  const companyId =req.params.id
+
+
+  try {
+      const vessels = await VSL.findAll({
+          where: {
+              vsl_company: companyId
+          },
+          attributes: ['id', 'vesselName']
+      });
+
+      if (vessels.length > 0) {
+          res.json(vessels);
+      } else {
+          res.status(404).json({ message: 'No vessels found for this company ID' });
+      }
+  } catch (err) {
+      console.error('Database query error:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
   module.exports = {
     create_vessel,
@@ -2212,7 +2235,8 @@ const getCrewPlanner = async(req,res)=>{
     getDocumentType,
     getPortAgent,
     getGrades,
-    getCrewPlanner
+    getCrewPlanner,
+    getVslsByCompany
     
   }
 

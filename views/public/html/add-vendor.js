@@ -62,6 +62,20 @@ const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async function () {
 // await createCompanyDropdown()
 // await createVendorDropdown()
+try {
+  const response = await axios.get('https://nemo.ivistaz.co/company/dropdown-company');
+  const companies = response.data.companies;
+
+  const userVendorDropdown = document.getElementById('user_vendor');
+  companies.forEach(company => {
+      const option = document.createElement('option');
+      option.value = company.company_id;
+      option.textContent = company.company_name;
+      userVendorDropdown.appendChild(option);
+  });
+} catch (error) {
+  console.error('Error fetching companies:', error);
+}
 
 const hasUserManagement = decodedToken.userManagement;
 const hasVendorManagement = decodedToken.vendorManagement;

@@ -1536,47 +1536,42 @@ const generateAccessToken = (id, indosNumber,fname) => {
     return jwt.sign({ candidateId: id, indosNumber: indosNumber,fname:fname }, 'secretkey');
   };
   
-  const login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
-      const { email, password } = req.body;
-  
-      // Find the candidate with the provided email
-      const candidate = await Candidate.findOne({ where: { email1: email } });
-  
-      if (candidate) {
+        const { email, password } = req.body;
+
+        // Find the candidate with the provided email
+        const candidate = await Candidate.findOne({ where: { email1: email } });
+
+        if (!candidate) {
+            return res.status(404).json({ success: false, message: 'Candidate not found' });
+        }
+
         // Compare the provided password with the stored hashed password in the database
-        bcrypt.compare(password, candidate.password, (err, passwordMatch) => {
-          if (err) {
-            console.error('Error comparing passwords:', err);
-            return res.status(500).json({ success: false, message: 'Internal Server Error' });
-          }
-  
-          if (passwordMatch) {
-            // Password is correct, generate JWT token
-            const token = generateAccessToken(candidate.candidateId, candidate.indos_number, candidate.fname);
-            console.log(token);
-            return res.status(200).json({
-              success: true,
-              message: 'Candidate Logged in Successfully',
-              token: token,
-              candidateId: candidate.candidateId,
-              fname: candidate.fname,
-              // Include other candidate-related data as needed
-            });
-          } else {
-            // Password is invalid
+        const passwordMatch = await bcrypt.compare(password, candidate.password);
+        
+        if (!passwordMatch) {
             return res.status(401).json({ success: false, message: 'Unauthorized: Invalid credentials' });
-          }
+        }
+
+        // Password is correct, generate JWT token
+        const token = generateAccessToken(candidate.candidateId, candidate.indos_number, candidate.fname);
+        console.log(token);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Candidate Logged in Successfully',
+            token: token,
+            candidateId: candidate.candidateId,
+            fname: candidate.fname,
+            // Include other candidate-related data as needed
         });
-      } else {
-        // Candidate does not exist
-        return res.status(404).json({ success: false, message: 'Candidate not found' });
-      }
     } catch (err) {
-      console.error('Error during candidate login:', err);
-      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        console.error('Error during candidate login:', err);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
+
 
   
 
@@ -2817,6 +2812,7 @@ const avbreport = async (req, res) => {
 
 const onBoard = async (req, res) => {
     try {
+        console.log('onboard entered')
         const { startDate, vslName, companyname, category } = req.query;
 
         // Base SQL query
@@ -2898,66 +2894,7 @@ const onBoard = async (req, res) => {
 
 
 
-// const crewList = async (req, res) => {
-//     try {
-//         const { startDate, endDate, vslName, company } = req.query;
-//         console.log(">>>>>>>>>>>>>>>>>>>", startDate, endDate, vslName, company);
 
-//         // Construct the filtering criteria for contracts based on sign_on and sign_off dates
-//         const contractFilterCriteria = {
-//             [Op.and]: [
-//                 // Condition 1: (sign_on <= endDate)
-//                 { sign_on: { [Op.lte]: endDate } },
-        
-//                 // Condition 2: (sign_off = '1970-01-01' OR (sign_off <= endDate AND sign_off >= startDate))
-//                 {
-//                     [Op.or]: [
-//                         // sub-condition 1: sign_off = '1970-01-01'
-//                         { sign_off: '1970-01-01' },
-        
-//                         // sub-condition 2: (sign_off <= endDate AND sign_off >= startDate)
-//                         {
-                            
-//                                // sign_off <= endDate
-//                                  sign_off: { [Op.gte]: startDate }     // sign_off >= startDate
-                            
-//                         }
-//                     ]
-//                 }
-//             ]
-//         };
-
-//         // Add vessel name condition if present
-//         if (vslName) {
-//             contractFilterCriteria.vslname = vslName;
-//         }
-
-//         // Add company condition if present
-//         if (company) {
-//             contractFilterCriteria.company = company;
-//         }
-
-//         // Fetch contracts with the specified criteria
-//         const contracts = await Contract.findAll({
-//             where: contractFilterCriteria,
-//             include: [
-//                 {
-//                     model: Candidate, // Include candidates related to the contracts
-//                     include: [
-//                         { model: Documents }
-//                     ]
-//                 }
-//             ],
-//             attributes: ['candidateId', 'rank', 'vslname', 'vesselType', 'wages', 'currency', 'wages_types', 'sign_on', 'sign_off', 'sign_on_port', 'sign_off_port', 'eoc', 'emigrate_number', 'aoa_number', 'reason_for_sign_off', 'company', 'created_by']
-//         });
-
-//         // Send the crewlist contracts data to the client
-//         res.status(200).json({ contracts: contracts, success: true });
-//     } catch (error) {
-//         console.error("Error fetching crewlist contracts:", error);
-//         res.status(500).json({ error: 'Internal server error', success: false });
-//     }
-// }
 const crewList = async (req, res) => {
     const { startDate, endDate, vslName, company } = req.query;
 

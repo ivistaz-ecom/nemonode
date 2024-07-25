@@ -16,31 +16,27 @@ async function login(e) {
             userName: user_id.value.trim(),
             userPassword: user_pass.value.trim(),
         };
-        console.log(loginCredentials)
+        console.log(loginCredentials);
+        
         const response = await axios.post(
             "https://nemo.ivistaz.co/user/login",
             loginCredentials
         );
-        console.log(response)
+        console.log(response);
+
         if (response.data.success) {
             const username = response.data.username;
             const token = response.data.token;
-            const userGroup = decodeToken(token).userGroup
-            console.log(userGroup)
-            function decodeToken(token) {
-                // Implementation depends on your JWT library
-                // Here, we're using a simple base64 decode
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace('-', '+').replace('_', '/');
-                return JSON.parse(atob(base64));
-            }
+            const userGroup = decodeToken(token).userGroup;
+            console.log(userGroup);
 
             // Check if the user group is 'vendor'
-            if (userGroup === 'vendor') {
-                alert('Vendor ID detected, use vendor login');
-                console.log('Vendor login detected, function will exit now.');
+            if (userGroup !== 'vendor') {
+                alert('Only vendors are allowed to log in.');
+                console.log('Non-vendor login detected, function will exit now.');
                 return; // Exit the function to prevent further execution
             }
+
             // Display the welcome message and loading spinner
             welcomeUsername.textContent = username;
             welcomeModal.show();
@@ -50,9 +46,9 @@ async function login(e) {
             localStorage.setItem("username", username);
             localStorage.setItem("userId", response.data.userId);
 
-            // Redirect to index page after a short delay (e.g., 2 seconds)
+            // Redirect to vendor homepage after a short delay (e.g., 2 seconds)
             setTimeout(() => {
-                window.location.href = "./indexpage.html";
+                window.location.href = "./vendorhomepage.html";
             }, 850);
         } else {
             console.error("Login failed:", response.data.message);
@@ -64,6 +60,14 @@ async function login(e) {
         // Handle network errors or other unexpected issues
         // Display an error message to the user
     }
+}
+
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
 }
 
 function togglePassword() {
