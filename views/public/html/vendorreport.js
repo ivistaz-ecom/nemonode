@@ -79,10 +79,10 @@ async function handleOnBoardSubmit(event) {
                 "Authorization": token// Ensure token is prefixed with Bearer if required
             }
         });
-
+        console.log(response)
         const contracts = response.data.contracts;
       
-
+        
     } catch (error) {
         console.error("Error fetching onboard contracts:", error);
     }
