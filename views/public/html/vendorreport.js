@@ -66,8 +66,7 @@ async function handleOnBoardSubmit(event) {
         const token = localStorage.getItem('token');
         let startDate = document.getElementById('startDateo').value;
         startDate = startDate + 'T00:00:00Z';
-        // const companyname = document.getElementById('userVendor').value || null; // Updated to userVendor
-        const vesselDropdown = document.getElementById('vesselDropdown').value || null; // Updated ID
+        const vesselDropdown = document.getElementById('vesselDropdown').value || null;
 
         // Send request to fetch onboard candidates with filters
         const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
@@ -76,13 +75,39 @@ async function handleOnBoardSubmit(event) {
                 vslName: vesselDropdown,
             },
             headers: {
-                "Authorization": token// Ensure token is prefixed with Bearer if required
+                "Authorization": token
             }
         });
-        console.log(response)
+
         const contracts = response.data.contracts;
-      
-        
+        const tableBody = document.getElementById('onBoardTableBody');
+        tableBody.innerHTML = ''; // Clear existing table rows
+
+        contracts.forEach((contract, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${contract.candidateId}</td>
+                <td>${contract.fname}</td>
+                <td>${contract.lname}</td>
+                <td>${contract.birth_place}</td>
+                <td>${contract.rank}</td>
+                <td>${contract.nationality}</td>
+                <td>${contract.dob}</td>
+                <td>${contract.age}</td>
+                <td>${contract.company_name}</td>
+                <td>${contract.currency}</td>
+                <td>${contract.eoc}</td>
+                <td>${contract.sign_on}</td>
+                <td>${contract.sign_off}</td>
+                <td>${contract.sign_on_port}</td>
+                <td>${contract.vesselName}</td>
+                <td>${contract.vesselType}</td>
+                <td>${contract.wages}</td>
+                <td>${contract.wages_types}</td>
+            `;
+            tableBody.appendChild(row);
+        });
     } catch (error) {
         console.error("Error fetching onboard contracts:", error);
     }
