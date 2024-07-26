@@ -1,12 +1,9 @@
-
 document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
     
     // Send request to update logged status to false
-   
-  
     localStorage.clear();
     
     // Change the message and spinner after a delay
@@ -18,18 +15,17 @@ document.getElementById("logout").addEventListener("click", function() {
     setTimeout(function() {
         window.location.href = "vendorlogin.html";
     }, 2000);
-  });
+});
 
- 
-  const token = localStorage.getItem('token')
-  const decodedToken  = decodeToken(token)
-  const userVendorValue = decodedToken.userVendor
-  const userVendor = document.getElementById('userVendor')
+const token = localStorage.getItem('token');
+const decodedToken = decodeToken(token);
+const userVendorValue = decodedToken.userVendor;
+const userVendor = document.getElementById('userVendor');
 
-  userVendor.value = userVendorValue
-  console.log(userVendor.value)
+userVendor.value = userVendorValue;
+console.log(userVendor.value);
 
-  function decodeToken(token) {
+function decodeToken(token) {
     // Implementation depends on your JWT library
     // Here, we're using a simple base64 decode
     const base64Url = token.split('.')[1];
@@ -37,14 +33,14 @@ document.getElementById("logout").addEventListener("click", function() {
     return JSON.parse(atob(base64));
 }
 
-fetchVessels(userVendor.value)
+fetchVessels(userVendor.value);
 
 async function fetchVessels(companyId) {
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/others/getcompanyviavsl/${companyId}`);
         
         const vessels = response.data;
-        console.log(response)
+        console.log(response);
         const dropdown = document.getElementById('vesselDropdown');
         dropdown.innerHTML = '<option value="">Select Vessel</option>'; // Reset dropdown
 
@@ -58,7 +54,6 @@ async function fetchVessels(companyId) {
         console.error('Error fetching vessels:', error);
     }
 }
-
 
 async function handleOnBoardSubmit(event) {
     event.preventDefault();
@@ -87,8 +82,7 @@ async function handleOnBoardSubmit(event) {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${index + 1}</td>
-                <td>${contract.candidateId}</td>
-                <td>${contract.fname}</td>
+                <td><button onclick="viewCandidate('${obfuscateId(contract.candidateId)}')" class="btn btn-link">${contract.fname}</button></td>
                 <td>${contract.lname}</td>
                 <td>${contract.birth_place}</td>
                 <td>${contract.rank}</td>
@@ -114,3 +108,19 @@ async function handleOnBoardSubmit(event) {
 }
 
 document.getElementById('onBoardForm').addEventListener('submit', handleOnBoardSubmit);
+
+function obfuscateId(id) {
+    // A simple obfuscation technique by reversing the string and Base64 encoding
+    const reversedId = id.toString().split('').reverse().join('');
+    return btoa(reversedId);
+}
+
+function deobfuscateId(obfuscatedId) {
+    // Decode Base64 and reverse the string to get the original ID
+    const reversedId = atob(obfuscatedId);
+    return reversedId.split('').reverse().join('');
+}
+
+function viewCandidate(obfuscatedId) {
+    window.open(`./vendorviewcandidate.html?id=${encodeURIComponent(obfuscatedId)}`, '_blank');
+}
