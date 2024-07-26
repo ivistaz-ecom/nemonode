@@ -385,8 +385,8 @@
                         <div class="form-group row mt-3">
                             <label for="vesselDropdown" class="col-sm-2 col-form-label">Vessel Name:</label>
                             <div class="col-sm-10">
-                                <select id="vesselDropdown" class="form-select" name="vesselDropdown">
-                                    <option value="">Select Vessel Name</option>
+                                <select id="vesselDropdown" class="form-select" name="vesselDropdown" required>
+                                    <option disabled>Select Vessel Name</option>
                                     <!-- Options will be dynamically added here -->
                                 </select>
                             </div>
@@ -421,7 +421,6 @@
                 <thead>
                     <tr>
                       <th style="font-size: 8px;">S.no</th>
-                        <th style="font-size: 8px;">Candidate&nbsp;ID</th>
                         <th style="font-size: 8px;">Name</th>
                         <th style="font-size: 8px;">Last&nbsp;Name</th>
                         <th style="font-size: 8px;">Birth&nbsp;place</th>
