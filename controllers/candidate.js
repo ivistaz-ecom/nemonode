@@ -3429,6 +3429,81 @@ const getCallsCountForOneDay = async (req, res) => {
     }
 };
 
+const getContractsOverTenMonths = async (req, res) => {
+    try {
+        const { startDate } = req.query;
+        console.log('>', startDate);
+
+        // Construct the base SQL query
+        const query = `
+            SELECT a.candidateId, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality,a.eoc,
+                   a.sign_on, a.sign_off
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            WHERE 
+             a.eoc <= :startDate
+            AND a.sign_off ='1970-01-01'
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements: { startDate },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ contracts: results, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts without sign off:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
+
+
+
+const getContractsEndingSoon = async (req, res) => {
+    try {
+        const today = new Date();
+        const thirtyDaysFromNow = new Date();
+        thirtyDaysFromNow.setDate(today.getDate() + 30);
+
+        // Format dates to string (YYYY-MM-DD format)
+        const todayString = today.toISOString().split('T')[0];
+        const thirtyDaysFromNowString = thirtyDaysFromNow.toISOString().split('T')[0];
+
+        console.log('Today:', todayString);
+        console.log('30 Days From Now:', thirtyDaysFromNowString);
+
+        // Construct the base SQL query
+        const query = `
+            SELECT a.candidateId, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality, a.eoc,
+                   a.sign_on, a.sign_off
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            WHERE a.eoc BETWEEN :today AND :thirtyDaysFromNow
+            AND a.sign_off = '1970-01-01'
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            replacements: { today: todayString, thirtyDaysFromNow: thirtyDaysFromNowString },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ contracts: results, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts ending soon:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3512,5 +3587,7 @@ module.exports = {
    getContractsDueForSignOff,
    updateOrCreateCandidateFromVerloop,
    hoverDiscussions,
-   getCallsCountForOneDay
+   getCallsCountForOneDay,
+   getContractsEndingSoon,
+   getContractsOverTenMonths,
 };

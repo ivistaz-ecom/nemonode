@@ -109,4 +109,6 @@ router.get('/dueforsignoff',candidateControllers.getContractsDueForSignOff)
 router.post('/verloop-webhook',candidateControllers.updateOrCreateCandidateFromVerloop)
 router.post('/hover-disc/:id',candidateControllers.hoverDiscussions)
 router.get('/callforoneday',candidateControllers.getCallsCountForOneDay)
+router.get('/contractsdue',candidateControllers.getContractsOverTenMonths)
+router.get('/contractseoc',candidateControllers.getContractsEndingSoon)
 module.exports = router;
