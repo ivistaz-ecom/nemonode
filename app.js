@@ -942,6 +942,10 @@ app.post('/send-email', async (req, res) => {
             content: base64File,
             contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         }]
+<<<<<<< HEAD
+=======
+        
+>>>>>>> d81163fc6d56572aac137ec0c3f6d0c094ebad75
     };
 
     try {

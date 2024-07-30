@@ -19,6 +19,6 @@ jobs:
 
           script: |
             cd /var/www/html/nemonode
+            git stash
             git pull origin main
-            
-            
+            git stash pop
