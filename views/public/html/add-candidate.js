@@ -389,6 +389,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         redirectToViewCandiadate(serverResponse.data.candidateId);
     } catch (error) {
         console.error('Error:', error);
+        alert('Email already exists!')
         // Handle error as needed
     }
 });
