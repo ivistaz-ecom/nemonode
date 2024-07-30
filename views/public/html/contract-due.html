@@ -570,7 +570,6 @@
                 <div class="row mt-3">
                     <div class="col">
                         <h4 class="">Contract Due Reminders</h4>
-                        <button id="sendEmailButton" class="btn btn-success">Send Mail to Nautilus</button>
 
                     </div>
                 </div>
@@ -608,6 +607,8 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size: 12px;">
+                                <button id="sendEmailButton" style="display: none;" class="btn btn-success mb-3">Send Mail to Nautilus</button>
+
                                 <!-- Rows will be added here dynamically -->
                             </tbody>
                         </table>
@@ -653,7 +654,8 @@
         </div>
     
         <script>
-   function generateExcelFile() {
+
+function generateExcelFile() {
         const tbody = document.querySelector('#contractsTable tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
 
@@ -687,39 +689,21 @@
         try {
             const base64File = await blobToBase64(blob);
 
-            const emailData = {
-                sender: { email: "mccivistasolutions@gmail.com" }, // replace with your email
-                to: [{ email: "sibbe.sharpener@gmail.com" }], // recipient email
-                subject: "Contracts Due Report",
-                htmlContent: "<p>Please find the attached Excel file.</p>",
-                attachment: [{
-                    name: "ContractsTable.xlsx",
-                    content: base64File,
-                    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                }]
-            };
-
-            const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
+            const response = await axios.post('https://nemo.ivistaz.co/send-email', {
+                base64File: base64File
+            }, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'api-key': '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' // replace with your Brevo API key
+                    'Content-Type': 'application/json'
                 }
             });
-            console.log('Email sent:', response.data);
-        } catch (error) {
-            if (error.response) {
-                // Server responded with a status other than 200 range
-                console.error('Error response:', error.response.data);
-                console.error('Error status:', error.response.status);
-                console.error('Error headers:', error.response.headers);
-            } else if (error.request) {
-                // Request was made but no response received
-                console.error('Error request:', error.request);
+
+            if (response.data.success) {
+                console.log('Email sent:', response.data.info);
             } else {
-                // Something else happened in making the request
-                console.error('Error message:', error.message);
+                console.error('Error sending email:', response.data.error);
             }
-            console.error('Error config:', error.config);
+        } catch (error) {
+            console.error('Error:', error);
         }
     }
 
@@ -728,6 +712,7 @@
         const excelBlob = generateExcelFile();
         await sendEmailWithAttachment(excelBlob);
     });
+
                  function viewCandidate(id) {
                 window.open(`./view-candidate.html?id=${id}`, '_blank');
             }
@@ -743,6 +728,7 @@
                  
             document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
                 event.preventDefault();
+                document.getElementById('sendEmailButton').style.display='block'
                 
                 let startDate = document.getElementById('startDate').value;
                 startDate += 'T00:00:00Z';
