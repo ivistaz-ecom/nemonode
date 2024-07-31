@@ -162,7 +162,7 @@ tools/*/*.i.tmp
 /gcovr
 /build
 /coverage
-
+/view/
 /views/public/uploads
 /views/public/files
 /views/public/dist
