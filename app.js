@@ -2,6 +2,7 @@ const express = require("express")
 require('dotenv').config()
 const fs = require('fs-extra')
 const PORT = process.env.PORT;
+const axios = require('axios')
 const app = express()
 const path = require('path'); // Add this line to import the path module
 const multer = require('multer');
@@ -923,6 +924,41 @@ app.use((req, res, next) => {
     });
 });
 
+app.post('/send-email', async (req, res) => {
+    const { base64File } = req.body;
+
+    const emailData = {
+        sender: { email: "mccivistasolutions@gmail.com" }, // Replace with your email
+        to: [
+           
+
+            { email: "crewing@nautilusshipping.com" },
+            { email: "operations@nautilusshipping.com" }
+        ], // Recipient email addresses
+        subject: "Contracts Due Report",
+        htmlContent: "<p>Please find the attached Excel file.</p>",
+        attachment: [{
+            name: "ContractsTable.xlsx",
+            content: base64File,
+            contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }]
+
+    };
+
+    try {
+        const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'api-key': process.env.BREVO_API_KEY
+            }
+        });
+        res.status(200).json({ success: true, info: response.data });
+    } catch (error) {
+        console.error('Error sending email:', error.response ? error.response.data : error.message);
+        res.status(500).json({ success: false, error: error.response ? error.response.data : error.message });
+    }
+});
+
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
@@ -933,3 +969,8 @@ sequelize.sync(/*{force:true},*/{logging: console.log})
     .catch((error) => {
         console.error('Error syncing Sequelize:', error);
     });
+
+// test file
+
+
+// test another file
