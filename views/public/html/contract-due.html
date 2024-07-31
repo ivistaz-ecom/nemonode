@@ -570,6 +570,7 @@
                 <div class="row mt-3">
                     <div class="col">
                         <h4 class="">Contract Due Reminders</h4>
+
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -606,6 +607,8 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size: 12px;">
+                                <button id="sendEmailButton" style="display: none;" class="btn btn-success mb-3">Send Mail to Nautilus</button>
+
                                 <!-- Rows will be added here dynamically -->
                             </tbody>
                         </table>
@@ -651,6 +654,65 @@
         </div>
     
         <script>
+
+function generateExcelFile() {
+        const tbody = document.querySelector('#contractsTable tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        const data = rows.map(row => {
+            return Array.from(row.querySelectorAll('td')).map(td => td.innerText);
+        });
+        const headers = Array.from(document.querySelector('#contractsTable thead tr').querySelectorAll('th')).map(th => th.innerText);
+        data.unshift(headers); // Add headers to the data
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'ContractsTable');
+
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        const buf = new ArrayBuffer(wbout.length);
+        const view = new Uint8Array(buf);
+        for (let i = 0; i < wbout.length; i++) view[i] = wbout.charCodeAt(i) & 0xFF;
+        return new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    }
+
+    function blobToBase64(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    async function sendEmailWithAttachment(blob) {
+        try {
+            const base64File = await blobToBase64(blob);
+
+            const response = await axios.post('https://nemo.ivistaz.co/send-email', {
+                base64File: base64File
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.data.success) {
+                console.log('Email sent:', response.data.info);
+            } else {
+                console.error('Error sending email:', response.data.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Event listener for the "Send Mail to Nautilus" button
+    document.getElementById('sendEmailButton').addEventListener('click', async () => {
+        const excelBlob = generateExcelFile();
+        await sendEmailWithAttachment(excelBlob);
+    });
+
                  function viewCandidate(id) {
                 window.open(`./view-candidate.html?id=${id}`, '_blank');
             }
@@ -666,6 +728,7 @@
                  
             document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
                 event.preventDefault();
+                document.getElementById('sendEmailButton').style.display='block'
                 
                 let startDate = document.getElementById('startDate').value;
                 startDate += 'T00:00:00Z';
@@ -835,7 +898,8 @@
     </div>
     <!-- / Layout wrapper -->
 
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
