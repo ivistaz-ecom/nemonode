@@ -1,4 +1,5 @@
 .env
 node_modules
 .vscode
+views/
 views/public/html/report.html
