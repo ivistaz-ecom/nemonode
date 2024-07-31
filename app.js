@@ -969,3 +969,8 @@ sequelize.sync(/*{force:true},*/{logging: console.log})
     .catch((error) => {
         console.error('Error syncing Sequelize:', error);
     });
+
+// test file
+
+
+
