@@ -9,15 +9,14 @@
 
 # testing
 /coverage
-
+/views/
+/views/*
 # next.js
 /.next/
 /out/
 
 # production
 /build
-/views
-/views/*
 
 # misc
 .DS_Store
