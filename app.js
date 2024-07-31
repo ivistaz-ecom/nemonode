@@ -23,7 +23,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 
 app.get('/home', (req, res) => {
-    res.send("Working");
+    res.send("Working-123");
 });
 app.use(cors());
 app.use("/company",companyRoutes);  
