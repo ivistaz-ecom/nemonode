@@ -5,4 +5,5 @@ const sequelize = new Sequelize(process.env.MYSQL_SCHEMA_NAME,process.env.MYSQL_
 
     host: process.env.MYSQL_HOST,
 })
+
 module.exports = sequelize;
