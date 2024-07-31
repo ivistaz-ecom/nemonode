@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="./fav-icon.ico" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title> Nautilus | Forms </title>
+
+    <meta name="description" content="" />
+
+    
+    <style>
+      .loader {
+        --r1: 154%;
+        --r2: 68.5%;
+        width: 60px;
+        aspect-ratio: 1;
+        border-radius: 50%; 
+        background:
+          radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+          radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+          radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%),
+          #ccc;
+        background-size: 50.5% 220%;
+        background-position: -100% 0%, 0% 0%, 100% 0%;
+        background-repeat: no-repeat;
+        animation: l9 1.4s linear forwards;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+      }
+      
+      @keyframes l9 {
+        33%  {background-position: 0% 33%, 100% 33%, 200% 33%}
+        66%  {background-position: -100% 66%, 0% 66%, 100% 66%}
+        100% {background-position: 0% 100%, 100% 100%, 200% 100%}
+      }
+</style>  
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Company - Nsnemo</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
+  </head>
+
+<body>
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">NSNEMO</h5>
+            </div>
+            <div class="modal-body text-center mb-4">
+              <img src="../../public/assets/img/illustrations/undraw_cabin_hkfr.svg" style="width: 50px;height: auto;"/>
+                <p id="logoutMessage">Logging you out...</p>
+                <div class="d-flex justify-content-center">
+                  <div class="loader"></div>
+                  </div>                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>   <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+         <div class="app-brand demo  mt-0 " style="background-color: #008E9C;padding-top: 70px;padding-bottom: 50px;">
+            <a href="indexpage.html" class="app-brand-link">
+              <span class="app-brand-logo demo mb-3 ">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="383.146" height="163.169" viewBox="0 0 383.146 163.169">
+                  <g id="Group_1" data-name="Group 1" transform="translate(-941.509 -160.676)">
+                    <g id="Group_4320" data-name="Group 4320" transform="translate(941.648 255.186)">
+                      <path id="Path_598" data-name="Path 598" d="M970.183,276.369a1.123,1.123,0,0,1,1.271,1.271v38q0,1.114-.727,1.113a1.233,1.233,0,0,1-.337-.051,5.439,5.439,0,0,1-1.5-.6l-13.643-8.766c-.468-.292-.7-.207-.7.26q-.025,2.257,0,3.708v3.71a1.352,1.352,0,0,1-1.555,1.5H942.975a1.134,1.134,0,0,1-1.3-1.27V277.431q0-1.215.985-1.062a3.867,3.867,0,0,1,1.349.414l13.3,9.078a1.55,1.55,0,0,0,.778.338c.346,0,.519-.313.519-.934V277.64q0-1.323,1.5-1.271,2.8.052,5.033,0Z" transform="translate(-941.679 -276.108)" fill="#fff"/>
+                      <path id="Path_599" data-name="Path 599" d="M1017.118,278.055l18.648,36.929a1.462,1.462,0,0,1,.182.623q0,.882-1.842.883h-8.042a5.737,5.737,0,0,1-1.763-.159,3.236,3.236,0,0,1-1.062-1.345,2.923,2.923,0,0,0-2.88-1.609q-3.682.053-6.536,0h-6.485a2.519,2.519,0,0,0-2.49,1.5,3.32,3.32,0,0,1-.934,1.388,4.337,4.337,0,0,1-1.763.22l-4.124-.027q-1.348,0-4.1-.025-1.867,0-1.867-.908a1.687,1.687,0,0,1,.206-.726l18.546-36.752a3.483,3.483,0,0,1,6.3,0Zm-1.246,22.666q-.467-.933-1.375-2.774a.783.783,0,0,0-.544-.313.715.715,0,0,0-.544.338q-.521.962-1.427,2.828c-.208.484-.07.762.415.829h3.164a.344.344,0,0,0,.389-.389A.922.922,0,0,0,1015.872,300.721Z" transform="translate(-950.792 -276.054)" fill="#fff"/>
+                      <path id="Path_600" data-name="Path 600" d="M1071.161,276.277a1.124,1.124,0,0,1,1.27,1.272v23.913a18.054,18.054,0,0,0,.387,2.463,1.917,1.917,0,0,0,1.987,1.116,1.952,1.952,0,0,0,2.141-1.791l.31-1.788V277.574a1.258,1.258,0,0,1,.417-.868,1.2,1.2,0,0,1,.857-.428h10.214a1.208,1.208,0,0,1,.857.428,1.257,1.257,0,0,1,.416.868v24.043a14.145,14.145,0,0,1-4.539,10.5,15.138,15.138,0,0,1-21.346.013,14.368,14.368,0,0,1-4.46-10.622V277.549a1.123,1.123,0,0,1,1.271-1.272Z" transform="translate(-963.02 -276.094)" fill="#fff"/>
+                      <path id="Path_601" data-name="Path 601" d="M1112.307,276.467h27.364q1.556,0,1.556,1.193v9.57q0,1.194-1.551,1.193h-6.181q-1.111,0-1.111,1.245v25.626a1.124,1.124,0,0,1-1.273,1.27h-10.214a1.125,1.125,0,0,1-1.274-1.27V289.669q0-1.245-1.089-1.245h-6.225q-1.556,0-1.557-1.193v-9.57Q1110.75,276.467,1112.307,276.467Z" transform="translate(-972.258 -276.129)" fill="#fff"/>
+                      <path id="Path_602" data-name="Path 602" d="M1173.478,276.4a1.122,1.122,0,0,1,1.269,1.271v37.609a1.122,1.122,0,0,1-1.269,1.27h-10.221a1.122,1.122,0,0,1-1.269-1.27V277.674a1.123,1.123,0,0,1,1.269-1.271Z" transform="translate(-981.525 -276.117)" fill="#fff"/>
+                      <path id="Path_603" data-name="Path 603" d="M1203.09,276.4a1.123,1.123,0,0,1,1.271,1.271v24.8q0,1.323,1.219,1.323h10.582a1.123,1.123,0,0,1,1.271,1.271v10.22a1.123,1.123,0,0,1-1.271,1.27H1192.9a1.134,1.134,0,0,1-1.3-1.27V277.674a1.134,1.134,0,0,1,1.3-1.271Z" transform="translate(-986.881 -276.117)" fill="#fff"/>
+                      <path id="Path_604" data-name="Path 604" d="M1248.66,276.277a1.124,1.124,0,0,1,1.272,1.272v23.913a17.718,17.718,0,0,0,.387,2.463,1.915,1.915,0,0,0,1.985,1.116,1.951,1.951,0,0,0,2.141-1.791l.31-1.788V277.574a1.267,1.267,0,0,1,.415-.868,1.211,1.211,0,0,1,.857-.428h10.215a1.205,1.205,0,0,1,.858.428,1.253,1.253,0,0,1,.416.868v24.043a14.145,14.145,0,0,1-4.54,10.5,15.137,15.137,0,0,1-21.346.013,14.369,14.369,0,0,1-4.46-10.622V277.549a1.123,1.123,0,0,1,1.27-1.272Z" transform="translate(-995.123 -276.094)" fill="#fff"/>
+                      <path id="Path_605" data-name="Path 605" d="M1317.273,296.8a9.729,9.729,0,0,1,3.995,7.781q0,5.6-5.68,9.026a20.637,20.637,0,0,1-10.841,2.931,21.721,21.721,0,0,1-8.018-1.479,14.371,14.371,0,0,1-6.483-4.773.994.994,0,0,1-.129-1.114,1.889,1.889,0,0,1,.8-.754l8.923-4.2a3.133,3.133,0,0,1,2.257.233,8.737,8.737,0,0,0,2.619.727,6.286,6.286,0,0,0,2.335-.44q1.452-.6,1.451-1.634,0-2.025-3.758-1.973a22.8,22.8,0,0,1-4.54-.389,16.437,16.437,0,0,1-7.988-3.942,10.562,10.562,0,0,1-3.968-8.066q0-5.731,5.576-9.286a19.711,19.711,0,0,1,10.921-3.113,20.769,20.769,0,0,1,8.87,1.921,13.1,13.1,0,0,1,6.56,6.067,1.769,1.769,0,0,1,.207.779c0,.555-.388.925-1.165,1.116l-9.39,3.451q-1.038.388-1.4.1l-.806-.572a4.945,4.945,0,0,0-2.9-.752,6.186,6.186,0,0,0-2.307.441q-1.452.6-1.451,1.606,0,1.038,1.451,1.608a5.946,5.946,0,0,0,2.307.442,21.857,21.857,0,0,1,6.589,1.246A18.43,18.43,0,0,1,1317.273,296.8Z" transform="translate(-1004.362 -276.106)" fill="#fff"/>
+                    </g>
+                    <g id="Group_4321" data-name="Group 4321" transform="translate(941.509 305.65)">
+                      <path id="Path_606" data-name="Path 606" d="M951,350.394a9.415,9.415,0,0,1-.6,3.43q-.806,2.031-2.3,2.031h-6.011v-1.524h4.687q.978,0,1.5-1.3a6.088,6.088,0,0,0,.4-2.255,4.257,4.257,0,0,0-.546-2.477,1.929,1.929,0,0,0-1.5-.667h-2.3a2.4,2.4,0,0,1-2.215-1.751,7.623,7.623,0,0,1-.6-3.154,8.219,8.219,0,0,1,.6-3.218q.778-1.848,2.215-1.847h5.437v1.523h-4.114a1.545,1.545,0,0,0-1.409,1.117,5.259,5.259,0,0,0-.374,2.042,5.016,5.016,0,0,0,.374,2.012,1.544,1.544,0,0,0,1.409,1.117H948.3q1.411,0,2.157,1.778A8.275,8.275,0,0,1,951,350.394Z" transform="translate(-941.509 -337.66)" fill="#fff"/>
+                      <path id="Path_607" data-name="Path 607" d="M1007.037,355.855h-2.473V347.5h-5.12v8.352h-2.5v-18.2h2.5v8.32h5.12v-8.32h2.473Z" transform="translate(-951.535 -337.66)" fill="#fff"/>
+                      <path id="Path_608" data-name="Path 608" d="M1055.614,355.855h-2.5v-18.2h2.5Z" transform="translate(-961.694 -337.66)" fill="#fff"/>
+                      <path id="Path_609" data-name="Path 609" d="M1109.877,343.2a9.754,9.754,0,0,1-.547,3.407q-.747,1.978-2.243,1.976h-3.594V347.06h2.271q.948,0,1.438-1.5a7.976,7.976,0,0,0,.345-2.424,8.165,8.165,0,0,0-.345-2.425q-.489-1.528-1.437-1.53h-3.25v16.673h-2.5v-18.2h7.075q1.466,0,2.243,2.068A10.5,10.5,0,0,1,1109.877,343.2Z" transform="translate(-970.176 -337.66)" fill="#fff"/>
+                      <path id="Path_610" data-name="Path 610" d="M1165.764,343.2a9.715,9.715,0,0,1-.547,3.407q-.746,1.978-2.243,1.976h-3.595V347.06h2.271q.95,0,1.438-1.5a7.922,7.922,0,0,0,.346-2.424,8.11,8.11,0,0,0-.346-2.425q-.487-1.528-1.437-1.53H1158.4v16.673h-2.5v-18.2h7.076q1.467,0,2.243,2.068A10.452,10.452,0,0,1,1165.764,343.2Z" transform="translate(-980.284 -337.66)" fill="#fff"/>
+                      <path id="Path_611" data-name="Path 611" d="M1214.293,355.855h-2.5v-18.2h2.5Z" transform="translate(-990.393 -337.66)" fill="#fff"/>
+                      <path id="Path_612" data-name="Path 612" d="M1268.64,355.855h-3.164l-4.889-12.767v12.767h-1.9v-18.2h2.722l5.243,14.264V337.66h1.986Z" transform="translate(-998.876 -337.66)" fill="#fff"/>
+                      <path id="Path_613" data-name="Path 613" d="M1324.288,355.855H1317.5a2.412,2.412,0,0,1-2.187-1.683,7.039,7.039,0,0,1-.631-3.05v-8.669a7.126,7.126,0,0,1,.631-3.08,2.418,2.418,0,0,1,2.187-1.714h5.638v1.523h-4.315c-.614,0-1.083.4-1.41,1.207a5.456,5.456,0,0,0-.375,2.064v8.669a5.217,5.217,0,0,0,.375,2.035q.517,1.176,1.41,1.174h3.221v-6.859h-3.625v-1.524h5.868Z" transform="translate(-1009.003 -337.66)" fill="#fff"/>
+                    </g>
+                    <g id="Group_4322" data-name="Group 4322" transform="translate(1127.464 160.676)">
+                      <path id="Path_614" data-name="Path 614" d="M1367.252,195.8s-61.235,27.783-66.94,60.252h-34.3c1.08-1.57,16.018-23,32.433-32.4,0,0-40.531,6.508-66.513,32.4h-54.9S1237.254,195.8,1367.252,195.8Z" transform="translate(-1170.061 -167.029)" fill="#fff"/>
+                      <path id="Path_615" data-name="Path 615" d="M1173.032,212.085c8.709-8.71,12.746-11.047,12.746-11.047V175.547s1.7-14.871,28.04-14.871l4.25,29.74s32.713-21.668,32.713,12.321c0,0-58.7,21.207-79.872,46.964C1170.909,249.7,1164.323,220.8,1173.032,212.085Z" transform="translate(-1168.522 -160.676)" fill="#fff"/>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              </a>
+
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+              <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
+          </div>
+
+ 
+                    <ul class="menu-inner py-1 pt-3">
+
+            <!-- Dashboard -->
+            <li class="menu-item">
+              <a href="indexpage.html" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-category"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+
+            <!-- Layouts -->
+           
+              
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Settings</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-building"></i>
+                <div data-i18n="Account Settings">Customers</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-company.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="view-company.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bxs-ship"></i>
+                <div data-i18n="Account Settings">Vessel Type</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-vesseltype.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-vessel.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Account Settings">Experience</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-experience.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-experience.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-bookmark"></i>
+                <div data-i18n="Account Settings">Rank</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-rank.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-rank.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+               <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Account Settings">Grade</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-grade.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-grade.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-map-pin"></i>
+                <div data-i18n="Account Settings">Port</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-port.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-port.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Account Settings">Port Agent</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-portagent.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-portagent.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-building-house"></i>
+                <div data-i18n="Account Settings">Hospital</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-hospital.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-hospital.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-copy-alt"></i>
+                <div data-i18n="Account Settings">Document Type</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-document.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-document.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+
+                
+                
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-world"></i>
+                <div data-i18n="Account Settings">Country List</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="view-country.html" class="menu-link">
+                    <div data-i18n="Account">View</div>
+                  </a>
+                </li>
+                
+                
+                
+              </ul>
+            </li>
+
+              <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-anchor"></i>
+                <div data-i18n="Account Settings">Vendor</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="manage-vendor.html" class="menu-link">
+                    <div data-i18n="Account">Manage</div>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+
+
+
+             
+
+
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Candidate Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-street-view"></i>
+                <div data-i18n="Account Settings">Candidate</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-candidate.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="edit-candidate.html" class="menu-link">
+                    <div data-i18n="Account">List</div>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+
+ <li class="menu-header small text-uppercase" id="userManagementSection" style="display: none;">
+              <span class="menu-header-text">User Management</span>
+            </li>
+            
+            <li class="menu-item" id="userManagementSections" style="display: none;">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-user-pin"></i>
+                <div data-i18n="Account Settings">User</div>
+              </a>
+              <ul class="menu-sub">
+               <li class="menu-item">
+                  <a href="add-user.html" class="menu-link">
+                    <div data-i18n="Account">Manage</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="add-userdata.html" class="menu-link">
+                    <div data-i18n="Account">Add</div>
+                  </a>
+                </li>
+              </ul></li>
+
+              <li class="menu-header small text-uppercase" id="vendorManagementSection" style="display: none;">
+                <span class="menu-header-text">Vendor Management</span>
+              </li>
+              
+              <li class="menu-item" id="vendorManagementSections" style="display: none;">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                  <div data-i18n="Account Settings">Vendor</div>
+                </a>
+                <ul class="menu-sub">
+                 <li class="menu-item">
+                    <a href="add-user.html" class="menu-link">
+                      <div data-i18n="Account">Manage</div>
+                    </a>
+                  </li>
+                 <li class="menu-item">
+                    <a href="add-vendor.html" class="menu-link">
+                      <div data-i18n="Account">Add Vendor User</div>
+                    </a>
+                  </li>
+                </ul></li>
+            
+
+           
+            <!-- Misc -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Others</span></li>
+            <li class="menu-item">
+              <a
+                href="./report.html"
+                target="_blank"
+                class="menu-link"
+              >
+              <i class="menu-icon tf-icons bx bx-file"></i>
+              <div data-i18n="Support">Report</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a
+                href="./search.html"
+                target="_blank"
+                class="menu-link"
+              >
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Documentation">Search</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a
+                href="./crew-planner.html"
+                target="_blank"
+                class="menu-link"
+              >
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Documentation">Crew Planner</div>
+              </a>
+            </li>
+          </ul>
+        
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+                
+              <!-- /Search -->
+
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+                 <!-- <li class="nav-item lh-1 me-3">
+                  <a
+                    class="github-button"
+                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    data-icon="octicon-star"
+                    data-size="large"
+                    data-show-count="true"
+                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
+                    >Star</a
+                  >
+                </li>
+
+                 User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                 
+                  
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="./profile.html">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                     
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="bx bx-power-off me-2"></i>
+   <span class="align-middle">Log Out</span>
+</a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+    <div class="container mt-5 ">
+        <h4 class="text-primary p-3 pb-4 ps-0">PRE EMPLOYMENT EVALUATION SHEET RATINGS - DECK</h4>
+
+    <form id="myForm" class="border p-3 pb-0 rounded-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name">Family Name & Given Name</label>
+                    <input type="text" id="name" name="name" class="form-control mb-3">
+                    
+                    <label for="rank"><strong>Rank Applied :</strong></label>
+                    <input type="text" id="rank" name="rank" class="form-control mb-3">
+                    
+                    <label for="nation">Nationality :</label>
+                    <input type="text" id="nation" name="nation" class="form-control mb-3">
+                    
+                    <label for="landline">Telephone No:</label>
+                    <input type="tel" id="landline" name="landline" class="form-control mb-3">
+                </div>
+                <div class="col-md-6">
+                    <label for="mob">Mobile No:</label>
+                    <input type="text" id="mob" name="mob" class="form-control mb-3">
+                    
+                    <label for="qual">Qualification:</label>
+                    <input type="text" id="qual" name="qual" class="form-control mb-3">
+                    
+                    <label for="pos">Last Contract Position:</label>
+                    <input type="text" id="pos" name="pos" class="form-control mb-3">
+                    
+                    <label for="bmi">BMI :</label>
+                    <input type="text" id="bmi" name="bmi" class="form-control mb-3">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h5 class="mb-3">Upload Photo</h5>
+                    <label for="photo">Photo:</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" class="form-control mb-3">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h5 class="mb-3">Upload Signature</h5>
+                    <label for="signature">Signature:</label>
+                    <input type="file" id="signature" name="signature" accept="image/*" class="form-control mb-3">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="p-3 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Communication:</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="radio" id="good" name="communication" value="Good">
+                        <label for="good">Good</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="satisfactory" name="communication" value="Satisfactory">
+                        <label for="satisfactory">Satisfactory</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="poor" name="communication" value="Poor">
+                        <label for="poor">Poor</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="p-3 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Trade Area Experience (indicate number of contracts):</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="checkbox" id="eur" name="hobbies" value="Europe">
+                        <label for="eur">Europe</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="atlantic" name="hobbies" value="N.Atlantic">
+                        <label for="atlantic">N.Atlantic</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="pacific" name="hobbies" value="Pacific">
+                        <label for="pacific">Pacific</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="fareast" name="hobbies" value="Far East">
+                        <label for="fareast">Far East</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="indianocean" name="hobbies" value="Indian O.">
+                        <label for="indianocean">Indian O.</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="baltic" name="hobbies" value="Baltic">
+                        <label for="baltic">Baltic</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="medsea" name="hobbies" value="Med-Sea">
+                        <label for="medsea">Med-Sea</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="usa" name="hobbies" value="USA">
+                        <label for="usa">USA</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="africa" name="hobbies" value="Africa">
+                        <label for="africa">Africa</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="persian" name="hobbies" value="Persian G.">
+                        <label for="persian">Persian G.</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="mb-3 p-3">
+            <div class="card-body">
+                <h5 class="card-title">MULTINATIONAL CREW EXPERIENCE (tick the appropriate box):</h5>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <input type="checkbox" id="british" name="multinational" value="British">
+                        <label for="british">British</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="german" name="multinational" value="German">
+                        <label for="german">German</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="polish" name="multinational" value="Polish">
+                        <label for="polish">Polish</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="filipino" name="multinational" value="Filipino">
+                        <label for="filipino">Filipino</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="indian" name="multinational" value="Indian">
+                        <label for="indian">Indian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="ukranian" name="multinational" value="Ukranian">
+                        <label for="ukranian">Ukranian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="greek" name="multinational" value="Greek">
+                        <label for="greek">Greek</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="norwegian" name="multinational" value="Norwegian">
+                        <label for="norwegian">Norwegian</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="ussr" name="multinational" value="Ex USSR">
+                        <label for="ussr">Ex USSR</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input type="checkbox" id="bangladesh" name="multinational" value="Bangladesh">
+                        <label for="bangladesh">Bangladesh</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="p-3">
+            <div class="border rounded-3">
+                <h5 class="card-title p-3">CONTAINER EXPERIENCE / TEU (indicate number of vessels):</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_1000" name="teu_experience" value="<1000">
+                        <label for="teu_1000">&lt; 1000</label>
+                        <input type="text" id="teu_1000_input" name="teu_1000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_1000_3000" name="teu_experience" value="1000-3000">
+                        <label for="teu_1000_3000">1000-3000</label>
+                        <input type="text" id="teu_1000_3000_input" name="teu_1000_3000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_3000_6000" name="teu_experience" value="3000-6000">
+                        <label for="teu_3000_6000">3000-6000</label>
+                        <input type="text" id="teu_3000_6000_input" name="teu_3000_6000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_6000_10000" name="teu_experience" value="6000-10000">
+                        <label for="teu_6000_10000">6000-10000</label>
+                        <input type="text" id="teu_6000_10000_input" name="teu_6000_10000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_10000_15000" name="teu_experience" value="10000-15000">
+                        <label for="teu_10000_15000">10000-15000</label>
+                        <input type="text" id="teu_10000_15000_input" name="teu_10000_15000_input" class="form-control">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio" id="teu_15000" name="teu_experience" value=">15000">
+                        <label for="teu_15000">&gt;15000</label>
+                        <input type="text" id="teu_15000_input" name="teu_15000_input" class="form-control">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+
+
+
+
+
+<!-- Drinking Habits and Medical Issues -->
+<div class="border p-3 rounded-3 mb-3">
+    <legend>Other related questions :</legend>
+<label>Drinking Habits:</label><br>
+<input type="radio" id="drinking_yes" name="drinking_habits" value="Yes">
+<label for="drinking_yes">Yes</label>
+<input type="radio" id="drinking_no" name="drinking_habits" value="No">
+<label for="drinking_no">No</label><br><br>
+
+<label>Any Medical Issues:</label><br>
+<input type="radio" id="medical_yes" name="medical_issues" value="Yes">
+<label for="medical_yes">Yes</label>
+<input type="radio" id="medical_no" name="medical_issues" value="No">
+<label for="medical_no">No</label><br><br>
+</div>
+
+<!-- Remaining Questions -->
+<div class="border rounded-3 p-3 mb-3">
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Other Practical Experience :</legend>
+    <label>Bridge Procedures: Deck Ratings:</label><br>
+    <input type="radio" id="engine_procedures_yes" name="engine_procedures" value="Yes">
+    <label for="engine_procedures_yes">Yes</label>
+    <input type="radio" id="engine_procedures_no" name="engine_procedures" value="No">
+    <label for="engine_procedures_no">No</label><br><br>
+
+<label>Exp/Knowledge of navigation thru congestion passage like SG straits/Sunda
+    Straits/Gibraltor/Bosporus/DOver Straits/Skaw straits (for deck ratings) :</label><br>
+<input type="radio" id="bilge_management_yes" name="bilge_management" value="Yes">
+<label for="bilge_management_yes">Yes</label>
+<input type="radio" id="bilge_management_no" name="bilge_management" value="No">
+<label for="bilge_management_no">No</label><br><br>
+
+<label>Knowledge of Steering while anchoring and port arrivals for deck ratings:</label><br>
+<input type="radio" id="fresh_water_generator_yes" name="fresh_water_generator" value="Yes">
+<label for="fresh_water_generator_yes">Yes</label>
+<input type="radio" id="fresh_water_generator_no" name="fresh_water_generator" value="No">
+<label for="fresh_water_generator_no">No</label><br><br>
+
+<label>Knowledge of River passage (Parana river/Argentina)/Uruguay etc
+    (steering knowledge)</label><br>
+<input type="radio" id="principle_operation_yes" name="principle_operation" value="Yes">
+<label for="principle_operation_yes">Yes</label>
+<input type="radio" id="principle_operation_no" name="principle_operation" value="No">
+<label for="principle_operation_no">No</label><br><br>
+
+<label>General deck maintenance</label><br>
+<input type="radio" id="main_engine_starting_yes" name="main_engine_starting" value="Yes">
+<label for="main_engine_starting_yes">Yes</label>
+<input type="radio" id="main_engine_starting_no" name="main_engine_starting" value="No">
+<label for="main_engine_starting_no">No</label><br><br>
+
+<label>Bridge equipments handling experience (Bosun/AB/OS)</label><br>
+<input type="radio" id="sewage_water_treatment_yes" name="sewage_water_treatment" value="Yes">
+<label for="sewage_water_treatment_yes">Yes</label>
+<input type="radio" id="sewage_water_treatment_no" name="sewage_water_treatment" value="No">
+<label for="sewage_water_treatment_no">No</label><br><br>
+
+<label>Knowledge on Distress signal at sea (Bosun/AB/OS)</label><br>
+<input type="radio" id="cargo_pumps_yes" name="cargo_pumps" value="Yes">
+<label for="cargo_pumps_yes">Yes</label>
+<input type="radio" id="cargo_pumps_no" name="cargo_pumps" value="No">
+<label for="cargo_pumps_no">No</label><br><br>
+
+<label>Knowledge on fire fighting equipments (Bosun/AB/OS)</label><br>
+<input type="radio" id="boilers_yes" name="boilers" value="Yes">
+<label for="boilers_yes">Yes</label>
+<input type="radio" id="boilers_no" name="boilers" value="No">
+<label for="boilers_no">No</label><br><br>
+
+<label>Knowledge on enclosed space entry (Bosun/AB/OS)</label><br>
+<input type="radio" id="welding_knowledge_yes" name="welding_knowledge" value="Yes">
+<label for="welding_knowledge_yes">Yes</label>
+<input type="radio" id="welding_knowledge_no" name="welding_knowledge" value="No">
+<label for="welding_knowledge_no">No</label><br><br>
+
+<label>Experience in Internal/External Audits</label><br>
+<input type="radio" id="garbage_management_yes" name="garbage_management" value="Yes">
+<label for="garbage_management_yes">Yes</label>
+<input type="radio" id="garbage_management_no" name="garbage_management" value="No">
+<label for="garbage_management_no">No</label><br><br>
+
+<label>Garbage Manager : Deck</label><br>
+<input type="radio" id="safety_awareness_yes" name="safety_awareness" value="Yes">
+<label for="safety_awareness_yes">Yes</label>
+<input type="radio" id="safety_awareness_no" name="safety_awareness" value="No">
+<label for="safety_awareness_no">No</label><br><br>
+
+<label>Knowledge on existing mandatory regulations (SOLAS,MARPOL)</label><br>
+<input type="radio" id="generator_knowledge_yes" name="generator_knowledge" value="Yes">
+<label for="generator_knowledge_yes">Yes</label>
+<input type="radio" id="generator_knowledge_no" name="generator_knowledge" value="No">
+<label for="generator_knowledge_no">No</label><br><br>
+
+<label>Experience in any extra-ordinary circumstances such as collision,abandon ship, pollution</label><br>
+<input type="radio" id="regulations_knowledge_yes" name="regulations_knowledge" value="Yes">
+<label for="regulations_knowledge_yes">Yes</label>
+<input type="radio" id="regulations_knowledge_no" name="regulations_knowledge" value="No">
+<label for="regulations_knowledge_no">No</label><br><br>
+
+<label>Experience of piracy Zone (any previous bad experiece)</label><br>
+<input type="radio" id="extraordinary_experience_yes" name="extraordinary_experience" value="Yes">
+<label for="extraordinary_experience_yes">Yes</label>
+<input type="radio" id="extraordinary_experience_no" name="extraordinary_experience" value="No">
+<label for="extraordinary_experience_no">No</label><br><br>
+
+<label>Cleanliness & maintenance of accomodation,common areas and cabins</label><br>
+<input type="radio" id="privacy_experience_yes" name="privacy_experience" value="Yes">
+<label for="privacy_experience_yes">Yes</label>
+<input type="radio" id="privacy_experience_no" name="privacy_experience" value="No">
+<label for="privacy_experience_no">No</label><br><br>
+
+<label>Awareness of ISPSC</label><br>
+<input type="radio" id="cleanliness_maintenance_yes" name="cleanliness_maintenance" value="Yes">
+<label for="cleanliness_maintenance_yes">Yes</label>
+<input type="radio" id="cleanliness_maintenance_no" name="cleanliness_maintenance" value="No">
+<label for="cleanliness_maintenance_no">No</label><br><br>
+
+<label>Awareness of safety and ISM code</label><br>
+<input type="radio" id="isp_sc_awareness_yes" name="isp_sc_awareness" value="Yes">
+<label for="isp_sc_awareness_yes">Yes</label>
+<input type="radio" id="isp_sc_awareness_no" name="isp_sc_awareness" value="No">
+<label for="isp_sc_awareness_no">No</label><br><br>
+
+<label>Knowledge on types of detectors in Ship(Bosun/AB/OS)</label><br>
+<input type="radio" id="welding_procedure_knowledge_yes" name="welding_procedure_knowledge" value="Yes">
+<label for="welding_procedure_knowledge_yes">Yes</label>
+<input type="radio" id="welding_procedure_knowledge_no" name="welding_procedure_knowledge" value="No">
+<label for="welding_procedure_knowledge_no">No</label><br><br>
+
+</div>
+</div>
+</div>
+<div class="mb-3">
+    <label for="reasonForLeaving" class="form-label">Reason for Leaving</label>
+    <input type="text" class="form-control" id="reasonForLeaving" required>
+</div>
+<div class="mb-3">
+    <label for="interviewer_comments" class="form-label">INTERVIEWER COMMENTS:</label>
+    <input type="text" class="form-control" id="interviewer_comments" name="interviewer_comments">
+</div>
+<div class="mb-3">
+    <label for="status" class="form-label">Status:</label><br>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="accepted" name="status" value="Accepted">
+        <label class="form-check-label" for="accepted">Accepted</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="rejected" name="status" value="Rejected">
+        <label class="form-check-label" for="rejected">Rejected</label>
+    </div>
+</div>
+  
+<div class="mb-3">
+    <label for="grading" class="form-label">Grading:</label>
+    <select id="grading" name="grading" class="form-select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+</div>
+<div class="mb-3">
+<label for="interviewer_name" class="form-label">Interviewer Name:</label>
+    <input type="text" class="form-control" id="interviewer_name" name="interviewer_name">
+    </div>
+    
+    <div class="mb-3">
+    <label for="date" class="form-label">Date:</label>
+    <input type="date" class="form-control" id="date" name="date">
+    </div>
+
+        <button type="button" class="btn btn-success mb-5" onclick="generatePDF()">Generate PDF</button>
+    </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+          window.onload = function() {
+    // Display an alert asking for Candidate ID
+    let candidateId = prompt("Please enter your Candidate ID to continue:");
+
+    // Check if candidateId is not null (user clicked OK)
+    while (candidateId === null || candidateId.trim() === "") {
+        // If the user clicked Cancel or left the field empty, prompt again until they provide a valid input
+        alert("You must enter a Candidate ID to continue.");
+        candidateId = prompt("Please enter your Candidate ID to continue:");
+    }
+
+    // Store the candidateId in localStorage only after a valid input is provided
+    localStorage.setItem("memId", candidateId);
+};
+ async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const form = document.getElementById('myForm');
+    const formData = new FormData(form);
+
+    doc.setFontSize(8);
+
+    // Collecting and positioning data
+    doc.text(`Family Name & Given Name: ${formData.get('name')}`, 10, 10);
+    doc.text(`Rank Applied: ${formData.get('rank')}`, 10, 20);
+    doc.text(`Nationality: ${formData.get('nation')}`, 10, 30);
+    doc.text(`Telephone No: ${formData.get('landline')}`, 10, 40);
+    doc.text(`Mobile No: ${formData.get('mob')}`, 10, 50);
+    doc.text(`Qualification: ${formData.get('qual')}`, 10, 60);
+    doc.text(`Last Contract Position: ${formData.get('pos')}`, 10, 70);
+    doc.text(`BMI: ${formData.get('bmi')}`, 10, 80);
+
+    let communication = formData.get('communication');
+    doc.text(`Communication: ${communication}`, 10, 90);
+
+    let hobbies = formData.getAll('hobbies').join(', ');
+    doc.text(`Trade Area Experience: ${hobbies}`, 10, 100);
+
+    let multinational = formData.getAll('multinational').join(', ');
+    doc.text(`Multinational Crew Experience: ${multinational}`, 10, 110);
+
+    // New fields
+    doc.text(`CONTAINER EXPERIENCE / TEU:`, 10, 120);
+
+    const teuExperience = formData.get('teu_experience');
+    let teuValue = '';
+    if (teuExperience === '<1000') {
+        teuValue = formData.get('teu_1000_input');
+    } else if (teuExperience === '1000-3000') {
+        teuValue = formData.get('teu_1000_3000_input');
+    } else if (teuExperience === '3000-6000') {
+        teuValue = formData.get('teu_3000_6000_input');
+    } else if (teuExperience === '6000-10000') {
+        teuValue = formData.get('teu_6000_10000_input');
+    } else if (teuExperience === '10000-15000') {
+        teuValue = formData.get('teu_10000_15000_input');
+    } else if (teuExperience === '>15000') {
+        teuValue = formData.get('teu_15000_input');
+    }
+    doc.text(`${teuExperience}: ${teuValue}`, 10, 130);
+
+    doc.text(`MAIN ENGINE EXPERIENCE:`, 10, 140);
+    doc.text(`SULZER: ${formData.get('engine_sulzer')}`, 10, 150);
+    doc.text(`SULZER RTA: ${formData.get('engine_sulzer_rta')}`, 10, 160);
+    doc.text(`MAN/B&W: ${formData.get('engine_man_bw')}`, 10, 170);
+    doc.text(`PIELSTICK: ${formData.get('engine_pielstick')}`, 10, 180);
+    doc.text(`MAK: ${formData.get('engine_mak')}`, 10, 190);
+
+    let auxiliary = formData.getAll('auxiliary').join(', ');
+    doc.text(`TYPES OF AUXILIARIES PREVIOUSLY WORKED WITH: ${auxiliary}`, 10, 200);
+
+    let drinkingHabits = formData.get('drinking_habits');
+doc.text(`Drinking Habits: ${drinkingHabits}`, 10, 210);
+
+let medicalIssues = formData.get('medical_issues');
+doc.text(`Any Medical Issues: ${medicalIssues}`, 10, 220);
+// Add photo to PDF
+
+
+doc.addPage()
+
+    // Add signature
+   
+// Add similar lines for other yes/no questions
+let engineProcedures = formData.get('engine_procedures');
+doc.text(`Bridge Procedures: Deck Ratings: ${engineProcedures}`, 10, 10);
+
+let bilgeManagement = formData.get('bilge_management');
+doc.text(`Exp/Knowledge of navigation thru congestion passage like SG straits/Sunda Straits/Gibraltor/Bosporus/Dover Straits/Skaw straits (for deck ratings): ${bilgeManagement}`, 10, 20);
+
+let freshWaterGenerator = formData.get('fresh_water_generator');
+doc.text(`Knowledge of Steering while anchoring and port arrivals for deck ratings: ${freshWaterGenerator}`, 10, 30);
+
+let principleOperation = formData.get('principle_operation');
+doc.text(`Knowledge of River passage (Parana river/Argentina)/Uruguay etc (steering knowledge): ${principleOperation}`, 10, 40);
+
+let mainEngineStarting = formData.get('main_engine_starting');
+doc.text(`General deck maintenance: ${mainEngineStarting}`, 10, 50);
+
+let sewageWaterTreatment = formData.get('sewage_water_treatment');
+doc.text(`Bridge equipments handling experience (Bosun/AB/OS): ${sewageWaterTreatment}`, 10, 60);
+
+let cargoPumps = formData.get('cargo_pumps');
+doc.text(`Knowledge on Distress signal at sea (Bosun/AB/OS)s: ${cargoPumps}`, 10, 70);
+
+let boilers = formData.get('boilers');
+doc.text(`Knowledge on fire fighting equipments (Bosun/AB/OS): ${boilers}`, 10, 80);
+
+let weldingKnowledge = formData.get('welding_knowledge');
+doc.text(`Knowledge on enclosed space entry (Bosun/AB/OS): ${weldingKnowledge}`, 10, 90);
+
+let garbageManagement = formData.get('garbage_management');
+doc.text(`Experience in Internal/External Audits: ${garbageManagement}`, 10, 100);
+
+let safetyAwareness = formData.get('safety_awareness');
+doc.text(`Garbage Manager : Deck: ${safetyAwareness}`, 10, 110);
+
+let generatorKnowledge = formData.get('generator_knowledge');
+doc.text(`Knowledge on existing mandatory regulations (SOLAS,MARPOL): ${generatorKnowledge}`, 10, 120);
+
+let regulationsKnowledge = formData.get('regulations_knowledge');
+doc.text(`Experience in any extra-ordinary circumstances such as collision,abandon ship, pollution: ${regulationsKnowledge}`, 10, 130);
+
+let extraordinaryExperience = formData.get('extraordinary_experience');
+doc.text(`Experience of piracy Zone (any previous bad experiece): ${extraordinaryExperience}`, 10, 140);
+
+let privacyExperience = formData.get('privacy_experience');
+doc.text(`Cleanliness & maintenance of accomodation,common areas and cabins: ${privacyExperience}`, 10, 150);
+
+let cleanlinessMaintenance = formData.get('cleanliness_maintenance');
+doc.text(`Awareness of ISPSC: ${cleanlinessMaintenance}`, 10, 160);
+
+let ispScAwareness = formData.get('isp_sc_awareness');
+doc.text(`Awareness of safety and ISM code: ${ispScAwareness}`, 10, 170);
+
+let weldingProcedureKnowledge = formData.get('welding_procedure_knowledge');
+doc.text(`Knowledge on types of detectors in Ship(Bosun/AB/OS): ${weldingProcedureKnowledge}`, 10, 180);
+
+doc.text(`Last Employer - Reason for Leaving: ${formData.get('reasonForLeaving')}`, 10, 190);
+    doc.text(`INTERVIEWER COMMENTS: ${formData.get('interviewer_comments')}`, 10, 200);
+    doc.text(`Status: ${formData.getAll('status').join(', ')}`, 10, 210);
+    doc.text(`Grading: ${formData.get('grading')}`, 10, 220);
+    doc.text(`Interviewer Name: ${formData.get('interviewer_name')}`, 10, 230);
+    doc.text(`Date: ${formData.get('date')}`, 10, 250);
+    
+   await generateAndSavePDF(doc)
+}
+
+async function generateAndSavePDF(doc) {
+    // Your existing PDF generation code...
+
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('memId');
+    const now = new Date();
+    const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
+
+    // Constructing the filename
+    const fileName = `${candidateId}_${formattedDate}_deckform.pdf`;
+
+    // Save the PDF data to the server
+    const pdfData = doc.output('blob');
+    const formData = new FormData();
+    formData.append('pdf', pdfData, fileName);
+
+    // Send the PDF data to the server-side endpoint using Axios
+    try {
+        const response = await axios.post('http://localhost:4000/upload/evaluation', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log(response.data); // Assuming the server sends back a success message
+    } catch (error) {
+        console.error('Error saving PDF:', error.message);
+    }
+}
+
+
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <!-- Core JS -->
+        <!-- build:js assets/vendor/js/core.js -->
+        <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="../assets/vendor/libs/popper/popper.js"></script>
+        <script src="../assets/vendor/js/bootstrap.js"></script>
+        <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    
+        <script src="../assets/vendor/js/menu.js"></script>
+        <!-- endbuild -->
+    
+        <!-- Vendors JS -->
+    
+        <!-- Main JS -->
+        <script src="../assets/js/main.js"></script>
+        <!-- Page JS -->
+        <script src="../assets/js/pages-account-settings-account.js"></script>
+    
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>
