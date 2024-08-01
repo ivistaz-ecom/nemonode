@@ -17,6 +17,7 @@ const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
 const { QueryTypes } = require('sequelize');
 
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
@@ -258,6 +259,7 @@ app.post('/searchspl', async (req, res) => {
 });
 
 app.post('/send-email', async (req, res) => {
+    console.log('Its coming in ')
     const { base64File } = req.body;
 
     const emailData = {
