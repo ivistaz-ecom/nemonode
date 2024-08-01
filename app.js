@@ -959,7 +959,6 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-
 sequelize.sync(/*{force:true},*/{logging: console.log})
     .then(() => {
         app.listen(PORT, () => {
