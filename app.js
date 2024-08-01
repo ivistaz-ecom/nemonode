@@ -278,10 +278,12 @@ app.post('/send-email', async (req, res) => {
     };
 
     try {
+        console.log(process.env.BREVO_API_KEY)
         const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
             headers: {
                 'Content-Type': 'application/json',
                 'api-key': process.env.BREVO_API_KEY // Ensure this is correct
+                
             }
         });
         res.status(200).json({ success: true, info: response.data });
