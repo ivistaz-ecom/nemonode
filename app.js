@@ -259,14 +259,12 @@ app.post('/searchspl', async (req, res) => {
 });
 
 app.post('/send-email', async (req, res) => {
-    console.log('Its coming in ')
+    console.log('Request received');
     const { base64File } = req.body;
 
     const emailData = {
         sender: { email: "mccivistasolutions@gmail.com" }, // Replace with your email
         to: [
-           
-
             { email: "crewing@nautilusshipping.com" },
             { email: "operations@nautilusshipping.com" }
         ], // Recipient email addresses
@@ -277,14 +275,13 @@ app.post('/send-email', async (req, res) => {
             content: base64File,
             contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         }]
-
     };
 
     try {
         const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
             headers: {
                 'Content-Type': 'application/json',
-                'api-key': process.env.BREVO_API_KEY
+                'api-key': process.env.BREVO_API_KEY // Ensure this is correct
             }
         });
         res.status(200).json({ success: true, info: response.data });
