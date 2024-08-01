@@ -261,7 +261,7 @@ app.post('/searchspl', async (req, res) => {
 app.post('/send-email', async (req, res) => {
     console.log('Request received');
     const { base64File } = req.body;
-
+    console.log('key +>+>+>+>+>+>+>+>+>+>+>+>+>+>+>+>+>+>',process.env.BREVO_API_KEY)
     const emailData = {
         sender: { email: "mccivistasolutions@gmail.com" }, // Replace with your email
         to: [
