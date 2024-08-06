@@ -40,7 +40,7 @@ router.get('/get-document-details/:id',userAuthentication.authenticate, candidat
 router.get('/get-cdocument-detail/:id', candidateControllers.get_documentdetails);
 router.put('/update-documents/:id',userAuthentication.authenticate, candidateControllers.update_documentdetails);
 router.put('/update-cdocument/:id', candidateControllers.update_documentdetails);
-router.delete('/cdocument-delete/:id',candidateControllers.delete_Document)
+router.delete('/cdocument-delete/:id',userAuthentication.authenticate, candidateControllers.delete_Document)
 
 router.post('/contract-details/:id',userAuthentication.authenticate, candidateControllers.add_contractdetails);
 router.get('/get-contract-details/:id',userAuthentication.authenticate, candidateControllers.get_contractdetails);

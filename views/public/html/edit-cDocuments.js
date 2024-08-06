@@ -86,7 +86,9 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/cdocument-delete/${documentId}`);
+            const response = await axios.delete(`https://nemo.ivistaz.co/candidate/cdocument-delete/${documentId}`,{headers:{
+                "Authorization":token
+            }});
 
             // Log the response from the server
             console.log('Document deleted successfully:', response.data);

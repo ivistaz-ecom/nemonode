@@ -15,6 +15,7 @@ const Queries = require('../models/queries')
 const Candidate = require("../models/candidate")
 const Contract = require("../models/contract")
 const { Op } = require("sequelize")
+const { write } = require("fs-extra")
 
 
 //Vessel and VSL Type
@@ -203,19 +204,15 @@ const delete_vessel = async (req, res) => {
           return res.status(404).json({ message: "User not found" });
       }
 
-      const userGroup = user.userGroup;
+      const userGroup = user.dataValues.userGroup;
+      const hasDeletePermission = user.dataValues.deletes; // Assuming `deletes` field indicates delete permission
 
-      if (userGroup === 'admin') {
+      // Check if the user has delete permissions
+      if ((userGroup === 'admin' && hasDeletePermission) || (userGroup === 'vendor' && hasDeletePermission)) {
           const deletedVessel = await Vessel.destroy({ where: { id: vesselId } });
+
           if (deletedVessel > 0) {
-              return res.status(200).json({ success: true });
-          } else {
-              return res.status(404).json({ error: 'Vessel not found', success: false });
-          }
-      } else if (userGroup === 'vendor' && user.deletes) {
-          const deletedVessel = await Vessel.destroy({ where: { id: vesselId } });
-          if (deletedVessel > 0) {
-              return res.status(200).json({ success: true });
+              return res.status(200).json({ success: true, message: 'Vessel deleted successfully' });
           } else {
               return res.status(404).json({ error: 'Vessel not found', success: false });
           }
@@ -227,6 +224,7 @@ const delete_vessel = async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const delete_VSL = async (req, res) => {
   const vslId = req.params.id;
 
@@ -238,19 +236,15 @@ const delete_VSL = async (req, res) => {
           return res.status(404).json({ message: "User not found" });
       }
 
-      const userGroup = user.userGroup;
+      const userGroup = user.dataValues.userGroup;
+      const hasDeletePermission = user.dataValues.deletes; // Assuming `deletes` field indicates delete permission
 
-      if (userGroup === 'admin') {
+      // Check if the user has delete permissions
+      if ((userGroup === 'admin' && hasDeletePermission) || (userGroup === 'vendor' && hasDeletePermission)) {
           const deletedVSL = await VSL.destroy({ where: { id: vslId } });
+
           if (deletedVSL > 0) {
-              return res.status(200).json({ success: true });
-          } else {
-              return res.status(404).json({ error: 'VSL not found', success: false });
-          }
-      } else if (userGroup === 'vendor' && user.deletes) {
-          const deletedVSL = await VSL.destroy({ where: { id: vslId } });
-          if (deletedVSL > 0) {
-              return res.status(200).json({ success: true });
+              return res.status(200).json({ success: true, message: 'VSL deleted successfully' });
           } else {
               return res.status(404).json({ error: 'VSL not found', success: false });
           }
@@ -262,6 +256,7 @@ const delete_VSL = async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const getVessel = async (req, res) => {
   const vesselId = req.params.id;
 
@@ -519,39 +514,34 @@ const delete_experience = async (req, res) => {
   const experienceId = req.params.id;
 
   try {
-    const userId = req.user.id;
-    const user = await User.findByPk(userId);
+      const userId = req.user.id;
+      const user = await User.findByPk(userId);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const userGroup = user.userGroup;
-
-    if (userGroup === 'admin') {
-      const deletedExperience = await Experience.destroy({ where: { id: experienceId } });
-
-      if (deletedExperience > 0) {
-        return res.status(200).json({ success: true });
-      } else {
-        return res.status(404).json({ error: 'Experience not found', success: false });
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
       }
-    } else if (userGroup === 'vendor' && user.deletes) {
-      const deletedExperience = await Experience.destroy({ where: { id: experienceId } });
 
-      if (deletedExperience > 0) {
-        return res.status(200).json({ success: true });
+      const userGroup = user.dataValues.userGroup;
+      const hasDeletePermission = user.dataValues.deletes; // Assuming `deletes` field indicates delete permission
+
+      // Check if the user has delete permissions
+      if ((userGroup === 'admin' && hasDeletePermission) || (userGroup === 'vendor' && hasDeletePermission)) {
+          const deletedExperience = await Experience.destroy({ where: { id: experienceId } });
+
+          if (deletedExperience > 0) {
+              return res.status(200).json({ success: true, message: 'Experience deleted successfully' });
+          } else {
+              return res.status(404).json({ error: 'Experience not found', success: false });
+          }
       } else {
-        return res.status(404).json({ error: 'Experience not found', success: false });
+          return res.status(403).json({ message: "Not authorized to delete an experience" });
       }
-    } else {
-      return res.status(403).json({ message: "Not authorized to delete an experience" });
-    }
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Internal Server Error', success: false });
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const create_exp = async (req, res) => {
   const { experience } = req.body;
 
@@ -656,31 +646,33 @@ const delete_rank = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const user = await User.findByPk(userId);
+      const user = await User.findByPk(userId);
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found', success: false });
-    }
-
-    const userGroup = user.userGroup;
-    const hasWritePermission = user.deletes;
-
-    if (userGroup === 'admin' || (userGroup === 'vendor' && hasWritePermission)) {
-      const deletedRank = await Rank.destroy({ where: { id: rankId } });
-
-      if (deletedRank > 0) {
-        return res.status(200).json({ success: true });
-      } else {
-        return res.status(404).json({ error: 'Rank not found', success: false });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found', success: false });
       }
-    } else {
-      return res.status(403).json({ message: 'Not authorized to delete a rank', success: false });
-    }
+
+      const userGroup = user.dataValues.userGroup;
+      const hasDeletePermission = user.dataValues.deletes; // Assuming `deletes` field indicates delete permission
+
+      // Check if the user has delete permissions
+      if (userGroup === 'admin' || (userGroup === 'vendor' && hasDeletePermission)) {
+          const deletedRank = await Rank.destroy({ where: { id: rankId } });
+
+          if (deletedRank > 0) {
+              return res.status(200).json({ success: true, message: 'Rank deleted successfully' });
+          } else {
+              return res.status(404).json({ error: 'Rank not found', success: false });
+          }
+      } else {
+          return res.status(403).json({ message: 'Not authorized to delete a rank', success: false });
+      }
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Internal Server Error', success: false });
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const update_rank = async (req, res) => {
   const id = req.params.id;
   const userId = req.user.id;
@@ -815,35 +807,34 @@ const delete_grade = async (req, res) => {
   const gradeId = req.params.id;
 
   try {
-    const userId = req.user.id;
+      const userId = req.user.id;
+      const user = await User.findByPk(userId);
 
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const userGroup = user.userGroup;
-    const writePermission = user.deletes;
-
-    if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
-      // For admin or vendors with Write permission, proceed with deleting the grade
-      const deletedGrade = await Grade.destroy({ where: { id: gradeId } });
-
-      if (deletedGrade > 0) {
-        return res.status(200).json({ success: true });
-      } else {
-        return res.status(404).json({ error: 'Grade not found', success: false });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found', success: false });
       }
-    } else {
-      // For other users, return a 403 Forbidden error
-      return res.status(403).json({ message: 'You do not have permission to delete this resource' });
-    }
+
+      const userGroup = user.userGroup;
+      const hasDeletePermission = user.deletes; // Assuming `deletes` field indicates delete permission
+
+      // Check if the user has delete permissions
+      if ((userGroup === 'admin' || userGroup === 'vendor') && hasDeletePermission) {
+          const deletedGrade = await Grade.destroy({ where: { id: gradeId } });
+
+          if (deletedGrade > 0) {
+              return res.status(200).json({ success: true, message: 'Grade deleted successfully' });
+          } else {
+              return res.status(404).json({ error: 'Grade not found', success: false });
+          }
+      } else {
+          return res.status(403).json({ message: 'Not authorized to delete this grade', success: false });
+      }
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Internal Server Error', success: false });
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const update_grade = async (req, res) => {
   const id = req.params.id;
 
@@ -1098,35 +1089,35 @@ const delete_port = async (req, res) => {
   const portId = req.params.id;
 
   try {
-    const userId = req.user.id;
-    const user = await User.findByPk(userId);
+      const userId = req.user.id;
+      const user = await User.findByPk(userId);
 
-    if (!user) {
-      console.log('User not found');
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const userGroup = user.userGroup;
-    const writePermission = user.deletes;
-
-    if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
-      // For admin or vendors with Write permission, delete the port
-      const deletedPort = await Port.destroy({ where: { id: portId } });
-
-      if (deletedPort > 0) {
-        return res.status(200).json({ success: true });
-      } else {
-        return res.status(404).json({ error: 'Port not found', success: false });
+      if (!user) {
+          console.log('User not found');
+          return res.status(404).json({ message: 'User not found', success: false });
       }
-    } else {
-      // For other users, return a 403 Forbidden error
-      return res.status(403).json({ message: 'You do not have permission to delete this resource' });
-    }
+
+      const userGroup = user.dataValues.userGroup;
+      const hasDeletePermission = user.dataValues.deletes; // Assuming `deletes` field indicates delete permission
+
+      // Check if the user has delete permissions
+      if ((userGroup === 'admin' || userGroup === 'vendor') && hasDeletePermission) {
+          const deletedPort = await Port.destroy({ where: { id: portId } });
+
+          if (deletedPort > 0) {
+              return res.status(200).json({ success: true, message: 'Port deleted successfully' });
+          } else {
+              return res.status(404).json({ error: 'Port not found', success: false });
+          }
+      } else {
+          return res.status(403).json({ message: 'Not authorized to delete this port', success: false });
+      }
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ error: 'Internal Server Error', success: false });
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error', success: false });
   }
 };
+
 const delete_port_agent = async (req, res) => {
   const portAgentId = req.params.id;
 
@@ -1378,10 +1369,10 @@ const delete_hospital = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const userGroup = user.userGroup;
-    const writePermission = user.deletes;
+    const userGroup = user.dataValues.userGroup;
+    const writePermission = user.dataValues.deletes;
 
-    if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
+    if (userGroup === 'admin' && writePermission || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the hospital
       const deletedHospital = await Hospital.destroy({ where: { id: hospitalId } });
 
@@ -1551,10 +1542,10 @@ const delete_document = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const userGroup = user.userGroup;
-    const writePermission = user.deletes;
+    const userGroup = user.dataValues.userGroup;
+    const writePermission = user.dataValues.deletes;
 
-    if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
+    if (userGroup === 'admin' && writePermission || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the document
       const deletedDocument = await Document.destroy({ where: { id: documentId } });
 
@@ -1700,10 +1691,10 @@ const delete_vendor = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const userGroup = user.userGroup;
-    const writePermission = user.deletes;
+    const userGroup = user.dataValues.userGroup;
+    const writePermission = user.dataValues.deletes;
 
-    if (userGroup === 'admin' || (userGroup === 'vendor' && writePermission)) {
+    if (userGroup === 'admin' && writePermission || (userGroup === 'vendor' && writePermission)) {
       // For admin or vendors with write permission, delete the vendor
       const deletedVendor = await Vendor.destroy({ where: { id: vendorId } });
 
@@ -1866,6 +1857,8 @@ const updateCrewPlanner = async (req, res) => {
   }
 };
 const delete_crewPlanner = async (req, res) => {
+  const crewPlannerId = req.params.id;
+
   try {
     const user = await User.findByPk(req.user.id);
 
@@ -1874,25 +1867,26 @@ const delete_crewPlanner = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (user.userGroup === 'admin' || (user.userGroup === 'vendor' && user.deletes)) {
-      const crewPlannerId = req.params.id;
-      const crewPlanner = await CrewPlanner.findByPk(crewPlannerId);
+    const userGroup = user.userGroup;
+    const hasDeletePermission = user.deletes;
 
-      if (!crewPlanner) {
+    if ((userGroup === 'admin' && hasDeletePermission) || (userGroup === 'vendor' && hasDeletePermission)) {
+      const deleted = await CrewPlanner.destroy({ where: { id: crewPlannerId } });
+
+      if (deleted) {
+        return res.status(204).json(); // No content to return, but successful deletion
+      } else {
         return res.status(404).json({ error: 'CrewPlanner not found' });
       }
-
-      await crewPlanner.destroy();
-
-      res.status(204).json();
     } else {
       return res.status(403).json({ message: 'You do not have permission to perform this action' });
     }
   } catch (error) {
     console.error('Error deleting CrewPlanner:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 // const view_crewPlanner = async (req, res) => {
 //   try {
 //     const user = await User.findByPk(req.user.id);

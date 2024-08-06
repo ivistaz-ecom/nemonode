@@ -754,6 +754,19 @@ const deleteSeaService = async (req, res) => {
     const seaServiceId = req.params.id;
 
     try {
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the sea service
         const deletedRows = await SeaService.destroy({
             where: { id: seaServiceId }
         });
@@ -768,6 +781,7 @@ const deleteSeaService = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 
@@ -1227,13 +1241,27 @@ const updateCandidateFields = async (req, res) => {
 };
 
   
-const delete_candidate=async (req, res) => {
+const delete_candidate = async (req, res) => {
     const candidateId = req.params.id;
-    console.log('>>>>',candidateId)
+
+    console.log('>>>>', candidateId);
     try {
-        // Assuming you have a Sequelize model named Candidate
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let userGroup = user.dataValues.userGroup;
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the candidate
         const deletedCandidate = await Candidate.destroy({
-            where: { candidateId: candidateId },
+            where: { candidateId: candidateId }, // Assuming candidateId is the primary key
         });
 
         if (deletedCandidate === 0) {
@@ -1246,6 +1274,7 @@ const delete_candidate=async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 const get_contractdetails= async (req, res) => {
     try {
@@ -1578,13 +1607,30 @@ const login = async (req, res, next) => {
   // candidateControllers.js
 
 // ... (previous code)
-
 const delete_NKD = async (req, res) => {
     const nkdId = req.params.id;
 
     try {
-        // Implement logic to delete the NKD entry with the given ID
-        await NKD.destroy({ where: { id: nkdId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the NKD entry
+        const deletedNKD = await NKD.destroy({
+            where: { id: nkdId },
+        });
+
+        if (deletedNKD === 0) {
+            return res.status(404).json({ message: 'NKD entry not found' });
+        }
 
         res.json({ success: true, message: 'NKD entry deleted successfully' });
     } catch (error) {
@@ -1593,12 +1639,31 @@ const delete_NKD = async (req, res) => {
     }
 };
 
+
 const delete_Hospital = async (req, res) => {
     const hospitalId = req.params.id;
 
     try {
-        // Implement logic to delete the hospital entry with the given ID
-        await Medical.destroy({ where: { id: hospitalId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the hospital entry
+        const deletedHospital = await Medical.destroy({
+            where: { id: hospitalId },
+        });
+
+        if (deletedHospital === 0) {
+            return res.status(404).json({ message: 'Hospital entry not found' });
+        }
 
         res.json({ success: true, message: 'Hospital entry deleted successfully' });
     } catch (error) {
@@ -1611,8 +1676,26 @@ const delete_Travel = async (req, res) => {
     const travelId = req.params.id;
 
     try {
-        // Implement logic to delete the travel entry with the given ID
-        await Travel.destroy({ where: { id: travelId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the travel entry
+        const deletedTravel = await Travel.destroy({
+            where: { id: travelId },
+        });
+
+        if (deletedTravel === 0) {
+            return res.status(404).json({ message: 'Travel entry not found' });
+        }
 
         res.json({ success: true, message: 'Travel entry deleted successfully' });
     } catch (error) {
@@ -1621,6 +1704,7 @@ const delete_Travel = async (req, res) => {
     }
 };
 
+
 // Implement other delete operations in a similar manner
 
 
@@ -1628,8 +1712,26 @@ const delete_Bank = async (req, res) => {
     const bankId = req.params.id;
 
     try {
-        // Implement logic to delete the bank details with the given ID
-        await Bank.destroy({ where: { id: bankId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the bank details
+        const deletedBank = await Bank.destroy({
+            where: { id: bankId },
+        });
+
+        if (deletedBank === 0) {
+            return res.status(404).json({ message: 'Bank details not found' });
+        }
 
         res.json({ success: true, message: 'Bank details deleted successfully' });
     } catch (error) {
@@ -1638,12 +1740,31 @@ const delete_Bank = async (req, res) => {
     }
 };
 
+
 const delete_Document = async (req, res) => {
     const documentId = req.params.id;
 
     try {
-        // Implement logic to delete the document details with the given ID
-        await Documents.destroy({ where: { id: documentId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the document
+        const deletedDocument = await Documents.destroy({
+            where: { id: documentId },
+        });
+
+        if (deletedDocument === 0) {
+            return res.status(404).json({ message: 'Document not found' });
+        }
 
         res.json({ success: true, message: 'Document details deleted successfully' });
     } catch (error) {
@@ -1652,12 +1773,31 @@ const delete_Document = async (req, res) => {
     }
 };
 
+
 const delete_contract = async (req, res) => {
     const contractId = req.params.id;
 
     try {
-        // Implement logic to delete the contract details with the given ID
-        await Contract.destroy({ where: { id: contractId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the contract details
+        const deletedContract = await Contract.destroy({
+            where: { id: contractId },
+        });
+
+        if (deletedContract === 0) {
+            return res.status(404).json({ message: 'Contract details not found' });
+        }
 
         res.json({ success: true, message: 'Contract details deleted successfully' });
     } catch (error) {
@@ -1667,12 +1807,31 @@ const delete_contract = async (req, res) => {
 };
 
 
+
 const delete_discussionplus = async (req, res) => {
     const discussionplusId = req.params.id;
 
     try {
-        // Implement logic to delete the discussion plus details with the given ID
-        await Discussion_plus.destroy({ where: { id: discussionplusId } });
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the discussion plus details
+        const deletedDiscussionPlus = await Discussion_plus.destroy({
+            where: { id: discussionplusId },
+        });
+
+        if (deletedDiscussionPlus === 0) {
+            return res.status(404).json({ message: 'Discussion plus details not found' });
+        }
 
         res.json({ success: true, message: 'Discussion plus details deleted successfully' });
     } catch (error) {

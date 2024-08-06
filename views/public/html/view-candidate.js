@@ -98,6 +98,31 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
     }
 }
 
+const deleteDocument = async (documentId, event) => {
+    event.preventDefault(); // Prevent default action of the event
+
+    try {
+        const response = await axios.delete(`https://nemo.ivistaz.co/document/delete/${documentId}`, {
+            headers: {
+                'Authorization': token, // Assuming token is a valid authentication token
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.data.success) {
+            alert(response.data.message);
+            // Optionally, refresh the document list or remove the deleted document's row from the table
+        } else {
+            alert(response.data.message);
+        }
+    } catch (error) {
+        console.error('Error deleting document:', error);
+        alert('Error deleting document');
+    }
+};
+
+
+
 document.getElementById('documentSearchInput').addEventListener('input', function() {
 
     const urlParams = new URLSearchParams(window.location.search);

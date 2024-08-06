@@ -588,6 +588,7 @@
                 <table id="documentsTable" class="table table-bordered table-striped table-responsive table text-center">
                     <thead>
                         <tr>
+                          <th>Candidate Id</th>
                             <th>Document</th>
                             <th>Document Number</th>
                             <th>Issue Date</th>
@@ -744,6 +745,7 @@
           
                           const row = `
                               <tr>
+                                <td><button class='btn text-primary' onclick=viewCandidate(${document.candidateId})>${document.candidateId}</button></td>
                                   <td>${document.document}</td>
                                   <td>${document.document_number}</td>
                                   <td>${formatDate(document.issue_date)}</td>
@@ -766,6 +768,14 @@
                       error.style.display = 'block';
                   }
               });
+
+function viewCandidate(candidateId) {
+  // Construct the URL with query parameter
+  let url = './view-candidate.html?id=' + candidateId;
+  
+  // Open the URL in a new tab/window
+  window.open(url, '_blank');
+}
           </script>
           
           

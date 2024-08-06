@@ -147,8 +147,8 @@ const delete_company = async (req, res) => {
             return res.status(404).json({ message: "User not found", success: false });
         }
 
-        const userGroup = user.userGroup;
-        const canDelete = user.deletes === true;
+        const userGroup = user.dataValues.userGroup;
+        const canDelete = user.dataValues.deletes === true;
 
         if (userGroup === 'admin' || (userGroup === 'vendor' && canDelete)) {
             const deletedCompany = await Company.destroy({ where: { company_id: companyId } });
