@@ -2999,7 +2999,6 @@ async function handleSignOffSubmit(event) {
                 'Emigrate Number',
                 'EOC',
                 'Reason for Sign Off',
-              
                 'Nationality',
                 'INDOS Number',
                 'Indian CDC Document Number',
@@ -3033,6 +3032,14 @@ async function handleSignOffSubmit(event) {
         exportButton.textContent = 'Export to Excel';
         exportButton.addEventListener('click', exportToExcel);
         signOffSearchContainer.appendChild(exportButton);
+
+        // Create or update fetched data message
+        let fetchedDataMessage = document.getElementById('fetchedDataMessage');
+        if (!fetchedDataMessage) {
+            fetchedDataMessage = document.createElement('p');
+            fetchedDataMessage.id = 'fetchedDataMessage';
+            signOffSearchContainer.appendChild(fetchedDataMessage);
+        }
 
         // Function to render table with headers and data
         function renderTable() {
@@ -3111,7 +3118,6 @@ async function handleSignOffSubmit(event) {
                     contract.emigrate_number,
                     contract.eoc,
                     contract.reason_for_sign_off,
-                    
                     getNationalityName(contract.nationality),
                     contract.indos_number,
                     contract.indian_cdc_document_number,
@@ -3139,10 +3145,8 @@ async function handleSignOffSubmit(event) {
                 signOffTableBody.appendChild(row);
             });
 
-            // Display total number of contracts fetched
-            const fetchedDataMessage = document.createElement('p');
-            fetchedDataMessage.textContent = `${filteredContracts.length} data fetched`;
-            signOffSearchContainer.appendChild(fetchedDataMessage);
+            // Update total number of contracts fetched
+            fetchedDataMessage.textContent = `${filteredContracts.length} records fetched`;
         }
 
         // Initial render of table
@@ -3155,6 +3159,7 @@ async function handleSignOffSubmit(event) {
         console.error(error);
     }
 }
+
 
 
 
