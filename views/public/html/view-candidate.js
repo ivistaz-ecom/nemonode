@@ -1010,6 +1010,9 @@ async function fetchAndDisplayContractDetails(candidateId) {
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
                         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
                     </button>
+                    <td>
+                <button class="btn btn-danger p-0 ps-1 pe-1" onclick="generatePayslip('${candidateId}', '${contract.id}')"><small>Pay Slip</small></button>
+            </td>
                 </td>
             `;
 
@@ -1020,6 +1023,28 @@ async function fetchAndDisplayContractDetails(candidateId) {
     }
 }
 
+async function generatePayslip(candidateId, contractId) {
+    try {
+        const response = await axios.post('https://nemo.ivistaz.co/generate-payslip', {
+            candidateId: candidateId,
+            contractId: contractId
+        }, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status === 200) {
+            alert('Payslips generated successfully');
+        } else {
+            alert('Failed to generate payslips');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Error generating payslips');
+    }
+}
 
 
 

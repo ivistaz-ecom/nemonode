@@ -2451,9 +2451,9 @@ async function handleSignOnSubmit(event) {
             const tableHeader = document.createElement('thead');
             const headerRow = document.createElement('tr');
             const headers = [
-                'S.No', 'Candidate ID', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 
+                'S.No', 'Candidate ID','Name', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 
                 'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
-                'Wages Types', 'Reason for Sign Off', 'First Name', 'Last Name', 
+                'Wages Types', 'Reason for Sign Off',
                 'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
                  'Company Name', 'Bank Name', 'Account Number', 
                 'Bank Address', 'IFSC Code', 'SWIFT Code', 'Beneficiary', 
@@ -2478,6 +2478,7 @@ async function handleSignOnSubmit(event) {
                 const fields = [
                     startIndex + index + 1, // Serial Number (S.No)
                     `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+                    contract.fname + ' ' + contract.lname,
                     contract.rank,
                     contract.vesselType,
                     contract.sign_on,
@@ -2489,8 +2490,7 @@ async function handleSignOnSubmit(event) {
                     contract.wages,
                     contract.wages_types,
                     contract.reason_for_sign_off,
-                    contract.fname,
-                    contract.lname,
+                   
                     getNationalityName(contract.nationality),
                     contract.vesselName,
                     contract.imoNumber,
@@ -2948,6 +2948,7 @@ async function handleSignOffSubmit(event) {
             // Convert data into an array of arrays format suitable for Excel
             const data = contracts.map(contract => [
                 contract.candidateId,
+                contract.fname + ' ' + contract.lname,
                 contract.rank,
                 contract.vesselName,
                 contract.vesselType,
@@ -2961,7 +2962,6 @@ async function handleSignOffSubmit(event) {
                 contract.emigrate_number,
                 contract.eoc,
                 contract.reason_for_sign_off,
-                contract.fname + ' ' + contract.lname,
                 getNationalityName(contract.nationality),
                 contract.indos_number,
                 contract.indian_cdc_document_number,
@@ -2985,6 +2985,7 @@ async function handleSignOffSubmit(event) {
             // Create a Worksheet
             const ws = XLSX.utils.aoa_to_sheet([[
                 'Candidate ID',
+                'Full Name',
                 'Rank',
                 'Vessel Name',
                 'Vessel Type',
@@ -2998,7 +2999,7 @@ async function handleSignOffSubmit(event) {
                 'Emigrate Number',
                 'EOC',
                 'Reason for Sign Off',
-                'Full Name',
+              
                 'Nationality',
                 'INDOS Number',
                 'Indian CDC Document Number',
@@ -3051,6 +3052,7 @@ async function handleSignOffSubmit(event) {
             [
                 'S.No',
                 'Candidate ID',
+                'Full Name',
                 'Rank',
                 'Vessel Name',
                 'Vessel Type',
@@ -3064,7 +3066,6 @@ async function handleSignOffSubmit(event) {
                 'Emigrate Number',
                 'EOC',
                 'Reason for Sign Off',
-                'Full Name',
                 'Nationality',
                 'INDOS Number',
                 'Indian CDC Document Number',
@@ -3096,6 +3097,7 @@ async function handleSignOffSubmit(event) {
                 [
                     index + 1, // Serial Number (S.No)
                     `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+                    contract.fname + ' ' + contract.lname,
                     contract.rank,
                     contract.vesselName,
                     contract.vesselType,
@@ -3109,7 +3111,7 @@ async function handleSignOffSubmit(event) {
                     contract.emigrate_number,
                     contract.eoc,
                     contract.reason_for_sign_off,
-                    contract.fname + ' ' + contract.lname,
+                    
                     getNationalityName(contract.nationality),
                     contract.indos_number,
                     contract.indian_cdc_document_number,
