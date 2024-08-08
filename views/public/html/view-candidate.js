@@ -1037,6 +1037,7 @@ async function generatePayslip(candidateId, contractId) {
 
         if (response.status === 200) {
             alert('Payslips generated successfully');
+            window.location.href = `./payslips.html?contractId=${contractId}`;
         } else {
             alert('Failed to generate payslips');
         }

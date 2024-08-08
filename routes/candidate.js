@@ -114,5 +114,6 @@ router.get('/contractseoc',candidateControllers.getContractsEndingSoon)
 
 
 router.post('/generate-payslip', candidateControllers.generatePayslip);
+router.get('/get-payslips/:contractId', candidateControllers.getPayslips);
 
 module.exports = router;

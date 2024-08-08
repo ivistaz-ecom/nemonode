@@ -3154,19 +3154,31 @@ const generatePayslip = async (req, res) => {
                 endDate.setHours(23, 59, 59);
             }
 
-            const daysWorked = calculateDaysWorked(startDate, endDate);
-            const payslip = {
-                candidateId: candidateId,
-                contractId: contractId,
-                startDate: startDate,
-                endDate: endDate,
-                month: startDate.toLocaleString('default', { month: 'long' }),
-                year: startDate.getFullYear(),
-                amount: calculatePayslipAmount(contract.wages, startDate, endDate),
-                daysWorked: daysWorked
-            };
+            // Check if payslip already exists
+            const existingPayslip = await Payslip.findOne({
+                where: {
+                    candidateId: candidateId,
+                    contractId: contractId,
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            });
 
-            await Payslip.create(payslip);
+            if (!existingPayslip) {
+                const daysWorked = calculateDaysWorked(startDate, endDate);
+                const payslip = {
+                    candidateId: candidateId,
+                    contractId: contractId,
+                    startDate: startDate,
+                    endDate: endDate,
+                    month: startDate.toLocaleString('default', { month: 'long' }),
+                    year: startDate.getFullYear(),
+                    amount: calculatePayslipAmount(contract.wages, startDate, endDate),
+                    daysWorked: daysWorked
+                };
+
+                await Payslip.create(payslip);
+            }
 
             // Move to the next month, starting one day after the current end date
             currentDate = new Date(endDate);
@@ -3187,6 +3199,30 @@ function calculatePayslipAmount(wages, start, end) {
     const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
     const workedDays = calculateDaysWorked(start, end);
     return (wages / daysInMonth) * workedDays;
+}
+
+const getPayslips = async (req, res) => {
+    try {
+        const contractId = req.params.contractId;
+        console.log(contractId)
+
+        if (!contractId) {
+            return res.status(400).json({ error: 'contractId is required' });
+        }
+
+        const payslips = await Payslip.findAll({
+            where: { contractId: contractId }
+        });
+
+        if (payslips.length === 0) {
+            return res.status(404).json({ error: 'No payslips found for this contract' });
+        }
+
+        res.status(200).json({payslips:payslips});
+    } catch (error) {
+        console.error('Error fetching payslips:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 }
   
 
@@ -3810,5 +3846,6 @@ module.exports = {
    getCallsCountForOneDay,
    getContractsEndingSoon,
    getContractsOverTenMonths,
-   generatePayslip
+   generatePayslip,
+   getPayslips
 };
