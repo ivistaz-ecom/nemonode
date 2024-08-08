@@ -309,7 +309,7 @@ function renderDiscussionData(data) {
             listItem.innerHTML = `
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h5 class="mb-1 d-flex align-items-center text-white">Candidate ID: <button class="btn btn-link candidate-btn text-dark" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
+                        <h5 class="mb-1 d-flex align-items-center text-white">Candidate ID: <button class="btn btn-primary btn-link  ms-2  pt-0 pb-0 candidate-btn text-white" data-candidate-id="${discussion.candidateId}">${discussion.candidateId}</button></h5>
                         <p class="mb-1 text-dark">Discussion: ${discussion.discussion}</p>
                     </div>
                     <div>
