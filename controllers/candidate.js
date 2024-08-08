@@ -21,6 +21,7 @@ const uuid = require('uuid');
 const Sib = require('sib-api-v3-sdk');
 const Company = require('../models/company')
 const fs = require('fs').promises;
+const Payslip = require('../models/payslip')
 
 const add_candidate = async (req, res) => {
     try {
@@ -3123,10 +3124,70 @@ const crewList = async (req, res) => {
     }
 };
 
+const generatePayslip = async (req, res) => {
+    try {
+        const { candidateId, contractId } = req.body;
 
-  
+        const contract = await Contract.findOne({ where: { id: contractId, candidateId } });
+        if (!contract) return res.status(404).json({ error: 'Contract not found' });
 
-  
+        const signOnDate = new Date(contract.sign_on);
+        const signOffDate = contract.sign_off === '1970-01-01' ? new Date() : new Date(contract.sign_off);
+
+        let currentDate = new Date(signOnDate);
+        while (currentDate <= signOffDate) {
+            let startDate, endDate;
+
+            // For the first entry, start date is signOnDate, end date is the end of that month
+            if (currentDate.getTime() === signOnDate.getTime()) {
+                startDate = new Date(currentDate);
+                endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
+            } else {
+                // Start date is the next day after the last end date
+                startDate = new Date(currentDate);
+                endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
+            }
+
+            // Adjust endDate to be the signOffDate if it's before the end of the month
+            if (endDate > signOffDate) {
+                endDate = new Date(signOffDate);
+                endDate.setHours(23, 59, 59);
+            }
+
+            const daysWorked = calculateDaysWorked(startDate, endDate);
+            const payslip = {
+                candidateId: candidateId,
+                contractId: contractId,
+                startDate: startDate,
+                endDate: endDate,
+                month: startDate.toLocaleString('default', { month: 'long' }),
+                year: startDate.getFullYear(),
+                amount: calculatePayslipAmount(contract.wages, startDate, endDate),
+                daysWorked: daysWorked
+            };
+
+            await Payslip.create(payslip);
+
+            // Move to the next month, starting one day after the current end date
+            currentDate = new Date(endDate);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        res.status(200).json({ message: 'Payslips generated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+function calculateDaysWorked(start, end) {
+    return Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+}
+
+function calculatePayslipAmount(wages, start, end) {
+    const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
+    const workedDays = calculateDaysWorked(start, end);
+    return (wages / daysInMonth) * workedDays;
+}
   
 
 
@@ -3749,4 +3810,5 @@ module.exports = {
    getCallsCountForOneDay,
    getContractsEndingSoon,
    getContractsOverTenMonths,
+   generatePayslip
 };

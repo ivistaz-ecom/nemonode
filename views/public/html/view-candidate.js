@@ -1025,7 +1025,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
 
 async function generatePayslip(candidateId, contractId) {
     try {
-        const response = await axios.post('https://nemo.ivistaz.co/generate-payslip', {
+        const response = await axios.post('https://nemo.ivistaz.co/candidate/generate-payslip', {
             candidateId: candidateId,
             contractId: contractId
         }, {

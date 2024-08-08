@@ -111,4 +111,8 @@ router.post('/hover-disc/:id',candidateControllers.hoverDiscussions)
 router.get('/callforoneday',candidateControllers.getCallsCountForOneDay)
 router.get('/contractsdue',candidateControllers.getContractsOverTenMonths)
 router.get('/contractseoc',candidateControllers.getContractsEndingSoon)
+
+
+router.post('/generate-payslip', candidateControllers.generatePayslip);
+
 module.exports = router;
