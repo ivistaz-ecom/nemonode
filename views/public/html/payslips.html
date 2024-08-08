@@ -65,8 +65,8 @@ function populateTable(payslips) {
             <td>${payslip.month}</td>
             <td>${payslip.year}</td>
          
-            <td>${new Date(payslip.startDate).toLocaleDateString()}</td>
-            <td>${new Date(payslip.endDate).toLocaleDateString()}</td>
+            <td>${formatDate(payslip.startDate)}</td>
+            <td>${formatDate(payslip.endDate)}</td>
             <td>${payslip.daysWorked}</td>
             <td>${payslip.amount}</td>
             <td><button class="btn btn-primary" onclick="viewPayslip(${payslip.id})">View Payslip</button></td>
@@ -80,6 +80,13 @@ function viewPayslip(id) {
     // Redirect to payslip details page or show a modal with payslip details
     window.location.href = `/payslip-details.html?id=${id}`;
 }
+
+function formatDate(dateString) {
+    // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
+    const date = new Date(dateString);
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  }
 
     </script>
 </body>
