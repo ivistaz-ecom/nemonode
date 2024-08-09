@@ -19,9 +19,32 @@
                     <th>End Date</th>
                     <th>Days Worked</th>
                     <th>Amount</th>
+                    <th>Opening Balance</th>
+                    <th>Basic Wages</th>
+                    <th>Leave Wages</th>
+                    <th>Overtime Wages</th>
+                    <th>Leave Subsistence</th>
+                    <th>Consolidate Allowance</th>
+                    <th>Fixed Overtime</th>
+                    <th>Subsistence Allowance</th>
+                    <th>Uniform Allowance</th>
+                    <th>Misc Allowance</th>
+                    <th>Other Allowance</th>
+                    <th>Onboard OT Wages</th>
+                    <th>Joining Basic</th>
+                    <th>Tank Cleaning Bonus</th>
+                    <th>Additional Works</th>
+                    <th>Prev Month Balance</th>
+                    <th>Reimbursement</th>
+                    <th>Radio</th>
+                    <th>Onboard Final Settlement</th>
+                    <th>Other Deductions</th>
+                    <th>Training</th>
+                    <th>Bond Store</th>
                     <th>Actions</th>
                 </tr>
             </thead>
+            
             <tbody id="payslip-table-body">
                 <!-- Payslip entries will be dynamically added here -->
             </tbody>
@@ -58,17 +81,37 @@ function populateTable(payslips) {
     tableBody.innerHTML = ''; // Clear any existing rows
 
     payslips.forEach(payslip => {
-        console.log(payslip)
         const row = document.createElement('tr');
         
         row.innerHTML = `
             <td>${payslip.month}</td>
             <td>${payslip.year}</td>
-         
             <td>${formatDate(payslip.startDate)}</td>
             <td>${formatDate(payslip.endDate)}</td>
             <td>${payslip.daysWorked}</td>
             <td>${payslip.amount}</td>
+            <td>${payslip.openingBalance || 'N/A'}</td>
+            <td>${payslip.basicWages || 'N/A'}</td>
+            <td>${payslip.leaveWages || 'N/A'}</td>
+            <td>${payslip.overtimeWages || 'N/A'}</td>
+            <td>${payslip.leaveSubsistence || 'N/A'}</td>
+            <td>${payslip.consolidateAllowance || 'N/A'}</td>
+            <td>${payslip.fixedOvertime || 'N/A'}</td>
+            <td>${payslip.subsistenceAllowance || 'N/A'}</td>
+            <td>${payslip.uniformAllowance || 'N/A'}</td>
+            <td>${payslip.miscAllowance || 'N/A'}</td>
+            <td>${payslip.otherAllowance || 'N/A'}</td>
+            <td>${payslip.onboardOtWages || 'N/A'}</td>
+            <td>${payslip.joiningBasic || 'N/A'}</td>
+            <td>${payslip.tankCleaningBonus || 'N/A'}</td>
+            <td>${payslip.additionalWorks || 'N/A'}</td>
+            <td>${payslip.prevMonthBalance || 'N/A'}</td>
+            <td>${payslip.reimbursement || 'N/A'}</td>
+            <td>${payslip.radio || 'N/A'}</td>
+            <td>${payslip.onboardFinalSettlement || 'N/A'}</td>
+            <td>${payslip.otherDeductions || 'N/A'}</td>
+            <td>${payslip.training || 'N/A'}</td>
+            <td>${payslip.bondStore || 'N/A'}</td>
             <td><button class="btn btn-primary" onclick="viewPayslip(${payslip.id})">View Payslip</button></td>
         `;
         
