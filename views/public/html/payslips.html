@@ -15,6 +15,7 @@
         <table class="table table-striped table-bordered table-responsive">
             <thead>
                 <tr>
+                    <th>S.No</th>
                     <th>Month</th>
                     <th>Year</th>
                     <th>Start&nbsp;Date</th>
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Error fetching payslips:', error);
         });
 });
-
+let index = 1;
 function populateTable(payslips) {
     const tableBody = document.getElementById('payslip-table-body');
     tableBody.innerHTML = ''; // Clear any existing rows
@@ -88,6 +89,7 @@ function populateTable(payslips) {
         const row = document.createElement('tr');
         
         row.innerHTML = `
+        <td>${index++}</td>
             <td>${payslip.month}</td>
             <td>${payslip.year}</td>
             <td>${formatDate(payslip.startDate)}</td>
