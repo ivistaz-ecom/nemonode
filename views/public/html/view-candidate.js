@@ -1001,6 +1001,28 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
                 <td><a href='https://nemo.ivistaz.co/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td>${contract.openingBalance}</td>
+                <td>${contract.basicWages}</td>
+                <td>${contract.leaveWages}</td>
+                <td>${contract.overtimeWages}</td>
+                <td>${contract.leaveSubsistence}</td>
+                <td>${contract.consolidateAllowance}</td>
+                <td>${contract.fixedOvertime}</td>
+                <td>${contract.subsistenceAllowance}</td>
+                <td>${contract.uniformAllowance}</td>
+                <td>${contract.miscAllowance}</td>
+                <td>${contract.otherAllowance}</td>
+                <td>${contract.onboardOtWages}</td>
+                <td>${contract.joiningBasic}</td>
+                <td>${contract.tankCleaningBonus}</td>
+                <td>${contract.additionalWorks}</td>
+                <td>${contract.prevMonthBalance}</td>
+                <td>${contract.reimbursement}</td>
+                <td>${contract.radio}</td>
+                <td>${contract.onboardFinalSettlement}</td>
+                <td>${contract.otherDeductions}</td>
+                <td>${contract.training}</td>
+                <td>${contract.bondStore}</td>
                 <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                 <td>
