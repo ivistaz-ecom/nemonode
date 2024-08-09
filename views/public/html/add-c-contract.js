@@ -188,6 +188,7 @@ async function handleContractForm(event) {
     const candidateId = urlParams.get('memId');
     const created_by = decodedToken.userId;
 
+    // Retrieve values from form fields
     const rank = document.getElementById('candidate_c_rank').value.trim();
     const company = document.getElementById('contract_company').value.trim();
     const vslName = document.getElementById('contract_vsl').value.trim();
@@ -204,6 +205,30 @@ async function handleContractForm(event) {
     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
+
+    // New fields
+    const openingBalance = document.getElementById('contract_opening_balance').value.trim();
+    const basicWages = document.getElementById('contract_basic_wages').value.trim();
+    const leaveWages = document.getElementById('contract_leave_wages').value.trim();
+    const overtimeWages = document.getElementById('contract_overtime_wages').value.trim();
+    const leaveSubsistence = document.getElementById('contract_leave_subsistence').value.trim();
+    const consolidateAllowance = document.getElementById('contract_consolidate_allowance').value.trim();
+    const fixedOvertime = document.getElementById('contract_fixed_overtime').value.trim();
+    const subsistenceAllowance = document.getElementById('contract_subsistence_allowance').value.trim();
+    const uniformAllowance = document.getElementById('contract_uniform_allowance').value.trim();
+    const miscAllowance = document.getElementById('contract_misc_allowance').value.trim();
+    const otherAllowance = document.getElementById('contract_other_allowance').value.trim();
+    const onboardOtWages = document.getElementById('contract_onboard_ot_wages').value.trim();
+    const joiningBasic = document.getElementById('contract_joining_basic').value.trim();
+    const tankCleaningBonus = document.getElementById('contract_tank_cleaning_bonus').value.trim();
+    const additionalWorks = document.getElementById('contract_additional_works').value.trim();
+    const prevMonthBalance = document.getElementById('contract_prev_month_balance').value.trim();
+    const reimbursement = document.getElementById('contract_reimbursement').value.trim();
+    const radio = document.getElementById('contract_radio').value.trim();
+    const onboardFinalSettlement = document.getElementById('contract_onboard_final_settlement').value.trim();
+    const otherDeductions = document.getElementById('contract_other_deductions').value.trim();
+    const training = document.getElementById('contract_training').value.trim();
+    const bondStore = document.getElementById('contract_bond_store').value.trim();
 
     // Files
     const documentFile = document.getElementById('contract_document').files[0];
@@ -224,7 +249,7 @@ async function handleContractForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            documentFileName = response.data.filename
+            documentFileName = response.data.filename;
             console.log('Document file uploaded successfully');
         } catch (err) {
             console.error('Error uploading document file:', err);
@@ -244,7 +269,7 @@ async function handleContractForm(event) {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            aoaFileName = response.data.filename
+            aoaFileName = response.data.filename;
             console.log('AOA file uploaded successfully');
         } catch (err) {
             console.error('Error uploading AOA file:', err);
@@ -272,7 +297,29 @@ async function handleContractForm(event) {
         aoaFile: aoaFileName,
         aoaNumber,
         emigrateNumber,
-        created_by
+        created_by,
+        openingBalance,
+        basicWages,
+        leaveWages,
+        overtimeWages,
+        leaveSubsistence,
+        consolidateAllowance,
+        fixedOvertime,
+        subsistenceAllowance,
+        uniformAllowance,
+        miscAllowance,
+        otherAllowance,
+        onboardOtWages,
+        joiningBasic,
+        tankCleaningBonus,
+        additionalWorks,
+        prevMonthBalance,
+        reimbursement,
+        radio,
+        onboardFinalSettlement,
+        otherDeductions,
+        training,
+        bondStore
     };
 
     try {
@@ -290,10 +337,9 @@ async function handleContractForm(event) {
     }
 }
 
-
-
 const contractForm = document.getElementById('contractForm');
 contractForm.addEventListener('submit', handleContractForm);
+
 
 
 

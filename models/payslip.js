@@ -39,6 +39,95 @@ const Payslip = sequelize.define('Payslip', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    // New fields
+    openingBalance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    basicWages: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    leaveWages: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    overtimeWages: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    leaveSubsistence: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    consolidateAllowance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    fixedOvertime: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    subsistenceAllowance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    uniformAllowance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    miscAllowance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    otherAllowance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    onboardOtWages: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    joiningBasic: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    tankCleaningBonus: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    additionalWorks: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    prevMonthBalance: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    reimbursement: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    radio: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    onboardFinalSettlement: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    otherDeductions: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    training: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
+    bondStore: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    },
 }, {
     tableName: 'payslip',
     timestamps: false,

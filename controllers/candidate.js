@@ -1014,7 +1014,29 @@ const add_contractdetails = async (req, res) => {
             aoaNumber,
             emigrateNumber,
             aoaFile,
-            created_by
+            created_by,
+            openingBalance,
+            basicWages,
+            leaveWages,
+            overtimeWages,
+            leaveSubsistence,
+            consolidateAllowance,
+            fixedOvertime,
+            subsistenceAllowance,
+            uniformAllowance,
+            miscAllowance,
+            otherAllowance,
+            onboardOtWages,
+            joiningBasic,
+            tankCleaningBonus,
+            additionalWorks,
+            prevMonthBalance,
+            reimbursement,
+            radio,
+            onboardFinalSettlement,
+            otherDeductions,
+            training,
+            bondStore
         } = req.body;
 
         // Create a new ContractDetails entry
@@ -1038,7 +1060,29 @@ const add_contractdetails = async (req, res) => {
             aoa_number:aoaNumber,
             emigrate_number:emigrateNumber,
             created_by:created_by,
-            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your ContractDetails model
+            candidateId: candidateId, // Assuming you have a foreign key 'user_id' in your ContractDetails model,
+            openingBalance,
+            basicWages,
+            leaveWages,
+            overtimeWages,
+            leaveSubsistence,
+            consolidateAllowance,
+            fixedOvertime,
+            subsistenceAllowance,
+            uniformAllowance,
+            miscAllowance,
+            otherAllowance,
+            onboardOtWages,
+            joiningBasic,
+            tankCleaningBonus,
+            additionalWorks,
+            prevMonthBalance,
+            reimbursement,
+            radio,
+            onboardFinalSettlement,
+            otherDeductions,
+            training,
+            bondStore
         });
 
     
@@ -3174,7 +3218,30 @@ const generatePayslip = async (req, res) => {
                     month: startDate.toLocaleString('default', { month: 'long' }),
                     year: startDate.getFullYear(),
                     amount: calculatePayslipAmount(contract.wages, startDate, endDate),
-                    daysWorked: daysWorked
+                    daysWorked: daysWorked,
+                    // Include new fields from contract
+                    openingBalance: contract.openingBalance,
+                    basicWages: contract.basicWages,
+                    leaveWages: contract.leaveWages,
+                    overtimeWages: contract.overtimeWages,
+                    leaveSubsistence: contract.leaveSubsistence,
+                    consolidateAllowance: contract.consolidateAllowance,
+                    fixedOvertime: contract.fixedOvertime,
+                    subsistenceAllowance: contract.subsistenceAllowance,
+                    uniformAllowance: contract.uniformAllowance,
+                    miscAllowance: contract.miscAllowance,
+                    otherAllowance: contract.otherAllowance,
+                    onboardOtWages: contract.onboardOtWages,
+                    joiningBasic: contract.joiningBasic,
+                    tankCleaningBonus: contract.tankCleaningBonus,
+                    additionalWorks: contract.additionalWorks,
+                    prevMonthBalance: contract.prevMonthBalance,
+                    reimbursement: contract.reimbursement,
+                    radio: contract.radio,
+                    onboardFinalSettlement: contract.onboardFinalSettlement,
+                    otherDeductions: contract.otherDeductions,
+                    training: contract.training,
+                    bondStore: contract.bondStore,
                 };
 
                 await Payslip.create(payslip);
@@ -3200,6 +3267,7 @@ function calculatePayslipAmount(wages, start, end) {
     const workedDays = calculateDaysWorked(start, end);
     return (wages / daysInMonth) * workedDays;
 }
+
 
 const getPayslips = async (req, res) => {
     try {
