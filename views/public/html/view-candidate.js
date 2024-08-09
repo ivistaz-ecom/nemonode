@@ -1004,8 +1004,51 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                 <td>
-                    <button class="btn border-0 m-0 p-0" onclick="editContract('${candidateId}','${contract.id}','${contract.rank}','${contract.company}','${contract.vslName}','${contract.vesselType}','${contract.sign_on_port}','${contract.sign_on}','${contract.wage_start}','${contract.eoc}','${contract.wages}','${contract.currency}','${contract.wages_types}','${contract.sign_off}','${contract.sign_off_port}','${contract.reason_for_sign_off}','${contract.aoa_number}','${contract.emigrate_number}','${contract.documents}','${contract.aoa}',event)">
-                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                <button class="btn border-0 m-0 p-0" onclick="editContract(
+                    '${candidateId}',
+                    '${contract.id}',
+                    '${contract.rank}',
+                    '${contract.company}',
+                    '${contract.vslName}',
+                    '${contract.vesselType}',
+                    '${contract.sign_on_port}',
+                    '${contract.sign_on}',
+                    '${contract.wage_start}',
+                    '${contract.eoc}',
+                    '${contract.wages}',
+                    '${contract.currency}',
+                    '${contract.wages_types}',
+                    '${contract.sign_off}',
+                    '${contract.sign_off_port}',
+                    '${contract.reason_for_sign_off}',
+                    '${contract.aoa}',
+                    '${contract.aoa_number}',
+                    '${contract.emigrate_number}',
+                    '${contract.documents}',
+                    '${contract.created_by}',
+                    '${contract.openingBalance}',
+                    '${contract.basicWages}',
+                    '${contract.leaveWages}',
+                    '${contract.overtimeWages}',
+                    '${contract.leaveSubsistence}',
+                    '${contract.consolidateAllowance}',
+                    '${contract.fixedOvertime}',
+                    '${contract.subsistenceAllowance}',
+                    '${contract.uniformAllowance}',
+                    '${contract.miscAllowance}',
+                    '${contract.otherAllowance}',
+                    '${contract.onboardOtWages}',
+                    '${contract.joiningBasic}',
+                    '${contract.tankCleaningBonus}',
+                    '${contract.additionalWorks}',
+                    '${contract.prevMonthBalance}',
+                    '${contract.reimbursement}',
+                    '${contract.radio}',
+                    '${contract.onboardFinalSettlement}',
+                    '${contract.otherDeductions}',
+                    '${contract.training}',
+                    '${contract.bondStore}',
+                    event)">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
                         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
