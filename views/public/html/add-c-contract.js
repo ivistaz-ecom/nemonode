@@ -207,28 +207,28 @@ async function handleContractForm(event) {
     const emigrateNumber = document.getElementById('contract_emigrate').value.trim();
 
     // New fields
-    const openingBalance = document.getElementById('contract_opening_balance').value.trim();
-    const basicWages = document.getElementById('contract_basic_wages').value.trim();
-    const leaveWages = document.getElementById('contract_leave_wages').value.trim();
-    const overtimeWages = document.getElementById('contract_overtime_wages').value.trim();
-    const leaveSubsistence = document.getElementById('contract_leave_subsistence').value.trim();
-    const consolidateAllowance = document.getElementById('contract_consolidate_allowance').value.trim();
-    const fixedOvertime = document.getElementById('contract_fixed_overtime').value.trim();
-    const subsistenceAllowance = document.getElementById('contract_subsistence_allowance').value.trim();
-    const uniformAllowance = document.getElementById('contract_uniform_allowance').value.trim();
-    const miscAllowance = document.getElementById('contract_misc_allowance').value.trim();
-    const otherAllowance = document.getElementById('contract_other_allowance').value.trim();
-    const onboardOtWages = document.getElementById('contract_onboard_ot_wages').value.trim();
-    const joiningBasic = document.getElementById('contract_joining_basic').value.trim();
-    const tankCleaningBonus = document.getElementById('contract_tank_cleaning_bonus').value.trim();
-    const additionalWorks = document.getElementById('contract_additional_works').value.trim();
-    const prevMonthBalance = document.getElementById('contract_prev_month_balance').value.trim();
-    const reimbursement = document.getElementById('contract_reimbursement').value.trim();
-    const radio = document.getElementById('contract_radio').value.trim();
-    const onboardFinalSettlement = document.getElementById('contract_onboard_final_settlement').value.trim();
-    const otherDeductions = document.getElementById('contract_other_deductions').value.trim();
-    const training = document.getElementById('contract_training').value.trim();
-    const bondStore = document.getElementById('contract_bond_store').value.trim();
+    const openingBalance = document.getElementById('contract_opening_balance').value.trim() || 0;
+    const basicWages = document.getElementById('contract_basic_wages').value.trim()|| 0;
+    const leaveWages = document.getElementById('contract_leave_wages').value.trim()|| 0;
+    const overtimeWages = document.getElementById('contract_overtime_wages').value.trim()|| 0;
+    const leaveSubsistence = document.getElementById('contract_leave_subsistence').value.trim()|| 0;
+    const consolidateAllowance = document.getElementById('contract_consolidate_allowance').value.trim()|| 0;
+    const fixedOvertime = document.getElementById('contract_fixed_overtime').value.trim()|| 0;
+    const subsistenceAllowance = document.getElementById('contract_subsistence_allowance').value.trim()|| 0;
+    const uniformAllowance = document.getElementById('contract_uniform_allowance').value.trim()|| 0;
+    const miscAllowance = document.getElementById('contract_misc_allowance').value.trim()|| 0;
+    const otherAllowance = document.getElementById('contract_other_allowance').value.trim()|| 0;
+    const onboardOtWages = document.getElementById('contract_onboard_ot_wages').value.trim()|| 0;
+    const joiningBasic = document.getElementById('contract_joining_basic').value.trim()|| 0;
+    const tankCleaningBonus = document.getElementById('contract_tank_cleaning_bonus').value.trim()|| 0;
+    const additionalWorks = document.getElementById('contract_additional_works').value.trim()|| 0;
+    const prevMonthBalance = document.getElementById('contract_prev_month_balance').value.trim()|| 0;
+    const reimbursement = document.getElementById('contract_reimbursement').value.trim()|| 0;
+    const radio = document.getElementById('contract_radio').value.trim()|| 0;
+    const onboardFinalSettlement = document.getElementById('contract_onboard_final_settlement').value.trim()|| 0;
+    const otherDeductions = document.getElementById('contract_other_deductions').value.trim()|| 0;
+    const training = document.getElementById('contract_training').value.trim()|| 0;
+    const bondStore = document.getElementById('contract_bond_store').value.trim()|| 0;
 
     // Files
     const documentFile = document.getElementById('contract_document').files[0];
