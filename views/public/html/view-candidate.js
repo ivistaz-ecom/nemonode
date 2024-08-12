@@ -888,8 +888,9 @@ function updateDateTime() {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-async function fetchAndDisplayContractDetails(candidateId) {
+async function fetchAndDisplayContractDetails(id) {
     try {
+        const candidateId = id
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
@@ -1046,7 +1047,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
                     '${contract.aoa}',
                     '${contract.aoa_number}',
                     '${contract.emigrate_number}',
-                    '${contract.documents}',
+                 
                     '${contract.created_by}',
                     '${contract.openingBalance}',
                     '${contract.basicWages}',
@@ -1114,16 +1115,17 @@ async function generatePayslip(candidateId, contractId) {
 
 
 
-function editContract(candidateId,id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, event) {
+function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore, event) {
     event.preventDefault();
     console.log(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa);
 
     // Construct the query parameters string
-    const queryParams = `?candidateId=${candidateId}&id=${id}&rank=${encodeURIComponent(rank)}&company=${encodeURIComponent(company)}&vslName=${encodeURIComponent(vslName)}&vesselType=${encodeURIComponent(vesselType)}&sign_on_port=${encodeURIComponent(sign_on_port)}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(wage_start)}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(wages)}&currency=${encodeURIComponent(currency)}&wages_types=${encodeURIComponent(wages_types)}&sign_off=${encodeURIComponent(sign_off)}&sign_off_port=${encodeURIComponent(sign_off_port)}&reason_for_sign_off=${encodeURIComponent(reason_for_sign_off)}&aoa_number=${encodeURIComponent(aoa_number)}&emigrate_number=${encodeURIComponent(emigrate_number)}&documents=${encodeURIComponent(documents)}&aoa=${encodeURIComponent(aoa)}`;
+    const queryParams = `?candidateId=${candidateId}&id=${id}&rank=${encodeURIComponent(rank)}&company=${encodeURIComponent(company)}&vslName=${encodeURIComponent(vslName)}&vesselType=${encodeURIComponent(vesselType)}&sign_on_port=${encodeURIComponent(sign_on_port)}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(wage_start)}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(wages)}&currency=${encodeURIComponent(currency)}&wages_types=${encodeURIComponent(wages_types)}&sign_off=${encodeURIComponent(sign_off)}&sign_off_port=${encodeURIComponent(sign_off_port)}&reason_for_sign_off=${encodeURIComponent(reason_for_sign_off)}&aoa_number=${encodeURIComponent(aoa_number)}&emigrate_number=${encodeURIComponent(emigrate_number)}&documents=${encodeURIComponent(documents)}&aoa=${encodeURIComponent(aoa)}&openingBalance=${encodeURIComponent(openingBalance)}&basicWages=${encodeURIComponent(basicWages)}&leaveWages=${encodeURIComponent(leaveWages)}&overtimeWages=${encodeURIComponent(overtimeWages)}&leaveSubsistence=${encodeURIComponent(leaveSubsistence)}&consolidateAllowance=${encodeURIComponent(consolidateAllowance)}&fixedOvertime=${encodeURIComponent(fixedOvertime)}&subsistenceAllowance=${encodeURIComponent(subsistenceAllowance)}&uniformAllowance=${encodeURIComponent(uniformAllowance)}&miscAllowance=${encodeURIComponent(miscAllowance)}&otherAllowance=${encodeURIComponent(otherAllowance)}&onboardOtWages=${encodeURIComponent(onboardOtWages)}&joiningBasic=${encodeURIComponent(joiningBasic)}&tankCleaningBonus=${encodeURIComponent(tankCleaningBonus)}&additionalWorks=${encodeURIComponent(additionalWorks)}&prevMonthBalance=${encodeURIComponent(prevMonthBalance)}&reimbursement=${encodeURIComponent(reimbursement)}&radio=${encodeURIComponent(radio)}&onboardFinalSettlement=${encodeURIComponent(onboardFinalSettlement)}&otherDeductions=${encodeURIComponent(otherDeductions)}&training=${encodeURIComponent(training)}&bondStore=${encodeURIComponent(bondStore)}`;
 
     // Open edit-c-contract.html in a new tab with query parameters
     window.open(`edit-c-contract.html${queryParams}`, '_blank');
 }
+
 
 function deleteContract(id) {
     console.log('deleted',id)

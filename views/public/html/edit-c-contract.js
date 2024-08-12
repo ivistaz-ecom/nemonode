@@ -54,26 +54,30 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const aoa = urlParams.get('aoa');
     const created_by = urlParams.get('created_by');
 
-    console.log('ID:', id);
-    console.log('Ranks Contract:', ranks_contract);
-    console.log('Company:', company);
-    console.log('Vessel Name:', vslName);
-    console.log('Vessel Type:', vesselType);
-    console.log('Sign On Port:', sign_on_port);
-    console.log('Sign On:', sign_on);
-    console.log('Wage Start:', wage_start);
-    console.log('EOC:', eoc);
-    console.log('Wages:', wages);
-    console.log('Currency:', currency);
-    console.log('Wages Types:', wages_types);
-    console.log('Sign Off:', sign_off);
-    console.log('Sign Off Port:', sign_off_port);
-    console.log('Reason for Sign Off:', reason_for_sign_off);
-    console.log('AOA Number:', aoa_number);
-    console.log('Emigrate Number:', emigrate_number);
-    console.log('Documents:', documents);
-    console.log('AOA:', aoa);
-    console.log('Created By:', created_by);
+    const openingBalance = urlParams.get('openingBalance');
+    const basicWages = urlParams.get('basicWages');
+    const leaveWages = urlParams.get('leaveWages');
+    const overtimeWages = urlParams.get('overtimeWages');
+    const leaveSubsistence = urlParams.get('leaveSubsistence');
+    const consolidateAllowance = urlParams.get('consolidateAllowance');
+    const fixedOvertime = urlParams.get('fixedOvertime');
+    const subsistenceAllowance = urlParams.get('subsistenceAllowance');
+    const uniformAllowance = urlParams.get('uniformAllowance');
+    const miscAllowance = urlParams.get('miscAllowance');
+    const otherAllowance = urlParams.get('otherAllowance');
+    const onboardOtWages = urlParams.get('onboardOtWages');
+    const joiningBasic = urlParams.get('joiningBasic');
+    const tankCleaningBonus = urlParams.get('tankCleaningBonus');
+    const additionalWorks = urlParams.get('additionalWorks');
+    const prevMonthBalance = urlParams.get('prevMonthBalance');
+    const reimbursement = urlParams.get('reimbursement');
+    const radio = urlParams.get('radio');
+    const onboardFinalSettlement = urlParams.get('onboardFinalSettlement');
+    const otherDeductions = urlParams.get('otherDeductions');
+    const training = urlParams.get('training');
+    const bondStore = urlParams.get('bondStore');
+
+    
 
     
     document.getElementById('contractId').value = id;
@@ -96,6 +100,52 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('prevDoc').value = documents;
     document.getElementById('prevAoa').value = aoa;
     document.getElementById('created_by').value = created_by;
+    document.getElementById('contract_opening_balance').value = openingBalance;
+document.getElementById('contract_basic_wages').value = basicWages;
+document.getElementById('contract_leave_wages').value = leaveWages;
+document.getElementById('contract_overtime_wages').value = overtimeWages;
+document.getElementById('contract_leave_subsistence').value = leaveSubsistence;
+document.getElementById('contract_consolidate_allowance').value = consolidateAllowance;
+document.getElementById('contract_fixed_overtime').value = fixedOvertime;
+document.getElementById('contract_subsistence_allowance').value = subsistenceAllowance;
+document.getElementById('contract_uniform_allowance').value = uniformAllowance;
+document.getElementById('contract_misc_allowance').value = miscAllowance;
+document.getElementById('contract_other_allowance').value = otherAllowance;
+document.getElementById('contract_onboard_ot_wages').value = onboardOtWages;
+document.getElementById('contract_joining_basic').value = joiningBasic;
+document.getElementById('contract_tank_cleaning_bonus').value = tankCleaningBonus;
+document.getElementById('contract_additional_works').value = additionalWorks;
+document.getElementById('contract_prev_month_balance').value = prevMonthBalance;
+document.getElementById('contract_reimbursement').value = reimbursement;
+document.getElementById('contract_radio').value = radio;
+document.getElementById('contract_onboard_final_settlement').value = onboardFinalSettlement;
+document.getElementById('contract_other_deductions').value = otherDeductions;
+document.getElementById('contract_training').value = training;
+document.getElementById('contract_bond_store').value = bondStore;
+
+
+console.log('Opening Balance:', openingBalance);
+console.log('Basic Wages:', basicWages);
+console.log('Leave Wages:', leaveWages);
+console.log('Overtime Wages:', overtimeWages);
+console.log('Leave Subsistence:', leaveSubsistence);
+console.log('Consolidate Allowance:', consolidateAllowance);
+console.log('Fixed Overtime:', fixedOvertime);
+console.log('Subsistence Allowance:', subsistenceAllowance);
+console.log('Uniform Allowance:', uniformAllowance);
+console.log('Miscellaneous Allowance:', miscAllowance);
+console.log('Other Allowance:', otherAllowance);
+console.log('Onboard OT Wages:', onboardOtWages);
+console.log('Joining Basic:', joiningBasic);
+console.log('Tank Cleaning Bonus:', tankCleaningBonus);
+console.log('Additional Works:', additionalWorks);
+console.log('Previous Month Balance:', prevMonthBalance);
+console.log('Reimbursement:', reimbursement);
+console.log('Radio:', radio);
+console.log('Onboard Final Settlement:', onboardFinalSettlement);
+console.log('Other Deductions:', otherDeductions);
+console.log('Training:', training);
+console.log('Bond Store:', bondStore);
 
     async function displayDropdown() {
         try {
@@ -374,6 +424,28 @@ function formatDate(dateString) {
 
     let documentFileName = document.getElementById('editcontract_document').value.trim();
     let aoaFileName = document.getElementById('editcontract_aoa').value.trim();
+    const openingBalance = document.getElementById('contract_opening_balance').value.trim();
+    const basicWages = document.getElementById('contract_basic_wages').value.trim();
+    const leaveWages = document.getElementById('contract_leave_wages').value.trim();
+    const overtimeWages = document.getElementById('contract_overtime_wages').value.trim();
+    const leaveSubsistence = document.getElementById('contract_leave_subsistence').value.trim();
+    const consolidateAllowance = document.getElementById('contract_consolidate_allowance').value.trim();
+    const fixedOvertime = document.getElementById('contract_fixed_overtime').value.trim();
+    const subsistenceAllowance = document.getElementById('contract_subsistence_allowance').value.trim();
+    const uniformAllowance = document.getElementById('contract_uniform_allowance').value.trim();
+    const miscAllowance = document.getElementById('contract_misc_allowance').value.trim();
+    const otherAllowance = document.getElementById('contract_other_allowance').value.trim();
+    const onboardOtWages = document.getElementById('contract_onboard_ot_wages').value.trim();
+    const joiningBasic = document.getElementById('contract_joining_basic').value.trim();
+    const tankCleaningBonus = document.getElementById('contract_tank_cleaning_bonus').value.trim();
+    const additionalWorks = document.getElementById('contract_additional_works').value.trim();
+    const prevMonthBalance = document.getElementById('contract_prev_month_balance').value.trim();
+    const reimbursement = document.getElementById('contract_reimbursement').value.trim();
+    const radio = document.getElementById('contract_radio').value.trim();
+    const onboardFinalSettlement = document.getElementById('contract_onboard_final_settlement').value.trim();
+    const otherDeductions = document.getElementById('contract_other_deductions').value.trim();
+    const training = document.getElementById('contract_training').value.trim();
+    const bondStore = document.getElementById('contract_bond_store').value.trim();
 
     // Upload Document file if it exists
     if (documentFile) {
@@ -435,7 +507,29 @@ function formatDate(dateString) {
         aoaFile: aoaFileName,
         aoaNum,
         emigrateNumber,
-        created_by
+        created_by,
+        openingBalance,
+        basicWages,
+        leaveWages,
+        overtimeWages,
+        leaveSubsistence,
+        consolidateAllowance,
+        fixedOvertime,
+        subsistenceAllowance,
+        uniformAllowance,
+        miscAllowance,
+        otherAllowance,
+        onboardOtWages,
+        joiningBasic,
+        tankCleaningBonus,
+        additionalWorks,
+        prevMonthBalance,
+        reimbursement,
+        radio,
+        onboardFinalSettlement,
+        otherDeductions,
+        training,
+        bondStore
     };
 
     try {

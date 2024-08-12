@@ -1362,6 +1362,28 @@ const update_contractdetails = async (req, res) => {
             contract.aoa_number = updatedContractData.aoaNum;
             contract.emigrate_number = updatedContractData.emigrateNumber;
             contract.created_by = updatedContractData.created_by;
+            contract.openingBalance= updatedContractData.openingBalance
+            contract.basicWages =updatedContractData.basicWages
+            contract.leaveWages=updatedContractData.leaveWages
+            contract.overtimeWages=updatedContractData.overtimeWages
+            contract.leaveSubsistence=updatedContractData.leaveSubsistence
+            contract.consolidateAllowance=updatedContractData.consolidateAllowance
+            contract.fixedOvertime=updatedContractData.fixedOvertime
+            contract.subsistenceAllowance=updatedContractData.subsistenceAllowance
+            contract.uniformAllowance=updatedContractData.uniformAllowance
+            contract.miscAllowance=updatedContractData.miscAllowance
+            contract.otherAllowance=updatedContractData.otherAllowance
+            contract.onboardOtWages=updatedContractData.onboardOtWages
+            contract.joiningBasic=updatedContractData.joiningBasic
+            contract.tankCleaningBonus=updatedContractData.tankCleaningBonus
+            contract.additionalWorks=updatedContractData.additionalWorks
+            contract.prevMonthBalance=updatedContractData.prevMonthBalance
+            contract.reimbursement=updatedContractData.reimbursement
+            contract.radio=updatedContractData.radio
+            contract.onboardFinalSettlement=updatedContractData.onboardFinalSettlement
+            contract.otherDeductions=updatedContractData.otherDeductions
+            contract.training=updatedContractData.training
+            contract.bondStore=updatedContractData.bondStore
 
             // Conditionally update the documents and aoa fields
             if (updatedContractData.documentFile) {
