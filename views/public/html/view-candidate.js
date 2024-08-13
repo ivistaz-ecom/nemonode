@@ -236,7 +236,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
                     <p><strong>Type:</strong> ${bank.types}</p>
                     <p><strong>Created By:</strong> ${bank.created_by}</p>
                     <div>
-                        <button class="btn btn-primary btn-sm" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}', event)">
+                        <button class="btn btn-primary btn-sm" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}','${bank.types}', event)">
                             <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i> Edit
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="deleteBank('${bank.id}', event)">
@@ -262,12 +262,12 @@ async function fetchAndDisplayBankDetails(candidateId) {
         console.error('Error fetching bank details:', error);
     }
 }
-function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch, event) {
+function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, swift_code, beneficiary, beneficiary_addr, pan_num, passbook, pan_card, branch,types, event) {
     event.preventDefault();
     console.log('Edit clicked for bank ID:', id);
 
     // Construct the query parameters string
-    const queryParams = `?memId=${candidateId}&id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}`;
+    const queryParams = `?memId=${candidateId}&id=${id}&bank_name=${encodeURIComponent(bank_name)}&account_num=${encodeURIComponent(account_num)}&bank_addr=${encodeURIComponent(bank_addr)}&ifsc_code=${encodeURIComponent(ifsc_code)}&swift_code=${encodeURIComponent(swift_code)}&beneficiary=${encodeURIComponent(beneficiary)}&beneficiary_addr=${encodeURIComponent(beneficiary_addr)}&pan_num=${encodeURIComponent(pan_num)}&passbook=${encodeURIComponent(passbook)}&pan_card=${encodeURIComponent(pan_card)}&branch=${encodeURIComponent(branch)}&types=${encodeURIComponent(types)}`;
 
     // Open edit-c-bank.html in a new tab with query parameters
     window.open(`edit-c-bank.html${queryParams}`, '_blank');

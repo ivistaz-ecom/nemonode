@@ -1,61 +1,174 @@
-<!-- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Nautilus Pre-Employment Evaluation Sheet</title>
-      <link rel="icon" type="image/x-icon" href="./fav-icon.ico" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Employment Evaluation Sheet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <style>
+        @media print {
+            body {
+                margin: 0;
+            }
+            #printableArea {
+                width: 210mm; /* A4 width */
+                min-height: 297mm; /* A4 height */
+                padding: 20px;
+                background: white;
+                margin: 0;
+                page-break-after: always;
+            }
+        }
+        #pre-employment-form {
+            width: 100%;
+            padding: 20px;
+            background: white;
+            margin: 0 auto;
+        }
+    </style>
 </head>
-<body>
-  <h1>Nautilus Pre-Employment Evaluation Sheet</h1>
-  <h2>Ratings Galley</h2>
-  <form>
-    <fieldset>
-      <legend>Applicant Information</legend>
-      <div>
-        <label for="name">Family Name & Green Name:</label>
-        <input type="text" id="name" name="name">
-      </div>
-      <div>
-        <label for="applied">Applied for (position):</label>
-        <input type="text" id="applied" name="applied">
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Photo</legend>
-      <div>
-        <label for="photo">Upload Photo:</label>
-        <input type="file" id="photo" name="photo">
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Other Practical Experience</legend>
-      <div>
-        <label for="experience">Any Wedicat or other practical experience: </label>
-        <textarea id="experience" name="experience" rows="4" cols="50"></textarea>
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Decision</legend>
-      <div>
-        <label for="accepted">Accepted:</label>
-        <input type="radio" id="accepted" name="decision" value="accepted">
-      </div>
-      <div>
-        <label for="rejected">Rejected:</label>
-        <input type="radio" id="rejected" name="decision" value="rejected">
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Comments</legend>
-      <div>
-        <label for="comments">Please enter any comments here:</label>
-        <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
-      </div>
-    </fieldset>
-    <button type="submit">Submit</button>
-  </form>
+<body class="bg-light">
+    <div id="printableArea">
+        <div class="container mt-4 p-4 pt-3 bg-white border border-black-1" id="pre-employment-form">
+            <div id="content">
+                <div class="row mb-3">
+                    <div class="col-md-2 border d-flex justify-content-center align-items-center">
+                        <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
+                    </div>
+                    <div class="col border d-flex justify-content-center align-items-center">
+                        <p class="fw-bolder">
+                            PRE-EMPLOYMENT EVALUATION SHEET OFFICERS - ENGINE
+                        </p>
+                    </div>
+                    <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
+                        <p style="font-size: 10px;">
+                            FORM NO: OFF 47B<br />
+                            REVISION NO: 00<br />
+                            DATE: 17/08/2023
+                        </p>
+                    </div>
+                </div>
+
+                <form>
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Family Name & Given name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="rankApplied" class="form-label">RANK APPLIED</label>
+                            <input type="text" class="form-control" id="rankApplied" placeholder="Enter rank applied">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="nationality" class="form-label">Nationality</label>
+                            <input type="text" class="form-control" id="nationality" placeholder="Enter nationality">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="telephone" class="form-label">Telephone No.</label>
+                            <input type="tel" class="form-control" id="telephone" placeholder="Enter telephone number">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="mobile" class="form-label">Mobile Ph.</label>
+                            <input type="tel" class="form-control" id="mobile" placeholder="Enter mobile phone number">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="qualification" class="form-label">Qualification</label>
+                            <input type="text" class="form-control" id="qualification" placeholder="Enter qualification">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="lastContract" class="form-label">Last contract position</label>
+                            <input type="text" class="form-control" id="lastContract" placeholder="Enter last contract position">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">Communication</div>
+                                <div class="card-body">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="englishLevel" id="englishGood" value="good">
+                                        <label class="form-check-label" for="englishGood">Good</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="englishLevel" id="englishSatisf" value="satisfactory">
+                                        <label class="form-check-label" for="englishSatisf">Satisfactory</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="englishLevel" id="englishPoor" value="poor">
+                                        <label class="form-check-label" for="englishPoor">Poor</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 text-center card bg-light">
+                            <p class="mt-2">BMI</p>
+                            <input type="text" id="bmi" name="bmi" class="form-control border" />
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>TRADE AREA EXPERIENCE (indicate number of contracts)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="europe">
+                                        <label class="form-check-label" for="europe">Europe</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="usa">
+                                        <label class="form-check-label" for="usa">USA</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="medSea">
+                                        <label class="form-check-label" for="medSea">Med.-Sea</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="farEast">
+                                        <label class="form-check-label" for="farEast">Far East</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="pgGoa">
+                                        <label class="form-check-label" for="pgGoa">PG/GOA</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <input type="button" onclick="printDiv('printableArea')" value="Print Form" />
+            <script>
+                function printDiv(divName) {
+                    var printContents = document.getElementById(divName).innerHTML;
+                    var originalContents = document.body.innerHTML;
+                    
+                    document.body.innerHTML = printContents;
+                    
+                    window.print();
+                    
+                    document.body.innerHTML = originalContents;
+                }
+            </script>
+        </div>
+    </div>
 </body>
 </html>
- -->
-
- 

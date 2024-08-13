@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const panCardda = urlParams.get('pan_card');
     const branch = urlParams.get('branch');
     const types = urlParams.get('types');
+    console.log(types)
     const created_by = urlParams.get('created_by')
 
     // Populate the form fields with the fetched data
