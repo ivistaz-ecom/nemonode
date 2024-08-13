@@ -198,6 +198,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             });
             console.log('Bank details updated successfully:', response.data);
+            alert('Bank details edited Successfully!')
             const urlParams = new URLSearchParams(window.location.search);
     
             // Get the candidateId from the URL parameter
