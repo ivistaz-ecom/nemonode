@@ -9,7 +9,6 @@ function decodeToken(token) {
 
 if(!token)
 {
-  alert('Please login to continue')
   window.location.href='./loginpage.html'
 }
 document.addEventListener('DOMContentLoaded', async function () {

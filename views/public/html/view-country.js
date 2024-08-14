@@ -7,7 +7,6 @@ const token = localStorage.getItem('token');
 // Check if the token is not present
 if (!token) {
   // Redirect to the login page
-alert('Please login to continue using Nemo');
 
   window.location.href = './loginpage.html';
 }
