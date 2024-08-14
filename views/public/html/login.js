@@ -10,8 +10,9 @@ form.addEventListener("submit", login);
 
 async function login(e) {
     try {
+      
         e.preventDefault();
-
+        localStorage.clear();
         const loginCredentials = {
             userName: user_id.value.trim(),
             userPassword: user_pass.value.trim(),
