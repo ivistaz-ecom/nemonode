@@ -1,7 +1,6 @@
 const token= localStorage.getItem('token')
 
 document.addEventListener('DOMContentLoaded', function () {
-    localStorage.clear();
 
     // Get query parameters
     const hasUserManagement = decodedToken.userManagement;

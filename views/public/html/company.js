@@ -44,7 +44,6 @@ addCompanyButton.addEventListener("submit", async (e) => {
     
 });
 window.onload = async function () {
-    localStorage.clear();
 
     const hasReadOnly = decodedToken.readOnly;
     console.log(hasReadOnly)

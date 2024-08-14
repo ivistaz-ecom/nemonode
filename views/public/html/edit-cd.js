@@ -4,7 +4,6 @@ let country;
 let cmemId;
 document.addEventListener('DOMContentLoaded',async function () 
 {
-    localStorage.clear();
 
     const token = localStorage.getItem('ctoken');
     const candidateId = localStorage.getItem('cmemId');

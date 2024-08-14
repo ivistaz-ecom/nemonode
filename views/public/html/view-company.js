@@ -2,7 +2,6 @@ const token = localStorage.getItem('token');
 const decodedToken = decodeToken(token);
 
 window.onload = async function () {
-    localStorage.clear();
 
     try {
         displayCompanies();

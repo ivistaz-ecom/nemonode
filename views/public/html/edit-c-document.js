@@ -17,7 +17,6 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 document.addEventListener("DOMContentLoaded", function() {
-    localStorage.clear();
 
     // Get the form element
     // Retrieve parameters from the URL

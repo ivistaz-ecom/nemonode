@@ -10,7 +10,6 @@ alert('Please login to continue using Nemo');
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
-    localStorage.clear();
 
     // Get the dropdown items
    await populateHospitalDropdown()
@@ -54,7 +53,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     // document.getElementById('hospital_upload').value = upload;
 
     async function populateHospitalDropdown() {
-        localStorage.clear();
 
         const token = localStorage.getItem('token');
         try {

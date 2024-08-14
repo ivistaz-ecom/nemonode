@@ -3,7 +3,6 @@ const token = localStorage.getItem('token');
   let vesselTypeId;
 
 window.onload = function () {
-    localStorage.clear();
 
     const urlParams = new URLSearchParams(window.location.search);
     const vesselId = urlParams.get('vesselId');

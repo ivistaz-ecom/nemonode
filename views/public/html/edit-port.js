@@ -107,7 +107,6 @@ async function displayPort(page = 1, limit = 10) {
 
 
 window.onload = async function () {
-    localStorage.clear();
 
      displayPort();
      const hasUserManagement = decodedToken.userManagement;

@@ -6,7 +6,6 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 document.addEventListener('DOMContentLoaded', async function () {
-    localStorage.clear();
 
     const decodedToken = decodeToken(token);
     console.log(decodedToken)

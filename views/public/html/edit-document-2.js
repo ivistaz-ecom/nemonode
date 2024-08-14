@@ -10,7 +10,6 @@ alert('Please login to continue using Nemo');
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
-  localStorage.clear();
 
     // Get the URLSearchParams object
     const urlParams = new URLSearchParams(window.location.search);

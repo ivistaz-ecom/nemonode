@@ -41,7 +41,6 @@ async function displayCountryCodes() {
 
 
 window.onload = async function () {
-  localStorage.clear();
 
      await displayCountryCodes();
      const hasUserManagement = decodedToken.userManagement;

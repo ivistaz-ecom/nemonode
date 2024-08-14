@@ -12,7 +12,6 @@ alert('Please login to continue using Nemo');
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    localStorage.clear();
 
 
 
@@ -517,7 +516,6 @@ const userName = localStorage.getItem('username')
 
 
     document.addEventListener("DOMContentLoaded", function() {
-        localStorage.clear();
 
         // Get the dropdown items
         let dropdownItems = document.querySelectorAll(".dropdown-item");

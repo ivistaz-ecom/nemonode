@@ -98,7 +98,6 @@ async function displayExperiences(page = 1, limit = 10) {
 
 
 window.onload = async function () {
-    localStorage.clear();
 
     displayExperiences();
     const hasUserManagement = decodedToken.userManagement;

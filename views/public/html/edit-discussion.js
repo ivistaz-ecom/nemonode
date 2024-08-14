@@ -58,7 +58,6 @@ function formatDate(dateString) {
 
 
 document.addEventListener("DOMContentLoaded", async function () {
-    localStorage.clear();
 
     const decodedToken = decodeToken(token);
     console.log(decodedToken);

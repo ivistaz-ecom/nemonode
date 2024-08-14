@@ -97,7 +97,6 @@ async function displayGrade(page = 1, limit = 10) {
 
 
 window.onload = async function () {
-    localStorage.clear();
 
      displayGrade();
      const hasUserManagement = decodedToken.userManagement;

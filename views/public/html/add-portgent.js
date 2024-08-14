@@ -72,7 +72,6 @@ document.getElementById("logout").addEventListener("click", function() {
 
 
 window.onload = async function () {
-  localStorage.clear();
 
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

@@ -14,7 +14,6 @@ function decodeToken(token) {
 }
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
-    localStorage.clear();
 
     // Get the candidateId from the URL parameter
     const candidateId = urlParams.get('memId');

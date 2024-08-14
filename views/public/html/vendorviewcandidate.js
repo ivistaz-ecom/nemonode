@@ -365,7 +365,6 @@ function decodeToken(token) {
 const decodedToken = decodeToken(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
-    localStorage.clear();
 
     try {
         function getParameterByName(name, url = window.location.href) {

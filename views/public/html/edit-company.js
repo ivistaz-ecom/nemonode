@@ -11,7 +11,6 @@ alert('Please login to continue using Nemo');
 
 
 window.onload = async function () {
-  localStorage.clear();
 
     const queryParams = new URLSearchParams(window.location.search);
 

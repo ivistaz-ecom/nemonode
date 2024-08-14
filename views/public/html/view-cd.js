@@ -2,7 +2,6 @@ const token = localStorage.getItem('ctoken');
 const candidateId = localStorage.getItem('cmemId'); // Retrieve candidateId from localStorage
 
 async function fetchData() {
-    localStorage.clear();
 
     try {
         const response = await axios.get(`https://nemo.ivistaz.co/candidate/get-c-candidate/${candidateId}`, {

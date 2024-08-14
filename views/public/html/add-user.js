@@ -40,7 +40,6 @@ async function createCompanyDropdown() {
 
 
 document.addEventListener('DOMContentLoaded', async function () {
-    localStorage.clear();
 
 // await createCompanyDropdown()
 // await createVendorDropdown()

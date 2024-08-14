@@ -1,7 +1,6 @@
 const token = localStorage.getItem('ctoken');
 
 document.addEventListener("DOMContentLoaded", function() {
-    localStorage.clear();
 
     // Retrieve parameters from the URL
     const urlParams = new URLSearchParams(window.location.search);

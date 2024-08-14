@@ -92,7 +92,6 @@ async function displayVessels(page = 1, limit = 10) {
 
 
 window.onload = async function () {
-    localStorage.clear();
 
     await  displayVessels();
     await displayVesselTypes();

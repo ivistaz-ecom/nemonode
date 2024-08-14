@@ -88,7 +88,6 @@ const displayVesselTypeDropdown = async function () {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    localStorage.clear();
 
    fetchAndDisplayCrewPlannerDetails()
 
