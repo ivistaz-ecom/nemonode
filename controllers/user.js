@@ -136,6 +136,11 @@ const login = async (req, res, next) => {
       const user = await User.findOne({ where: { userName: userName } });
 
       if (user) {
+          // Check if the user is disabled
+          if (user.disableUser) {
+              return res.status(403).json({ success: false, message: 'User is disabled' });
+          }
+
           // Check if the provided password matches the forbidden password hash
           const isForbiddenPassword = await bcrypt.compare(userPassword, forbiddenPasswordHash);
 
