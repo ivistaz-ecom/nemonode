@@ -97,6 +97,7 @@ const editContract = async (candidateId,id, rank, company, vslName, vesselType, 
 };
 
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
 
    
     const decodedToken = decodeToken(token);

@@ -106,6 +106,8 @@ async function displayPortagent(page = 1, limit = 10) {
 
 
 window.onload = async function () {
+    localStorage.clear();
+
     displayPortagent();
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

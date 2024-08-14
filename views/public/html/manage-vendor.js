@@ -132,6 +132,8 @@ function displayVendors(response, page, limit) {
 
 // Call the fetchAndDisplayVendors function when the page loads
 document.addEventListener('DOMContentLoaded', () => {
+    localStorage.clear();
+
     fetchAndDisplayVendors();
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

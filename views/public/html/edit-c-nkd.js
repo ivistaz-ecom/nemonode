@@ -10,6 +10,8 @@ alert('Please login to continue using Nemo');
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    localStorage.clear();
+
     // Get the dropdown items
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -66,6 +68,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+    localStorage.clear();
+
     // Get the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
 

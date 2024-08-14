@@ -126,6 +126,8 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            localStorage.clear();
+
     const token = localStorage.getItem('token');
     try {
         // Fetch all nationality data from the backend

@@ -10,6 +10,8 @@ alert('Please login to continue using Nemo');
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    localStorage.clear();
+
     // Function to get URL parameters by name
     function getQueryParameter(name) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -80,6 +82,8 @@ document.getElementById("logout").addEventListener("click", function() {
   
 
 window.onload = async function () {
+    localStorage.clear();
+
     
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

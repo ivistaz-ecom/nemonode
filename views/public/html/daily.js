@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    localStorage.clear();
+
   const token = localStorage.getItem('token');
   try {
     // Fetch the data from the backend using Axios

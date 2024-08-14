@@ -652,6 +652,8 @@
               }
           
               document.addEventListener('DOMContentLoaded', function() {
+                localStorage.clear();
+
                   const token = localStorage.getItem('token');
                   const loader = document.getElementById('loader');
                   const error = document.getElementById('error');

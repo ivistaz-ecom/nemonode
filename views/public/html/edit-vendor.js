@@ -29,6 +29,8 @@ function getURLParameter(name) {
 
   // Call the populateFormFields function when the page loads
   document.addEventListener('DOMContentLoaded', () => {
+    localStorage.clear();
+
     populateFormFields();
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

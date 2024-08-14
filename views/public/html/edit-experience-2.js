@@ -11,6 +11,8 @@ alert('Please login to continue using Nemo');
 
 
 window.onload = function () {
+    localStorage.clear();
+
     const queryParams = new URLSearchParams(window.location.search);
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

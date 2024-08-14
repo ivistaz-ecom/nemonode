@@ -13,6 +13,8 @@ if(!token)
   window.location.href='./loginpage.html'
 }
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
+
     const token = localStorage.getItem('token')
 
     const decodedToken = decodeToken(token);

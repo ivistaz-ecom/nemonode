@@ -700,6 +700,8 @@ function decodeToken(token) {
     }
 }
 document.addEventListener('DOMContentLoaded', async function () {
+  localStorage.clear();
+
     // Fetch sea service data and populate input fields
     editSeaService();
 

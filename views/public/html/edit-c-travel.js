@@ -11,6 +11,8 @@ alert('Please login to continue using Nemo');
 
 let travelId;
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
+
     try {
             // Get the URL parameters
             const urlParams = new URLSearchParams(window.location.search);

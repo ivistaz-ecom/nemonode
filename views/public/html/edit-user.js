@@ -9,6 +9,7 @@ function decodeToken(token) {
   }
   const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
 
 
     try {

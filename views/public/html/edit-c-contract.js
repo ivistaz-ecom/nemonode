@@ -11,6 +11,8 @@ function decodeToken(token) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    localStorage.clear();
+
   
    
     const decodedToken = decodeToken(token);

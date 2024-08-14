@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  localStorage.clear();
   const token = localStorage.getItem('token');
 
 

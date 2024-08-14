@@ -83,6 +83,8 @@ const displayVesselTypeDropdown = async function () {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    localStorage.clear();
+
     displayDropdown();
     displayVesselDropdown();
     displayVesselTypeDropdown();
@@ -287,6 +289,8 @@ document.getElementById("logout").addEventListener("click", function() {
   
 
 window.onload = async function () {
+    localStorage.clear();
+
     
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

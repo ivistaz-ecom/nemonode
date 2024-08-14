@@ -2,6 +2,8 @@ const token = localStorage.getItem('token');
 const decodedToken = decodeToken(token);
 
 window.onload = async function () {
+    localStorage.clear();
+
     try {
         await displayCandidates();
         const hasUserManagement = decodedToken.userManagement;

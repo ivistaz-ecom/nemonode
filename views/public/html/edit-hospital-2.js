@@ -10,6 +10,8 @@ alert('Please login to continue using Nemo');
 }
 
     document.addEventListener('DOMContentLoaded', function () {
+        localStorage.clear();
+
         // Get the URLSearchParams object  
         const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;

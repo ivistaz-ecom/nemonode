@@ -599,6 +599,8 @@ function decodeToken(token) {
 const decodedToken = decodeToken(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
+    localStorage.clear();
+
     try {
         function getCandidateIdFromUrl() {
             // Get the query parameters from the current URL

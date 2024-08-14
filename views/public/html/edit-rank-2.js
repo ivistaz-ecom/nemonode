@@ -32,6 +32,8 @@ alert('Please login to continue using Nemo');
 }
 
 window.onload = async function(){ 
+  localStorage.clear();
+
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);

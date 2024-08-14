@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  localStorage.clear();
+
     console.log('its working');
 
     // Retrieve the token from localStorage

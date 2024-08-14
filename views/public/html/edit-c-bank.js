@@ -7,6 +7,8 @@ function decodeToken(token) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    localStorage.clear();
+
     // Get the dropdown items
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -67,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
 const token = localStorage.getItem('token');
 
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
+
 
     
     // Extract parameters from the URL

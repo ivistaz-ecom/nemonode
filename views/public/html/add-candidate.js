@@ -10,6 +10,8 @@ if (!token) {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    localStorage.clear();
+
     await fetchCountryCodes()
 
    await displayDropdown()
