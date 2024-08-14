@@ -21,7 +21,7 @@ document.getElementById("hospital-form").addEventListener("submit", async (e) =>
     console.log(doctorUpload)
 
     try {
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-hospital", {
+        const serverResponse = await axios.post("https://nsnemo.com/others/create-hospital", {
             hospitalName,
             doctorName,
             doctorAddress,
@@ -46,7 +46,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

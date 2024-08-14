@@ -637,7 +637,7 @@
                     loader.style.display = 'block';
                     error.style.display = 'none';
     
-                    axios.get('https://nemo.ivistaz.co/candidate/birthday', {
+                    axios.get('https://nsnemo.com/candidate/birthday', {
                         params: { date },
                         headers: { "Authorization": token }
                     })
@@ -734,7 +734,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

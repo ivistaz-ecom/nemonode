@@ -130,7 +130,7 @@
     const token = localStorage.getItem('token');
     try {
         // Fetch all nationality data from the backend
-        const nationalityResponse = await axios.get('https://nemo.ivistaz.co/others/country-codes');
+        const nationalityResponse = await axios.get('https://nsnemo.com/others/country-codes');
         const nationalityData = nationalityResponse.data;
 
         // Create a map to store nationality names based on their IDs
@@ -140,7 +140,7 @@
         });
 
         // Fetch the ex-employees data from the backend
-        const exEmployeesResponse = await axios.get('https://nemo.ivistaz.co/candidate/exemployees');
+        const exEmployeesResponse = await axios.get('https://nsnemo.com/candidate/exemployees');
         const exEmployeesData = exEmployeesResponse.data;
 
         if (exEmployeesData.success) {

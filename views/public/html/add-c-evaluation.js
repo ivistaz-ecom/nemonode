@@ -145,7 +145,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -168,7 +168,7 @@ const displayUserDropdown = async function () {
         userDropdown.appendChild(defaultOption);
         
         // Fetch user data from the server
-        const userResponse = await axios.get("https://nemo.ivistaz.co/user/userdropdown");
+        const userResponse = await axios.get("https://nsnemo.com/user/userdropdown");
         const users = userResponse.data;
     
         // Populate the user dropdown with fetched user names
@@ -217,7 +217,7 @@ const displayUserDropdown = async function () {
 
         try {
             // Send evaluation data to the server using Axios
-            const response = await axios.post(`https://nemo.ivistaz.co/candidate/evaluation/${id}`, evaluationData);
+            const response = await axios.post(`https://nsnemo.com/candidate/evaluation/${id}`, evaluationData);
 
             // Handle success response from the server
             console.log('Evaluation dataset created successfully:', response.data);
@@ -235,11 +235,11 @@ const displayUserDropdown = async function () {
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         if (selectedType === '1') {
-            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/engine-form.html';
+            remoteLinkInput.value = 'https://nsnemo.com/views/public/html/engine-form.html';
         } else if (selectedType === '2') {
-            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/deck-form.html';
+            remoteLinkInput.value = 'https://nsnemo.com/views/public/html/deck-form.html';
         } else if (selectedType === '3') {
-            remoteLinkInput.value = 'https://nemo.ivistaz.co/views/public/html/galley-form.html';
+            remoteLinkInput.value = 'https://nsnemo.com/views/public/html/galley-form.html';
         } else {
             remoteLinkInput.value = ''; // Clear the input if another option is selected
         }

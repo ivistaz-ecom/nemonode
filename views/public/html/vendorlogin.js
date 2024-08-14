@@ -19,7 +19,7 @@ async function login(e) {
         console.log(loginCredentials);
         
         const response = await axios.post(
-            "https://nemo.ivistaz.co/user/login",
+            "https://nsnemo.com/user/login",
             loginCredentials
         );
         console.log(response);

@@ -96,7 +96,7 @@ console.log(documentId,documents,documentNumber,issueDate,issuePlace,documentFil
     
         // Submit the form data
         try {
-            const response = await axios.put(`https://nemo.ivistaz.co/candidate/update-documents/${documentId}`, documentDetails, {
+            const response = await axios.put(`https://nsnemo.com/candidate/update-documents/${documentId}`, documentDetails, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ function formatDate(dateString) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

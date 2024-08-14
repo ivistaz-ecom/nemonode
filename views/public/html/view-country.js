@@ -13,7 +13,7 @@ if (!token) {
 
 async function displayCountryCodes() {
     try {
-        const response = await axios.get('https://nemo.ivistaz.co/others/country-codes',{headers:{"Authorization":token}});
+        const response = await axios.get('https://nsnemo.com/others/country-codes',{headers:{"Authorization":token}});
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {
@@ -77,7 +77,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

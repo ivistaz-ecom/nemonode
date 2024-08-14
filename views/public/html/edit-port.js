@@ -14,7 +14,7 @@ let currentPage = 1; // Initialize current page
 async function displayPort(page = 1, limit = 10) {
     try {
         // Fetch ports from the server with pagination parameters
-        const portResponse = await axios.get(`https://nemo.ivistaz.co/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const portResponse = await axios.get(`https://nsnemo.com/others/view-port?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Port Response:', portResponse);
 
         const portTable = document.getElementById("port-table");
@@ -158,7 +158,7 @@ async function deletePort(portId, event) {
     event.preventDefault();
 
     const id = portId;
-    const url = `https://nemo.ivistaz.co/others/delete-port/${id}`;
+    const url = `https://nsnemo.com/others/delete-port/${id}`;
 
     try {
         const response = await axios.delete(url,{headers:{"Authorization":token}});
@@ -177,7 +177,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

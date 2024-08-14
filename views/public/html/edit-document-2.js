@@ -52,7 +52,7 @@ updateDocumentTypeButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemo.ivistaz.co/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nsnemo.com/others/update-document/${documentTypeId}`, updatedDocumentTypeDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Document Type Updated Successfully!");
         window.location.href="./edit-document.html"
@@ -69,7 +69,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

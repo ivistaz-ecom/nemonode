@@ -66,7 +66,7 @@ if (!token) {
         };
     
         try {
-            const response = await axios.put(`https://nemo.ivistaz.co/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
+            const response = await axios.put(`https://nsnemo.com/others/update-hospital/${hospitalId}`, updatedHospitalDetails,{headers:{"Authorization":token}});
             console.log('Response:', response.data);
             alert("Hospital Updated Successfully!");
             window.location.href="./edit-hospital.html";
@@ -83,7 +83,7 @@ if (!token) {
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+          axios.put(`https://nsnemo.com/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })

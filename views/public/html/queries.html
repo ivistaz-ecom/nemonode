@@ -632,7 +632,7 @@
     const fetchQueries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://nemo.ivistaz.co/others/query-fetch', {
+        const response = await axios.get('https://nsnemo.com/others/query-fetch', {
           headers: {
             'Authorization': token
           }
@@ -688,7 +688,7 @@
       const created_by = decodedToken.userId;
       try {
         const token = localStorage.getItem('token');
-        await axios.post('https://nemo.ivistaz.co/others/query', {
+        await axios.post('https://nsnemo.com/others/query', {
           categories,
           description,
           status,
@@ -744,7 +744,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.put(`https://nemo.ivistaz.co/others/query/${queryId}`, {
+        await axios.put(`https://nsnemo.com/others/query/${queryId}`, {
           categories: editCategories,
           description: editDescription,
           status: editStatus,
@@ -777,7 +777,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

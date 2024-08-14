@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fetchCountryCodes() {
     try {
-        const response = await axios.get('https://nemo.ivistaz.co/fetch-nationality');
+        const response = await axios.get('https://nsnemo.com/fetch-nationality');
         const countries = response.data.countries;
         // Clear existing options
         var select = document.getElementById("countryCodeSelect");
@@ -71,7 +71,7 @@ async function fetchCountryCodes() {
 
 async function  fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -125,7 +125,7 @@ const decodedToken = decodeToken(token);
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-grade-drop", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-grade-drop", { headers: { "Authorization": token } });
         const grades = serverResponse.data.allGrades; // Access the allGrades property
 
         console.log(grades);
@@ -160,7 +160,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nemo.ivistaz.co/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
         console.log(serverResponse)
         const vessels = serverResponse.data.vessels; // Fix here
 
@@ -221,7 +221,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nemo.ivistaz.co/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -236,7 +236,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayNationalities() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("https://nemo.ivistaz.co/fetch-nationality", { headers: { "Authorization": token } });
+        const response = await axios.get("https://nsnemo.com/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
         console.log(countries)
         return countries; // Return the fetched countries
@@ -294,11 +294,11 @@ addcandidateButton.addEventListener("submit", async (e) => {
         let resumeFileName = '';
 
         if (photoFile) {
-            photoFileName = await uploadFile(photoFile, 'https://nemo.ivistaz.co/upload1');
+            photoFileName = await uploadFile(photoFile, 'https://nsnemo.com/upload1');
         }
 
         if (resumeFile) {
-            resumeFileName = await uploadFile(resumeFile, 'https://nemo.ivistaz.co/upload3');
+            resumeFileName = await uploadFile(resumeFile, 'https://nsnemo.com/upload3');
         }
 
         // Prepare candidate details
@@ -379,7 +379,7 @@ addcandidateButton.addEventListener("submit", async (e) => {
         };
 
         // Send candidate details to the server
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/candidate/add-candidate", candidate_details, {
+        const serverResponse = await axios.post("https://nsnemo.com/candidate/add-candidate", candidate_details, {
             headers: {
                 "Authorization": token
             }
@@ -428,7 +428,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

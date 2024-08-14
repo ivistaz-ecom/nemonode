@@ -12,7 +12,7 @@ updateRankButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`https://nemo.ivistaz.co/others/update-rank/${rankId}`, updatedRankDetails,{headers:{"Authorization":token}});
+        const response = await axios.put(`https://nsnemo.com/others/update-rank/${rankId}`, updatedRankDetails,{headers:{"Authorization":token}});
         console.log('Response:', response.data);
         alert("Rank Updated Successfully!");
         window.location.href ="./edit-rank.html"
@@ -70,7 +70,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

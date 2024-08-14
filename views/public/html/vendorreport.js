@@ -37,7 +37,7 @@ fetchVessels(userVendor.value);
 
 async function fetchVessels(companyId) {
     try {
-        const response = await axios.get(`https://nemo.ivistaz.co/others/getcompanyviavsl/${companyId}`);
+        const response = await axios.get(`https://nsnemo.com/others/getcompanyviavsl/${companyId}`);
         
         const vessels = response.data;
         console.log(response);
@@ -64,7 +64,7 @@ async function handleOnBoardSubmit(event) {
         const vesselDropdown = document.getElementById('vesselDropdown').value || null;
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nemo.ivistaz.co/candidate/onboard', {
+        const response = await axios.get('https://nsnemo.com/candidate/onboard', {
             params: {
                 startDate: startDate,
                 vslName: vesselDropdown,

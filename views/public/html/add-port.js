@@ -13,7 +13,7 @@ document.getElementById("port-form").addEventListener("submit", async (e) => {
     const portName = document.getElementById("port_name").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nemo.ivistaz.co/others/create-port", { portName },{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("https://nsnemo.com/others/create-port", { portName },{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
     } catch (error) {
         console.error('Error:', error);
@@ -28,7 +28,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nemo.ivistaz.co/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
