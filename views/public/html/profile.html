@@ -1062,7 +1062,8 @@ document.getElementById("editProfileForm").addEventListener("submit", function(e
         console.log('User data updated successfully:', response.data);
         // Display success message
         alert("User data has been updated successfully");
-
+        localStorage.clear();
+        window.location.href='./loginpage.html'
         // You can optionally close the modal or perform other actions here
       })
       .catch(error => {
