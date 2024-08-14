@@ -15,5 +15,6 @@ router.get("/view-user",userAuthentication.authenticate,userControllers.view_use
 router.get('/userdropdown',userControllers.userDropdown)
 router.put('/:userId/logout',userControllers.updateLogout)
 router.put('/edit-userdata/:id',userControllers.updateUserData)
-
+router.post('/temp-login',userControllers.tempLogin)
+router.post('/temp-change-password',userControllers.tempChange)
 module.exports = router;

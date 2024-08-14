@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Change Password</title>
+</head>
+<body>
+  <form id="change-password-form">
+    <label for="old-password">Old Password:</label>
+    <input type="password" id="old-password" name="oldPassword" required />
+
+    <label for="new-password">New Password:</label>
+    <input type="password" id="new-password" name="newPassword" required />
+
+    <input type="hidden" id="user-id" name="userId" value="" />
+
+    <button type="submit">Change Password</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+      document.getElementById('user-id').value = userId;
+
+      document.getElementById('change-password-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const oldPassword = document.getElementById('old-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const userId = document.getElementById('user-id').value;
+
+        try {
+          const response = await axios.post('https://nemo.ivistaz.co/user/temp-change-password', {
+            userId,
+            oldPassword,
+            newPassword
+          });
+
+          const data = response.data;
+
+          if (data.message === 'Password changed successfully') {
+            alert('Password changed successfully');
+            window.location.href = './loginpage.html'; // Redirect to login or another page
+          } else {
+            alert(data.message);
+          }
+        } catch (error) {
+          console.error('Error during password change:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

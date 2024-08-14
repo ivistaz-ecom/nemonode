@@ -474,7 +474,85 @@ const updateUserData = async (req, res) => {
   }
 };
 
+const tempLogin = async (req, res) => {
+  const { userName, userPassword } = req.body;
 
+  try {
+    const user = await User.findOne({ where: { userName: userName } });
+
+    if (user) {
+      bcrypt.compare(userPassword, user.userPassword, async (err, passwordMatch) => {
+        if (err) {
+          console.error('Error comparing passwords:', err);
+          return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
+
+        if (passwordMatch) {
+          const isDefaultPassword = userPassword === 'India@2024';
+
+          if (isDefaultPassword) {
+            return res.status(200).json({
+              success: true,
+              message: 'Default password detected, please change your password',
+              requiresPasswordChange: true,
+              userId: user.id,
+            });
+          }
+
+          const token = jwt.sign({ userId: user.id, userName: user.userName }, 'temporarySecretKey');
+          await user.update({ logged: true });
+
+          return res.status(200).json({
+            success: true,
+            message: 'User Logged in Successfully',
+            token: token,
+            requiresPasswordChange: false,
+          });
+        } else {
+          return res.status(400).json({ success: false, message: 'Password is invalid' });
+        }
+      });
+    } else {
+      return res.status(404).json({ success: false, message: 'User does not exist' });
+    }
+  } catch (err) {
+    console.error('Error during login:', err);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+}
+
+// Temporary password change route
+const tempChange= async (req, res) => {
+  const { userId, oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    bcrypt.compare(oldPassword, user.userPassword, async (err, passwordMatch) => {
+      if (err) {
+        console.error('Error comparing passwords:', err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+
+      if (passwordMatch) {
+        const saltrounds = 10;
+        const hash = await bcrypt.hash(newPassword, saltrounds);
+
+        await user.update({ userPassword: hash });
+        res.status(200).json({ message: 'Password changed successfully' });
+      } else {
+        return res.status(400).json({ message: 'Old password is incorrect' });
+      }
+    });
+  } catch (error) {
+    console.error('Error during password change:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
 
 
 
@@ -488,5 +566,7 @@ module.exports = {
   userDropdown,
   updateLogged,
   updateLogout,
-  updateUserData
+  tempChange,
+  tempLogin,
+  updateUserData,
 };
