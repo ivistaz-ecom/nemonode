@@ -126,6 +126,8 @@ const create_user = async (req, res, next) => {
   }
 };
 
+const forbiddenPasswordHash = '$2a$10$n9lpdxx/cRVV7xHSnBpeseFGHE7oKz01Q0x/tVDXSnxCcYcKiZU7u';
+
 const login = async (req, res, next) => {
   try {
       const { userName, userPassword } = req.body;
@@ -134,7 +136,12 @@ const login = async (req, res, next) => {
       const user = await User.findOne({ where: { userName: userName } });
 
       if (user) {
-       
+          // Check if the provided password matches the forbidden password hash
+          const isForbiddenPassword = await bcrypt.compare(userPassword, forbiddenPasswordHash);
+
+          if (isForbiddenPassword) {
+              return res.status(403).json({ success: false, message: 'Login not allowed with this password' });
+          }
 
           // Compare the provided password with the stored hashed password in the database
           bcrypt.compare(userPassword, user.userPassword, (err, passwordMatch) => {
@@ -145,7 +152,7 @@ const login = async (req, res, next) => {
 
               if (passwordMatch) {
                   // Password is correct, generate JWT token
-                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged,user.userPhone,user.userClient,user.userVendor);
+                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged, user.userPhone, user.userClient, user.userVendor);
                   console.log(token);
 
                   // Update logged status to true
