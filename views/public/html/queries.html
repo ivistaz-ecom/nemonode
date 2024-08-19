@@ -683,7 +683,6 @@
     e.preventDefault();
 
     // Collect form data
-   
     const description = document.getElementById('description').value;
     const status = document.getElementById('status').value;
     const queryFileInput = document.getElementById('query_file');
@@ -715,17 +714,13 @@
                 alert('Error uploading document. Please try again.');
                 return; // Exit the function if file upload fails
             }
-        } else {
-           
-            return; // Exit the function if no file is selected
         }
 
-        // Send the form data with the filename included
+        // Send the form data with the filename included only if it exists
         await axios.post('https://nsnemo.com/others/query', {
-           
             description,
             status,
-            query_file: queryFileName || '', // Use the filename received from the upload response
+            query_file: queryFileName || '', // Use the filename received from the upload response or an empty string
             created_by: createdBy
         }, {
             headers: {
@@ -735,15 +730,13 @@
         });
 
         // Refresh query list
-        fetchQueries();
-
-        // Clear form fields
-        addQueryForm.reset();
+   
     } catch (error) {
         console.error('Error adding query:', error);
         alert('Error adding query. Please try again.');
     }
 });
+
 
     // Function to handle editing a query
     const editQueryForm = document.getElementById('edit-query-form');
