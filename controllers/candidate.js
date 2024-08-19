@@ -3448,18 +3448,29 @@ const workedWith = async (req, res) => {
 const evaluation = async (req, res) => {
     try {
         // Extract data from the request body
-        const { eval_type, applied_rank, applied_date, time, remote, applied_by, interviewer_name } = req.body;
-        const id=req.params.id;
-        // Create a new evaluation dataset
-        const evaluation = await Evaluation.create({
-            id, // Assuming candidateId is passed as a parameter
+        const {
             eval_type,
             applied_rank,
             applied_date,
             time,
             remote,
             applied_by,
-            interviewer_name
+            interviewer_name,
+            values // Add values to be included in the record
+        } = req.body;
+        const id = req.params.id; // Extract id from URL parameters
+
+        // Create a new evaluation dataset
+        const evaluation = await Evaluation.create({
+            id, // Assuming id is passed as a parameter
+            eval_type,
+            applied_rank,
+            applied_date,
+            time,
+            remote,
+            applied_by,
+            interviewer_name,
+            values // Include values in the dataset
         });
 
         // Send email to the interviewer
@@ -3473,7 +3484,7 @@ const evaluation = async (req, res) => {
         };
         const receivers = [
             {
-                email: interviewer_name // Assuming interviewer_name is the interviewer's email address
+                email: interviewer_name // Ensure interviewer_name is the interviewer's email address
             }
         ];
 
@@ -3482,21 +3493,21 @@ const evaluation = async (req, res) => {
             to: receivers,
             subject: 'Evaluation for Nemo Candidate',
             htmlContent: `
-
                 <h2>Hello!</h2>
-                <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting is provided below</p>
+                <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
                 <h1>Interview Details</h1>
-                <p>Candidate Id : ${id}</p> <p>(Please make a note of this ID as its required during the Interview!)
+                <p>Candidate Id: ${id}</p> 
+                <p>(Please make a note of this ID as it's required during the interview!)</p>
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
                 <p>Time: ${time}</p>
                 <p>Remote Link: ${remote}</p>
                 <p>Applied By: ${applied_by}</p>
-                
-               <p>Have a Wonderful day!</p>
-
-              <p>Thanks and Regards, </p>
-               <p>Nemo</p>
+                <p>Have a wonderful day!</p>
+                <br>
+                <p>Thanks and Regards,</p>
+                <p>Nemo</p>
+                <p>Nautilus Shipping</p>
             `,
         })
         .then(result => console.log(result))

@@ -36,6 +36,10 @@ const Evalutaion = sequelize.define('Evalutaion', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    values: {
+        type: DataTypes.JSON, // Use JSON type for MySQL 5.7.8+ or TEXT for older versions
+        allowNull: false,
+    }
 
     
 }, {

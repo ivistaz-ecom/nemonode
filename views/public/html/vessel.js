@@ -168,3 +168,37 @@ function updateDateTime() {
 // Update date and time initially and every second
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+
+const displayVesselTypeDropdown = async function () {
+    try {
+        const vesselDropdown = document.getElementById('vessel_type'); // Get the select element
+        vesselDropdown.innerHTML = ''; // Clear existing options
+    
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select Vessel Type --';
+        vesselDropdown.appendChild(defaultOption);
+    
+        // Fetch vessel types from the API
+        const vesselResponse = await axios.get("https://nsnemo.com/others/view-vessels", {
+            headers: { "Authorization": token } // Make sure `token` is defined elsewhere
+        });
+        const vessels = vesselResponse.data.vessels;
+        const vesselNames = vessels.map(vessel => vessel.vesselName);
+    
+        // Add options to the dropdown
+        vesselNames.forEach(vesselName => {
+            const option = document.createElement('option');
+            option.value = vesselName;
+            option.text = vesselName;
+            vesselDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+};
+
+// Call this function when needed to populate the dropdown
+displayVesselTypeDropdown();
