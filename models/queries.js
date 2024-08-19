@@ -7,10 +7,7 @@ const Queries = sequelize.define('Queries', {
     primaryKey: true,
     autoIncrement: true,
   },
-  
-  categories: {
-    type: DataTypes.STRING(100),
-  },
+
   description: {
     type: DataTypes.TEXT,
   },
