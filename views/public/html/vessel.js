@@ -182,7 +182,7 @@ const displayVesselTypeDropdown = async function () {
         vesselDropdown.appendChild(defaultOption);
     
         // Fetch vessel types from the API
-        const vesselResponse = await axios.get("https://nsnemo.com/others/view-vessels", {
+        const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", {
             headers: { "Authorization": token } // Make sure `token` is defined elsewhere
         });
         const vessels = vesselResponse.data.vessels;
