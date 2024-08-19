@@ -1972,7 +1972,7 @@ const view_country =  async (req, res) => {
 
 const createQueries = async (req, res) => {
   try {
-      const { description, status, created_by } = req.body;
+      const { description, status, created_by,query_file } = req.body;
 
       const newQuery = await Queries.create({
           description: description,
@@ -1980,7 +1980,8 @@ const createQueries = async (req, res) => {
           created_by: created_by ,
           created_date: new Date(),
           updated_at: null,
-          reply: null // Assuming reply is initially null
+          reply: null,// Assuming reply is initially null
+          query_file:query_file
       });
 
       return res.json({ message: 'Query created successfully', query: newQuery });
@@ -1996,7 +1997,7 @@ const editQueries = async (req, res) => {
     const userId = req.user.id;
     const id = req.params.id
     const {  description, status, reply } = req.body;
-    console.log(id,userId ,description,status,reply)
+    console.log(id,userId , categories,description,status,reply)
     const user = await User.findByPk(userId);
     const userGroup = user ? user.userGroup : null;
 
