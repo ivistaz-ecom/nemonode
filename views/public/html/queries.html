@@ -603,8 +603,8 @@
             <input id="edit_description" type="text" class="form-control" >
           </div>
           <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <select id="status" class="form-control" >
+            <label for="editstatus" class="form-label">Status</label>
+            <select id="editstatus" class="form-control" >
                 <option value="" disabled selected>Select status</option>
                 <option value="open">Open</option>
                 <option value="pending">Pending</option>
@@ -612,10 +612,7 @@
             </select>
         </div>
         
-          <div class="mb-3">
-            <label for="edit_query_file" class="form-label">Query File</label>
-            <input id="edit_query_file" type="text" class="form-control" >
-          </div>
+         
           <div class="mb-3">
             <label for="edit_reply" class="form-label">Reply</label>
             <input id="edit_reply" type="text" class="form-control">
@@ -719,7 +716,7 @@
                 return; // Exit the function if file upload fails
             }
         } else {
-            alert('Please select a file to upload.');
+           
             return; // Exit the function if no file is selected
         }
 
@@ -764,7 +761,6 @@
       if (query) {
         document.getElementById('edit_description').value = query.description;
         document.getElementById('edit_status').value = query.status;
-        document.getElementById('edit_query_file').value = query.query_file;
         document.getElementById('edit_reply').value = query.reply || '';
       }
     };
@@ -774,7 +770,6 @@
       e.preventDefault();
       const editDescription = document.getElementById('edit_description').value;
       const editStatus = document.getElementById('edit_status').value;
-      const editQueryFile = document.getElementById('edit_query_file').value;
       const editReply = document.getElementById('edit_reply').value;
 
       try {
@@ -782,7 +777,6 @@
         await axios.put(`https://nsnemo.com/others/query/${queryId}`, {
           description: editDescription,
           status: editStatus,
-          query_file: editQueryFile,
           reply: editReply
         }, {
           headers: {
