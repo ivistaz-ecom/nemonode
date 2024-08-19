@@ -685,25 +685,58 @@
     // Event listener for adding a new query
     const addQueryForm = document.getElementById('add-query-form');
     addQueryForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const categories = document.getElementById('categories').value;
-      const description = document.getElementById('description').value;
-      const status = document.getElementById('status').value;
-      const query_file = document.getElementById('query_file').value;
-      const created_by = decodedToken.userId;
-      try {
-        const token = localStorage.getItem('token');
+    e.preventDefault();
+
+    // Collect form data
+    const categories = document.getElementById('categories').value;
+    const description = document.getElementById('description').value;
+    const status = document.getElementById('status').value;
+    const queryFileInput = document.getElementById('query_file');
+    
+    const createdBy = decodedToken.userId;
+    const token = localStorage.getItem('token'); // Moved token retrieval to the top
+
+    try {
+        // Initialize query file name variable
+        let queryFileName = '';
+
+        if (queryFileInput && queryFileInput.files.length > 0) { // Check if a file is selected
+            const queryFormData = new FormData();
+            queryFormData.append('file', queryFileInput.files[0]); // Append the selected file
+
+            try {
+                const response = await axios.post('/upload10', queryFormData, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                queryFileName = response.data.filename; // Get the filename from the response
+                console.log('Document file uploaded successfully:', queryFileName);
+                alert('Document added successfully!');
+            } catch (err) {
+                console.error('Error uploading document file:', err);
+                alert('Error uploading document. Please try again.');
+                return; // Exit the function if file upload fails
+            }
+        } else {
+            alert('Please select a file to upload.');
+            return; // Exit the function if no file is selected
+        }
+
+        // Send the form data with the filename included
         await axios.post('https://nsnemo.com/others/query', {
-          categories,
-          description,
-          status,
-          query_file,
-          created_by,
+            categories,
+            description,
+            status,
+            query_file: queryFileName, // Use the filename received from the upload response
+            created_by: createdBy
         }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token // Use Bearer token format
+            }
         });
 
         // Refresh query list
@@ -711,10 +744,11 @@
 
         // Clear form fields
         addQueryForm.reset();
-      } catch (error) {
+    } catch (error) {
         console.error('Error adding query:', error);
-      }
-    });
+        alert('Error adding query. Please try again.');
+    }
+});
 
     // Function to handle editing a query
     const editQueryForm = document.getElementById('edit-query-form');
@@ -805,6 +839,7 @@
         window.location.href = "loginpage.html";
     }, 2000);
   });
+  
   </script>
                <!-- Bootstrap JS -->
                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
