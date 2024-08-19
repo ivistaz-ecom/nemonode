@@ -1972,10 +1972,9 @@ const view_country =  async (req, res) => {
 
 const createQueries = async (req, res) => {
   try {
-      const { categories, description, status, created_by } = req.body;
+      const { description, status, created_by } = req.body;
 
       const newQuery = await Queries.create({
-          categories: categories,
           description: description,
           status: status,
           created_by: created_by ,
@@ -1996,15 +1995,15 @@ const editQueries = async (req, res) => {
     console.log('------------------HI')
     const userId = req.user.id;
     const id = req.params.id
-    const { categories, description, status, reply } = req.body;
-    console.log(id,userId , categories,description,status,reply)
+    const {  description, status, reply } = req.body;
+    console.log(id,userId ,description,status,reply)
     const user = await User.findByPk(userId);
     const userGroup = user ? user.userGroup : null;
 
     if (userGroup === 'admin') {
       // Update the query
       const [updatedRowsCount, updatedRows] = await Queries.update({
-        categories: categories,
+     
         description: description,
         status: status,
         reply: reply
