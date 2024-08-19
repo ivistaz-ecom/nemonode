@@ -451,6 +451,17 @@ const storage = multer.diskStorage({
     }
 });
 
+const storage10 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '/var/www/html/nemonode/views/public/files/queries');
+    },
+    filename: (req, file, cb) => {
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+        const uniqueName = `${timestamp}_${file.originalname}`;
+        cb(null, uniqueName);
+    }
+});
+
 const storage1 = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '/var/www/html/nemonode/views/public/files/photos');
@@ -577,6 +588,9 @@ const upload8 = multer({ storage: storage8,
 const upload9 = multer({ storage: storage9,
     limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter:fileFilter9  });
+    const upload10 = multer({ storage: storage10,
+        limits: { fileSize: 10 * 1024 * 1024 },
+        fileFilter:fileFilter1  });
 const evaluationDirectory = '/views/public/files/evaluation';
 const bankDirectory = '/var/www/html/nemonode/views/public/bank_details';
 const pancardDirectory = '/var/www/html/nemonode/views/public/bank_details/pan_card';
@@ -587,6 +601,7 @@ const documentDirectory = '/var/www/html/nemonode/views/public/files'
 const contractDirectory = '/var/www/html/nemonode/views/public/uploads/contract'
 const aoaDirectory = '/var/www/html/nemonode/views/public/uploads/aoa'
 const medicalDirectory = '/var/www/html/nemonode/views/public/uploads/medical'
+const queryDirectory = '/var/www/html/nemonode/views/public/files/queries'
 // Serve static files from the evaluation directory
 
 app.use(express.static('/views/public/files'));
@@ -602,6 +617,7 @@ app.use('/medical', express.static(medicalDirectory));
 app.use('/evaluation', express.static(evaluationDirectory));
 app.use('/bank_details', express.static(bankDirectory));
 app.use('/bank_details/pan_card', express.static(pancardDirectory));
+app.use('/queries', express.static(queryDirectory));
 // Serve static files from various directories
 // Route to handle file uploads 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -678,6 +694,15 @@ app.post('/upload8', upload8.single('file'), (req, res) => {
 });
 
 app.post('/upload9', upload9.single('file'), (req, res) => {
+    if (req.file) {
+        const filename = req.file.filename;
+        res.status(200).send({filename});
+    } else {
+        res.status(400).send('Error uploading file');
+    }
+});
+
+app.post('/upload10', upload10.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
         res.status(200).send({filename});
@@ -940,6 +965,30 @@ app.get('/fetch-files9/:candidateId', (req, res) => {
     });
 });
 
+app.get('/fetch-files10/:candidateId', (req, res) => {
+    const candidateId = req.params.candidateId;
+
+    // Read the contents of the directory
+    fs.readdir(documentDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Filter files based on the candidateId pattern
+        const candidateFiles = files.filter(file => {
+            const fileName = file.split('_')[0]; // Get the part before the first underscore
+            return fileName === candidateId;
+        });
+
+        // Construct the file names (relative paths)
+        const fileNames = candidateFiles.map(file => `/${file}`);
+
+        // Send the list of file names to the client
+        res.json(fileNames);
+    });
+});
 
 // Middleware for serving files dynamically
 app.use((req, res, next) => {

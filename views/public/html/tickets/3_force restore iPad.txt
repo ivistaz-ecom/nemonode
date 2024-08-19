@@ -1,0 +1,17 @@
+force restore on the iPad. This is what I had to do
+
+ 
+
+Hold down the home button and power button at the same time. This forces the screen to fade and the Apple Logo to reappear. Don't let go of the buttons until the iPad shuts off.
+
+Once the iPad is off plug the usb cable into the computer.
+
+Open iTunes
+
+While holding down the Home button plug the cable into the iPad.
+
+Contunue holding the home button until the you the itunes logo and the picture of the cable on the iPad screen. This may take up to 30seconds.
+
+iTunes should now detect the iPad and you can perform a restore. Just follow the on screen instructions and it should restore.
+
+Hopefully you have a recent back up.

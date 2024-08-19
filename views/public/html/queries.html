@@ -574,20 +574,22 @@
         <h2 style="color: rgb(0, 0, 0);">Add Query</h2>
         <form id="add-query-form">
           <div class="mb-3">
-            <label for="categories" class="form-label">Select categories</label>
-            <input id="categories" type="text" class="form-control" required>
-          </div>
-          <div class="mb-3">
             <label for="description" class="form-label">Enter description</label>
-            <input id="description" type="text" class="form-control" required>
+            <input id="description" type="text" class="form-control" >
           </div>
           <div class="mb-3">
             <label for="status" class="form-label">Status</label>
-            <input id="status" type="text" class="form-control" required>
-          </div>
+            <select id="status" class="form-select" >
+                <option value="" disabled selected>Select status</option>
+                <option value="open">Open</option>
+                <option value="pending">Pending</option>
+                <option value="closed">Closed</option>
+            </select>
+        </div>
+        
           <div class="mb-3">
             <label for="query_file" class="form-label">Query File</label>
-            <input id="query_file" type="text" class="form-control" required>
+            <input id="query_file" type="file" class="form-control" >
           </div>
           <button class="btn btn-success" type="submit">Add Query</button>
         </form>
@@ -596,21 +598,24 @@
       <div id="edit-query-section" class="p-5  col-md-6" style="display: none; background-color: #89ABE3FF; border-radius: 10px 0px 0px 10px;">
         <h2 style="color: rgb(255, 255, 255);">Edit Query</h2>
         <form id="edit-query-form">
-          <div class="mb-3">
-            <label for="edit_categories" class="form-label">Select categories</label>
-            <input id="edit_categories" type="text" class="form-control" required>
-          </div>
+          
           <div class="mb-3">
             <label for="edit_description" class="form-label">Enter description</label>
-            <input id="edit_description" type="text" class="form-control" required>
+            <input id="edit_description" type="text" class="form-control" >
           </div>
           <div class="mb-3">
-            <label for="edit_status" class="form-label">Status</label>
-            <input id="edit_status" type="text" class="form-control" required>
-          </div>
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-control" >
+                <option value="" disabled selected>Select status</option>
+                <option value="open">Open</option>
+                <option value="pending">Pending</option>
+                <option value="closed">Closed</option>
+            </select>
+        </div>
+        
           <div class="mb-3">
             <label for="edit_query_file" class="form-label">Query File</label>
-            <input id="edit_query_file" type="text" class="form-control" required>
+            <input id="edit_query_file" type="text" class="form-control" >
           </div>
           <div class="mb-3">
             <label for="edit_reply" class="form-label">Reply</label>
