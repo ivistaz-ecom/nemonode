@@ -725,7 +725,7 @@
            
             description,
             status,
-            query_file: queryFileName, // Use the filename received from the upload response
+            query_file: queryFileName || '', // Use the filename received from the upload response
             created_by: createdBy
         }, {
             headers: {
