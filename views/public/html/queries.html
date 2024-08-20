@@ -653,6 +653,9 @@
           if (query.status.toLowerCase() === 'closed') {
         row.style.backgroundColor = 'grey';
       }
+      if (query.status.toLowerCase() === 'pending') {
+        row.style.backgroundColor = 'orange';
+      }
           row.innerHTML = `
             <td>${query.description}</td>
             <td>${query.status}</td>
