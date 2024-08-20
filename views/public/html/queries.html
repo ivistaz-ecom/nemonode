@@ -651,10 +651,10 @@
         queries.forEach(query => {
           const row = document.createElement('tr');
           if (query.status.toLowerCase() === 'closed') {
-        row.style.backgroundColor = 'grey';
+        row.style.backgroundColor = 'lightgrey';
       }
       if (query.status.toLowerCase() === 'pending') {
-        row.style.backgroundColor = 'orange';
+        row.style.backgroundColor = 'lightorange';
       }
           row.innerHTML = `
             <td>${query.description}</td>
