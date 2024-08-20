@@ -627,6 +627,7 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/cjs/jwt-decode.min.js"></script>
   <script>
+    let userData =[];
     let queries; // Define queries variable outside fetchQueries function
 
     // Function to fetch queries from the server
@@ -651,7 +652,7 @@
             <td>${query.description}</td>
             <td>${query.status}</td>
             <td>${query.query_file}</td>
-            <td>${query.created_by}</td>
+            <td>${getUserName(query.created_by)}</td>
             <td>${query.reply}</td>
             <td>
               <button class
@@ -821,7 +822,17 @@
         window.location.href = "loginpage.html";
     }, 2000);
   });
-  
+  async function getReq(){
+    const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
+        userData = serverResponseUser.data
+  }
+  getReq();
+
+  function getUserName(id){
+    const user = userData.find(user=>user.id==id);
+    return user ? user.userName : id;
+}
+
   </script>
                <!-- Bootstrap JS -->
                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
