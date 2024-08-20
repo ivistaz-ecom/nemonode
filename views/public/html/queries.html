@@ -645,9 +645,14 @@
         const queryTableBody = document.getElementById('query-table-body');
         queryTableBody.innerHTML = '';
 
+        
+
         // Populate table with fetched queries
         queries.forEach(query => {
           const row = document.createElement('tr');
+          if (query.status.toLowerCase() === 'closed') {
+        row.style.backgroundColor = 'grey';
+      }
           row.innerHTML = `
             <td>${query.description}</td>
             <td>${query.status}</td>
