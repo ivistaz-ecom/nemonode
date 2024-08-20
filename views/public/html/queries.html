@@ -577,7 +577,7 @@
             <input id="description" type="text" class="form-control" >
           </div>
           <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
+            <label for="status" class="form-label" >Status</label>
             <select id="status" class="form-select" >
                 <option value="" disabled selected>Select status</option>
                 <option value="open">Open</option>
@@ -654,7 +654,7 @@
         row.style.backgroundColor = 'lightgrey';
       }
       if (query.status.toLowerCase() === 'pending') {
-        row.style.backgroundColor = 'lightorange';
+        row.style.backgroundColor = 'lightsalmon';
       }
           row.innerHTML = `
             <td>${query.description}</td>
