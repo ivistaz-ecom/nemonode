@@ -1997,7 +1997,7 @@ const editQueries = async (req, res) => {
     const userId = req.user.id;
     const id = req.params.id
     const {  description, status, reply } = req.body;
-    console.log(id,userId , categories,description,status,reply)
+    console.log(id,userId ,description,status,reply)
     const user = await User.findByPk(userId);
     const userGroup = user ? user.userGroup : null;
 
