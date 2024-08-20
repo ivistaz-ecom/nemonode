@@ -557,6 +557,7 @@
             <th>Description</th>
             <th>Status</th>
             <th>Query File</th>
+            <th>Query File Link</th>
             <th>Created By</th>
             <th>Reply</th>
             <th>Action</th>
@@ -660,6 +661,8 @@
             <td>${query.description}</td>
             <td>${query.status}</td>
             <td>${query.query_file}</td>
+            <td><a href='https://nsnemo.com/views/public/files/queries/${query.query_file}' target="_blank">Click here to view!</a></td>
+
             <td>${getUserName(query.created_by)}</td>
             <td>${query.reply}</td>
             <td>
