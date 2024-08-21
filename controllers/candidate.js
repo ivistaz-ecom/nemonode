@@ -25,7 +25,6 @@ const Payslip = require('../models/payslip')
 
 const add_candidate = async (req, res) => {
     try {
-        const t = await sequelize.transaction(); // Start transaction
         const {
             active_details,
             area_code1,
@@ -136,7 +135,6 @@ const add_candidate = async (req, res) => {
         });
 
         if (existingCandidate) {
-            await t.rollback();
             return res.status(409).json({ message: "Duplicate Entry", success: false });
         }
 
@@ -221,12 +219,10 @@ const add_candidate = async (req, res) => {
                 us_visa,
                 userId: userId,
 
-            }, { transaction: t });
+            });
 
-            await t.commit();
             res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.candidateId });
         } catch (err) {
-            await t.rollback();
 
             console.log(err);
             res.status(500).json({ error: err, message: "Internal Server Error", success: false });
