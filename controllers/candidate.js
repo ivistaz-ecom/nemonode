@@ -131,7 +131,7 @@ const add_candidate = async (req, res) => {
 
         const existingCandidate = await Candidate.findOne({
             where: whereClause,
-            transaction: t,
+            
         });
 
         if (existingCandidate) {
@@ -224,7 +224,7 @@ const add_candidate = async (req, res) => {
             res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.candidateId });
         } catch (err) {
 
-            
+
             console.log(err);
             res.status(500).json({ error: err, message: "Internal Server Error", success: false });
         }
