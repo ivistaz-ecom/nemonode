@@ -3454,13 +3454,13 @@ const evaluation = async (req, res) => {
             remote,
             applied_by,
             interviewer_name,
-            values // Add values to be included in the record
+           
         } = req.body;
-        const id = req.params.id; // Extract id from URL parameters
+        const candidateId = req.params.id; // Extract id from URL parameters
 
         // Create a new evaluation dataset
         const evaluation = await Evaluation.create({
-            id, // Assuming id is passed as a parameter
+          
             eval_type,
             applied_rank,
             applied_date,
@@ -3468,7 +3468,8 @@ const evaluation = async (req, res) => {
             remote,
             applied_by,
             interviewer_name,
-            values // Include values in the dataset
+            values:null ,// Include values in the dataset
+           candidateId:candidateId
         });
 
         // Send email to the interviewer
@@ -3494,7 +3495,7 @@ const evaluation = async (req, res) => {
                 <h2>Hello!</h2>
                 <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
                 <h1>Interview Details</h1>
-                <p>Candidate Id: ${id}</p> 
+                <p>Candidate Id: ${candidateId}</p> 
                 <p>(Please make a note of this ID as it's required during the interview!)</p>
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
@@ -3854,7 +3855,29 @@ const getContractsEndingSoon = async (req, res) => {
 
 
 
+const updateEval =  async (req, res) => {
+    const { id } = req.params;
+    const newValues = req.body; // This should be the new evalObject
 
+    try {
+        const [updated] = await Evaluation.update(
+            { values: newValues },
+            {
+                where: { id },
+                returning: true,
+            }
+        );
+
+        if (updated) {
+            res.status(200).json({ message: 'Evaluation updated successfully' });
+        } else {
+            res.status(404).json({ message: 'Evaluation not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
 
 
 
@@ -3947,5 +3970,6 @@ module.exports = {
    getContractsEndingSoon,
    getContractsOverTenMonths,
    generatePayslip,
-   getPayslips
+   getPayslips,
+   updateEval
 };

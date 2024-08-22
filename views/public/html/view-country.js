@@ -17,12 +17,11 @@ async function displayCountryCodes() {
         const data = response.data;
 
         if (data.countryCodes && data.countryCodes.length > 0) {
-            let sno = 1;
+           
 
             data.countryCodes.forEach(country => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${sno}</td>
                     <td>${country.code}</td>
                     <td>${country.country_code}</td>
                     <td>${country.country}</td>
