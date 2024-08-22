@@ -23,6 +23,7 @@ async function displayCountryCodes() {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${sno}</td>
+                    <td>${country.code}</td>
                     <td>${country.country_code}</td>
                     <td>${country.country}</td>
                     <td>${country.phone_code}</td>
