@@ -205,8 +205,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         if (formUrl) {
-            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${appliedRank}&interviewerName=${interviewerName}`;
-        } else {
+            const encodedAppliedRank = encodeURIComponent(appliedRank);
+
+            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}`;
+                    } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
     });
