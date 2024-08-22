@@ -987,10 +987,7 @@ if (candidateId && evalId) {
     console.log(evalObject);
 
     // Retrieve Candidate ID and Eval ID from localStorage
-    const candidateId = localStorage.getItem('candId');
-    const evalId = localStorage.getItem('evalId');
-
-    if (candidateId && evalId) {
+  
         // Make the PUT request with evalId in the URL
         axios.put(`https://nsnemo.com/candidate/evaluation/${evalId}`, evalObject, {
             params: {
@@ -1003,9 +1000,7 @@ if (candidateId && evalId) {
         .catch(error => {
             console.error('Error updating evaluation:', error);
         });
-    } else {
-        console.log('Candidate ID or Eval ID is missing');
-    }
+    
 });
     </script>
 </body>
