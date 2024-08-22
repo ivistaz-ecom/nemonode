@@ -871,17 +871,10 @@ SIRE/CID experience
 
     document.addEventListener('DOMContentLoaded', function() {
         // Prompt user for Candidate ID and Eval ID
-const candidateId = prompt('Enter Candidate ID received via Mail ID');
-const evalId = prompt('Enter Eval ID received via Mail ID');
+
 
 // Store the values in localStorage
-if (candidateId && evalId) {
-    localStorage.setItem('candId', candidateId);
-    localStorage.setItem('evalId', evalId);
-    console.log('Values saved to localStorage');
-} else {
-    console.log('Both Candidate ID and Eval ID are required');
-}
+
 
     const dateNowElement = document.getElementById('dateNow');
     const today = new Date();
