@@ -870,16 +870,44 @@ SIRE/CID experience
     alertElement.style.display = 'block';
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Prompt user for Candidate ID and Eval ID
+    // Function to get URL parameters
+    function getURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        const candidateId = params.get('candidateId');
+        const appliedDate = params.get('appliedDate');
+        const appliedRank = params.get('appliedRank');
+        const interviewerName = params.get('interviewerName');
+        
+        return { candidateId, appliedDate, appliedRank, interviewerName };
+    }
+    
+    console.log(getURLParams());
 
+    // Store the values in sessionStorage
+    const { candidateId, appliedDate, appliedRank, interviewerName } = getURLParams();
+    sessionStorage.setItem('candidateId', candidateId);
+    sessionStorage.setItem('appliedDate', appliedDate);
+    sessionStorage.setItem('appliedRank', appliedRank);
+    sessionStorage.setItem('interviewerName', interviewerName);
 
-// Store the values in localStorage
+    let localcandidateId = candidateId
+    console.log(localcandidateId)
+    // Display the applied rank in the input field
+    const rankApplied = document.getElementById('rankApplied');
+    if (rankApplied) {
+        rankApplied.value = appliedRank;
+    }
 
-
+    // Set today's date in the date input field
     const dateNowElement = document.getElementById('dateNow');
-    const today = new Date();
-    const formattedDate = today.toISOString().substr(0, 10); // Format the date as YYYY-MM-DD
-    dateNowElement.value = formattedDate;
+    if (dateNowElement) {
+        dateNowElement.value = appliedDate;
+    }
+
+    const intName = document.getElementById('intName');
+    if(intName){
+        intName.value=interviewerName
+    }
 });
 
         function updatePrintableArea() {
@@ -982,9 +1010,16 @@ SIRE/CID experience
     // Retrieve Candidate ID and Eval ID from localStorage
   
         // Make the PUT request with evalId in the URL
-        axios.put(`https://nsnemo.com/candidate/evaluation/${evalId}`, evalObject, {
+        axios.post(`https://nsnemo.com/candidate/evaluation/${localcandidateId}`, {
             params: {
-                candidateId: candidateId // Send candidateId as a query parameter
+                candidateId: localcandidateId, // Send candidateId as a query parameter
+                eval_type:'Officers Engine',
+                applied_rank:appliedRank,
+                applied_date:appliedDate,
+                applied_by:decodedToken.userName,
+                interviewer_name:interviewerName,
+                values:evalObject,
+                
             }
         })
         .then(response => {
@@ -995,6 +1030,7 @@ SIRE/CID experience
         });
     
 });
-    </script>
+    </script>        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
 </body>
 </html>

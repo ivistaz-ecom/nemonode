@@ -172,12 +172,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             values:null,
         };
 
-        try {
-            const response = await axios.post(`https://nsnemo.com/candidate/evaluation/${id}`, evaluationData);
-            console.log('Evaluation dataset created successfully:', response.data);
-        } catch (error) {
-            console.error('Error creating evaluation dataset:', error.message);
-        }
+       
     });
 
     document.getElementById('evalType').addEventListener('change', function () {
@@ -190,7 +185,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedDate = document.getElementById('appliedDate').value;
         const appliedRank = document.getElementById('appliedRank').value;
         const interviewerName = document.getElementById('interviewer_name').value;
-
+        const time = document.getElementById('time').value
         let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
 
@@ -207,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (formUrl) {
             const encodedAppliedRank = encodeURIComponent(appliedRank);
 
-            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}`;
+            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
                     } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
