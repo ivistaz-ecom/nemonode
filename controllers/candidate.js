@@ -3471,7 +3471,6 @@ const evaluation = async (req, res) => {
         });
 
         // Send email to the interviewer
-        await sendEmail(interviewer_name, candidateId, applied_rank, applied_date, time, remote, applied_by);
 
         res.status(201).json(evaluation);
     } catch (error) {
@@ -3480,8 +3479,22 @@ const evaluation = async (req, res) => {
     }
 };
 
-const sendEmail = async (interviewerEmail, candidateId, applied_rank, applied_date, time, remote, applied_by) => {
+const sendEmail = async (req, res) => {
     try {
+        const {
+            interviewer_name,
+            candidateId,
+            applied_rank,
+            applied_date,
+            time,
+            remote,
+            applied_by,
+        } = req.body;
+
+        // Get interviewer email from some source, e.g., a database or static list
+        const interviewerEmail = interviewer_name
+
+        // Send email to the interviewer
         const client = Sib.ApiClient.instance;
         const apiKey = client.authentications['api-key'];
         apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -3518,10 +3531,13 @@ const sendEmail = async (interviewerEmail, candidateId, applied_rank, applied_da
             `,
         });
         console.log('Email sent successfully');
+        res.status(200).json({ message: 'Email sent successfully' });
     } catch (err) {
         console.error('Error sending email:', err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 
 
