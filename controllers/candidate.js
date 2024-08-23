@@ -3454,13 +3454,11 @@ const evaluation = async (req, res) => {
             remote,
             applied_by,
             interviewer_name,
-           
         } = req.body;
         const candidateId = req.params.id; // Extract id from URL parameters
 
         // Create a new evaluation dataset
         const evaluation = await Evaluation.create({
-          
             eval_type,
             applied_rank,
             applied_date,
@@ -3468,11 +3466,22 @@ const evaluation = async (req, res) => {
             remote,
             applied_by,
             interviewer_name,
-            values:null ,// Include values in the dataset
-           candidateId:candidateId
+            values: null, // Include values in the dataset
+            candidateId: candidateId
         });
 
         // Send email to the interviewer
+        await sendEmail(interviewer_name, candidateId, applied_rank, applied_date, time, remote, applied_by);
+
+        res.status(201).json(evaluation);
+    } catch (error) {
+        console.error('Error creating evaluation dataset:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const sendEmail = async (interviewerEmail, candidateId, applied_rank, applied_date, time, remote, applied_by) => {
+    try {
         const client = Sib.ApiClient.instance;
         const apiKey = client.authentications['api-key'];
         apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -3483,11 +3492,11 @@ const evaluation = async (req, res) => {
         };
         const receivers = [
             {
-                email: interviewer_name // Ensure interviewer_name is the interviewer's email address
+                email: interviewerEmail
             }
         ];
 
-        tranEmailApi.sendTransacEmail({
+        await tranEmailApi.sendTransacEmail({
             sender,
             to: receivers,
             subject: 'Evaluation for Nemo Candidate',
@@ -3495,8 +3504,7 @@ const evaluation = async (req, res) => {
                 <h2>Hello!</h2>
                 <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
                 <h1>Interview Details</h1>
-                <p>Candidate Id: ${candidateId}</p> 
-                <p>(Please make a note of this ID as it's required during the interview!)</p>
+                <p>Candidate Id: ${candidateId}</p>
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
                 <p>Time: ${time}</p>
@@ -3508,16 +3516,13 @@ const evaluation = async (req, res) => {
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
             `,
-        })
-        .then(result => console.log(result))
-        .catch(err => console.log(err));
-
-        res.status(201).json(evaluation);
-    } catch (error) {
-        console.error('Error creating evaluation dataset:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        });
+        console.log('Email sent successfully');
+    } catch (err) {
+        console.error('Error sending email:', err);
     }
 };
+
 
 
   const getEvaluationDetails = async (req, res) => {
@@ -3971,5 +3976,6 @@ module.exports = {
    getContractsOverTenMonths,
    generatePayslip,
    getPayslips,
-   updateEval
+   updateEval,
+   sendEmail
 };

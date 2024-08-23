@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     evaluationForm.addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent the default form submission
-
+    
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('memId');
         const evalType = document.getElementById('evalType').value;
@@ -156,25 +156,31 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedDate = document.getElementById('appliedDate').value;
         const time = document.getElementById('time').value;
         const remoteLink = document.getElementById('remoteLink').value;
-        const interviewer_name = document.getElementById('interviewer_name').value;
+        const interviewerName = document.getElementById('interviewer_name').value;
         const decodedToken = decodeToken(token);
         const appliedBy = decodedToken.userName;
-        console.log(appliedBy);
-
+    
         const evaluationData = {
             eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
             remote: remoteLink,
-            interviewer_name: interviewer_name,
+            interviewer_name: interviewerName,
             applied_by: appliedBy,
-            values:null,
+            values: null, // or any other value you want to set
         };
-
-       
+    
+        try {
+            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, evaluationData, {
+                headers: { 'Authorization': token }
+            });
+            console.log('Evaluation dataset created and email sent successfully:', response.data);
+        } catch (error) {
+            console.error('Error creating evaluation dataset or sending email:', error.message);
+        }
     });
-
+    
     document.getElementById('evalType').addEventListener('change', function () {
         console.log("Evaluation type changed");
 
