@@ -866,171 +866,163 @@ SIRE/CID experience
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-         var alertElement = document.getElementById('submitWarning');
-    alertElement.style.display = 'block';
-
-    document.addEventListener('DOMContentLoaded', function() {
-    // Function to get URL parameters
-    function getURLParams() {
-        const params = new URLSearchParams(window.location.search);
-        const candidateId = params.get('candidateId');
-        const appliedDate = params.get('appliedDate');
-        const appliedRank = params.get('appliedRank');
-        const interviewerName = params.get('interviewerName');
-        
-        return { candidateId, appliedDate, appliedRank, interviewerName };
-    }
-    
-    console.log(getURLParams());
-
-    // Store the values in sessionStorage
-    const { candidateId, appliedDate, appliedRank, interviewerName } = getURLParams();
-    sessionStorage.setItem('candidateId', candidateId);
-    sessionStorage.setItem('appliedDate', appliedDate);
-    sessionStorage.setItem('appliedRank', appliedRank);
-    sessionStorage.setItem('interviewerName', interviewerName);
-
-    let localcandidateId = candidateId
-    console.log(localcandidateId)
-    // Display the applied rank in the input field
-    const rankApplied = document.getElementById('rankApplied');
-    if (rankApplied) {
-        rankApplied.value = appliedRank;
-    }
-
-    // Set today's date in the date input field
-    const dateNowElement = document.getElementById('dateNow');
-    if (dateNowElement) {
-        dateNowElement.value = appliedDate;
-    }
-
-    const intName = document.getElementById('intName');
-    if(intName){
-        intName.value=interviewerName
-    }
-});
-
-        function updatePrintableArea() {
-            var form = document.getElementById('evaluationForm');
-            var formData = new FormData(form);
-
-            // Create a clone of the printable area
-            var clone = document.getElementById('printableArea').cloneNode(true);
-
-            // Update the clone with current form values
-            formData.forEach((value, key) => {
-                var element = clone.querySelector(`#${key}`);
-                if (element) {
-                    if (element.type === 'checkbox') {
-                        // Set checkbox states based on formData
-                        var checked = formData.has(key);
-                        element.checked = checked;
-                    } else {
-                        element.value = value;
-                    }
-                }
-            });
-
-            // Handle checkboxes manually since FormData doesn't directly handle checkbox state
-            clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
-                var id = checkbox.id;
-                // Check the state of the checkbox based on the original form data
-                checkbox.checked = document.querySelector(`#${id}`).checked;
-            });
-
-            // Update the content of printableArea with the cloned content
-            document.body.innerHTML = '';
-            document.body.appendChild(clone);
-        }
-
-        function printDiv(divName) {
-            updatePrintableArea();
-            window.print();
-            // Restore the original content after printing
-            window.onafterprint = () => {
-                document.body.innerHTML = originalContent;
-            };
-        }
-
-        var originalContent = document.body.innerHTML; // Store the original content before printing
-
-
-        function fetchValues() {
-                // Define the IDs and their default values
-                const ids = [
-                    'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 
-                    'qualification', 'lastContract', 'englishGood', 'englishSatisf', 
-                    'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa', 
-                    'crewExperienceYes', 'crewExperienceNo', 'newNationality', 
-                    'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2', 
-                    'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta', 
-                    'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu', 
-                    'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo', 
-                    'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3', 
-                    'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8', 
-                    'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13', 
-                    'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludegeNo', 
-                    'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes', 
-                    'reeferContainersNo', 'extraordinaryCircumstancesYes', 
-                    'extraordinaryCircumstancesNo', 'congestedPassageYes', 
-                    'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes', 
-                    'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes', 
-                    'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes', 
-                    'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo', 
-                    'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes', 
-                    'operationProceduresNo', 'regulationsYes', 'regulationsNo', 
-                    'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading', 
-                    'intName', 'dateNow', 'signNow'
-                ];
-
-                // Create an object to store the values
-                const evalObject = {};
-
-                // Iterate over the IDs and fetch their values
-                ids.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        // Check if the element is a checkbox
-                        if (element.type === 'checkbox') {
-                            evalObject[id] = element.checked;
-                        } else {
-                            evalObject[id] = element.value;
-                        }
-                    }
-                });
-
-                return evalObject;
-            }
-
-            // Add event listener to the write button
-            document.getElementById('write').addEventListener('click', function() {
-    const evalObject = fetchValues();
-    console.log(evalObject);
-
-    // Retrieve Candidate ID and Eval ID from localStorage
+      document.addEventListener('DOMContentLoaded', function() {
+          // Function to get URL parameters
+          function getURLParams() {
+              const params = new URLSearchParams(window.location.search);
+              const candidateId = params.get('candidateId');
+              const appliedDate = params.get('appliedDate');
+              const appliedRank = params.get('appliedRank');
+              const interviewerName = params.get('interviewerName');
+              
+              return { candidateId, appliedDate, appliedRank, interviewerName };
+          }
+          
+          const { candidateId, appliedDate, appliedRank, interviewerName } = getURLParams();
   
-        // Make the PUT request with evalId in the URL
-        axios.post(`https://nsnemo.com/candidate/evaluation/${localcandidateId}`, {
-            params: {
-                candidateId: localcandidateId, // Send candidateId as a query parameter
-                eval_type:'Officers Engine',
-                applied_rank:appliedRank,
-                applied_date:appliedDate,
-                applied_by:decodedToken.userName,
-                interviewer_name:interviewerName,
-                values:evalObject,
-                
-            }
-        })
-        .then(response => {
-            console.log(response.data.message);
-        })
-        .catch(error => {
-            console.error('Error updating evaluation:', error);
-        });
-    
-});
-    </script>        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+          // Store the values in sessionStorage
+          sessionStorage.setItem('candidateId', candidateId);
+          sessionStorage.setItem('appliedDate', appliedDate);
+          sessionStorage.setItem('appliedRank', appliedRank);
+          sessionStorage.setItem('interviewerName', interviewerName);
+  
+          // Display the applied rank in the input field
+          const rankApplied = document.getElementById('rankApplied');
+          if (rankApplied) {
+              rankApplied.value = appliedRank;
+          }
+  
+          // Set today's date in the date input field
+          const dateNowElement = document.getElementById('dateNow');
+          if (dateNowElement) {
+              dateNowElement.value = appliedDate;
+          }
+  
+          const intName = document.getElementById('intName');
+          if (intName) {
+              intName.value = interviewerName;
+          }
+  
+          // Function to update the printable area
+          function updatePrintableArea() {
+              var form = document.getElementById('evaluationForm');
+              var formData = new FormData(form);
+  
+              // Create a clone of the printable area
+              var clone = document.getElementById('printableArea').cloneNode(true);
+  
+              // Update the clone with current form values
+              formData.forEach((value, key) => {
+                  var element = clone.querySelector(`#${key}`);
+                  if (element) {
+                      if (element.type === 'checkbox') {
+                          var checked = formData.has(key);
+                          element.checked = checked;
+                      } else {
+                          element.value = value;
+                      }
+                  }
+              });
+  
+              // Handle checkboxes manually
+              clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+                  var id = checkbox.id;
+                  checkbox.checked = document.querySelector(`#${id}`).checked;
+              });
+  
+              // Update the content of printableArea with the cloned content
+              document.body.innerHTML = '';
+              document.body.appendChild(clone);
+          }
+  
+          function printDiv(divName) {
+              updatePrintableArea();
+              window.print();
+              // Restore the original content after printing
+              window.onafterprint = () => {
+                  document.body.innerHTML = originalContent;
+              };
+          }
+  
+          var originalContent = document.body.innerHTML; // Store the original content before printing
+  
+          function fetchValues() {
+              // Define the IDs and their default values
+              const ids = [
+                  'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 
+                  'qualification', 'lastContract', 'englishGood', 'englishSatisf', 
+                  'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa', 
+                  'crewExperienceYes', 'crewExperienceNo', 'newNationality', 
+                  'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2', 
+                  'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta', 
+                  'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu', 
+                  'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo', 
+                  'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3', 
+                  'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8', 
+                  'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13', 
+                  'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludegeNo', 
+                  'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes', 
+                  'reeferContainersNo', 'extraordinaryCircumstancesYes', 
+                  'extraordinaryCircumstancesNo', 'congestedPassageYes', 
+                  'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes', 
+                  'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes', 
+                  'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes', 
+                  'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo', 
+                  'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes', 
+                  'operationProceduresNo', 'regulationsYes', 'regulationsNo', 
+                  'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading', 
+                  'intName', 'dateNow', 'signNow'
+              ];
+  
+              // Create an object to store the values
+              const evalObject = {};
+  
+              // Iterate over the IDs and fetch their values
+              ids.forEach(id => {
+                  const element = document.getElementById(id);
+                  if (element) {
+                      // Check if the element is a checkbox
+                      if (element.type === 'checkbox') {
+                          evalObject[id] = element.checked;
+                      } else {
+                          evalObject[id] = element.value;
+                      }
+                  }
+              });
+  
+              return evalObject;
+          }
+  
+          // Add event listener to the write button
+          document.getElementById('write').addEventListener('click', function() {
+              const evalObject = fetchValues();
+              console.log(evalObject);
+  
+              // Retrieve Candidate ID from sessionStorage
+              const localcandidateId = sessionStorage.getItem('candidateId');
+  
+              // Make the POST request with evalId in the URL
+              axios.post(`https://nsnemo.com/candidate/evaluation/${localcandidateId}`, {
+                  params: {
+                      candidateId: localcandidateId, // Send candidateId as a query parameter
+                      eval_type: 'Officers Engine',
+                      applied_rank: appliedRank,
+                      applied_date: appliedDate,
+                      applied_by: decodedToken.userName,
+                      interviewer_name: interviewerName,
+                      values: evalObject
+                  }
+              })
+              .then(response => {
+                  console.log(response.data.message);
+              })
+              .catch(error => {
+                  console.error('Error updating evaluation:', error);
+              });
+          });
+      });
+  </script>
+         <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
 </body>
 </html>
