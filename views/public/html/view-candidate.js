@@ -623,7 +623,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayMedicalDetails(candidateId)
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
-        await fetchFilesByCandidateId(candidateId)
+        await fetchAndDisplayEvaluationData(candidateId)
         updateCandidatePhoto(candidateId)
         fetchAndDisplayFiles(candidateId)
         const hasUserManagement = decodedToken.userManagement;
@@ -1490,43 +1490,39 @@ async function updateCandidatePhoto(id) {
 }
 
 // Call the function to update the photo
-async function fetchFilesByCandidateId(candidateId) {
+async function fetchAndDisplayEvaluationData(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/fetch-files/${candidateId}`);
-        const filePaths = response.data;
-        console.log(candidateId, filePaths);
-
-        // Display the filtered files
-        const fileListContainer = document.getElementById('fileListContainer');
-        fileListContainer.innerHTML = '';
-
-        if (filePaths.length === 0) {
-            console.log('No files found for candidate:', candidateId);
-            return;
-        }
-
-        const fileList = document.createElement('ul');
-
-        const baseURL = 'https://nsnemo.com/views/public/files/evaluation'; // Adjust base URL
-
-        filePaths.forEach(filePath => {
-            const listItem = document.createElement('li');
-            const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-            const adjustedURL = `${baseURL}/${fileName}`; // Concatenate base URL with file path
-            const fileLink = document.createElement('a');
-            fileLink.href = adjustedURL;
-            fileLink.textContent = fileName; // Display only the filename
-            fileLink.target = "_blank"; // Open the link in a new tab
-            listItem.appendChild(fileLink);
-            fileList.appendChild(listItem);
-        });
+        // Fetch evaluation data from the server
+        const response = await axios.get(`/evaluation-data/${candidateId}`);
         
+        // Get the evaluation data from the response
+        const evaluationDetails = response.data;
 
-        fileListContainer.appendChild(fileList);
+        // Select the table body element
+        const tableBody = document.getElementById('evaluationTableBody');
+
+        // Clear any existing rows
+        tableBody.innerHTML = '';
+
+        // Loop through the evaluation data and create table rows
+        evaluationDetails.forEach(evaluation => {
+            const row = document.createElement('tr');
+
+            // Create and append cells to the row
+            Object.keys(evaluation).forEach(key => {
+                const cell = document.createElement('td');
+                cell.textContent = evaluation[key];
+                row.appendChild(cell);
+            });
+
+            // Append the row to the table body
+            tableBody.appendChild(row);
+        });
     } catch (error) {
-        console.error('Error fetching files:', error.message);
+        console.error('Error fetching evaluation data:', error.message);
     }
 }
+
 
 
 function uploadFile(file, uploadUrl) {
