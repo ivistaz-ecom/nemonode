@@ -939,6 +939,48 @@ SIRE/CID experience
 
     // Call initialize function on page load
     window.onload = initialize;
+
+    function updatePrintableArea() {
+          var form = document.getElementById('evaluationForm');
+          var formData = new FormData(form);
+  
+          // Create a clone of the printable area
+          var clone = document.getElementById('printableArea').cloneNode(true);
+  
+          // Update the clone with current form values
+          formData.forEach((value, key) => {
+              var element = clone.querySelector(`#${key}`);
+              if (element) {
+                  if (element.type === 'checkbox') {
+                      var checked = formData.has(key);
+                      element.checked = checked;
+                  } else {
+                      element.value = value;
+                  }
+              }
+          });
+  
+          // Handle checkboxes manually
+          clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+              var id = checkbox.id;
+              checkbox.checked = document.querySelector(`#${id}`).checked;
+          });
+  
+          // Update the content of printableArea with the cloned content
+          var originalContent = document.body.innerHTML;
+          document.body.innerHTML = '';
+          document.body.appendChild(clone);
+  
+          // Restore the original content after printing
+          window.onafterprint = () => {
+              document.body.innerHTML = originalContent;
+          };
+      }
+  
+      function printDiv(divName) {
+          updatePrintableArea();
+          window.print();
+      }
   </script>
   
   
