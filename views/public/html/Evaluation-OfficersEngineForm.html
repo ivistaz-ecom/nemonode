@@ -911,54 +911,87 @@ SIRE/CID experience
           const base64 = base64Url.replace('-', '+').replace('_', '/');
           return JSON.parse(atob(base64));
       }
-  
       function populateFormFields() {
-          const urlParams = new URLSearchParams(window.location.search);
-  
-          // Extract and decode the 'values' parameter
-          const valuesParam = urlParams.get('values');
-          
-          if (valuesParam) {
-              try {
-                  // Decode the URL component
-                  const decodedValues = decodeURIComponent(valuesParam);
-  
-                  // Parse the JSON string
-                  const values = JSON.parse(decodedValues);
-  
-                  // Populate form fields with the values object
-                  fetchValues(values);
-              } catch (e) {
-                  console.error('Error parsing values parameter:', e);
-              }
-          }
-  
-          // Set other form fields from URL parameters
-          document.getElementById('rankApplied').value = urlParams.get('applied_rank');
-          document.getElementById('dateNow').value = urlParams.get('applied_date');
-          document.getElementById('time').value = urlParams.get('time');
-          document.getElementById('remote').value = urlParams.get('remote');
-          document.getElementById('intName').value = urlParams.get('interviewer_name');
-          document.getElementById('appliedBy').value = urlParams.get('applied_by');
-      }
-  
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Extract and decode the 'values' parameter
+    const valuesParam = urlParams.get('values');
+    
+    if (valuesParam) {
+        try {
+            // Decode the URL component
+            const decodedValues = decodeURIComponent(valuesParam);
+
+            // Parse the JSON string
+            const values = JSON.parse(decodedValues);
+
+            // Log the key-value pairs
+            console.log('Decoded values from URL:', values);
+
+            // Populate form fields with the values object
+            fetchValues(values);
+
+        } catch (e) {
+            console.error('Error parsing values parameter:', e);
+        }
+    }
+
+    // Set other form fields from URL parameters
+    document.getElementById('rankApplied').value = urlParams.get('applied_rank');
+    document.getElementById('dateNow').value = urlParams.get('applied_date');
+    const time = urlParams.get('time');
+    const remote = urlParams.get('remote');
+    document.getElementById('intName').value = urlParams.get('interviewer_name');
+    const appliedBy = urlParams.get('applied_by');
+}
+
       function fetchValues(values) {
-          for (const [key, value] of Object.entries(values)) {
-              const element = document.getElementById(key);
-              if (element) {
-                  if (element.type === 'checkbox') {
-                      element.checked = value === true;
-                  } else {
-                      element.value = value || '';
-                  }
-              }
-          }
-      }
+    const ids = [
+        'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+        'qualification', 'lastContract', 'englishGood', 'englishSatisf',
+        'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
+        'crewExperienceYes', 'crewExperienceNo', 'newNationality',
+        'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
+        'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
+        'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
+        'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
+        'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
+        'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
+        'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
+        'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludgeNo',
+        'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes',
+        'reeferContainersNo', 'extraordinaryCircumstancesYes',
+        'extraordinaryCircumstancesNo', 'congestedPassageYes',
+        'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
+        'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
+        'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
+        'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
+        'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
+        'operationProceduresNo', 'regulationsYes', 'regulationsNo',
+        'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
+        'intName', 'dateNow', 'signNow'
+    ];
+
+    ids.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (values[id] !== undefined) { // Check if the value exists
+                if (element.type === 'checkbox') {
+                    element.checked = values[id] === true;
+                } else {
+                    element.value = values[id] || '';
+                }
+                // Log the key-value pairs
+                console.log(`Setting ${id}:`, values[id]);
+            }
+        }
+    });
+}
+
   
       // Call populateFormFields when the page loads
       window.onload = populateFormFields;
   </script>
-  
   
   
   
