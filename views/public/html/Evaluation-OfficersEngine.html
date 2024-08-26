@@ -88,6 +88,20 @@
     </style>
 </head>
 <body class="">
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="loginForm">
+            <label for="userName">Username:</label>
+            <input type="text" id="userName" name="userName" required>
+            <label for="userPassword">Password:</label>
+            <input type="password" id="userPassword" name="userPassword" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+
     <div id="printableArea" >
       <div class="container">
         <div class="static-row mb-3" >
@@ -866,162 +880,200 @@ SIRE/CID experience
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+      function updatePrintableArea() {
+          var form = document.getElementById('evaluationForm');
+          var formData = new FormData(form);
+  
+          // Create a clone of the printable area
+          var clone = document.getElementById('printableArea').cloneNode(true);
+  
+          // Update the clone with current form values
+          formData.forEach((value, key) => {
+              var element = clone.querySelector(`#${key}`);
+              if (element) {
+                  if (element.type === 'checkbox') {
+                      var checked = formData.has(key);
+                      element.checked = checked;
+                  } else {
+                      element.value = value;
+                  }
+              }
+          });
+  
+          // Handle checkboxes manually
+          clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+              var id = checkbox.id;
+              checkbox.checked = document.querySelector(`#${id}`).checked;
+          });
+  
+          // Update the content of printableArea with the cloned content
+          var originalContent = document.body.innerHTML;
+          document.body.innerHTML = '';
+          document.body.appendChild(clone);
+  
+          // Restore the original content after printing
+          window.onafterprint = () => {
+              document.body.innerHTML = originalContent;
+          };
+      }
+  
+      function printDiv(divName) {
+          updatePrintableArea();
+          window.print();
+      }
+  
       document.addEventListener('DOMContentLoaded', function() {
-          // Function to get URL parameters
           function getURLParams() {
               const params = new URLSearchParams(window.location.search);
-              const candidateId = params.get('candidateId');
-              const appliedDate = params.get('appliedDate');
-              const appliedRank = params.get('appliedRank');
-              const interviewerName = params.get('interviewerName');
-              
-              return { candidateId, appliedDate, appliedRank, interviewerName };
-          }
-          
-          const { candidateId, appliedDate, appliedRank, interviewerName } = getURLParams();
-  
-          // Store the values in sessionStorage
-          sessionStorage.setItem('candidateId', candidateId);
-          sessionStorage.setItem('appliedDate', appliedDate);
-          sessionStorage.setItem('appliedRank', appliedRank);
-          sessionStorage.setItem('interviewerName', interviewerName);
-  
-          // Display the applied rank in the input field
-          const rankApplied = document.getElementById('rankApplied');
-          if (rankApplied) {
-              rankApplied.value = appliedRank;
-          }
-  
-          // Set today's date in the date input field
-          const dateNowElement = document.getElementById('dateNow');
-          if (dateNowElement) {
-              dateNowElement.value = appliedDate;
-          }
-  
-          const intName = document.getElementById('intName');
-          if (intName) {
-              intName.value = interviewerName;
-          }
-  
-          // Function to update the printable area
-          function updatePrintableArea() {
-              var form = document.getElementById('evaluationForm');
-              var formData = new FormData(form);
-  
-              // Create a clone of the printable area
-              var clone = document.getElementById('printableArea').cloneNode(true);
-  
-              // Update the clone with current form values
-              formData.forEach((value, key) => {
-                  var element = clone.querySelector(`#${key}`);
-                  if (element) {
-                      if (element.type === 'checkbox') {
-                          var checked = formData.has(key);
-                          element.checked = checked;
-                      } else {
-                          element.value = value;
-                      }
-                  }
-              });
-  
-              // Handle checkboxes manually
-              clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
-                  var id = checkbox.id;
-                  checkbox.checked = document.querySelector(`#${id}`).checked;
-              });
-  
-              // Update the content of printableArea with the cloned content
-              document.body.innerHTML = '';
-              document.body.appendChild(clone);
-          }
-  
-          function printDiv(divName) {
-              updatePrintableArea();
-              window.print();
-              // Restore the original content after printing
-              window.onafterprint = () => {
-                  document.body.innerHTML = originalContent;
+              return {
+                  candidateId: params.get('candidateId'),
+                  appliedDate: params.get('appliedDate'),
+                  appliedRank: params.get('appliedRank'),
+                  interviewerName: params.get('interviewerName'),
+                  time: params.get('time') // Ensure 'time' parameter is included
               };
           }
   
-          var originalContent = document.body.innerHTML; // Store the original content before printing
+          const token = sessionStorage.getItem('token');
   
-          function fetchValues() {
-              // Define the IDs and their default values
-              const ids = [
-                  'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 
-                  'qualification', 'lastContract', 'englishGood', 'englishSatisf', 
-                  'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa', 
-                  'crewExperienceYes', 'crewExperienceNo', 'newNationality', 
-                  'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2', 
-                  'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta', 
-                  'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu', 
-                  'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo', 
-                  'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3', 
-                  'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8', 
-                  'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13', 
-                  'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludegeNo', 
-                  'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes', 
-                  'reeferContainersNo', 'extraordinaryCircumstancesYes', 
-                  'extraordinaryCircumstancesNo', 'congestedPassageYes', 
-                  'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes', 
-                  'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes', 
-                  'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes', 
-                  'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo', 
-                  'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes', 
-                  'operationProceduresNo', 'regulationsYes', 'regulationsNo', 
-                  'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading', 
-                  'intName', 'dateNow', 'signNow'
-              ];
+          if (token) {
+              const decodedToken = decodeToken(token);
+              const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
   
-              // Create an object to store the values
-              const evalObject = {};
+              // Store the values in sessionStorage
+              sessionStorage.setItem('candidateId', candidateId);
+              sessionStorage.setItem('appliedDate', appliedDate);
+              sessionStorage.setItem('appliedRank', appliedRank);
+              sessionStorage.setItem('interviewerName', interviewerName);
+              sessionStorage.setItem('time', time); // Store 'time' parameter
   
-              // Iterate over the IDs and fetch their values
-              ids.forEach(id => {
-                  const element = document.getElementById(id);
-                  if (element) {
-                      // Check if the element is a checkbox
-                      if (element.type === 'checkbox') {
-                          evalObject[id] = element.checked;
-                      } else {
-                          evalObject[id] = element.value;
+              // Display the applied rank in the input field
+              const rankApplied = document.getElementById('rankApplied');
+              if (rankApplied) {
+                  rankApplied.value = appliedRank;
+              }
+  
+              // Set today's date in the date input field
+              const dateNowElement = document.getElementById('dateNow');
+              if (dateNowElement) {
+                  dateNowElement.value = appliedDate;
+              }
+  
+              const intName = document.getElementById('intName');
+              if (intName) {
+                  intName.value = interviewerName;
+              }
+  
+              var originalContent = document.body.innerHTML; // Store the original content before printing
+  
+              function fetchValues() {
+                  const ids = [
+                      'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+                      'qualification', 'lastContract', 'englishGood', 'englishSatisf',
+                      'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
+                      'crewExperienceYes', 'crewExperienceNo', 'newNationality',
+                      'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
+                      'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
+                      'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
+                      'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
+                      'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
+                      'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
+                      'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
+                      'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludgeNo',
+                      'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes',
+                      'reeferContainersNo', 'extraordinaryCircumstancesYes',
+                      'extraordinaryCircumstancesNo', 'congestedPassageYes',
+                      'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
+                      'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
+                      'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
+                      'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
+                      'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
+                      'operationProceduresNo', 'regulationsYes', 'regulationsNo',
+                      'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
+                      'intName', 'dateNow', 'signNow'
+                  ];
+  
+                  const evalObject = {};
+  
+                  ids.forEach(id => {
+                      const element = document.getElementById(id);
+                      if (element) {
+                          if (element.type === 'checkbox') {
+                              evalObject[id] = element.checked;
+                          } else {
+                              evalObject[id] = element.value;
+                          }
                       }
-                  }
-              });
+                  });
   
-              return evalObject;
-          }
+                  return evalObject;
+              }
   
-          // Add event listener to the write button
-          document.getElementById('write').addEventListener('click', function() {
-              const evalObject = fetchValues();
-              console.log(evalObject);
+              document.getElementById('write').addEventListener('click', function() {
+                  const evalObject = fetchValues();
   
-              // Retrieve Candidate ID from sessionStorage
-              const localcandidateId = sessionStorage.getItem('candidateId');
-  
-              // Make the POST request with evalId in the URL
-              axios.post(`https://nsnemo.com/candidate/evaluation/${localcandidateId}`, {
-                  params: {
-                      candidateId: localcandidateId, // Send candidateId as a query parameter
+                  axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
                       eval_type: 'Officers Engine',
                       applied_rank: appliedRank,
                       applied_date: appliedDate,
                       applied_by: decodedToken.userName,
                       interviewer_name: interviewerName,
-                      values: evalObject
-                  }
-              })
-              .then(response => {
-                  console.log(response.data.message);
-              })
-              .catch(error => {
-                  console.error('Error updating evaluation:', error);
+                      values: evalObject,
+                      remote: window.location.href,
+                      time: time // Use the 'time' parameter
+                  })
+                  .then(response => {
+                      console.log(response.data.message);
+                  })
+                  .catch(error => {
+                      console.error('Error updating evaluation:', error);
+                  });
               });
-          });
+          } else {
+              document.getElementById('loginModal').style.display = 'block';
+          }
+      });
+  
+      document.querySelector('.close').onclick = function() {
+          document.getElementById('loginModal').style.display = 'none';
+      };
+  
+      function decodeToken(token) {
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace('-', '+').replace('_', '/');
+          return JSON.parse(atob(base64));
+      }
+  
+      document.getElementById('loginForm').addEventListener('submit', async function(event) {
+          event.preventDefault();
+  
+          const userName = document.getElementById('userName').value;
+          const userPassword = document.getElementById('userPassword').value;
+  
+          try {
+              const response = await axios.post('https://nsnemo.com/user/login', {
+                  userName: userName,
+                  userPassword: userPassword
+              });
+  
+              const result = response.data;
+  
+              if (result.success) {
+                  sessionStorage.setItem('token', result.token);
+                  alert('Login successful');
+                  document.getElementById('loginModal').style.display = 'none';
+                  window.location.reload();
+              } else {
+                  alert(result.message);
+              }
+          } catch (error) {
+              console.error('Error during login:', error);
+              alert('An error occurred. Please try again.');
+          }
       });
   </script>
+  
+  
          <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
 </body>

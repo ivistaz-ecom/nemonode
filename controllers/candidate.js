@@ -3445,6 +3445,7 @@ const workedWith = async (req, res) => {
 
 const evaluation = async (req, res) => {
     try {
+        console.log(req.body)
         // Extract data from the request body
         const {
             eval_type,
@@ -3454,19 +3455,20 @@ const evaluation = async (req, res) => {
             remote,
             applied_by,
             interviewer_name,
+            values,
         } = req.body;
         const candidateId = req.params.id; // Extract id from URL parameters
 
         // Create a new evaluation dataset
         const evaluation = await Evaluation.create({
-            eval_type,
-            applied_rank,
-            applied_date,
-            time,
-            remote,
-            applied_by,
-            interviewer_name,
-            values: null, // Include values in the dataset
+            eval_type:eval_type,
+            applied_rank:applied_rank,
+            applied_date:applied_date,
+            time:time,
+            remote:remote,
+            applied_by:applied_by,
+            interviewer_name:interviewer_name,
+            values:values, // Include values in the dataset
             candidateId: candidateId
         });
 
@@ -3489,8 +3491,8 @@ const sendEmail = async (req, res) => {
             time,
             remote,
             applied_by,
-        } = req.body;
-
+        } = req.body.params;
+        console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
 
