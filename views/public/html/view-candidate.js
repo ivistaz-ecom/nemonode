@@ -1493,7 +1493,7 @@ async function updateCandidatePhoto(id) {
 async function fetchAndDisplayEvaluationData(candidateId) {
     try {
         // Fetch evaluation data from the server
-        const response = await axios.get(`/evaluation-data/${candidateId}`);
+        const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${candidateId}`);
         
         // Get the evaluation data from the response
         const evaluationDetails = response.data;
