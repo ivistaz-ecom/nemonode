@@ -904,93 +904,6 @@ SIRE/CID experience
           updatePrintableArea();
           window.print();
       }
-
-      function fetchAndPopulateEvaluationData() {
-    const evalId = sessionStorage.getItem('evalId'); // Assuming evalId is stored in sessionStorage
-    const candidateId = sessionStorage.getItem('candidateId'); // Candidate ID is already stored
-
-    if (!evalId || !candidateId) {
-        console.error('evalId or candidateId is missing');
-        return;
-    }
-
-    // Construct the URL with evalId and candidateId as query params
-    const url = `https://nsnemo.com/viewevaluation/${evalId}?candidateId=${candidateId}`;
-
-    // Make the GET request to fetch the evaluation data
-    axios.get(url)
-        .then(response => {
-            const evalData = response.data;
-            populateFields(evalData); // Populate input fields with fetched data
-        })
-        .catch(error => {
-            console.error('Error fetching evaluation data:', error);
-        });
-}
-
-// Attach the function to the 'click' event of the button
-document.getElementById('viewEvaluation').addEventListener('click', fetchAndPopulateEvaluationData);
-
-  
-      document.addEventListener('DOMContentLoaded', function() {
-         
-  
-              var originalContent = document.body.innerHTML; // Store the original content before printing
-  
-              function populateFields(data) {
-    const ids = [
-        'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
-        'qualification', 'lastContract', 'englishGood', 'englishSatisf',
-        'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
-        'crewExperienceYes', 'crewExperienceNo', 'newNationality',
-        'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
-        'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
-        'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
-        'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
-        'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
-        'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
-        'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
-        'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludgeNo',
-        'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes',
-        'reeferContainersNo', 'extraordinaryCircumstancesYes',
-        'extraordinaryCircumstancesNo', 'congestedPassageYes',
-        'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
-        'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
-        'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
-        'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
-        'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
-        'operationProceduresNo', 'regulationsYes', 'regulationsNo',
-        'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
-        'intName', 'dateNow', 'signNow'
-    ];
-
-    ids.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            if (element.type === 'checkbox') {
-                element.checked = data[id] === true;
-            } else {
-                element.value = data[id] || '';
-            }
-        }
-    });
-}
-
-document.getElementById('write').addEventListener('click', function() {
-    const candidateId = sessionStorage.getItem('candidateId');
-    
-    axios.get(`https://nsnemo.com/candidate/evaluation/${candidateId}`)
-        .then(response => {
-            const evalData = response.data;
-            populateFields(evalData);
-        })
-        .catch(error => {
-            console.error('Error fetching evaluation data:', error);
-        });
-});
-})
-  
-     
   
       function decodeToken(token) {
           const base64Url = token.split('.')[1];
@@ -999,38 +912,39 @@ document.getElementById('write').addEventListener('click', function() {
       }
   
       function populateFormFields() {
-    const urlParams = new URLSearchParams(window.location.search);
-
-    document.getElementById('candidateId').value = urlParams.get('candidateId');
-    document.getElementById('evalId').value = urlParams.get('id');
-    document.getElementById('evalType').value = urlParams.get('eval_type');
-    document.getElementById('appliedRank').value = urlParams.get('applied_rank');
-    document.getElementById('appliedDate').value = urlParams.get('applied_date');
-    document.getElementById('time').value = urlParams.get('time');
-    document.getElementById('remote').value = urlParams.get('remote');
-    document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
-    document.getElementById('appliedBy').value = urlParams.get('applied_by');
-
-    // Decode and parse the values object
-    const values = JSON.parse(decodeURIComponent(urlParams.get('values')));
-
-    // Populate form fields with the values object
-    for (const [key, value] of Object.entries(values)) {
-        const input = document.getElementById(key);
-        if (input) {
-            if (input.type === 'checkbox') {
-                input.checked = value;
-            } else {
-                input.value = value;
-            }
-        }
-    }
-}
-
-// Call this function when the page loads
-window.onload = populateFormFields;
-
+          const urlParams = new URLSearchParams(window.location.search);
+          
+          // Get the 'values' parameter and parse it
+          const values = JSON.parse(decodeURIComponent(urlParams.get('values')));
+          
+          // Populate form fields with the values object
+          for (const [key, value] of Object.entries(values)) {
+              const input = document.getElementById(key);
+              if (input) {
+                  if (input.type === 'checkbox') {
+                      input.checked = value;
+                  } else {
+                      input.value = value;
+                  }
+              }
+          }
+  
+          // Optionally, set other form fields from URL parameters
+          document.getElementById('candidateId').value = urlParams.get('candidateId');
+          document.getElementById('evalId').value = urlParams.get('id');
+          document.getElementById('evalType').value = urlParams.get('eval_type');
+          document.getElementById('appliedRank').value = urlParams.get('applied_rank');
+          document.getElementById('appliedDate').value = urlParams.get('applied_date');
+          document.getElementById('time').value = urlParams.get('time');
+          document.getElementById('remote').value = urlParams.get('remote');
+          document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
+          document.getElementById('appliedBy').value = urlParams.get('applied_by');
+      }
+  
+      // Call this function when the page loads
+      window.onload = populateFormFields;
   </script>
+  
   
   
          <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
