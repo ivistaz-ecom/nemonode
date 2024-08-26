@@ -925,8 +925,8 @@ SIRE/CID experience
             // Parse the JSON string
             const values = JSON.parse(decodedValues);
 
-            // Log the key-value pairs
-            console.log('Decoded values from URL:', values);
+            // Log the decoded values in a readable format
+            console.log('Decoded values from URL:', JSON.stringify(values, null, 2));
 
             // Populate form fields with the values object
             fetchValues(values);
