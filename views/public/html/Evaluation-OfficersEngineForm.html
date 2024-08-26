@@ -912,37 +912,48 @@ SIRE/CID experience
       }
   
       function populateFormFields() {
-          const urlParams = new URLSearchParams(window.location.search);
-          
-          // Get the 'values' parameter and parse it
-          const values = JSON.parse(decodeURIComponent(urlParams.get('values')));
-          
-          // Populate form fields with the values object
-          for (const [key, value] of Object.entries(values)) {
-              const input = document.getElementById(key);
-              if (input) {
-                  if (input.type === 'checkbox') {
-                      input.checked = value;
-                  } else {
-                      input.value = value;
-                  }
-              }
-          }
-  
-          // Optionally, set other form fields from URL parameters
-          document.getElementById('candidateId').value = urlParams.get('candidateId');
-          document.getElementById('evalId').value = urlParams.get('id');
-          document.getElementById('evalType').value = urlParams.get('eval_type');
-          document.getElementById('appliedRank').value = urlParams.get('applied_rank');
-          document.getElementById('appliedDate').value = urlParams.get('applied_date');
-          document.getElementById('time').value = urlParams.get('time');
-          document.getElementById('remote').value = urlParams.get('remote');
-          document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
-          document.getElementById('appliedBy').value = urlParams.get('applied_by');
-      }
-  
-      // Call this function when the page loads
-      window.onload = populateFormFields;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Extract and decode the 'values' parameter
+    const valuesParam = urlParams.get('values');
+    
+    // Decode the URL component
+    const decodedValues = decodeURIComponent(valuesParam);
+
+    try {
+        // Parse the JSON string
+        const values = JSON.parse(decodedValues);
+
+        // Populate form fields with the values object
+        for (const [key, value] of Object.entries(values)) {
+            const input = document.getElementById(key);
+            if (input) {
+                if (input.type === 'checkbox') {
+                    input.checked = value;
+                } else {
+                    input.value = value;
+                }
+            }
+        }
+    } catch (e) {
+        console.error('Error parsing values parameter:', e);
+    }
+
+    // Optionally, set other form fields from URL parameters
+    document.getElementById('candidateId').value = urlParams.get('candidateId');
+    document.getElementById('evalId').value = urlParams.get('id');
+    document.getElementById('evalType').value = urlParams.get('eval_type');
+    document.getElementById('appliedRank').value = urlParams.get('applied_rank');
+    document.getElementById('appliedDate').value = urlParams.get('applied_date');
+    document.getElementById('time').value = urlParams.get('time');
+    document.getElementById('remote').value = urlParams.get('remote');
+    document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
+    document.getElementById('appliedBy').value = urlParams.get('applied_by');
+}
+
+// Call this function when the page loads
+window.onload = populateFormFields;
+
   </script>
   
   
