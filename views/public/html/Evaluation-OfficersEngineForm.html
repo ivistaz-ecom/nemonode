@@ -939,11 +939,9 @@ SIRE/CID experience
     // Set other form fields from URL parameters
     document.getElementById('rankApplied').value = urlParams.get('applied_rank');
     document.getElementById('dateNow').value = urlParams.get('applied_date');
-    const time = urlParams.get('time');
-    const remote = urlParams.get('remote');
     document.getElementById('intName').value = urlParams.get('interviewer_name');
-    const appliedBy = urlParams.get('applied_by');
 }
+
 
       function fetchValues(values) {
     const ids = [
