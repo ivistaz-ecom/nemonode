@@ -3483,6 +3483,7 @@ const evaluation = async (req, res) => {
 
 const sendEmail = async (req, res) => {
     try {
+
         const {
             interviewer_name,
             candidateId,
@@ -3491,7 +3492,7 @@ const sendEmail = async (req, res) => {
             time,
             remote,
             applied_by,
-        } = req.body.params;
+        } = req.body;
         console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
