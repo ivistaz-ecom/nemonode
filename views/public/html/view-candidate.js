@@ -1519,16 +1519,16 @@ async function fetchAndDisplayEvaluationData(candidateId) {
                 <td>${evaluation.time}</td>
                 <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
                 <td>${evaluation.applied_by}</td>
-                <td>
-                    <button class="btn border-0 m-0 p-0" onclick="editEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}', event)">
-                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-                    </button>
-                    <button class="btn border-0 m-0 p-0" onclick="deleteEvaluation('${evaluation.id}', event)">
-                        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-                    </button>
-                </td>
+               
             `;
-
+ // <td>
+                //     <button class="btn border-0 m-0 p-0" onclick="editEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}', event)">
+                //         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                //     </button>
+                //     <button class="btn border-0 m-0 p-0" onclick="deleteEvaluation('${evaluation.id}', event)">
+                //         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                //     </button>
+                // </td>
             tableBody.appendChild(row);
         });
     } catch (error) {

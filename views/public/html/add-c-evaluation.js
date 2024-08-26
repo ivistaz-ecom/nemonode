@@ -214,17 +214,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
 
-    function goBack() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const candidateId = urlParams.get('memId');
-        if (candidateId) {
-            const url = `./view-candidate.html?id=${candidateId}`;
-            window.location.href = url;
-        } else {
-            console.error('Candidate ID not found in URL parameters');
-        }
-    }
+
 });
+
+function goBack() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const candidateId = urlParams.get('memId');
+    if (candidateId) {
+        const url = `./view-candidate.html?id=${candidateId}`;
+        window.location.href = url;
+    } else {
+        console.error('Candidate ID not found in URL parameters');
+    }
+}
 
 function decodeToken(token) {
     // Implementation depends on your JWT library
