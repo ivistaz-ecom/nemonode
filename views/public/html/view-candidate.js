@@ -1493,29 +1493,42 @@ async function updateCandidatePhoto(id) {
 async function fetchAndDisplayEvaluationData(candidateId) {
     try {
         // Fetch evaluation data from the server
-        const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${candidateId}`);
-        
-        // Get the evaluation data from the response
+        const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${candidateId}`, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const evaluationDetails = response.data;
+        console.log(evaluationDetails);
 
-        // Select the table body element
         const tableBody = document.getElementById('evaluationTableBody');
+        tableBody.innerHTML = ''; // Clear existing rows
 
-        // Clear any existing rows
-        tableBody.innerHTML = '';
-
-        // Loop through the evaluation data and create table rows
         evaluationDetails.forEach(evaluation => {
             const row = document.createElement('tr');
 
-            // Create and append cells to the row
-            Object.keys(evaluation).forEach(key => {
-                const cell = document.createElement('td');
-                cell.textContent = evaluation[key];
-                row.appendChild(cell);
-            });
+            // Add data to each cell
+            row.innerHTML = `
+                <td>${evaluation.id}</td>
+                <td>${evaluation.eval_type}</td>
+                <td>${evaluation.interviewer_name}</td>
+                <td>${evaluation.applied_rank}</td>
+                <td>${evaluation.applied_date}</td>
+                <td>${evaluation.time}</td>
+                <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
+                <td>${evaluation.applied_by}</td>
+                <td>
+                    <button class="btn border-0 m-0 p-0" onclick="editEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}', event)">
+                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn border-0 m-0 p-0" onclick="deleteEvaluation('${evaluation.id}', event)">
+                        <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
 
-            // Append the row to the table body
             tableBody.appendChild(row);
         });
     } catch (error) {
