@@ -942,15 +942,15 @@ SIRE/CID experience
     }
 
     // Set other form fields from URL parameters
-    document.getElementById('candidateId').value = urlParams.get('candidateId');
-    document.getElementById('evalId').value = urlParams.get('id');
-    document.getElementById('evalType').value = urlParams.get('eval_type');
-    document.getElementById('appliedRank').value = urlParams.get('applied_rank');
-    document.getElementById('appliedDate').value = urlParams.get('applied_date');
-    document.getElementById('time').value = urlParams.get('time');
-    document.getElementById('remote').value = urlParams.get('remote');
-    document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
-    document.getElementById('appliedBy').value = urlParams.get('applied_by');
+    const candidateId = urlParams.get('candidateId');
+    const evalId = urlParams.get('id');
+    const eval_type = urlParams.get('eval_type');
+    document.getElementById('rankApplied').value = urlParams.get('applied_rank');
+    document.getElementById('dateNow').value = urlParams.get('applied_date');
+    const time  = urlParams.get('time');
+    const remote = urlParams.get('remote');
+    document.getElementById('intName').value = urlParams.get('interviewer_name');
+    const appliedBy = urlParams.get('applied_by');
 }
 
 // Call this function when the page loads
