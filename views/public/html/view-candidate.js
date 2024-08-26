@@ -1537,26 +1537,19 @@ async function fetchAndDisplayEvaluationData(candidateId) {
         console.error('Error fetching evaluation data:', error.message);
     }
 }
-
 function viewEvaluation(candidateId, id, values, event) {
     event.preventDefault(); // Prevent default behavior if necessary
 
-    // Serialize the values object to a JSON string
-    const serializedValues = JSON.stringify(values);
+    // Manually serialize the values object into key-value pairs
+    // Trim the trailing '&' character
 
-    // Encode the JSON string for URL inclusion
-    const encodedValues = encodeURIComponent(serializedValues);
-
-    // Create a query string with all the evaluation values
-    const queryString = new URLSearchParams({
-        candidateId: candidateId,
-        id: id,
-        values: encodedValues // Add the encoded values object
-    }).toString();
+    // Create a query string with the IDs and serialized values
+    const queryString = `candidateId=${candidateId}&id=${id}`;
 
     // Redirect to the Evaluation-OfficersEngineForm.html page with the query string
     window.location.href = `./Evaluation-OfficersEngineForm.html?${queryString}`;
 }
+
 
 
 

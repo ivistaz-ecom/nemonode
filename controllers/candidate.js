@@ -3905,8 +3905,9 @@ const updateEval =  async (req, res) => {
 
 
 const viewEvaluation = async (req, res) => {
-    const evalId = req.params.id;
-    const candidateId = req.query.candidateId; // Fetch candidateId from query params
+
+    const evalId = req.params.evalid;
+    const candidateId = req.params.id; // Fetch candidateId from query params
 
     try {
         const evaluation = await Evaluation.findOne({
