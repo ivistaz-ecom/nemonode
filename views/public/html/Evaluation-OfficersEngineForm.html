@@ -917,29 +917,31 @@ SIRE/CID experience
     // Extract and decode the 'values' parameter
     const valuesParam = urlParams.get('values');
     
-    // Decode the URL component
-    const decodedValues = decodeURIComponent(valuesParam);
+    if (valuesParam) {
+        try {
+            // Decode the URL component
+            const decodedValues = decodeURIComponent(valuesParam);
 
-    try {
-        // Parse the JSON string
-        const values = JSON.parse(decodedValues);
+            // Parse the JSON string
+            const values = JSON.parse(decodedValues);
 
-        // Populate form fields with the values object
-        for (const [key, value] of Object.entries(values)) {
-            const input = document.getElementById(key);
-            if (input) {
-                if (input.type === 'checkbox') {
-                    input.checked = value;
-                } else {
-                    input.value = value;
+            // Populate form fields with the values object
+            for (const [key, value] of Object.entries(values)) {
+                const input = document.getElementById(key);
+                if (input) {
+                    if (input.type === 'checkbox') {
+                        input.checked = value;
+                    } else {
+                        input.value = value;
+                    }
                 }
             }
+        } catch (e) {
+            console.error('Error parsing values parameter:', e);
         }
-    } catch (e) {
-        console.error('Error parsing values parameter:', e);
     }
 
-    // Optionally, set other form fields from URL parameters
+    // Set other form fields from URL parameters
     document.getElementById('candidateId').value = urlParams.get('candidateId');
     document.getElementById('evalId').value = urlParams.get('id');
     document.getElementById('evalType').value = urlParams.get('eval_type');
@@ -953,6 +955,7 @@ SIRE/CID experience
 
 // Call this function when the page loads
 window.onload = populateFormFields;
+
 
   </script>
   
