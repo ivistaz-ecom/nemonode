@@ -998,7 +998,38 @@ document.getElementById('write').addEventListener('click', function() {
           return JSON.parse(atob(base64));
       }
   
-   
+      function populateFormFields() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    document.getElementById('candidateId').value = urlParams.get('candidateId');
+    document.getElementById('evalId').value = urlParams.get('id');
+    document.getElementById('evalType').value = urlParams.get('eval_type');
+    document.getElementById('appliedRank').value = urlParams.get('applied_rank');
+    document.getElementById('appliedDate').value = urlParams.get('applied_date');
+    document.getElementById('time').value = urlParams.get('time');
+    document.getElementById('remote').value = urlParams.get('remote');
+    document.getElementById('interviewerName').value = urlParams.get('interviewer_name');
+    document.getElementById('appliedBy').value = urlParams.get('applied_by');
+
+    // Decode and parse the values object
+    const values = JSON.parse(decodeURIComponent(urlParams.get('values')));
+
+    // Populate form fields with the values object
+    for (const [key, value] of Object.entries(values)) {
+        const input = document.getElementById(key);
+        if (input) {
+            if (input.type === 'checkbox') {
+                input.checked = value;
+            } else {
+                input.value = value;
+            }
+        }
+    }
+}
+
+// Call this function when the page loads
+window.onload = populateFormFields;
+
   </script>
   
   
