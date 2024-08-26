@@ -3904,8 +3904,24 @@ const updateEval =  async (req, res) => {
 }
 
 
+const viewEvaluation = async (req, res) => {
+    const evalId = req.params.id;
+    const candidateId = req.query.candidateId; // Fetch candidateId from query params
 
+    try {
+        const evaluation = await Evaluation.findOne({
+            where: { id: evalId, candidateId: candidateId }
+        });
 
+        if (evaluation) {
+            res.json(evaluation);
+        } else {
+            res.status(404).json({ message: 'Evaluation not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching evaluation data', error });
+    }
+}
 
 
 
@@ -3996,5 +4012,6 @@ module.exports = {
    generatePayslip,
    getPayslips,
    updateEval,
-   sendEmail
+   sendEmail,
+   viewEvaluation
 };

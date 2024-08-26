@@ -1519,7 +1519,9 @@ async function fetchAndDisplayEvaluationData(candidateId) {
                 <td>${evaluation.time}</td>
                 <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
                 <td>${evaluation.applied_by}</td>
-               
+                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}','${evaluation.values}', event)">
+                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-eye"></i>
+                    </button>
             `;
  // <td>
                 //     <button class="btn border-0 m-0 p-0" onclick="editEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}', event)">
@@ -1534,6 +1536,30 @@ async function fetchAndDisplayEvaluationData(candidateId) {
     } catch (error) {
         console.error('Error fetching evaluation data:', error.message);
     }
+}
+
+function viewEvaluation(candidateId, id, eval_type, applied_rank, applied_date, time, remote, interviewer_name, applied_by, values, event) {
+    event.preventDefault(); // Prevent default behavior if necessary
+
+    // Serialize the values object to a JSON string and encode it
+    const serializedValues = encodeURIComponent(JSON.stringify(values));
+
+    // Create a query string with all the evaluation values
+    const queryString = new URLSearchParams({
+        candidateId: candidateId,
+        id: id,
+        eval_type: eval_type,
+        applied_rank: applied_rank,
+        applied_date: applied_date,
+        time: time,
+        remote: remote,
+        interviewer_name: interviewer_name,
+        applied_by: applied_by,
+        values: serializedValues // Add the serialized values object
+    }).toString();
+
+    // Redirect to the Evaluation-OfficersEngineForm.html page with the query string
+    window.location.href = `./Evaluation-OfficersEngineForm.html?${queryString}`;
 }
 
 
