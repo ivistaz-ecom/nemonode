@@ -161,7 +161,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedBy = decodedToken.userName;
     
         const evaluationData = {
-            eval_type: evalType,
+           
+        };
+    
+        try {
+            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, { eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
@@ -169,10 +173,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             interviewer_name: interviewerName,
             applied_by: appliedBy,
             values: null, // or any other value you want to set
-        };
-    
-        try {
-            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, evaluationData, {
                 headers: { 'Authorization': token }
             });
             console.log('Evaluation dataset created and email sent successfully:', response.data);
