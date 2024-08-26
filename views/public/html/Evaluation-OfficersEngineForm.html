@@ -911,37 +911,54 @@ SIRE/CID experience
           const base64 = base64Url.replace('-', '+').replace('_', '/');
           return JSON.parse(atob(base64));
       }
-      function populateFormFields() {
-    const urlParams = new URLSearchParams(window.location.search);
+    //   function populateFormFields() {
+    // const urlParams = new URLSearchParams(window.location.search);
 
-    // Extract and decode the 'values' parameter
-    const valuesParam = urlParams.get('values');
+    // // Extract and decode the 'values' parameter
+    // const valuesParam = urlParams.get('values');
     
-    if (valuesParam) {
-        try {
-            // Decode the URL component
-            const decodedValues = decodeURIComponent(valuesParam);
+    // if (valuesParam) {
+    //     try {
+    //         // Decode the URL component
+    //         const decodedValues = decodeURIComponent(valuesParam);
 
-            // Parse the JSON string
-            const values = JSON.parse(decodedValues);
-          console.log(values)
-            // Log the decoded values in a readable format
-            console.log('Decoded values from URL:', JSON.stringify(values, null, 2));
+    //         // Parse the JSON string
+    //         const values = JSON.parse(decodedValues);
+    //       console.log(values)
+    //         // Log the decoded values in a readable format
+    //         console.log('Decoded values from URL:', JSON.stringify(values, null, 2));
 
-            // Populate form fields with the values object
-            fetchValues(values);
+    //         // Populate form fields with the values object
+    //         fetchValues(values);
 
-        } catch (e) {
-            console.error('Error parsing values parameter:', e);
-        }
-    }
+    //     } catch (e) {
+    //         console.error('Error parsing values parameter:', e);
+    //     }
+    // }
+    // Function to extract query parameters from the URL
+function getEvaluationData() {
+    // Create a URLSearchParams object from the query string
+    const params = new URLSearchParams(window.location.search);
 
-    // Set other form fields from URL parameters
-    document.getElementById('rankApplied').value = urlParams.get('applied_rank');
-    document.getElementById('dateNow').value = urlParams.get('applied_date');
-    document.getElementById('intName').value = urlParams.get('interviewer_name');
+    // Get the candidateId and id from the URL parameters
+    const candidateId = params.get('candidateId');
+    const id = params.get('id');
+
+    // Get and decode the values object from the URL parameters
+    const encodedValues = params.get('values');
+    const values = encodedValues ? JSON.parse(decodeURIComponent(encodedValues)) : null;
+
+    // Log the extracted parameters to the console
+    console.log("Candidate ID:", candidateId);
+    console.log("Evaluation ID:", id);
+    console.log("Values Object:", values);
 }
 
+// Call the function to log the data when the page loads
+window.onload = getEvaluationData;
+
+
+    // Set other form fields from URL paramete
 
 
       function fetchValues(values) {
@@ -989,7 +1006,7 @@ SIRE/CID experience
 
   
       // Call populateFormFields when the page loads
-      window.onload = populateFormFields;
+      // window.onload = populateFormFields;
   </script>
   
   
