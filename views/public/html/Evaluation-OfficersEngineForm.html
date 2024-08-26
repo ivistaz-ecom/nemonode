@@ -937,10 +937,10 @@ SIRE/CID experience
           // Set other form fields from URL parameters
           document.getElementById('rankApplied').value = urlParams.get('applied_rank');
           document.getElementById('dateNow').value = urlParams.get('applied_date');
-          document.getElementById('time').value = urlParams.get('time');
-          document.getElementById('remote').value = urlParams.get('remote');
+          const time = urlParams.get('time');
+          const remote = urlParams.get('remote');
           document.getElementById('intName').value = urlParams.get('interviewer_name');
-          document.getElementById('appliedBy').value = urlParams.get('applied_by');
+        const appliedBy = urlParams.get('applied_by');
       }
   
       function fetchValues(values) {
