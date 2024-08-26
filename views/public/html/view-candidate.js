@@ -1519,7 +1519,7 @@ async function fetchAndDisplayEvaluationData(candidateId) {
                 <td>${evaluation.time}</td>
                 <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
                 <td>${evaluation.applied_by}</td>
-                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.eval_type}', '${evaluation.applied_rank}', '${evaluation.applied_date}', '${evaluation.time}', '${evaluation.remote}', '${evaluation.interviewer_name}', '${evaluation.applied_by}','${evaluation.values}', event)">
+                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}','${evaluation.values}', event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-eye"></i>
                     </button>
             `;
@@ -1538,7 +1538,7 @@ async function fetchAndDisplayEvaluationData(candidateId) {
     }
 }
 
-function viewEvaluation(candidateId, id, eval_type, applied_rank, applied_date, time, remote, interviewer_name, applied_by, values, event) {
+function viewEvaluation(candidateId, id, values, event) {
     event.preventDefault(); // Prevent default behavior if necessary
 
     // Serialize the values object to a JSON string
@@ -1551,13 +1551,6 @@ function viewEvaluation(candidateId, id, eval_type, applied_rank, applied_date, 
     const queryString = new URLSearchParams({
         candidateId: candidateId,
         id: id,
-        eval_type: eval_type,
-        applied_rank: applied_rank,
-        applied_date: applied_date,
-        time: time,
-        remote: remote,
-        interviewer_name: interviewer_name,
-        applied_by: applied_by,
         values: encodedValues // Add the encoded values object
     }).toString();
 
