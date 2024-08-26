@@ -1541,8 +1541,11 @@ async function fetchAndDisplayEvaluationData(candidateId) {
 function viewEvaluation(candidateId, id, eval_type, applied_rank, applied_date, time, remote, interviewer_name, applied_by, values, event) {
     event.preventDefault(); // Prevent default behavior if necessary
 
-    // Serialize the values object to a JSON string and encode it
-    const serializedValues = encodeURIComponent(JSON.stringify(values));
+    // Serialize the values object to a JSON string
+    const serializedValues = JSON.stringify(values);
+
+    // Encode the JSON string for URL inclusion
+    const encodedValues = encodeURIComponent(serializedValues);
 
     // Create a query string with all the evaluation values
     const queryString = new URLSearchParams({
@@ -1555,12 +1558,13 @@ function viewEvaluation(candidateId, id, eval_type, applied_rank, applied_date, 
         remote: remote,
         interviewer_name: interviewer_name,
         applied_by: applied_by,
-        values: serializedValues // Add the serialized values object
+        values: encodedValues // Add the encoded values object
     }).toString();
 
     // Redirect to the Evaluation-OfficersEngineForm.html page with the query string
     window.location.href = `./Evaluation-OfficersEngineForm.html?${queryString}`;
 }
+
 
 
 
