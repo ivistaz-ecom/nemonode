@@ -115,36 +115,36 @@
         <form id="evaluationForm">
             <div class="form-group">
                 <label for="fullName">Family Name & Given Name</label>
-                <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+                <input type="text" disabled class="form-control" id="fullName" placeholder="Enter your full name">
             </div>
 
             <div class="form-row mb-3">
                 <div class="form-group col-md-4">
                     <label for="rankApplied">RANK APPLIED</label>
-                    <input type="text" class="form-control" id="rankApplied" placeholder="Enter rank applied">
+                    <input type="text" disabled class="form-control" id="rankApplied" placeholder="Enter rank applied">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="nationality">Nationality</label>
-                    <input type="text" class="form-control" id="nationality" placeholder="Enter nationality">
+                    <input type="text" disabled class="form-control" id="nationality" placeholder="Enter nationality">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="telephone">Telephone No.</label>
-                    <input type="tel" class="form-control" id="telephone" placeholder="Enter telephone number">
+                    <input type="tel" disabled class="form-control" id="telephone" placeholder="Enter telephone number">
                 </div>
             </div>
 
             <div class="form-row mb-3">
                 <div class="form-group col-md-4">
                     <label for="mobile">Mobile Ph.</label>
-                    <input type="tel" class="form-control" id="mobile" placeholder="Enter mobile phone number">
+                    <input type="tel" disabled class="form-control" id="mobile" placeholder="Enter mobile phone number">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="qualification">Qualification</label>
-                    <input type="text" class="form-control" id="qualification" placeholder="Enter qualification">
+                    <input type="text" disabled class="form-control" id="qualification" placeholder="Enter qualification">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="lastContract">Last Contract Position</label>
-                    <input type="text" class="form-control" id="lastContract" placeholder="Enter last contract position">
+                    <input type="text" disabled class="form-control" id="lastContract" placeholder="Enter last contract position">
                 </div>
             </div>
 
@@ -154,23 +154,24 @@
                       <div class="card-header">Communication</div>
                       <div class="card-body">
                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="englishLevel" id="englishGood" value="good">
+                              <input class="form-check-input" disabled type="checkbox" name="englishLevel" id="englishGood" value="good">
                               <label class="form-check-label" for="englishGood">Good</label>
                           </div>
                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="englishLevel" id="englishSatisf" value="satisfactory">
+                              <input class="form-check-input" disabled type="checkbox" name="englishLevel" id="englishSatisf" value="satisfactory">
                               <label class="form-check-label" for="englishSatisf">Satisfactory</label>
                           </div>
                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="englishLevel" id="englishPoor" value="poor">
-                              <label class="form-check-label" for="englishPoor">Poor</label>
-                          </div>
+                            <input class="form-check-input" disabled type="checkbox" name="englishLevel" id="englishPoor" value="poor">
+                            <label class="form-check-label" for="englishPoor">Poor</label>
+                        </div>
+                        
                       </div>
                   </div>
               </div>
               <div class="col-md-2 text-center  bg-light">
                   <p class="mt-2">BMI</p>
-                  <input type="text" id="bmi" name="bmi" class="form-control border" />
+                  <input type="text" id="bmi" name="bmi" disabled class="form-control border" />
               </div>
           </div>
 
@@ -182,31 +183,31 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="europe">
+                                <input class="form-check-input" disabled type="checkbox" id="europe">
                                 <label class="form-check-label" for="europe">Europe</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="usa">
+                                <input class="form-check-input" disabled type="checkbox" id="usa">
                                 <label class="form-check-label" for="usa">USA</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="medSea">
+                                <input class="form-check-input" disabled type="checkbox" id="medSea">
                                 <label class="form-check-label" for="medSea">Med.-Sea</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="farEast">
+                                <input class="form-check-input" disabled type="checkbox" id="farEast">
                                 <label class="form-check-label" for="farEast">Far East</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="pgGoa">
+                                <input class="form-check-input" disabled type="checkbox" id="pgGoa">
                                 <label class="form-check-label" for="pgGoa">PG/GOA</label>
                             </div>
                         </div>
@@ -227,17 +228,19 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
+                    disabled
                     name="crewExperience"
                     id="crewExperienceYes"
                     value="yes"
                   />
-                  <label class="form-check-label" for="crewExperienceYes"
+                  <label class="form-check-label" for="crewExperienceYes" 
                     >YES</label
                   >
                 </div>
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
+                    disabled
                     type="checkbox"
                     name="crewExperience"
                     id="crewExperienceNo"
@@ -251,6 +254,7 @@
               <div class="col">
                 <input
                   type="text"
+                  disabled
                   class="form-control w-50"
                   placeholder="Enter nationality"
                   id="newNationality"
@@ -278,7 +282,7 @@
         <div class="border border-black-1">
           <div class="bg-light p-3">
             <h5 for="automationExperience" class="form-label">AUTOMATION EXPERIENCE (indicate number of vessels)</h5>
-            <textarea class="form-control" id="automationExperience" rows="3"></textarea>
+            <textarea class="form-control" disabled id="automationExperience" rows="3"></textarea>
           </div>
         </div>
       </div>
@@ -300,22 +304,22 @@
           <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
           <div class="row row-cols-2 g-2 ">
             <div class="col">
-              <input type="text" class="form-control" placeholder="< 1000" id="ceInput1">
+              <input type="text" class="form-control" disabled placeholder="< 1000" id="ceInput1">
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="1000 - 3000" id="ceInput2">
+              <input type="text" class="form-control" disabled placeholder="1000 - 3000" id="ceInput2">
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="3000 - 6000" id="ceInput3">
+              <input type="text" class="form-control" disabled placeholder="3000 - 6000" id="ceInput3">
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="6000 - 10000" id="ceInput4">
+              <input type="text" class="form-control" disabled placeholder="6000 - 10000" id="ceInput4">
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="10000 - 15000" id="ceInput5">
+              <input type="text" class="form-control" disabled placeholder="10000 - 15000" id="ceInput5">
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder=">15000" id="ceInput6">
+              <input type="text" class="form-control" disabled placeholder=">15000" id="ceInput6">
             </div>
           </div>
         </div>
@@ -332,31 +336,31 @@
             <div class="col">
               <div class="">
                 <label for="sulzer" class="form-label fs-6">Sulzer</label>
-                <input type="text" id="sulzer" class="form-control">
+                <input type="text" id="sulzer" disabled class="form-control">
               </div>
             </div>
             <div class="col">
               <div class="">
                 <label for="sulzer_rta" class="form-label fs-6">Sulzer RTA</label>
-                <input type="text" id="sulzer_rta" class="form-control">
+                <input type="text" id="sulzer_rta" disabled class="form-control">
               </div>
             </div>
             <div class="col">
               <div class="p-1">
                 <label for="man_bw" class="form-label fs-6">MAN/B&W</label>
-                <input type="text" id="man_bw" class="form-control">
+                <input type="text" id="man_bw" disabled class="form-control">
               </div>
             </div>
             <div class="col">
               <div class="">
                 <label for="pielstick" class="form-label fs-6">Pielstick</label>
-                <input type="text" id="pielstick" class="form-control">
+                <input type="text" id="pielstick" disabled class="form-control">
               </div>
             </div>
             <div class="col">
               <div class="  ">
                 <label for="mak" class="form-label fs-6">MAK</label>
-                <input type="text" id="mak" class="form-control">
+                <input type="text" id="mak" disabled class="form-control">
               </div>
             </div>
           </div>
@@ -379,28 +383,28 @@
           <h5 class="form-label">TRADE AREA EXPERIENCE (indicate number of contracts)</h5>
           <div class="d-flex flex-wrap">
             <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="yanmar">
-              <label class="form-check-label" for="yanmar">Yanmar</label>
+              <input class="form-check-input" disabled type="checkbox" id="yanmar">
+              <label class="form-check-label"  for="yanmar">Yanmar</label>
             </div>
             <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="bw">
-              <label class="form-check-label" for="bw">B&W</label>
+              <input class="form-check-input" disabled type="checkbox" id="bw">
+              <label class="form-check-label"  for="bw">B&W</label>
             </div>
             <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="deutz">
-              <label class="form-check-label" for="deutz">Deutz</label>
+              <input class="form-check-input" disabled type="checkbox" id="deutz">
+              <label class="form-check-label"  for="deutz">Deutz</label>
             </div>
             <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="daihatsu">
-              <label class="form-check-label" for="daihatsu">Daihatsu</label>
+              <input class="form-check-input" disabled type="checkbox" id="daihatsu">
+              <label class="form-check-label"  for="daihatsu">Daihatsu</label>
             </div>
             <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="caterpillar">
-              <label class="form-check-label" for="caterpillar">Caterpillar</label>
+              <input class="form-check-input" disabled type="checkbox" id="caterpillar">
+              <label class="form-check-label"  for="caterpillar">Caterpillar</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="other">
-              <label class="form-check-label" for="other">Other</label>
+              <input class="form-check-input" disabled type="checkbox" id="other">
+              <label class="form-check-label"  for="other">Other</label>
             </div>
           </div>
         </div>
@@ -413,12 +417,12 @@
           <h5 class="form-label">TYPES OF CARGO GEARS PREVIOUSLY WORKED WITH:</h5>
           <div class="d-flex">
             <div class="form-check me-3 ">
-              <input class="form-check-input" type="checkbox" id="pumps">
-              <label class="form-check-label" for="pumps">PUMPS</label>
+              <input class="form-check-input" disabled type="checkbox" id="pumps">
+              <label class="form-check-label"  for="pumps">PUMPS</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gears">
-              <label class="form-check-label" for="gears">GEARS</label>
+              <input class="form-check-input" disabled type="checkbox" id="gears">
+              <label class="form-check-label"  for="gears">GEARS</label>
             </div>
           </div>
         </div>
@@ -436,22 +440,22 @@
           <div class="mb-2">
             <label class="form-label me-4 ">Drinking Habits</label>
             <div class="form-check form-check-inline p ">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+              <input class="form-check-input" disabled type="checkbox" name="drinkingHabits" id="drinkingYes">
               <label class="form-check-label " for="drinkingYes ">YES</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+              <input class="form-check-input" disabled type="checkbox" name="drinkingHabits" id="drinkingNo">
               <label class="form-check-label" for="drinkingNo">NO</label>
             </div>
           </div>
           <div>
             <label class="form-label ">Any Medical issues</label>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+              <input class="form-check-input" disabled type="checkbox" name="medicalIssues" id="medicalYes">
               <label class="form-check-label" for="medicalYes">YES</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+              <input class="form-check-input" disabled type="checkbox" name="medicalIssues" id="medicalNo">
               <label class="form-check-label" for="medicalNo">NO</label>
             </div>
           </div>
@@ -468,14 +472,14 @@
 Number of Contracts in Ranks
     </div>
     <div class="col border p-2">
-       <input class="form-control" id="psInput1">
+       <input class="form-control" disabled id="psInput1">
     </div>
 </div>
 <div class="row ">
     <div class="col-5 border pt-3">
 Type or size of the vessels served    </div>
     <div class="col border p-2">
-       <input class="form-control" id="psInput2">
+       <input class="form-control" disabled id="psInput2">
     </div>
 </div>
 <div class="row ">
@@ -483,7 +487,7 @@ Type or size of the vessels served    </div>
 Last contract sign off date
     </div>
     <div class="col border p-2">
-       <input class="form-control" id="psInput3">
+       <input class="form-control" disabled id="psInput3">
     </div>
 </div>
 <div class="row ">
@@ -491,7 +495,7 @@ Last contract sign off date
 Type of main engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput4">
+       <input class="form-control" disabled id="psInput4">
     </div>
 </div>
 <div class="row ">
@@ -499,7 +503,7 @@ Type of main engine exp.
 Type of AUX engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput5">
+       <input class="form-control" disabled  id="psInput5">
     </div>
 </div>
 <div class="row ">
@@ -507,7 +511,7 @@ Type of AUX engine exp.
 Cargo cranes/gear (marker) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput6">
+       <input class="form-control" disabled  id="psInput6">
     </div>
 </div>
 <div class="row ">
@@ -515,7 +519,7 @@ Cargo cranes/gear (marker) exp.
 Type of Cargo carried
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput7">
+       <input class="form-control"  disabled id="psInput7">
     </div>
 </div>
 <div class="row ">
@@ -523,7 +527,7 @@ Type of Cargo carried
 Type of Cargo pumps(tankers)
     </div>
     <div class="col border p-2">
-       <input class="form-control" id="psInput8">
+       <input class="form-control" disabled id="psInput8">
     </div>
 </div>
 <div class="row ">
@@ -531,7 +535,7 @@ Type of Cargo pumps(tankers)
 Trading Area(limited/WW)
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput9">
+       <input class="form-control" disabled  id="psInput9">
     </div>
 </div>
 <div class="row ">
@@ -539,7 +543,7 @@ Trading Area(limited/WW)
 Mixed crew (nationalities) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput10">
+       <input class="form-control" disabled id="psInput10">
     </div>
 </div>
 <div class="row ">
@@ -547,7 +551,7 @@ Mixed crew (nationalities) exp.
 ECDIS experience in previous 12 months
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput11">
+       <input class="form-control" disabled  id="psInput11">
     </div>
 </div>
 <div class="row ">
@@ -555,7 +559,7 @@ ECDIS experience in previous 12 months
 PSC experience
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput12">
+       <input class="form-control" disabled  id="psInput12">
     </div>
 </div>
 <div class="row ">
@@ -563,7 +567,7 @@ PSC experience
 SIRE/CID experience
     </div>
     <div class="col border p-2">
-       <input class="form-control"  id="psInput13">
+       <input class="form-control"  disabled id="psInput13">
     </div>
 </div>
   </div>
@@ -578,11 +582,11 @@ SIRE/CID experience
                         <label class="form-label">Experience in UMS vessels</label>
                           <div class="mb-2  ">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
                             <label class="form-check-label" for="umsVesselsYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="umsVessels" id="umsVesselsNo" value="no">
                             <label class="form-check-label" for="umsVesselsNo">NO</label>
                         </div>
                     </div>
@@ -590,11 +594,11 @@ SIRE/CID experience
                         <label class="form-label">Bilge & Sludge Management for Engineers</label>
                         <div class="mb-2">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
                             <label class="form-check-label" for="bilgeSludgeYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="bilgeSludge" id="bilgeSludgeNo" value="no">
                             <label class="form-check-label" for="bilgeSludgeNo">NO</label>
                         </div>
                     </div>
@@ -602,11 +606,11 @@ SIRE/CID experience
                                             <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="pmsSoftware" id="pmsSoftwareYes" value="yes">
                             <label class="form-check-label" for="pmsSoftwareYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="pmsSoftware" id="pmsSoftwareNo" value="no">
                             <label class="form-check-label" for="pmsSoftwareNo">NO</label>
                         </div>
                     </div>
@@ -614,11 +618,11 @@ SIRE/CID experience
                         <label class="form-label">Reefer containers experience</label>
                         <div class="mb-2 ">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
                             <label class="form-check-label" for="reeferContainersYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="reeferContainers" id="reeferContainersNo" value="no">
                             <label class="form-check-label" for="reeferContainersNo">NO</label>
                         </div>
                     </div>
@@ -626,11 +630,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesYes" value="yes">
                             <label class="form-check-label" for="extraordinaryCircumstancesYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesNo" value="no">
                             <label class="form-check-label" for="extraordinaryCircumstancesNo">NO</label>
                         </div>
                     </div>
@@ -639,11 +643,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="congestedPassage" id="congestedPassageYes" value="yes">
                             <label class="form-check-label" for="congestedPassageYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="congestedPassage" id="congestedPassageNo" value="no">
                             <label class="form-check-label" for="congestedPassageNo">NO</label>
                         </div>
                     </div>
@@ -652,11 +656,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="dryDock" id="dryDockYes" value="yes">
                             <label class="form-check-label" for="dryDockYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="dryDock" id="dryDockNo" value="no">
                             <label class="form-check-label" for="dryDockNo">NO</label>
                         </div>
                     </div>
@@ -665,11 +669,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="csmPlanning" id="csmPlanningYes" value="yes">
                             <label class="form-check-label" for="csmPlanningYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="csmPlanning" id="csmPlanningNo" value="no">
                             <label class="form-check-label" for="csmPlanningNo">NO</label>
                         </div>
                     </div>
@@ -680,11 +684,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="yardDelivery" id="yardDeliveryYes" value="yes">
                             <label class="form-check-label" for="yardDeliveryYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="yardDelivery" id="yardDeliveryNo" value="no">
                             <label class="form-check-label" for="yardDeliveryNo">NO</label>
                         </div>
                     </div>
@@ -693,11 +697,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="safetyISM" id="safetyISMYes" value="yes">
                             <label class="form-check-label" for="safetyISMYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="safetyISM" id="safetyISMNo" value="no">
                             <label class="form-check-label" for="safetyISMNo">NO</label>
                         </div>
                     </div>
@@ -706,11 +710,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="audits" id="auditsYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="audits" id="auditsYes" value="yes">
                             <label class="form-check-label" for="auditsYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="audits" id="auditsNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="audits" id="auditsNo" value="no">
                             <label class="form-check-label" for="auditsNo">NO</label>
                         </div>
                     </div>
@@ -719,11 +723,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationYes" value="yes">
                             <label class="form-check-label" for="ecaSecaOperationYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationNo" value="no">
                             <label class="form-check-label" for="ecaSecaOperationNo">NO</label>
                         </div>
                     </div>
@@ -732,11 +736,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="garbageManagement" id="garbageManagementYes" value="yes">
                             <label class="form-check-label" for="garbageManagementYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="garbageManagement" id="garbageManagementNo" value="no">
                             <label class="form-check-label" for="garbageManagementNo">NO</label>
                         </div>
                     </div>
@@ -745,11 +749,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="fuelChangeover" id="fuelChangeoverYes" value="yes">
                             <label class="form-check-label" for="fuelChangeoverYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="fuelChangeover" id="fuelChangeoverNo" value="no">
                             <label class="form-check-label" for="fuelChangeoverNo">NO</label>
                         </div>
                     </div>
@@ -758,11 +762,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="operationProcedures" id="operationProceduresYes" value="yes">
                             <label class="form-check-label" for="operationProceduresYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="operationProcedures" id="operationProceduresNo" value="no">
                             <label class="form-check-label" for="operationProceduresNo">NO</label>
                         </div>
                     </div>
@@ -770,11 +774,11 @@ SIRE/CID experience
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsYes" value="yes">
+                            <input class="form-check-input" disabled type="checkbox" name="regulations" id="regulationsYes" value="yes">
                             <label class="form-check-label" for="regulationsYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsNo" value="no">
+                            <input class="form-check-input" disabled type="checkbox" name="regulations" id="regulationsNo" value="no">
                             <label class="form-check-label" for="regulationsNo">NO</label>
                         </div>
                     </div>
@@ -788,6 +792,7 @@ SIRE/CID experience
               <label class="block mb-2">Last Employer – Reason for Leaving</label>
               <input
                 type="text"
+                disabled
                 placeholder="Enter reason for leaving"
                 class="w-full p-2 border rounded"
                 id="leavingLast"
@@ -799,25 +804,25 @@ SIRE/CID experience
           <h4 class="text-danger mb-3">INTERVIEWER COMMENTS</h4>
 
           <div class="mb-3">
-            <textarea class="form-control" rows="4" id="commentsInt"></textarea>
+            <textarea class="form-control" disabled rows="4" id="commentsInt"></textarea>
           </div>
 
           <div class="row mb-3">
             <div class="col-md-4">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="accepted" />
+                <input class="form-check-input" disabled type="checkbox" id="accepted" />
                 <label class="form-check-label" for="accepted">ACCEPTED:</label>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="rejected" />
+                <input class="form-check-input" disabled type="checkbox" id="rejected" />
                 <label class="form-check-label" for="rejected">REJECTED:</label>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="grading" />
+                <input class="form-check-input" disabled type="checkbox" id="grading" />
                 <label class="form-check-label" for="grading">GRADING:</label>
               </div>
             </div>
@@ -830,17 +835,18 @@ SIRE/CID experience
               <input
                 type="text"
                 class="form-control"
+                disabled
                 placeholder="INTERVIEWER NAME"
                 id="intName"
               />
             </div>
             <div class="col-md-4 mb-3">
               <small class="p-2">SIGNATURE:</small>
-              <input type="text" class="form-control" placeholder="SIGNATURE" id="signNow"/>
+              <input type="text" disabled class="form-control" placeholder="SIGNATURE" id="signNow"/>
             </div>
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
-              <input type="date" class="form-control" id="dateNow" />
+              <input type="date" disabled class="form-control" id="dateNow" />
             </div>
           </div>
         </div>
