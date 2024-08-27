@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     document.getElementById('evalType').addEventListener('change', function () {
         console.log("Evaluation type changed");
-
+    
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         const urlParams = new URLSearchParams(window.location.search);
@@ -191,11 +191,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedDate = document.getElementById('appliedDate').value;
         const appliedRank = document.getElementById('appliedRank').value;
         const interviewerName = document.getElementById('interviewer_name').value;
-        const time = document.getElementById('time').value
+        const time = document.getElementById('time').value;
         let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
-
-        if (selectedType === '1') {
+    
+        const engineerRanks = [
+            'Chief engineer', 
+            '2nd engineer', 
+            '3rd engineer', 
+            '4th engineer', 
+            'junior engineer'
+        ];
+    
+        if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             formUrl = 'Evaluation-OfficersEngine.html';
         } else if (selectedType === '2') {
             formUrl = 'deck-form.html';
@@ -204,15 +212,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else {
             formUrl = ''; // Clear the input if another option is selected
         }
-
+    
         if (formUrl) {
             const encodedAppliedRank = encodeURIComponent(appliedRank);
-
+    
             remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
-                    } else {
+        } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
     });
+    
 
 
 });
