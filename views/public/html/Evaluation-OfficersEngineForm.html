@@ -276,7 +276,7 @@
       <div class="col-md-6 mb-5">
         <div class="border border-black-1 ">
           <div class="bg-light p-3">
-            <h5 for="cargosHandled" class="form-label">CARGOS HANDLED</h5>
+            <h5 for="cargosHandled" class="">CARGOS HANDLED</h5>
             <input id="cargosHandled" type="text" readonly>
           </div>
         </div>
@@ -915,89 +915,93 @@ SIRE/CDI experience Right ship
     <script>
       // Function to fetch evaluation data based on candidateId and id
       async function fetchEvaluationData(candidateId, evalId) {
-        try {
-            // Replace with your actual API endpoint
-            const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
-            const evaluationData = response.data.values;
-            console.log("Fetched Evaluation Data:", evaluationData);
-
-            // Call function to populate form fields with the evaluation data
-            populateFormFields(evaluationData);
-        } catch (error) {
-            console.error('Error fetching evaluation data:', error);
-        }
-    }
-
-    // Function to populate form fields with values from the evaluation data
-    function populateFormFields(data) {
-        const ids = [
-            'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
-            'qualification', 'lastContract', 'englishGood', 'englishSatisf',
-            'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
-            'crewExperienceYes', 'crewExperienceNo', 'newNationality',
-            'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
-            'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
-            'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
-            'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
-            'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
-            'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
-            'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
-            'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludgeNo',
-            'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes',
-            'reeferContainersNo', 'extraordinaryCircumstancesYes',
-            'extraordinaryCircumstancesNo', 'congestedPassageYes',
-            'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
-            'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
-            'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
-            'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
-            'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
-            'operationProceduresNo', 'regulationsYes', 'regulationsNo',
-            'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
-            'intName', 'dateNow', 'signNow'
-        ];
-
-        ids.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                if (data[id] !== undefined) { // Check if the value exists
-                    if (element.type === 'checkbox') {
-                        element.checked = data[id] === true;
-                    } else {
-                        element.value = data[id] || '';
-                    }
-                    // Log the key-value pairs
-                    console.log(`Setting ${id}:`, data[id]);
-                }
-            }
-        });
-    }
-
-    // Function to extract query parameters and call fetchEvaluationData
-    function initialize() {
-        const params = new URLSearchParams(window.location.search);
-        const candidateId = params.get('candidateId');
-        const evalId = params.get('id');
-        const time = params.get('time');
-
-const timeElement = document.getElementById('timeNow');
-if (timeElement) {
-    timeElement.value = time || ''; // Default to an empty string if `time` is null
-} else {
-    console.error('Element with ID "timeNow" not found.');
-}
-        if (candidateId && evalId) {
-            console.log("Candidate ID:", candidateId);
-            console.log("Evaluation ID:", evalId);
-            fetchEvaluationData(candidateId, evalId);
-        } else {
-            console.warn('Missing candidateId or id in URL');
-        }
-    }
-
-    // Call initialize function on page load
-    window.onload = initialize;
-
-    function updatePrintableArea() {
+          try {
+              // Replace with your actual API endpoint
+              const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+              const evaluationData = response.data.values;
+              console.log("Fetched Evaluation Data:", evaluationData);
+  
+              // Call function to populate form fields with the evaluation data
+              populateFormFields(evaluationData);
+          } catch (error) {
+              console.error('Error fetching evaluation data:', error);
+          }
+      }
+  
+      // Function to populate form fields with values from the evaluation data
+      function populateFormFields(data) {
+          const ids = [
+              'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+              'qualification', 'lastContract', 'englishGood', 'englishSatisf',
+              'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
+              'crewExperienceYes', 'crewExperienceNo', 'newNationality',
+              'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
+              'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
+              'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
+              'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
+              'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
+              'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
+              'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
+              'umsVesselsYes', 'umsVesselsNo', 'bilgeSludgeYes', 'bilgeSludgeNo',
+              'pmsSoftwareYes', 'pmsSoftwareNo', 'reeferContainersYes',
+              'reeferContainersNo', 'extraordinaryCircumstancesYes',
+              'extraordinaryCircumstancesNo', 'congestedPassageYes',
+              'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
+              'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
+              'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
+              'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
+              'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
+              'operationProceduresNo', 'regulationsYes', 'regulationsNo',
+              'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
+              'intName', 'dateNow', 'signNow'
+          ];
+  
+          ids.forEach(id => {
+              const element = document.getElementById(id);
+              if (element) {
+                  if (data[id] !== undefined) { // Check if the value exists
+                      if (element.type === 'checkbox') {
+                          element.checked = data[id] === true;
+                      } else {
+                          element.value = data[id] || '';
+                      }
+                      // Log the key-value pairs
+                      console.log(`Setting ${id}:`, data[id]);
+                  }
+              }
+          });
+  
+          // Make all inputs read-only and disable checkbox toggling
+          makeFormReadOnly();
+      }
+  
+      // Function to extract query parameters and call fetchEvaluationData
+      function initialize() {
+          const params = new URLSearchParams(window.location.search);
+          const candidateId = params.get('candidateId');
+          const evalId = params.get('id');
+          const time = params.get('time');
+  
+          const timeElement = document.getElementById('timeNow');
+          if (timeElement) {
+              timeElement.value = time || ''; // Default to an empty string if `time` is null
+          } else {
+              console.error('Element with ID "timeNow" not found.');
+          }
+  
+          if (candidateId && evalId) {
+              console.log("Candidate ID:", candidateId);
+              console.log("Evaluation ID:", evalId);
+              fetchEvaluationData(candidateId, evalId);
+          } else {
+              console.warn('Missing candidateId or id in URL');
+          }
+      }
+  
+      // Call initialize function on page load
+      window.onload = initialize;
+  
+      function updatePrintableArea() {
           var form = document.getElementById('evaluationForm');
           var formData = new FormData(form);
   
@@ -1038,7 +1042,23 @@ if (timeElement) {
           updatePrintableArea();
           window.print();
       }
+  
+      // Function to make form inputs read-only and prevent checkbox toggling
+      function makeFormReadOnly() {
+          const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+          inputs.forEach(input => {
+              input.setAttribute('readonly', true);
+          });
+  
+          const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+          checkboxes.forEach(checkbox => {
+              checkbox.addEventListener('click', function(event) {
+                  event.preventDefault();
+              });
+          });
+      }
   </script>
+  
   
   
   
