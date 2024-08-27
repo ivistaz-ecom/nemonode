@@ -87,7 +87,7 @@
 
     </style>
 </head>
-<body class="">
+<body style="font-size: 18px;">
  
 
 
@@ -211,6 +211,12 @@
                                 <label class="form-check-label" for="pgGoa">PG/GOA</label>
                             </div>
                         </div>
+                        <div class="col">
+                          <div class="">
+                              <input class="" disabled type="text" id="othersTAE" placeholder="others">
+                              
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -271,10 +277,7 @@
         <div class="border border-black-1 ">
           <div class="bg-light p-3">
             <h5 for="cargosHandled" class="form-label">CARGOS HANDLED</h5>
-            <select class="form-select" id="cargosHandled">
-              <option selected>&lt;SELECT&gt;</option>
-              <!-- Add more options as needed -->
-            </select>
+            <input id="cargosHandled" type="text" disabled>
           </div>
         </div>
       </div>
@@ -299,31 +302,50 @@
     <div class="col-md-6 ">
      <div class="row ">
     <div class="col ">
-      <div class="border border-black-1  ">
-        <div class="bg-light p-4 ">
+      <div class="border border-black-1">
+        <div class="bg-light p-4">
           <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
-          <div class="row row-cols-2 g-2 ">
+          <div class="row row-cols-2 g-2">
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder="< 1000" id="ceInput1">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput1">
+                <label class="form-check-label" for="ceInput1">&lt; 1000</label>
+              </div>
             </div>
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder="1000 - 3000" id="ceInput2">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput2">
+                <label class="form-check-label" for="ceInput2">1000 - 3000</label>
+              </div>
             </div>
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder="3000 - 6000" id="ceInput3">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput3">
+                <label class="form-check-label" for="ceInput3">3000 - 6000</label>
+              </div>
             </div>
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder="6000 - 10000" id="ceInput4">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput4">
+                <label class="form-check-label" for="ceInput4">6000 - 10000</label>
+              </div>
             </div>
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder="10000 - 15000" id="ceInput5">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput5">
+                <label class="form-check-label" for="ceInput5">10000 - 15000</label>
+              </div>
             </div>
             <div class="col">
-              <input type="text" class="form-control" disabled placeholder=">15000" id="ceInput6">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput6">
+                <label class="form-check-label" for="ceInput6">&gt;15000</label>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   </div>
     </div>
@@ -361,6 +383,12 @@
               <div class="  ">
                 <label for="mak" class="form-label fs-6">MAK</label>
                 <input type="text" id="mak" disabled class="form-control">
+              </div>
+            </div><div class="col">
+              <div class="  ">
+                <label for="mak" class="form-label fs-6">Others</label>
+
+                <input type="text" id="otherME" disabled class="form-control"  >
               </div>
             </div>
           </div>
@@ -403,8 +431,7 @@
               <label class="form-check-label"  for="caterpillar">Caterpillar</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" disabled type="checkbox" id="other">
-              <label class="form-check-label"  for="other">Other</label>
+              <input class="" disabled type="text" id="other" placeholder="other">
             </div>
           </div>
         </div>
@@ -415,14 +442,12 @@
       <div class="border border-black-1">
         <div class="bg-light pt-3 p-3 mb-4">
           <h5 class="form-label">TYPES OF CARGO GEARS PREVIOUSLY WORKED WITH:</h5>
-          <div class="d-flex">
+          <div class="">
             <div class="form-check me-3 ">
-              <input class="form-check-input" disabled type="checkbox" id="pumps">
-              <label class="form-check-label"  for="pumps">PUMPS</label>
+              <input class="" disabled type="text" id="pumps" placeholder="Pumps">
             </div>
             <div class="form-check">
-              <input class="form-check-input" disabled type="checkbox" id="gears">
-              <label class="form-check-label"  for="gears">GEARS</label>
+              <input class="" disabled type="text" id="gears" placeholder="Gears">
             </div>
           </div>
         </div>
@@ -564,7 +589,7 @@ PSC experience
 </div>
 <div class="row ">
     <div class="col-5 border pt-3">
-SIRE/CID experience
+SIRE/CDI experience Right ship
     </div>
     <div class="col border p-2">
        <input class="form-control"  disabled id="psInput13">
@@ -821,12 +846,34 @@ SIRE/CID experience
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" disabled type="checkbox" id="grading" />
-                <label class="form-check-label" for="grading">GRADING:</label>
+              <div class="form-group">
+                <label for="grading">GRADING:</label>
+                <select class="form-control" id="grading" disabled>
+                  <option value="">Select a grade</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
               </div>
+              
+            </div>
+            <div class="col-md-4 mb-3">
+              <small class="d-block">DATE:</small>
+              <input type="date" disabled class="form-control" id="dateNow" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <small class="d-block">TIME:</small>
+              <input type="time" disabled class="form-control" id="timeNow" />
             </div>
           </div>
+          
 
           <div class="row">
             <div class="col-md-4 mb-3">
@@ -844,10 +891,7 @@ SIRE/CID experience
               <small class="p-2">SIGNATURE:</small>
               <input type="text" disabled class="form-control"  id="signNow"/>
             </div>
-            <div class="col-md-4 mb-3">
-              <small class="d-block">DATE:</small>
-              <input type="date" disabled class="form-control" id="dateNow" />
-            </div>
+        
           </div>
         </div>
         </div>
