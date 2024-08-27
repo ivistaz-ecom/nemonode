@@ -196,11 +196,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         let formUrl = '';
     
         const engineerRanks = [
-            'Chief engineer', 
-            '2nd engineer', 
-            '3rd engineer', 
-            '4th engineer', 
-            'junior engineer'
+            'CHIEF ENGINEER', 
+            '2ND ENGINEER', 
+            '3RD ENGINEER', 
+            '4TH ENGINEER', 
+            'JUNIOR ENGINEER'
         ];
     
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
