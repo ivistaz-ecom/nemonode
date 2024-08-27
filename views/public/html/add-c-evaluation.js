@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const time = document.getElementById('time').value;
         let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
-    
+        console.log(appliedRank)
         const engineerRanks = [
             'CHIEF ENGINEER', 
             '2ND ENGINEER', 
