@@ -7,6 +7,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+      .body{
+        font-size: larger !important;
+      }
       /* Ensure the container has a fixed width */
       .container {
             width: 800px; /* Fixed width for the container */
@@ -276,7 +279,7 @@
       <div class="col-md-6 mb-5">
         <div class="border border-black-1 ">
           <div class="bg-light p-3">
-            <h5 for="cargosHandled" class="">CARGOS HANDLED</h5>
+            <h5 for="cargosHandled" class="form-label">CARGOS HANDLED</h5>
             <input id="cargosHandled" type="text" readonly>
           </div>
         </div>
@@ -917,7 +920,7 @@ SIRE/CDI experience Right ship
       async function fetchEvaluationData(candidateId, evalId) {
           try {
               // Replace with your actual API endpoint
-              const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+              const response = await axios.get(`http://localhost:8001/candidate/viewevaluation/${evalId}/${candidateId}`);
               const evaluationData = response.data.values;
               console.log("Fetched Evaluation Data:", evaluationData);
   
