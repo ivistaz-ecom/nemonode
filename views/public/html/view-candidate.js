@@ -1519,7 +1519,7 @@ async function fetchAndDisplayEvaluationData(candidateId) {
                 <td>${evaluation.time}</td>
                 <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
                 <td>${evaluation.applied_by}</td>
-                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.time}' event)">
+                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.time}', event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-eye"></i>
                     </button>
             `;

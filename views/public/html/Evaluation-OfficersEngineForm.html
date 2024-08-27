@@ -978,7 +978,13 @@ SIRE/CDI experience Right ship
         const candidateId = params.get('candidateId');
         const evalId = params.get('id');
         const time = params.get('time');
-      
+
+const timeElement = document.getElementById('timeNow');
+if (timeElement) {
+    timeElement.value = time || ''; // Default to an empty string if `time` is null
+} else {
+    console.error('Element with ID "timeNow" not found.');
+}
         if (candidateId && evalId) {
             console.log("Candidate ID:", candidateId);
             console.log("Evaluation ID:", evalId);
