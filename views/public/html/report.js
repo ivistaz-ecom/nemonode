@@ -3579,6 +3579,12 @@ async function handleDueforSignOffSubmit(event) {
         const tableContainer = document.getElementById('DuesignOffTable');
         tableContainer.innerHTML = '';
 
+        // Display number of records fetched
+        const recordCount = document.createElement('p');
+        recordCount.textContent = `${contracts.length} records fetched`;
+        recordCount.classList.add('text-info');
+        tableContainer.appendChild(recordCount);
+
         // Create pagination controls container
         const paginationContainer = document.createElement('div');
         paginationContainer.id = 'paginationContainer';
@@ -3669,24 +3675,18 @@ async function handleDueforSignOffSubmit(event) {
                 row.classList.add('border'); // Adding border to the row
                 const fields = [
                     start + index + 1, // Serial number (sno)
-                    contract.candidateId,
-                    contract.fname,
-                    contract.lname,
-                    getNationalityName(contract.nationality),
-                    contract.rank,
-                    contract.vesselName,
-                    contract.eoc, // Access the EOC date from the contract
-                    contract.company_name
+                    contract.candidateId || 'N/A',
+                    contract.fname || 'N/A',
+                    contract.lname || 'N/A',
+                    getNationalityName(contract.nationality) || 'N/A',
+                    contract.rank || 'N/A',
+                    contract.vesselName || 'N/A',
+                    contract.eoc ? new Date(contract.eoc).toLocaleDateString() : 'N/A',
+                    contract.company_name || 'N/A'
                 ];
                 fields.forEach((field, fieldIndex) => {
                     const cell = document.createElement('td');
-                    if (fieldIndex === 0) {
-                        cell.textContent = field; // Serial number
-                    } else if (fieldIndex === headers.length - 3) {
-                        cell.textContent = new Date(field).toLocaleDateString();
-                    } else {
-                        cell.textContent = field;
-                    }
+                    cell.textContent = field;
                     cell.classList.add('text-center');
                     row.appendChild(cell);
                 });
@@ -3757,19 +3757,31 @@ async function handleDueforSignOffSubmit(event) {
             }
         }
 
-        // Export to Excel button
-        const exportButton = document.createElement('button');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
-        exportButton.addEventListener('click', async () => {
-            try {
-                const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-                await XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-            }
-        });
-        tableContainer.appendChild(exportButton);
+        // Create export button
+       // Create export button
+const exportButton = document.createElement('button');
+exportButton.textContent = 'Export to Excel';
+exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
+exportButton.addEventListener('click', async () => {
+    try {
+        // Process contracts data
+        const processedContracts = contracts.map(contract => ({
+            ...contract,
+            vslName: getVesselName(contract.vslName) || 'N/A',
+            nationality: getNationalityName(contract.nationality) || 'N/A'
+        }));
+
+        // Convert processed data to Excel with headers automatically generated
+        const ws = XLSX.utils.json_to_sheet(processedContracts);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'DueSignOffCandidates');
+        XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
+    } catch (error) {
+        console.error('Error exporting to Excel:', error);
+    }
+});
+tableContainer.appendChild(exportButton);
+
 
         // Initial render of table and pagination
         renderTable();
@@ -3788,6 +3800,7 @@ async function handleDueforSignOffSubmit(event) {
     }
 }
 
+
 function calculateStatus(eocDate) {
     const today = new Date();
     const eoc = new Date(eocDate);
@@ -3803,8 +3816,8 @@ function calculateStatus(eocDate) {
     }
 }
 
-
 document.getElementById('dueforsignoffform').addEventListener('submit', handleDueforSignOffSubmit);
+
 
 async function handleAvailableCandidatesSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
