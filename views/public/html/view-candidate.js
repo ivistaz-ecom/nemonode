@@ -1519,7 +1519,7 @@ async function fetchAndDisplayEvaluationData(candidateId) {
                 <td>${evaluation.time}</td>
                 <td><a href="${evaluation.remote || '#'}" target="_blank">View Link</a></td>
                 <td>${evaluation.applied_by}</td>
-                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}','${evaluation.values}', event)">
+                <button class="btn border-0 m-0 p-0" onclick="viewEvaluation('${candidateId}', '${evaluation.id}', '${evaluation.time}' event)">
                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-eye"></i>
                     </button>
             `;
@@ -1537,14 +1537,14 @@ async function fetchAndDisplayEvaluationData(candidateId) {
         console.error('Error fetching evaluation data:', error.message);
     }
 }
-function viewEvaluation(candidateId, id, values, event) {
+function viewEvaluation(candidateId, id,time, event) {
     event.preventDefault(); // Prevent default behavior if necessary
 
     // Manually serialize the values object into key-value pairs
     // Trim the trailing '&' character
 
     // Create a query string with the IDs and serialized values
-    const queryString = `candidateId=${candidateId}&id=${id}`;
+    const queryString = `candidateId=${candidateId}&id=${id}&time=${time}`;
 
     // Redirect to the Evaluation-OfficersEngineForm.html page with the query string
     window.location.href = `./Evaluation-OfficersEngineForm.html?${queryString}`;
