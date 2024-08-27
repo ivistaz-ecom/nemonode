@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR ENGINEER'
+            'JUNIOR OFFICER'
         ];
     
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
