@@ -117,6 +117,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                     option.text = rankNames[i];
                     rankDropdown.appendChild(option);
                 }
+
+                // Update evalType based on the initial appliedRank
+                updateEvalTypeBasedOnRank();
             })
             .catch(error => console.error('Error fetching ranks:', error));
     }
@@ -161,18 +164,18 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedBy = decodedToken.userName;
     
         const evaluationData = {
-           
-        };
-    
-        try {
-            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, { eval_type: evalType,
+            eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
             remote: remoteLink,
             interviewer_name: interviewerName,
             applied_by: appliedBy,
-            values: null, // or any other value you want to set
+            values: null // or any other value you want to set
+        };
+    
+        try {
+            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, evaluationData, {
                 headers: { 'Authorization': token }
             });
             console.log('Evaluation dataset created and email sent successfully:', response.data);
@@ -180,10 +183,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error creating evaluation dataset or sending email:', error.message);
         }
     });
-    
+
     document.getElementById('evalType').addEventListener('change', function () {
         console.log("Evaluation type changed");
-    
+
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         const urlParams = new URLSearchParams(window.location.search);
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             '4TH ENGINEER', 
             'JUNIOR OFFICER'
         ];
-    
+
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             formUrl = 'Evaluation-OfficersEngine.html';
         } else if (selectedType === '2') {
@@ -212,17 +215,24 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else {
             formUrl = ''; // Clear the input if another option is selected
         }
-    
+
         if (formUrl) {
             const encodedAppliedRank = encodeURIComponent(appliedRank);
-    
+
             remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
         } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
     });
-    
 
+    // Add event listener for applied rank change
+    document.getElementById('appliedRank').addEventListener('change', function () {
+        console.log("Applied rank changed");
+
+        updateEvalTypeBasedOnRank();
+        const evalTypeChangeEvent = new Event('change');
+        document.getElementById('evalType').dispatchEvent(evalTypeChangeEvent);
+    });
 
 });
 
