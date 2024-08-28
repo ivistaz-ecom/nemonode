@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     dropdownItems.forEach(function (item) {
         item.addEventListener("click", function () {
-            const itemId = item.id;
+            var itemId = item.id;
+            const urlParams = new URLSearchParams(window.location.search);
             const memId = urlParams.get('memId');
-            let destinationPage = "";
+            var destinationPage = "";
             switch (itemId) {
                 case "personal":
                     destinationPage = `./edit-candidate-2.html?memId=${memId}`;
@@ -116,9 +117,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                     option.text = rankNames[i];
                     rankDropdown.appendChild(option);
                 }
-
-                // Update evalType based on the initial appliedRank
-                updateEvalTypeBasedOnRank();
             })
             .catch(error => console.error('Error fetching ranks:', error));
     }
@@ -138,8 +136,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 users.forEach(user => {
                     const option = document.createElement('option');
-                    option.value = user.userEmail;
-                    option.text = `${user.userName}`;
+                    option.value = user.userEmail; // Assuming 'id' is the correct attribute for user ID
+                    option.text = `${user.userName}`; // Assuming 'userName' is the correct attribute for user name
                     userDropdown.appendChild(option);
                 });
             })
@@ -163,18 +161,18 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedBy = decodedToken.userName;
     
         const evaluationData = {
-            eval_type: evalType,
+           
+        };
+    
+        try {
+            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, { eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
             remote: remoteLink,
             interviewer_name: interviewerName,
             applied_by: appliedBy,
-            values: null // or any other value you want to set
-        };
-    
-        try {
-            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, evaluationData, {
+            values: null, // or any other value you want to set
                 headers: { 'Authorization': token }
             });
             console.log('Evaluation dataset created and email sent successfully:', response.data);
@@ -182,45 +180,52 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error creating evaluation dataset or sending email:', error.message);
         }
     });
+    
+    document.getElementById('evalType').addEventListener('change', function () {
+        console.log("Evaluation type changed");
+        const evalType = document.getElementById('evalType').value;
 
-    function updateEvalTypeBasedOnRank() {
-        const appliedRank = document.getElementById('appliedRank').value;
-        const evalType = document.getElementById('evalType');
+        const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         const urlParams = new URLSearchParams(window.location.search);
         const candidateId = urlParams.get('memId');
         const appliedDate = document.getElementById('appliedDate').value;
+        const appliedRank = document.getElementById('appliedRank').value;
         const interviewerName = document.getElementById('interviewer_name').value;
         const time = document.getElementById('time').value;
         let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
-
-        // Define evaluation types based on rank
-        const evaluationUrls = {
-            'CHIEF ENGINEER': 'Evaluation-OfficersEngine.html',
-            '2ND ENGINEER': 'Evaluation-OfficersEngine.html',
-            '3RD ENGINEER': 'Evaluation-OfficersEngine.html',
-            '4TH ENGINEER': 'Evaluation-OfficersEngine.html',
-            'JUNIOR OFFICER': 'Evaluation-OfficersEngine.html',
-            'DECK': 'deck-form.html',
-            'GALLEY': 'galley-form.html',
-        };
-
-        formUrl = evaluationUrls[appliedRank] || '';
-
+    
+        const engineerRanks = [
+            'CHIEF ENGINEER', 
+            '2nd engineer', 
+            '3rd engineer', 
+            '4th engineer', 
+            'junior engineer'
+        ];
+    
+        if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
+            evalType.value = '1';
+            formUrl = 'Evaluation-OfficersEngine.html';
+        } else if (selectedType === '2') {
+            formUrl = 'deck-form.html';
+        } else if (selectedType === '3') {
+            formUrl = 'galley-form.html';
+        } else {
+            formUrl = ''; // Clear the input if another option is selected
+        }
+    
         if (formUrl) {
-            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodeURIComponent(appliedRank)}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
+            const encodedAppliedRank = encodeURIComponent(appliedRank);
+    
+            remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
         } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
-    }
-
-    document.getElementById('evalType').addEventListener('change', updateEvalTypeBasedOnRank);
-
-    document.getElementById('appliedRank').addEventListener('change', function () {
-        console.log("Applied rank changed");
-        updateEvalTypeBasedOnRank();
     });
+    
+
+
 });
 
 function goBack() {
@@ -229,25 +234,15 @@ function goBack() {
     if (candidateId) {
         const url = `./view-candidate.html?id=${candidateId}`;
         window.location.href = url;
+    } else {
+        console.error('Candidate ID not found in URL parameters');
     }
- else {
-    console.error('Candidate ID not found in URL parameters');
-}
 }
 
 function decodeToken(token) {
-// Basic implementation for decoding JWT token
-// This assumes the token is a valid JWT and uses base64url encoding
-if (!token) return {};
-try {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
     const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-} catch (error) {
-    console.error('Failed to decode token:', error);
-    return {};
-}
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
 }
