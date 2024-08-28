@@ -200,8 +200,17 @@ document.addEventListener('DOMContentLoaded', async function () {
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR OFFICER'
+            'JUNIOR ENGINEER'
         ];
+
+        // const engineerRanks = [
+        //     'MASTER', 
+        //     'CHIEF OFFICER', 
+        //     '2ND OFFICER', 
+        //     '3RD OFFICER', 
+        //     'JUNIOR OFFICER'
+        // ];
+    
     
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             evalType.value = '1';

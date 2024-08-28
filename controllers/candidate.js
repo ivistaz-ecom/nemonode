@@ -3119,6 +3119,74 @@ const onBoard = async (req, res) => {
 
 
 
+// const crewList = async (req, res) => {
+//     const { startDate, endDate, vslName, company } = req.query;
+
+//     // Log the parameters to debug
+//     console.log({ startDate, endDate, vslName, company });
+
+//     if (!startDate || !endDate) {
+//         return res.status(400).send('Missing required query parameters: startDate and endDate');
+//     }
+
+//     let query = `
+//         SELECT 
+//             a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
+//             a.wages_types, a.sign_on, a.sign_off, a.eoc, 
+//             b.fname, b.lname, b.nationality, b.c_rank, 
+//             c.id AS vesselId, b.category, e.company_name,
+//             bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
+//             bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
+//             bd.branch, bd.types, bd.created_by,
+//             (SELECT cd_indian_cdc.document_number 
+//                 FROM cdocuments cd_indian_cdc 
+//                 WHERE cd_indian_cdc.candidateId = b.candidateId 
+//                 AND cd_indian_cdc.document = 'Indian CDC' 
+//                 LIMIT 1) AS indian_cdc_document_number,
+//             (SELECT cd_passport.document_number 
+//                 FROM cdocuments cd_passport 
+//                 WHERE cd_passport.candidateId = b.candidateId 
+//                 AND cd_passport.document = 'Passport' 
+//                 LIMIT 1) AS passport_document_number
+//         FROM 
+//             contract AS a
+//             JOIN Candidates AS b ON a.candidateId = b.candidateId
+//             JOIN vsls AS c ON a.vslName = c.id
+//             JOIN companies AS e ON a.company = e.company_id
+//             LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
+//             LEFT JOIN ranks AS r ON b.c_rank = r.rank
+//         WHERE 
+//             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
+//             (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
+//             (a.sign_on <= :endDate AND a.sign_off >= :endDate)) AND 
+//             (a.sign_on <= :endDate)
+//     `;
+
+//     const replacements = { startDate, endDate };
+
+//     if (vslName) {
+//         query += ' AND c.id = :vslName';
+//         replacements.vslName = vslName;
+//     }
+
+//     if (company) {
+//         query += ' AND a.company = :company';
+//         replacements.company = company;
+//     }
+
+//     query += ' ORDER BY r.rankOrder ASC';
+
+//     try {
+//         const results = await sequelize.query(query, {
+//             type: sequelize.QueryTypes.SELECT,
+//             replacements
+//         });
+//         res.json(results);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('An error occurred while retrieving the crew list.');
+//     }
+// };
 const crewList = async (req, res) => {
     const { startDate, endDate, vslName, company } = req.query;
 
@@ -3130,14 +3198,25 @@ const crewList = async (req, res) => {
     }
 
     let query = `
+        WITH RankedBanks AS (
+            SELECT 
+                bd.*,
+                ROW_NUMBER() OVER (PARTITION BY bd.candidateId ORDER BY 
+                    CASE 
+                        WHEN bd.types = 'general' THEN 1 
+                        ELSE 2 
+                    END
+                ) AS rn
+            FROM bank AS bd
+        )
         SELECT 
             a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
             a.wages_types, a.sign_on, a.sign_off, a.eoc, 
             b.fname, b.lname, b.nationality, b.c_rank, 
             c.id AS vesselId, b.category, e.company_name,
-            bd.bank_name, bd.account_num, bd.bank_addr, bd.ifsc_code, bd.swift_code,
-            bd.beneficiary, bd.beneficiary_addr, bd.pan_num, bd.passbook, bd.pan_card,
-            bd.branch, bd.types, bd.created_by,
+            rb.bank_name, rb.account_num, rb.bank_addr, rb.ifsc_code, rb.swift_code,
+            rb.beneficiary, rb.beneficiary_addr, rb.pan_num, rb.passbook, rb.pan_card,
+            rb.branch, rb.types, rb.created_by,
             (SELECT cd_indian_cdc.document_number 
                 FROM cdocuments cd_indian_cdc 
                 WHERE cd_indian_cdc.candidateId = b.candidateId 
@@ -3153,7 +3232,7 @@ const crewList = async (req, res) => {
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
-            LEFT JOIN bank AS bd ON b.candidateId = bd.candidateId
+            LEFT JOIN RankedBanks AS rb ON b.candidateId = rb.candidateId AND rb.rn = 1
             LEFT JOIN ranks AS r ON b.c_rank = r.rank
         WHERE 
             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
