@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     document.getElementById('evalType').addEventListener('change', function () {
         console.log("Evaluation type changed");
-        const evalType = document.getElementById('evalType').value;
+        const evalType = document.getElementById('evalType')
 
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
