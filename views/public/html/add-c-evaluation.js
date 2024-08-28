@@ -203,7 +203,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             '4th engineer', 
             'junior engineer'
         ];
-    console.log(evalType)
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             evalType.value = '1';
             console.log(evalType)
