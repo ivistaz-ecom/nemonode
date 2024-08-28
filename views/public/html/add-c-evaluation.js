@@ -183,8 +183,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     document.getElementById('evalType').addEventListener('change', function () {
         console.log("Evaluation type changed");
-        const evalType = document.getElementById('evalType')
-
+        const evalType = document.getElementById('evalType');
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         const urlParams = new URLSearchParams(window.location.search);
@@ -198,15 +197,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     
         const engineerRanks = [
             'CHIEF ENGINEER', 
-            '2nd engineer', 
-            '3rd engineer', 
-            '4th engineer', 
-            'junior engineer'
+            '2ND ENGINEER', 
+            '3RD ENGINEER', 
+            '4TH ENGINEER', 
+            'JUNIOR OFFICER'
         ];
+    
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             evalType.value = '1';
-            console.log(evalType)
-
             formUrl = 'Evaluation-OfficersEngine.html';
         } else if (selectedType === '2') {
             formUrl = 'deck-form.html';
@@ -218,12 +216,39 @@ document.addEventListener('DOMContentLoaded', async function () {
     
         if (formUrl) {
             const encodedAppliedRank = encodeURIComponent(appliedRank);
-    
             remoteLinkInput.value = `${baseUrl}${formUrl}?candidateId=${candidateId}&appliedDate=${appliedDate}&appliedRank=${encodedAppliedRank}&interviewerName=${encodeURIComponent(interviewerName)}&time=${encodeURIComponent(time)}`;
         } else {
             remoteLinkInput.value = ''; // Clear the input if no valid form URL
         }
+    
+        // Trigger the change event manually if needed
+        const event = new Event('change');
+        evalType.dispatchEvent(event);
     });
+    
+    // Set up an initial event listener to handle changes and updates
+    document.getElementById('appliedRank').addEventListener('input', function () {
+        const evalType = document.getElementById('evalType');
+        const appliedRank = this.value;
+        const engineerRanks = [
+            'CHIEF ENGINEER', 
+            '2nd engineer', 
+            '3rd engineer', 
+            '4th engineer', 
+            'junior engineer'
+        ];
+    
+        if (engineerRanks.includes(appliedRank)) {
+            evalType.value = '1';
+        } else {
+            evalType.value = ''; // Or set to another value if needed
+        }
+        
+        // Trigger the change event manually
+        const event = new Event('change');
+        evalType.dispatchEvent(event);
+    });
+    
     
 
 
