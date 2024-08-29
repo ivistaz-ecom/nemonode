@@ -203,20 +203,20 @@ document.addEventListener('DOMContentLoaded', async function () {
             'JUNIOR ENGINEER'
         ];
 
-        // const engineerRanks = [
-        //     'MASTER', 
-        //     'CHIEF OFFICER', 
-        //     '2ND OFFICER', 
-        //     '3RD OFFICER', 
-        //     'JUNIOR OFFICER'
-        // ];
+        const engineerRanks2 = [
+            'MASTER', 
+            'CHIEF OFFICER', 
+            '2ND OFFICER', 
+            '3RD OFFICER', 
+            'JUNIOR OFFICER'
+        ];
     
     
         if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
             evalType.value = '1';
             formUrl = 'Evaluation-OfficersEngine.html';
-        } else if (selectedType === '2') {
-            formUrl = 'deck-form.html';
+        } else if (selectedType === '2' || engineerRanks2.includes(appliedRank)) {
+            formUrl = 'Evaluation-OfficersDeck.html';
         } else if (selectedType === '3') {
             formUrl = 'galley-form.html';
         } else {
@@ -241,15 +241,28 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedRank = this.value;
         const engineerRanks = [
             'CHIEF ENGINEER', 
-            '2nd engineer', 
-            '3rd engineer', 
-            '4th engineer', 
-            'junior engineer'
+            '2ND ENGINEER', 
+            '3RD ENGINEER', 
+            '4TH ENGINEER', 
+            'JUNIOR ENGINEER'
+        ];
+
+        const engineerRanks2 = [
+            'MASTER', 
+            'CHIEF OFFICER', 
+            '2ND OFFICER', 
+            '3RD OFFICER', 
+            'JUNIOR OFFICER'
         ];
     
         if (engineerRanks.includes(appliedRank)) {
             evalType.value = '1';
-        } else {
+        } 
+        else if (engineerRanks2.includes(appliedRank))
+        {
+            evalType.value='2'
+        }
+        else {
             evalType.value = ''; // Or set to another value if needed
         }
         
