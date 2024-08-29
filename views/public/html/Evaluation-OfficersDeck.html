@@ -951,8 +951,7 @@ function printDiv(divName) {
       }
   
     // Check if the token is already present in sessionStorage
-if (sessionStorage.getItem('token')) {
-    alert('You are already logged in.');
+if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
     window.location.href = './dashboard.html'; // Redirect to a logged-in page or the main application page
 } else {
     // Add event listener for form submission
