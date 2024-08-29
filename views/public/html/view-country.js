@@ -29,7 +29,7 @@ async function displayCountryCodes() {
                     
                 `;
                 countryTable.appendChild(row);
-                sno++;
+                
             });
         }
     } catch (error) {
