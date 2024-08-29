@@ -152,12 +152,6 @@ function displayTable() {
     snHeader.classList = 'fw-bolder bg-dark text-white';
     headerRow.appendChild(snHeader);
 
-    // Add ID column header
-    const idHeader = document.createElement('th');
-    idHeader.textContent = 'ID';
-    idHeader.classList = 'fw-bolder bg-dark text-white';
-    headerRow.appendChild(idHeader);
-
     // Add other field columns
     for (const field in selectedFields) {
         if (selectedFields[field]) {
@@ -184,18 +178,6 @@ function displayTable() {
         snCell.textContent = start + index + 1; // Serial Number starts from 1
         row.appendChild(snCell);
 
-        // Add ID cell with link
-        const idCell = document.createElement('td');
-        const idLink = document.createElement('a');
-        idLink.textContent = candidate.id; // Assuming candidate object has an 'id' field
-        idLink.href = '#';
-        idLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            viewCandidate(candidate.id);
-        });
-        idCell.appendChild(idLink);
-        row.appendChild(idCell);
-
         // Add other field cells
         for (const field in selectedFields) {
             if (selectedFields[field]) {
@@ -204,6 +186,15 @@ function displayTable() {
                     // Replace code with nationality name
                     const nationalityName = getNationalityName(candidate[field]);
                     cell.textContent = nationalityName;
+                } else if (field === 'candidateId') {
+                    // Add button for candidate ID
+                    const button = document.createElement('button');
+                    button.textContent = candidate[field];
+                    button.classList.add('btn', 'btn-info');
+                    button.addEventListener('click', () => {
+                        viewCandidate(candidate[field])
+                    });
+                    cell.appendChild(button);
                 } else {
                     cell.textContent = candidate[field];
                 }
