@@ -959,7 +959,7 @@ if (token) {
     // Optionally, you can perform actions for authenticated users here
     console.log('User is already logged in');
     document.getElementById('loginModal').style.display = 'none';
-=    // Continue with your application logic for logged-in users
+    // Continue with your application logic for logged-in users
 } else {
     // Token is not present, add event listener for form submission
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
@@ -981,6 +981,8 @@ if (token) {
                 sessionStorage.setItem('token', result.token);
                 alert('Login successful');
                 document.getElementById('loginModal').style.display = 'none';
+                window.location.reload(); // Optionally redirect or update the page
+
                 // Optionally, you can continue with additional logic here
             } else {
                 alert(result.message);
