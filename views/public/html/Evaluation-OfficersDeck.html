@@ -950,51 +950,33 @@ function printDiv(divName) {
           return JSON.parse(atob(base64));
       }
   
-    // Check if the token is already present in sessionStorage
-// Check if the token is present in localStorage or sessionStorage
-const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
-if (token) {
-    // Token is present, user is already logged in
-    // Optionally, you can perform actions for authenticated users here
-    console.log('User is already logged in');
-    document.getElementById('loginModal').style.display = 'none';
-    // Continue with your application logic for logged-in users
-} else {
-    // Token is not present, add event listener for form submission
-    document.getElementById('loginForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const userName = document.getElementById('userName').value;
-        const userPassword = document.getElementById('userPassword').value;
-
-        try {
-            const response = await axios.post('https://nsnemo.com/user/login', {
-                userName: userName,
-                userPassword: userPassword
-            });
-
-            const result = response.data;
-
-            if (result.success) {
-                // Store the token in sessionStorage and proceed
-                sessionStorage.setItem('token', result.token);
-                alert('Login successful');
-                document.getElementById('loginModal').style.display = 'none';
-                window.location.reload(); // Optionally redirect or update the page
-
-                // Optionally, you can continue with additional logic here
-            } else {
-                alert(result.message);
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-            alert('An error occurred. Please try again.');
-        }
-    });
-}
-
-
+      document.getElementById('loginForm').addEventListener('submit', async function(event) {
+          event.preventDefault();
+  
+          const userName = document.getElementById('userName').value;
+          const userPassword = document.getElementById('userPassword').value;
+  
+          try {
+              const response = await axios.post('https://nsnemo.com/user/login', {
+                  userName: userName,
+                  userPassword: userPassword
+              });
+  
+              const result = response.data;
+  
+              if (result.success) {
+                  sessionStorage.setItem('token', result.token);
+                  alert('Login successful');
+                  document.getElementById('loginModal').style.display = 'none';
+                  window.location.reload();
+              } else {
+                  alert(result.message);
+              }
+          } catch (error) {
+              console.error('Error during login:', error);
+              alert('An error occurred. Please try again.');
+          }
+      });
   </script>
   
   
