@@ -959,6 +959,7 @@ if (token) {
     // Optionally, you can perform actions for authenticated users here
     console.log('User is already logged in');
     document.getElementById('loginModal').style.display = 'none';
+    window.location.reload();
     // Continue with your application logic for logged-in users
 } else {
     // Token is not present, add event listener for form submission
