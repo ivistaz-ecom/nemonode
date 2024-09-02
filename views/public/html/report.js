@@ -4609,7 +4609,7 @@ function exportToExcel5(contracts) {
         contract.lname,
         contract.birth_place,
         contract.rank,
-        contract.nationality,
+        getNationalityName(contract.nationality),
         formatDateNew(contract.dob),
         calculateAge(contract.dob),
         contract.company_name,
@@ -4617,7 +4617,7 @@ function exportToExcel5(contracts) {
         formatDateNew(contract.eoc),
         formatDateNew(contract.sign_on),
         formatDateNew(contract.sign_off),
-        contract.sign_on_port,
+        getPortName(contract.sign_on_port),
         contract.vesselName,
         contract.vesselType,
         contract.wages,
@@ -6064,7 +6064,7 @@ function renderTable() {
     const headerRow = document.createElement('tr');
     const headers = [
         'S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 
-        'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 
+        'Nationality', 'Company', 'Currency', 'EOC', 'Sign On', 'Sign On Port', 'Sign Off Port',
         'Sign Off', 'Vessel Name', 'Vessel Type', 'Wages', 'Wage Types',
         'Account Number', 'Bank Name', 'Branch', 'IFSC Code', 
         'SWIFT Code', 'Beneficiary', 'Beneficiary Address', 'Bank Address','PAN num','PAN card',
