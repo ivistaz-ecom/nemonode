@@ -904,6 +904,7 @@ function printDiv(divName) {
   
               document.getElementById('write').addEventListener('click', function() {
                   const evalObject = fetchValues();
+                  console.log(evalObject)
   
                   axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
                       eval_type: 'Officers Deck',
