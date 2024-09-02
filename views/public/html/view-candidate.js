@@ -1154,8 +1154,8 @@ async function generatePayslip(candidateId, contractId) {
 
 
 
-function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off,aoa, aoa_number, emigrate_number, createdBy, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore,documents, event) {
-    event.preventDefault();
+function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off,aoa, aoa_number, emigrate_number, createdBy, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore,documents, e) {
+    e.preventDefault();
     console.log(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa);
 
     // Construct the query parameters string
