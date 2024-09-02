@@ -274,11 +274,36 @@ function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, 
 
 
 
-function deleteBank(bankId) {
-    // Implement your delete functionality here using the bankId
-    console.log('Delete clicked for bank ID:', bankId);
-}
+async function deleteBank(bankId) {
+    const token = localStorage.getItem('token')
+    const url = `https://nsnemo.com/candidate/delete-bank/${bankId}`; // Assuming the API endpoint is '/api/banks/:id'
+    
+    try {
+        const response = await axios.delete(url, {
+            headers: {
+                'Authorization': token // Add authorization if needed
+            }
+        });
 
+        // Handle success
+        alert(response.data.message);
+
+    } catch (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            alert(`Error: ${error.response.data.message}`);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response received from the server.');
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error:', error.message);
+            alert('An error occurred while deleting the bank details.');
+        }
+    }
+}
 
 
 
