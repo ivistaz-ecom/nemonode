@@ -1073,7 +1073,7 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.aoa_number}',
                     '${contract.emigrate_number}',
                  
-                    '${contract.created_by}',
+                  
                     '${contract.openingBalance}',
                     '${contract.basicWages}',
                     '${contract.leaveWages}',
@@ -1096,6 +1096,7 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.otherDeductions}',
                     '${contract.training}',
                     '${contract.bondStore}',
+                    '${contract.created_by}',
                     event)">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
