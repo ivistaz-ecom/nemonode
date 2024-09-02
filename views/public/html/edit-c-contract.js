@@ -97,6 +97,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontract_signoffport').value = sign_off_port;
     document.getElementById('editcontracts_reason').value = reason_for_sign_off;
     document.getElementById('editcontract_aoa_num').value = aoa_number;
+    document.getElementById('editcontract_aoa').value = aoa;
     document.getElementById('editcontract_emigrate').value = emigrate_number;
     document.getElementById('prevDoc').value = documents;
     document.getElementById('prevAoa').value = aoa;
