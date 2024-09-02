@@ -1096,8 +1096,7 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.otherDeductions}',
                     '${contract.training}',
                     '${contract.bondStore}',
-                    '${contract.created_by}',
-                    event)">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    '${contract.created_by}')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${contract.id}',event)">
                         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
@@ -1154,8 +1153,8 @@ async function generatePayslip(candidateId, contractId) {
 
 
 
-function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off,aoa, aoa_number, emigrate_number, createdBy, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore,documents, e) {
-    e.preventDefault();
+function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off,aoa, aoa_number, emigrate_number, createdBy, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore,documents) {
+
     console.log(id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off, aoa_number, emigrate_number, documents, aoa);
 
     // Construct the query parameters string
