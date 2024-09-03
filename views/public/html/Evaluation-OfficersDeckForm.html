@@ -794,14 +794,14 @@ SIRE/CID experience
                 const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
                 const evaluationData = response.data;
                 console.log("Fetched Evaluation Data:", evaluationData);
-    
+        
                 // Call function to populate form fields with the evaluation data
-                populateFormFields(evaluationData);
+                populateFormFields(evaluationData.values);
             } catch (error) {
                 console.error('Error fetching evaluation data:', error);
             }
         }
-    
+        
         // Function to populate form fields with values from the evaluation data
         function populateFormFields(data) {
             const ids = [
@@ -829,7 +829,7 @@ SIRE/CID experience
                 'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
                 'intName', 'dateNow', 'signNow'
             ];
-    
+        
             ids.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -844,25 +844,25 @@ SIRE/CID experience
                     }
                 }
             });
-    
+        
             // Make all inputs read-only and disable checkbox toggling
             makeFormReadOnly();
         }
-    
+        
         // Function to extract query parameters and call fetchEvaluationData
         function initialize() {
             const params = new URLSearchParams(window.location.search);
             const candidateId = params.get('candidateId');
             const evalId = params.get('id');
             const time = params.get('time');
-    
+        
             const timeElement = document.getElementById('timeNow');
             if (timeElement) {
-                timeElement.value = time || ''; // Default to an empty string if `time` is null
+                timeElement.value = time || ''; // Default to an empty string if time is null
             } else {
                 console.error('Element with ID "timeNow" not found.');
             }
-    
+        
             if (candidateId && evalId) {
                 console.log("Candidate ID:", candidateId);
                 console.log("Evaluation ID:", evalId);
@@ -871,59 +871,58 @@ SIRE/CID experience
                 console.warn('Missing candidateId or id in URL');
             }
         }
-    
+        
         // Call initialize function on page load
         window.onload = initialize;
-    
+        
         function updatePrintableArea() {
             var form = document.getElementById('evaluationForm');
             var formData = new FormData(form);
-    
+        
             // Create a clone of the printable area
             var clone = document.getElementById('printableArea').cloneNode(true);
-    
+        
             // Update the clone with current form values
             formData.forEach((value, key) => {
                 var element = clone.querySelector(`#${key}`);
                 if (element) {
                     if (element.type === 'checkbox') {
-                        var checked = formData.has(key);
-                        element.checked = checked;
+                        element.checked = value === 'on'; // checkboxes use 'on' for checked
                     } else {
-                        element.value = value;
+                        element.value = value || '';
                     }
                 }
             });
-    
+        
             // Handle checkboxes manually
             clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
                 var id = checkbox.id;
                 checkbox.checked = document.querySelector(`#${id}`).checked;
             });
-    
+        
             // Update the content of printableArea with the cloned content
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = '';
             document.body.appendChild(clone);
-    
+        
             // Restore the original content after printing
             window.onafterprint = () => {
                 document.body.innerHTML = originalContent;
             };
         }
-    
+        
         function printDiv(divName) {
             updatePrintableArea();
             window.print();
         }
-    
+        
         // Function to make form inputs read-only and prevent checkbox toggling
         function makeFormReadOnly() {
             const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
             inputs.forEach(input => {
                 input.setAttribute('readonly', true);
             });
-    
+        
             const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('click', function(event) {
@@ -932,6 +931,7 @@ SIRE/CID experience
             });
         }
     </script>
+    
   
   
          <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
