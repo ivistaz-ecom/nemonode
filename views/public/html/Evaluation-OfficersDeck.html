@@ -823,6 +823,14 @@
                     checkbox.checked = document.querySelector(`#${id}`).checked;
                 });
 
+                clone.querySelectorAll('input[type=radio]').forEach(radio => {
+                var name = radio.name;
+                var selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
+                if (selectedRadio && selectedRadio.id === radio.id) {
+                    radio.checked = true;
+                }
+            });
+
                 // Update the content of printableArea with the cloned content
                 var originalContent = document.body.innerHTML;
                 document.body.innerHTML = '';
