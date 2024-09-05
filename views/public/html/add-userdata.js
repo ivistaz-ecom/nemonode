@@ -58,7 +58,7 @@ function decodeToken(token) {
 const decodedToken = decodeToken(token);
 
 document.addEventListener('DOMContentLoaded', async function () {
-
+   await fetchCountryCodes()
 // await createCompanyDropdown()
 // await createVendorDropdown()
 
@@ -204,6 +204,25 @@ else{
 
 
 })
+
+async function fetchCountryCodes() {
+    try {
+        const response = await axios.get('https://nsnemo.com/fetch-nationality');
+        const countries = response.data.countries;
+        // Clear existing options
+        var select = document.getElementById("user_nationality");
+        select.innerHTML = '<option value="">Code</option>';
+        // Populate the dropdown options
+        countries.forEach(function(country) {
+            var option = document.createElement("option");
+            option.value = country.code; // Set the value to phone_code
+            option.text = country.country; // Display only the phone_code
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching country codes:', error);
+    }
+}
 // async function createVendorDropdown() {
 //     try {
 //         const vendorResponse = await axios.get("https://nsnemo.com/others/view-vendor", { headers: { "Authorization": token } });
