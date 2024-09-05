@@ -231,7 +231,7 @@ const edit_user = async (req, res) => {
       user.company_login=userData.company_login,
       user.created_date=userData.created_date
       user.staff = userData.staff,
-      user.staff=userData.nationality,
+      user.nationality=userData.nationality,
       user.logged = user.logged
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
