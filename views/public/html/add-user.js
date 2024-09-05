@@ -225,7 +225,7 @@ const getUserEmail=() =>{
         const encodedMaster_Create = encodeURIComponent(master_create)
 console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports, userManagement,vendorManagement, reports,reports_all,master_create,staff,deletes)
         // Redirect to the edit page with user details as query parameters
-        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}&deletes=${deletes}&nationality=${nationality}`;
+        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}&staff=${staff}&deletes=${deletes}&nationality=${nationality}`;
     }
     
     async function deleteUser(id) {
