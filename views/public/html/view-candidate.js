@@ -463,12 +463,12 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             const editButton = document.createElement('button');
             editButton.className = 'btn border-0 m-0 p-0';
             editButton.innerHTML = '<i class="fa fa-pencil" onMouseOver="this.style.color=\'seagreen\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            editButton.addEventListener('click', () => editMedical(candidateId,medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload, event));
+            editButton.addEventListener('click', () => editMedical(candidateId,medical.id, medical.hospitalName, medical.place, medical.date, medical.expiry_date, medical.done_by, medical.status, medical.amount, medical.upload));
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn border-0 m-0 p-0';
             deleteButton.innerHTML = '<i class="fa fa-trash" onMouseOver="this.style.color=\'red\'" onMouseOut="this.style.color=\'gray\'"></i>';
-            deleteButton.addEventListener('click', () => deleteMedical(medical.id, event));
+            deleteButton.addEventListener('click', () => deleteMedical(medical.id));
 
             actionsCell.appendChild(editButton);
             actionsCell.appendChild(deleteButton);
@@ -483,7 +483,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
     }
 }
 
-const editMedical = async (candidateId,id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile, event) => {
+const editMedical = async (candidateId,id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile) => {
     event.preventDefault();
     console.log(id, hospitalName, place, date, expiryDate, done_by, status, amount, uploadFile);
 
@@ -498,7 +498,7 @@ const editMedical = async (candidateId,id, hospitalName, place, date, expiryDate
 };
 
 
-const deleteMedical = async (id, event) => {
+const deleteMedical = async (id) => {
     try {
         const confirmDelete = confirm('Are you sure you want to delete this medical entry?');
         if (confirmDelete) {
