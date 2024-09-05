@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     setInputValue('user_email', queryParams.userEmail);
     setInputValue('user_password', queryParams.userPassword);
     setInputValue('user_c_password', queryParams.userCPassword);
-    setInputValue('user_nationality', queryParams.userNationality);
+    setInputValue('user_nationality', queryParams.nationality);
     setInputValue('user_phone', queryParams.userPhone);
     setInputValue('user_group', queryParams.userGroup);
     setInputValue('user_vendor', queryParams.userVendor);
