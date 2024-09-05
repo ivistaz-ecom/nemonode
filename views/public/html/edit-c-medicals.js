@@ -148,6 +148,7 @@ document.getElementById('updateForm').addEventListener('submit', async (e) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            console.log(uploadedFileName)
             uploadedFileName = uploadResponse.data.filename;
             console.log('File uploaded successfully');
         } catch (err) {
