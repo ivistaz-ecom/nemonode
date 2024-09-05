@@ -19,6 +19,7 @@ function generateAccessToken(id, userName,userEmail,
   vendorManagement,
   master_create,
   staff,
+  nationality,
   deletes,
   logged,
   userPhone,
@@ -26,7 +27,7 @@ function generateAccessToken(id, userName,userEmail,
   userVendor
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
-    master_create:master_create,staff:staff,deletes:deletes,logged:logged,userPhone:userPhone,userClient:userClient,userVendor:userVendor
+    master_create:master_create,staff:staff,deletes:deletes,logged:logged,userPhone:userPhone,userClient:userClient,userVendor:userVendor,nationality:nationality
   }, 'secretkey');
 }
 
@@ -63,7 +64,8 @@ const create_user = async (req, res, next) => {
       last_login,
       company_login,
       created_date,
-      staff
+      staff,
+      nationality
 
     } = req.body;
 
@@ -104,6 +106,7 @@ const create_user = async (req, res, next) => {
       company_login,
       created_date,
       staff,
+      nationality,
       logged:false,
         },{transaction:t});
         await t.commit();
@@ -157,7 +160,7 @@ const login = async (req, res, next) => {
 
               if (passwordMatch) {
                   // Password is correct, generate JWT token
-                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged, user.userPhone, user.userClient, user.userVendor);
+                  const token = generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged, user.userPhone, user.userClient, user.userVendor,user.nationality);
                   console.log(token);
 
                   // Update logged status to true
@@ -227,7 +230,8 @@ const edit_user = async (req, res) => {
       user.last_login=userData.last_login,
       user.company_login=userData.company_login,
       user.created_date=userData.created_date
-      user.staff = userData.staff
+      user.staff = userData.staff,
+      user.staff=userData.nationality,
       user.logged = user.logged
     // Check if a new password is provided and hash it
     if (userData.userPassword && userData.userPassword.length <= 50) {
@@ -280,6 +284,7 @@ const get_user = async(req,res)=>{
       console.log(userId);
       let userGroup;
       let staff;
+      let nationality;
       let userManagement;
       let readOnly;
       let email;
@@ -293,6 +298,7 @@ const get_user = async(req,res)=>{
       userGroup = user.dataValues.userGroup;
       staff = user.dataValues.staff;
       userManagement = user.dataValues.userManagement;
+      nationality= user.dataValues.nationality;
       readOnly = user.dataValues.readOnly;
       email = user.dataValues.userEmail;
       console.log('User Group:', userGroup);
