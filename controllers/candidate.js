@@ -1545,27 +1545,26 @@ const update_HospitalDetails = async (req, res) => {
         const hospital = await Medical.findOne({
             where: { id: memId },
         });
-        console.log('000009876543123456789123456789>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       2         >>>>>>>>>>>>>>>>>>>>>>>',hospital)
 
-        // If the hospital record exists, update the fields
         if (hospital) {
             // Conditionally update the 'upload' field if it exists in the request body
             if (updatedFields.upload) {
                 hospital.upload = updatedFields.upload;
             }
 
-            // Update other fields
-            await hospital.update({
-                hospitalName: updatedFields.hospitalName,
-                place: updatedFields.place,
-                date: updatedFields.date,
-                expiry_date: updatedFields.expiry_date,
-                done_by: updatedFields.done_by,
-                status: updatedFields.status,
-                amount: updatedFields.amount,
-                created_by: updatedFields.created_by,
-            });
-            console.log('000009876543123456789123456789>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        1        >>>>>>>>>>>>>>>>>>>>>>>',hospital)
+            // Update other fields directly
+            hospital.hospitalName = updatedFields.hospitalName;
+            hospital.place = updatedFields.place;
+            hospital.date = updatedFields.date;
+            hospital.expiry_date = updatedFields.expiry_date;
+            hospital.done_by = updatedFields.done_by;
+            hospital.status = updatedFields.status;
+            hospital.amount = updatedFields.amount;
+            hospital.created_by = updatedFields.created_by;
+
+            // Save the updated instance to the database
+            await hospital.save();
+
             res.status(200).json({ message: 'Hospital details updated successfully' });
         } else {
             res.status(404).json({ message: 'Hospital record not found' });
@@ -1575,6 +1574,7 @@ const update_HospitalDetails = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 const update_NKDDetails = async (req, res) => {
     try {
