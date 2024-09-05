@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     document.getElementById('hospital_status').value = status;
     document.getElementById('hospital_amount').value = amount;
     document.getElementById('created_by').value = created_by;
-    // document.getElementById('hospital_upload').value = upload;
+    document.getElementById('hospital_upload').value = upload;
 
     async function populateHospitalDropdown() {
 
