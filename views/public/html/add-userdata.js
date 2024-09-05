@@ -141,6 +141,7 @@ else{
         const exports = document.getElementById('u_export').checked;
         const userManagement = document.getElementById('u_user_management').checked;
         const vendorManagement = document.getElementById('u_vendor_management').checked;
+        const nationality = document.getElementById('user_nationality').value
 
         const reports = document.getElementById('u_reports').checked;
         const reports_all = document.getElementById('u_reports_all').checked;
@@ -184,7 +185,8 @@ else{
             last_login:last_login,
             company_login:company_login,
             created_date:created_date,
-            staff:staff
+            staff:staff,
+            nationality
         };
         console.log(formData);
     

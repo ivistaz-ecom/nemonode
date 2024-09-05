@@ -295,6 +295,7 @@ document.getElementById('e_user-form').addEventListener('submit', async function
         last_login:null,
         created_date:null,
         staff:document.getElementById('u_staff').checked,
+        staff:document.getElementById('user_nationality').value,
     };
 
     try {
