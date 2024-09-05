@@ -186,7 +186,7 @@ else{
             company_login:company_login,
             created_date:created_date,
             staff:staff,
-            nationality
+            nationality:nationality,
         };
         console.log(formData);
     
