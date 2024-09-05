@@ -54,7 +54,7 @@ const Users = sequelize.define('Users', {
     company_login:DataTypes.BOOLEAN,
     created_date:DataTypes.DATE,
     staff:DataTypes.BOOLEAN,
-    nationality:DataTypes.BOOLEAN,
+    nationality:DataTypes.STRING,
   
 },{
     tableName: 'Users',
