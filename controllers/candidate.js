@@ -1564,7 +1564,7 @@ const update_HospitalDetails = async (req, res) => {
                 amount: updatedFields.amount,
                 created_by: updatedFields.created_by,
             });
-
+            console.log('000009876543123456789123456789>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                >>>>>>>>>>>>>>>>>>>>>>>',hospital)
             res.status(200).json({ message: 'Hospital details updated successfully' });
         } else {
             res.status(404).json({ message: 'Hospital record not found' });
