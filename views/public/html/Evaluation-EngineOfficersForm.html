@@ -956,7 +956,7 @@ SIRE/CID experience
     
     // Function to populate form fields with values from the evaluation data
   // Function to populate form fields with values from the evaluation data
-function populateFormFields(data) {
+  function populateFormFields(data) {
     const ids = [
         'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 'qualification', 
         'lastContract', 'englishGood', 'englishSatisf', 'englishPoor', 'vessel1', 'europe', 
@@ -977,27 +977,21 @@ function populateFormFields(data) {
 
     ids.forEach(id => {
         const element = document.getElementById(id);
-        if (element) {
-            if (data[id] !== undefined) {
-                if (element.type === 'checkbox') {
-                    element.checked = data[id] === true;
-                } else if (element.type === 'radio') {
-                    element.checked = data[id] === true;
-                } else {
-                    element.value = data[id] || '';
-                }
-                console.log(`Setting ${id}:`, data[id]); // Log the key-value pairs
+        if (element && data[id] !== undefined) {
+            if (element.type === 'checkbox' || element.type === 'radio') {
+                element.checked = data[id] === true;
             } else {
-                console.warn(`Data for ${id} is undefined`); // Warn if data for the ID is missing
+                element.value = data[id] || ''; // Default to empty string if no value
             }
         } else {
-            console.error(`Element with ID ${id} not found`); // Log if the element is not found
+            console.warn(`Data for ${id} is undefined or element is not found`);
         }
     });
 
-    // Make all inputs read-only and disable checkbox toggling
+    // Make form fields read-only and disable checkbox/radio toggling
     makeFormReadOnly();
 }
+
 
     
     // Function to extract query parameters and call fetchEvaluationData
