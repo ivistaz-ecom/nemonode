@@ -955,28 +955,50 @@ SIRE/CID experience
     }
     
     // Function to populate form fields with values from the evaluation data
-    function populateFormFields(data) {
-        const ids = [
-                'fullName','rankApplied','nationality','telephone','mobile','qualification','lastContract','englishGood','englishSatisf','englishPoor','vessel1','europe','usa','mdSea','farEast','pgGoa','crewExperienceYes','crewExperienceNo','nationality1','cargosHandled','automation','ceInput1','ceInput2','ceInput3','ceInput4','ceInput5','ceInput6','pumps','gears','drinkingYes','drinkingNo','medicalYes','medicalNo','contractsNo','vesselServed','lastContract','mainExp','auxExp','cargoCranes','cargoCarried','cargoPumps','tradingArea','mixedCrew','ecdis','psc','sire','sseYes','sseNo','ecidsYes','ecdisNo','anchorYes','anchorNo','deckYes','deckNo','bridgeYes','bridgeNo','ballastYes','ballastNo','mlcYes','mlcno','pmsYes','pmsNo','lsaYes','lsaNo','extraYes','extraNo','expYes','expNo','distressYes','distressNo','dryYes','dryNo','privacyYes','privacyNo','tugsYes','tugsNo','gmoYes','gmoNo','ecaYes','ecaNo','auditsYes','auditsNo','awareYes','awareNo','yardYes','yardNo','cmsYes','cmsNo',',mandatYes','mandatNo','riverYes','riverNo','reasonForLeaving','intComments','accepted','rejected','grading','intName','signature','dateNow'
-                ];
-        ids.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                if (data[id] !== undefined) { // Check if the value exists
-                    if (element.type === 'checkbox') {
-                        element.checked = data[id] === true;
-                    } else {
-                        element.value = data[id] || '';
-                    }
-                    // Log the key-value pairs
-                    console.log(`Setting ${id}:`, data[id]);
+  // Function to populate form fields with values from the evaluation data
+function populateFormFields(data) {
+    const ids = [
+        'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 'qualification', 
+        'lastContract', 'englishGood', 'englishSatisf', 'englishPoor', 'vessel1', 'europe', 
+        'usa', 'medSea', 'farEast', 'pgGoa', 'crewExperienceYes', 'crewExperienceNo', 
+        'nationality1', 'cargosHandled', 'automation', 'ceInput1', 'ceInput2', 'ceInput3', 
+        'ceInput4', 'ceInput5', 'ceInput6', 'pumps', 'gears', 'drinkingYes', 'drinkingNo', 
+        'medicalYes', 'medicalNo', 'contractsNo', 'vesselServed', 'mainExp', 'auxExp', 
+        'cargoCranes', 'cargoCarried', 'cargoPumps', 'tradingArea', 'mixedCrew', 'ecdis', 
+        'psc', 'sire', 'sseYes', 'sseNo', 'ecdisYes', 'ecdisNo', 'anchorYes', 'anchorNo', 
+        'deckYes', 'deckNo', 'bridgeYes', 'bridgeNo', 'ballastYes', 'ballastNo', 'mlcYes', 
+        'mlcNo', 'pmsYes', 'pmsNo', 'lsaYes', 'lsaNo', 'extraYes', 'extraNo', 'expYes', 
+        'expNo', 'distressYes', 'distressNo', 'dryYes', 'dryNo', 'privacyYes', 'privacyNo', 
+        'tugsYes', 'tugsNo', 'gmoYes', 'gmoNo', 'ecaYes', 'ecaNo', 'auditsYes', 'auditsNo', 
+        'awareYes', 'awareNo', 'yardYes', 'yardNo', 'cmsYes', 'cmsNo', 'mandatYes', 
+        'mandatNo', 'riverYes', 'riverNo', 'reasonForLeaving', 'intComments', 'accepted', 
+        'rejected', 'grading', 'intName', 'signature', 'dateNow'
+    ];
+
+    ids.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (data[id] !== undefined) {
+                if (element.type === 'checkbox') {
+                    element.checked = data[id] === true;
+                } else if (element.type === 'radio') {
+                    element.checked = data[id] === true;
+                } else {
+                    element.value = data[id] || '';
                 }
+                console.log(`Setting ${id}:`, data[id]); // Log the key-value pairs
+            } else {
+                console.warn(`Data for ${id} is undefined`); // Warn if data for the ID is missing
             }
-        });
-    
-        // Make all inputs read-only and disable checkbox toggling
-        makeFormReadOnly();
-    }
+        } else {
+            console.error(`Element with ID ${id} not found`); // Log if the element is not found
+        }
+    });
+
+    // Make all inputs read-only and disable checkbox toggling
+    makeFormReadOnly();
+}
+
     
     // Function to extract query parameters and call fetchEvaluationData
     function initialize() {
