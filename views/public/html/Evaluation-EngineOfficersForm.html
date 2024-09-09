@@ -975,14 +975,19 @@ SIRE/CID experience
         'rejected', 'grading', 'intName', 'signature', 'dateNow'
     ];
 
+    // Log fetched data to ensure all values are present
+    console.log("Fetched Data: ", data);
+
     ids.forEach(id => {
         const element = document.getElementById(id);
         if (element && data[id] !== undefined) {
             if (element.type === 'checkbox' || element.type === 'radio') {
-                element.checked = data[id] === true;
+                // Handle checkboxes and radios properly
+                element.checked = data[id] === true || data[id] === 'on' || data[id] === element.value;
             } else {
                 element.value = data[id] || ''; // Default to empty string if no value
             }
+            console.log(`Setting field ${id} with value:`, data[id]);
         } else {
             console.warn(`Data for ${id} is undefined or element is not found`);
         }
@@ -991,7 +996,6 @@ SIRE/CID experience
     // Make form fields read-only and disable checkbox/radio toggling
     makeFormReadOnly();
 }
-
 
     
     // Function to extract query parameters and call fetchEvaluationData
