@@ -5,29 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pre-Employment Evaluation Sheet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #pre-employment-form {
-            width: 210mm; /* A4 width */
-            min-height: 297mm; /* A4 height */
-            padding: 20px;
-            background: white;
-            margin: 0 auto;
-        }
-      </style>
 </head>
-<body class="bg-light">
-    <div class ="container mt-4 p-4 pt-3 bg-white  w-75 border border-black-1" id="pre-employment-form">
-        <div id="content">
-
-        <div class="row mb-3">
-            <div class="col-md-2 border d-flex justify-content-center align-items-center">
-                <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
-                </div>
-                <div class="col border d-flex justify-content-center align-items-center">
-                    <p class="mb-4">PRE-EMPLOYEMENT EVALUATION SHEET RATINGS - DECK</p>
+<body>
+    <div class="container mt-4 p-5 bg-light w-75 border border-black-1 ">
+        <div class="row">
+            <div class="col-md-9">
+                <h2  class="mb-4">PRE-EMPLOYEMENT EVALUATION SHEET RATINGS - DECK</h2>
             </div>
-            <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
-                <p style="font-size: 10px;">
+            <div class="col-md-3">
+                <p class="text-end">
                     FORM NO: OFF 47B<br>
                     REVISION NO: 00<br>
                     DATE: 17/08/2023
@@ -195,77 +181,58 @@
     
 
 
-  <div class="">
+  <div class="container border border-black-1">
     <div class="row mb-3">
-   <div class="">
-  <div class="row ">
-    <div class="col-md-6 ">
-     <div class="row">
-    <div class="col">
-      <div class="border border-black-1">
-        <div class="bg-light p-4 ">
-          <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
-          <div class="row row-cols-2 g-2 ">
-            <div class="col">
-              <input type="text" class="form-control" placeholder="< 1000">
+        <div class="col-md-6">
+            <div class="container">
+                <div class="row  ">
+                    <div class="col-md-6 ">
+                        <div class="bg-light p-2">
+                            <div class="mb-2">
+                                <label class="form-label">Drinking Habits</label>
+                                <div class="form-check form-check-inline p">
+                                    <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+                                    <label class="form-check-label" for="drinkingYes">YES</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+                                    <label class="form-check-label" for="drinkingNo">NO</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="1000 - 3000">
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="3000 - 6000">
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="6000 - 10000">
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="10000 - 15000">
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder=">15000">
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-    </div>
- 
-      <div class="col-md-6 p-3 border border-black-1 ">
-         <div class="bg-light p-2">
-          <div class="mb-2">
-            <label class="form-label me-4 ">Drinking Habits</label>
-            <div class="form-check form-check-inline p ">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
-              <label class="form-check-label " for="drinkingYes ">YES</label>
+        <div class="col-md-6">
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-md-12 ">
+                        <div class="bg-light p-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Any Medical issues</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+                                    <label class="form-check-label" for="medicalYes">YES</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+                                    <label class="form-check-label" for="medicalNo">NO</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
-              <label class="form-check-label" for="drinkingNo">NO</label>
-            </div>
-          </div>
-          <div>
-            <label class="form-label ">Any Medical issues</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
-              <label class="form-check-label" for="medicalYes">YES</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
-              <label class="form-check-label" for="medicalNo">NO</label>
-            </div>
-          </div>
         </div>
     </div>
- 
 </div>
-</div>
-</div>
-</div>
+
+
   </form>
 
-    <div class="" style="margin-top: 600px;">
-          <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4" style="font-size: 12px;">
+    <div class="container mt-4">
+          <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4">
     <h3 class="   mb-4">PRACTICAL SKILLS</h3>
     <div class="row ">
     <div class="col-5 border pt-3">
@@ -371,15 +338,15 @@ SIRE/CID experience
     </div>
 </div>
   </div>
-        <div style="margin-top: 700px;">
+        <div/>
 
-    <div class="container mt-5 border border-black-1 p-3" >
+    <div class="container mt-5 border border-black-1 p-3">
         <h4 class="mb-4">OTHER PRACTICAL EXPERIENCE (tick the appropriate box)</h4>
         <form>
             <div class="row">
                 <div class="col-md-6 ">
                   
-                        <label class="form-label">Bridge Procedures: Deck Ratings</label>
+                        <label class="form-label">Cleanliness & Maintenance of Galley</label>
                           <div class="mb-2  ">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
@@ -391,7 +358,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience/Knowledge of navigation thru congested passage like Singapore straits/Sunda Straits/Gibraltor/Bosporus/Dover Straits/Skaw straits (for Deck Ratings</label>
+                        <label class="form-label">Cleanlineness & Maintenance of Mess Room</label>
                         <div class="mb-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
@@ -402,7 +369,7 @@ SIRE/CID experience
                             <label class="form-check-label" for="bilgeSludgeNo">NO</label>
                         </div>
                     </div>
-                                           <label class="form-label">Knowledge of Steering while anchoring and port arrivals for Deck Ratings</label>
+                                           <label class="form-label">Cleanliness & Maintenance of Reefer Chambers</label>
                                             <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -415,7 +382,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience of River passage like (Parana river/Argentina) / Uruguay etc.. Steering knowledge</label>
+                        <label class="form-label">Cleanliness & Maintenance of Provision Store room</label>
                         <div class="mb-2 ">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
@@ -426,7 +393,7 @@ SIRE/CID experience
                             <label class="form-check-label" for="reeferContainersNo">NO</label>
                         </div>
                     </div>
-                        <label class="form-label">General Deck Maintenance</label>
+                        <label class="form-label">General Hygiene and cooking methods</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -439,7 +406,7 @@ SIRE/CID experience
                         </div>
                     </div>
                    
-                        <label class="form-label">Bridge equipments handling experience (Bosun/AB/OS)</label>
+                        <label class="form-label">Procedure while preparing for cooking? (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -452,7 +419,7 @@ SIRE/CID experience
                         </div>
                     </div>
                    
-                        <label class="form-label">Knowledge on Distress signal at sea (Bosun/AB/OS)</label>
+                        <label class="form-label">Dairy products stored at what level in refrigerator? (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -465,7 +432,7 @@ SIRE/CID experience
                         </div>
                     </div>
                    
-                        <label class="form-label">Knowledge on Fire fighting equipments (Bosun/AB/OS)</label>
+                        <label class="form-label">Temperature to maintain while storing Fish, Meat & Vegetables (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -477,22 +444,11 @@ SIRE/CID experience
                             <label class="form-check-label" for="csmPlanningNo">NO</label>
                         </div>
                     </div>
-                     <label class="form-label">Knowledge on enclosed space entry (Bosun/AB/OS)</label>
-                        <div class="mb-2">
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes" value="yes">
-                            <label class="form-check-label" for="csmPlanningYes">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo" value="no">
-                            <label class="form-check-label" for="csmPlanningNo">NO</label>
-                        </div>
-                    </div>
+                  
                 </div>
                 <div class="col-md-6">
                     
-                        <label class="form-label">Garbage Management: Deck</label>
+                        <label class="form-label">Garbage Management - Galley</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -505,7 +461,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
+                        <label class="form-label">Knowledge on Cutting boards - Colours</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -518,7 +474,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
+                        <label class="form-label">Waste Cooking oil maintenance</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -531,7 +487,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience of piracy Zone (any previous bad expereince)</label>
+                        <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -544,7 +500,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
+                        <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -557,7 +513,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Awareness of ISPS</label>
+                        <label class="form-label">Experience of piracy Zone</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -570,7 +526,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Awareness of safety and ISM Code</label>
+                        <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -583,7 +539,7 @@ SIRE/CID experience
                         </div>
                     </div>
                     
-                        <label class="form-label">Knowledge on Mooring and Anchoring stations</label>
+                        <label class="form-label">Awareness of Fire Fighting system in Galley</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -595,18 +551,7 @@ SIRE/CID experience
                             <label class="form-check-label" for="regulationsNo">NO</label>
                         </div>
                     </div>
-                     <label class="form-label">Tank cleaning/Hatch cleaning - Experience</label>
-                        <div class="mb-2">
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsYes" value="yes">
-                            <label class="form-check-label" for="regulationsYes">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsNo" value="no">
-                            <label class="form-check-label" for="regulationsNo">NO</label>
-                        </div>
-                    </div>
+                   
 
                 </div>
                    <div class="mt-4 mb-3">
@@ -676,46 +621,5 @@ SIRE/CID experience
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <button id="download-pdf" class="btn btn-primary  mt-3  w-100">Download PDF</button>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-    <script>
-        document.getElementById('download-pdf').addEventListener('click', function() {
-            var formElement = document.getElementById('pre-employment-form');
-            var buttonElement = document.getElementById('download-pdf');
-
-// Hide the button before capturing the screenshot
-buttonElement.style.display = 'none';
-            html2canvas(formElement, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                logging: true
-            }).then(canvas => {
-                var imgData = canvas.toDataURL('image/png');
-                var pdf = new jsPDF('p', 'mm', 'a4');
-                var imgWidth = 210;
-                var pageHeight = 297;
-                var imgHeight = canvas.height * imgWidth / canvas.width;
-                var heightLeft = imgHeight;
-
-                var position = 0;
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                pdf.save('pre-employment-form.pdf');
-            });
-            buttonElement.style.display = 'block';
-
-        });
-    </script>
-  </script>
 </body>
 </html>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Employment Evaluation Sheet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body{
+        font-size: 18px !important;
+      }
+      /* Ensure the container has a fixed width */
+      .container {
+          
+            margin: 0 auto; /* Center the container */
+        }
+
+        .static-row {
+            display: flex;
+            align-items: stretch; /* Ensure columns are the same height */
+            height: 150px; /* Fixed height for rows */
+        }
+
+        .logo-col {
+            width: 150px; /* Fixed width for logo column */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .title-col {
+            flex: 3; /* Title column takes up more space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .info-col {
+            width: 150px; /* Fixed width for info column */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .font-weight-bold {
+            font-size: 1.5em; /* Title font size */
+        }
+
+        /* For print, maintain the same layout */
+        @media print {
+            .container {
+                width: 210mm; /* A4 width */
+                margin: 0;
+            }
+            .static-row {
+                height: auto; /* Adjust height for print if needed */
+            }
+            .logo-col, .title-col, .info-col {
+                border: 1px solid #dee2e6;
+            }
+            .font-weight-bold {
+                font-size: 2em; /* Increase title size for print */
+            }
+           
+            body {
+                margin: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            #printableArea {
+                width: 210mm; /* A4 width */
+                min-height: 297mm; /* A4 height */
+                padding: 20px;
+                background: white;
+                margin: 0;
+                page-break-after: always;
+                box-shadow: none;
+            }
+        }
+
+        
+        
+
+    </style>
+</head>
+  <body class="bg-light">
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <form id="loginForm">
+              <label for="userName">Username:</label>
+              <input type="text" id="userName" name="userName" required>
+              <label for="userPassword">Password:</label>
+              <input type="password" id="userPassword" name="userPassword" required>
+              <button type="submit">Login</button>
+          </form>
+      </div>
+  </div>
+    <div class ="container mt-4 p-4 pt-3 bg-white  w-75 border border-black-1" id="pre-employment-form">
+      <div class="row mb-3">
+        <div class="col-md-2 border d-flex justify-content-center align-items-center">
+        <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
+        </div>
+        <div class="col border d-flex justify-content-center align-items-center">
+          <p class=" fw-bolder" >
+            PRE-EMPLOYMENT EVALUATION SHEET OFFICERS - ENGINE
+          </p>
+        </div>
+        <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
+          <p style="font-size: 10px;">
+            FORM NO: OFF 47B<br />
+            REVISION NO: 00<br />
+            DATE: 17/08/2023
+          </p>
+        </div>
+      </div>  
+
+      <form>
+        <div class="mb-3">
+          <label for="fullName" class="form-label"
+            >Family Name & Given name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="rankApplied" class="form-label">RANK APPLIED</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rankApplied"
+              placeholder="Enter rank applied"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="nationality" class="form-label">Nationality</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nationality"
+              placeholder="Enter nationality"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="telephone" class="form-label">Telephone No.</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="telephone"
+              placeholder="Enter telephone number"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="mobile" class="form-label">Mobile Ph.</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="mobile"
+              placeholder="Enter mobile phone number"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="qualification" class="form-label">Qualification</label>
+            <input
+              type="text"
+              class="form-control"
+              id="qualification"
+              placeholder="Enter qualification"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="lastContract" class="form-label"
+              >Last contract position</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="lastContract"
+              placeholder="Enter last contract position"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">Communication</div>
+              <div class="card-body">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="englishLevel"
+                    id="englishGood"
+                    value="good"
+                  />
+                  <label class="form-check-label" for="englishGood">Good</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="englishLevel"
+                    id="englishSatisf"
+                    value="satisfactory"
+                  />
+                  <label class="form-check-label" for="englishSatisf"
+                    >Satisfactory</label
+                  >
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="englishLevel"
+                    id="englishPoor"
+                    value="poor"
+                  />
+                  <label class="form-check-label" for="englishPoor">Poor</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 text-center card bg-gray-200 bg-light">
+            <p class="bg-gray-200 mt-2">BMI</p>
+
+            <input
+              type="text"
+              id="vessel1"
+              name="vessel1"
+              class="form-control border"
+            />
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            TRADE AREA EXPERIENCE (indicate number of contracts)
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="europe" />
+                  <label class="form-check-label" for="europe">Europe</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="usa" />
+                  <label class="form-check-label" for="usa">USA</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="medSea" />
+                  <label class="form-check-label" for="medSea">Med.-Sea</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="farEast"
+                  />
+                  <label class="form-check-label" for="farEast">Far East</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="pgGoa" />
+                  <label class="form-check-label" for="pgGoa">PG/GOA</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+      <div class="container mt-4 mb-4 p-2">
+        <div class="card mb-4">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">
+              MULTINATIONAL CREW EXPERIENCE (tick the appropriate box)
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="crewExperience"
+                    id="crewExperienceYes"
+                    value="yes"
+                  />
+                  <label class="form-check-label" for="crewExperienceYes"
+                    >YES</label
+                  >
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="crewExperience"
+                    id="crewExperienceNo"
+                    value="no"
+                  />
+                  <label class="form-check-label" for="crewExperienceNo"
+                    >NO</label
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control w-50"
+                  placeholder="Enter nationality"
+                  id="nationality1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="border border-black-1 ">
+          <div class="bg-light p-3">
+            <h5 for="cargosHandled" class="">CARGOS HANDLED</h5>
+          </div>
+        </div>
+              <div class="card-body">
+                <input id="cargosHandled" type="text" >
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-light">
+                <h5 class="mb-0">
+                  AUTOMATION EXPERIENCE (indicate number of vessels)
+                </h5>
+              </div>
+              <div class="card-body">
+                <textarea class="form-control" rows="3" id="automation"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+  <div class="container">
+    <div class="row mb-3">
+   <div class="container">
+  <div class="row ">
+    <div class="col-md-6 ">
+     <div class="row">
+    <div class="col">
+      <div class="border border-black-1">
+        <div class="bg-light p-4">
+          <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
+          <div class="row row-cols-2 g-2">
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput1">
+                <label class="form-check-label" for="ceInput1">&lt; 1000</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput2">
+                <label class="form-check-label" for="ceInput2">1000 - 3000</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput3">
+                <label class="form-check-label" for="ceInput3">3000 - 6000</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput4">
+                <label class="form-check-label" for="ceInput4">6000 - 10000</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput5">
+                <label class="form-check-label" for="ceInput5">10000 - 15000</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput6">
+                <label class="form-check-label" for="ceInput6">&gt;15000</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+ 
+    
+     <div class="col-md-6 ">
+      <div class="border border-black-1">
+        <div class="bg-light pt-3 p-3 ">
+          <h5 class="form-label">TYPES OF CARGO GEARS PREVIOUSLY WORKED WITH:</h5>
+          <div class="d-flex">
+            <div class="form-check me-3 ">
+              <input class="form-check-input" type="checkbox" id="pumps">
+              <label class="form-check-label" for="pumps">PUMPS</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gears">
+              <label class="form-check-label" for="gears">GEARS</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+ 
+</div>
+</div>
+</div>
+</div>
+
+
+        
+        <div class="row  p-4">
+          <div class="col-md-6 border border-black-1">
+        <div class="bg-light p-2">
+          <div class="mb-2">
+            <label class="form-label me-4 ">Drinking Habits</label>
+            <div class="form-check form-check-inline p ">
+              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+              <label class="form-check-label " for="drinkingYes ">YES</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+              <label class="form-check-label" for="drinkingNo">NO</label>
+            </div>
+          </div>
+          <div>
+            <label class="form-label ">Any Medical issues</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+              <label class="form-check-label" for="medicalYes">YES</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+              <label class="form-check-label" for="medicalNo">NO</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+
+
+      <div class="container" style="margin-top: 200px;">
+          <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4">
+    <h3 class="   mb-4">PRACTICAL SKILLS</h3>
+    <div class="row ">
+    <div class="col-5 border pt-3">
+Number of Contracts in Ranks
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="contractsNo">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Type or size of the vessels served    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="vesselServed">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Last contract sign off date
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="lastContract">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Type of main engine exp.
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="mainExp">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Type of AUX engine exp.
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="auxExp">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Cargo cranes/gear (marker) exp.
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="cargoCranes">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Type of Cargo carried
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="cargoCarried">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Type of Cargo pumps(tankers)
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="cargoPumps">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Trading Area(limited/WW)
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="tradingArea">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+Mixed crew (nationalities) exp.
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="mixedCrew">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+ECDIS experience in previous 12 months
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="ecdis">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+PSC experience
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="psc">
+    </div>
+</div>
+<div class="row ">
+    <div class="col-5 border pt-3">
+SIRE/CID experience
+    </div>
+    <div class="col border p-2">
+       <input class="form-control" id="sire">
+    </div>
+</div>
+  </div>
+        <div>
+      <div class=" ">
+        <div style="font-size:12px"
+          class="bg-gray-100 p-4 border border-dark-1 rounded-1 bg-light "
+        >
+          <h4 class="">
+            OTHER PRACTICAL EXPERIENCE (tick the appropriate box)
+          </h4>
+
+          <div class="grid grid-cols-2 d-flex">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between py-1">
+                <span>Stability software experience (C/Officer)</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="sseYes" />
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="sseNo" />
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>ECDIS experience</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="ecdisYes" />
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="ecdisNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Knowledge of Anchoring for Deck Officers</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="anchorYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="anchorNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>General deck maintenance</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="deckYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="deckNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Bridge procedures - Arrival/Departure</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="bridgeYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="bridgeNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span>Ballast exchange knowledge & Provision in CP</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="ballastYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="ballastNo" />
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span>MLC requirements / Compliance experience</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="mlcYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="mlcNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Planned Maintenance System(PMS) Software experience</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="pmsYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="pmsNo" />
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>LSA/FFA Maintenance and Requirements</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="lsaYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="lsaNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Experience in any extra-ordinary circumstances such as,
+                  collision, abandon ship, pollution</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="extraYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="extraNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Exp/Kldge of navigation thru congested passage (Singapore
+                  straits/ Sunda Straits/ Gibraltar /Bosporus/Dover
+                  Straits/Skaw)</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="expYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="expNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Knowledge on Distress signal at sea</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="distressYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="distressNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between py-1">
+                <span>Dry dock experience during last three years?</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="dryYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="dryNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Experience of piracy Zone?</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="privacyYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="privacyNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span
+                  >Knowledge on use of tugs(Berthing and Unberthing) -
+                  Masters</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="tugsYes" />
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="tugsNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Garbage Management onboard</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="gmoYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="gmoNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span>Knowledge of ECA/SECA Operation</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="ecaYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="ecaNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Experience in Internal/external audits, survey, Insp</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="auditsYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="auditsNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Awareness to Safety and ISM Code</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="awareYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="awareNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span>Yard delivery team experience</span>
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="yardYes" />
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="yardNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Continous Monitoring System (PMS Planning and
+                  experience)</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="cmsYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="cmsNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Knowledge on existing mandatory regulations (SOLAS, MARPOL,
+                  COLREGS STCW, etc.) or new regulations - eg GHG, SEEMP,
+                  FAL</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="mandatYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="mandatNo"/>
+                  <span>NO</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between py-1">
+                <span
+                  >Experience of River passage like (Parana river/Argentina) /
+                  Uruguay etc.... UKC compliance Knowledge?</span
+                >
+                <div class="space-x-2">
+                  <input type="checkbox" class="form-checkbox" id="riverYes"/>
+                  <span>YES</span>
+                  <input type="checkbox" class="form-checkbox" id="riverNo" />
+                  <span>NO</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
+        </div>
+        <div class="mt-5">
+          <label class="block mb-2">Last Employer – Reason for Leaving</label>
+          <input
+            type="text"
+            placeholder="Enter reason for leaving"
+            id="reasonForLeaving"
+            class="w-full p-2 border rounded"
+          />
+        </div>
+        <div class="container-fluid bg-light p-4 border border-dark-1">
+          <h4 class="text-danger mb-3">INTERVIEWER COMMENTS</h4>
+
+          <div class="mb-3">
+            <textarea class="form-control" rows="4" id="intComments"></textarea>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="accepted" />
+                <label class="form-check-label" for="accepted">ACCEPTED:</label>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="rejected" />
+                <label class="form-check-label" for="rejected">REJECTED:</label>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="grading" />
+                <label class="form-check-label" for="grading">GRADING:</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <small class="text-dark p-2">INTERVIEWER NAME:</small>
+
+              <input
+                type="text"
+                id="intName"
+                class="form-control"
+                placeholder="INTERVIEWER NAME"
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <small class="p-2">SIGNATURE:</small>
+              <input type="text" class="form-control" placeholder="SIGNATURE"  id="signature"/>
+            </div>
+            <div class="col-md-4 mb-3">
+              <small class="d-block">DATE:</small>
+              <input type="date" class="form-control" id="dateNow" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div id="submitWarning" class="alert alert-warning alert-dismissible fade show no-print mt-3" role="alert">
+          <strong>Kindly double-check before submitting!</strong> Once submitted, the form cannot be edited again.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <button id="write" class="btn btn-success no-print" >Submit Evaluation for Candidate</button>
+      <button type="button" class="btn btn-primary no-print mt-4 mb-4" style="visibility: hidden;" onclick="printDiv('printableArea')">Print Form</button>
+
+     
+  </div>
+
+
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Function to fetch evaluation data based on candidateId and id
+    async function fetchEvaluationData(candidateId, evalId) {
+        try {
+            // Replace with your actual API endpoint
+            const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+            const evaluationData = response.data;
+            console.log("Fetched Evaluation Data:", evaluationData);
+    
+            // Call function to populate form fields with the evaluation data
+            populateFormFields(evaluationData.values);
+        } catch (error) {
+            console.error('Error fetching evaluation data:', error);
+        }
+    }
+    
+    // Function to populate form fields with values from the evaluation data
+    function populateFormFields(data) {
+        const ids = [
+                'fullName','rankApplied','nationality','telephone','mobile','qualification','lastContract','englishGood','englishSatisf','englishPoor','vessel1','europe','usa','mdSea','farEast','pgGoa','crewExperienceYes','crewExperienceNo','nationality1','cargosHandled','automation','ceInput1','ceInput2','ceInput3','ceInput4','ceInput5','ceInput6','pumps','gears','drinkingYes','drinkingNo','medicalYes','medicalNo','contractsNo','vesselServed','lastContract','mainExp','auxExp','cargoCranes','cargoCarried','cargoPumps','tradingArea','mixedCrew','ecdis','psc','sire','sseYes','sseNo','ecidsYes','ecdisNo','anchorYes','anchorNo','deckYes','deckNo','bridgeYes','bridgeNo','ballastYes','ballastNo','mlcYes','mlcno','pmsYes','pmsNo','lsaYes','lsaNo','extraYes','extraNo','expYes','expNo','distressYes','distressNo','dryYes','dryNo','privacyYes','privacyNo','tugsYes','tugsNo','gmoYes','gmoNo','ecaYes','ecaNo','auditsYes','auditsNo','awareYes','awareNo','yardYes','yardNo','cmsYes','cmsNo',',mandatYes','mandatNo','riverYes','riverNo','reasonForLeaving','intComments','accepted','rejected','grading','intName','signature','dateNow'
+                ];
+        ids.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                if (data[id] !== undefined) { // Check if the value exists
+                    if (element.type === 'checkbox') {
+                        element.checked = data[id] === true;
+                    } else {
+                        element.value = data[id] || '';
+                    }
+                    // Log the key-value pairs
+                    console.log(`Setting ${id}:`, data[id]);
+                }
+            }
+        });
+    
+        // Make all inputs read-only and disable checkbox toggling
+        makeFormReadOnly();
+    }
+    
+    // Function to extract query parameters and call fetchEvaluationData
+    function initialize() {
+        const params = new URLSearchParams(window.location.search);
+        const candidateId = params.get('candidateId');
+        const evalId = params.get('id');
+        const time = params.get('time');
+    
+        const timeElement = document.getElementById('timeNow');
+        if (timeElement) {
+            timeElement.value = time || ''; // Default to an empty string if time is null
+        } else {
+            console.error('Element with ID "timeNow" not found.');
+        }
+    
+        if (candidateId && evalId) {
+            console.log("Candidate ID:", candidateId);
+            console.log("Evaluation ID:", evalId);
+            fetchEvaluationData(candidateId, evalId);
+        } else {
+            console.warn('Missing candidateId or id in URL');
+        }
+    }
+    
+    // Call initialize function on page load
+    window.onload = initialize;
+    
+    function updatePrintableArea() {
+        var form = document.getElementById('evaluationForm');
+        var formData = new FormData(form);
+    
+        // Create a clone of the printable area
+        var clone = document.getElementById('printableArea').cloneNode(true);
+    
+        // Update the clone with current form values
+        formData.forEach((value, key) => {
+            var element = clone.querySelector(`#${key}`);
+            if (element) {
+                if (element.type === 'checkbox') {
+                    element.checked = value === 'on'; // checkboxes use 'on' for checked
+                } else {
+                    element.value = value || '';
+                }
+            }
+        });
+    
+        // Handle checkboxes manually
+        clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+            var id = checkbox.id;
+            checkbox.checked = document.querySelector(`#${id}`).checked;
+        });
+        
+        clone.querySelectorAll('input[type=radio]').forEach(radio => {
+            var name = radio.name;
+            var selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
+            if (selectedRadio && selectedRadio.id === radio.id) {
+                radio.checked = true;
+            }
+        });
+        // Update the content of printableArea with the cloned content
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = '';
+        document.body.appendChild(clone);
+    
+        // Restore the original content after printing
+        window.onafterprint = () => {
+            document.body.innerHTML = originalContent;
+        };
+    }
+    
+    function printDiv(divName) {
+        updatePrintableArea();
+        window.print();
+    }
+    
+    // Function to make form inputs read-only and prevent checkbox toggling
+    function makeFormReadOnly() {
+        const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+        inputs.forEach(input => {
+            input.setAttribute('readonly', true);
+        });
+    
+        const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', function(event) {
+                event.preventDefault();
+            });
+        });
+    }
+</script>
+
+
+
+       <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+</body>
+</html>

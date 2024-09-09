@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else if (selectedType === '2' || engineerRanks2.includes(appliedRank)) {
             formUrl = 'Evaluation-OfficersDeck.html';
         } else if (selectedType === '3') {
-            formUrl = 'galley-form.html';
+            formUrl = 'Evaluation-EngineOfficer.html';
         } else {
             formUrl = ''; // Clear the input if another option is selected
         }
