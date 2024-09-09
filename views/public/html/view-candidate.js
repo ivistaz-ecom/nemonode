@@ -1585,7 +1585,7 @@ function viewEvaluation(candidateId, id, time, formType, event) {
     const formUrls = {
         'Officers Engine': './Evaluation-OfficersEngineForm.html',
         'Officers Deck': './Evaluation-OfficersDeckForm.html',
-        'EngineOfficer': './Evaluation-EngineOfficer.html',
+        'Engine Officers': './Evaluation-EngineOfficersForm.html',
         'form4': './Evaluation-Form4.html',
         'form5': './Evaluation-Form5.html'
     };
