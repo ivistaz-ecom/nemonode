@@ -2722,7 +2722,7 @@ const getContractsBySignOffDate = async (req, res) => {
         // Construct the base SQL query similar to sign on query
         let query = `
             SELECT 
-                a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
+                a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, a.sign_on_port, a.sign_off_port,
                 b.fname, b.lname, b.nationality, b.indos_number,
                 c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
                 d.company_name,
