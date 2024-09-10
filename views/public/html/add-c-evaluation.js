@@ -195,34 +195,94 @@ document.addEventListener('DOMContentLoaded', async function () {
         let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
     
-        const engineerRanks = [
+        const engineOfficers = [
             'CHIEF ENGINEER', 
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR ENGINEER'
+            'JUNIOR ENGINEER',
+            'ADDL. CHIEF ENGINEER',
+            'ELECTRICAL OFFICER',
+            'TRAINEE E/O',
+            'NCV CHIEF ENGINEER',
+            'NCV 2ND ENGINEER',
+            'NCV 3RD ENGINEER',
+            'NCV 4TH ENGINEER',
+            'PANAMA CENG',
+            'PANAMA 2ND ENGINEER',
+            'PANAMA 3ENG',
+            'PANAMA 4ENG',
+            'GAS ENGINEER',
+            'SUPERNUMERY',
+            'TME',
+            '2ND ASST ENGINEER',
+            'ELECTRO TECHNICAL OFFICER',
+            'PORT ENGINEER',
+            'RIG ASSISTANT ELECTRICIAN',
+            'RIG ELECTRICIAN',
+
+
         ];
 
-        const engineerRanks2 = [
+        const deckOfficers = [
             'MASTER', 
             'CHIEF OFFICER', 
             '2ND OFFICER', 
             '3RD OFFICER', 
-            'JUNIOR OFFICER'
+            'JUNIOR OFFICER','DECK CADET',
+            'TUG MASTER',
+            'NCV MASTER',
+            'NCV CHIEF OFFICER',
+            'NCV NWKO',
+            'PANAMA MASTER',
+            'PANAMA CHIEF OFFICER',
+            'PANAMA 2ND OFFICER',
+            'PANAMA 3RD OFFICER',
+            'DREDGER OPERATOR',
+            'RADIO OFFICER',
+            'DPO',
+            'PIPE OPERATOR',
+            'TUBE OPERATOR',
+            'MEDICAL OFFICER',
+            'DREDGE MASTER',
+            'SAFETY OFFICER',
+            'RIG RADIO OPERATOR',
         ];
+
+
+    const deckRatings =[
+        'BOSUN', 'RPTM CLEANER', 'FITTER-DECK', 'AB', 'STORE KEEPER', 'OS', 'TR OS', 'WELDER', 'CRANE OPERATOR', 'IV LASKER', 'IV SERANG', 'IV MASTER', 'IV FITTER', 'IV DECK HAND', 'RIGGER', 'NAVIGATION HANDLER', 'RIG HEAVY LIFT CRANE OPERATOR', 'RIG BALLAST CRANE OPERATOR', 'RIG ASSISTANT BALLAST CRANE OPERATOR', 'RIG ASSISTANT DRILLER', 'RIG FLOORMAN', 'RIG WELDER', 'RIG DECK PUSHER', 'RIG CRANE OPERATOR', 'RIG ASSISTANT CRANE OPERATOR', 'RIG LEAD ROUSTABOUT', 'RIG ROUSTABOUT', 'RIG LEAD PAINTER / AB', 'RIG PAINTER / AB', 'TRAINEE OS'
+    ]
+
+    const galleyRanks = [
+        'CHIEF COOK', 'SECOND COOK', 'TR. GS', 'IV BOSUN', 'COOK', 'MSM/GS'
+    ]
+
+    const engineRatings = [
+        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV ENGINEER', 'IV OILER', 'IV 2ND DRIVER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
+    ]
     
     
-        if (selectedType === '1' || engineerRanks.includes(appliedRank)) {
+    
+        if (selectedType === '1' || engineOfficers.includes(appliedRank)) {
             evalType.value = '1';
             formUrl = 'Evaluation-OfficersEngine.html';
-        } else if (selectedType === '2' || engineerRanks2.includes(appliedRank)) {
+        } else if (selectedType === '2' || deckOfficers.includes(appliedRank)) {
             evalType.value = '2';
 
             formUrl = 'Evaluation-OfficersDeck.html';
-        } else if (selectedType === '3') {
-            
+        } else if (selectedType === '3' || deckRatings.includes(appliedRank)) {
+            evalType.value='3'
             formUrl = 'Evaluation-EngineOfficer.html';
-        } else {
+        }
+        else if (selectedType === '4' || galleyRanks.includes(appliedRank)) {
+        evalType.value='4'
+        formUrl = 'Evaluation-EngineOfficer.html';
+           }
+        else if (selectedType === '5' || engineRatings.includes(appliedRank)) {
+        evalType.value='5'
+       formUrl = 'Evaluation-EngineOfficer.html';
+       } else {
             formUrl = ''; // Clear the input if another option is selected
         }
     
@@ -242,28 +302,90 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('appliedRank').addEventListener('input', function () {
         const evalType = document.getElementById('evalType');
         const appliedRank = this.value;
-        const engineerRanks = [
+        const engineOfficers = [
             'CHIEF ENGINEER', 
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR ENGINEER'
+            'JUNIOR ENGINEER',
+            'ADDL. CHIEF ENGINEER',
+            'ELECTRICAL OFFICER',
+            'TRAINEE E/O',
+            'NCV CHIEF ENGINEER',
+            'NCV 2ND ENGINEER',
+            'NCV 3RD ENGINEER',
+            'NCV 4TH ENGINEER',
+            'PANAMA CENG',
+            'PANAMA 2ND ENGINEER',
+            'PANAMA 3ENG',
+            'PANAMA 4ENG',
+            'GAS ENGINEER',
+            'SUPERNUMERY',
+            'TME',
+            '2ND ASST ENGINEER',
+            'ELECTRO TECHNICAL OFFICER',
+            'PORT ENGINEER',
+            'RIG ASSISTANT ELECTRICIAN',
+            'RIG ELECTRICIAN',
+
+
         ];
 
-        const engineerRanks2 = [
+        const deckOfficers = [
             'MASTER', 
             'CHIEF OFFICER', 
             '2ND OFFICER', 
             '3RD OFFICER', 
-            'JUNIOR OFFICER'
+            'JUNIOR OFFICER','DECK CADET',
+            'TUG MASTER',
+            'NCV MASTER',
+            'NCV CHIEF OFFICER',
+            'NCV NWKO',
+            'PANAMA MASTER',
+            'PANAMA CHIEF OFFICER',
+            'PANAMA 2ND OFFICER',
+            'PANAMA 3RD OFFICER',
+            'DREDGER OPERATOR',
+            'RADIO OFFICER',
+            'DPO',
+            'PIPE OPERATOR',
+            'TUBE OPERATOR',
+            'MEDICAL OFFICER',
+            'DREDGE MASTER',
+            'SAFETY OFFICER',
+            'RIG RADIO OPERATOR',
         ];
-    
-        if (engineerRanks.includes(appliedRank)) {
+
+
+    const deckRatings =[
+        'BOSUN', 'RPTM CLEANER', 'FITTER-DECK', 'AB', 'STORE KEEPER', 'OS', 'TR OS', 'WELDER', 'CRANE OPERATOR', 'IV LASKER', 'IV SERANG', 'IV MASTER', 'IV FITTER', 'IV DECK HAND', 'RIGGER', 'NAVIGATION HANDLER', 'RIG HEAVY LIFT CRANE OPERATOR', 'RIG BALLAST CRANE OPERATOR', 'RIG ASSISTANT BALLAST CRANE OPERATOR', 'RIG ASSISTANT DRILLER', 'RIG FLOORMAN', 'RIG WELDER', 'RIG DECK PUSHER', 'RIG CRANE OPERATOR', 'RIG ASSISTANT CRANE OPERATOR', 'RIG LEAD ROUSTABOUT', 'RIG ROUSTABOUT', 'RIG LEAD PAINTER / AB', 'RIG PAINTER / AB', 'TRAINEE OS'
+    ]
+
+    const galleyRanks = [
+        'CHIEF COOK', 'SECOND COOK', 'TR. GS', 'IV BOSUN', 'COOK', 'MSM/GS'
+    ]
+
+    const engineRatings = [
+        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV ENGINEER', 'IV OILER', 'IV 2ND DRIVER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
+    ]
+        if (engineOfficers.includes(appliedRank)) {
             evalType.value = '1';
         } 
-        else if (engineerRanks2.includes(appliedRank))
+        else if (deckOfficers.includes(appliedRank))
         {
             evalType.value='2'
+        }
+        else if (deckRatings.includes(appliedRank))
+        {
+            evalType.value='3'
+        }
+        else if (galleyRanks.includes(appliedRank))
+        {
+            evalType.value='4'
+        }
+        else if (engineRatings.includes(appliedRank))
+        {
+            evalType.value='5'
         }
         else {
             evalType.value = ''; // Or set to another value if needed
