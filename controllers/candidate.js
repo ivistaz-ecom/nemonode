@@ -2652,7 +2652,7 @@ const getContractsBySignOnDate = async (req, res) => {
         // Construct the base SQL query
         let query = `
         SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,a.sign_on_port, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
             b.fname, b.lname, b.nationality, b.indos_number,
             c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
             e.company_name,
