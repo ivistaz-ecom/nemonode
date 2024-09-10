@@ -275,13 +275,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             evalType.value='3'
             formUrl = 'Evaluation-EngineOfficer.html';
         }
-        else if (selectedType === '4' || galleyRanks.includes(appliedRank)) {
+        else if (selectedType === '4' || engineRatings.includes(appliedRank)) {
         evalType.value='4'
-        formUrl = 'Evaluation-EngineOfficer.html';
+        formUrl = 'new.html';
            }
-        else if (selectedType === '5' || engineRatings.includes(appliedRank)) {
+        else if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
         evalType.value='5'
-       formUrl = 'Evaluation-EngineOfficer.html';
+       formUrl = 'new1.html';
        } else {
             formUrl = ''; // Clear the input if another option is selected
         }
