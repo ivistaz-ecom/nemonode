@@ -2461,7 +2461,7 @@ async function handleSignOnSubmit(event) {
             const tableHeader = document.createElement('thead');
             const headerRow = document.createElement('tr');
             const headers = [
-                'S.No', 'Candidate ID','Name', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 
+                'S.No', 'Candidate ID','Name', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 'Sign On Port',
                 'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
                 'Wages Types', 'Reason for Sign Off',
                 'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
@@ -2493,6 +2493,7 @@ async function handleSignOnSubmit(event) {
                     contract.vesselType,
                     contract.sign_on,
                     contract.sign_off,
+                    getPortName(contract.sign_on_port),
                     contract.eoc,
                     contract.emigrate_number,
                     contract.aoa_number,
@@ -2500,12 +2501,12 @@ async function handleSignOnSubmit(event) {
                     contract.wages,
                     contract.wages_types,
                     contract.reason_for_sign_off,
-                   
+                    
                     getNationalityName(contract.nationality),
                     contract.vesselName,
                     contract.imoNumber,
                     contract.vesselFlag,
-                   
+                    
                     contract.company_name,
                     contract.bank_name || 'N/A', 
                     contract.account_num || 'N/A', 
@@ -2631,7 +2632,7 @@ async function handleSignOnSubmit(event) {
                 'Vessel Name': contract.vesselName,
                 'IMO Number': contract.imoNumber,
                 'Vessel Flag': contract.vesselFlag,
-               
+                'Sign On Port' : getPortName(contract.sign_on_port),
                 'Company Name': contract.company_name,
                 'Bank Name': contract.bank_name || 'N/A',
                 'Account Number': contract.account_num || 'N/A',
