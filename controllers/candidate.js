@@ -2771,6 +2771,8 @@ const getContractsBySignOffDate = async (req, res) => {
                 a.wages_types, 
                 a.sign_on, 
                 a.sign_off, 
+                a.sign_on_port,
+                a.sign_off_port,
                 a.eoc, 
                 a.emigrate_number, 
                 a.aoa_number, 
