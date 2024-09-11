@@ -7,19 +7,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+                <label for="userName">Username:</label>
+                <input type="text" id="userName" name="userName" required>
+                <label for="userPassword">Password:</label>
+                <input type="password" id="userPassword" name="userPassword" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
     <div class="container mt-4 p-5 bg-light w-75 border border-black-1 ">
-        <div class="row">
-            <div class="col-md-9">
-                <h2  class="mb-4">"PRE-EMPLOYEMENT EVALUATION SHEET RATINGS - ENGINE"</h2>
+        <div class="row mb-3">
+            <div class="col-md-2 border d-flex justify-content-center align-items-center">
+                <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
+                </div>
+                <div class="col border d-flex justify-content-center align-items-center">
+                    <p class="mb-4">PRE-EMPLOYEMENT EVALUATION SHEET RATINGS - DECK</p>
             </div>
-            <div class="col-md-3">
-                <p class="text-end">
+            <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
+                <p style="font-size: 10px;">
                     FORM NO: OFF 47B<br>
                     REVISION NO: 00<br>
                     DATE: 17/08/2023
                 </p>
             </div>
-        </div>
+        </div> 
 
         <form>
           <div class=""></div>
@@ -69,7 +84,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="englishLevel" id="englishSatisf" value="satisfactory">
-                                <label class="form-check-label" for="englishSatisf">Satisf</label>
+                                <label class="form-check-label" for="englishSatisf">Satisfactory</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="englishLevel" id="englishPoor" value="poor">
@@ -99,8 +114,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="europe">
-                                <label class="form-check-label" for="europe">Europe</label>
+                                <input class="form-check-input" type="checkbox" id="Europe">
+                                <label class="form-check-label" for="Europe">Europe</label>
                             </div>
                         </div>
                         <div class="col">
@@ -169,195 +184,71 @@
               </div>
               <div class="col">
                 <input
+                id="newNationality"
                   type="text"
                   class="form-control w-50"
                   placeholder="Enter nationality"
-                  id="newNationality"
                 />
               </div>
             </div>
           </div>
         </div>
 
-
-
-  <div class="container">
-    <div class="row mb-3">
-   <div class="container">
-  <div class="row ">
-    <div class="col-md-6 ">
-     <div class="row">
-    <div class="col">
-     
-       <div class="border border-black-1">
-        <div class="bg-light p-4">
-          <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
-          <div class="row row-cols-2 g-2">
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput1">
-                <label class="form-check-label" for="ceInput1">&lt; 1000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput2">
-                <label class="form-check-label" for="ceInput2">1000 - 3000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput3">
-                <label class="form-check-label" for="ceInput3">3000 - 6000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput4">
-                <label class="form-check-label" for="ceInput4">6000 - 10000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput5">
-                <label class="form-check-label" for="ceInput5">10000 - 15000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput6">
-                <label class="form-check-label" for="ceInput6">&gt;15000</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-    </div>
- 
-    <div class="col-md-6 mb-3">
-      <div class="border border-black-1">
-        <div class="bg-light p-3">
-          <h5 class="form-label">MAIN ENGINE EXPERIENCE (indicate number of vessels)</h5>
-          <div class="row row-cols-1 row-cols-md-3 ">
-            <div class="col">
-              <div class="">
-                <label for="sulzer" class="form-label fs-6">Sulzer</label>
-                <input type="text" id="sulzer" class="form-control">
-              </div>
-            </div>
-            <div class="col">
-              <div class="">
-                <label for="sulzer_rta" class="form-label fs-6">Sulzer RTA</label>
-                <input type="text" id="sulzer_rta" class="form-control">
-              </div>
-            </div>
-            <div class="col">
-              <div class="p-1">
-                <label for="man_bw" class="form-label fs-6">MAN/B&W</label>
-                <input type="text" id="man_bw" class="form-control">
-              </div>
-            </div>
-            <div class="col">
-              <div class="">
-                <label for="pielstick" class="form-label fs-6">Pielstick</label>
-                <input type="text" id="pielstick" class="form-control">
-              </div>
-            </div>
-            <div class="col">
-              <div class="  ">
-                <label for="mak" class="form-label fs-6">MAK</label>
-                <input type="text" id="mak" class="form-control">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
- 
-</div>
-</div>
-</div>
-</div>
-
-
-
-  <div class="container">
-  <div class="row ">
-      <div class="col-md-6 mb-3">
-      <div class="border border-black-1">
-        <div class="bg-light pt-3 p-3">
-          <h5 class="form-label">TRADE AREA EXPERIENCE (indicate number of contracts)</h5>
-          <div class="d-flex flex-wrap">
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="yanmar">
-              <label class="form-check-label" for="yanmar">Yanmar</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="bw">
-              <label class="form-check-label" for="bw">B&W</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="deutz">
-              <label class="form-check-label" for="deutz">Deutz</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="daihatsu">
-              <label class="form-check-label" for="daihatsu">Daihatsu</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="caterpillar">
-              <label class="form-check-label" for="caterpillar">Caterpillar</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="other">
-              <label class="form-check-label" for="other">Other</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 mb-3 border border-black-1">
-      <div class="bg-light p-2">
-          <div class="mb-2">
-            <label class="form-label me-4 ">Drinking Habits</label>
-            <div class="form-check form-check-inline p ">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
-              <label class="form-check-label " for="drinkingYes ">YES</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
-              <label class="form-check-label" for="drinkingNo">NO</label>
-            </div>
-          </div>
-          <div>
-            <label class="form-label ">Any Medical issues</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
-              <label class="form-check-label" for="medicalYes">YES</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
-              <label class="form-check-label" for="medicalNo">NO</label>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-
-
-
     
+
+
+  <div class="container border border-black-1">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="container">
+                <div class="row  ">
+                    <div class="col-md-6 ">
+                        <div class="bg-light p-2">
+                            <div class="mb-2">
+                                <label class="form-label">Drinking Habits</label>
+                                <div class="form-check form-check-inline p">
+                                    <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+                                    <label class="form-check-label" for="drinkingYes">YES</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+                                    <label class="form-check-label" for="drinkingNo">NO</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-md-12 ">
+                        <div class="bg-light p-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Any Medical issues</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+                                    <label class="form-check-label" for="medicalYes">YES</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+                                    <label class="form-check-label" for="medicalNo">NO</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
   </form>
 
-    <div class="container">
-
-
+    <div class="container mt-4">
+         
           <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4">
     <h3 class=" ">PRACTICAL SKILLS</h3>
     <div class="row ">
@@ -365,14 +256,14 @@
 Number of Contracts in Ranks
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput1">
+       <input class="form-control"  id="psInput1">
     </div>
 </div>
 <div class="row ">
     <div class="col-5 border pt-3">
 Type or size of the vessels served    </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput2">
+       <input class="form-control"  id="psInput2">
     </div>
 </div>
 <div class="row ">
@@ -380,7 +271,7 @@ Type or size of the vessels served    </div>
 Last contract sign off date
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput3">
+       <input class="form-control"  id="psInput3">
     </div>
 </div>
 <div class="row ">
@@ -388,7 +279,7 @@ Last contract sign off date
 Type of main engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput4">
+       <input class="form-control"  id="psInput4">
     </div>
 </div>
 <div class="row ">
@@ -396,7 +287,7 @@ Type of main engine exp.
 Type of AUX engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput5">
+       <input class="form-control"   id="psInput5">
     </div>
 </div>
 <div class="row ">
@@ -404,7 +295,7 @@ Type of AUX engine exp.
 Cargo cranes/gear (marker) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput6">
+       <input class="form-control"   id="psInput6">
     </div>
 </div>
 <div class="row ">
@@ -412,7 +303,7 @@ Cargo cranes/gear (marker) exp.
 Type of Cargo carried
     </div>
     <div class="col border p-2">
-       <input class="form-control"  readonly id="psInput7">
+       <input class="form-control"   id="psInput7">
     </div>
 </div>
 <div class="row ">
@@ -420,7 +311,7 @@ Type of Cargo carried
 Type of Cargo pumps(tankers)
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput8">
+       <input class="form-control"  id="psInput8">
     </div>
 </div>
 <div class="row ">
@@ -428,7 +319,7 @@ Type of Cargo pumps(tankers)
 Trading Area(limited/WW)
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput9">
+       <input class="form-control"   id="psInput9">
     </div>
 </div>
 <div class="row ">
@@ -436,7 +327,7 @@ Trading Area(limited/WW)
 Mixed crew (nationalities) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput10">
+       <input class="form-control"  id="psInput10">
     </div>
 </div>
 <div class="row ">
@@ -444,7 +335,7 @@ Mixed crew (nationalities) exp.
 ECDIS experience in previous 12 months
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput11">
+       <input class="form-control"   id="psInput11">
     </div>
 </div>
 <div class="row ">
@@ -452,7 +343,7 @@ ECDIS experience in previous 12 months
 PSC experience
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput12">
+       <input class="form-control"   id="psInput12">
     </div>
 </div>
 <div class="row ">
@@ -460,10 +351,14 @@ PSC experience
 SIRE/CDI experience Right ship
     </div>
     <div class="col border p-2">
-       <input class="form-control"  readonly id="psInput13">
+       <input class="form-control"   id="psInput13">
     </div>
 </div>
   </div>
+
+
+
+
 
         <div/>
 
@@ -473,7 +368,7 @@ SIRE/CDI experience Right ship
             <div class="row">
                 <div class="col-md-6 ">
                   
-                        <label class="form-label">Engine procedures (for Engine Ratings)</label>
+                        <label class="form-label">Cleanliness & Maintenance of Galley</label>
                           <div class="mb-2  ">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
@@ -485,7 +380,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Bilge & Sludge Management : Engine Ratings</label>
+                        <label class="form-label">Cleanlineness & Maintenance of Mess Room</label>
                         <div class="mb-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
@@ -496,7 +391,7 @@ SIRE/CDI experience Right ship
                             <label class="form-check-label" for="bilgeSludgeNo">NO</label>
                         </div>
                     </div>
-                                           <label class="form-label">Experience on fresh water generator (MTM, WIPER)</label>
+                                           <label class="form-label">Cleanliness & Maintenance of Reefer Chambers</label>
                                             <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -509,7 +404,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Principle & Operation procedure -OWS (MTM, WIPER)</label>
+                        <label class="form-label">Cleanliness & Maintenance of Provision Store room</label>
                         <div class="mb-2 ">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
@@ -520,7 +415,7 @@ SIRE/CDI experience Right ship
                             <label class="form-check-label" for="reeferContainersNo">NO</label>
                         </div>
                     </div>
-                        <label class="form-label">Main Engine starting procedure expereince (MTM, WIPER, OWS)</label>
+                        <label class="form-label">General Hygiene and cooking methods</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -533,7 +428,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                    
-                        <label class="form-label">Sewage treatment plant experience (MTM, WIPER, OWS)</label>
+                        <label class="form-label">Procedure while preparing for cooking? (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -546,7 +441,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                    
-                        <label class="form-label">Experience with Cargo pumps (MTM, WIPER, OWS)</label>
+                        <label class="form-label">Dairy products stored at what level in refrigerator? (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -559,7 +454,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                    
-                        <label class="form-label">Experience with boilers (MTM, WIPER, OWS)</label>
+                        <label class="form-label">Temperature to maintain while storing Fish, Meat & Vegetables (COOK & GS)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -571,49 +466,11 @@ SIRE/CDI experience Right ship
                             <label class="form-check-label" for="csmPlanningNo">NO</label>
                         </div>
                     </div>
-                      <label class="form-label">Knowledge on types of welding for eg: ARC, TIG, MIG (FITTER)</label>
-                        <div class="mb-2">
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes1" value="yes">
-                            <label class="form-check-label" for="csmPlanningYes1">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo1" value="no">
-                            <label class="form-check-label" for="csmPlanningNo1">NO</label>
-                        </div>
-                    </div>
-                        <label class="form-label">Garbage Management - Engine</label>
-                        <div class="mb-2">
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes2" value="yes">
-                            <label class="form-check-label" for="csmPlanningYes2">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo2" value="no">
-                            <label class="form-check-label" for="csmPlanningNo2">NO</label>
-                        </div>
-                    </div>
-
-<!-- hgcjvhbkjknlm/;thcjyvkuhlijlk/;grhtjyfkugihoj/lk;hhjhk -->
+                  
                 </div>
                 <div class="col-md-6">
-                      <label class="form-label">Awareness of safety and ISM Code</label>
-                        <div class="mb-2">
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes3" value="yes">
-                            <label class="form-check-label" for="csmPlanningYes3">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo3" value="no">
-                            <label class="form-check-label" for="csmPlanningNo3">NO</label>
-                        </div>
-                    </div>
-
                     
-                        <label class="form-label">Knowledge on generators & working principle (MTM, WIPER)</label>
+                        <label class="form-label">Garbage Management - Galley</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -626,7 +483,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
+                        <label class="form-label">Knowledge on Cutting boards - Colours</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -639,7 +496,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
+                        <label class="form-label">Waste Cooking oil maintenance</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -652,7 +509,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Experience of piracy Zone (any previous bad expereince)</label>
+                        <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -665,7 +522,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
+                        <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -678,7 +535,7 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">Awareness of ISPS</label>
+                        <label class="form-label">Experience of piracy Zone</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -691,12 +548,12 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                        <label class="form-label">knowledge on procedure about 6G & 4G Welding (FITTER)</label>
+                        <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="operationProcedures" id="opeartionProceduresYes" value="yes">
-                            <label class="form-check-label" for="opeartionProceduresYes">YES</label>
+                            <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresYes" value="yes">
+                            <label class="form-check-label" for="operationProceduresYes">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresNo" value="no">
@@ -704,11 +561,25 @@ SIRE/CDI experience Right ship
                         </div>
                     </div>
                     
-                                       </div>
+                        <label class="form-label">Awareness of Fire Fighting system in Galley</label>
+                        <div class="mb-2">
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsYes" value="yes">
+                            <label class="form-check-label" for="regulationsYes">YES</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="regulations" id="regulationsNo" value="no">
+                            <label class="form-check-label" for="regulationsNo">NO</label>
+                        </div>
+                    </div>
+                   
+
+                </div>
                    <div class="mt-4 mb-3">
             <label class="block mb-2">Last Employer – Reason for Leaving</label>
             <input
-            id="leaving"
+             id="leaving"
               type="text"
               placeholder="Enter reason for leaving"
               class="w-full p-2 border rounded"
@@ -741,10 +612,22 @@ SIRE/CDI experience Right ship
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="grading" />
-                <label class="form-check-label" for="grading">GRADING:</label>
-              </div>
+                <div class="form-group">
+                    <label for="grading">GRADING:</label>
+                    <select class="form-control" id="grading" readonly>
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
             </div>
           </div>
 
@@ -753,7 +636,7 @@ SIRE/CDI experience Right ship
               <small class="text-dark p-2">INTERVIEWER NAME:</small>
 
               <input
-              id='intName'
+              id="intName"
                 type="text"
                 class="form-control"
                 placeholder="INTERVIEWER NAME"
@@ -761,11 +644,11 @@ SIRE/CDI experience Right ship
             </div>
             <div class="col-md-4 mb-3">
               <small class="p-2">SIGNATURE:</small>
-              <input id='signNow' type="text"  class="form-control" placeholder="SIGNATURE" />
+              <input id="signNow" type="text" class="form-control" placeholder="SIGNATURE" />
             </div>
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
-              <input id='dateNow' type="date" class="form-control" />
+              <input id="dateNow" type="date" class="form-control" />
             </div>
           </div>
         </div>
@@ -773,108 +656,115 @@ SIRE/CDI experience Right ship
     
     </div>
 
+     <div id="submitWarning" class="alert alert-warning alert-dismissible fade show no-print mt-3" role="alert">
+    <strong>Kindly double-check before submitting!</strong> Once submitted, the form cannot be edited again.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<button id="write" class="btn btn-success no-print" >Submit Evaluation for Candidate</button>
+<button type="button" class="btn btn-primary no-print mt-4 mb-4" style="visibility: hidden;" onclick="printDiv('printableArea')">Print Form</button>
 
-<!-- Bootstrap JS and dependencies -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      function updatePrintableArea() {
-          var form = document.getElementById('evaluationForm');
-          var formData = new FormData(form);
-  
-          // Create a clone of the printable area
-          var clone = document.getElementById('printableArea').cloneNode(true);
-  
-          // Update the clone with current form values
-          formData.forEach((value, key) => {
-              var element = clone.querySelector(`#${key}`);
-              if (element) {
-                  if (element.type === 'checkbox') {
-                      var checked = formData.has(key);
-                      element.checked = checked;
-                  } else {
-                      element.value = value;
-                  }
-              }
-          });
-  
-          // Handle checkboxes manually
-          clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
-              var id = checkbox.id;
-              checkbox.checked = document.querySelector(`#${id}`).checked;
-          });
-  
-          // Update the content of printableArea with the cloned content
-          var originalContent = document.body.innerHTML;
-          document.body.innerHTML = '';
-          document.body.appendChild(clone);
-  
-          // Restore the original content after printing
-          window.onafterprint = () => {
-              document.body.innerHTML = originalContent;
-          };
-      }
-  
-      function printDiv(divName) {
-          updatePrintableArea();
-          window.print();
-      }
-  
-      document.addEventListener('DOMContentLoaded', function() {
-          function getURLParams() {
-              const params = new URLSearchParams(window.location.search);
-              return {
-                  candidateId: params.get('candidateId'),
-                  appliedDate: params.get('appliedDate'),
-                  appliedRank: params.get('appliedRank'),
-                  interviewerName: params.get('interviewerName'),
-                  time: params.get('time') // Ensure 'time' parameter is included
-              };
-          }
-  
-          const token = sessionStorage.getItem('token');
-  
-          if (token) {
-              const decodedToken = decodeToken(token);
-              const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
-  
-              // Store the values in sessionStorage
-              sessionStorage.setItem('candidateId', candidateId);
-              sessionStorage.setItem('appliedDate', appliedDate);
-              sessionStorage.setItem('appliedRank', appliedRank);
-              sessionStorage.setItem('interviewerName', interviewerName);
-              sessionStorage.setItem('time', time); // Store 'time' parameter
-  
-              // Display the applied rank in the input field
-              const rankApplied = document.getElementById('rankApplied');
-              if (rankApplied) {
-                  rankApplied.value = appliedRank;
-              }
-  
-              // Set today's date in the date input field
-              const dateNowElement = document.getElementById('dateNow');
-              if (dateNowElement) {
-                  dateNowElement.value = appliedDate;
-              }
-  
-              const intName = document.getElementById('intName');
-              if (intName) {
-                  intName.value = interviewerName;
-              }
-  
-              var originalContent = document.body.innerHTML; // Store the original content before printing
-  
-              function fetchValues() {
-               const ids = [
-              'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+        function updatePrintableArea() {
+            var form = document.getElementById('evaluationForm');
+            var formData = new FormData(form);
+    
+            // Create a clone of the printable area
+            var clone = document.getElementById('printableArea').cloneNode(true);
+    
+            // Update the clone with current form values
+            formData.forEach((value, key) => {
+                var element = clone.querySelector(`#${key}`);
+                if (element) {
+                    if (element.type === 'checkbox') {
+                        var checked = formData.has(key);
+                        element.checked = checked;
+                    } else {
+                        element.value = value;
+                    }
+                }
+            });
+    
+            // Handle checkboxes manually
+            clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+                var id = checkbox.id;
+                checkbox.checked = document.querySelector(`#${id}`).checked;
+            });
+    
+            // Update the content of printableArea with the cloned content
+            var originalContent = document.body.innerHTML;
+            document.body.innerHTML = '';
+            document.body.appendChild(clone);
+    
+            // Restore the original content after printing
+            window.onafterprint = () => {
+                document.body.innerHTML = originalContent;
+            };
+        }
+    
+        function printDiv(divName) {
+            updatePrintableArea();
+            window.print();
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            function getURLParams() {
+                const params = new URLSearchParams(window.location.search);
+                return {
+                    candidateId: params.get('candidateId'),
+                    appliedDate: params.get('appliedDate'),
+                    appliedRank: params.get('appliedRank'),
+                    interviewerName: params.get('interviewerName'),
+                    time: params.get('time') // Ensure 'time' parameter is included
+                };
+            }
+    
+            const token = sessionStorage.getItem('token');
+    
+            if (token) {
+                const decodedToken = decodeToken(token);
+                const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
+    
+                // Store the values in sessionStorage
+                sessionStorage.setItem('candidateId', candidateId);
+                sessionStorage.setItem('appliedDate', appliedDate);
+                sessionStorage.setItem('appliedRank', appliedRank);
+                sessionStorage.setItem('interviewerName', interviewerName);
+                sessionStorage.setItem('time', time); // Store 'time' parameter
+    
+                // Display the applied rank in the input field
+                const rankApplied = document.getElementById('rankApplied');
+                if (rankApplied) {
+                    rankApplied.value = appliedRank;
+                }
+    
+                // Set today's date in the date input field
+                const dateNowElement = document.getElementById('dateNow');
+                if (dateNowElement) {
+                    dateNowElement.value = appliedDate;
+                }
+    
+                const intName = document.getElementById('intName');
+                if (intName) {
+                    intName.value = interviewerName;
+                }
+    
+                var originalContent = document.body.innerHTML; // Store the original content before printing
+    
+                function fetchValues() {
+                    const ids = [
+                    'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
               'qualification', 'lastContract', 'englishGood', 'englishSatisf',
-              'englishPoor', 'Bmi', 'europe', 'usa', 'medSea', 'farEast', 'pgGoa',
+              'englishPoor', 'Bmi', 'Europe', 'usa', 'medSea', 'farEast', 'pgGoa',
               'crewExperienceYes', 'crewExperienceNo', 'newNationality',
-              'cargosHandled', 'automationExperience', 'ceInput1', 'ceInput2',
-              'ceInput3', 'ceInput4', 'ceInput5', 'ceInput6', 'sulzer', 'sulzer_rta',
-              'man_bw', 'pielstick', 'mak', 'yanmar', 'bw', 'deutz', 'daihatsu',
-              'caterpillar', 'other', 'pumps', 'gears', 'drinkingYes', 'drinkingNo',
+               'drinkingYes', 'drinkingNo',
               'medicalYes', 'medicalNo', 'psInput1', 'psInput2', 'psInput3',
               'psInput4', 'psInput5', 'psInput6', 'psInput7', 'psInput8',
               'psInput9', 'psInput10', 'psInput11', 'psInput12', 'psInput13',
@@ -883,100 +773,102 @@ SIRE/CDI experience Right ship
               'reeferContainersNo', 'extraordinaryCircumstancesYes',
               'extraordinaryCircumstancesNo', 'congestedPassageYes',
               'congestedPassageNo', 'dryDockYes', 'dryDockNo', 'csmPlanningYes',
-              'csmPlanningNo', 'csmPlanningYes1','csmPlanningYes2','csmPlanningNo2',
-              'csmPlanningYes3','csmPlanningNo3',
-              'csmPlanningNo1','yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
+              'csmPlanningNo', 'yardDeliveryYes', 'yardDeliveryNo', 'safetyISMYes',
               'safetyISMNo', 'auditsYes', 'auditsNo', 'ecaSecaOperationYes',
               'ecaSecaOperationNo', 'garbageManagementYes', 'garbageManagementNo',
-              'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
-              'operationProceduresNo', 'regulationsYes', 'regulationsNo',
+              'fuelChangeoverYes', 'fuelChangeoverNo', 'operationProceduresYes',
+              'operationProceduresNo', 'regulationsYes', 'regulationsNo','leaving',
               'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
-              'intName', 'dateNow', 'signNow','leaving'
-          ];
+              'intName', 'dateNow', 'signNow' ];
+    
+                    const evalObject = {};
+    
+                    ids.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            if (element.type === 'checkbox') {
+                                evalObject[id] = element.checked;
+                            } else {
+                                evalObject[id] = element.value;
+                            }
+                        }
+                    });
+    
+                    return evalObject;
+                }
+    
+                document.getElementById('write').addEventListener('click', function() {
+                    const evalObject = fetchValues();
+                  
+                    axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+                        eval_type: 'Engine Ratings',
+                        applied_rank: appliedRank,
+                        applied_date: appliedDate,
+                        applied_by: decodedToken.userName,
+                        interviewer_name: interviewerName,
+                        values: evalObject,
+                        remote: window.location.href,
+                        time: time // Use the 'time' parameter
+                    })
+                    .then(response => {
+                        console.log(response.data.message);
+                    })
+                    .catch(error => {
+                        console.error('Error updating evaluation:', error);
+                    });
+                });
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        });
+    
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('loginModal').style.display = 'none';
+        };
+    
+        function decodeToken(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(atob(base64));
+        }
+    
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+    
+            const userName = document.getElementById('userName').value;
+            const userPassword = document.getElementById('userPassword').value;
+    
+            try {
+                const response = await axios.post('https://nsnemo.com/user/login', {
+                    userName: userName,
+                    userPassword: userPassword
+                });
+    
+                const result = response.data;
+    
+                if (result.success) {
+                    sessionStorage.setItem('token', result.token);
+                    alert('Login successful');
+                    document.getElementById('loginModal').style.display = 'none';
+                    window.location.reload();
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
   
   
-                  const evalObject = {};
   
-                  ids.forEach(id => {
-                      const element = document.getElementById(id);
-                      if (element) {
-                          if (element.type === 'checkbox') {
-                              evalObject[id] = element.checked;
-                          } else {
-                              evalObject[id] = element.value;
-                          }
-                      }
-                  });
-  
-                  return evalObject;
-              }
-  
-              document.getElementById('write').addEventListener('click', function() {
-                  const evalObject = fetchValues();
-  
-                  axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
-                      eval_type: 'Officers Engine',
-                      applied_rank: appliedRank,
-                      applied_date: appliedDate,
-                      applied_by: decodedToken.userName,
-                      interviewer_name: interviewerName,
-                      values: evalObject,
-                      remote: window.location.href,
-                      time: time // Use the 'time' parameter
-                  })
-                  .then(response => {
-                      console.log(response.data.message);
-                  })
-                  .catch(error => {
-                      console.error('Error updating evaluation:', error);
-                  });
-              });
-          } else {
-              document.getElementById('loginModal').style.display = 'block';
-          }
-      });
-  
-      document.querySelector('.close').onclick = function() {
-          document.getElementById('loginModal').style.display = 'none';
-      };
-  
-      function decodeToken(token) {
-          const base64Url = token.split('.')[1];
-          const base64 = base64Url.replace('-', '+').replace('_', '/');
-          return JSON.parse(atob(base64));
-      }
-  
-      document.getElementById('loginForm').addEventListener('submit', async function(event) {
-          event.preventDefault();
-  
-          const userName = document.getElementById('userName').value;
-          const userPassword = document.getElementById('userPassword').value;
-  
-          try {
-              const response = await axios.post('https://nsnemo.com/user/login', {
-                  userName: userName,
-                  userPassword: userPassword
-              });
-  
-              const result = response.data;
-  
-              if (result.success) {
-                  sessionStorage.setItem('token', result.token);
-                  alert('Login successful');
-                  document.getElementById('loginModal').style.display = 'none';
-                  window.location.reload();
-              } else {
-                  alert(result.message);
-              }
-          } catch (error) {
-              console.error('Error during login:', error);
-              alert('An error occurred. Please try again.');
-          }
-      });
-  </script>
   
   
          <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+</body>
+</html>
 
 </body>
 </html>

@@ -162,6 +162,7 @@
               type="tel"
               class="form-control"
               id="telephone"
+              readonly
               placeholder="Enter telephone number"
             />
           </div>
@@ -175,6 +176,7 @@
               class="form-control"
               id="mobile"
               placeholder="Enter mobile phone number"
+              readonly
             />
           </div>
           <div class="col-md-4">
@@ -291,6 +293,13 @@
                   <label class="form-check-label" for="pgGoa">PG/GOA</label>
                 </div>
               </div>
+              <div class="col">
+                <div class="form-check">
+                  <label class="" for="othersTAE">Others</label>
+
+                  <input  type="text" id="othersTAE" readonly />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -353,7 +362,7 @@
           </div>
         </div>
               <div class="card-body">
-                <input id="cargosHandled" type="text" >
+                <input id="cargosHandled" type="text" readonly>
 
               </div>
             </div>
@@ -970,7 +979,7 @@ SIRE/CID experience
   // Function to populate form fields with values from the evaluation data
   function populateFormFields(data) {
     const ids = [
-        'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 'qualification', 
+        'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile', 'qualification', 'othersTAE',
         'lastContract', 'englishGood', 'englishSatisf', 'englishPoor', 'vessel1', 'europe', 
         'usa', 'medSea', 'farEast', 'pgGoa', 'crewExperienceYes', 'crewExperienceNo', 
         'nationality1', 'cargosHandled', 'automation', 'ceInput1', 'ceInput2', 'ceInput3', 

@@ -281,10 +281,10 @@ evalType.value = ''; // or any default value you prefer
 if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
     console.log(appliedRank)
     evalType.value = '5';
-    formUrl = 'new1.html';
+    formUrl = 'Evaluation-GalleyOfficer.html';
 } else if (selectedType === '4' || engineRatings.includes(appliedRank)) {
     evalType.value = '4';
-    formUrl = 'new.html';
+    formUrl = 'Evaluation-EngineRatings.html';
 } else if (selectedType === '3' || deckRatings.includes(appliedRank)) {
     evalType.value = '3';
     formUrl = 'Evaluation-EngineOfficer.html';

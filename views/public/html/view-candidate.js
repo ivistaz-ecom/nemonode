@@ -1586,8 +1586,8 @@ function viewEvaluation(candidateId, id, time, formType, event) {
         'Officers Engine': './Evaluation-OfficersEngineForm.html',
         'Officers Deck': './Evaluation-OfficersDeckForm.html',
         'Engine Officers': './Evaluation-EngineOfficersForm.html',
-        'form4': './Evaluation-Form4.html',
-        'form5': './Evaluation-Form5.html'
+        'Engine Ratings': './Evaluation-EngineRatingsForm.html',
+        'Galley Officers': './Evaluation-GalleyOfficersForm.html'
     };
 
     // Determine the URL to redirect to based on formType

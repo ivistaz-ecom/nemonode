@@ -91,27 +91,39 @@
     </style>
 </head>
 <body>
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="loginForm">
+            <label for="userName">Username:</label>
+            <input type="text" id="userName" name="userName" required>
+            <label for="userPassword">Password:</label>
+            <input type="password" id="userPassword" name="userPassword" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
   <div  id="printableArea">
 
 <form id="evaluationForm">
     <div class="container mt-4 p-5 bg-light w-75  ">
-      <div class="static-row mb-3" >
-        <div class="logo-col">
-            <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" alt="Nautilus Logo"/>
+      <div class="row mb-3">
+        <div class="col-md-2 border d-flex justify-content-center align-items-center">
+        <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
         </div>
-        <div class="title-col">
-            <p class="fw-bolder ">
-                PRE-EMPLOYMENT EVALUATION SHEET OFFICERS - ENGINE
-            </p>
+        <div class="col border d-flex justify-content-center align-items-center">
+          <p class=" fw-bolder" >
+            PRE-EMPLOYMENT EVALUATION SHEET OFFICERS - ENGINE
+          </p>
         </div>
-        <div class="info-col">
-            <p class="small p-2 pt-4">
-                FORM NO: OFF 47B<br />
-                REVISION NO: 00<br />
-                DATE: 17/08/2023
-            </p>
+        <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
+          <p style="font-size: 10px;">
+            FORM NO: OFF 47B<br />
+            REVISION NO: 00<br />
+            DATE: 17/08/2023
+          </p>
         </div>
-    </div>
+      </div>  
         <div id="loginModal" class="modal">
           <div class="modal-content">
               <span class="close">&times;</span>
@@ -172,7 +184,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="englishLevel" id="englishSatisf" value="satisfactory">
-                                <label class="form-check-label" for="englishSatisf">Satisf</label>
+                                <label class="form-check-label" for="englishSatisf">Satisfactory</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="englishLevel" id="englishPoor" value="poor">
@@ -298,37 +310,37 @@
           <div class="row row-cols-2 g-2">
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput1">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput1">
                 <label class="form-check-label" for="ceInput1">&lt; 1000</label>
               </div>
             </div>
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput2">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput2">
                 <label class="form-check-label" for="ceInput2">1000 - 3000</label>
               </div>
             </div>
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput3">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput3">
                 <label class="form-check-label" for="ceInput3">3000 - 6000</label>
               </div>
             </div>
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput4">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput4">
                 <label class="form-check-label" for="ceInput4">6000 - 10000</label>
               </div>
             </div>
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput5">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput5">
                 <label class="form-check-label" for="ceInput5">10000 - 15000</label>
               </div>
             </div>
             <div class="col">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="containerExperience" id="ceInput6">
+                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput6">
                 <label class="form-check-label" for="ceInput6">&gt;15000</label>
               </div>
             </div>
@@ -468,14 +480,14 @@
 Number of Contracts in Ranks
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput1">
+       <input class="form-control"  id="psInput1">
     </div>
 </div>
 <div class="row ">
     <div class="col-5 border pt-3">
 Type or size of the vessels served    </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput2">
+       <input class="form-control"  id="psInput2">
     </div>
 </div>
 <div class="row ">
@@ -483,7 +495,7 @@ Type or size of the vessels served    </div>
 Last contract sign off date
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput3">
+       <input class="form-control"  id="psInput3">
     </div>
 </div>
 <div class="row ">
@@ -491,7 +503,7 @@ Last contract sign off date
 Type of main engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput4">
+       <input class="form-control"  id="psInput4">
     </div>
 </div>
 <div class="row ">
@@ -499,7 +511,7 @@ Type of main engine exp.
 Type of AUX engine exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput5">
+       <input class="form-control"   id="psInput5">
     </div>
 </div>
 <div class="row ">
@@ -507,7 +519,7 @@ Type of AUX engine exp.
 Cargo cranes/gear (marker) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput6">
+       <input class="form-control"   id="psInput6">
     </div>
 </div>
 <div class="row ">
@@ -515,7 +527,7 @@ Cargo cranes/gear (marker) exp.
 Type of Cargo carried
     </div>
     <div class="col border p-2">
-       <input class="form-control"  readonly id="psInput7">
+       <input class="form-control"   id="psInput7">
     </div>
 </div>
 <div class="row ">
@@ -523,7 +535,7 @@ Type of Cargo carried
 Type of Cargo pumps(tankers)
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput8">
+       <input class="form-control"  id="psInput8">
     </div>
 </div>
 <div class="row ">
@@ -531,7 +543,7 @@ Type of Cargo pumps(tankers)
 Trading Area(limited/WW)
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput9">
+       <input class="form-control"   id="psInput9">
     </div>
 </div>
 <div class="row ">
@@ -539,7 +551,7 @@ Trading Area(limited/WW)
 Mixed crew (nationalities) exp.
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly id="psInput10">
+       <input class="form-control"  id="psInput10">
     </div>
 </div>
 <div class="row ">
@@ -547,7 +559,7 @@ Mixed crew (nationalities) exp.
 ECDIS experience in previous 12 months
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput11">
+       <input class="form-control"   id="psInput11">
     </div>
 </div>
 <div class="row ">
@@ -555,7 +567,7 @@ ECDIS experience in previous 12 months
 PSC experience
     </div>
     <div class="col border p-2">
-       <input class="form-control" readonly  id="psInput12">
+       <input class="form-control"   id="psInput12">
     </div>
 </div>
 <div class="row ">
@@ -563,7 +575,7 @@ PSC experience
 SIRE/CDI experience Right ship
     </div>
     <div class="col border p-2">
-       <input class="form-control"  readonly id="psInput13">
+       <input class="form-control"   id="psInput13">
     </div>
 </div>
   </div>
@@ -827,7 +839,7 @@ SIRE/CDI experience Right ship
           <h4 class="text-danger mb-3">INTERVIEWER COMMENTS</h4>
 
           <div class="mb-3">
-            <textarea class="form-control" rows="4"></textarea>
+            <textarea class="form-control" rows="4" id="intComments"></textarea>
           </div>
 
           <div class="row mb-3">
@@ -844,9 +856,21 @@ SIRE/CDI experience Right ship
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="grading" />
-                <label class="form-check-label" for="grading">GRADING:</label>
+              <div class="form-group">
+                <label for="grading">GRADING:</label>
+                <select class="form-control" id="grading" readonly>
+                  <option value=""></option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
               </div>
             </div>
           </div>
@@ -878,33 +902,113 @@ SIRE/CDI experience Right ship
     
   </form>
   </div>
-    <button type="button" class="btn btn-primary no-print mt-4 mb-4" onclick="printDiv('printableArea')">Print Form</button>
+  <div id="submitWarning" class="alert alert-warning alert-dismissible fade show no-print mt-3" role="alert">
+    <strong>Kindly double-check before submitting!</strong> Once submitted, the form cannot be edited again.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<button id="write" class="btn btn-success no-print" >Submit Evaluation for Candidate</button>
+<button type="button" class="btn btn-primary no-print mt-4 mb-4" style="visibility: hidden;" onclick="printDiv('printableArea')">Print Form</button>
+
 
 
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script>
-      // Function to fetch evaluation data based on candidateId and id
-      async function fetchEvaluationData(candidateId, evalId) {
-          try {
-              // Replace with your actual API endpoint
-              const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
-              const evaluationData = response.data.values;
-              console.log("Fetched Evaluation Data:", evaluationData);
   
-              // Call function to populate form fields with the evaluation data
-              populateFormFields(evaluationData);
-          } catch (error) {
-              console.error('Error fetching evaluation data:', error);
-          }
-      }
   
-      // Function to populate form fields with values from the evaluation data
-      function populateFormFields(data) {
-          const ids = [
-              'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+  <script>
+    function updatePrintableArea() {
+        var form = document.getElementById('evaluationForm');
+        var formData = new FormData(form);
+
+        // Create a clone of the printable area
+        var clone = document.getElementById('printableArea').cloneNode(true);
+
+        // Update the clone with current form values
+        formData.forEach((value, key) => {
+            var element = clone.querySelector(`#${key}`);
+            if (element) {
+                if (element.type === 'checkbox') {
+                    var checked = formData.has(key);
+                    element.checked = checked;
+                } else {
+                    element.value = value;
+                }
+            }
+        });
+
+        // Handle checkboxes manually
+        clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+            var id = checkbox.id;
+            checkbox.checked = document.querySelector(`#${id}`).checked;
+        });
+
+        // Update the content of printableArea with the cloned content
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = '';
+        document.body.appendChild(clone);
+
+        // Restore the original content after printing
+        window.onafterprint = () => {
+            document.body.innerHTML = originalContent;
+        };
+    }
+
+    function printDiv(divName) {
+        updatePrintableArea();
+        window.print();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function getURLParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                candidateId: params.get('candidateId'),
+                appliedDate: params.get('appliedDate'),
+                appliedRank: params.get('appliedRank'),
+                interviewerName: params.get('interviewerName'),
+                time: params.get('time') // Ensure 'time' parameter is included
+            };
+        }
+
+        const token = sessionStorage.getItem('token');
+
+        if (token) {
+            const decodedToken = decodeToken(token);
+            const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
+
+            // Store the values in sessionStorage
+            sessionStorage.setItem('candidateId', candidateId);
+            sessionStorage.setItem('appliedDate', appliedDate);
+            sessionStorage.setItem('appliedRank', appliedRank);
+            sessionStorage.setItem('interviewerName', interviewerName);
+            sessionStorage.setItem('time', time); // Store 'time' parameter
+
+            // Display the applied rank in the input field
+            const rankApplied = document.getElementById('rankApplied');
+            if (rankApplied) {
+                rankApplied.value = appliedRank;
+            }
+
+            // Set today's date in the date input field
+            const dateNowElement = document.getElementById('dateNow');
+            if (dateNowElement) {
+                dateNowElement.value = appliedDate;
+            }
+
+            const intName = document.getElementById('intName');
+            if (intName) {
+                intName.value = interviewerName;
+            }
+
+            var originalContent = document.body.innerHTML; // Store the original content before printing
+
+            function fetchValues() {
+                const ids = [
+                'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
               'qualification', 'lastContract', 'englishGood', 'englishSatisf',
               'englishPoor', 'Bmi', 'europe', 'usa', 'medSea', 'farEast', 'pgGoa',
               'crewExperienceYes', 'crewExperienceNo', 'newNationality',
@@ -928,113 +1032,87 @@ SIRE/CDI experience Right ship
               'fuelChangeoverYes', 'fuelChangeoverNo', 'opeartionProceduresYes',
               'operationProceduresNo', 'regulationsYes', 'regulationsNo',
               'leavingLast', 'commentsInt', 'accepted', 'rejected', 'grading',
-              'intName', 'dateNow', 'signNow','leaving'
-          ];
-  
-          ids.forEach(id => {
-              const element = document.getElementById(id);
-              if (element) {
-                  if (data[id] !== undefined) { // Check if the value exists
-                      if (element.type === 'checkbox') {
-                          element.checked = data[id] === true;
-                      } else {
-                          element.value = data[id] || '';
-                      }
-                      // Log the key-value pairs
-                      console.log(`Setting ${id}:`, data[id]);
-                  }
-              }
-          });
-  
-          // Make all inputs read-only and disable checkbox toggling
-          makeFormReadOnly();
-      }
-  
-      // Function to extract query parameters and call fetchEvaluationData
-      function initialize() {
-          const params = new URLSearchParams(window.location.search);
-          const candidateId = params.get('candidateId');
-          const evalId = params.get('id');
-          const time = params.get('time');
-  
-          const timeElement = document.getElementById('timeNow');
-          if (timeElement) {
-              timeElement.value = time || ''; // Default to an empty string if `time` is null
-          } else {
-              console.error('Element with ID "timeNow" not found.');
-          }
-  
-          if (candidateId && evalId) {
-              console.log("Candidate ID:", candidateId);
-              console.log("Evaluation ID:", evalId);
-              fetchEvaluationData(candidateId, evalId);
-          } else {
-              console.warn('Missing candidateId or id in URL');
-          }
-      }
-  
-      // Call initialize function on page load
-      window.onload = initialize;
-  
-      function updatePrintableArea() {
-          var form = document.getElementById('evaluationForm');
-          var formData = new FormData(form);
-  
-          // Create a clone of the printable area
-          var clone = document.getElementById('printableArea').cloneNode(true);
-  
-          // Update the clone with current form values
-          formData.forEach((value, key) => {
-              var element = clone.querySelector(`#${key}`);
-              if (element) {
-                  if (element.type === 'checkbox') {
-                      var checked = formData.has(key);
-                      element.checked = checked;
-                  } else {
-                      element.value = value;
-                  }
-              }
-          });
-  
-          // Handle checkboxes manually
-          clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
-              var id = checkbox.id;
-              checkbox.checked = document.querySelector(`#${id}`).checked;
-          });
-  
-          // Update the content of printableArea with the cloned content
-          var originalContent = document.body.innerHTML;
-          document.body.innerHTML = '';
-          document.body.appendChild(clone);
-  
-          // Restore the original content after printing
-          window.onafterprint = () => {
-              document.body.innerHTML = originalContent;
-          };
-      }
-  
-      function printDiv(divName) {
-          updatePrintableArea();
-          window.print();
-      }
-  
-      // Function to make form inputs read-only and prevent checkbox toggling
-      function makeFormReadOnly() {
-          const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
-          inputs.forEach(input => {
-              input.setAttribute('readonly', true);
-          });
-  
-          const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-          checkboxes.forEach(checkbox => {
-              checkbox.addEventListener('click', function(event) {
-                  event.preventDefault();
-              });
-          });
-      }
-  </script>
-  
-  
+              'intName', 'dateNow', 'signNow','leaving','intComments' ];
+
+                const evalObject = {};
+
+                ids.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            evalObject[id] = element.checked;
+                        } else {
+                            evalObject[id] = element.value;
+                        }
+                    }
+                });
+
+                return evalObject;
+            }
+
+            document.getElementById('write').addEventListener('click', function() {
+                const evalObject = fetchValues();
+              
+                axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+                    eval_type: 'Engine Officers',
+                    applied_rank: appliedRank,
+                    applied_date: appliedDate,
+                    applied_by: decodedToken.userName,
+                    interviewer_name: interviewerName,
+                    values: evalObject,
+                    remote: window.location.href,
+                    time: time // Use the 'time' parameter
+                })
+                .then(response => {
+                    console.log(response.data.message);
+                })
+                .catch(error => {
+                    console.error('Error updating evaluation:', error);
+                });
+            });
+        } else {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+    });
+
+    document.querySelector('.close').onclick = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    function decodeToken(token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(atob(base64));
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const userName = document.getElementById('userName').value;
+        const userPassword = document.getElementById('userPassword').value;
+
+        try {
+            const response = await axios.post('https://nsnemo.com/user/login', {
+                userName: userName,
+                userPassword: userPassword
+            });
+
+            const result = response.data;
+
+            if (result.success) {
+                sessionStorage.setItem('token', result.token);
+                alert('Login successful');
+                document.getElementById('loginModal').style.display = 'none';
+                window.location.reload();
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            alert('An error occurred. Please try again.');
+        }
+    });
+</script>
   
   
   
