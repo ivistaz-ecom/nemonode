@@ -858,7 +858,7 @@ SIRE/CDI experience Right ship
             <div class="col-md-4">
               <div class="form-group">
                 <label for="grading">GRADING:</label>
-                <select class="form-control" id="grading" readonly>
+                <select class="form-control" id="grading" >
                   <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -1054,7 +1054,7 @@ SIRE/CDI experience Right ship
                 const evalObject = fetchValues();
               
                 axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
-                    eval_type: 'Engine Officers',
+                    eval_type: 'Galley Officers',
                     applied_rank: appliedRank,
                     applied_date: appliedDate,
                     applied_by: decodedToken.userName,

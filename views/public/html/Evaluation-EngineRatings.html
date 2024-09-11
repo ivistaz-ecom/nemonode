@@ -5,6 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pre-Employment Evaluation Sheet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+          font-size: 18px !important;
+        }
+        /* Ensure the container has a fixed width */
+        .container {
+            
+              margin: 0 auto; /* Center the container */
+          }
+  
+          .static-row {
+              display: flex;
+              align-items: stretch; /* Ensure columns are the same height */
+              height: 150px; /* Fixed height for rows */
+          }
+  
+          .logo-col {
+              width: 150px; /* Fixed width for logo column */
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid #dee2e6;
+          }
+  
+          .title-col {
+              flex: 3; /* Title column takes up more space */
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid #dee2e6;
+              text-align: center;
+          }
+  
+          .info-col {
+              width: 150px; /* Fixed width for info column */
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid #dee2e6;
+              text-align: center;
+          }
+  
+          .font-weight-bold {
+              font-size: 1.5em; /* Title font size */
+          }
+  
+          /* For print, maintain the same layout */
+          @media print {
+              .container {
+                  width: 210mm; /* A4 width */
+                  margin: 0;
+              }
+              .static-row {
+                  height: auto; /* Adjust height for print if needed */
+              }
+              .logo-col, .title-col, .info-col {
+                  border: 1px solid #dee2e6;
+              }
+              .font-weight-bold {
+                  font-size: 2em; /* Increase title size for print */
+              }
+             
+              body {
+                  margin: 0;
+              }
+              .no-print {
+                  display: none !important;
+              }
+              #printableArea {
+                  width: 210mm; /* A4 width */
+                  min-height: 297mm; /* A4 height */
+                  padding: 20px;
+                  background: white;
+                  margin: 0;
+                  page-break-after: always;
+                  box-shadow: none;
+              }
+          }
+  
+          
+          
+  
+      </style>
 </head>
 <body>
 
@@ -616,7 +699,7 @@ SIRE/CDI experience Right ship
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="grading">GRADING:</label>
-                    <select class="form-control" id="grading" readonly>
+                    <select class="form-control" id="grading" >
                       <option value=""></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
