@@ -293,37 +293,37 @@
                 <div class="row row-cols-2 g-2">
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput1">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput1">
                       <label class="form-check-label" for="ceInput1">&lt; 1000</label>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput2">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput2">
                       <label class="form-check-label" for="ceInput2">1000 - 3000</label>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput3">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput3">
                       <label class="form-check-label" for="ceInput3">3000 - 6000</label>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput4">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput4">
                       <label class="form-check-label" for="ceInput4">6000 - 10000</label>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput5">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput5">
                       <label class="form-check-label" for="ceInput5">10000 - 15000</label>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-check">
-                      <input type="radio" class="form-check-input" name="containerExperience" id="ceInput6">
+                      <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput6">
                       <label class="form-check-label" for="ceInput6">&gt;15000</label>
                     </div>
                   </div>
@@ -836,11 +836,11 @@
                     checkbox.checked = document.querySelector(`#${id}`).checked;
                 });
 
-                clone.querySelectorAll('input[type=radio]').forEach(radio => {
-                var name = radio.name;
-                var selectedRadio = document.querySelector(`input[name="${name}"]:checked`);
-                if (selectedRadio && selectedRadio.id === radio.id) {
-                    radio.checked = true;
+                clone.querySelectorAll('input[type=checkbox]').forEach(checkbox => {
+                var name = checkbox.name;
+                var selectedcheckbox = document.querySelector(`input[name="${name}"]:checked`);
+                if (selectedcheckbox && selectedcheckbox.id === checkbox.id) {
+                    checkbox.checked = true;
                 }
             });
 
