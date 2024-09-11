@@ -182,8 +182,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     
     document.getElementById('evalType').addEventListener('change', function () {
-        console.log("Evaluation type changed");
+       // console.log("Evaluation type changed");
         const evalType = document.getElementById('evalType');
+
         const selectedType = this.value;
         const remoteLinkInput = document.getElementById('remoteLink');
         const urlParams = new URLSearchParams(window.location.search);
@@ -262,31 +263,48 @@ document.addEventListener('DOMContentLoaded', async function () {
         'CHIEF COOK', 'SECOND COOK', 'TR. GS', 'IV BOSUN', 'COOK', 'MSM/GS'
     ]
 
+  
 
-    
-    
-    
-        if (selectedType === '1' || engineOfficers.includes(appliedRank)) {
-            evalType.value = '1';
-            formUrl = 'Evaluation-OfficersEngine.html';
-        } else if (selectedType === '2' || deckOfficers.includes(appliedRank)) {
-            evalType.value = '2';
 
-            formUrl = 'Evaluation-OfficersDeck.html';
-        } else if (selectedType === '3' || deckRatings.includes(appliedRank)) {
-            evalType.value='3'
-            formUrl = 'Evaluation-EngineOfficer.html';
-        }
-        else if (selectedType === '4' || engineRatings.includes(appliedRank)) {
-        evalType.value='4'
-        formUrl = 'new.html';
-           }
-        else if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
-        evalType.value='5'
-       formUrl = 'new1.html';
-       } else {
-            formUrl = ''; // Clear the input if another option is selected
-        }
+
+   // Ensure `selectedType` and `appliedRank` are defined and initialized
+
+// Check if the selected type matches any of the conditions
+// Ensure `selectedType` and `appliedRank` are defined and initialized
+evalType.value = ''; // or any default value you prefer
+
+// Check for galleyRanks condition first if it needs to be prioritized
+
+
+
+
+if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
+    console.log(appliedRank)
+    evalType.value = '5';
+    formUrl = 'new1.html';
+} else if (selectedType === '4' || engineRatings.includes(appliedRank)) {
+    evalType.value = '4';
+    formUrl = 'new.html';
+} else if (selectedType === '3' || deckRatings.includes(appliedRank)) {
+    evalType.value = '3';
+    formUrl = 'Evaluation-EngineOfficer.html';
+} else if (selectedType === '2' || deckOfficers.includes(appliedRank)) {
+    evalType.value = '2';
+    formUrl = 'Evaluation-OfficersDeck.html';
+} else if (selectedType === '1' || engineOfficers.includes(appliedRank)) {
+    evalType.value = '1';
+    formUrl = 'Evaluation-OfficersEngine.html';
+} else {
+    // Handle the case where none of the conditions are met
+    console.log('No matching condition');
+}
+
+// Further code to handle the formUrl and evalType.value
+
+
+// Further code to handle the formUrl and evalType.value
+
+         
     
         if (formUrl) {
             const encodedAppliedRank = encodeURIComponent(appliedRank);
@@ -304,6 +322,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('appliedRank').addEventListener('input', function () {
         const evalType = document.getElementById('evalType');
         const appliedRank = this.value;
+        console.log(appliedRank)
+        //console.log(evalType)
         const engineOfficers = [
             'CHIEF ENGINEER', 
             '2ND ENGINEER', 
@@ -370,6 +390,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     const engineRatings = [
         'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV ENGINEER', 'IV OILER', 'IV 2ND DRIVER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
     ]
+
+
+
+
+
+
         if (engineOfficers.includes(appliedRank)) {
             evalType.value = '1';
         } 
@@ -383,11 +409,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         else if (galleyRanks.includes(appliedRank))
         {
-            evalType.value='4'
+            evalType.value='5'
         }
         else if (engineRatings.includes(appliedRank))
         {
-            evalType.value='5'
+            evalType.value='4'
         }
         else {
             evalType.value = ''; // Or set to another value if needed
