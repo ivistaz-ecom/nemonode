@@ -221,6 +221,13 @@
                                 <label class="form-check-label" for="pgGoa">PG/GOA</label>
                             </div>
                         </div>
+                        <div class="col">
+                          <div class="">
+                            <label for="othersTAE">Others</label>
+                              <input class="" readonly type="text" id="othersTAE" placeholder="others">
+                              
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -384,6 +391,11 @@
                 <label for="mak" class="form-label fs-6">MAK</label>
                 <input type="text" id="mak" class="form-control">
               </div>
+            </div>
+            <div class="  ">
+              <label for="otherME" class="form-label fs-6">Others</label>
+
+              <input type="text" id="otherME" readonly class="form-control"  >
             </div>
           </div>
         </div>
@@ -995,7 +1007,7 @@ SIRE/CID experience
   
               function fetchValues() {
                   const ids = [
-                      'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile',
+                      'fullName', 'rankApplied', 'nationality', 'telephone', 'mobile','othersTAE','othersME',
                       'qualification', 'lastContract', 'englishGood', 'englishSatisf',
                       'englishPoor', 'bmi', 'europe', 'usa', 'medSea', 'farEast', 'pgGoa',
                       'crewExperienceYes', 'crewExperienceNo', 'newNationality',
