@@ -19,7 +19,7 @@ document.getElementById("logout").addEventListener("click", function() {
 
 const token = localStorage.getItem('token');
 const decodedToken = decodeToken(token);
-const userVendorValue = decodedToken.userVendor;
+const userVendorValue = decodedToken.userClient;
 const userVendor = document.getElementById('userVendor');
 
 userVendor.value = userVendorValue;
