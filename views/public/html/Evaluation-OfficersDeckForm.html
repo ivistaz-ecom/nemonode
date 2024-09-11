@@ -709,6 +709,7 @@
             <input
               type="text"
               placeholder="Enter reason for leaving"
+              id="reasonForLeaving"
               class="w-full p-2 border rounded"
             />
           </div>
@@ -722,7 +723,7 @@
           <h4 class="text-danger mb-3">INTERVIEWER COMMENTS</h4>
 
           <div class="mb-3">
-            <textarea class="form-control" rows="4"></textarea>
+            <textarea class="form-control" rows="4" id="intComments"></textarea>
           </div>
 
           <div class="row mb-3">
@@ -761,21 +762,22 @@
 
           <div class="row">
             <div class="col-md-4 mb-3">
-              <small class="text-dark p-2">INTERVIEWER NAME:</small>
+              <small class="text-dark p-2" >INTERVIEWER NAME:</small>
 
               <input
                 type="text"
                 class="form-control"
+                id="intName"
                 placeholder="INTERVIEWER NAME"
               />
             </div>
             <div class="col-md-4 mb-3">
               <small class="p-2">SIGNATURE:</small>
-              <input type="text" class="form-control" placeholder="SIGNATURE" />
+              <input type="text" class="form-control" placeholder="SIGNATURE" id="signature" />
             </div>
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
-              <input type="date" class="form-control" />
+              <input type="date" class="form-control" id="dateNow" />
             </div>
           </div>
         </div>
