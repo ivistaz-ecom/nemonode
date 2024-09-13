@@ -37,7 +37,7 @@ fetchVessels(userVendor.value);
 
 async function fetchVessels(companyId) {
     try {
-        const response = await axios.get(`http://localhost:8001/others/getcompanyviavsl/${companyId}`);
+        const response = await axios.get(`https://nsnemo.com/others/getcompanyviavsl/${companyId}`);
         
         const vessels = response.data;
         console.log(response);
@@ -68,7 +68,7 @@ async function handleOnBoardSubmit(event) {
         // const companyname = localStorage.getItem('')
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('http://localhost:8001/candidate/onboard2', {
+        const response = await axios.get('https://nsnemo.com/candidate/onboard2', {
             params: {
                 companyname:companyName ,
                 startDate: startDate,

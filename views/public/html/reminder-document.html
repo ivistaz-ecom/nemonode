@@ -618,7 +618,7 @@
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`http://localhost:8001/user/${userId}/logout`)
+    axios.put(`https://nsnemo.com/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -673,7 +673,7 @@
                       loader.style.display = 'block';
                       error.style.display = 'none';
           
-                      let url = 'http://localhost:8001/candidate/expiry-date';
+                      let url = 'https://nsnemo.com/candidate/expiry-date';
                       let requestData = {}; // Initialize request data object
           
                       if (selectedDate) {

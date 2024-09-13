@@ -639,7 +639,7 @@ console.log(params)
 const decodedToken = decodeToken(token)
 
                     try {
-                        const response = await axios.get('http://localhost:8001/candidate/statusdate', { params });
+                        const response = await axios.get('https://nsnemo.com/candidate/statusdate', { params });
                       console.log(response)
                         if (response.status === 200) {
                             const data = response.data;
@@ -720,7 +720,7 @@ function viewCandidate(id) {
     // Call insertData function to insert the example data
     async function createCompanyDropdown() {
     try {
-        const companyResponse = await axios.get("http://localhost:8001/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('user_client');
         companyDropdown.innerHTML = ''; // Clear existing options
@@ -751,7 +751,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Function to fetch discussion data
                     async function fetchData() {
                         try {
-                            const url = 'http://localhost:8001/candidate/statusdata';
+                            const url = 'https://nsnemo.com/candidate/statusdata';
                             const response = await axios.get(url);
                             renderDiscussionData(response.data);
                         } catch (error) {

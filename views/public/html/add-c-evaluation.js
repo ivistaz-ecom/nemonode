@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     setInterval(updateDateTime, 1000);
 
     function displayDropdown() {
-        return axios.get("http://localhost:8001/others/get-ranks", { headers: { "Authorization": token } })
+        return axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } })
             .then(response => {
                 const rankDropdown = document.getElementById('appliedRank');
                 rankDropdown.innerHTML = ''; // Clear existing options
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     function displayUserDropdown() {
-        return axios.get("http://localhost:8001/user/userdropdown")
+        return axios.get("https://nsnemo.com/user/userdropdown")
             .then(response => {
                 const userDropdown = document.getElementById('interviewer_name');
                 userDropdown.innerHTML = ''; // Clear existing options
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         };
     
         try {
-            const response = await axios.post(`http://localhost:8001/candidate/sendmail/${id}`, { eval_type: evalType,
+            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, { eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedRank = document.getElementById('appliedRank').value;
         const interviewerName = document.getElementById('interviewer_name').value;
         const time = document.getElementById('time').value;
-        let baseUrl = 'http://localhost:8001/views/public/html/';
+        let baseUrl = 'https://nsnemo.com/views/public/html/';
         let formUrl = '';
     
         const engineOfficers = [

@@ -15,7 +15,7 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
     const category = document.getElementById("category").value.trim();
     const eval_type = document.getElementById("eval_type").value
     try {
-        const serverResponse = await axios.post("http://localhost:8001/others/create-rank", {
+        const serverResponse = await axios.post("https://nsnemo.com/others/create-rank", {
             rank,
             rankOrder,
             category,
@@ -35,7 +35,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

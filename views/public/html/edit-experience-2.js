@@ -57,7 +57,7 @@ const updatedExperienceDetails = {
 };
 console.log(updatedExperienceDetails)
 try {
-    const response = await axios.put(`http://localhost:8001/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
+    const response = await axios.put(`https://nsnemo.com/others/update-experience/${experienceId}`, updatedExperienceDetails,{headers:{"Authorization":token}});
     console.log('Response:', response.data);
     alert("Experience Updated Successfully!");
     window.location.href="./edit-experience.html"
@@ -104,7 +104,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

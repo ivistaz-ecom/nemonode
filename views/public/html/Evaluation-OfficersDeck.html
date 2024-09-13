@@ -950,7 +950,7 @@
                     const evalObject = fetchValues();
                     console.log(evalObject)
 
-                    axios.post(`http://localhost:8001/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+                    axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
                         eval_type: 'Officers Deck',
                         applied_rank: appliedRank,
                         applied_date: appliedDate,
@@ -989,7 +989,7 @@
             const userPassword = document.getElementById('userPassword').value;
 
             try {
-                const response = await axios.post('http://localhost:8001/user/login', {
+                const response = await axios.post('https://nsnemo.com/user/login', {
                     userName: userName,
                     userPassword: userPassword
                 });

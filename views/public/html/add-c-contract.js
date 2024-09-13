@@ -19,7 +19,7 @@ function decodeToken(token) {
 
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-contract-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -54,10 +54,10 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='http://localhost:8001/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='https://nsnemo.com/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${contract.aoa}</td>
-                <td><a href='http://localhost:8001/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td><a href='https://nsnemo.com/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
 
                 <td>
                 <td>${contract.created_by}</td>
@@ -322,7 +322,7 @@ async function handleContractForm(event) {
     };
 
     try {
-        const response = await axios.post(`http://localhost:8001/candidate/contract-details/${candidateId}`, contractDetails, {
+        const response = await axios.post(`https://nsnemo.com/candidate/contract-details/${candidateId}`, contractDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -345,7 +345,7 @@ contractForm.addEventListener('submit', handleContractForm);
 
 async function displayDropdown() {
     try {
-        const rankResponse = await axios.get("http://localhost:8001/others/get-ranks", {
+        const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", {
             headers: { "Authorization": token }
         });
         const ranks = rankResponse.data.ranks;
@@ -367,7 +367,7 @@ async function displayDropdown() {
 
 async function fetchAndDisplayVessels() {
     try {
-        const serverResponse = await axios.get("http://localhost:8001/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -397,7 +397,7 @@ async function fetchAndDisplayVessels() {
 
 async function fetchAndDisplayVesselType() {
     try {
-        const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -428,7 +428,7 @@ async function fetchAndDisplayVesselType() {
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("http://localhost:8001/others/get-ports", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("https://nsnemo.com/others/get-ports", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -473,7 +473,7 @@ async function fetchAndDisplayCompanies() {
     try {
         // Fetch ports from the server
         // Fetch companies from the server
-        const companyResponse = await axios.get("http://localhost:8001/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", { headers: { "Authorization": token } });
         const companies = companyResponse.data.companies;
         console.log(companies)
         // Get the company select element
@@ -518,7 +518,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -581,21 +581,21 @@ async function getReq() {
         const token = localStorage.getItem('token');
         
         // Fetch nationality data
-        const nationalityResponse = await axios.get("http://localhost:8001/others/country-codes");
+        const nationalityResponse = await axios.get("https://nsnemo.com/others/country-codes");
         nationalityData = nationalityResponse.data.countryCodes;
         
         // Fetch other necessary data
-        const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
         console.log(serverResponse)
         vslsData= serverResponse.data.vessels
-        const serverResponseUser = await axios.get('http://localhost:8001/user/userdropdown');
+        const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
         userData = serverResponseUser.data
-        const serverResponsecomp = await axios.get('http://localhost:8001/company/dropdown-company');
+        const serverResponsecomp = await axios.get('https://nsnemo.com/company/dropdown-company');
         companyData= serverResponsecomp.data.companies
         console.log(companyData)
         console.log('Data fetched successfully');
 
-        const serverrespPort = await axios.get('http://localhost:8001/others/get-ports')
+        const serverrespPort = await axios.get('https://nsnemo.com/others/get-ports')
         portData=serverrespPort.data.ports
     }
     catch(err){

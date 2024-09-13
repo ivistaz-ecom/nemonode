@@ -61,7 +61,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`http://localhost:8001/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nsnemo.com/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Company Updated Successfully!");
         window.location.href='./view-company.html'
@@ -84,7 +84,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

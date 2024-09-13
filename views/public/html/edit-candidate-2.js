@@ -76,7 +76,7 @@ const avbDate = avbDateValue.trim() !== '' ? avbDateValue : '1970-01-01';
 
 async function fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("http://localhost:8001/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
         console.log(serverResponse,'exp')
         // Check if experiences is an array
@@ -117,7 +117,7 @@ async function fetchAndDisplayExp() {
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("http://localhost:8001/others/view-grade", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/view-grade", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
         const gradeDropdown = document.getElementById('edit_candidate_grade');
 
@@ -150,7 +150,7 @@ async function fetchAndDisplayGrades() {
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("http://localhost:8001/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
         console.log('vsls',serverResponse)
         // Get the select element
@@ -209,7 +209,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("http://localhost:8001/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -224,7 +224,7 @@ const displayDropdown = async function () {
 async function fetchAndDisplayNationalities() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("http://localhost:8001/fetch-nationality", { headers: { "Authorization": token } });
+        const response = await axios.get("https://nsnemo.com/fetch-nationality", { headers: { "Authorization": token } });
         const countries = response.data.countries; // Access the array using response.data.countries
         return countries; // Return the fetched countries
     } catch (error) {
@@ -343,7 +343,7 @@ function formatDate(dateString) {
 
   async function fetchAndDisplayCandidate(candidateId,token) {
     try {
-        const serverResponse = await axios.get(`http://localhost:8001/candidate/get-candidate/${candidateId}`, {
+        const serverResponse = await axios.get(`https://nsnemo.com/candidate/get-candidate/${candidateId}`, {
             headers: { 'Authorization': token }
         });
 
@@ -497,7 +497,7 @@ const userName = localStorage.getItem('username')
     };
 
     try {
-        const response = await axios.put(`http://localhost:8001/candidate/update-candidate/${candidateId}`, candidate_details, {
+        const response = await axios.put(`https://nsnemo.com/candidate/update-candidate/${candidateId}`, candidate_details, {
             headers: {
                 'Authorization': token
             }
@@ -598,7 +598,7 @@ const userName = localStorage.getItem('username')
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`http://localhost:8001/user/${userId}/logout`)
+          axios.put(`https://nsnemo.com/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })
@@ -656,7 +656,7 @@ function viewCandidate(id) {
 
 async function createCompanyDropdown() {
 
-    const companyResponse = await axios.get("http://localhost:8001/company/dropdown-company", { headers: { "Authorization": token } });
+    const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies;
         const companyNames = companyOptions.map(company => company.company_id);
 

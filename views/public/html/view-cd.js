@@ -4,7 +4,7 @@ const candidateId = localStorage.getItem('cmemId'); // Retrieve candidateId from
 async function fetchData() {
 
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-c-candidate/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-c-candidate/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -69,7 +69,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

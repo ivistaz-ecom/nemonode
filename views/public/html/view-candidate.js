@@ -40,7 +40,7 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     <td>${doc.issue_place}</td>
                     <td>${doc.document_files}</td>
 
-                    <td><a href='http://localhost:8001/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
+                    <td><a href='https://nsnemo.com/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
                     <td>${doc.stcw}</td>
                     <td>${formatDateNew(doc.expiry_date)}</td>
                     <td>
@@ -101,7 +101,7 @@ const deleteDocument = async (documentId, event) => {
     event.preventDefault(); // Prevent default action of the event
 
     try {
-        const response = await axios.delete(`http://localhost:8001/document/delete/${documentId}`, {
+        const response = await axios.delete(`https://nsnemo.com/document/delete/${documentId}`, {
             headers: {
                 'Authorization': token, // Assuming token is a valid authentication token
                 'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 
 // async function fetchAndDisplayBankDetails(candidateId) {
 //     try {
-//         const response = await axios.get(`http://localhost:8001/candidate/get-bank-details/${candidateId}`, {
+//         const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
 //             headers: {
 //                 'Authorization': token,
 //                 'Content-Type': 'application/json'
@@ -164,8 +164,8 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 //                 <li><strong>Beneficiary:</strong> ${bank.beneficiary}</li>
 //                 <li><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</li>
 //                 <li><strong>PAN Number:</strong> ${bank.pan_num}</li>
-//                 <li><strong>Passbook:</strong> <a href='http://localhost:8001/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></li>
-//                 <li><strong>PAN Card:</strong> <a href='http://localhost:8001/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></li>
+//                 <li><strong>Passbook:</strong> <a href='https://nsnemo.com/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></li>
+//                 <li><strong>PAN Card:</strong> <a href='https://nsnemo.com/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></li>
 //                 <li><strong>Branch:</strong> ${bank.branch}</li>
 //                 <li><strong>Type:</strong> ${bank.types}</li>
 //                 <li><strong>Created By:</strong> ${bank.created_by}</li>
@@ -198,7 +198,7 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 // }
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -229,8 +229,8 @@ async function fetchAndDisplayBankDetails(candidateId) {
                     <p><strong>Beneficiary:</strong> ${bank.beneficiary}</p>
                     <p><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</p>
                     <p><strong>PAN Number:</strong> ${bank.pan_num}</p>
-                    <p><strong>Passbook:</strong> <a href='http://localhost:8001/views/public/bank_details/${bank.passbook}' target="_blank">View Document</a></p>
-                    <p><strong>PAN Card:</strong> <a href='http://localhost:8001/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">View Document</a></p>
+                    <p><strong>Passbook:</strong> <a href='https://nsnemo.com/views/public/bank_details/${bank.passbook}' target="_blank">View Document</a></p>
+                    <p><strong>PAN Card:</strong> <a href='https://nsnemo.com/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">View Document</a></p>
                     <p><strong>Branch:</strong> ${bank.branch}</p>
                     <p><strong>Type:</strong> ${bank.types}</p>
                     <p><strong>Created By:</strong> ${bank.created_by}</p>
@@ -276,7 +276,7 @@ function editBank(candidateId,id, bank_name, account_num, bank_addr, ifsc_code, 
 
 async function deleteBank(bankId) {
     const token = localStorage.getItem('token')
-    const url = `http://localhost:8001/candidate/delete-bank/${bankId}`; // Assuming the API endpoint is '/api/banks/:id'
+    const url = `https://nsnemo.com/candidate/delete-bank/${bankId}`; // Assuming the API endpoint is '/api/banks/:id'
     
     try {
         const response = await axios.delete(url, {
@@ -310,7 +310,7 @@ async function deleteBank(bankId) {
 async function fetchAndDisplayTravelDetails(candidateId) {
     try {
         // Make an Axios request to your backend API to get travel details
-        const response = await axios.get(`http://localhost:8001/candidate/get-travel-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-travel-details/${candidateId}`, {
             headers: { "Authorization": token }
         });
         let index=1;
@@ -368,7 +368,7 @@ const token = localStorage.getItem('token');
 
 try {
     // Make an Axios request to your backend API to delete the travel entry
-    const response = await axios.delete(`http://localhost:8001/candidate/delete-travel/${travelId}`, {
+    const response = await axios.delete(`https://nsnemo.com/candidate/delete-travel/${travelId}`, {
         headers: { "Authorization": token }
     });
 
@@ -402,14 +402,14 @@ function formatDates(dateString) {
 
 async function fetchAndDisplayMedicalDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-hospital-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-hospital-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });
 
-        const hospitalResponse = await axios.get('http://localhost:8001/others/get-hospital', {
+        const hospitalResponse = await axios.get('https://nsnemo.com/others/get-hospital', {
             headers: {
                 'Authorization': token
             }
@@ -452,7 +452,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             
             const linkCell = document.createElement('td');
             const link = document.createElement('a');
-            link.href = `http://localhost:8001/views/public/uploads/medical/${medical.upload}`;
+            link.href = `https://nsnemo.com/views/public/uploads/medical/${medical.upload}`;
             link.textContent = 'Click here to view!';
             linkCell.appendChild(link);
             row.appendChild(linkCell);
@@ -503,7 +503,7 @@ const deleteMedical = async (id) => {
         const confirmDelete = confirm('Are you sure you want to delete this medical entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8001/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`https://nsnemo.com/candidate/delete-medical/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display medical details again after deletion
             fetchAndDisplayMedicalDetails(candidateId);
@@ -520,7 +520,7 @@ const deleteMedical = async (id) => {
 const fetchAndDisplayNkdData = async (candidateId) => {
     try {
         
-        const response = await axios.get(`http://localhost:8001/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`https://nsnemo.com/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
 
         // Assuming response.data contains an array of NKD objects
         const nkdData = response.data;
@@ -596,7 +596,7 @@ async function deleteNkd(id) {
         const confirmDelete = confirm('Are you sure you want to delete this NKD entry?');
         if (confirmDelete) {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8001/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
+            const response = await axios.delete(`https://nsnemo.com/candidate/delete-nkd/${id}`, { headers: { "Authorization": token } });
             console.log(response.data);
             // Fetch and display NKD data again after deletion
             fetchAndDisplayNkdData();
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         async function nationalityFetch(nationalityId) {
             try {
                 console.log(nationalityId)
-                const nationality = await axios.get("http://localhost:8001/others/country-codes");
+                const nationality = await axios.get("https://nsnemo.com/others/country-codes");
                 const countries = nationality.data.countryCodes;
                 let id = nationalityId
                 for (const country of countries) {
@@ -698,7 +698,7 @@ async function displayCandidateDetails() {
         // Get the candidateId from the URL parameter
         const id = urlParams.get('id');
         console.log(id)
-        const response = await axios.get(`http://localhost:8001/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
       
         document.getElementById('creator').textContent = candidateData.createdby
@@ -755,7 +755,7 @@ const prevResButton = document.getElementById('prevRes');
 if (photoName) {
     prevPhotoButton.value = photoName;
     prevPhotoButton.onclick = function() {
-        window.open(`http://localhost:8001/views/public/files/photos/${photoName}`, '_blank');
+        window.open(`https://nsnemo.com/views/public/files/photos/${photoName}`, '_blank');
     };
 } else {
     prevPhotoButton.value = 'No photo available';
@@ -767,7 +767,7 @@ if (photoName) {
 if (resumeName) {
     prevResButton.value = resumeName;
     prevResButton.onclick = function() {
-        window.open(`http://localhost:8001/views/public/files/resume/${resumeName}`, '_blank');
+        window.open(`https://nsnemo.com/views/public/files/resume/${resumeName}`, '_blank');
     };
 } else {
     prevResButton.value = 'No resume available';
@@ -916,14 +916,14 @@ setInterval(updateDateTime, 1000);
 async function fetchAndDisplayContractDetails(id) {
     try {
         const candidateId = id
-        const response = await axios.get(`http://localhost:8001/candidate/get-contract-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });
 
-        const companyResponse = await axios.get('http://localhost:8001/company/dropdown-company', {
+        const companyResponse = await axios.get('https://nsnemo.com/company/dropdown-company', {
             headers: {
                 'Authorization': token
             }
@@ -933,7 +933,7 @@ async function fetchAndDisplayContractDetails(id) {
             companies[company.company_id] = company.company_name;
         });
 
-        const portsResponse = await axios.get('http://localhost:8001/others/get-ports', {
+        const portsResponse = await axios.get('https://nsnemo.com/others/get-ports', {
             headers: {
                 'Authorization': token
             }
@@ -943,7 +943,7 @@ async function fetchAndDisplayContractDetails(id) {
             ports[port.id] = port.portName;
         });
 
-        const vesselsResponse = await axios.get('http://localhost:8001/others/get-vsls', {
+        const vesselsResponse = await axios.get('https://nsnemo.com/others/get-vsls', {
             headers: {
                 'Authorization': token
             }
@@ -1024,9 +1024,9 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='http://localhost:8001/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='https://nsnemo.com/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
-                <td><a href='http://localhost:8001/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td><a href='https://nsnemo.com/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
                 <td>${contract.openingBalance}</td>
                 <td>${contract.basicWages}</td>
                 <td>${contract.leaveWages}</td>
@@ -1116,7 +1116,7 @@ async function fetchAndDisplayContractDetails(id) {
 
 async function generatePayslip(candidateId, contractId) {
     try {
-        const response = await axios.post('http://localhost:8001/candidate/generate-payslip', {
+        const response = await axios.post('https://nsnemo.com/candidate/generate-payslip', {
             candidateId: candidateId,
             contractId: contractId
         }, {
@@ -1177,7 +1177,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -1206,7 +1206,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     try {
         let index=1;
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:8001/candidate/get-sea-service/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-sea-service/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -1255,7 +1255,7 @@ async function deleteSeaService(id) {
     if (confirm('Are you sure you want to delete this sea service record?')) {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:8001/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+            await axios.delete(`https://nsnemo.com/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
             // Remove the corresponding row from the table
             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
             seaServiceRow.remove();
@@ -1274,7 +1274,7 @@ function editSeaService(candidateId,id) {
 async function fetchAndDisplayDiscussions(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get(`http://localhost:8001/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`https://nsnemo.com/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
         let discussions = serverResponse.data.discussions;
 
         // Sort discussions by created_date in descending order
@@ -1289,7 +1289,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
             discussionElement.classList.add('discussion'); // Add CSS class for styling
             
             // Fetch username based on user ID (post_by value)
-            const usernameResponse = await axios.get(`http://localhost:8001/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const usernameResponse = await axios.get(`https://nsnemo.com/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
             const username = usernameResponse.data.user.userName;
 
             // Format the created date
@@ -1356,7 +1356,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
 
 //         // Update basic comments value in candidate table
 //         try {
-//             await axios.put(`http://localhost:8001/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+//             await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
 //                 headers: {
 //                     'Authorization': token,
 //                     'Content-Type': 'application/json',
@@ -1374,7 +1374,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
         
 //         // Update reference check text value in candidate table
 //         try {
-//             await axios.put(`http://localhost:8001/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+//             await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
 //                 headers: {
 //                     'Authorization': token,
 //                     'Content-Type': 'application/json',
@@ -1421,7 +1421,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
 //     }
 
 //     try {
-//         const response = await axios.post(`http://localhost:8001/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+//         const response = await axios.post(`https://nsnemo.com/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
 //             headers: {
 //                 'Authorization': token,
 //                 'Content-Type': 'application/json',
@@ -1449,7 +1449,7 @@ async function fetchAndDisplayEvaluationData() {
     // Get the candidateId from the URL parameter
     const candidateId = urlParams.get('id');
     
-        const response = await axios.get(`http://localhost:8001/candidate/evaluation-data/${id}`);
+        const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${id}`);
 
         // Extract evaluation data from the response
         const evaluationData = response.data; // Access data property
@@ -1509,7 +1509,7 @@ async function updateCandidatePhoto(id) {
     // Simulate fetching the photo value from a database or other source
     // Set the fetched photo value to the input field
     
-    const response = await axios.get(`http://localhost:8001/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
     console.log(response)
     const fetchedPhotoValue = response.data.candidate.photos
     console.log(fetchedPhotoValue)
@@ -1531,7 +1531,7 @@ async function updateCandidatePhoto(id) {
 async function fetchAndDisplayEvaluationData(candidateId) {
     try {
         // Fetch evaluation data from the server
-        const response = await axios.get(`http://localhost:8001/candidate/evaluation-data/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'

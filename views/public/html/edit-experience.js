@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 async function displayExperiences(page = 1, limit = 10) {
     try {
         // Fetch experiences from the server with pagination parameters
-        const expResponse = await axios.get(`http://localhost:8001/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const expResponse = await axios.get(`https://nsnemo.com/others/view-experience?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Experience Response:', expResponse);
 
         const expTable = document.getElementById("exp-table");
@@ -136,7 +136,7 @@ async function deleteExperience(expId, event) {
     event.preventDefault();
 
     const id = expId;
-    const url = `http://localhost:8001/others/delete-experience/${id}`;
+    const url = `https://nsnemo.com/others/delete-experience/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -170,7 +170,7 @@ updateExperienceButton.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await axios.put(`http://localhost:8001/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`https://nsnemo.com/others/update-experience/${experienceId}`, updatedExperienceDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
         alert("Experience Updated Successfully!");
         displayExperiences();
@@ -216,7 +216,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
