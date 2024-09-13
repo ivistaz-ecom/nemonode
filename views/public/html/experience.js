@@ -14,7 +14,7 @@ document.getElementById("exp-form").addEventListener("submit", async (e) => {
     const experience = document.getElementById("exp").value.trim();
 
     try {
-        const serverResponse = await axios.post("https://nsnemo.com/others/create-experience", {
+        const serverResponse = await axios.post("http://localhost:8001/others/create-experience", {
             experience,
         },{headers:{"Authorization":token}});
 
@@ -36,7 +36,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

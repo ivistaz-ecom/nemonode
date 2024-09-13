@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 document.getElementById('reason').value = reason;
                 document.getElementById('created_by').value = created_by;
     
-            const portAgentResponse = await axios.get("https://nsnemo.com/others/view-port-agent", { headers: { "Authorization": token } });
+            const portAgentResponse = await axios.get("http://localhost:8001/others/view-port-agent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgents;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -149,7 +149,7 @@ function formatDate(dateString) {
           };   
 
           // Make a request to update the travel data
-          const updateResponse = await axios.put(`https://nsnemo.com/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
+          const updateResponse = await axios.put(`http://localhost:8001/candidate/update-travel/${travelId}`, updatedTravelData, { headers: { "Authorization": token } });
           
           const urlParams = new URLSearchParams(window.location.search);
     
@@ -175,7 +175,7 @@ function formatDate(dateString) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

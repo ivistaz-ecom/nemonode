@@ -21,7 +21,7 @@ document.getElementById('search_btn').addEventListener('click', async function (
     const id = decodedToken.userId;
     console.log(id)
       // Send an asynchronous request to the server using Axios with async/await
-      const response = await axios.post('https://nsnemo.com/search', { 
+      const response = await axios.post('http://localhost:8001/search', { 
           search: searchValue,
           userId:id,
           userGroup: userGroup // Pass the user group value in the request body
@@ -91,7 +91,7 @@ return decodedToken.userGroup
     }
 
     // Make a POST request using Axios
-    axios.post('https://nsnemo.com/searchspl', searchData, { headers: { 'Authorization': token } })
+    axios.post('http://localhost:8001/searchspl', searchData, { headers: { 'Authorization': token } })
         .then(function (response) {
             // Handle the successful response
             const searchResults = response.data;
@@ -245,7 +245,7 @@ document.addEventListener('mouseleave', (event) => {
 async function fetchDiscussions(candidateId) {
   try {
     // Replace with actual fetch logic from your data source
-    const response = await axios.post(`https://nsnemo.com/candidate/hover-disc/${candidateId}`);
+    const response = await axios.post(`http://localhost:8001/candidate/hover-disc/${candidateId}`);
     const discussions = response.data;
 
     // Check if discussions is an array (or convert if necessary based on actual API response structure)
@@ -312,7 +312,7 @@ function viewCandidate(candidateId) {
             try {
                 console.log(`Deleting candidate with ID ${candidateId}`);
                 // Add your delete logic here
-                await axios.delete(`https://nsnemo.com/candidate/delete-candidate/${candidateId}`, { headers: { "Authorization": token } });
+                await axios.delete(`http://localhost:8001/candidate/delete-candidate/${candidateId}`, { headers: { "Authorization": token } });
                 console.log(`Candidate with ID ${candidateId} successfully deleted.`);
             } catch (error) {
                 console.error(`Error deleting candidate with ID ${candidateId}:`, error);
@@ -535,7 +535,7 @@ async function showDiscussionPopup(link, candidateId) {
     async function fetchDiscussions(candidateId) {
       try {
         // Replace with actual fetch logic from your data source
-        const response = await axios.post(`https://nsnemo.com/candidate/hover-disc/${candidateId}`);
+        const response = await axios.post(`http://localhost:8001/candidate/hover-disc/${candidateId}`);
         const discussionsData = response.data;
     
         // Check if discussionsData has discussions array
@@ -561,7 +561,7 @@ async function fetchCandidateData(candidateIds) {
   try {
     // Check if candidateIds is defined and not empty
     if (candidateIds && candidateIds.length > 0) {
-      const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
+      const response = await axios.get(`http://localhost:8001/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
       console.log(response)
       return response.data;
     } else {
@@ -589,7 +589,7 @@ async function fetchCandidateData(candidateIds) {
     defaultOption.text = '';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get("http://localhost:8001/others/get-ranks", { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -613,7 +613,7 @@ const displayVesselTypeDropdown = async function () {
         defaultOption.text = '';
         vesselDropdown.appendChild(defaultOption);
     
-        const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+        const vesselResponse = await axios.get("http://localhost:8001/others/get-vessel", { headers: { "Authorization": token } });
         const vessels = vesselResponse.data.vessels;
         const vesselNames = vessels.map(vessel => vessel.vesselName);
     
@@ -631,7 +631,7 @@ displayVesselTypeDropdown()
 
 async function fetchAndDisplayExp() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/view-experience", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:8001/others/view-experience", { headers: { "Authorization": token } });
         const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
 
         // Check if experiences is an array
@@ -669,7 +669,7 @@ fetchAndDisplayExp()
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-grades", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:8001/others/get-grades", { headers: { "Authorization": token } });
         const grades = serverResponse.data.grades;
 
         // Get the dropdown element by its ID
@@ -711,7 +711,7 @@ const displayCountryDropdown = async function () {
         countryDropdown.appendChild(defaultOption);
 
         // Assuming the country data is an array of objects with the property "country"
-        const countryResponse = await axios.get("https://nsnemo.com/others/country-codes", { headers: { "Authorization": token } });
+        const countryResponse = await axios.get("http://localhost:8001/others/country-codes", { headers: { "Authorization": token } });
         const countries = countryResponse.data.countryCodes; // Assuming the array is directly returned
 
         for (let i = 0; i < countries.length; i++) {
@@ -736,7 +736,7 @@ document.getElementById("logout").addEventListener("click", function() {
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nsnemo.com/user/${userId}/logout`)
+    axios.put(`http://localhost:8001/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })

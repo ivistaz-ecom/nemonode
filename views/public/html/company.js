@@ -31,7 +31,7 @@ addCompanyButton.addEventListener("submit", async (e) => {
 
     console.log(company_details);
     try {
-        const serverResponse = await axios.post("https://nsnemo.com/company/create-company", company_details,{headers:{"Authorization":token}});
+        const serverResponse = await axios.post("http://localhost:8001/company/create-company", company_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
         var successToast = new bootstrap.Toast(document.getElementById('successToast'));
         successToast.show();
@@ -130,7 +130,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

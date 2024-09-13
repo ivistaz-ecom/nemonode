@@ -40,7 +40,7 @@ function loadContent(section) {
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                     <td>${doc.issue_place}</td>
                     <td>${doc.document_files}</td>
 
-                    <td><a href='https://nsnemo.com/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
+                    <td><a href='http://localhost:8001/views/public/files/${doc.document_files}' target="_blank">Click here to view!</a></td>
                     <td>${doc.stcw}</td>
                     <td>${formatDateNew(doc.expiry_date)}</td>
                    
@@ -103,7 +103,7 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -133,8 +133,8 @@ async function fetchAndDisplayBankDetails(candidateId) {
                     <p><strong>Beneficiary:</strong> ${bank.beneficiary}</p>
                     <p><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</p>
                     <p><strong>PAN Number:</strong> ${bank.pan_num}</p>
-                    <p><strong>Passbook:</strong> <a href='https://nsnemo.com/views/public/bank_details/${bank.passbook}' target="_blank">View Document</a></p>
-                    <p><strong>PAN Card:</strong> <a href='https://nsnemo.com/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">View Document</a></p>
+                    <p><strong>Passbook:</strong> <a href='http://localhost:8001/views/public/bank_details/${bank.passbook}' target="_blank">View Document</a></p>
+                    <p><strong>PAN Card:</strong> <a href='http://localhost:8001/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">View Document</a></p>
                     <p><strong>Branch:</strong> ${bank.branch}</p>
                     <p><strong>Type:</strong> ${bank.types}</p>
                     <p><strong>Created By:</strong> ${bank.created_by}</p>
@@ -166,7 +166,7 @@ async function fetchAndDisplayBankDetails(candidateId) {
 async function fetchAndDisplayTravelDetails(candidateId) {
     try {
         // Make an Axios request to your backend API to get travel details
-        const response = await axios.get(`https://nsnemo.com/candidate/get-travel-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-travel-details/${candidateId}`, {
             headers: { "Authorization": token }
         });
         let index=1;
@@ -222,14 +222,14 @@ function formatDates(dateString) {
 
 async function fetchAndDisplayMedicalDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-hospital-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-hospital-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });
 
-        const hospitalResponse = await axios.get('https://nsnemo.com/others/get-hospital', {
+        const hospitalResponse = await axios.get('http://localhost:8001/others/get-hospital', {
             headers: {
                 'Authorization': token
             }
@@ -270,7 +270,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
             
             const linkCell = document.createElement('td');
             const link = document.createElement('a');
-            link.href = `https://nsnemo.com/views/public/uploads/medical/${medical.upload}`;
+            link.href = `http://localhost:8001/views/public/uploads/medical/${medical.upload}`;
             link.textContent = 'Click here to view!';
             linkCell.appendChild(link);
             row.appendChild(linkCell);
@@ -298,7 +298,7 @@ async function fetchAndDisplayMedicalDetails(candidateId) {
 const fetchAndDisplayNkdData = async (candidateId) => {
     try {
         
-        const response = await axios.get(`https://nsnemo.com/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:8001/candidate/get-nkd-details/${candidateId}`, { headers: { "Authorization": token } });
 
         // Assuming response.data contains an array of NKD objects
         const nkdData = response.data;
@@ -366,6 +366,27 @@ const decodedToken = decodeToken(token);
 document.addEventListener('DOMContentLoaded', async () => {
 
     try {
+        function getObfuscatedIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+    
+        // Function to set the href of the button
+        function updateButtonHref() {
+            const obfuscatedId = getObfuscatedIdFromUrl();
+            if (obfuscatedId) {
+                const button = document.getElementById('addContractButton');
+                if (button) {
+                    // Set the new URL with the same obfuscated ID
+                    button.href = `./vendor-add-contract.html?id=${encodeURIComponent(obfuscatedId)}`;
+                }
+            } else {
+                console.error('Obfuscated ID not found in URL');
+            }
+        }
+    
+        // Call the function to update the button href
+        updateButtonHref();
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
             const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -421,7 +442,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // loadContent('personal'); // Example: Load personal information by default
         async function nationalityFetch(nationalityId) {
             try {
-                const nationality = await axios.get("https://nsnemo.com/others/country-codes");
+                const nationality = await axios.get("http://localhost:8001/others/country-codes");
                 const countries = nationality.data.countryCodes;
                 let id = nationalityId
                 for (const country of countries) {
@@ -473,7 +494,7 @@ async function displayCandidateDetails() {
     
         // Get the candidateId from the URL parameter
         const id = result
-        const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const response = await axios.get(`http://localhost:8001/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const candidateData = response.data.candidate;
       
         // document.getElementById('creator').textContent = candidateData.createdby
@@ -530,7 +551,7 @@ const prevResButton = document.getElementById('prevRes');
 if (photoName) {
     prevPhotoButton.value = photoName;
     prevPhotoButton.onclick = function() {
-        window.open(`https://nsnemo.com/views/public/files/photos/${photoName}`, '_blank');
+        window.open(`http://localhost:8001/views/public/files/photos/${photoName}`, '_blank');
     };
 } else {
     prevPhotoButton.value = 'No photo available';
@@ -542,7 +563,7 @@ if (photoName) {
 if (resumeName) {
     prevResButton.value = resumeName;
     prevResButton.onclick = function() {
-        window.open(`https://nsnemo.com/views/public/files/resume/${resumeName}`, '_blank');
+        window.open(`http://localhost:8001/views/public/files/resume/${resumeName}`, '_blank');
     };
 } else {
     prevResButton.value = 'No resume available';
@@ -618,14 +639,15 @@ setInterval(updateDateTime, 1000);
 
 async function fetchAndDisplayContractDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-contract-details/${candidateId}`, {
+        console.log("test:>>>>",candidateId) 
+        const response = await axios.get(`http://localhost:8001/candidate/get-contract-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });
 
-        const companyResponse = await axios.get('https://nsnemo.com/company/dropdown-company', {
+        const companyResponse = await axios.get('http://localhost:8001/company/dropdown-company', {
             headers: {
                 'Authorization': token
             }
@@ -635,7 +657,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
             companies[company.company_id] = company.company_name;
         });
 
-        const portsResponse = await axios.get('https://nsnemo.com/others/get-ports', {
+        const portsResponse = await axios.get('http://localhost:8001/others/get-ports', {
             headers: {
                 'Authorization': token
             }
@@ -645,7 +667,7 @@ async function fetchAndDisplayContractDetails(candidateId) {
             ports[port.id] = port.portName;
         });
 
-        const vesselsResponse = await axios.get('https://nsnemo.com/others/get-vsls', {
+        const vesselsResponse = await axios.get('http://localhost:8001/others/get-vsls', {
             headers: {
                 'Authorization': token
             }
@@ -714,21 +736,21 @@ async function fetchAndDisplayContractDetails(candidateId) {
                 <td>${vesselName}</td>
                 <td>${contract.vesselType}</td>
                 <td>${signOnPortName}</td>
-                <td>${formatDateNew(contract.sign_on)}</td>
-                <td>${formatDateNew(contract.wage_start)}</td>
-                <td>${formatDateNew(contract.eoc)}</td>
+                <td>${contract.sign_on}</td>
+                <td>${contract.wage_start}</td>
+                <td>${contract.eoc}</td>
                 <td>${contract.wages}</td>
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
-                <td>${formatDateNew(contract.sign_off)}</td>
+                <td>${contract.sign_off}</td>
                 <td>${signOffPortName}</td>
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
                 <td>${contract.documents}</td>
-                <td><a href='https://nsnemo.com/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='http://localhost:8001/views/public/uploads/contract/${contract.documents}' target="_blank">Click here to view Document!</a></td>
                 <td>${contract.aoa}</td>
-                <td><a href='https://nsnemo.com/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
+                <td><a href='http://localhost:8001/views/public/uploads/aoa/${contract.aoa}' target="_blank">Click here to view AOA!</a></td>
                 <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                
@@ -754,7 +776,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -783,7 +805,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     try {
         let index=1;
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://nsnemo.com/candidate/get-sea-service/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-sea-service/${candidateId}`, {
             headers: { "Authorization": token }
         });
 
@@ -822,7 +844,7 @@ async function fetchAndDisplaySeaService(candidateId) {
 async function fetchAndDisplayDiscussions(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get(`https://nsnemo.com/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`http://localhost:8001/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
         let discussions = serverResponse.data.discussions;
 
         // Sort discussions by created_date in descending order
@@ -837,7 +859,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
             discussionElement.classList.add('discussion'); // Add CSS class for styling
             
             // Fetch username based on user ID (post_by value)
-            const usernameResponse = await axios.get(`https://nsnemo.com/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const usernameResponse = await axios.get(`http://localhost:8001/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
             const username = usernameResponse.data.user.userName;
 
             // Format the created date
@@ -869,7 +891,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
 //     // Get the candidateId from the URL parameter
 //     const candidateId = urlParams.get('id');
     
-//         const response = await axios.get(`https://nsnemo.com/candidate/evaluation-data/${id}`);
+//         const response = await axios.get(`http://localhost:8001/candidate/evaluation-data/${id}`);
 
 //         // Extract evaluation data from the response
 //         const evaluationData = response.data; // Access data property
@@ -929,7 +951,7 @@ async function updateCandidatePhoto(id) {
     // Simulate fetching the photo value from a database or other source
     // Set the fetched photo value to the input field
     
-    const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    const response = await axios.get(`http://localhost:8001/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
     const fetchedPhotoValue = response.data.candidate.photos
     console.log(fetchedPhotoValue)
     // Fetch the photo value from the form
@@ -949,7 +971,7 @@ async function updateCandidatePhoto(id) {
 // Call the function to update the photo
 async function fetchFilesByCandidateId(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/fetch-files/${candidateId}`);
+        const response = await axios.get(`http://localhost:8001/fetch-files/${candidateId}`);
         const filePaths = response.data;
 
         // Display the filtered files
@@ -963,7 +985,7 @@ async function fetchFilesByCandidateId(candidateId) {
 
         const fileList = document.createElement('ul');
 
-        const baseURL = 'https://nsnemo.com/views/public/files/evaluation'; // Adjust base URL
+        const baseURL = 'http://localhost:8001/views/public/files/evaluation'; // Adjust base URL
 
         filePaths.forEach(filePath => {
             const listItem = document.createElement('li');

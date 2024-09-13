@@ -25,7 +25,7 @@ let documentCounter = 0;
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-cdocument-detail/${candidateId}`);
+        const response = await axios.get(`http://localhost:8001/candidate/get-cdocument-detail/${candidateId}`);
 
         const documentDetails = response.data;
 
@@ -87,7 +87,7 @@ async function deleteDocument(documentId) {
     if (confirmDelete) {
         try {
             // Send a DELETE request to your server endpoint with the documentId
-            const response = await axios.delete(`https://nsnemo.com/candidate/cdocument-delete/${documentId}`,{headers:{
+            const response = await axios.delete(`http://localhost:8001/candidate/cdocument-delete/${documentId}`,{headers:{
                 "Authorization":token
             }});
 
@@ -121,7 +121,7 @@ documentForm.addEventListener('submit', async function (event) {
 
     console.log(formData)
     try {
-        const response = await axios.post(`https://nsnemo.com/candidate/cdocument-detail/${id}`, formData);
+        const response = await axios.post(`http://localhost:8001/candidate/cdocument-detail/${id}`, formData);
 
         console.log('Document added successfully:', response.data);
         fetchAndDisplayDocumentDetails(id);
@@ -141,7 +141,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

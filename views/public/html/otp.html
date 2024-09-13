@@ -33,7 +33,7 @@
         const userId = document.getElementById('user-id').value;
 
         try {
-          const response = await axios.post('https://nsnemo.com/user/temp-change-password', {
+          const response = await axios.post('http://localhost:8001/user/temp-change-password', {
             userId,
             oldPassword,
             newPassword

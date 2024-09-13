@@ -41,12 +41,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       candidateCountsResponse,
       rankCountsResponse
     ] = await Promise.all([
-      axios.get('https://nsnemo.com/candidate/discussion-count', { headers: { "Authorization": token } }),
-      axios.get('https://nsnemo.com/candidate/call-count', { headers: { "Authorization": token } }),
-      axios.get('https://nsnemo.com/candidate/statuscount', { headers: { "Authorization": token } }),
-      axios.get('https://nsnemo.com/candidate/percentage', { headers: { "Authorization": token } }),
-      axios.get('https://nsnemo.com/candidate/getCount', { headers: { "Authorization": token } }),
-      axios.get('https://nsnemo.com/candidate/getGraph', { headers: { "Authorization": token } })
+      axios.get('http://localhost:8001/candidate/discussion-count', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:8001/candidate/call-count', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:8001/candidate/statuscount', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:8001/candidate/percentage', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:8001/candidate/getCount', { headers: { "Authorization": token } }),
+      axios.get('http://localhost:8001/candidate/getGraph', { headers: { "Authorization": token } })
     ]);
     hideSkeletonLoading(elements);
 
@@ -263,7 +263,7 @@ function handleLogout() {
 
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nsnemo.com/user/${userId}/logout`)
+    axios.put(`http://localhost:8001/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })

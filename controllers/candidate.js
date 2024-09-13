@@ -25,7 +25,7 @@ const Payslip = require('../models/payslip')
 
 const add_candidate = async (req, res) => {
     try {
-        const {
+  const {
             active_details,
             area_code1,
             area_code2,
@@ -101,9 +101,22 @@ const add_candidate = async (req, res) => {
             nemo_source,
         } = req.body;
 
-        // Validate required fields
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
 
-        console.log(c_mobi1);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+        const userGroup = user.dataValues.userGroup
+        const userClient = user.dataValues.userClient
+
+        // Set vendor value based on userGroup
+        let vendorValue =0;
+        if (userGroup === 'admin') {
+            vendorValue = 0;  // For admin, set vendor to 0
+        } else {
+            vendorValue = userClient;  // For others, set vendor to userClient
+        }
 
         // Calculate age
         const calculateAge = (dob) => {
@@ -124,14 +137,12 @@ const add_candidate = async (req, res) => {
 
         // Check for existing data
         const whereClause = {};
-
         if (email1) {
             whereClause.email1 = email1;
         }
 
         const existingCandidate = await Candidate.findOne({
             where: whereClause,
-            
         });
 
         if (existingCandidate) {
@@ -139,11 +150,7 @@ const add_candidate = async (req, res) => {
         }
 
         // If no duplicate, create a new entry
-        try {
-            const userId = req.user.id;
-            console.log(userId);
-
-            const newCandidate = await Candidate.create({
+      const newCandidate = await Candidate.create({
                 active_details,
                 area_code1,
                 area_code2,
@@ -213,7 +220,7 @@ const add_candidate = async (req, res) => {
                 work_nautilus,
                 zone,
                 group,
-                vendor,
+                vendor : vendorValue,
                 password,
                 nemo_source: 'm',
                 us_visa,
@@ -221,19 +228,13 @@ const add_candidate = async (req, res) => {
 
             });
 
-            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.candidateId });
-        } catch (err) {
-
-
-            console.log(err);
-            res.status(500).json({ error: err, message: "Internal Server Error", success: false });
-        }
+        res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: newCandidate.candidateId });
 
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
-}
+};
 
 
 const getAllCandidates = async (req, res) => {
@@ -3118,6 +3119,88 @@ const onBoard = async (req, res) => {
 };
 
 
+const onBoard2 = async (req, res) => {
+    try {
+        const { startDate, vslName, companyname, category,userId } = req.query;
+        console.log('onboard entered',userId , "company name",companyname);
+
+
+        // Base SQL query
+        let query = `
+            SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
+                   b.fname, b.lname, b.dob, b.birth_place, c.vesselName, b.category, b.nationality, b.vendor, b.userId, e.company_name
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            WHERE a.sign_on <= :startDate
+              AND (a.sign_off > :startDate OR a.sign_off = '1970-01-01')
+              AND b.userId = :userId  
+        `;
+
+        // Define replacements object with userId included
+        const replacements = { startDate, userId };
+
+        // Add vessel name condition if present
+        if (vslName) {
+            query += ` AND c.id = :vslName`;
+            replacements.vslName = vslName;
+        }
+
+        // Company name and vendor check (mandatory)
+        if (companyname) {
+            query += ` AND (e.company_id = :companyname OR b.vendor = :companyname)`;
+            replacements.companyname = companyname;
+        }
+
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+        GROUP BY 
+            a.candidateId, 
+            a.rank, 
+            a.vslName, 
+            a.sign_on_port, 
+            a.vesselType, 
+            a.wages, 
+            a.currency, 
+            a.wages_types, 
+            a.sign_on, 
+            a.sign_off, 
+            a.eoc,
+            b.fname, 
+            b.lname, 
+            b.dob, 
+            b.birth_place, 
+            c.vesselName, 
+            b.category, 
+            b.nationality, 
+            b.vendor, 
+            e.company_name
+    `;
+
+        // Log query and replacements for debugging
+        console.log('Query:', query);
+        console.log('Replacements:', replacements);
+
+        // Run the raw SQL query using sequelize.query
+        const contracts = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ contracts: contracts, success: true });
+    } catch (error) {
+        console.error("Error fetching onboard contracts:", error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
 
 
 
@@ -4096,5 +4179,6 @@ module.exports = {
    getPayslips,
    updateEval,
    sendEmail,
-   viewEvaluation
+   viewEvaluation,
+   onBoard2
 };

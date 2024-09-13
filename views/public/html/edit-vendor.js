@@ -61,7 +61,7 @@ function getURLParameter(name) {
 
       // Send data to the server using Axios with async/await
       const token = localStorage.getItem('token');
-      const response = await axios.put(`https://nsnemo.com/others/update-vendor/${vendorId}`, formData, {
+      const response = await axios.put(`http://localhost:8001/others/update-vendor/${vendorId}`, formData, {
         headers: { "Authorization": token }
       });
 
@@ -82,7 +82,7 @@ function getURLParameter(name) {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

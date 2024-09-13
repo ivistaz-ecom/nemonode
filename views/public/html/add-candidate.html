@@ -916,19 +916,19 @@
                             
                             
         
-                                <div class="col-md-6 mb-0">
-                                    <div class="form-floating">
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="candidate_vendor"
-                                            placeholder="Field X"
-                                            aria-describedby="fieldX_2_Help"
-                                            
-                                        />
-                                        <label for="candidate_vendor">Vendor</label>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 mb-0">
+                              <div class="form-floating">
+                                  <select
+                                      class="form-control"
+                                      id="candidate_vendor"
+                                      aria-describedby="fieldX_2_Help"
+                                  >
+                                      <!-- Options will be dynamically populated here -->
+                                  </select>
+                                  <label for="candidate_vendor">Vendor</label>
+                              </div>
+                          </div>
+                          
                             </div>
                         </div>
                         <div class="card-body pb-0 pt-2">
@@ -967,9 +967,9 @@
                          <div class="col-md-12">
                                 <div class="form-floating">
                                     <select id="candidate_us_visa" class="form-select" >
-                                        <option value="" disabled selected>-- Select Option --</option>
+                                        <option value="" disabled >-- Select Option --</option>
                                         <option value="1">Yes</option>
-                                        <option value="0">No</option>
+                                        <option value="0" selected>No</option>
 \                                    </select>
                                     <label for="candidate_us_visa">US Visa</label>
                                 </div>

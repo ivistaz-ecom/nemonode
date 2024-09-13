@@ -39,7 +39,7 @@ function decodeToken(token) {
 
 async function displayCompanies(page = 1, limit = 10) {
     try {
-        const response = await axios.get(`https://nsnemo.com/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const response = await axios.get(`http://localhost:8001/company/view-company?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         const companies = response.data.company;
         const companyList = document.getElementById("company-list");
         companyList.innerHTML = "";
@@ -122,7 +122,7 @@ async function deleteCompany(companyId, event) {
     event.preventDefault();
     let id = companyId;
     console.log(id);
-    const url = `https://nsnemo.com/company/delete-company/${id}`;
+    const url = `http://localhost:8001/company/delete-company/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -186,7 +186,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

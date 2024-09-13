@@ -37,7 +37,7 @@ fetchVessels(userVendor.value);
 
 async function fetchVessels(companyId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/others/getcompanyviavsl/${companyId}`);
+        const response = await axios.get(`http://localhost:8001/others/getcompanyviavsl/${companyId}`);
         
         const vessels = response.data;
         console.log(response);
@@ -62,17 +62,25 @@ async function handleOnBoardSubmit(event) {
         let startDate = document.getElementById('startDateo').value;
         startDate = startDate + 'T00:00:00Z';
         const vesselDropdown = document.getElementById('vesselDropdown').value || null;
+        const userId = localStorage.getItem('userId')
+        const decodedToken = decodeToken(token)
+        const companyName = decodedToken.userClient
+        // const companyname = localStorage.getItem('')
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nsnemo.com/candidate/onboard', {
+        const response = await axios.get('http://localhost:8001/candidate/onboard2', {
             params: {
+                companyname:companyName ,
                 startDate: startDate,
                 vslName: vesselDropdown,
+                userId: userId
             },
             headers: {
                 "Authorization": token
             }
         });
+
+        console.log(response)
 
         const contracts = response.data.contracts;
         const tableBody = document.getElementById('onBoardTableBody');
