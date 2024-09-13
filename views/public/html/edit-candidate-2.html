@@ -1280,18 +1280,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-0">
-                              <div class="form-floating">
-                                  <select
-                                      class="form-control"
-                                      id="edit_candidate_userId"
-                                      aria-describedby="fieldX_2_Help"
-                                  >
-                                      <!-- Options will be dynamically populated here -->
-                                  </select>
-                                  <label for="edit_candidate_userId">Assign to User</label>
-                              </div>
-                          </div>
+                          
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                                <select id="edit_candidate_userId" class="form-select" >
+                                    <option value="" disabled selected>-- Select User --</option>
+                                    <!-- Options will be dynamically added using JavaScript -->
+                                </select>
+                                <label for="edit_candidate_userId">Assign to User</label>
+                            </div>
+                        </div>
                             
                         </div>
                         <div class="card-footer text-end pe-0">
