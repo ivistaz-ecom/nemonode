@@ -286,6 +286,7 @@ async function displayCandidateDetails(candidateData) {
         document.getElementById('edit_candidate_c_mobi2').value = candidateData.c_mobi2;
         document.getElementById('edit_candidate_c_tel2').value = candidateData.c_tel2;
         document.getElementById('edit_candidate_email2').value = candidateData.email2;
+        document.getElementById('edit_candidate_userId').value = candidateData.userId
 
         // Hidden fields
         document.getElementById('edit_candidate_active_details').value = candidateData.active_details;
@@ -493,7 +494,8 @@ const userName = localStorage.getItem('username')
         skype: document.getElementById('edit_candidate_skype').value || '',
         stcw: document.getElementById('edit_candidate_stcw').value || 0,
         vendor_id: document.getElementById('edit_candidate_vendor_id').value || '',
-        us_visa: document.getElementById('edit_candidate_us_visa').value || ''
+        us_visa: document.getElementById('edit_candidate_us_visa').value || '',
+        userId: document.getElementById('edit_candidate_userId').value || ''
     };
 
     try {
@@ -682,3 +684,30 @@ async function createCompanyDropdown() {
 }
 
 createCompanyDropdown()
+
+const displayUserDropdown = async function () {
+    try {
+        const userDropdown = document.getElementById('edit_candidate_userId');
+        userDropdown.innerHTML = ''; // Clear existing options
+    
+        // Add the default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = '-- Select User --';
+        userDropdown.appendChild(defaultOption);
+        
+        // Fetch user data from the server
+        const userResponse = await axios.get("https://nsnemo.com/user/userdropdown");
+        const users = userResponse.data;
+    
+        // Populate the user dropdown with fetched user names
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.id; // Assuming 'id' is the correct attribute for user ID
+            option.text = user.userName // Assuming 'userName' and 'lastName' are the correct attributes for user name
+            userDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+}
