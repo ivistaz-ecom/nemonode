@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function () {
    await fetchAndDisplayVessels()
    await  fetchAndDisplayGrades()
    await fetchAndDisplayExp()
+   await displayUserDropdown()
     // Fetch additional data and update the form if needed
     const countries = await fetchAndDisplayNationalities();
     const hasUserManagement = decodedToken.userManagement;
