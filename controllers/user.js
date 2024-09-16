@@ -19,18 +19,17 @@ function generateAccessToken(id, userName,userEmail,
   vendorManagement,
   master_create,
   staff,
-  nationality,
   deletes,
   logged,
   userPhone,
   userClient,
-  userVendor
+  userVendor,
+  nationality,
   ) {
   return jwt.sign({ userId: id, userName: userName,userEmail:userEmail,disableUser:disableUser,userGroup:userGroup,readOnly:readOnly,Write:Write,imports:imports,exports:exports,reports:reports,reports_all:reports_all,userManagement:userManagement,vendorManagement:vendorManagement,
     master_create:master_create,staff:staff,deletes:deletes,logged:logged,userPhone:userPhone,userClient:userClient,userVendor:userVendor,nationality:nationality
   }, 'secretkey');
 }
-
 
 const create_user = async (req, res, next) => {
   const t = await sequelize.transaction();

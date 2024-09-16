@@ -112,7 +112,7 @@ async function handleNewProfileSubmit(event) {
         if (decodedToken.reports) {
             const exportButton = document.createElement('button');
             exportButton.textContent = 'Export to Excel';
-            exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
+            exportButton.classList.add('btn', 'btn-success','text-white','p-0','ps-2','pe-2');
             exportButton.addEventListener('click', () => {
                 exportToExcelnp(filteredCandidates, 'candidates.xlsx'); // Use filteredCandidates for export
             });
@@ -132,15 +132,16 @@ function displayTable() {
     tableContainer.innerHTML = '';
 
     // Create and display match count
-    const matchCount = document.createElement('div');
-    matchCount.textContent = `${filteredCandidates.length} data entries match the search`;
-    matchCount.classList.add('fw-bold', 'mb-2');
-    tableContainer.appendChild(matchCount);
+    const matchCount = document.getElementById('countNewProfile');
+    // Set innerHTML to style part of the text
+    matchCount.innerHTML = `<span class='text-success'>${filteredCandidates.length}</span> Matches found`;
 
     // Create table element
     const table = document.createElement('table');
     table.classList.add('table');
     table.classList.add('table-bordered');
+    table.classList.add('table-sm');
+    table.classList.add('border-1')
 
     // Create table header
     const tableHeader = document.createElement('thead');
@@ -149,7 +150,9 @@ function displayTable() {
     // Add Serial Number column header
     const snHeader = document.createElement('th');
     snHeader.textContent = 'S.No';
-    snHeader.classList = 'fw-bolder bg-dark text-white';
+    snHeader.classList = 'fw-bolder text-white';
+    snHeader.style.backgroundColor='#201E43'
+
     headerRow.appendChild(snHeader);
 
     // Add other field columns
@@ -157,7 +160,8 @@ function displayTable() {
         if (selectedFields[field]) {
             const th = document.createElement('th');
             th.textContent = field;
-            th.classList = 'fw-bolder bg-dark text-white';
+            th.classList = 'fw-bolder text-white';
+            th.style.backgroundColor='#201E43'
             headerRow.appendChild(th);
         }
     }
@@ -190,7 +194,7 @@ function displayTable() {
                     // Add button for candidate ID
                     const button = document.createElement('button');
                     button.textContent = candidate[field];
-                    button.classList.add('btn', 'btn-info');
+                    button.classList.add('btn', 'text-primary','p-0','ps-2','pe-2');
                     button.addEventListener('click', () => {
                         viewCandidate(candidate[field])
                     });
@@ -221,7 +225,8 @@ function displayPagination() {
     function createPageButton(page) {
         const pageButton = document.createElement('button');
         pageButton.textContent = page;
-        pageButton.classList.add('btn', 'btn-dark', 'm-1');
+        pageButton.classList.add('btn','mb-2');
+        
         if (page === currentPage) {
             pageButton.classList.add('active');
         }
@@ -238,7 +243,7 @@ function displayPagination() {
         if (currentPage > 1) {
             const prevButton = document.createElement('button');
             prevButton.textContent = 'Prev';
-            prevButton.classList.add('btn', 'btn-dark', 'm-1');
+            prevButton.classList.add('btn', 'btn-outline-primary','mb-2');
             prevButton.addEventListener('click', () => {
                 currentPage -= 1;
                 displayTable();
@@ -258,9 +263,9 @@ function displayPagination() {
             paginationContainer.appendChild(ellipsis);
         }
 
-        // Current Page Button
-        if (currentPage > 1 && currentPage < totalPages) {
-            createPageButton(currentPage);
+        // Page Buttons around current page
+        for (let page = Math.max(2, currentPage - 1); page <= Math.min(totalPages - 1, currentPage + 1); page++) {
+            createPageButton(page);
         }
 
         // If current page is far from the last page, add ellipsis
@@ -280,7 +285,7 @@ function displayPagination() {
         if (currentPage < totalPages) {
             const nextButton = document.createElement('button');
             nextButton.textContent = 'Next';
-            nextButton.classList.add('btn', 'btn-dark', 'm-1');
+            nextButton.classList.add('btn', 'btn-outline-primary','mb-2');
             nextButton.addEventListener('click', () => {
                 currentPage += 1;
                 displayTable();
@@ -292,23 +297,21 @@ function displayPagination() {
 }
 
 
+
 function searchTable() {
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    
     filteredCandidates = allCandidates.filter(candidate => {
         return Object.values(candidate).some(value => 
+            value != null && // Ignore null and undefined values
             value.toString().toLowerCase().includes(searchQuery)
         );
     });
+    
     currentPage = 1;
     displayTable();
 }
 
-// function exportToExcel(data, filename) {
-//     const worksheet = XLSX.utils.json_to_sheet(data);
-//     const workbook = XLSX.utils.book_new();
-//     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-//     XLSX.writeFile(workbook, filename);
-// }
 
 // Event listener for rows per page change
 document.getElementById('rowsPerPage').addEventListener('change', (event) => {
@@ -321,465 +324,7 @@ document.getElementById('rowsPerPage').addEventListener('change', (event) => {
 document.getElementById('searchInput').addEventListener('input', searchTable);
 
 
-// Function to get nationality name from code
 
-
-// Function to handle submission of Calls Made form
-// Function to handle submission of Calls Made form
-// Update the handleCallsMadeSubmit function
-// Update the handleCallsMadeSubmit function
-// async function handleCallsMadeSubmit(event) {
-//     event.preventDefault();
-//     try {
-//         const token = localStorage.getItem('token');
-//         let fromDate = document.getElementById('fromDate').value;
-//         fromDate = fromDate + 'T00:00:00Z';
-//         let toDate = document.getElementById('toDate').value;
-//         toDate = toDate + 'T23:59:59Z';
-//         console.log('from', fromDate);
-//         console.log('to', toDate);
-
-//         const user = document.getElementById('appliedBy').value;
-//         const category = document.getElementById('categoryc').value;
-//         const decodedToken = decodeToken(token);
-//         const reports = decodedToken.reports;
-
-//         // Fetch necessary data including nationality
-//         await getReq();
-
-//         // Send data to server using Axios
-//         const response = await axios.post('https://nsnemo.com/candidate/reports/callsmade', {
-//             startDate: fromDate,
-//             endDate: toDate,
-//             userId: user,
-//             category: category
-//         }, {
-//             headers: {
-//                 "Authorization": token
-//             }
-//         });
-
-//         console.log(response.data); // Check the server response structure
-
-//         const callsMade = response.data.callsMade;
-
-//         // Display calls made in a table
-//         const tableContainer = document.getElementById('callsMadeTable');
-//         tableContainer.innerHTML = '';
-
-//         // Create search input
-//         const searchInput = document.createElement('input');
-//         searchInput.type = 'text';
-//         searchInput.placeholder = 'Search...';
-//         searchInput.id = 'searchInput';
-//         searchInput.addEventListener('input', function () {
-//             currentPage = 1;
-//             renderTable();
-//         });
-//         tableContainer.appendChild(searchInput);
-
-//         // Create rows per page dropdown
-//         const rowsPerPageSelect = document.createElement('select');
-//         rowsPerPageSelect.id = 'rowsPerPage';
-//         [10, 25, 50, 100].forEach(num => {
-//             const option = document.createElement('option');
-//             option.value = num;
-//             option.textContent = num;
-//             rowsPerPageSelect.appendChild(option);
-//         });
-//         rowsPerPageSelect.addEventListener('change', function () {
-//             currentPage = 1;
-//             renderTable();
-//         });
-//         tableContainer.appendChild(rowsPerPageSelect);
-
-//         // Create export button if reports is true
-//         if (reports === true) {
-//             const exportButton = document.createElement('button');
-//             exportButton.textContent = 'Export to Excel';
-//             exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
-//             exportButton.style = 'width:300px;';
-//             exportButton.addEventListener('click', function () {
-//                 exportToExcel(callsMade, 'callsMade.xlsx');
-//             });
-//             tableContainer.appendChild(exportButton);
-//         }
-
-//         // Create table element
-//         const table = document.createElement('table');
-//         table.classList.add('table', 'table-bordered');
-//         tableContainer.appendChild(table);
-
-//         // Pagination variables
-//         let currentPage = 1;
-
-//         function renderTable() {
-//             // Clear previous content
-//             tableContainer.innerHTML = '';
-        
-//             // Check if callsMade is empty
-//             if (callsMade.length === 0) {
-//                 const emptyMessage = document.createElement('p');
-//                 emptyMessage.textContent = 'No data available';
-//                 tableContainer.appendChild(emptyMessage);
-//                 return;
-//             }
-        
-//             // Gather selected fields from checkboxes
-//             const selectedFields = [];
-//             document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-//                 const label = checkbox.nextElementSibling.textContent;
-//                 selectedFields.push({
-//                     id: checkbox.id,
-//                     label: label
-//                 });
-//             });
-        
-//             // Create search input
-//             const searchInput = document.createElement('input');
-//             searchInput.type = 'text';
-//             searchInput.placeholder = 'Search...';
-//             searchInput.id = 'searchInput';
-//             searchInput.addEventListener('input', function () {
-//                 currentPage = 1;
-//                 renderTable();
-//             });
-//             tableContainer.appendChild(searchInput);
-        
-//             // Create rows per page dropdown
-//             const rowsPerPageSelect = document.createElement('select');
-//             rowsPerPageSelect.id = 'rowsPerPage';
-//             [10, 25, 50, 100].forEach(num => {
-//                 const option = document.createElement('option');
-//                 option.value = num;
-//                 option.textContent = num;
-//                 rowsPerPageSelect.appendChild(option);
-//             });
-//             rowsPerPageSelect.addEventListener('change', function () {
-//                 currentPage = 1;
-//                 renderTable();
-//             });
-//             tableContainer.appendChild(rowsPerPageSelect);
-        
-//             // Create table element
-//             const table = document.createElement('table');
-//             table.classList.add('table', 'table-bordered');
-        
-//             // Create table header
-//             const tableHeader = document.createElement('thead');
-//             const headerRow = document.createElement('tr');
-        
-//             // Add Serial Number column header
-//             const snHeader = document.createElement('th');
-//             snHeader.textContent = 'S.No';
-//             snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-//             headerRow.appendChild(snHeader);
-        
-//             // Add dynamic headers based on selected checkboxes
-//             selectedFields.forEach(field => {
-//                 const th = document.createElement('th');
-//                 th.textContent = field.label;
-//                 th.classList.add('fw-bolder', 'bg-warning', 'text-white');
-//                 headerRow.appendChild(th);
-//             });
-        
-//             tableHeader.appendChild(headerRow);
-//             table.appendChild(tableHeader);
-        
-//             // Create table body
-//             const tableBody = document.createElement('tbody');
-        
-//             // Define a mapping for the required headers to the corresponding data fields
-//             const fieldMapping = {
-//                 id: 'candidateId',
-//                 'current-rank': 'c_rank',
-//                 vessel: 'c_vessel',
-//                 availability: 'avb_date',
-//                 'reminder-date': 'r_date'
-//             };
-        
-//             // Render all data without filtering
-//             callsMade.forEach((contract, index) => {
-//                 const row = document.createElement('tr');
-        
-//                 // Add Serial Number cell
-//                 const snCell = document.createElement('td');
-//                 snCell.textContent = index + 1; // Serial Number starts from 1
-//                 row.appendChild(snCell);
-        
-//                 // Add cells based on selected checkboxes
-//                 selectedFields.forEach(field => {
-//                     const cell = document.createElement('td');
-//                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_'); // Adjust field name for object key
-//                     cell.textContent = contract[fieldName] || 'N/A';
-//                     row.appendChild(cell);
-//                 });
-        
-//                 tableBody.appendChild(row);
-//             });
-        
-//             table.appendChild(tableBody);
-        
-//             // Display count of fetched data
-//             const fetchedDataCount = document.createElement('p');
-//             fetchedDataCount.textContent = `${callsMade.length} data fetched`;
-//             tableContainer.appendChild(fetchedDataCount);
-        
-//             // Display the table
-//             tableContainer.appendChild(table);
-//         }
-        
-        
-
-        
-
-//         renderTable();
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-// async function handleCallsMadeSubmit(event) {
-//     event.preventDefault();
-//     try {
-//         const token = localStorage.getItem('token');
-//         let fromDate = document.getElementById('fromDate').value;
-//         fromDate = fromDate + 'T00:00:00Z';
-//         let toDate = document.getElementById('toDate').value;
-//         toDate = toDate + 'T23:59:59Z';
-//         console.log('from', fromDate);
-//         console.log('to', toDate);
-
-//         const user = document.getElementById('appliedBy').value;
-//         const category = document.getElementById('categoryc').value;
-//         const decodedToken = decodeToken(token);
-//         const reports = decodedToken.reports;
-
-//         // Fetch necessary data including nationality
-//         await getReq();
-
-//         // Send data to server using Axios
-//         const response = await axios.post('https://nsnemo.com/candidate/reports/callsmade', {
-//             startDate: fromDate,
-//             endDate: toDate,
-//             userId: user,
-//             category: category
-//         }, {
-//             headers: {
-//                 "Authorization": token
-//             }
-//         });
-
-//         console.log(response.data); // Check the server response structure
-
-//         const callsMade = response.data.callsMade;
-
-//         // Display calls made in a table
-//         const tableContainer = document.getElementById('callsMadeTable');
-//         tableContainer.innerHTML = '';
-
-//         // Create search input
-//         const searchInput = document.createElement('input');
-//         searchInput.type = 'text';
-//         searchInput.placeholder = 'Search...';
-//         searchInput.id = 'searchInput';
-//         searchInput.addEventListener('input', function () {
-//             currentPage = 1;
-//             renderTable();
-//         });
-//         tableContainer.appendChild(searchInput);
-
-//         // Create rows per page dropdown
-//         const rowsPerPageSelect = document.createElement('select');
-//         rowsPerPageSelect.id = 'rowsPerPage';
-//         [10, 25, 50, 100].forEach(num => {
-//             const option = document.createElement('option');
-//             option.value = num;
-//             option.textContent = num;
-//             rowsPerPageSelect.appendChild(option);
-//         });
-//         rowsPerPageSelect.addEventListener('change', function () {
-//             currentPage = 1;
-//             renderTable();
-//         });
-//         tableContainer.appendChild(rowsPerPageSelect);
-
-//         // Create export button if reports is true
-//         if (reports === true) {
-//             const exportButton = document.createElement('button');
-//             exportButton.textContent = 'Export to Excel';
-//             exportButton.classList.add('btn', 'btn-dark', 'mb-3', 'text-success');
-//             exportButton.style = 'width:300px;';
-//             exportButton.addEventListener('click', function () {
-//                 exportToExcel(callsMade, 'callsMade.xlsx');
-//             });
-//             tableContainer.appendChild(exportButton);
-//         }
-
-//         // Pagination variables
-//         let currentPage = 1;
-//         let rowsPerPage = parseInt(rowsPerPageSelect.value);
-
-//         function renderTable() {
-//             // Clear previous content
-//             tableContainer.innerHTML = '';
-
-//             // Check if callsMade is empty
-//             if (callsMade.length === 0) {
-//                 const emptyMessage = document.createElement('p');
-//                 emptyMessage.textContent = 'No data available';
-//                 tableContainer.appendChild(emptyMessage);
-//                 return;
-//             }
-
-//             // Gather selected fields from checkboxes
-//             const selectedFields = [];
-//             document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-//                 const label = checkbox.nextElementSibling.textContent;
-//                 selectedFields.push({
-//                     id: checkbox.id,
-//                     label: label
-//                 });
-//             });
-
-//             // Create search input
-//             const searchInput = document.createElement('input');
-//             searchInput.type = 'text';
-//             searchInput.placeholder = 'Search...';
-//             searchInput.id = 'searchInput';
-//             searchInput.addEventListener('input', function () {
-//                 currentPage = 1;
-//                 renderTable();
-//             });
-//             tableContainer.appendChild(searchInput);
-
-//             // Create rows per page dropdown
-//             const rowsPerPageSelect = document.createElement('select');
-//             rowsPerPageSelect.id = 'rowsPerPage';
-//             [10, 25, 50, 100].forEach(num => {
-//                 const option = document.createElement('option');
-//                 option.value = num;
-//                 option.textContent = num;
-//                 rowsPerPageSelect.appendChild(option);
-//             });
-//             rowsPerPageSelect.addEventListener('change', function () {
-//                 currentPage = 1;
-//                 rowsPerPage = parseInt(rowsPerPageSelect.value);
-//                 renderTable();
-//             });
-//             tableContainer.appendChild(rowsPerPageSelect);
-
-//             // Create table element
-//             const table = document.createElement('table');
-//             table.classList.add('table', 'table-bordered');
-
-//             // Create table header
-//             const tableHeader = document.createElement('thead');
-//             const headerRow = document.createElement('tr');
-
-//             // Add Serial Number column header
-//             const snHeader = document.createElement('th');
-//             snHeader.textContent = 'S.No';
-//             snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-//             headerRow.appendChild(snHeader);
-
-//             // Add dynamic headers based on selected checkboxes
-//             selectedFields.forEach(field => {
-//                 const th = document.createElement('th');
-//                 th.textContent = field.label;
-//                 th.classList.add('fw-bolder', 'bg-warning', 'text-white');
-//                 headerRow.appendChild(th);
-//             });
-
-//             tableHeader.appendChild(headerRow);
-//             table.appendChild(tableHeader);
-
-//             // Create table body
-//             const tableBody = document.createElement('tbody');
-
-//             // Define a mapping for the required headers to the corresponding data fields
-//             const fieldMapping = {
-//                 id: 'candidateId',
-//                 'current-rank': 'c_rank',
-//                 vessel: 'c_vessel',
-//                 availability: 'avb_date',
-//                 'reminder-date': 'r_date'
-//             };
-
-//             // Filter data based on search input
-//             const searchTerm = searchInput.value.toLowerCase();
-//             const filteredData = callsMade.filter(contract => {
-//                 return selectedFields.some(field => {
-//                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
-//                     return contract[fieldName]?.toString().toLowerCase().includes(searchTerm);
-//                 });
-//             });
-
-//             // Paginate data
-//             const start = (currentPage - 1) * rowsPerPage;
-//             const end = start + rowsPerPage;
-//             const paginatedData = filteredData.slice(start, end);
-
-//             // Render paginated data
-//             paginatedData.forEach((contract, index) => {
-//                 const row = document.createElement('tr');
-
-//                 // Add Serial Number cell
-//                 const snCell = document.createElement('td');
-//                 snCell.textContent = start + index + 1; // Serial Number based on page
-//                 row.appendChild(snCell);
-
-//                 // Add cells based on selected checkboxes
-//                 selectedFields.forEach(field => {
-//                     const cell = document.createElement('td');
-//                     const fieldName = fieldMapping[field.id] || field.id.replace('-', '_'); // Adjust field name for object key
-//                     cell.textContent = contract[fieldName] || 'N/A';
-//                     row.appendChild(cell);
-//                 });
-
-//                 tableBody.appendChild(row);
-//             });
-
-//             table.appendChild(tableBody);
-
-//             // Display count of filtered data
-//             const fetchedDataCount = document.createElement('p');
-//             fetchedDataCount.textContent = `${filteredData.length} data matches`;
-//             tableContainer.appendChild(fetchedDataCount);
-
-//             // Display the table
-//             tableContainer.appendChild(table);
-
-//             // Create pagination controls
-//             const paginationControls = document.createElement('div');
-//             paginationControls.classList.add('pagination-controls');
-
-//             const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
-//             for (let i = 1; i <= totalPages; i++) {
-//                 const pageButton = document.createElement('button');
-//                 pageButton.textContent = i;
-//                 pageButton.classList.add('page-button');
-//                 if (i === currentPage) {
-//                     pageButton.classList.add('active');
-//                 }
-//                 pageButton.addEventListener('click', function () {
-//                     currentPage = i;
-//                     renderTable();
-//                 });
-//                 paginationControls.appendChild(pageButton);
-//             }
-
-//             tableContainer.appendChild(paginationControls);
-//         }
-
-//         renderTable();
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
 async function handleCallsMadeSubmit(event) {
     event.preventDefault();
     try {
@@ -874,203 +419,214 @@ async function handleCallsMadeSubmit(event) {
 
         // Function to render table and pagination
      // Replace the relevant section in your renderTable function
-function renderTable() {
-    tableContainer.innerHTML = '';
-
-    const filteredData = filterData();
-
-    if (filteredData.length === 0) {
-        const emptyMessage = document.createElement('p');
-        emptyMessage.textContent = 'No data available';
-        tableContainer.appendChild(emptyMessage);
-        return;
-    }
-
-    const rowsPerPageSelect = document.createElement('select');
-    rowsPerPageSelect.id = 'rowsPerPage';
-    [10, 25, 50, 100].forEach(num => {
-        const option = document.createElement('option');
-        option.value = num;
-        option.textContent = num;
-        rowsPerPageSelect.appendChild(option);
-    });
-    rowsPerPageSelect.addEventListener('change', function () {
-        currentPage = 1;
-        rowsPerPage = parseInt(rowsPerPageSelect.value);
-        renderTable();
-    });
-    rowsPerPageSelect.value = rowsPerPage.toString();
-    tableContainer.appendChild(rowsPerPageSelect);
-
-    const exportButton = document.createElement('button');
-    exportButton.textContent = 'Export to Excel';
-    exportButton.id = 'exportButton';
-    exportButton.classList.add('btn', 'btn-primary', 'ms-2');
-    exportButton.addEventListener('click', function () {
-        exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
-    });
-    tableContainer.appendChild(exportButton);
-
-    const table = document.createElement('table');
-    table.classList.add('table', 'table-bordered');
-
-    const tableHeader = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-
-    const snHeader = document.createElement('th');
-    snHeader.textContent = 'S.No';
-    snHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-    headerRow.appendChild(snHeader);
-
-    // Always add userName header
-    const userNameHeader = document.createElement('th');
-    userNameHeader.textContent = 'User Name';
-    userNameHeader.classList.add('fw-bolder', 'bg-warning', 'text-white');
-    headerRow.appendChild(userNameHeader);
-
-    selectedFields.forEach(field => {
-        const th = document.createElement('th');
-        th.textContent = field.label;
-        th.classList.add('fw-bolder', 'bg-warning', 'text-white');
-        headerRow.appendChild(th);
-    });
-
-    tableHeader.appendChild(headerRow);
-    table.appendChild(tableHeader);
-
-    const tableBody = document.createElement('tbody');
-
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedData = filteredData.slice(start, end);
-
-    paginatedData.forEach((contract, index) => {
-        const row = document.createElement('tr');
-
-        const snCell = document.createElement('td');
-        snCell.textContent = start + index + 1;
-        row.appendChild(snCell);
-
-        // Always add userName cell
-        const userNameCell = document.createElement('td');
-        userNameCell.textContent = contract.userName || 'N/A';
-        row.appendChild(userNameCell);
-
-        selectedFields.forEach(field => {
-            const cell = document.createElement('td');
-            const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
-            if (fieldName === 'nationality') {
-                cell.textContent = getNationalityName(contract[fieldName]);
-            } else if (fieldName === 'candidateId') {
-                const candidateIdButton = document.createElement('button');
-                candidateIdButton.textContent = contract[fieldName] || 'N/A';
-                candidateIdButton.classList.add('btn', 'btn-info');
-                candidateIdButton.addEventListener('click', function () {
-                  
-                        // Add your view logic here
-                        window.open(`./view-candidate.html?id=${contract[fieldName]}`, '_blank');
-                    
-                  
-                });
-                cell.appendChild(candidateIdButton);
-            } else {
-                cell.textContent = contract[fieldName] || 'N/A';
-            }
-            row.appendChild(cell);
+     function renderTable() {
+        tableContainer.innerHTML = '';
+    
+        const filteredData = filterData();
+    
+        if (filteredData.length === 0) {
+            const emptyMessage = document.createElement('p');
+            emptyMessage.textContent = 'No data available';
+            tableContainer.appendChild(emptyMessage);
+            return;
+        }
+    
+        // Update the countCallsMade element with the filtered data length
+        const countCallsMade = document.getElementById('countCallsMade');
+        countCallsMade.innerHTML = `<span class='text-success'>${filteredData.length}</span> data matches`;
+    
+        const rowsPerPageSelect = document.getElementById('rowsPerPageCallsMade');
+        rowsPerPageSelect.innerHTML = '';  // Clear any existing options
+        
+        [10, 25, 50, 100, 500].forEach(num => {
+            const option = document.createElement('option');
+            option.value = num;
+            option.textContent = num;
+            rowsPerPageSelect.appendChild(option);
         });
-
-        tableBody.appendChild(row);
-    });
-
-    table.appendChild(tableBody);
-
-    const fetchedDataCount = document.createElement('p');
-    fetchedDataCount.textContent = `${filteredData.length} data matches`;
-    tableContainer.appendChild(fetchedDataCount);
-
-    tableContainer.appendChild(table);
-
-    const paginationControls = document.createElement('nav');
-    paginationControls.setAttribute('aria-label', 'Page navigation');
-    const ul = document.createElement('ul');
-    ul.classList.add('pagination');
-
-    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
-    const maxVisiblePages = 5;
-    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
-    startPage = Math.max(startPage, 1);
-    let endPage = startPage + maxVisiblePages - 1;
-    endPage = Math.min(endPage, totalPages);
-
-    if (startPage > 1) {
-        const firstPageLi = document.createElement('li');
-        firstPageLi.classList.add('page-item');
-        const firstPageButton = document.createElement('button');
-        firstPageButton.classList.add('page-link');
-        firstPageButton.textContent = '1';
-        firstPageButton.addEventListener('click', function () {
+        
+        rowsPerPageSelect.addEventListener('change', function () {
             currentPage = 1;
-            renderTable();
+            rowsPerPage = parseInt(rowsPerPageSelect.value);
+            renderTable();  // Re-render the table with new rowsPerPage value
         });
-        firstPageLi.appendChild(firstPageButton);
-        ul.appendChild(firstPageLi);
-
-        if (startPage > 2) {
-            const ellipsisLi = document.createElement('li');
-            ellipsisLi.classList.add('page-item');
-            const ellipsisSpan = document.createElement('span');
-            ellipsisSpan.classList.add('page-link');
-            ellipsisSpan.textContent = '...';
-            ellipsisLi.appendChild(ellipsisSpan);
-            ul.appendChild(ellipsisLi);
-        }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-        const li = document.createElement('li');
-        li.classList.add('page-item');
-        const pageButton = document.createElement('button');
-        pageButton.classList.add('page-link');
-        pageButton.textContent = i;
-        if (i === currentPage) {
-            li.classList.add('active');
-        }
-        pageButton.addEventListener('click', function () {
-            currentPage = i;
-            renderTable();
+        
+        // Set the current value based on the rowsPerPage variable (if it's defined)
+        rowsPerPageSelect.value = rowsPerPage?.toString() || '10';
+        
+    
+        // Move the export button to exportContainerCallsMade
+        const exportContainer = document.getElementById('exportContainerCallsMade');
+        exportContainer.innerHTML = ''; // Clear any existing content
+    
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.id = 'exportButton';
+        exportButton.classList.add('btn', 'btn-success','p-0','ps-2','pe-2');
+        exportButton.addEventListener('click', function () {
+            exportToExcel(filteredData, 'Calls_Made_Report.xlsx');
         });
-        li.appendChild(pageButton);
-        ul.appendChild(li);
-    }
+        exportContainer.appendChild(exportButton); // Append the export button to the export container
+    
+        const table = document.createElement('table');
+        table.classList.add('table', 'table-bordered','table-sm');
+    
+        const tableHeader = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+    
+        const snHeader = document.createElement('th');
+        snHeader.textContent = 'S.No';
+        snHeader.classList.add('fw-bolder', 'text-white');
+        snHeader.style.backgroundColor='#201E43'
 
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            const ellipsisLi = document.createElement('li');
-            ellipsisLi.classList.add('page-item');
-            const ellipsisSpan = document.createElement('span');
-            ellipsisSpan.classList.add('page-link');
-            ellipsisSpan.textContent = '...';
-            ellipsisLi.appendChild(ellipsisSpan);
-            ul.appendChild(ellipsisLi);
-        }
+        headerRow.appendChild(snHeader);
+    
+        // Always add userName header
+        // Always add userName header
+const userNameHeader = document.createElement('th');
+userNameHeader.innerHTML = 'User&nbsp;Name';  // Use innerHTML for special characters
+userNameHeader.classList.add('fw-bolder', 'text-white');
+userNameHeader.style.backgroundColor = '#201E43';
+headerRow.appendChild(userNameHeader);
 
-        const lastPageLi = document.createElement('li');
-        lastPageLi.classList.add('page-item');
-        const lastPageButton = document.createElement('button');
-        lastPageButton.classList.add('page-link');
-        lastPageButton.textContent = totalPages;
-        lastPageButton.addEventListener('click', function () {
-            currentPage = totalPages;
-            renderTable();
+selectedFields.forEach(field => {
+    const th = document.createElement('th');
+    th.innerHTML = field.label.replace(/ /g, '&nbsp;');  // Replace spaces with &nbsp;
+    th.classList.add('fw-bolder', 'text-white');
+    th.style.backgroundColor = '#201E43';
+    headerRow.appendChild(th);
+});
+
+    
+        tableHeader.appendChild(headerRow);
+        table.appendChild(tableHeader);
+    
+        const tableBody = document.createElement('tbody');
+    
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedData = filteredData.slice(start, end);
+    
+        paginatedData.forEach((contract, index) => {
+            const row = document.createElement('tr');
+    
+            const snCell = document.createElement('td');
+            snCell.textContent = start + index + 1;
+            row.appendChild(snCell);
+    
+            // Always add userName cell
+            const userNameCell = document.createElement('td');
+            userNameCell.textContent = contract.userName || 'N/A';
+            row.appendChild(userNameCell);
+    
+            selectedFields.forEach(field => {
+                const cell = document.createElement('td');
+                const fieldName = fieldMapping[field.id] || field.id.replace('-', '_');
+                if (fieldName === 'nationality') {
+                    cell.textContent = getNationalityName(contract[fieldName]);
+                } else if (fieldName === 'candidateId') {
+                    const candidateIdButton = document.createElement('button');
+                    candidateIdButton.textContent = contract[fieldName] || 'N/A';
+                    candidateIdButton.classList.add('btn', 'text-primary','p-0','ps-2','pe-2');
+                    candidateIdButton.addEventListener('click', function () {
+                        window.open(`./view-candidate.html?id=${contract[fieldName]}`, '_blank');
+                    });
+                    cell.appendChild(candidateIdButton);
+                } else {
+                    cell.textContent = contract[fieldName] || 'N/A';
+                }
+                row.appendChild(cell);
+            });
+    
+            tableBody.appendChild(row);
         });
-        lastPageLi.appendChild(lastPageButton);
-        ul.appendChild(lastPageLi);
+    
+        table.appendChild(tableBody);
+    
+        tableContainer.appendChild(table);
+    
+        const paginationControls = document.createElement('nav');
+        paginationControls.setAttribute('aria-label', 'Page navigation');
+        const ul = document.createElement('ul');
+        ul.classList.add('pagination');
+    
+        const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    
+        const maxVisiblePages = 5;
+        let startPage = currentPage - Math.floor(maxVisiblePages / 2);
+        startPage = Math.max(startPage, 1);
+        let endPage = startPage + maxVisiblePages - 1;
+        endPage = Math.min(endPage, totalPages);
+    
+        if (startPage > 1) {
+            const firstPageLi = document.createElement('li');
+            firstPageLi.classList.add('page-item');
+            const firstPageButton = document.createElement('button');
+            firstPageButton.classList.add('page-link');
+            firstPageButton.textContent = '1';
+            firstPageButton.addEventListener('click', function () {
+                currentPage = 1;
+                renderTable();
+            });
+            firstPageLi.appendChild(firstPageButton);
+            ul.appendChild(firstPageLi);
+    
+            if (startPage > 2) {
+                const ellipsisLi = document.createElement('li');
+                ellipsisLi.classList.add('page-item');
+                const ellipsisSpan = document.createElement('span');
+                ellipsisSpan.classList.add('page-link');
+                ellipsisSpan.textContent = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                ul.appendChild(ellipsisLi);
+            }
+        }
+    
+        for (let i = startPage; i <= endPage; i++) {
+            const li = document.createElement('li');
+            li.classList.add('page-item');
+            const pageButton = document.createElement('button');
+            pageButton.classList.add('page-link');
+            pageButton.textContent = i;
+            if (i === currentPage) {
+                li.classList.add('active');
+            }
+            pageButton.addEventListener('click', function () {
+                currentPage = i;
+                renderTable();
+            });
+            li.appendChild(pageButton);
+            ul.appendChild(li);
+        }
+    
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsisLi = document.createElement('li');
+                ellipsisLi.classList.add('page-item');
+                const ellipsisSpan = document.createElement('span');
+                ellipsisSpan.classList.add('page-link');
+                ellipsisSpan.textContent = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                ul.appendChild(ellipsisLi);
+            }
+    
+            const lastPageLi = document.createElement('li');
+            lastPageLi.classList.add('page-item');
+            const lastPageButton = document.createElement('button');
+            lastPageButton.classList.add('page-link');
+            lastPageButton.textContent = totalPages;
+            lastPageButton.addEventListener('click', function () {
+                currentPage = totalPages;
+                renderTable();
+            });
+            lastPageLi.appendChild(lastPageButton);
+            ul.appendChild(lastPageLi);
+        }
+    
+        paginationControls.appendChild(ul);
+        tableContainer.appendChild(paginationControls);
     }
-
-    paginationControls.appendChild(ul);
-    tableContainer.appendChild(paginationControls);
-}
+    
 
 
         renderTable();
@@ -1164,218 +720,7 @@ createCompanyDropdown()
 document.getElementById('newprofilesubmit').addEventListener('submit', handleNewProfileSubmit);
 
 
-// Function to handle form submission for fetching discussions
-// Function to handle form submission for fetching discussions
-// async function handleDiscussionSubmit(event) {
-//     event.preventDefault(); // Prevent default form submission behavior
 
-//     try {
-//         const status = document.getElementById('status').value;
-//         let startDate = document.getElementById('startDates').value;
-//         let endDate = document.getElementById('endDates').value;
-//         const category = document.getElementById('categoryp').value;
-//         const companyName = document.getElementById('user_client').value;
-
-//         // Format dates to include time
-//         startDate = startDate + 'T00:00:00Z';
-//         endDate = endDate + 'T23:59:59Z';
-
-//         // Send data to server using Axios with the GET method and query parameters
-//         const response = await axios.get('https://nsnemo.com/candidate/reports/proposals', {
-//             params: {
-//                 status: status,
-//                 startDate: startDate,
-//                 endDate: endDate,
-//                 category: category,
-//                 companyName: companyName
-//             }
-//         });
-
-//         console.log(response.data); // Assuming the server sends back some data
-//         let candidates = response.data.candidates;
-
-//         // Clear existing results
-//         const discussionResults = document.getElementById('discussionResults');
-//         discussionResults.innerHTML = '';
-
-//         if (candidates.length === 0) {
-//             const message = document.createElement('p');
-//             message.textContent = 'No data available';
-//             discussionResults.appendChild(message);
-//             return;
-//         }
-
-//         // Create search input
-//         const searchInput = document.createElement('input');
-//         searchInput.classList.add('form-control', 'my-3');
-//         searchInput.type = 'text';
-//         searchInput.placeholder = 'Search...';
-//         searchInput.id = 'searchInput';
-//         discussionResults.appendChild(searchInput);
-
-//         // Create table container
-//         const tableContainer = document.createElement('div');
-//         tableContainer.id = 'tableContainer';
-//         discussionResults.appendChild(tableContainer);
-
-//         // Pagination variables
-//         let currentPage = 1;
-//         const rowsPerPage = 10; // Number of rows per page
-//         let totalPages = Math.ceil(candidates.length / rowsPerPage);
-//         const maxVisiblePages = 5; // Maximum number of page buttons to display
-
-//         searchInput.addEventListener('input', () => {
-//             currentPage = 1;
-//             renderTable();
-//         });
-
-//         // Function to render table with pagination and search
-//         function renderTable() {
-//             // Clear existing table content (excluding search input)
-//             tableContainer.innerHTML = '';
-
-//             // Apply search filter
-//             const searchTerm = searchInput.value.trim().toLowerCase();
-//             const filteredCandidates = candidates.filter(candidate => {
-//                 return Object.values(candidate).some(value =>
-//                     value.toString().toLowerCase().includes(searchTerm)
-//                 );
-//             });
-
-//             // Update total pages based on filtered candidates
-//             totalPages = Math.ceil(filteredCandidates.length / rowsPerPage);
-
-//             // Paginate data
-//             const startIndex = (currentPage - 1) * rowsPerPage;
-//             const endIndex = startIndex + rowsPerPage;
-//             const paginatedCandidates = filteredCandidates.slice(startIndex, endIndex);
-
-//             // Create table element
-//             const table = document.createElement('table');
-//             table.classList.add('table', 'table-bordered');
-
-//             // Create table header
-//             const tableHeader = document.createElement('thead');
-//             const headerRow = document.createElement('tr');
-//             const headers = ['S.No', 'Candidate ID', 'First Name', 'Last Name', 'Rank', 'Vessel', 'Category', 'Nationality', 'Join Date', 'Company Name', 'Posted By'];
-//             headers.forEach(headerText => {
-//                 const header = document.createElement('th');
-//                 header.textContent = headerText;
-//                 header.scope = 'col';
-//                 header.classList.add('text-center');
-//                 headerRow.appendChild(header);
-//             });
-//             tableHeader.appendChild(headerRow);
-//             table.appendChild(tableHeader);
-
-//             // Create table body
-//             const tableBody = document.createElement('tbody');
-//             paginatedCandidates.forEach((candidate, index) => {
-//                 const row = document.createElement('tr');
-//                 const fields = [
-//                     startIndex + index + 1, // Serial Number (S.No)
-//                     candidate.candidateId,
-//                     candidate.fname,
-//                     candidate.lname,
-//                     candidate.c_rank,
-//                     candidate.c_vessel,
-//                     candidate.category,
-//                     candidate.nationality,
-//                     candidate.join_date,
-//                     candidate.company_name,
-//                     candidate.userName
-//                 ];
-//                 fields.forEach(field => {
-//                     const cell = document.createElement('td');
-//                     cell.textContent = field || 'N/A'; // Handle cases where field is null or undefined
-//                     cell.classList.add('text-center');
-//                     row.appendChild(cell);
-//                 });
-//                 tableBody.appendChild(row);
-//             });
-//             table.appendChild(tableBody);
-
-//             // Append table to tableContainer
-//             tableContainer.appendChild(table);
-
-//             // Display "X data fetched" message
-//             const fetchedDataMessage = document.createElement('p');
-//             fetchedDataMessage.textContent = `${response.data.candidates.length} data fetched`;
-//             tableContainer.appendChild(fetchedDataMessage);
-
-//             // Display "X data match search" message
-//             const matchedDataMessage = document.createElement('p');
-//             matchedDataMessage.textContent = `${filteredCandidates.length} data match search`;
-//             tableContainer.appendChild(matchedDataMessage);
-
-//             // Create pagination controls
-//             const paginationContainer = document.createElement('div');
-//             paginationContainer.classList.add('pagination', 'justify-content-center');
-
-//             // Previous button
-//             const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
-//                 currentPage--;
-//                 renderTable();
-//             });
-//             paginationContainer.appendChild(prevButton);
-
-//             // Page buttons
-//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-//             if (endPage - startPage < maxVisiblePages - 1) {
-//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
-//             }
-
-//             if (startPage > 1) {
-//                 const firstEllipsis = createPaginationButton('...', false, null);
-//                 paginationContainer.appendChild(firstEllipsis);
-//             }
-
-//             for (let i = startPage; i <= endPage; i++) {
-//                 const pageButton = createPaginationButton(i.toString(), true, () => {
-//                     currentPage = i;
-//                     renderTable();
-//                 });
-//                 if (i === currentPage) {
-//                     pageButton.classList.add('active');
-//                 }
-//                 paginationContainer.appendChild(pageButton);
-//             }
-
-//             if (endPage < totalPages) {
-//                 const lastEllipsis = createPaginationButton('...', false, null);
-//                 paginationContainer.appendChild(lastEllipsis);
-//             }
-
-//             // Next button
-//             const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
-//                 currentPage++;
-//                 renderTable();
-//             });
-//             paginationContainer.appendChild(nextButton);
-
-//             // Append pagination controls to tableContainer
-//             tableContainer.appendChild(paginationContainer);
-//         }
-
-//         // Helper function to create pagination button
-//         function createPaginationButton(text, isEnabled, onClick) {
-//             const button = document.createElement('button');
-//             button.classList.add('btn', 'btn-outline-primary', 'mx-1');
-//             button.textContent = text;
-//             button.addEventListener('click', onClick);
-//             button.disabled = !isEnabled;
-//             return button;
-//         }
-
-//         // Initial render of table
-//         renderTable();
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
 async function handleDiscussionSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -1669,697 +1014,7 @@ fetchAndDisplayVessels()
 // Add event listener to the discussion form
 document.getElementById('discussionForm').addEventListener('submit', handleDiscussionSubmit);
 
-// Function to handle submission of Sign On form
-// async function handleSignOnSubmit(event) {
-//     event.preventDefault(); // Prevent default form submission behavior
 
-//     try {
-//         const startDate = document.getElementById('startDatec').value + 'T00:00:00Z';
-//         const endDate = document.getElementById('endDatec').value + 'T23:59:59Z';
-//         const companyName = document.getElementById('user_client1').value;
-//         const vessel_type = document.getElementById('candidate_c_vessel').value;
-//         const category = document.getElementById('categoryso').value;
-
-//         const params = {
-//             startDate: startDate,
-//             endDate: endDate,
-//             vessel_type: vessel_type,
-//             companyname: companyName,
-//             category: category
-//         };
-
-//         // Send data to server using Axios
-//         const response = await axios.get('https://nsnemo.com/candidate/reports/sign-on', {
-//             params: params
-//         });
-
-//         console.log(response.data); // Assuming the server sends back some data
-//         const contracts = response.data.contracts;
-
-//         // Clear existing table body, if any
-//         const tableBody = document.getElementById('signOnTableBody');
-//         tableBody.innerHTML = '';
-
-//         // Append values to table body
-//         contracts.forEach((contract, index) => {
-//             const row = document.createElement('tr');
-            
-//             // Create table cells for each field
-//             const fields = [
-//                 index + 1,
-//                 contract.candidateId,
-//                 contract.rank,
-//                 contract.vesselType,
-//                 contract.sign_on,
-//                 contract.sign_off,
-//                 contract.eoc,
-//                 contract.emigrate_number,
-//                 contract.aoa_number,
-//                 contract.currency,
-//                 contract.wages,
-//                 contract.wages_types,
-//                 contract.reason_for_sign_off,
-//                 contract.fname + ' ' +contract.lname,
-//                 contract.nationality,
-//                 contract.vesselName,
-//                 contract.imoNumber,
-//                 contract.vesselFlag,
-//                 contract.category,
-//                 contract.company_name
-//             ];
-
-//             fields.forEach(field => {
-//                 const cell = document.createElement('td');
-//                 cell.textContent = field || ''; // Display empty string if field is undefined or null
-//                 cell.classList.add('text-center');
-//                 row.appendChild(cell);
-//             });
-
-//             tableBody.appendChild(row);
-//         });
-
-//         // Check if reports is true
-//         const token = localStorage.getItem('token');
-//         const decodedToken = decodeToken(token);
-//         const reports = decodedToken.reports;
-
-//         if (reports === true) {
-//             // Create "Export to Excel" button
-//             const exportButton = document.createElement('button');
-//             exportButton.textContent = 'Export to Excel';
-//             exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
-//             exportButton.addEventListener('click', () => {
-//                 exportToExcel(tableBody, 'signOnData.xlsx');
-//             });
-//             // Append export button after the table
-//             const tableContainer = document.getElementById('signOnContent');
-//             tableContainer.appendChild(exportButton);
-//         }
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-// async function handleSignOnSubmit(event) {
-//     event.preventDefault(); // Prevent default form submission behavior
-
-//     try {
-//         const startDate = document.getElementById('startDatec').value + 'T00:00:00Z';
-//         const endDate = document.getElementById('endDatec').value + 'T23:59:59Z';
-//         const companyName = document.getElementById('user_client1').value;
-//         const vessel_type = document.getElementById('candidate_c_vessel').value;
-//         const category = document.getElementById('categoryso').value;
-
-//         const params = {
-//             startDate: startDate,
-//             endDate: endDate,
-//             vessel_type: vessel_type,
-//             companyname: companyName,
-//             category: category
-//         };
-
-//         // Send data to server using Axios
-//         const response = await axios.get('https://nsnemo.com/candidate/reports/sign-on', {
-//             params: params
-//         });
-
-//         console.log(response.data); // Assuming the server sends back some data
-//         const contracts = response.data.contracts;
-
-//         // Clear existing table body, if any
-//         const tableBody = document.getElementById('signOnTableBody');
-//         tableBody.innerHTML = '';
-
-//         // Append values to table body
-//         contracts.forEach((contract, index) => {
-//             const row = document.createElement('tr');
-            
-//             // Create table cells for each field
-//             const fields = [
-//                 index + 1,
-//                 contract.candidateId,
-//                 contract.rank,
-//                 contract.vesselType,
-//                 contract.sign_on,
-//                 contract.sign_off,
-//                 contract.eoc,
-//                 contract.emigrate_number,
-//                 contract.aoa_number,
-//                 contract.currency,
-//                 contract.wages,
-//                 contract.wages_types,
-//                 contract.reason_for_sign_off,
-//                 contract.fname,
-//                 contract.lname,
-//                 contract.nationality,
-//                 contract.vesselName,
-//                 contract.imoNumber,
-//                 contract.vesselFlag,
-//                 contract.category,
-//                 contract.company_name,
-//                 contract.bank_pan_num || '', // Display empty string if bank_pan_num is null or undefined
-//                 contract.indos_number || '', // Display empty string if indos_number is null or undefined
-//                 contract.indian_cdc_document_number || '', // Display empty string if indian_cdc_document_number is null or undefined
-//                 contract.passport_document_number || '', // Display empty string if passport_document_number is null or undefined
-//                                 contract.userName || '' // Display empty string if userName is null or undefined
-
-//             ];
-
-//             fields.forEach(field => {
-//                 const cell = document.createElement('td');
-//                 cell.textContent = field;
-//                 cell.classList.add('text-center');
-//                 row.appendChild(cell);
-//             });
-
-//             tableBody.appendChild(row);
-//         });
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-// async function handleSignOnSubmit(event) {
-//     event.preventDefault(); // Prevent default form submission behavior
-
-//     try {
-//         const startDate = document.getElementById('startDatec').value + 'T00:00:00Z';
-//         const endDate = document.getElementById('endDatec').value + 'T23:59:59Z';
-//         const companyName = document.getElementById('user_client1').value;
-//         const vessel_type = document.getElementById('candidate_c_vessel').value;
-//         const category = document.getElementById('categoryso').value;
-
-//         const params = {
-//             startDate: startDate,
-//             endDate: endDate,
-//             vessel_type: vessel_type,
-//             companyname: companyName,
-//             category: category
-//         };
-
-//         // Send data to server using Axios
-//         const response = await axios.get('https://nsnemo.com/candidate/reports/sign-on', {
-//             params: params
-//         });
-
-//         console.log(response.data); // Assuming the server sends back some data
-//         const contracts = response.data.contracts;
-
-//         // Pagination variables
-//         let currentPage = 1; // Current page number, starting from 1
-//         let itemsPerPage = 10; // Default number of items to display per page
-//         let totalItems = contracts.length;
-//         let totalPages = Math.ceil(totalItems / itemsPerPage);
-
-//         // Function to display contracts for the current page
-//         function displayContracts(page) {
-//             const startIndex = (page - 1) * itemsPerPage;
-//             const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-//             const displayedContracts = contracts.slice(startIndex, endIndex);
-
-//             // Clear existing table body
-//             const tableBody = document.getElementById('signOnTableBody');
-//             tableBody.innerHTML = '';
-
-//             // Append values to table body
-//             displayedContracts.forEach((contract, index) => {
-//                 const sno = startIndex + index + 1; // Calculate serial number
-//                 const row = document.createElement('tr');
-//                 const fields = [
-//                     sno,
-//                     contract.candidateId,
-//                     contract.rank,
-//                     contract.vesselType,
-//                     contract.sign_on,
-//                     contract.sign_off,
-//                     contract.eoc,
-//                     contract.emigrate_number,
-//                     contract.aoa_number,
-//                     contract.currency,
-//                     contract.wages,
-//                     contract.wages_types,
-//                     contract.reason_for_sign_off,
-//                     contract.fname,
-//                     contract.lname,
-//                     contract.nationality,
-//                     contract.vesselName,
-//                     contract.imoNumber,
-//                     contract.vesselFlag,
-//                     contract.category,
-//                     contract.company_name,
-//                     contract.bank_pan_num || '', // Display empty string if bank_pan_num is null or undefined
-//                     contract.indos_number || '', // Display empty string if indos_number is null or undefined
-//                     contract.indian_cdc_document_number || '', // Display empty string if indian_cdc_document_number is null or undefined
-//                     contract.passport_document_number || '', // Display empty string if passport_document_number is null or undefined
-//                     contract.userName || '' // Display empty string if userName is null or undefined
-//                 ];
-
-//                 fields.forEach(field => {
-//                     const cell = document.createElement('td');
-//                     cell.textContent = field;
-//                     cell.classList.add('text-center');
-//                     row.appendChild(cell);
-//                 });
-
-//                 tableBody.appendChild(row);
-//             });
-//         }
-
-//         // Function to update pagination controls
-//         function updatePaginationControls() {
-//             const paginationControls = document.getElementById('paginationControlssignon');
-//             paginationControls.innerHTML = '';
-
-//             // Previous button
-//             const prevButton = document.createElement('button');
-//             prevButton.textContent = 'Previous';
-//             prevButton.addEventListener('click', () => {
-//                 if (currentPage > 1) {
-//                     currentPage--;
-//                     displayContracts(currentPage);
-//                     updatePaginationControls();
-//                 }
-//             });
-//             paginationControls.appendChild(prevButton);
-
-//             // Page numbers and ellipsis
-//             const maxVisiblePages = 5; // Maximum number of visible page numbers
-//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-//             if (endPage - startPage + 1 < maxVisiblePages) {
-//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
-//             }
-
-//             if (startPage > 1) {
-//                 const firstEllipsis = document.createElement('button');
-//                 firstEllipsis.textContent = '...';
-//                 firstEllipsis.disabled = true;
-//                 paginationControls.appendChild(firstEllipsis);
-//             }
-
-//             for (let i = startPage; i <= endPage; i++) {
-//                 const pageButton = document.createElement('button');
-//                 pageButton.textContent = i;
-//                 if (i === currentPage) {
-//                     pageButton.disabled = true;
-//                 }
-//                 pageButton.addEventListener('click', () => {
-//                     currentPage = i;
-//                     displayContracts(currentPage);
-//                     updatePaginationControls();
-//                 });
-//                 paginationControls.appendChild(pageButton);
-//             }
-
-//             if (endPage < totalPages) {
-//                 const lastEllipsis = document.createElement('button');
-//                 lastEllipsis.textContent = '...';
-//                 lastEllipsis.disabled = true;
-//                 paginationControls.appendChild(lastEllipsis);
-//             }
-
-//             // Last page button
-//             if (totalPages > 1) {
-//                 const lastPageButton = document.createElement('button');
-//                 lastPageButton.textContent = totalPages;
-//                 lastPageButton.addEventListener('click', () => {
-//                     currentPage = totalPages;
-//                     displayContracts(currentPage);
-//                     updatePaginationControls();
-//                 });
-//                 paginationControls.appendChild(lastPageButton);
-//             }
-
-//             // Next button
-//             const nextButton = document.createElement('button');
-//             nextButton.textContent = 'Next';
-//             nextButton.addEventListener('click', () => {
-//                 if (currentPage < totalPages) {
-//                     currentPage++;
-//                     displayContracts(currentPage);
-//                     updatePaginationControls();
-//                 }
-//             });
-//             paginationControls.appendChild(nextButton);
-//         }
-
-//         // Function to filter contracts based on search input
-//         function filterContracts(searchTerm) {
-//             searchTerm = searchTerm.toLowerCase().trim();
-//             filteredContracts = contracts.filter(contract => {
-//                 // Customize this to match your specific search criteria
-//                 return (
-//                     contract.candidateId.toLowerCase().includes(searchTerm) ||
-//                     contract.rank.toLowerCase().includes(searchTerm) ||
-//                     contract.vesselType.toLowerCase().includes(searchTerm) ||
-//                     contract.sign_on.toLowerCase().includes(searchTerm) ||
-//                     contract.sign_off.toLowerCase().includes(searchTerm) ||
-//                     contract.eoc.toLowerCase().includes(searchTerm) ||
-//                     contract.emigrate_number.toLowerCase().includes(searchTerm) ||
-//                     contract.aoa_number.toLowerCase().includes(searchTerm) ||
-//                     contract.currency.toLowerCase().includes(searchTerm) ||
-//                     contract.wages.toLowerCase().includes(searchTerm) ||
-//                     contract.wages_types.toLowerCase().includes(searchTerm) ||
-//                     contract.reason_for_sign_off.toLowerCase().includes(searchTerm) ||
-//                     contract.fname.toLowerCase().includes(searchTerm) ||
-//                     contract.lname.toLowerCase().includes(searchTerm) ||
-//                     contract.nationality.toLowerCase().includes(searchTerm) ||
-//                     contract.vesselName.toLowerCase().includes(searchTerm) ||
-//                     contract.imoNumber.toLowerCase().includes(searchTerm) ||
-//                     contract.vesselFlag.toLowerCase().includes(searchTerm) ||
-//                     contract.category.toLowerCase().includes(searchTerm) ||
-//                     contract.company_name.toLowerCase().includes(searchTerm) ||
-//                     (contract.bank_pan_num && contract.bank_pan_num.toLowerCase().includes(searchTerm)) ||
-//                     (contract.indos_number && contract.indos_number.toLowerCase().includes(searchTerm)) ||
-//                     (contract.indian_cdc_document_number && contract.indian_cdc_document_number.toLowerCase().includes(searchTerm)) ||
-//                     (contract.passport_document_number && contract.passport_document_number.toLowerCase().includes(searchTerm)) ||
-//                     (contract.userName && contract.userName.toLowerCase().includes(searchTerm))
-//                 );
-//             });
-
-//             totalItems = filteredContracts.length;
-//             totalPages = Math.ceil(totalItems / itemsPerPage);
-//             currentPage = 1;
-//             displayContracts(currentPage);
-//             updatePaginationControls();
-//         }
-
-//         // Search input handling
-//         const searchInput = document.createElement('input');
-//         searchInput.classList.add('form-control', 'my-3');
-//         searchInput.type = 'text';
-//         searchInput.placeholder = 'Search...';
-//         searchInput.id = 'signOnSearchInput';
-//         searchInput.addEventListener('input', (event) => {
-//             const searchTerm = event.target.value;
-//             filterContracts(searchTerm);
-//         });
-
-//         // Add search input and pagination controls to the DOM
-//         const searchContainer = document.getElementById('signOnSearchContainer');
-//         searchContainer.innerHTML = ''; // Clear previous content
-//         searchContainer.appendChild(searchInput);
-
-//         const paginationContainer = document.getElementById('paginationContainersignon');
-//         paginationContainer.innerHTML = ''; // Clear previous content
-//         const itemsPerPageDropdown = createItemsPerPageDropdown();
-//         paginationContainer.appendChild(itemsPerPageDropdown);
-//         paginationContainer.appendChild(document.createElement('br')); // Line break for spacing
-//         const paginationControls = document.createElement('div');
-//         paginationControls.id = 'paginationControlssignon';
-//         paginationContainer.appendChild(paginationControls);
-
-//         // Initial display of contracts on page load
-//         displayContracts(currentPage);
-
-//         // Initial update of pagination controls
-//         updatePaginationControls();
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-// async function handleSignOnSubmit(event) {
-//     event.preventDefault(); // Prevent default form submission behavior
-
-//     try {
-//         const startDate = document.getElementById('startDatec').value + 'T00:00:00Z';
-//         const endDate = document.getElementById('endDatec').value + 'T23:59:59Z';
-//         const companyName = document.getElementById('user_client1').value;
-//         const vessel_type = document.getElementById('candidate_c_vessel').value;
-//         const category = document.getElementById('categoryso').value;
-
-//         const params = {
-//             startDate: startDate,
-//             endDate: endDate,
-//             vessel_type: vessel_type,
-//             companyname: companyName,
-//             category: category
-//         };
-
-//         // Send data to server using Axios
-//         const response = await axios.get('https://nsnemo.com/candidate/reports/sign-on', {
-//             params: params
-//         });
-
-//         console.log(response.data); // Assuming the server sends back some data
-//         let contracts = response.data.contracts;
-
-//         // Clear existing results
-//         const signOnResults = document.getElementById('signOnSearchContainer');
-//         signOnResults.innerHTML = '';
-
-//         if (contracts.length === 0) {
-//             const message = document.createElement('p');
-//             message.textContent = 'No data available';
-//             signOnResults.appendChild(message);
-//             return;
-//         }
-
-//         // Create search input
-//         const searchInput = document.createElement('input');
-//         searchInput.classList.add('form-control', 'my-3');
-//         searchInput.type = 'text';
-//         searchInput.placeholder = 'Search...';
-//         searchInput.id = 'signOnSearchInput';
-//         signOnResults.appendChild(searchInput);
-
-//         // Create export button
-//         const exportButton = document.createElement('button');
-//         exportButton.classList.add('btn', 'btn-primary', 'my-3');
-//         exportButton.textContent = 'Export to Excel';
-//         exportButton.addEventListener('click', () => exportToExcel(filteredContracts));
-//         signOnResults.appendChild(exportButton);
-
-//         // Create table container
-//         const tableContainer = document.createElement('div');
-//         tableContainer.id = 'signOnTableContainer';
-//         signOnResults.appendChild(tableContainer);
-
-//         // Pagination variables
-//         let currentPage = 1;
-//         const itemsPerPage = 10; // Number of items per page
-//         let totalItems = contracts.length;
-//         let totalPages = Math.ceil(totalItems / itemsPerPage);
-//         const maxVisiblePages = 5; // Maximum number of page buttons to display
-
-//         let filteredContracts = contracts;
-
-//         searchInput.addEventListener('input', () => {
-//             currentPage = 1;
-//             renderTable();
-//         });
-
-//         // Function to render table with pagination and search
-//         function renderTable() {
-//             // Clear existing table content (excluding search input and export button)
-//             tableContainer.innerHTML = '';
-
-//             // Apply search filter
-//             const searchTerm = searchInput.value.trim().toLowerCase();
-//             filteredContracts = contracts.filter(contract => {
-//                 return Object.values(contract).some(value =>
-//                     value && value.toString().toLowerCase().includes(searchTerm)
-//                 );
-//             });
-
-//             // Update total pages based on filtered contracts
-//             totalPages = Math.ceil(filteredContracts.length / itemsPerPage);
-
-//             // Paginate data
-//             const startIndex = (currentPage - 1) * itemsPerPage;
-//             const endIndex = startIndex + itemsPerPage;
-//             const displayedContracts = filteredContracts.slice(startIndex, endIndex);
-
-//             // Create table element
-//             const table = document.createElement('table');
-//             table.classList.add('table', 'table-bordered');
-
-//             // Create table header
-//             const tableHeader = document.createElement('thead');
-//             const headerRow = document.createElement('tr');
-//             const headers = [
-//                 'S.No', 'Candidate ID', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 
-//                 'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
-//                 'Wages Types', 'Reason for Sign Off', 'First Name', 'Last Name', 
-//                 'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
-//                 'Category', 'Company Name', 'Bank PAN Number', 'INDOS Number', 
-//                 'Indian CDC Document Number', 'Passport Document Number', 'User Name'
-//             ];
-//             headers.forEach(headerText => {
-//                 const header = document.createElement('th');
-//                 header.textContent = headerText;
-//                 header.scope = 'col';
-//                 header.classList.add('text-center');
-//                 headerRow.appendChild(header);
-//             });
-//             tableHeader.appendChild(headerRow);
-//             table.appendChild(tableHeader);
-
-//             // Create table body
-//             const tableBody = document.createElement('tbody');
-//             displayedContracts.forEach((contract, index) => {
-//                 const row = document.createElement('tr');
-//                 const fields = [
-//                     startIndex + index + 1, // Serial Number (S.No)
-//                     contract.candidateId,
-//                     contract.rank,
-//                     contract.vesselType,
-//                     contract.sign_on,
-//                     contract.sign_off,
-//                     contract.eoc,
-//                     contract.emigrate_number,
-//                     contract.aoa_number,
-//                     contract.currency,
-//                     contract.wages,
-//                     contract.wages_types,
-//                     contract.reason_for_sign_off,
-//                     contract.fname,
-//                     contract.lname,
-//                     getNationalityName(contract.nationality),
-//                     contract.vesselName,
-//                     contract.imoNumber,
-//                     contract.vesselFlag,
-//                     contract.category,
-//                     contract.company_name,
-//                     contract.bank_pan_num || 'N/A', // Display 'N/A' if field is null or undefined
-//                     contract.indos_number || 'N/A',
-//                     contract.indian_cdc_document_number || 'N/A',
-//                     contract.passport_document_number || 'N/A',
-//                     contract.userName || 'N/A'
-//                 ];
-//                 fields.forEach(field => {
-//                     const cell = document.createElement('td');
-//                     cell.textContent = field;
-//                     cell.classList.add('text-center');
-//                     row.appendChild(cell);
-//                 });
-//                 tableBody.appendChild(row);
-//             });
-//             table.appendChild(tableBody);
-
-//             // Append table to tableContainer
-//             tableContainer.appendChild(table);
-
-//             // Display total number of contracts fetched
-//             const fetchedDataMessage = document.createElement('p');
-//             fetchedDataMessage.textContent = `${totalItems} data fetched`;
-//             tableContainer.appendChild(fetchedDataMessage);
-
-//             // Display number of contracts matching search criteria
-//             const matchedDataMessage = document.createElement('p');
-//             matchedDataMessage.textContent = `${filteredContracts.length} data match search`;
-//             tableContainer.appendChild(matchedDataMessage);
-
-//             // Create pagination controls
-//             const paginationContainer = document.createElement('div');
-//             paginationContainer.classList.add('pagination', 'justify-content-center');
-
-//             // Previous button
-//             const prevButton = createPaginationButton('Prev', currentPage > 1, () => {
-//                 currentPage--;
-//                 renderTable();
-//             });
-//             paginationContainer.appendChild(prevButton);
-
-//             // Page buttons
-//             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-//             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-//             if (endPage - startPage < maxVisiblePages - 1) {
-//                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
-//             }
-
-//             if (startPage > 1) {
-//                 const firstEllipsis = createPaginationButton('...', false, null);
-//                 paginationContainer.appendChild(firstEllipsis);
-//             }
-
-//             for (let i = startPage; i <= endPage; i++) {
-//                 const pageButton = createPaginationButton(i.toString(), true, () => {
-//                     currentPage = i;
-//                     renderTable();
-//                 });
-//                 if (i === currentPage) {
-//                     pageButton.classList.add('active');
-//                 }
-//                 paginationContainer.appendChild(pageButton);
-//             }
-
-//             if (endPage < totalPages) {
-//                 const lastEllipsis = createPaginationButton('...', false, null);
-//                 paginationContainer.appendChild(lastEllipsis);
-//             }
-
-//             // Next button
-//             const nextButton = createPaginationButton('Next', currentPage < totalPages, () => {
-//                 currentPage++;
-//                 renderTable();
-//             });
-//             paginationContainer.appendChild(nextButton);
-
-//             // Append pagination controls to tableContainer
-//             tableContainer.appendChild(paginationContainer);
-//         }
-
-//         // Helper function to create pagination button
-//         function createPaginationButton(text, isEnabled, onClick) {
-//             const button = document.createElement('button');
-//             button.classList.add('btn', 'btn-outline-primary', 'mx-1');
-//             button.textContent = text;
-//             button.addEventListener('click', onClick);
-//             button.disabled = !isEnabled;
-//             return button;
-//         }
-
-//         // Function to export table data to Excel
-//         function exportToExcel(data) {
-//             const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
-//                 'S.No': index + 1,
-//                 'Candidate ID': contract.candidateId,
-//                 'Rank': contract.rank,
-//                 'Vessel Type': contract.vesselType,
-//                 'Sign On': contract.sign_on,
-//                 'Sign Off': contract.sign_off,
-//                 'EOC': contract.eoc,
-//                 'Emigrate Number': contract.emigrate_number,
-//                 'AOA Number': contract.aoa_number,
-//                 'Currency': contract.currency,
-//                 'Wages': contract.wages,
-//                 'Wages Types': contract.wages_types,
-//                 'Reason for Sign Off': contract.reason_for_sign_off,
-//                 'First Name': contract.fname,
-//                 'Last Name': contract.lname,
-//                 'Nationality': getNationalityName(contract.nationality),
-//                 'Vessel Name': contract.vesselName,
-//                 'IMO Number': contract.imoNumber,
-//                 'Vessel Flag': contract.vesselFlag,
-//                 'Category': contract.category,
-//                 'Company Name': contract.company_name,
-//                 'Bank PAN Number': contract.bank_pan_num || 'N/A',
-//                 'INDOS Number': contract.indos_number || 'N/A',
-//                 'Indian CDC Document Number': contract.indian_cdc_document_number || 'N/A',
-//                 'Passport Document Number': contract.passport_document_number || 'N/A',
-//                 'User Name': contract.userName || 'N/A'
-//             })));
-
-//             const workbook = XLSX.utils.book_new();
-//             XLSX.utils.book_append_sheet(workbook, worksheet, 'Sign On Contracts');
-
-//             XLSX.writeFile(workbook, 'sign_on_contracts.xlsx');
-//         }
-
-//         // Initial render of table
-//         renderTable();
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
 
 async function handleSignOnSubmit(event) {
     event.preventDefault(); // Prevent default form submission behavior
@@ -2400,18 +1055,25 @@ async function handleSignOnSubmit(event) {
 
         // Create search input
         const searchInput = document.createElement('input');
-        searchInput.classList.add('form-control', 'my-3');
+        searchInput.classList.add('col-md-2')
+        searchInput.style.height='25px'
+        searchInput.classList.add('form-control');
+       
         searchInput.type = 'text';
         searchInput.placeholder = 'Search...';
         searchInput.id = 'signOnSearchInput';
         signOnResults.appendChild(searchInput);
 
         // Create export button
-        const exportButton = document.createElement('button');
-        exportButton.classList.add('btn', 'btn-primary', 'my-3');
-        exportButton.textContent = 'Export to Excel';
-        exportButton.addEventListener('click', () => exportToExcel(filteredContracts));
-        signOnResults.appendChild(exportButton);
+       // Create and append the export button to the exportContainerSignOn div
+const exportContainer = document.getElementById('exportContainerSignOn');
+
+const exportButton = document.createElement('button');
+exportButton.classList.add('btn', 'btn-success','p-0','ps-2','pe-2');
+exportButton.textContent = 'Export to Excel';
+exportButton.addEventListener('click', () => exportToExcel(filteredContracts));
+exportContainer.appendChild(exportButton);
+
 
         // Create table container
         const tableContainer = document.createElement('div');
@@ -2453,33 +1115,46 @@ async function handleSignOnSubmit(event) {
             const endIndex = startIndex + itemsPerPage;
             const displayedContracts = filteredContracts.slice(startIndex, endIndex);
 
-            // Create table element
-            const table = document.createElement('table');
-            table.classList.add('table', 'table-bordered');
+        // Create table element
+// Create table element
+const table = document.createElement('table');
+table.classList.add('table', 'table-bordered','table-sm','mt-2');
 
-            // Create table header
-            const tableHeader = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            const headers = [
-                'S.No', 'Candidate ID','Name', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 'Sign On Port',
-                'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
-                'Wages Types', 'Reason for Sign Off',
-                'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
-                 'Company Name', 'Bank Name', 'Account Number', 
-                'Bank Address', 'IFSC Code', 'SWIFT Code', 'Beneficiary', 
-                'Beneficiary Address', 'Branch', 'Bank Types', 
-                'Bank PAN Number', 'INDOS Number', 'Indian CDC Document Number', 
-                'Passport Document Number', 'Passbook', 'PAN Card', 'User Name'
-            ];
-            headers.forEach(headerText => {
-                const header = document.createElement('th');
-                header.textContent = headerText;
-                header.scope = 'col';
-                header.classList.add('text-center');
-                headerRow.appendChild(header);
-            });
-            tableHeader.appendChild(headerRow);
-            table.appendChild(tableHeader);
+// Create table header
+const tableHeader = document.createElement('thead');
+tableHeader.style.backgroundColor='#201E43'
+
+const headerRow = document.createElement('tr');
+tableHeader.style.color='white'
+
+const headers = [
+    'S.No', 'Candidate ID', 'Name', 'Rank', 'Vessel Type', 'Sign On', 'Sign Off', 'Sign On Port',
+    'EOC', 'Emigrate Number', 'AOA Number', 'Currency', 'Wages', 
+    'Wages Types', 'Reason for Sign Off',
+    'Nationality', 'Vessel Name', 'IMO Number', 'Vessel Flag', 
+    'Company Name', 'Bank Name', 'Account Number', 
+    'Bank Address', 'IFSC Code', 'SWIFT Code', 'Beneficiary', 
+    'Beneficiary Address', 'Branch', 'Bank Types', 
+    'Bank PAN Number', 'INDOS Number', 'Indian CDC Document Number', 
+    'Passport Document Number', 'Passbook', 'PAN Card', 'User Name'
+];
+
+// Replace spaces with non-breaking spaces in header names
+const headersWithNbsp = headers.map(headerText => headerText.replace(/ /g, '&nbsp;'));
+
+headersWithNbsp.forEach(headerText => {
+    const header = document.createElement('th');
+    header.innerHTML = headerText; // Use innerHTML to render HTML entities
+    header.scope = 'col';
+    header.classList.add('text-center');
+    header.style.color='white'
+    headerRow.appendChild(header);
+});
+tableHeader.appendChild(headerRow);
+table.appendChild(tableHeader);
+
+
+
 
             // Create table body
             const tableBody = document.createElement('tbody');
@@ -2540,14 +1215,17 @@ async function handleSignOnSubmit(event) {
             tableContainer.appendChild(table);
 
             // Display total number of contracts fetched
-            const fetchedDataMessage = document.createElement('p');
-            fetchedDataMessage.textContent = `${totalItems} data fetched`;
-            tableContainer.appendChild(fetchedDataMessage);
+            // const fetchedDataMessage = document.createElement('p');
+            // fetchedDataMessage.textContent = `${totalItems} data fetched`;
+            // tableContainer.appendChild(fetchedDataMessage);
 
             // Display number of contracts matching search criteria
-            const matchedDataMessage = document.createElement('p');
-            matchedDataMessage.textContent = `${filteredContracts.length} data match search`;
-            tableContainer.appendChild(matchedDataMessage);
+        // Get the element by ID
+const countSignOnElement = document.getElementById('countSignOn');
+
+// Update its content with the count of filtered contracts
+countSignOnElement.innerHTML = `<span class='text-success'>${filteredContracts.length}</span> data matches`;
+
 
             // Create pagination controls
             const paginationContainer = document.createElement('div');
@@ -3895,7 +2573,8 @@ async function handleAvailableCandidatesSubmit(event) {
                     getNationalityName(candidate.nationality),
                     candidate.c_rank,
                     candidate.c_vessel,
-                    candidate.avb_date
+                    candidate.avb_date,
+                    
                 ];
                 fields.forEach(field => {
                     const cell = document.createElement('td');

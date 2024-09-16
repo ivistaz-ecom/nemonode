@@ -1,3 +1,11 @@
+function decodeToken(token) {
+    // Implementation depends on your JWT library
+    // Here, we're using a simple base64 decode
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+  }
+
 document.getElementById("logout").addEventListener("click", function() {
     // Display the modal with initial message
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
@@ -13,7 +21,7 @@ document.getElementById("logout").addEventListener("click", function() {
   
     // Redirect after another delay
     setTimeout(function() {
-        window.location.href = "vendorlogin.html";
+        window.location.href = "agentlogin.html";
     }, 2000);
 });
 
@@ -33,27 +41,41 @@ function decodeToken(token) {
     return JSON.parse(atob(base64));
 }
 
-fetchVessels(userVendor.value);
+document.addEventListener('DOMContentLoaded', async function () {
 
-async function fetchVessels(companyId) {
+    displayVesselTypeDropdown()
+})
+
+async function displayVesselTypeDropdown() {
     try {
-        const response = await axios.get(`https://nsnemo.com/others/getcompanyviavsl/${companyId}`);
-        
-        const vessels = response.data;
-        console.log(response);
-        const dropdown = document.getElementById('vesselDropdown');
-        dropdown.innerHTML = '<option value="">Select Vessel</option>'; // Reset dropdown
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        const vessels = serverResponse.data.vessels;
 
-        vessels.forEach(vessel => {
-            const option = document.createElement('option');
+        // Get the select element
+        const vesselSelect = document.getElementById("vesselDropdown");
+
+        // Clear previous options
+        vesselSelect.innerHTML = '';
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "-- Select Vessel --";
+
+        vesselSelect.appendChild(defaultOption);
+
+        // Add vessels to the dropdown
+        vessels.forEach((vessel) => {
+            const option = document.createElement("option");
             option.value = vessel.id;
-            option.textContent = vessel.vesselName;
-            dropdown.appendChild(option);
+            option.text = vessel.vesselName;
+            vesselSelect.appendChild(option);
         });
     } catch (error) {
         console.error('Error fetching vessels:', error);
     }
 }
+
 
 async function handleOnBoardSubmit(event) {
     event.preventDefault();
@@ -62,25 +84,21 @@ async function handleOnBoardSubmit(event) {
         let startDate = document.getElementById('startDateo').value;
         startDate = startDate + 'T00:00:00Z';
         const vesselDropdown = document.getElementById('vesselDropdown').value || null;
-        const userId = localStorage.getItem('userId')
-        const decodedToken = decodeToken(token)
-        const companyName = decodedToken.userVendor
-        // const companyname = localStorage.getItem('')
+        const decodedToken= decodeToken(token)
+        const nationality = decodedToken.nationality
+        console.log(decodedToken)
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('https://nsnemo.com/candidate/onboard2', {
+        const response = await axios.get('https://nsnemo.com/candidate/onboard3', {
             params: {
-                companyname:companyName ,
                 startDate: startDate,
                 vslName: vesselDropdown,
-                userId: userId
+                nationality:nationality
             },
             headers: {
                 "Authorization": token
             }
         });
-
-        console.log(response)
 
         const contracts = response.data.contracts;
         const tableBody = document.getElementById('onBoardTableBody');
@@ -130,5 +148,5 @@ function deobfuscateId(obfuscatedId) {
 }
 
 function viewCandidate(obfuscatedId) {
-    window.open(`./vendorviewcandidate.html?id=${encodeURIComponent(obfuscatedId)}`, '_blank');
+    window.open(`./agentviewcandidate.html?id=${encodeURIComponent(obfuscatedId)}`, '_blank');
 }

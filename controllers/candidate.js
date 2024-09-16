@@ -3200,6 +3200,90 @@ const onBoard2 = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+const onBoard3 = async (req, res) => {
+    try {
+        console.log('onboard entered')
+        const { startDate, vslName, companyname, category, nationality } = req.query;
+
+        // Ensure nationality is provided
+        if (!nationality) {
+            return res.status(400).json({ error: 'Nationality is required', success: false });
+        }
+
+        // Base SQL query
+        let query = `
+            SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
+                   b.fname, b.lname, b.dob, b.birth_place, c.vesselName, b.category, b.nationality, e.company_name
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            WHERE a.sign_on <= :startDate
+              AND (a.sign_off > :startDate OR a.sign_off = '1970-01-01')
+              AND b.nationality = :nationality
+        `;
+
+        // Define replacements object
+        const replacements = { startDate, nationality };
+
+        // Add vessel name condition if present
+        if (vslName) {
+            query += ` AND c.id = :vslName`;
+            replacements.vslName = vslName;
+        }
+
+        // Add company name condition if present
+        if (companyname) {
+            query += ` AND e.company_id = :companyname`;
+            replacements.companyname = companyname;
+        }
+
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+        GROUP BY 
+            a.candidateId, 
+            a.rank, 
+            a.vslName, 
+            a.sign_on_port, 
+            a.vesselType, 
+            a.wages, 
+            a.currency, 
+            a.wages_types, 
+            a.sign_on, 
+            a.sign_off, 
+            a.eoc,
+            b.fname, 
+            b.lname, 
+            b.dob, 
+            b.birth_place, 
+            c.vesselName, 
+            b.category, 
+            b.nationality, 
+            e.company_name
+    `;
+
+        // Log query and replacements for debugging
+        console.log('Query:', query);
+        console.log('Replacements:', replacements);
+
+        // Run the raw SQL query using sequelize.query
+        const contracts = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ contracts: contracts, success: true });
+    } catch (error) {
+        console.error("Error fetching onboard contracts:", error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
 
 
 
@@ -4180,5 +4264,6 @@ module.exports = {
    updateEval,
    sendEmail,
    viewEvaluation,
-   onBoard2
+   onBoard2,
+   onBoard3
 };
