@@ -1186,65 +1186,71 @@
   <div id="signOffContent" class="report-content">
     <!-- Content for Sign Off Report -->
     <div class="card card-body">
-        <h4>Sign off</h4>
         <!-- Date selection form -->
         <form id="signOffForm">
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <td><label for="startDateoff" class="form-label">Start Date:</label></td>
-                        <td><input type="date" id="startDateoff" name="startDateoff" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="endDateoff" class="form-label">End Date:</label></td>
-                        <td><input type="date" id="endDateoff" name="endDateoff" class="form-control"></td>
-                    </tr>
-                    <td style="width: 50%;">
-                      <label for="candidate_c_vessel1" class="form-label">Vessel</label>
-                  </td>
-                  <td style="width: 50%;">
-                      <select class="form-select" id="candidate_c_vessel1" name="candidate_c_vessel1">
-                          <!-- Options for user dropdown will be added dynamically -->
-                      </select>
-                  </td><tr>
-                  <td style="width: 50%;">
-                    <label for="user-client2" class="form-label">Company</label>
-                </td>
-                <td style="width: 50%;">
-                    <select class="form-select" id="user_client2" name="user-client2">
-                        <!-- Options for user dropdown will be added dynamically -->
-                    </select>
-                </td>
-                <tr>
-                  <td style="width: 50%;">
-                      <label for="categorysoff" class="form-label">Option</label>
-                  </td>
-                  <td style="width: 50%;">
-                      <select class="form-select" id="categorysoff" name="categorysoff">
-                        <option value="">--Select option--</option>
-
-                          <option value="1">Officer</option>
-                        <option value="2">Rating</option>
-                          <option value="6">IV Crew</option>
-                      </select>
-                  </td>
-              </tr>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
-        </form>
-        <p class="text-warning">This is a big table scroll to see the remaining fields.</p>
+          <div class="row g-2 mb-3">
+              <div class="col-md-2">
+                  <label for="startDateoff" class="form-label">Start Date</label>
+                  <input type="date" id="startDateoff" name="startDateoff" class="form-control">
+              </div>
+              <div class="col-md-2">
+                  <label for="endDateoff" class="form-label">End Date</label>
+                  <input type="date" id="endDateoff" name="endDateoff" class="form-control">
+              </div>
+              <div class="col-md-2">
+                  <label for="candidate_c_vessel1" class="form-label">Vessel</label>
+                  <select class="form-select" id="candidate_c_vessel1" name="candidate_c_vessel1">
+                      <!-- Options for vessel dropdown will be added dynamically -->
+                  </select>
+              </div>
+              <div class="col-md-2">
+                  <label for="user_client2" class="form-label">Company</label>
+                  <select class="form-select" id="user_client2" name="user_client2">
+                      <!-- Options for company dropdown will be added dynamically -->
+                  </select>
+              </div>
+              <div class="col">
+                  <label for="categorysoff" class="form-label">Option</label>
+                  <select class="form-select" id="categorysoff" name="categorysoff">
+                      <option value="">--Select option--</option>
+                      <option value="1">Officer</option>
+                      <option value="2">Rating</option>
+                      <option value="6">IV Crew</option>
+                  </select>
+              </div>
+          </div>
+          <button type="submit" class="btn btn-primary p-0 ps-2 pe-2 float-end">Generate Sign Off Report</button>
+      </form>
+      
         <!-- Table to display Sign Off report data --><div class="container table-responsive">
-        <table id="signOffTable" class="table table-bordered table">
-            
-            <tbody id="signOffTableBody" style="font-size: 10px;">
-                <!-- Table body will be populated dynamically -->
-            </tbody>
-            <div id="signOffSearchContainer"></div>
-            <div id="paginationControlssignoff"></div>
-            <div id="paginationContainersignoff"></div>
-        </table>
-        </div>
+    <div class="row g-2 mt-1">
+      <!-- Search Input -->
+      <div class="col-md-4">
+          <div id="signOffSearchContainer" class="d-flex align-items-center p-0" >
+              <!-- Search input will be added dynamically here -->
+          </div>
+      </div>
+
+      <!-- Data Count Message -->
+      <div class="col-md-4 d-flex align-items-center">
+          <span id="countSignOff" class="border ps-2 pe-2 pt-1 pb-1 rounded-2"></span>
+      </div>
+
+      <!-- Export Button -->
+      <div class="col-md-4 d-flex align-items-center justify-content-end">
+          <div id="exportContainerSignOff"></div>
+      </div>
+  </div>
+
+  <table id="signOffTable" class="table table-bordered table-sm">
+      <tbody id="signOffTableBody" style="font-size: 10px;">
+          <!-- Table body will be populated dynamically -->
+      </tbody>
+      <div id="paginationControlssignoff"></div>
+      <div id="paginationContainersignoff"></div>
+  </table>
+</div>
+
     </div>
 </div>
 
@@ -1255,63 +1261,45 @@
       <h4>Due for Sign off</h4>
       <!-- Date selection form -->
       <form id="dueforsignoffform">
-          <table class="table table-bordered">
-              <tbody>
-                  <tr>
-                      <td><label for="startDated" class="form-label">Start Date:</label></td>
-                      <td><input type="date" id="startDated" name="startDated" class="form-control"></td>
-                  </tr>
-                  <tr>
-                      <td><label for="endDated" class="form-label">End Date:</label></td>
-                      <td><input type="date" id="endDated" name="endDated" class="form-control"></td>
-                  </tr>
-                  <td style="width: 50%;">
-                    <label for="candidate_c_vessel2" class="form-label">Vessel</label>
-                </td>
-                <td style="width: 50%;">
-                    <select class="form-select" id="candidate_c_vessel2" name="candidate_c_vessel2">
-                        <!-- Options for user dropdown will be added dynamically -->
-                    </select>
-                </td><tr>
-                <td style="width: 50%;">
-                  <label for="user-client3" class="form-label">Company</label>
-              </td>
-              <td style="width: 50%;">
-                  <select class="form-select" id="user_client3" name="user-client3">
-                      <!-- Options for user dropdown will be added dynamically -->
-                  </select>
-                  <tr>
-                    <td style="width: 50%;">
-                        <label for="categorydue" class="form-label">Option</label>
-                    </td>
-                    <td style="width: 50%;">
-                        <select class="form-select" id="categorydue" name="categorydue">
-                          <option value="">--Select option--</option>
-  
-                            <option value="1">Officer</option>
-                          <option value="2">Rating</option>
-                            <option value="6">IV Crew</option>
-                        </select>
-                    </td>
-                </tr>
-              </td>
-              </tbody>
-          </table>
-          <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
-      </form>
+        <div class="row g-2 mb-3">
+            <div class="col-md-2">
+                <label for="startDated" class="form-label">Start Date</label>
+                <input type="date" id="startDated" name="startDated" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="endDated" class="form-label">End Date</label>
+                <input type="date" id="endDated" name="endDated" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label for="candidate_c_vessel2" class="form-label">Vessel</label>
+                <select class="form-select" id="candidate_c_vessel2" name="candidate_c_vessel2">
+                    <!-- Options for vessel dropdown will be added dynamically -->
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="user_client3" class="form-label">Company</label>
+                <select class="form-select" id="user_client3" name="user_client3">
+                    <!-- Options for company dropdown will be added dynamically -->
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="categorydue" class="form-label">Option</label>
+                <select class="form-select" id="categorydue" name="categorydue">
+                    <option value="">--Select option--</option>
+                    <option value="1">Officer</option>
+                    <option value="2">Rating</option>
+                    <option value="6">IV Crew</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2 p-0 ps-2 pe-2 float-end">Generate Report</button>
+    </form>
+    
       <!-- Table to display Sign Off report data --><div class="container table-responsive">
       <table id="DuesignOffTable" class="table table-bordered table">
         <thead>
             <tr>
               <th>S.No</th>
-             
-             
-             
-              
-              
-              
-              
-             
          
                 <th>Candidate&nbsp;ID</th>
                 <th>Rank</th>
@@ -1382,51 +1370,50 @@
                 <h4>Available candidates</h4>
                 <!-- Date selection form -->
                 <form id="availableCandidatesForm">
-                  <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td><label for="startDatea" class="form-label">Start Date:</label></td>
-                            <td><input type="date" id="startDatea" name="startDatea" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="endDatea" class="form-label">End Date:</label></td>
-                            <td><input type="date" id="endDatea" name="endDatea" class="form-control"></td>
-                        </tr>
-                        <tr>
-                          <td><label for="avbrank" class="form-label">Rank:</label></td>
-                          <td><select id="avbrank" name="avbrank" class="form-control"></select></td>
-                      </tr>
-                      <tr>
-                        <td style="width: 50%;">
-                            <label for="categoryavb" class="form-label">Option</label>
-                        </td>
-                        <td style="width: 50%;">
-                            <select class="form-select" id="categoryavb" name="categoryavb">
+                  <div class="row g-2 mb-3">
+                      <div class="col-md-3">
+                          <label for="startDatea" class="form-label">Start Date</label>
+                          <input type="date" id="startDatea" name="startDatea" class="form-control">
+                      </div>
+                      <div class="col-md-3">
+                          <label for="endDatea" class="form-label">End Date</label>
+                          <input type="date" id="endDatea" name="endDatea" class="form-control">
+                      </div>
+                      <div class="col-md-3">
+                          <label for="avbrank" class="form-label">Rank</label>
+                          <select id="avbrank" name="avbrank" class="form-select">
+                              <!-- Options for rank dropdown will be added dynamically -->
+                          </select>
+                      </div>
+                      <div class="col-md-3">
+                          <label for="categoryavb" class="form-label">Option</label>
+                          <select class="form-select" id="categoryavb" name="categoryavb">
                               <option value="">--Select option--</option>
-      
-                                <option value="1">Officer</option>
+                              <option value="1">Officer</option>
                               <option value="2">Rating</option>
-                                <option value="6">IV Crew</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                
-                    <button type="submit" class="btn btn-primary mb-3 mt-3">Generate Report</button>
-                </form>
+                              <option value="6">IV Crew</option>
+                          </select>
+                      </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary p-0 ps-2 pe-2 float-end mb-2">Generate Report</button>
+              </form>
+              
                 <!-- Table to display available candidates data -->
-                <table id="availableCandidatesTable" class="table table-bordered table">
+                <div class="col-md-4 d-flex align-items-center">
+                  <span id="avbCandCount" class="border ps-2 pe-2 pt-1 pb-1 rounded-2 mb-2"></span>
+              </div>
+
+                <table id="availableCandidatesTable" class="table table-bordered table-sm">
                     <thead>
                         <tr>
-                          <th>S.No</th>
-                            <th>Candidate ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th style="width: 25px;">S.No</th>
+                            <th>Candidate&nbsp;ID</th>
+                            <th>First&nbsp;Name</th>
+                            <th>Last&nbsp;Name</th>
                             <th>Nationality</th>
                             <th>Rank</th>
                             <th>Vessel</th>
-                            <th>Avb Date</th>
+                            <th>Avb&nbsp;Date</th>
                         </tr>
                     </thead>
                     <tbody id="availableCandidatesTableBody">
@@ -1442,72 +1429,63 @@
             <div class="card card-body">
                 <h4>On Board Report</h4>
                 <form id="onBoardForm">
-                  <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td><label for="startDateo">Start Date:</label></td>
-                            <td><input type="date" id="startDateo" name="startDateo" class="form-control" required></td>
-                        </tr>
-                        <td><label for="user_client4">Client</label></td>
-                        <td style="width: 50%;">
+                  <div class="row g-2 mb-3">
+                      <div class="col-md-3">
+                          <label for="startDateo" class="form-label">Start Date</label>
+                          <input type="date" id="startDateo" name="startDateo" class="form-control" required>
+                      </div>
+                      <div class="col-md-3">
+                          <label for="user_client4" class="form-label">Client</label>
                           <select class="form-select" id="user_client4" name="user-client4">
                               <!-- Options for user dropdown will be added dynamically -->
                           </select>
-                      </td>
-                        <tr>
-                         
-                            <td><label for="vsl1" class="form-label">Vessel Name:</label></td>
-                          <td>  <select id="vsl1" class="form-select" name="vsl1" >
-                                <option value="">Select Vessel Name</option>
-                                <!-- Options will be dynamically added here -->
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="width: 50%;">
-                              <label for="categoryob" class="form-label">Option</label>
-                          </td>
-                          <td style="width: 50%;">
-                              <select class="form-select" id="categoryob" name="categoryob">
-                                <option value="">--Select option--</option>
-        
-                                  <option value="1">Officer</option>
-                                <option value="2">Rating</option>
-                                  <option value="6">IV Crew</option>
-                              </select>
-                          </td>
-                      </tr>
-                    </tbody>
-                </table>
-                
-                    <button type="submit" class="btn btn-primary mb-3 mt-3">Submit</button>
-                </form>
+                      </div>
+                      <div class="col-md-3">
+                          <label for="vsl1" class="form-label">Vessel Name</label>
+                          <select id="vsl1" name="vsl1" class="form-select">
+                              <option value="">Select Vessel Name</option>
+                              <!-- Options will be dynamically added here -->
+                          </select>
+                      </div>
+                      <div class="col-md-3">
+                          <label for="categoryob" class="form-label">Option</label>
+                          <select class="form-select" id="categoryob" name="categoryob">
+                              <option value="">--Select option--</option>
+                              <option value="1">Officer</option>
+                              <option value="2">Rating</option>
+                              <option value="6">IV Crew</option>
+                          </select>
+                      </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary p-0 ps-2 pe-2 float-end mb-2">Submit</button>
+              </form>
+              
                 <div class="table-responsive">
-                <table id="onBoardTable" class="table table-bordered table">
+                <table id="onBoardTable" class="table table-bordered table-sm">
                  
                     <thead>
                         <tr>
-                          <th style="font-size: 8px;">S.no</th>
-                            <th style="font-size: 8px;">Candidate&nbsp;ID</th>
-                            <th style="font-size: 8px;">Name</th>
-                            <th style="font-size: 8px;">Last Name</th>
-                            <th style="font-size: 8px;">Birth place</th>
-                            <th style="font-size: 8px;">Rank</th>
-                            <th style="font-size: 8px;">Nationality</th>
-                            <th style="font-size: 8px;">Date&nbsp;and&nbsp;Place&nbsp;of&nbsp;Birth</th>
-                            <th style="font-size: 8px;">Age</th>
-                            <th style="font-size: 8px;">Company</th>
-                            <th style="font-size: 8px;">Currency</th>
-                            <th style="font-size: 8px;">EOC</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">S.no</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Candidate&nbsp;ID</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Name</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Last&nbsp;Name</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Birth&nbsp;place</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Rank</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Nationality</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Date&nbsp;and&nbsp;Place&nbsp;of&nbsp;Birth</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Age</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Company</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Currency</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">EOC</th>
                             
                             
-                            <th style="font-size: 8px;">Sign&nbsp;On</th>
-                            <th style="font-size: 8px;">Sign&nbsp;Off</th>
-                            <th style="font-size: 8px;">Sign&nbsp;On&nbsp;Port</th>
-                            <th style="font-size: 8px;">Vessel&nbsp;Name</th>
-                            <th style="font-size: 8px;">Vessel&nbsp;Type</th>
-                            <th style="font-size: 8px;">Wages</th>
-                            <th style="font-size: 8px;">Wages&nbsp;Type</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Sign&nbsp;On</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Sign&nbsp;Off</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Sign&nbsp;On&nbsp;Port</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Vessel&nbsp;Name</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Vessel&nbsp;Type</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Wages</th>
+                            <th style="background-color: #201E43;  color: white; font-size: 10px ;">Wages&nbsp;Type</th>
                         </tr>
                       
                     </thead>
@@ -1594,70 +1572,91 @@
             <div class="card card-body">
                 <h4>Crew list month wise</h4>
                 <form id="crewListMonthWiseForm">
-                    <div class="mb-3">
-                        <label for="vsl" class="form-label">Vessel Name:</label>
-                        <select id="vsl" class="form-select" name="vsl" >
-                            <option value="">Select Vessel Name</option>
-                            <!-- Options will be dynamically added here -->
-                        </select>
-                    </div>
-                    <tr>
-                      <td style="width: 50%;">
-                        <label for="user-client5" class="form-label">Company</label>
-                    </td>
-                    <td style="width: 50%;">
-                        <select class="form-select" id="user_client5" name="user-client5">
-                            <!-- Options for user dropdown will be added dynamically -->
-                        </select>
-                    </td>
-                    </tr>
+                  <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                      <label for="startDatecl" class="form-label">Start Date</label>
+                      <input type="date" id="startDatecl" class="form-control" name="startDatecl" required>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="endDatecl" class="form-label">End Date</label>
+                      <input type="date" id="endDatecl" class="form-control" name="endDatecl" required>
+                  </div>
+                      <div class="col-md-3">
+                          <label for="vsl" class="form-label">Vessel Name</label>
+                          <select id="vsl" class="form-select" name="vsl">
+                              <option value="">Select Vessel Name</option>
+                              <!-- Options will be dynamically added here -->
+                          </select>
+                      </div>
+                      <div class="col-md-3">
+                          <label for="user_client5" class="form-label">Company</label>
+                          <select class="form-select" id="user_client5" name="user-client5">
+                              <!-- Options for user dropdown will be added dynamically -->
+                          </select>
+                      </div>
                     
-                    <div class="mb-3 mt-3">
-                        <label for="startDatecl" class="form-label">Start Date:</label>
-                        <input type="date" id="startDatecl" class="form-control" name="startDatecl" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary p-0 ps-2 pe-2 float-end">Generate Report</button>
+              </form>
+              <div class="row g-2 mt-1">
+                <!-- Search Input -->
+                <!-- <div class="col-md-4">
+                    <div id="signOffSearchContainer" class="d-flex align-items-center p-0" >
                     </div>
-                    <div class="mb-3">
-                        <label for="endDatecl" class="form-label">End Date:</label>
-                        <input type="date" id="endDatecl" class="form-control" name="endDatecl" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
-                </form>
+                </div>
+           -->
+                <!-- Data Count Message -->
+                <div class="col-md-4 d-flex align-items-center">
+                  <span id="crewListCount" class="border ps-2 pe-2 pt-1 pb-1 rounded-2">
+                      <span id="dataCount" class="text-success"></span>
+                      data match search
+                  </span>
+              </div>
+              
+                <!-- Export Button -->
+                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                    <div id="exportCrewList"></div>
+                </div>
+            </div>
+              
                 <div id="crewListMonthWiseContainer">
               </div>
               
 
                 <!-- Table to display crew list -->
                 <div class="mt-4 table-responsive">
-                    <table class="table table-bordered table" id="crewlisttable">
-                      <!-- <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Candidate ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            
-                            <th>Rank</th>
-                            <th>Nationality</th>
-                        
-                            <th>Company Name</th>
-                            <th>Currency</th>
-                            <th>EOC</th>
-                            <th>Sign On</th>
-                            <th>Sign Off</th>
-                            <th>Vessel Name</th>
-                            <th>Vessel Type</th>
-                           
-                            <th>Wages</th>
-                            <th>Wages Types</th>
-                        </tr>
-                    </thead> -->
-                   
-                        <tbody id="crewListTableBody">
-                            <!-- Table rows will be dynamically added here -->
-                        </tbody>
-                        <div id="paginationControlscl"></div>
-                    </table>
-                </div>
+                 
+                  
+                  <table class="table table-bordered table-sm table-responsive" id="crewlisttable">
+                    <!-- <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Candidate ID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          
+                          <th>Rank</th>
+                          <th>Nationality</th>
+                      
+                          <th>Company Name</th>
+                          <th>Currency</th>
+                          <th>EOC</th>
+                          <th>Sign On</th>
+                          <th>Sign Off</th>
+                          <th>Vessel Name</th>
+                          <th>Vessel Type</th>
+                         
+                          <th>Wages</th>
+                          <th>Wages Types</th>
+                      </tr>
+                  </thead> -->
+                 
+                      <tbody id="crewListTableBody">
+                          <!-- Table rows will be dynamically added here -->
+                      </tbody>
+                      <div id="paginationControlscl"></div>
+                  </table>
+              </div>
             </div>
         </div>
         
@@ -1681,16 +1680,16 @@
               <table id="reliefPlanTable" class="table table-bordered table">
                   <thead>
                       <tr>
-                          <th style="font-size: 8px;">S.No</th>
-                          <th style="font-size: 8px;">ID</th>
-                          <th style="font-size: 8px;">First Name</th>
-                          <th style="font-size: 8px;">Last Name</th>
-                          <th style="font-size: 8px;">Nationality</th>
-                          <th style="font-size: 8px;">Rank</th>
-                          <th style="font-size: 8px;">Vessel</th>
-                          <th style="font-size: 8px;">Company</th>
-                          <th style="font-size: 8px;">Category</th>
-                          <th style="font-size: 8px;">End of Contract</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">S.No</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">ID</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">First Name</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Last Name</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Nationality</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Rank</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Vessel</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Company</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">Category</th>
+                          <th style="background-color: #201E43;  color: white; font-size: 10px ;">End of Contract</th>
                       </tr>
                   </thead>
                   <tbody id="reliefPlanTableBody">
