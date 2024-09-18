@@ -1165,8 +1165,26 @@ function editContract(candidateId, id, rank, company, vslName, vesselType, sign_
 }
 
 
-function deleteContract(id) {
-    console.log('deleted',id)
+async function deleteContract(contractId) {
+    try {
+        const response = await axios.delete(`/api/contracts/${contractId}`, {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`, // Include any necessary authentication tokens here
+            },
+        });
+
+        console.log('Success:', response.data.message);
+        // Optionally, update the UI or inform the user about the successful deletion
+    } catch (error) {
+        if (error.response) {
+            // The request was made, and the server responded with a status code
+            console.error('Error:', error.response.data.message || 'Error deleting contract');
+            // Display an error message to the user (e.g., using an alert or updating the UI)
+        } else {
+            // Something happened in setting up the request that triggered an error
+            console.error('Error:', error.message);
+        }
+    }
 }
 
 document.getElementById("logout").addEventListener("click", function() {
