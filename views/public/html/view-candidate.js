@@ -1167,7 +1167,7 @@ function editContract(candidateId, id, rank, company, vslName, vesselType, sign_
 
 async function deleteContract(contractId) {
     try {
-        const response = await axios.delete(`/api/contracts/${contractId}`, {
+        const response = await axios.delete(`https://nsnemo.com/candidate/delete-contract/${contractId}`, {
             headers: {
                 'Authorization': `${localStorage.getItem('token')}`, // Include any necessary authentication tokens here
             },
