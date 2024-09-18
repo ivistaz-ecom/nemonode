@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
+  const decodedToken = decodeToken(token)
+  console.log('decoded token',decodedToken)
+    if (decodedToken.userManagement) {
+    document.getElementById('userManagementSection').style.display = 'block';
+    document.getElementById('userManagementSections').style.display = 'block';
+  }
+
 
   const elements = {
     userName: document.getElementById('user_name'),
@@ -53,7 +60,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.error('Error fetching data:', error);
   }
 
-  const decodedToken = decodeToken(token);
   updateUserDetails(decodedToken, elements);
   updateDateTime(elements.datetime);
   setInterval(() => updateDateTime(elements.datetime), 1000);
