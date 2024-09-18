@@ -9,7 +9,7 @@
   data-template="vertical-menu-template-free"
 >
 <head>
-  <link rel="icon" type="image/x-icon" href="./fav-icon.png" />
+  <link rel="icon" type="image/x-icon" href="./fav-icon.ico" />
 
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -777,7 +777,7 @@
           <!-- <span class="text-center bg-black"> <span class="text-success">𝗛𝗮𝗽𝗽𝘆 </span> <span style="color: white;">𝗥𝗮𝗸𝘀𝗵𝗮</span> <span class="text-warning">𝗕𝗮𝗻𝗱𝗵𝗮𝗻</span> </span> -->
 
           <nav
-            class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme pe-0"
+            class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme "
             id="layout-navbar"
           >
           
@@ -787,32 +787,45 @@
               </a>
             </div>
 
-            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <div class="navbar-nav-right d-flex justify-content-evenly align-items-center " id="navbar-collapse">
               <!-- Search -->
-              <div class="icon-container me-3 ">
-                <i class="bx" id="icon"></i>
-                
-            </div>
-              <div class="navbar-nav  w-100">
+            
+            <div class=""> 
+              <div class=" p-2 ps-2 pe-4">
+                <span><a class="me-2" href="./daily.html">Daily&nbsp;Dashboard</a></span>
 
-                <!-- <div class="nav-item d-flex align-items-center">
-                  <button class="btn btn-light border-0 m-0 p-0 " id="search_btn"> <i class="bx bx-search fs-4 lh-0"></i></button>
+                                        <span style="border-left: solid 0.5px lightgray;"></span>
 
-                  <input
-                    type="text"
-                    class="form-control w-100 border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                    id="search_input"
-                  />
-                
-                </div> -->
-                 
-              Nemo & Nautilus Shipping 
+              <span><a href="./reminder-document.html" class="me-3 ms-3">Renewals</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
 
-             
-                 <div class="ms-3" style="display: none;">Done By Sibbenanthan K for Ivistaz (Nov 20th 2023 - June 15th)</div>
-                 
+              <span><a href="./contract-due.html" class="me-3 ms-3">Contract Dues</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+
+
+              <span><a href="./reminder.html" class="me-3 ms-3">Reminders</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+
+              <!-- <span><a href="./availableCandidates.html">Available Candidates</a></span> -->
+              <span><a href="./reportsAll.html" class="me-3 ms-3">Export All</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+
+              <span><a href="./queries.html" class="me-3 ms-3">Queries</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+
+              <span><a href="./status.html" class="me-3 ms-3"> Status</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+
+              <span><a href="./report.html" class="me-3 ms-3"> Report</a></span>
+              <span style="border-left: solid 0.5px lightgray;"></span>
+              <span><a href="./birthday.html" class="me-3 ms-3">Birthdays</a></span>
+
+
+
+
+
+              </div>
+               
               </div>
               
              
@@ -821,7 +834,6 @@
 
               <span  >
               
-                 
              
                   
                 <a href="./profile.html" class="ps-4 rounded-0" style="border-left: solid 0.5px lightgray;">
@@ -873,320 +885,87 @@
                   </div> -->
                   
                   <div>
-                  <div class="card mt-4"> 
-                    <div class="d-flex justify-content-between p-2 ps-4 pe-4">
-                                              <span><a href="./birthday.html">Birthdays</a></span>
-                    <span><a href="./reminder-document.html">Renewals</a></span>
-                    <span><a href="./contract-due.html">Contract Dues</a></span>
+                 
 
-                    <span><a href="./reminder.html">Reminders</a></span>
-                    <!-- <span><a href="./availableCandidates.html">Available Candidates</a></span> -->
-                    <span><a href="./reportsAll.html">Export All</a></span>
-                    <span><a href="./queries.html">Queries</a></span>
-                    <span><a href="./status.html"> Status</a></span>
-                    <span><a href="./report.html"> Report</a></span>
-
-
-
-                    </div>
-                     
-                    </div>
-
-                    <div class=" rounded-3 card p-3 mt-4 bg-body-tertiary">
+                    <div class=" rounded-3 card p-3 mt-2 bg-body-tertiary">
                       <div class="d-flex justify-content-between">
-                      <h4 class="text-dark  p-3 mb-0">Today's Progress <div id="datetime" style="font-size: 14px;" class="text-primary p-3 ps-0 pb-0"></div>           <div class="skeleton-loading">
+                            <div class="skeleton-loading">
                         <div class="skeleton"></div>
                         </div>
                       </h4>
                       <span>
-              <a class="btn btn-primary p-0 ps-2 pe-2 mt-4 text-white" href="./daily.html">Daily&nbsp;Dashboard</a></span>
 
             </div>
-                    <div class="row">
-                    <div class="card mt-3 col m-3 " >
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-dark"><i class="bx bx-microphone"></i></span>
-                          </div>
-                          
-                          <div class="dropdown"  >
-                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-start "  aria-labelledby="cardOpt3">
-                              <a class="dropdown-item "  href="./report.html">View More</a>
-                            </div>
-                          </div>
-                        </div>
-
-                        <span class="fw-medium d-block mb-1 ">Todays Calls:</span>
-                        <div id="spinnerContainer1">
-                          <!-- Spinner 1 will be dynamically inserted here -->
-                        
-                        <h3 class="card-title mb-2">
-                          <div class="skeleton-loading">
-                            <div class="skeleton"></div>
-                            </div>
-
-                            <div id="callCount"></div>
-                        </h3>
-                        <small class="fw-medium">
-                            <i id="arrowIcon" class="bx"></i>
-                            <span id="percentageChange"></span>
-                            
-                        </small></div>
-
-                      </div>
+            <div class="">
+            
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Today's Calls
+                  <span id="callCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Proposed
+                  <span id="proposedCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Approved
+                  <span id="approvedCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Joined
+                  <span id="joinedCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Rejected
+                  <span id="rejectedCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Active
+                  <span id="activeCount">0</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  Inactive
+                  <span id="inactiveCount" class="text-warning">0</span>
+                </a>
+              </div>
+            </div>
+            
+            
+            
                     </div>
-                    
-
-                    <div class="card mt-3 col ms-0 m-3" >
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                         
-                          <div class="avatar flex-shrink-0">
-                            <img src="../../public/assets/img/icons/unicons/chart.png" alt="cube" class="rounded">
-                          </div>
-                          
-
-                          <div class="dropdown" >
-                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu  dropdown-menu-start" aria-labelledby="cardOpt3">
-                              <a class="dropdown-item" href="./status.html">View More</a>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <span class="fw-medium d-block mb-1">Proposed:</span>
-                        
-                        <h3 class="card-title mb-2">
-                          <div class="skeleton-loading">
-                            <div class="skeleton"></div>
-                            </div>
-
-                            <div id="proposedCount"></div>
-                        </h3>
-                        <small class="fw-medium">
-                            <i id="arrowIcon" class="bx"></i>
-                            <span id="proposedArrowIcon"></span>
-                            <span id="proposedPercentageChange"></span>
-
-                        </small>
-                      </div>
-                    </div>
-
-                    <div class="card mt-3 col ms-0 m-3" >
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                          <div class="avatar me-2">
-                            <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-time-five"></i></span>
-                          </div>
-                          
-                          <div class="dropdown" >
-                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu  dropdown-menu-start" aria-labelledby="cardOpt3">
-                              <a class="dropdown-item" href="./status.html">View More</a>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <span class="fw-medium d-block mb-1">Approved:</span>
-                        <h3 class="card-title mb-2">
-                          <div class="skeleton-loading">
-                            <div class="skeleton"></div>
-                            </div>
-
-                            <div id="approvedCount"></div>
-                        </h3>
-                        <small class="fw-medium">
-                            <i id="arrowIcon" class="bx"></i>
-                            <span id="approvedArrowIcon"></span>
-                            <span id="approvedPercentageChange"></span>
-                        </small>
-                      </div>
-                    </div>
-
-                    <div class="card mt-3 col ms-0 m-3" >
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle"></i></span>
-                          </div>
-                          
-                          <div class="dropdown" >
-                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu  dropdown-menu-start" aria-labelledby="cardOpt3">
-                              <a class="dropdown-item" href="./status.html">View More</a>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <span class="fw-medium d-block mb-1">Joined:</span>
-                        <h3 class="card-title mb-2">
-                          <div class="skeleton-loading">
-                            <div class="skeleton"></div>
-                            </div>
-
-                            <div id="joinedCount"></div>
-                        </h3>
-                        <small class="fw-medium">
-                            <i id="arrowIcon" class="bx"></i>
-                            <span id="joinedArrowIcon"></span>
-                            <span id="joinedPercentageChange"></span>
-                        </small>
-                      </div>
-                    </div>
-
-                    <div class="card mt- col ms-0 m-3" >
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                          <div class="avatar me-2">
-                            <span class="avatar-initial rounded bg-label-danger"><i class="bx bx-error"></i></span>
-                          </div>
-                          
-                          <div class="dropdown" >
-                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu  dropdown-menu-start" aria-labelledby="cardOpt3">
-                              <a class="dropdown-item" href="./status.html">View More</a>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <span class="fw-medium d-block mb-1">Rejected:</span>
-                        <h3 class="card-title mb-2">
-                          <div class="skeleton-loading">
-                            <div class="skeleton"></div>
-                            </div>
-
-                            <div id="rejectedCount"></div>
-                        </h3>
-                        
-                        <small class="fw-medium">
-                            <i id="arrowIcon" class="bx"></i>
-                            <span id="rejectedArrowIcon"></span>
-                            <span id="rejectedPercentageChange"></span>
-                        </small>
-                      </div>
-                    </div>
-                    </div>
-                    </div>
-                       <div class=" text-center d-flex justify-content-center mt-4 ">
-                        
-                            <div class=" mt-0 bg-white rounded-3 me-4 shadow-sm">
-                              <h5 class="text-center mt-5 text-dark">Candidate Status <br><br>  </h5>
-
-                                <div class="candidate-status  rounded-3  p-5 pt-0">
-                                 
-                                    
-                                    <div class="mb-0 mt-5">
-                                      
-                                      <div class="border border-secondary-subtle rounded-3  pb-0 " >
-                                        
-                                          <table class="table  text-center table-border-bottom-0 pb-0 mb-0" >
-                                              <thead class="">
-                                                  <tr>
-                                                      <th scope="col" style="font-size: 8px;" >Active</th>
-                                                      <th scope="col" style="font-size: 8px;" >Inactive</th>
-                                                  </tr>
-                                              </thead>
-                                              
-                                              <tbody>
-                                                
-                                                  <tr>
-                                                      <td class=""><span id="activeCount" class=""></span>                        
-                                                      </td>
-                                                      <td ><span id="inactiveCount" class="badge bg-warning text-white " ></span>                       
-                                                      </td>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                          
-                                      </div>
-                                      <div class="skeleton-loading">
-                                        <div class="skeleton"></div>
-                                        </div>
-
-                                      
+                    <div class="row d-flex align-items-stretch">
+                      <div class="col-md-5 d-flex align-items-stretch ">
+                          <div class="text-center d-flex flex-column justify-content-center mt-2 w-100">
+                              <div class="  p-2 pb-0 mt-0 pt-3 w-100 flex-grow-1 d-flex flex-column">
+                                  <div class="skeleton-loading">
+                                      <div class="skeleton w-25"></div>
+                                      <div class="skeleton mt-5"></div>
+                                      <div class="skeleton"></div>
                                   </div>
-                                  <!-- <div class=" todays-call border border-secondary-subtle rounded-3 mt-5 pb-0 " >
-                                    <table class="table  text-center table-border-bottom-0 pb-0 mb-0" >
-                                      <tbody>
-                                        <tr>
-                                          <td class="" style="font-size: 12px;">Todays Calls:</td>
-                                        </tr>
-                                        <tr>
-                                          <td><div id="callCount"></div></td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </div> -->
-                                  
-                                </div>
-                                  
-                              <img src="../../public/assets/img/illustrations/undraw_certificate_re_yadi.svg" style="width: 50px;height: auto;" />
-                                
-                            </div>  
-                            <div class="card p-5 pb-0 mt-0 pt-4 w-100">
-                              <h5 style="margin-top: 21px;margin-bottom: 0px;" class="text-dark">Total available candidates</h5>
-                              <div class="skeleton-loading">
-                                <div class="skeleton w-25"></div>
-
-                                <div class="skeleton mt-5"></div>
-                                <div class="skeleton"></div>
-
-                            
-
-                                </div>
-                              
-
-                            <div id="rankCharts" class="pb-3" ></div>
-                            </div>
-                            
-                           
-                            
-                        </div>
-                        <div class="card p-5 text-center mt-4 mb-2">
-                         <!-- HTML layout in the client-side -->
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-    
-          <h4 class="card-title " >Discussion Counts</h4>
-          <div class="skeleton-loading">
-       
-
-            <div class="skeleton mt-5"></div>
-            <div class="skeleton"></div>
-
-        
-
-            </div>
-
-
-
-
-
-          <p class="text-primary text-end" style="font-size: 10px;margin-top: 0px;padding-top: 0px;">Hover over the Bars to display more details</p>
-          <ul id="discussionCounts" class="list-group">
-            <!-- Quarter data will be populated here -->
-          </ul>
-        </div>
-      
-  </div>
-</div>
-
-                        </div>
-
+                                  <div id="rankCharts" class="pb-3 flex-grow-1"></div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col d-flex align-items-stretch overflow-y-scroll" >
+                          <div class="  text-center mt-2 w-100 d-flex flex-column">
+                              <div class="container-fluid flex-grow-1">
+                                  <div class="row h-100">
+                                      <div class="col d-flex flex-column">
+                                          <div class="skeleton-loading flex-grow-1">
+                                              <div class="skeleton mt-3"></div> <!-- Reduced margin-top -->
+                                              <div class="skeleton mt-3"></div> <!-- Added margin-top for spacing -->
+                                          </div>
+                                          <ul id="discussionCounts" class="list-group flex-grow-1">
+                                              <!-- Quarter data will be populated here -->
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  
 
                         </div>
                     </div>
