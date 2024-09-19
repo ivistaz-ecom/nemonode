@@ -218,3 +218,5 @@ __pycache__
 
 # === Rules for C++ development ===
 compile_commands.json
+views/public/html/hey.html
+views/public/html/hey1.html
