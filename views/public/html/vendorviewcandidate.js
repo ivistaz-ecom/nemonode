@@ -375,10 +375,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         function updateButtonHref() {
             const obfuscatedId = getObfuscatedIdFromUrl();
             if (obfuscatedId) {
-                const button = document.getElementById('addContractButton');
-                if (button) {
-                    // Set the new URL with the same obfuscated ID
-                    button.href = `./vendor-add-contract.html?id=${encodeURIComponent(obfuscatedId)}`;
+                const addContractButton = document.getElementById('addContractButton');
+                const addDocumentButton = document.getElementById('addDocumentButton');
+                
+                if (addContractButton) {
+                    addContractButton.href = `./vendor-add-contract.html?id=${encodeURIComponent(obfuscatedId)}`;
+                }
+                
+                if (addDocumentButton) {
+                    addDocumentButton.href = `./vendor-add-document.html?id=${encodeURIComponent(obfuscatedId)}`;
                 }
             } else {
                 console.error('Obfuscated ID not found in URL');
