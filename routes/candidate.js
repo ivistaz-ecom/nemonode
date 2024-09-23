@@ -62,6 +62,8 @@ router.get('/reminder', candidateControllers.Reminder)
 router.delete('/delete-nkd/:id', userAuthentication.authenticate, candidateControllers.delete_NKD);
 router.delete('/delete-hospital/:id', userAuthentication.authenticate, candidateControllers.delete_Hospital);
 router.delete('/delete-travel/:id', userAuthentication.authenticate, candidateControllers.delete_Travel);
+router.delete('/delete-medical/:id', userAuthentication.authenticate, candidateControllers.delete_Medical);
+
 router.delete('/delete-bank/:id', userAuthentication.authenticate, candidateControllers.delete_Bank);
 router.delete('/delete-document/:id', userAuthentication.authenticate, candidateControllers.delete_Document);
 router.delete('/delete-contract/:id', userAuthentication.authenticate, candidateControllers.delete_contract);

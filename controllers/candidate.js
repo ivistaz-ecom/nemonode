@@ -1771,6 +1771,38 @@ const delete_Travel = async (req, res) => {
     }
 };
 
+const delete_Medical = async (req, res) => {
+    const medicalId = req.params.id;
+
+    try {
+        const user = await User.findByPk(req.user.id); // Assuming you have the user ID in req.user.id
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let deletePer = user.dataValues.deletes;
+
+        // Check if the user has delete permissions
+        if (deletePer !== true) {
+            return res.status(403).json({ message: 'Permission denied.' });
+        }
+
+        // Delete the medical entry
+        const deletedMedical = await Medical.destroy({
+            where: { id: medicalId },
+        });
+
+        if (deletedMedical === 0) {
+            return res.status(404).json({ message: 'Medical entry not found' });
+        }
+
+        res.json({ success: true, message: 'Medical entry deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error deleting medical entry' });
+    }
+};
+
 
 // Implement other delete operations in a similar manner
 
@@ -4265,5 +4297,6 @@ module.exports = {
    sendEmail,
    viewEvaluation,
    onBoard2,
-   onBoard3
+   onBoard3,
+   delete_Medical
 };
