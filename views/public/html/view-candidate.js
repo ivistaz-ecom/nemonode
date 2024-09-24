@@ -1069,8 +1069,9 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.sign_off}',
                     '${contract.sign_off_port}',
                     '${contract.reason_for_sign_off}',
-                    '${contract.aoa}',
                     '${contract.aoa_number}',
+                    '${contract.aoa}',
+                   
                     '${contract.emigrate_number}',
     
                     '${contract.documents}',

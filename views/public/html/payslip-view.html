@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payslip Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print {
+                display: none; /* Hide elements with this class when printing */
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4" id="payslip-header">Payslip Details</h2>
+    <div class="m-3 mt-0 pt-0">
+        <img src="./Nautilus Logo.svg" style="width: 150px;height: 140px;" class="mt-0 pt-0"/>
+        <h4 class="mb-4" id="payslip-header">Payslip Details</h4>
 
         <!-- Table for Start Date and End Date -->
-        <table class="table table-striped table-bordered mb-4">
+        <table class="table table-striped table-bordered mb-4 table-sm">
             <thead>
                 <tr>
                     <th>Information</th>
@@ -25,7 +33,7 @@
 
         <!-- Table for Additions -->
         <h4>Additions</h4>
-        <table class="table table-striped table-bordered mb-4" id="additions-table">
+        <table class="table table-striped table-bordered mb-4 table-sm" id="additions-table">
             <thead>
                 <tr>
                     <th>Information</th>
@@ -42,7 +50,7 @@
 
         <!-- Table for Deductions -->
         <h4>Deductions</h4>
-        <table class="table table-striped table-bordered mb-4" id="deductions-table">
+        <table class="table table-striped table-bordered mb-4 table-sm" id="deductions-table">
             <thead>
                 <tr>
                     <th>Information</th>
@@ -59,21 +67,18 @@
 
         <!-- Table for Totals -->
         <h4>Total</h4>
-        <table class="table table-striped table-bordered mb-4" id="total-table">
-            <thead>
+        <table class="table table-bordered mb-4 table-sm" id="total-table">
+            <tbody>
                 <tr>
-                    <th>Total Amount</th>
-                    <th>Calculated Total (Days Worked x Total Gross)</th>
+                    <th>Final Salary (Days Worked x Total Gross)</th>
+                    <th id="total-value"></th>
                 </tr>
-            </thead>
-            <tbody id="total-body">
-                <!-- Total will be populated here -->
             </tbody>
+           
         </table>
-
         <!-- Table for Remaining Info -->
         <h4 style="display: none;">Remaining Information</h4>
-        <table class="table table-striped table-bordered mb-4" id="remaining-info-table" style="display: none;">
+        <table class="table table-striped table-bordered mb-4 table-sm" id="remaining-info-table" style="display: none;">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -85,8 +90,10 @@
             </tbody>
         </table>
 
-        <button class="btn btn-primary" onclick="printPayslip()">Print to PDF</button>
+        <button class="btn btn-primary no-print" onclick="printPayslip()">Print to PDF</button>
     </div>
+    <small>For Reference Purpose Only.</small>
+    <small class="float-end">© Nautilus Shipping - All rights reserved</small>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -104,7 +111,7 @@
             const detailsBody = document.getElementById('payslip-details-body');
             const additionsBody = document.getElementById('additions-body');
             const deductionsBody = document.getElementById('deductions-body');
-            const totalBody = document.getElementById('total-body');
+            const totalBody = document.getElementById('total-value');
             const remainingInfoBody = document.getElementById('remaining-info-body');
             const additionsFooter = document.getElementById('additions-footer');
             const deductionsFooter = document.getElementById('deductions-footer');
@@ -121,14 +128,14 @@
             if (payslip.startDate) {
                 const formattedStartDate = formatDate(payslip.startDate);
                 const startDateRow = document.createElement('tr');
-                startDateRow.innerHTML = `<td>Start Date</td><td>${formattedStartDate}</td><td></td>`;
+                startDateRow.innerHTML = `<td>Start Date</td><td>${formattedStartDate}</td>`;
                 detailsBody.appendChild(startDateRow);
             }
 
             if (payslip.endDate) {
                 const formattedEndDate = formatDate(payslip.endDate);
                 const endDateRow = document.createElement('tr');
-                endDateRow.innerHTML = `<td>End Date</td><td>${formattedEndDate}</td><td></td>`;
+                endDateRow.innerHTML = `<td>End Date</td><td>${formattedEndDate}</td>`;
                 detailsBody.appendChild(endDateRow);
             }
 
@@ -137,7 +144,7 @@
 
             // Add Days Worked
             const daysWorkedRow = document.createElement('tr');
-            daysWorkedRow.innerHTML = `<td>Days Worked</td><td>${daysWorked}</td><td></td>`; // No total yet
+            daysWorkedRow.innerHTML = `<td>Days Worked</td><td>${daysWorked}</td>`;
             detailsBody.appendChild(daysWorkedRow);
 
             // Calculate Additions
@@ -215,10 +222,9 @@
             // Calculate Gross Amount
             const grossAmount = parseFloat(payslip.totalGross) || 0;
             const calculatedTotal = (daysWorked * grossAmount).toFixed(2);
-            totalBody.innerHTML = `<tr><td>${(totalAdditions - totalDeductions).toFixed(2)}</td><td>${calculatedTotal}</td></tr>`;
+            totalBody.innerHTML = `<strong>${calculatedTotal}</strong>`; // Update total value
 
             // Populate Remaining Information
-           
         }
 
         function calculateAdditions(payslip) {
