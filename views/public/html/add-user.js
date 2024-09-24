@@ -185,7 +185,7 @@ const getUserEmail=() =>{
                         <td style="font-size:12px">${user.staff}</td>
 
                         <td>
-                        <button class="btn btn-sm m-0 p-0" ${!writePermission ? 'disabled' : ''} onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}','${user.staff}','${user.deletes}','${user.nationality}')">
+                        <button class="btn btn-sm m-0 p-0" ${!writePermission ? 'disabled' : ''} onclick="editUser(${user.id},'${user.userName}', '${user.lastName}', '${user.userEmail}','${user.userPassword}', '${user.userPhone}', '${user.userGroup}', '${user.userVendor}', '${user.userClient}', '${user.createdBy}', '${user.disableUser}', '${user.readOnly}', '${user.Write}', '${user.imports}', '${user.exports}','${user.userManagement}','${user.vendorManagement}', '${user.reports}','${user.reports_all}','${user.master_create}','${user.staff}','${user.deletes}','${user.nationality}','${user.interviewer}')">
                             <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                         </button>
                         ${!isCurrentUser ? 
@@ -218,14 +218,14 @@ const getUserEmail=() =>{
 
     // Handling form submission
 
-    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports,reports_all, master_create,staff,deletes,nationality) {
+    async function editUser(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports,userManagement,vendorManagement, reports,reports_all, master_create,staff,deletes,nationality,interviewer) {
         console.log('Edit clicked for user ID:', id);
         const encodedUserVendor = encodeURIComponent(userVendor);
         const encodedUserClient = encodeURIComponent(userClient);
         const encodedMaster_Create = encodeURIComponent(master_create)
 console.log(id, userName, lastName, userEmail, userPassword, userPhone, userGroup, userVendor, userClient, createdBy, disableUser, readOnly, Write, imports, exports, userManagement,vendorManagement, reports,reports_all,master_create,staff,deletes)
         // Redirect to the edit page with user details as query parameters
-        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}&staff=${staff}&deletes=${deletes}&nationality=${nationality}`;
+        window.location.href = `edit-user.html?id=${id}&userName=${userName}&lastName=${lastName}&userEmail=${userEmail}&userPassword=${userPassword}&userPhone=${userPhone}&userGroup=${userGroup}&userVendor=${encodedUserVendor}&userClient=${encodedUserClient}&createdBy=${createdBy}&disableUser=${disableUser}&readOnly=${readOnly}&Write=${Write}&imports=${imports}&exports=${exports}&userManagement=${userManagement}&vendorManagement=${vendorManagement}&reports=${reports}&reports_all=${reports_all}&master_create=${encodedMaster_Create}&staff=${staff}&deletes=${deletes}&nationality=${nationality}&interviewer=${interviewer}`;
     }
     
     async function deleteUser(id) {

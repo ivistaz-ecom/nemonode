@@ -9,6 +9,10 @@ let companyData =[];
 
 
 function formatDateNew(dateString) {
+    if (dateString === '1970-01-01' || dateString === '01-01-1970') {
+        return ''; // Return empty string for invalid dates
+    }
+    
     const [year, month, day] = dateString.split('-');
     return `${day}-${month}-${year}`;
 }
@@ -21,9 +25,21 @@ function exportToExcelnp(data, filename) {
         for (const field in selectedFields) {
             if (selectedFields[field]) {
                 let value = candidate[field];
+                
+                // Replace '1970-01-01' and '01-01-1970' with an empty string
+                if (value === '1970-01-01' || value === '01-01-1970') {
+                    value = '';
+                }
+                else if (field === 'userId' && candidate[field]) {
+                    // Replace code with nationality name
+                    const userName = getUserName(candidate[field]);
+                   value = userName;
+                }
+                
                 if (field === 'nationality' && value) {
                     value = getNationalityName(value); // Replace code with nationality name
                 }
+                
                 row.push(value || ''); // Push empty string if value is undefined or null
             }
         }
@@ -207,7 +223,10 @@ function displayTable() {
                     // Replace code with nationality name
                     const userName = getUserName(candidate[field]);
                     cell.textContent = userName;
-                } else {
+                }
+             else if (candidate[field] === '1970-01-01') {
+                cell.textContent = ''; // Set to empty string if the date is 1970-01-01
+            } else {
                     cell.textContent = candidate[field];
                 }
                 row.appendChild(cell);
@@ -542,8 +561,9 @@ selectedFields.forEach(field => {
                     });
                     cell.appendChild(candidateIdButton);
                 } else {
-                    cell.textContent = contract[fieldName] || 'N/A';
+                    cell.textContent = (contract[fieldName] === '1970-01-01') ? '' : (contract[fieldName] || 'N/A');
                 }
+                
                 row.appendChild(cell);
             });
     
@@ -650,21 +670,44 @@ selectedFields.forEach(field => {
 
 // Helper function to export data to Excel
 function exportToExcel(data, filename) {
+    const orderedFields = [
+        'S.No', 'candidateId', 'fname', 'lname', 
+        'c_rank', 'c_vessel', 'avb_date', 'discussion', 
+        'join_date', 'reason', 'r_date', 'nationality', 
+        'companyname', 'category', 'userName', 'post_by'
+    ];
+
     const worksheet = XLSX.utils.json_to_sheet(data.map((call, index) => {
         const candidateData = { 'S.No': index + 1, ...call };
-        // Add logic to replace nationality code with name
+
+        // Replace nationality code with name
         if (candidateData.nationality) {
             candidateData.nationality = getNationalityName(candidateData.nationality);
         }
+
+        // Replace post_by ID with username
         if (candidateData.post_by) {
             candidateData.post_by = getUserName(candidateData.post_by);
         }
-        return candidateData;
+
+        // Replace '1970-01-01' and '01-01-1970' with empty field
+        Object.keys(candidateData).forEach(key => {
+            if (candidateData[key] === '1970-01-01' || candidateData[key] === '01-01-1970') {
+                candidateData[key] = ''; // Set to empty string
+            }
+        });
+
+        return orderedFields.reduce((obj, key) => {
+            obj[key] = candidateData[key] || ''; // Ensure keys exist
+            return obj;
+        }, {});
     }));
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Calls Made');
     XLSX.writeFile(workbook, filename);
 }
+
 
 document.getElementById('callsMadeForm').addEventListener('submit', handleCallsMadeSubmit);
 
@@ -1174,8 +1217,8 @@ table.appendChild(tableHeader);
                     contract.fname + ' ' + contract.lname,
                     contract.rank,
                     contract.vesselType,
-                    contract.sign_on,
-                    contract.sign_off,
+                    formatDate(contract.sign_on), // Use the formatDate function
+                    formatDate(contract.sign_off), // Use the formatDate function
                     getPortName(contract.sign_on_port),
                     contract.eoc,
                     contract.emigrate_number,
@@ -1184,12 +1227,10 @@ table.appendChild(tableHeader);
                     contract.wages,
                     contract.wages_types,
                     contract.reason_for_sign_off,
-                    
                     getNationalityName(contract.nationality),
                     contract.vesselName,
                     contract.imoNumber,
                     contract.vesselFlag,
-                    
                     contract.company_name,
                     contract.bank_name || 'N/A', 
                     contract.account_num || 'N/A', 
@@ -1200,7 +1241,6 @@ table.appendChild(tableHeader);
                     contract.beneficiary_addr || 'N/A', 
                     contract.branch || 'N/A', 
                     contract.types || 'N/A', 
-                   
                     contract.pan_num || 'N/A', 
                     contract.indos_number || 'N/A',
                     contract.indian_cdc_document_number || 'N/A',
@@ -1209,6 +1249,7 @@ table.appendChild(tableHeader);
                     contract.pan_card || 'N/A',
                     contract.userName || 'N/A'
                 ];
+                
                 fields.forEach(field => {
                     const cell = document.createElement('td');
                     cell.innerHTML = field; // Use innerHTML to allow HTML content
@@ -1285,6 +1326,9 @@ countSignOnElement.innerHTML = `<span class='text-success'>${filteredContracts.l
             // Append pagination controls to tableContainer
             tableContainer.appendChild(paginationContainer);
         }
+        function formatDate(date) {
+            return date === '1970-01-01' ? '' : date; // Return blank if date is '1970-01-01'
+        }
 
         // Helper function to create pagination button
         function createPaginationButton(text, isEnabled, onClick) {
@@ -1301,10 +1345,13 @@ countSignOnElement.innerHTML = `<span class='text-success'>${filteredContracts.l
             const worksheet = XLSX.utils.json_to_sheet(data.map((contract, index) => ({
                 'S.No': index + 1,
                 'Candidate ID': contract.candidateId,
+                'First Name': contract.fname,
+                'Last Name': contract.lname,
                 'Rank': contract.rank,
+                'Vessel Name': contract.vesselName,
                 'Vessel Type': contract.vesselType,
-                'Sign On': contract.sign_on,
-                'Sign Off': contract.sign_off,
+                'Sign On': formatDateNew(contract.sign_on),
+                'Sign Off':formatDateNew(contract.sign_off),
                 'EOC': contract.eoc,
                 'Emigrate Number': contract.emigrate_number,
                 'AOA Number': contract.aoa_number,
@@ -1312,10 +1359,9 @@ countSignOnElement.innerHTML = `<span class='text-success'>${filteredContracts.l
                 'Wages': contract.wages,
                 'Wages Types': contract.wages_types,
                 'Reason for Sign Off': contract.reason_for_sign_off,
-                'First Name': contract.fname,
-                'Last Name': contract.lname,
+              
                 'Nationality': getNationalityName(contract.nationality),
-                'Vessel Name': contract.vesselName,
+                
                 'IMO Number': contract.imoNumber,
                 'Vessel Flag': contract.vesselFlag,
                 'Sign On Port' : getPortName(contract.sign_on_port),
@@ -1433,20 +1479,22 @@ async function handleSignOffSubmit(event) {
         searchInput.id = 'signOffSearchInput';
         signOffSearchContainer.appendChild(searchInput);
 
+        // Function to format dates
+        function formatDate(date) {
+            return date === '1970-01-01' ? '' : date; // Return blank if date is '1970-01-01'
+        }
+
         // Function to export to Excel
         function exportToExcel() {
-            // Create a new Workbook
             const wb = XLSX.utils.book_new();
-
-            // Convert data into an array of arrays format suitable for Excel
             const data = contracts.map(contract => [
                 contract.candidateId,
                 contract.fname + ' ' + contract.lname,
                 contract.rank,
                 contract.vesselName,
                 contract.vesselType,
-                contract.sign_off,
-                contract.sign_on,
+                formatDateNew(contract.sign_off), // Use formatDate function
+                formatDateNew(contract.sign_on), // Use formatDate function
                 getPortName(contract.sign_on_port),
                 getPortName(contract.sign_off_port),
                 contract.wages,
@@ -1474,10 +1522,8 @@ async function handleSignOffSubmit(event) {
                 contract.types,
                 contract.passport_document_number,
                 contract.userName,
-                // Add all other fields here
             ]);
 
-            // Create a Worksheet
             const ws = XLSX.utils.aoa_to_sheet([[
                 'Candidate ID',
                 'Full Name',
@@ -1513,160 +1559,143 @@ async function handleSignOffSubmit(event) {
                 'Types',
                 'Passport Document Number',
                 'User Name',
-                // Add headers for all other fields here
             ], ...data]);
 
-            // Add the Worksheet to the Workbook
             XLSX.utils.book_append_sheet(wb, ws, 'Sign Off Contracts');
-
-            // Save the Workbook as a .xlsx file
             XLSX.writeFile(wb, 'sign_off_contracts.xlsx');
         }
 
-        // Add Export to Excel button
-       // Select the container by its ID
-const exportContainerSignOff = document.getElementById('exportContainerSignOff');
-
-// Create the export button
-const exportButton = document.createElement('button');
-exportButton.classList.add('btn', 'btn-success', 'p-0', 'ps-2','pe-2');
-exportButton.textContent = 'Export to Excel';
-
-// Add click event listener to the button
-exportButton.addEventListener('click', exportToExcel);
-
-// Append the button to the export container
-exportContainerSignOff.appendChild(exportButton);
-
+        // Create the export button
+        const exportContainerSignOff = document.getElementById('exportContainerSignOff');
+        const exportButton = document.createElement('button');
+        exportButton.classList.add('btn', 'btn-success', 'p-0', 'ps-2','pe-2');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.addEventListener('click', exportToExcel);
+        exportContainerSignOff.appendChild(exportButton);
 
         // Create or update fetched data message
-      // Create or update fetched data message
-let fetchedDataMessage = document.getElementById('countSignOff');
-if (fetchedDataMessage) {
-    fetchedDataMessage.textContent = `${contracts.length} records fetched`; // Update count correctly
-} else {
-    fetchedDataMessage = document.createElement('span');
-    fetchedDataMessage.id = 'countSignOff';
-    fetchedDataMessage.className = 'border ps-2 pe-2 pt-1 pb-1 rounded-2';
-    fetchedDataMessage.textContent = `${contracts.length} records fetched`;
-    document.querySelector('.container').appendChild(fetchedDataMessage); // Append if it doesn't exist
-}
-
+        let fetchedDataMessage = document.getElementById('countSignOff');
+        if (fetchedDataMessage) {
+            fetchedDataMessage.textContent = `${contracts.length} records fetched`; // Update count correctly
+        } else {
+            fetchedDataMessage = document.createElement('span');
+            fetchedDataMessage.id = 'countSignOff';
+            fetchedDataMessage.className = 'border ps-2 pe-2 pt-1 pb-1 rounded-2';
+            fetchedDataMessage.textContent = `${contracts.length} records fetched`;
+            document.querySelector('.container').appendChild(fetchedDataMessage); // Append if it doesn't exist
+        }
 
         // Function to render table with headers and data
-       // Function to render table with headers and data
-function renderTable() {
-    // Apply search filter
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const filteredContracts = contracts.filter(contract => {
-        return Object.values(contract).some(value =>
-            value && value.toString().toLowerCase().includes(searchTerm)
-        );
-    });
+        function renderTable() {
+            // Apply search filter
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const filteredContracts = contracts.filter(contract => {
+                return Object.values(contract).some(value =>
+                    value && value.toString().toLowerCase().includes(searchTerm)
+                );
+            });
 
-    // Clear existing table content
-    signOffTableBody.innerHTML = '';
+            // Clear existing table content
+            signOffTableBody.innerHTML = '';
 
-    // Create table headers dynamically
-    // Create table headers dynamically
-const headerRow = document.createElement('tr');
-[
-    'S.No',
-    'Candidate&nbsp;ID',
-    'Full&nbsp;Name',
-    'Rank',
-    'Vessel&nbsp;Name',
-    'Vessel&nbsp;Type',
-    'Sign&nbsp;Off',
-    'Sign&nbsp;On',
-    'Sign&nbsp;On&nbsp;Port',
-    'Sign&nbsp;Off&nbsp;Port',
-    'Wages',
-    'Wages&nbsp;Types',
-    'Company&nbsp;Name',
-    'AOA&nbsp;Number',
-    'Currency',
-    'Emigrate&nbsp;Number',
-    'EOC',
-    'Reason&nbsp;for&nbsp;Sign&nbsp;Off',
-    'Nationality',
-    'INDOS&nbsp;Number',
-    'Indian&nbsp;CDC&nbsp;Document&nbsp;Number',
-    'Bank&nbsp;Name',
-    'Account&nbsp;Number',
-    'Bank&nbsp;Address',
-    'IFSC&nbsp;Code',
-    'Swift&nbsp;Code',
-    'Beneficiary',
-    'Beneficiary&nbsp;Address',
-    'PAN&nbsp;Number',
-    'Passbook',
-    'PAN&nbsp;Card',
-    'Branch',
-    'Types',
-    'Passport&nbsp;Document&nbsp;Number',
-    'User&nbsp;Name',
-].forEach(headerText => {
-    const header = document.createElement('th');
-    header.innerHTML = headerText; // Use innerHTML to include &nbsp; characters
-    header.style.backgroundColor='#201E43'
-    header.style.color='white'
-    headerRow.appendChild(header);
-});
-signOffTableBody.appendChild(headerRow);
+            // Create table headers dynamically
+            const headerRow = document.createElement('tr');
+            [
+                'S.No',
+                'Candidate&nbsp;ID',
+                'Full&nbsp;Name',
+                'Rank',
+                'Vessel&nbsp;Name',
+                'Vessel&nbsp;Type',
+                'Sign&nbsp;Off',
+                'Sign&nbsp;On',
+                'Sign&nbsp;On&nbsp;Port',
+                'Sign&nbsp;Off&nbsp;Port',
+                'Wages',
+                'Wages&nbsp;Types',
+                'Company&nbsp;Name',
+                'AOA&nbsp;Number',
+                'Currency',
+                'Emigrate&nbsp;Number',
+                'EOC',
+                'Reason&nbsp;for&nbsp;Sign&nbsp;Off',
+                'Nationality',
+                'INDOS&nbsp;Number',
+                'Indian&nbsp;CDC&nbsp;Document&nbsp;Number',
+                'Bank&nbsp;Name',
+                'Account&nbsp;Number',
+                'Bank&nbsp;Address',
+                'IFSC&nbsp;Code',
+                'Swift&nbsp;Code',
+                'Beneficiary',
+                'Beneficiary&nbsp;Address',
+                'PAN&nbsp;Number',
+                'Passbook',
+                'PAN&nbsp;Card',
+                'Branch',
+                'Types',
+                'Passport&nbsp;Document&nbsp;Number',
+                'User&nbsp;Name',
+            ].forEach(headerText => {
+                const header = document.createElement('th');
+                header.innerHTML = headerText; // Use innerHTML to include &nbsp; characters
+                header.style.backgroundColor='#201E43';
+                header.style.color='white';
+                headerRow.appendChild(header);
+            });
+            signOffTableBody.appendChild(headerRow);
 
-    // Populate table body with data
-    filteredContracts.forEach((contract, index) => {
-        const row = document.createElement('tr');
-        [
-            index + 1, // Serial Number (S.No)
-            `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
-            contract.fname + ' ' + contract.lname,
-            contract.rank,
-            contract.vesselName,
-            contract.vesselType,
-            contract.sign_off,
-            contract.sign_on,
-            getPortName(contract.sign_on_port),
-            getPortName(contract.sign_off_port),
-            contract.wages,
-            contract.wages_types,
-            contract.company_name,
-            contract.aoa_number,
-            contract.currency,
-            contract.emigrate_number,
-            contract.eoc,
-            contract.reason_for_sign_off,
-            getNationalityName(contract.nationality),
-            contract.indos_number,
-            contract.indian_cdc_document_number,
-            contract.bank_name,
-            contract.account_num,
-            contract.bank_addr,
-            contract.ifsc_code,
-            contract.swift_code,
-            contract.beneficiary,
-            contract.beneficiary_addr,
-            contract.pan_num,
-            contract.passbook,
-            contract.pan_card,
-            contract.branch,
-            contract.types,
-            contract.passport_document_number,
-            contract.userName,
-        ].forEach(field => {
-            const cell = document.createElement('td');
-            cell.innerHTML = field; // Use innerHTML to allow HTML content
-            row.appendChild(cell);
-        });
+            // Populate table body with data
+            filteredContracts.forEach((contract, index) => {
+                const row = document.createElement('tr');
+                [
+                    index + 1, // Serial Number (S.No)
+                    `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+                    contract.fname + ' ' + contract.lname,
+                    contract.rank,
+                    contract.vesselName,
+                    contract.vesselType,
+                    formatDate(contract.sign_off), // Use formatDate function
+                    formatDate(contract.sign_on), // Use formatDate function
+                    getPortName(contract.sign_on_port),
+                    getPortName(contract.sign_off_port),
+                    contract.wages,
+                    contract.wages_types,
+                    contract.company_name,
+                    contract.aoa_number,
+                    contract.currency,
+                    contract.emigrate_number,
+                    contract.eoc,
+                    contract.reason_for_sign_off,
+                    getNationalityName(contract.nationality),
+                    contract.indos_number,
+                    contract.indian_cdc_document_number,
+                    contract.bank_name,
+                    contract.account_num,
+                    contract.bank_addr,
+                    contract.ifsc_code,
+                    contract.swift_code,
+                    contract.beneficiary,
+                    contract.beneficiary_addr,
+                    contract.pan_num,
+                    contract.passbook,
+                    contract.pan_card,
+                    contract.branch,
+                    contract.types,
+                    contract.passport_document_number,
+                    contract.userName,
+                ].forEach(field => {
+                    const cell = document.createElement('td');
+                    cell.innerHTML = field; // Use innerHTML to allow HTML content
+                    row.appendChild(cell);
+                });
 
-        signOffTableBody.appendChild(row);
-    });
+                signOffTableBody.appendChild(row);
+            });
 
-    // Update total number of contracts fetched
-    fetchedDataMessage.textContent = `${filteredContracts.length} records fetched`;
-}
-
+            // Update total number of contracts fetched
+            fetchedDataMessage.textContent = `${filteredContracts.length} records fetched`;
+        }
 
         // Initial render of table
         renderTable();
@@ -1797,6 +1826,11 @@ async function handleDueforSignOffSubmit(event) {
 
         let filteredContracts = contracts;
 
+        // Function to format dates
+        function formatDate(date) {
+            return date === '1970-01-01' ? '' : new Date(date).toLocaleDateString();
+        }
+
         function renderTable() {
             tableBody.innerHTML = '';
 
@@ -1823,7 +1857,7 @@ async function handleDueforSignOffSubmit(event) {
                     getNationalityName(contract.nationality) || 'N/A',
                     contract.rank || 'N/A',
                     contract.vesselName || 'N/A',
-                    contract.eoc ? new Date(contract.eoc).toLocaleDateString() : 'N/A',
+                    formatDateNew(contract.eoc), // Use formatDate function
                     contract.company_name || 'N/A'
                 ];
                 fields.forEach((field, fieldIndex) => {
@@ -1900,30 +1934,45 @@ async function handleDueforSignOffSubmit(event) {
         }
 
         // Create export button
-       // Create export button
-const exportButton = document.createElement('button');
-exportButton.textContent = 'Export to Excel';
-exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
-exportButton.addEventListener('click', async () => {
-    try {
-        // Process contracts data
-        const processedContracts = contracts.map(contract => ({
-            ...contract,
-            vslName: getVesselName(contract.vslName) || 'N/A',
-            nationality: getNationalityName(contract.nationality) || 'N/A'
-        }));
-
-        // Convert processed data to Excel with headers automatically generated
-        const ws = XLSX.utils.json_to_sheet(processedContracts);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'DueSignOffCandidates');
-        XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
-    } catch (error) {
-        console.error('Error exporting to Excel:', error);
-    }
-});
-tableContainer.appendChild(exportButton);
-
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export to Excel';
+        exportButton.classList.add('btn', 'btn-dark', 'mt-3', 'float-end', 'mb-2', 'text-success');
+        exportButton.addEventListener('click', async () => {
+            try {
+                // Process contracts data
+                const processedContracts = contracts.map(contract => ({
+                    ...contract,
+                    vslName: getVesselName(contract.vslName) || 'N/A',
+                    nationality: getNationalityName(contract.nationality) || 'N/A',
+                    eoc: formatDateNew(contract.eoc) // Format date for export
+                }));
+        
+                // Define the desired order of fields
+                const orderedFields = [
+                    'candidateId', 'fname', 'lname', 'rank', 
+                    'vslName', 'vesselName', 'company_name', 
+                    'eoc', 'category', 'nationality'
+                ];
+        
+                // Map processed data to the desired order
+                const orderedData = processedContracts.map(contract => 
+                    orderedFields.reduce((obj, key) => {
+                        obj[key] = contract[key] || ''; // Ensure keys exist
+                        return obj;
+                    }, {})
+                );
+        
+                // Convert ordered data to Excel
+                const ws = XLSX.utils.json_to_sheet(orderedData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'DueSignOffCandidates');
+                XLSX.writeFile(wb, 'dueSignOffCandidates.xlsx');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+            }
+        });
+        tableContainer.appendChild(exportButton);
+        
 
         // Initial render of table and pagination
         renderTable();
@@ -2322,27 +2371,29 @@ function setupPagination(contracts) {
 
     function displayTableRows() {
         tableBody.innerHTML = ''; // Clear existing table rows
-
+    
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const paginatedContracts = filteredContracts.slice(start, end);
-
+    
         const rows = paginatedContracts.map((contract, index) => `
             <tr>
                 <td style='font-size:10px'>${start + index + 1}</td>
-                <td style='font-size:10px'><button onclick="viewCandidate(${contract.candidateId})" class="btn btn-link">${contract.candidateId}</button></td>
+                <td style='font-size:10px'>
+                    <button onclick="viewCandidate(${contract.candidateId})" class="btn btn-link">${contract.candidateId}</button>
+                </td>
                 <td style='font-size:10px'>${contract.fname}</td>
                 <td style='font-size:10px'>${contract.lname}</td>
                 <td style='font-size:10px'>${contract.birth_place}</td>
                 <td style='font-size:10px'>${contract.rank}</td>
                 <td style='font-size:10px'>${getNationalityName(contract.nationality)}</td>
-                <td style='font-size:10px'>${formatDateNew(contract.dob)}</td>
-                <td style='font-size:10px'>${calculateAge(contract.dob)}</td>
+                <td style='font-size:10px'>${formatDateNew(contract.dob) === '1970-01-01' || formatDateNew(contract.dob) === '01-01-1970' ? '' : formatDateNew(contract.dob)}</td>
+                <td style='font-size:10px'>${calculateAge(contract.dob) === '1970-01-01' || calculateAge(contract.dob) === '01-01-1970' ? '' : calculateAge(contract.dob)}</td>
                 <td style='font-size:10px'>${contract.company_name}</td>
                 <td style='font-size:10px'>${contract.currency}</td>
-                <td style='font-size:10px'>${formatDateNew(contract.eoc)}</td>
-                <td style='font-size:10px'>${formatDateNew(contract.sign_on)}</td>
-                <td style='font-size:10px'>${formatDateNew(contract.sign_off)}</td>
+                <td style='font-size:10px'>${formatDateNew(contract.eoc) === '1970-01-01' || formatDateNew(contract.eoc) === '01-01-1970' ? '' : formatDateNew(contract.eoc)}</td>
+                <td style='font-size:10px'>${formatDateNew(contract.sign_on) === '1970-01-01' || formatDateNew(contract.sign_on) === '01-01-1970' ? '' : formatDateNew(contract.sign_on)}</td>
+                <td style='font-size:10px'>${formatDateNew(contract.sign_off) === '1970-01-01' || formatDateNew(contract.sign_off) === '01-01-1970' ? '' : formatDateNew(contract.sign_off)}</td>
                 <td style='font-size:10px'>${getPortName(contract.sign_on_port)}</td>
                 <td style='font-size:10px'>${contract.vesselName}</td>
                 <td style='font-size:10px'>${contract.vesselType}</td>
@@ -2350,9 +2401,10 @@ function setupPagination(contracts) {
                 <td style='font-size:10px'>${contract.wages_types}</td>
             </tr>
         `).join('');
-
+    
         tableBody.innerHTML = rows;
     }
+    
 
     function updatePaginationControls() {
         paginationControls.innerHTML = '';
@@ -2836,53 +2888,58 @@ table.appendChild(tableHeader);
 
 
     // Create table body
-    const tableBody = document.createElement('tbody');
-    displayedCrewlist.forEach((contract, index) => {
-        const row = document.createElement('tr');
-        const fields = [
-            startIndex + index + 1, // Serial Number (S.No)
-            `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
-            contract.fname,
-            contract.lname,
-            contract.rank,
-            getNationalityName(contract.nationality),
-            contract.company_name,
-            contract.currency,
-            formatDateNew(contract.eoc),
-            formatDateNew(contract.sign_on),
-            getPortName(contract.sign_on_port),
-            getPortName(contract.siggn_off_port),
-            formatDateNew(contract.sign_off),
-            getVesselName(contract.vslName),
-            contract.vesselType,
-            contract.wages,
-            contract.wages_types,
-            contract.account_num, // New field
-            contract.bank_name, // New field
-            contract.branch, // New field
-            contract.ifsc_code, // New field
-            contract.swift_code, // New field
-            contract.beneficiary, // New field
-            contract.beneficiary_addr, // New field
-            contract.bank_addr, // New field
-            contract.pan_num,
-            contract.pan_card,
-            contract.indian_cdc_document_number,
-            contract.passport_document_number,
-           
-        ];
-        fields.forEach(field => {
-            const cell = document.createElement('td');
-            if (typeof field === 'string') {
-                cell.innerHTML = field; // Use innerHTML to allow HTML content
-            } else {
-                cell.textContent = field;
-            }
-            cell.classList.add('text-center');
-            row.appendChild(cell);
-        });
-        tableBody.appendChild(row);
+  // Create table body
+const tableBody = document.createElement('tbody');
+displayedCrewlist.forEach((contract, index) => {
+    const row = document.createElement('tr');
+    const fields = [
+        startIndex + index + 1, // Serial Number (S.No)
+        `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+        contract.fname,
+        contract.lname,
+        contract.rank,
+        getNationalityName(contract.nationality),
+        contract.company_name,
+        contract.currency,
+        formatDateNew(contract.eoc),
+        formatDateNew(contract.sign_on),
+        getPortName(contract.sign_on_port),
+        getPortName(contract.sign_off_port),
+        formatDateNew(contract.sign_off),
+        getVesselName(contract.vslName),
+        contract.vesselType,
+        contract.wages,
+        contract.wages_types,
+        contract.account_num,
+        contract.bank_name,
+        contract.branch,
+        contract.ifsc_code,
+        contract.swift_code,
+        contract.beneficiary,
+        contract.beneficiary_addr,
+        contract.bank_addr,
+        contract.pan_num,
+        contract.pan_card,
+        contract.indian_cdc_document_number,
+        contract.passport_document_number,
+    ];
+
+    fields.forEach(field => {
+        const cell = document.createElement('td');
+        // Check for the specific date values
+        if (field === '1970-01-01' || field === '01-01-1970') {
+            cell.textContent = ''; // Replace with empty cell
+        } else if (typeof field === 'string') {
+            cell.innerHTML = field; // Use innerHTML to allow HTML content
+        } else {
+            cell.textContent = field;
+        }
+        cell.classList.add('text-center');
+        row.appendChild(cell);
     });
+    tableBody.appendChild(row);
+});
+
     table.appendChild(tableBody);
 
     // Append table to tableContainer
@@ -3009,65 +3066,6 @@ dataCount.textContent = `${filteredCrewlist.length}`;
     }
 }
 
-
-
-
-
-// function exportCrewListToExcel(crewlistCandidates) {
-//     try {
-//         // Create table element
-//         const table = document.createElement('table');
-//         table.classList.add('table', 'table-bordered');
-
-//         // Create table header
-//         const tableHeader = document.createElement('thead');
-//         const headerRow = document.createElement('tr');
-//         const headers = ['Candidate ID', 'Name', 'Nationality', 'Rank', 'Vessel', 'Wages', 'Wages Types', 'Sign On Date', 'Sign Off Date', 'Passport', 'INDIAN CDC', 'INDOS'];
-//         headers.forEach(headerText => {
-//             const header = document.createElement('th');
-//             header.textContent = headerText;
-//             header.scope = 'col';
-//             header.classList.add('text-center');
-//             headerRow.appendChild(header);
-//         });
-//         tableHeader.appendChild(headerRow);
-//         table.appendChild(tableHeader);
-
-//         // Create table body
-//         const tableBody = document.createElement('tbody');
-//         crewlistCandidates.forEach(candidate => {
-//             const row = document.createElement('tr');
-//             const fields = [
-//                 candidate.candidateId,
-//                 candidate.fname,
-//                 candidate.nationality,
-//                 candidate.c_rank,
-//                 candidate.c_vessel,
-//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].wages : '',
-//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].wages_types : '',
-//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_on : '',
-//                 candidate.Contracts.length > 0 ? candidate.Contracts[0].sign_off : '',
-//                 getDocumentNumber(candidate, 'Passport'),
-//                 getDocumentNumber(candidate, 'INDIAN CDC'),
-//                 getDocumentNumber(candidate, 'INDOS')
-//             ];
-//             fields.forEach(field => {
-//                 const cell = document.createElement('td');
-//                 cell.textContent = field;
-//                 cell.classList.add('text-center');
-//                 row.appendChild(cell);
-//             });
-//             tableBody.appendChild(row);
-//         });
-//         table.appendChild(tableBody);
-
-//         // Export to Excel
-//         const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
-//         XLSX.writeFile(wb, 'crewlistCandidates.xlsx');
-//     } catch (error) {
-//         console.error('Error exporting to Excel:', error);
-//     }
-// }
 
 
 function getDocumentNumber(candidate, documentType) {

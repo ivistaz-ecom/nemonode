@@ -55,6 +55,7 @@ const Users = sequelize.define('Users', {
     created_date:DataTypes.DATE,
     staff:DataTypes.BOOLEAN,
     nationality:DataTypes.STRING,
+    interviewer:DataTypes.BOOLEAN,
   
 },{
     tableName: 'Users',

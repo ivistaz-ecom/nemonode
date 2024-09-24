@@ -9,17 +9,28 @@ if (!token) {
 }
 
 function formatDateNew(dateString) {
+
+    if (dateString === '1970-01-01' || dateString === '01-01-1970') {
+        return ''; // Return empty string for invalid dates
+    }
+    
     const [year, month, day] = dateString.split('-');
     return `${day}-${month}-${year}`;
 }
 
 
 function formatDate(dateString) {
+    // Check for invalid date values
+    if (dateString === '1970-01-01' || dateString === '01-01-1970') {
+        return ''; // Return empty string for invalid dates
+    }
+    
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
     const formattedDate = date.toISOString().split('T')[0];
     return formattedDate;
-  }
+}
+
 function loadContent(section) {
     // Hide all content divs
     document.getElementById('personalContent').style.display = 'none';
@@ -132,70 +143,7 @@ document.getElementById('documentSearchInput').addEventListener('input', functio
 });
 
 
-// async function fetchAndDisplayBankDetails(candidateId) {
-//     try {
-//         const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
-//             headers: {
-//                 'Authorization': token,
-//                 'Content-Type': 'application/json'
-//             }
-//         });
 
-//         const bankDetails = response.data;
-//         console.log(bankDetails);
-
-//         const generalBankList = document.getElementById('general-bank-list');
-//         const nriBankList = document.getElementById('nri-bank-list');
-
-//         generalBankList.innerHTML = ''; // Clear existing general bank list
-//         nriBankList.innerHTML = ''; // Clear existing NRI bank list
-
-//         let generalCount = 0;
-//         let nriCount = 0;
-
-//         bankDetails.forEach((bank, index) => {
-//             const bankDetailsHTML = `
-//                 <li><strong>S.no:</strong> ${index + 1}</li>
-//                 <li><strong>Bank Name:</strong> ${bank.bank_name}</li>
-//                 <li><strong>Account Number:</strong> ${bank.account_num}</li>
-//                 <li><strong>Bank Address:</strong> ${bank.bank_addr}</li>
-//                 <li><strong>IFSC Code:</strong> ${bank.ifsc_code}</li>
-//                 <li><strong>Swift Code:</strong> ${bank.swift_code}</li>
-//                 <li><strong>Beneficiary:</strong> ${bank.beneficiary}</li>
-//                 <li><strong>Beneficiary Address:</strong> ${bank.beneficiary_addr}</li>
-//                 <li><strong>PAN Number:</strong> ${bank.pan_num}</li>
-//                 <li><strong>Passbook:</strong> <a href='https://nsnemo.com/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></li>
-//                 <li><strong>PAN Card:</strong> <a href='https://nsnemo.com/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></li>
-//                 <li><strong>Branch:</strong> ${bank.branch}</li>
-//                 <li><strong>Type:</strong> ${bank.types}</li>
-//                 <li><strong>Created By:</strong> ${bank.created_by}</li>
-//                 <li>
-//                     <button class="btn border-0 m-0 p-0" onclick="editBank('${candidateId}','${bank.id}','${bank.bank_name}','${bank.account_num}','${bank.bank_addr}','${bank.ifsc_code}','${bank.swift_code}','${bank.beneficiary}','${bank.beneficiary_addr}','${bank.pan_num}','${bank.passbook}','${bank.pan_card}','${bank.branch}', event)">
-//                         <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
-//                     </button>
-//                     <button class="btn border-0 m-0 p-0" onclick="deleteBank('${bank.id}', event)">
-//                         <i onMouseOver="this.style.color='red'" onMouseOut="this.style.color='gray'" class="fa fa-trash"></i>
-//                     </button>
-//                 </li>
-//                 <hr/>
-//             `;
-
-//             if (bank.types.toLowerCase() === 'nri') {
-//                 nriBankList.innerHTML += bankDetailsHTML;
-//                 nriCount++;
-//             } else if (bank.types.toLowerCase() === 'general') {
-//                 generalBankList.innerHTML += bankDetailsHTML;
-//                 generalCount++;
-//             }
-//         });
-
-//         if (generalCount > 1) {
-//             alert('Invalid bank details. Contact admin.');
-//         }
-//     } catch (error) {
-//         console.error('Error fetching bank details:', error);
-//     }
-// }
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
         const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
@@ -576,7 +524,6 @@ function getPriorityClass(priority) {
     }
 }
 
-
 function editNkd(candidateId,id, kinName, kinRelation, kinContactNumber, kinContactAddress, kinPriority) {
     console.log(`Editing NKD with ID: ${id}`);
 
@@ -586,10 +533,6 @@ function editNkd(candidateId,id, kinName, kinRelation, kinContactNumber, kinCont
     // Open edit-c-nkd.html in a new tab with query parameters
     window.open(`edit-c-nkd.html${queryParams}`, '_blank');
 }
-
-
-
-
 // Function to delete NKD entry
 async function deleteNkd(id) {
     try {
@@ -605,13 +548,6 @@ async function deleteNkd(id) {
         console.error('Error deleting NKD entry:', error);
     }
 }
-
-
-   
-
-
-
-
 
 function decodeToken(token) {
     // Implementation depends on your JWT library
@@ -814,47 +750,6 @@ if (resumeName) {
 async function editCandidate() {
     // Get values from the form
     var id = document.getElementById('candidateId').value; // Add the ID value if applicable
-    // var fname = document.getElementById('edit_candidate_fname').value;
-    // var lname = document.getElementById('edit_candidate_lname').value;
-    // var rank = document.getElementById('edit_candidate_c_rank').value;
-    // var avbDate = document.getElementById('edit_candidate_avb_date').value;
-    // var nationality = document.getElementById('edit_candidate_nationality').value;
-    // var maritalStatus = document.getElementById('edit_company_status').value;
-    // var dob = document.getElementById('edit_candidate_dob').value;
-    // var birthPlace = document.getElementById('edit_candidate_birth_place').value;
-    // var workNautilus = document.getElementById('edit_candidate_work_nautilus').value;
-    // var vesselType = document.getElementById('edit_candidate_c_vessel').value;
-    // var experience = document.getElementById('edit_candidate_experience').value;
-    // var zone = document.getElementById('edit_candidate_zone').value;
-    // var grade = document.getElementById('edit_candidate_grade').value;
-    // var boilerSuitSize = document.getElementById('edit_candidate_boiler_suit_size').value;
-    // var safetyShoeSize = document.getElementById('edit_candidate_safety_shoe_size').value;
-    // var height = document.getElementById('edit_candidate_height').value;
-    // var weight = document.getElementById('edit_candidate_weight').value;
-    // var licenseCountry = document.getElementById('edit_candidate_I_country').value;
-    // var indosNumber = document.getElementById('edit_candidate_indos_number').value;
-    // var candidateStatus = document.getElementById('edit_candidate_company_status').value;
-    // var group = document.getElementById('edit_candidate_group').value;
-    // var vendor = document.getElementById('edit_candidate_vendor').value;
-    // var photo = document.getElementById('edit_candidate_photos').value; // Assuming this is a file input, consider handling file uploads appropriately
-    // var resume = document.getElementById('edit_candidate_resume').value;
-        
-    // // Assuming this is a file input, consider handling file uploads appropriately
-    // var address1 = document.getElementById('edit_candidate_c_ad1').value;
-    // var address2 = document.getElementById('edit_candidate_c_ad2').value;
-    // var city = document.getElementById('edit_candidate_city').value;
-    // var state = document.getElementById('edit_candidate_c_state').value;
-    // var permanentCity = document.getElementById('edit_candidate_p_city').value;
-    // var permanentState = document.getElementById('edit_candidate_p_state').value;
-    // var pincode = document.getElementById('edit_candidate_pin').value;
-    // var permanentPincode = document.getElementById('edit_candidate_p_pin').value;
-    // var mobile1 = document.getElementById('edit_candidate_c_mobi1').value;
-    // var mobile2 = document.getElementById('edit_candidate_c_mobi2').value;
-    // var landline1 = document.getElementById('edit_candidate_c_tel1').value;
-    // var landline2 = document.getElementById('edit_candidate_c_tel2').value;
-    // var email1 = document.getElementById('edit_candidate_email1').value;
-    // var email2 = document.getElementById('edit_candidate_email2').value;
-    // var us_visa = document.getElementById('edit_candidate_us_visa').value;
 
     // Construct the URL with the values
     var url = `edit-candidate-2.html?memId=${id}`
@@ -868,12 +763,6 @@ document.getElementById('view-candidate-form').addEventListener('submit', functi
     event.preventDefault();
     editCandidate();
 });
-
-
-
-
-
-
 
 function editDocument(documentId, documents, documentNumber, issueDate, issuePlace, documentFiles, stcw) {
     // Retrieve memId from localStorage
@@ -1141,20 +1030,6 @@ async function generatePayslip(candidateId, contractId) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function editContract(candidateId, id, rank, company, vslName, vesselType, sign_on_port, sign_on, wage_start, eoc, wages, currency, wages_types, sign_off, sign_off_port, reason_for_sign_off,aoa_number, aoa, emigrate_number,documents, openingBalance, basicWages, leaveWages, overtimeWages, leaveSubsistence, consolidateAllowance, fixedOvertime, subsistenceAllowance, uniformAllowance, miscAllowance, otherAllowance, onboardOtWages, joiningBasic, tankCleaningBonus, additionalWorks, prevMonthBalance, reimbursement, radio, onboardFinalSettlement, otherDeductions, training, bondStore,created_by) {
 
     // Construct the query parameters string
@@ -1330,134 +1205,6 @@ async function fetchAndDisplayDiscussions(candidateId) {
     }
 }
 
-
-// Call the function to update the photo
-
-
-
-
-// document.getElementById('discussionPlusForm').addEventListener('submit', async function (event) {
-//     event.preventDefault();
-
-//     // Fetch basic comments value
-//     let basicCommentsValue = document.getElementById('basic_comments').value;
-
-//     // Get the selected status
-//     let status;
-//     if (document.getElementById('proposed').checked) {
-//         status = 'Proposed';
-//     } else if (document.getElementById('joined').checked) {
-//         status = 'Joined';
-//     } else if (document.getElementById('approved').checked) {
-//         status = 'Approved';
-//     } else if (document.getElementById('rejected').checked) {
-//         status = 'Rejected';
-//     }
-
-//     // Get company name input value
-//     const companyName = document.getElementById('company_name').value;
-
-//     const companyDropdown = document.getElementById('company_name');
-//     const company_dropdown_text = companyDropdown.options[companyDropdown.selectedIndex].text;
-
-//     // Get status date input value
-//     // Get status date input value
-//     const statusDate = document.getElementById('status_date').value;
-//     const r_date = document.getElementById('reminder_date').value;
-
-//     // Get reason input value
-//     const reason = document.getElementById('reason').value;
-
-//     // Check if special comment checkbox is checked
-//     if (document.getElementById('special_comments_checkbox').checked) {
-//         basicCommentsValue = document.getElementById('basic_comments').value;
-
-//         // Update basic comments value in candidate table
-//         try {
-//             await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
-//                 headers: {
-//                     'Authorization': token,
-//                     'Content-Type': 'application/json',
-//                 },
-//             });
-//         } catch (error) {
-//             console.error('Error updating basic comments value:', error);
-//         }
-//     }
-
-//     // Get reference check text value
-//     let referenceCheckText = null;
-//     if (document.getElementById('reference_check_checkbox').checked) {
-//         referenceCheckText = document.getElementById('reference_check_text').value;
-        
-//         // Update reference check text value in candidate table
-//         try {
-//             await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
-//                 headers: {
-//                     'Authorization': token,
-//                     'Content-Type': 'application/json',
-//                 },
-//             });
-//         } catch (error) {
-//             console.error('Error updating reference check text value:', error);
-//         }
-//     }
-
-//     // Update comments section
-//     const commentsSection = document.getElementById('comments-section');
-//     if (status === 'Rejected') {
-//         commentsSection.textContent = `${status}: ${basicCommentsValue} Reason: ${reason} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
-//     } else if (status) {
-//         commentsSection.textContent = `${status}: ${basicCommentsValue} Date: ${statusDate} Company Name: ${company_dropdown_text}`;
-//     } else {
-//         commentsSection.textContent = `${basicCommentsValue}`;
-//     }
-
-    
-//     // Create discussion plus data object
-//     const discussionPlusData = {
-//         post_by: localStorage.getItem('userId'),
-//         discussion: commentsSection.textContent,
-//         r_date: r_date || null,
-//         reminder: document.getElementById('set_reminder_checkbox').checked,
-//         companyname: companyName,
-//         reason: reason,
-//         join_date: null,
-//         created_date: new Date(),
-//     };
-
-//     // If Special Comment checkbox is checked, include special comment data
-//     if (document.getElementById('special_comments_checkbox').checked) {
-//         discussionPlusData.special_comment = basicCommentsValue;
-//         discussionPlusData.basic_comments = null; // Reset basic comments if special comments are stored
-//     }
-
-//     // If Reference Check checkbox is checked, include reference check data
-//     if (document.getElementById('reference_check_checkbox').checked) {
-//         discussionPlusData.reference_check = true;
-//         discussionPlusData.reference_check_text = referenceCheckText;
-//     }
-
-//     try {
-//         const response = await axios.post(`https://nsnemo.com/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
-//             headers: {
-//                 'Authorization': token,
-//                 'Content-Type': 'application/json',
-//             },
-//         });
-//         console.log(response.data);
-//         event.target.reset();
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
-
-
-
-
-
-  
-  // Call the async function to fetch and display discussions
 // Fetch and display evaluation data for the candidate
 async function fetchAndDisplayEvaluationData() {
     try {
@@ -1615,12 +1362,6 @@ function viewEvaluation(candidateId, id, time, formType, event) {
     window.location.href = `${redirectUrl}?${queryString}`;
 }
 
-
-
-
-
-
-
 function uploadFile(file, uploadUrl) {
     const formData = new FormData();
     formData.append('file', file);
@@ -1644,8 +1385,6 @@ function uploadFile(file, uploadUrl) {
         throw error;
     });
 }
-
-// Get elements
 
 async function fetchAndDisplayFiles(candidateId) {
     try {

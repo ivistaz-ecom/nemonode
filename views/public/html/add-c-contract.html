@@ -16,12 +16,32 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
+    <!-- jQuery (required for Select2) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Contract Details | Nsnemo </title>
 
     <meta name="description" content="" />
 
     <style>
+        .select2{
+        width:100% !important; 
+      }
+
+      .select2-container--default .select2-selection--single {
+  height: 57px; /* Adjust this height based on your native select element */
+  line-height: 57px; /* Adjust this line-height to match the text vertically in the middle */
+  border-radius: .25rem; /* Adjust border radius if needed */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 57px; /* Adjust this if needed */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 57px; /* Adjust this to match the height */
+}
       .loader {
         --r1: 154%;
         --r2: 68.5%;
@@ -666,19 +686,19 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select id="candidate_c_rank" class="form-select" required>
-                                                <option value="" disabled selected>-- Select Rank --</option>
+                                                <option value="" disabled selected></option>
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="candidate_c_rank" class="form-label">Rank</label>
+                                            <label for="candidate_c_rank" class="form-label"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select id="contract_company" class="form-select" required>
-                                                <option value="" disabled selected>-- Select Company --</option>
+                                                <option value="" disabled selected></option>
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="contract_company" class="form-label">Company</label>
+                                            <label for="contract_company" class="form-label"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -689,7 +709,7 @@
                                             <select id="contract_vsl" class="form-select" required>
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="contract_vsl" class="form-label">Select Vessel</label>
+                                            <label for="contract_vsl" class="form-label"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -697,7 +717,7 @@
                                             <select id="candidate_c_vessel" class="form-select" required>
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="candidate_c_vessel" class="form-label">Select Vessel Type</label>
+                                            <label for="candidate_c_vessel" class="form-label"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -708,7 +728,7 @@
                                             <select id="contract_signonport" class="form-select" required>
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="contract_signonport" class="form-label">Sign on Port</label>
+                                            <label for="contract_signonport" class="form-label"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -787,7 +807,7 @@
                                             <select id="contract_signoffport" class="form-select">
                                                 <!-- Options will be dynamically added using JavaScript -->
                                             </select>
-                                            <label for="contract_signoffport" class="form-label">Sign off Port</label>
+                                            <label for="contract_signoffport" class="form-label"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -1079,7 +1099,46 @@
 
     <script src="../assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
+<!-- Select2 CSS -->
 
+
+<!-- Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+    $("#contract_company").select2({
+            placeholder: "Select a Company",
+            allowClear: true
+        });
+        $("#candidate_c_rank").select2({
+            placeholder: "Select a rank",
+            allowClear: true
+        });
+        $("#contract_vsl").select2({
+            placeholder: "Select a Vessel",
+            allowClear: true
+        });
+        $("#candidate_c_vessel").select2({
+            placeholder: "Select a Vessel Type",
+            allowClear: true
+        });
+        $("#contract_signonport").select2({
+            placeholder: "Select Sign On Port",
+            allowClear: true
+        });
+        $("#contract_signoffport").select2({
+            placeholder: "Select Sign Off Port",
+            allowClear: true
+        });
+        
+       
+        
+       
+
+        function showReport(reportId) {
+          $('.report-content').hide(); // Hide all report contents
+          $('#' + reportId + 'Content').show(); // Show the selected report content
+        }
+      </script>
     <!-- Vendors JS -->
 
     <!-- Main JS -->
