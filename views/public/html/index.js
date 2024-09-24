@@ -1,7 +1,18 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  
   const token = localStorage.getItem('token');
   const decodedToken = decodeToken(token)
   console.log('decoded token',decodedToken)
+  if (decodedToken.interviewer) {
+    const interviewSection = document.getElementById('interview');
+    if (interviewSection) {
+      interviewSection.style.display = 'none';
+      const interviewView = document.getElementById('interviewView');
+      interviewView.style.display='block'
+      
+    }
+  }
+ 
     if (decodedToken.userManagement) {
     document.getElementById('userManagementSection').style.display = 'block';
     document.getElementById('userManagementSections').style.display = 'block';

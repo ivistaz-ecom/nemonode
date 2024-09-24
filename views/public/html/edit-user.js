@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Fetch query parameters
     const queryParams = getQueryParameters();
+    console.log("queryparams",queryParams)
 
     // Function to set value in an input field
     function setInputValue(id, value) {
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     setInputValue('disable_user', queryParams.disableUser);
     setInputValue('creationChain',queryParams.creationChain)
     setInputValue('staff',queryParams.staff);
-    setInputValue('u_interviewer',queryParams.interviewer)
+    setInputValue('interviewer',queryParams.interviewer)
     setInputValue('deletes',queryParams.deletes);
     id=queryParams.id;
 
@@ -152,9 +153,9 @@ if (queryParams.deletes==='true') {
     document.getElementById('u_delete').checked = false;
 }
 if (queryParams.interviewer==='true') {
-    document.getElementById('u_interviewer').checked = true;
+    document.getElementById('interviewer').checked = true;
 } else {
-    document.getElementById('u_interviewer').checked = false;
+    document.getElementById('interviewer').checked = false;
 }
 
 
@@ -301,7 +302,7 @@ document.getElementById('e_user-form').addEventListener('submit', async function
         created_date:null,
         staff:document.getElementById('u_staff').checked,
         nationality:document.getElementById('user_nationality').value,
-        interviewer:document.getElementById('u_interviewer').value,
+        interviewer:document.getElementById('interviewer').checked,
     };
 
     try {

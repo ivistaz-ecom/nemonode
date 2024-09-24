@@ -305,7 +305,7 @@ const get_user = async(req,res)=>{
       nationality= user.dataValues.nationality;
       readOnly = user.dataValues.readOnly;
       email = user.dataValues.userEmail;
-      interviewer=user.dataValues.inte
+      interviewer=user.dataValues.interviewer;
       console.log('User Group:', userGroup);
   
       if (userGroup === 'admin') {

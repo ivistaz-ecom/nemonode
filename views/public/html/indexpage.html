@@ -299,7 +299,13 @@
   <script src="../assets/js/config.js"></script>
 </head>
 
-<body>
+<body >
+  <div id="interviewView" style="display: none;">
+    <a href="./loginpage.html" class="btn btn-danger m-5" onclick="logoutint()">Interviewer Account - Click here to Logout</a>
+</div>
+
+  <div id="interview">
+  
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -1018,28 +1024,14 @@
 
             <div class="content-backdrop fade"></div>
             
-          </div>
           <!-- Content wrapper -->
         <!-- / Layout page -->
-      </div>
-
+\
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
       
     </div>
-    <!-- / Layout wrapper -->
-
-    <!-- <div class="buy-now">
-      <a
-        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-        target="_blank"
-        class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
-      >
-    </div> -->
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
+   
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
@@ -1053,7 +1045,16 @@
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
 
-    <!-- Page JS -->
+    <!-- Page JS --><script>
+      function logoutint() {
+    // Clear local storage
+    localStorage.clear();
+
+    // Redirect to the login page
+    window.location.href = './loginpage.html';
+}
+
+    </script>
    
     <script src="./index.js"></script>
     <!-- Place this tag in your head or just before your close body tag. -->

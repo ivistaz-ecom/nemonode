@@ -142,7 +142,6 @@ else{
         const userManagement = document.getElementById('u_user_management').checked;
         const vendorManagement = document.getElementById('u_vendor_management').checked;
         const nationality = document.getElementById('user_nationality').value
-        const u_interviewer = document.getElementById('u_interviewer').value
 
         const reports = document.getElementById('u_reports').checked;
         const reports_all = document.getElementById('u_reports_all').checked;
@@ -153,7 +152,8 @@ else{
         const company_login = false;
         const created_date=null;
         const staff = document.getElementById('u_staff').checked;
-        
+        const interviewer = document.getElementById('interviewer').checked
+
 
 
         const currentUserEmail = decodedToken.userEmail; // Get the email of the currently logged-in user from the token
@@ -188,7 +188,7 @@ else{
             created_date:created_date,
             staff:staff,
             nationality:nationality,
-            interviewer:u_interviewer,
+            interviewer:interviewer,
         };
         console.log(formData);
     
