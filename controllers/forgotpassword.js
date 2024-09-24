@@ -114,7 +114,7 @@ const resetpassword = async (req, res) => {
                                        <label for="newpassword" class="form-label">Enter New Password</label>
                                        <input type="password" class="form-control" id="pass" name="newpassword" placeholder="New Password" required>
                                    </div>
-                                   <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                                   <button type="submit" class="btn btn-primary w-100">Reset Password for Nemo</button>
                                </form>
                            </div>
                        </div>
