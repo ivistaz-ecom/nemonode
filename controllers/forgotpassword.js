@@ -102,27 +102,36 @@ const resetpassword = async (req, res) => {
             return res.status(200).send(`
                 <html>
                    <head>
-                   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+                       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
                    </head>
-                <form id='submit_form'>
-                <label for="newpassword">Enter New password</label>
-                <input name="newpassword" id='pass' type="password" required></input>
-                <button type="submit">Reset password</button>
-            </form>
-            <script>
-            document.getElementById('submit_form').addEventListener('submit', async function (e) {
-                e.preventDefault();
-                const newpassword = document.getElementById('pass').value;
-                console.log(newpassword)            
-            const data = {
-                password:newpassword
-            }
-            const response = await axios.post('https://nsnemo.com/password/updatepassword/${id}',data)
-            console.log(response.data)
-        });
-            </script>
+                   <body>
+                       <div class="container vh-100 d-flex justify-content-center align-items-center">
+                           <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+                               <h2 class="text-center mb-4">Reset Password</h2>
+                               <form id="submit_form">
+                                   <div class="mb-3">
+                                       <label for="newpassword" class="form-label">Enter New Password</label>
+                                       <input type="password" class="form-control" id="pass" name="newpassword" placeholder="New Password" required>
+                                   </div>
+                                   <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                               </form>
+                           </div>
+                       </div>
+                       <script>
+                           document.getElementById('submit_form').addEventListener('submit', async function (e) {
+                               e.preventDefault();
+                               const newpassword = document.getElementById('pass').value;
+                               console.log(newpassword);            
+                               const data = {
+                                   password: newpassword
+                               };
+                               const response = await axios.post('https://nsnemo.com/password/updatepassword/${id}', data);
+                               console.log(response.data);
+                           });
+                       </script>
+                   </body>
                 </html>
-                
             `);
         } else {
             return res.status(404).json({ error: 'Invalid id parameter', success: false });
@@ -132,6 +141,7 @@ const resetpassword = async (req, res) => {
         return res.status(500).json({ error, success: false });
     }
 };
+
 
 
 
