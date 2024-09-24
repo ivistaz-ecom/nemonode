@@ -53,7 +53,6 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const emigrate_number = urlParams.get('emigrate_number');
     const documents = urlParams.get('documents');
     const aoa = urlParams.get('aoa');
-    const created_by = urlParams.get('createdBy');
 
     const openingBalance = urlParams.get('openingBalance');
     const basicWages = urlParams.get('basicWages');
@@ -77,6 +76,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const otherDeductions = urlParams.get('otherDeductions');
     const training = urlParams.get('training');
     const bondStore = urlParams.get('bondStore');
+    const created_by = urlParams.get('created_by');
 
     
 
