@@ -1,12 +1,4 @@
 // Get the token from localStorage
-const token = localStorage.getItem('token');
-
-// Check if the token is not present
-if (!token) {
-  // Redirect to the login page
-
-  window.location.href = './loginpage.html';
-}
 
 
 document.getElementById('cand-form').addEventListener('submit', async function sendResetLink(e) {
