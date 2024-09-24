@@ -118,8 +118,8 @@ async function fetchAndDisplayExp() {
 
 async function fetchAndDisplayGrades() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/view-grade", { headers: { "Authorization": token } });
-        const grades = serverResponse.data.grades;
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-grade-drop", { headers: { "Authorization": token } });
+        const grades = serverResponse.data.allGrades;
         const gradeDropdown = document.getElementById('edit_candidate_grade');
 
         if (gradeDropdown) {

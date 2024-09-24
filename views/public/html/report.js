@@ -121,6 +121,9 @@ async function handleNewProfileSubmit(event) {
             document.getElementById('exportContainer').appendChild(exportButton);
         }
 
+        // Attach event listener for the search input
+        document.getElementById('searchInput').addEventListener('input', searchTable);
+
     } catch (error) {
         console.error(error);
     }
@@ -199,6 +202,11 @@ function displayTable() {
                         viewCandidate(candidate[field])
                     });
                     cell.appendChild(button);
+                }
+                else if (field === 'userId' && candidate[field]) {
+                    // Replace code with nationality name
+                    const userName = getUserName(candidate[field]);
+                    cell.textContent = userName;
                 } else {
                     cell.textContent = candidate[field];
                 }
@@ -299,7 +307,7 @@ function displayPagination() {
 
 
 function searchTable() {
-    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    const searchQuery = document.getElementById('searchInput1').value.toLowerCase();
     
     filteredCandidates = allCandidates.filter(candidate => {
         return Object.values(candidate).some(value => 
@@ -308,8 +316,8 @@ function searchTable() {
         );
     });
     
-    currentPage = 1;
-    displayTable();
+    currentPage = 1; // Reset to the first page on new search
+    displayTable();  // Re-render table with filtered data
 }
 
 
@@ -321,8 +329,9 @@ document.getElementById('rowsPerPage').addEventListener('change', (event) => {
 });
 
 // Add event listeners for search and pagination
-document.getElementById('searchInput').addEventListener('input', searchTable);
+document.getElementById('searchInput1').addEventListener('input', searchTable);
 
+document.getElementById('newprofilesubmit').addEventListener('submit', handleNewProfileSubmit);
 
 
 async function handleCallsMadeSubmit(event) {
@@ -717,7 +726,6 @@ createCompanyDropdown()
 // Add event listener to the "Generate Calls Made Report" button
 
 // Add event listener to the New Profile form
-document.getElementById('newprofilesubmit').addEventListener('submit', handleNewProfileSubmit);
 
 
 

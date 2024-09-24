@@ -1,5 +1,3 @@
-// JavaScript code (login.js)
-
 const user_id = document.getElementById("user_id");
 const user_pass = document.getElementById("user_pass");
 const form = document.getElementById("login-form");
@@ -9,31 +7,23 @@ const welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal')
 form.addEventListener("submit", login);
 
 async function login(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const loginCredentials = {
+        userName: user_id.value.trim(),
+        userPassword: user_pass.value.trim(),
+    };
+
     try {
-      
-        e.preventDefault();
-        const loginCredentials = {
-            userName: user_id.value.trim(),
-            userPassword: user_pass.value.trim(),
-        };
-        console.log(loginCredentials)
         const response = await axios.post(
             "https://nsnemo.com/user/login",
             loginCredentials
         );
-        console.log(response)
+
         if (response.data.success) {
             const username = response.data.username;
             const token = response.data.token;
-            const userGroup = decodeToken(token).userGroup
-            console.log(userGroup)
-            function decodeToken(token) {
-                // Implementation depends on your JWT library
-                // Here, we're using a simple base64 decode
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace('-', '+').replace('_', '/');
-                return JSON.parse(atob(base64));
-            }
+            const userGroup = decodeToken(token).userGroup;
 
             // Check if the user group is 'vendor'
             if (userGroup === 'vendor') {
@@ -41,6 +31,7 @@ async function login(e) {
                 console.log('Vendor login detected, function will exit now.');
                 return; // Exit the function to prevent further execution
             }
+
             // Display the welcome message and loading spinner
             welcomeUsername.textContent = username;
             welcomeModal.show();
@@ -55,18 +46,29 @@ async function login(e) {
                 window.location.href = "./indexpage.html";
             }, 850);
         } else {
-            console.error("Login failed:", response.data.message);
-            // Handle login failure
-            // Display an error message to the user
+            handleLoginError();
         }
     } catch (error) {
         console.error("Error during login:", error.message);
-        // Handle network errors or other unexpected issues
-        // Display an error message to the user
+        handleLoginError();
     }
+}
+
+function handleLoginError() {
+    // Highlight the password input border in red
+    user_pass.style.borderColor = "red";
+
+    // Alert the user
+    alert("Username and password don't match");
 }
 
 function togglePassword() {
     const inputType = user_pass.type === "password" ? "text" : "password";
     user_pass.type = inputType;
+}
+
+function decodeToken(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
 }
