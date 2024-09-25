@@ -783,8 +783,7 @@ async function handleDiscussionSubmit(event) {
         const companyName = document.getElementById('user_client').value;
 
         // Format dates to include time
-        startDate = startDate + 'T00:00:00Z';
-        endDate = endDate + 'T23:59:59Z';
+  
 
         // Send data to server using Axios with the GET method and query parameters
         const response = await axios.get('https://nsnemo.com/candidate/reports/proposals', {
