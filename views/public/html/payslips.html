@@ -99,72 +99,73 @@
     tableBody.innerHTML = ''; // Clear any existing rows
 
     payslips.forEach(payslip => {
-    const row = document.createElement('tr');
+        const row = document.createElement('tr');
 
-    // Safely calculate additions and deductions, handling null or undefined values
-    const additions = calculateAdditions(payslip);
-    const deductions = calculateDeductions(payslip);
+        // Safely calculate additions and deductions
+        const additions = calculateAdditions(payslip);
+        const deductions = calculateDeductions(payslip);
 
-    // Calculate Total Gross (Additions - Deductions)
-    const totalGross = additions - deductions;
+        // Calculate Total Gross (Additions - Deductions)
+        const totalGross = additions - deductions;
 
-    // Check and modify daysWorked for February and months with 31 days
-    const month = new Date(payslip.startDate).getMonth() + 1; // Get the month (0-11) and convert to (1-12)
+        // Get the start date and determine the end date
+        const startDate = new Date(payslip.startDate);
+        const endDate = new Date(startDate);
 
-    // Determine if the month has 31 days
-    const has31Days = (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12);
+        // Set the end date to the last day of the month of the start date
+        endDate.setMonth(startDate.getMonth() + 1);
+        endDate.setDate(0); // Set to the last day of the previous month
 
-    // Update daysWorked based on conditions
-    const daysWorked = (month === 2 && (payslip.daysWorked === 28 || payslip.daysWorked === 29)) ? 30 :
-                       (has31Days && payslip.daysWorked === 31) ? 30 :
-                       payslip.daysWorked;
+        // Get the days worked
+        const month = startDate.getMonth() + 1; // 1-12
+        const daysWorked = payslip.daysWorked || 0; // Use provided daysWorked
 
-    row.innerHTML = `
-        <td>${index++}</td>
-        <td>${payslip.month}</td>
-        <td>${payslip.year}</td>
-        <td>${formatDate(payslip.startDate)}</td>
-        <td>${formatDate(payslip.endDate)}</td>
-        <td>${daysWorked || ''}</td> <!-- Use modified daysWorked -->
-        <td>${payslip.amount || ''}</td>
-        <td>${payslip.openingBalance || ''}</td>
-        <td>${payslip.basicWages || ''}</td>
-        <td>${payslip.leaveWages || ''}</td>
-        <td>${payslip.overtimeWages || ''}</td>
-        <td>${payslip.leaveSubsistence || ''}</td>
-        <td>${payslip.consolidateAllowance || ''}</td>
-        <td>${payslip.fixedOvertime || ''}</td>
-        <td>${payslip.subsistenceAllowance || ''}</td>
-        <td>${payslip.uniformAllowance || ''}</td>
-        <td>${payslip.miscAllowance || ''}</td>
-        <td>${payslip.otherAllowance || ''}</td>
-        <td>${payslip.onboardOtWages || ''}</td>
-        <td>${payslip.joiningBasic || ''}</td>
-        <td>${payslip.tankCleaningBonus || ''}</td>
-        <td>${payslip.additionalWorks || ''}</td>
-        <td>${payslip.prevMonthBalance || ''}</td>
-        <td>${payslip.reimbursement || ''}</td>
-        <td>${payslip.radio || ''}</td>
-        <td>${payslip.onboardFinalSettlement || ''}</td>
-        <td>${payslip.otherDeductions || ''}</td>
-        <td>${payslip.training || ''}</td>
-        <td>${payslip.bondStore || ''}</td>
-        <td>${payslip.sign_on || ''}</td>
-        <td>${payslip.rank || ''}</td>
-        <td>${payslip.currency || ''}</td>
-        <td>${payslip.cdc_passport || ''}</td>
-        <td>${payslip.vesselName || ''}</td>
-        
-        <td>${additions.toFixed(2)}</td> <!-- Display Additions -->
-        <td>${deductions.toFixed(2)}</td> <!-- Display Deductions -->
-        <td>${totalGross.toFixed(2)}</td> <!-- Display Total Gross -->
-        <td><button class="btn btn-primary" onclick="viewPayslip(${payslip.id}, ${JSON.stringify(payslip).replace(/'/g, "\\'").replace(/"/g, '&quot;')})">View Payslip</button></td>
-    `;
+        row.innerHTML = `
+            <td>${index++}</td>
+            <td>${payslip.month}</td>
+            <td>${payslip.year}</td>
+            <td>${formatDate(payslip.startDate)}</td>
+            <td>${formatDate(endDate)}</td> <!-- Use calculated endDate -->
+            <td>${daysWorked}</td>
+            <td>${payslip.amount || ''}</td>
+            <td>${payslip.openingBalance || ''}</td>
+            <td>${payslip.basicWages || ''}</td>
+            <td>${payslip.leaveWages || ''}</td>
+            <td>${payslip.overtimeWages || ''}</td>
+            <td>${payslip.leaveSubsistence || ''}</td>
+            <td>${payslip.consolidateAllowance || ''}</td>
+            <td>${payslip.fixedOvertime || ''}</td>
+            <td>${payslip.subsistenceAllowance || ''}</td>
+            <td>${payslip.uniformAllowance || ''}</td>
+            <td>${payslip.miscAllowance || ''}</td>
+            <td>${payslip.otherAllowance || ''}</td>
+            <td>${payslip.onboardOtWages || ''}</td>
+            <td>${payslip.joiningBasic || ''}</td>
+            <td>${payslip.tankCleaningBonus || ''}</td>
+            <td>${payslip.additionalWorks || ''}</td>
+            <td>${payslip.prevMonthBalance || ''}</td>
+            <td>${payslip.reimbursement || ''}</td>
+            <td>${payslip.radio || ''}</td>
+            <td>${payslip.onboardFinalSettlement || ''}</td>
+            <td>${payslip.otherDeductions || ''}</td>
+            <td>${payslip.training || ''}</td>
+            <td>${payslip.bondStore || ''}</td>
+            <td>${payslip.sign_on || ''}</td>
+            <td>${payslip.rank || ''}</td>
+            <td>${payslip.currency || ''}</td>
+            <td>${payslip.cdc_passport || ''}</td>
+            <td>${payslip.vesselName || ''}</td>
+            
+            <td>${additions.toFixed(2)}</td>
+            <td>${deductions.toFixed(2)}</td>
+            <td>${totalGross.toFixed(2)}</td>
+            <td><button class="btn btn-primary" onclick="viewPayslip(${payslip.id}, ${JSON.stringify(payslip).replace(/'/g, "\\'").replace(/"/g, '&quot;')})">View Payslip</button></td>
+        `;
 
-    tableBody.appendChild(row);
-});
-
+        tableBody.appendChild(row);
+    });
 }
+
 
         // Function to calculate additions
         function calculateAdditions(payslip) {
