@@ -180,7 +180,7 @@
                 detailsBody.appendChild(endDateRow);
             }
             if (payslip.sign_on) {
-                const formattedEndDate = formatDate(payslip.sign_on);
+                const formattedEndDate = payslip.sign_on;
                 const endDateRow = document.createElement('tr');
                 endDateRow.innerHTML = `<td>Sign On</td><td>${formattedEndDate}</td>`;
                 detailsBody.appendChild(endDateRow);
@@ -193,14 +193,14 @@
             }
             // Add Start Date and End Date
             if (payslip.startDate) {
-                const formattedStartDate = formatDate(payslip.startDate);
+                const formattedStartDate = payslip.startDate;
                 const startDateRow = document.createElement('tr');
                 startDateRow.innerHTML = `<td>Start Date</td><td>${formattedStartDate}</td>`;
                 detailsBody.appendChild(startDateRow);
             }
 
             if (payslip.endDate) {
-                const formattedEndDate = formatDate(payslip.endDate);
+                const formattedEndDate = payslip.endDate;
                 const endDateRow = document.createElement('tr');
                 endDateRow.innerHTML = `<td>End Date</td><td>${formattedEndDate}</td>`;
                 detailsBody.appendChild(endDateRow);
@@ -336,10 +336,10 @@
             );
         }
 
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
-        }
+        // function formatDate(dateString) {
+        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        //     return new Date(dateString).toLocaleDateString(undefined, options);
+        // }
 
         function printPayslip() {
             window.print(); // Print the current page
