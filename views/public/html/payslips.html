@@ -46,6 +46,12 @@
                             <th>Other Deductions</th>
                             <th>Training</th>
                             <th>Bond Store</th>
+                            <th>Sign On</th>
+<th>Rank</th>
+<th>Currency</th>
+<th>CDC Passport</th>
+<th>Vessel Name</th>
+
                             <th>Additions</th>
                             <th>Deductions</th>
                             <th>Total&nbsp;Gross</th>
@@ -143,6 +149,12 @@
         <td>${payslip.otherDeductions || ''}</td>
         <td>${payslip.training || ''}</td>
         <td>${payslip.bondStore || ''}</td>
+        <td>${payslip.sign_on || ''}</td>
+        <td>${payslip.rank || ''}</td>
+        <td>${payslip.currency || ''}</td>
+        <td>${payslip.cdc_passport || ''}</td>
+        <td>${payslip.vesselName || ''}</td>
+        
         <td>${additions.toFixed(2)}</td> <!-- Display Additions -->
         <td>${deductions.toFixed(2)}</td> <!-- Display Deductions -->
         <td>${totalGross.toFixed(2)}</td> <!-- Display Total Gross -->

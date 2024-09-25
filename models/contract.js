@@ -141,6 +141,9 @@ const Contract = sequelize.define('Contract', {
     bondStore:{
         type:DataTypes.INTEGER
     },
+    cdc_passport:{
+        type:DataTypes.STRING
+    }
     
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {

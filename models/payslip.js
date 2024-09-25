@@ -128,6 +128,30 @@ const Payslip = sequelize.define('Payslip', {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
     },
+    cdc_passport:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    sign_on:{
+type:DataTypes.STRING,
+allowNull:true
+    },
+    currency:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    rank:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    name:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    vesselName:{
+        type:DataTypes.STRING,
+        allowNull:true
+    }
 }, {
     tableName: 'payslip',
     timestamps: false,

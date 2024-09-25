@@ -76,6 +76,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const otherDeductions = urlParams.get('otherDeductions');
     const training = urlParams.get('training');
     const bondStore = urlParams.get('bondStore');
+    const cdc_passport = urlParams.get('cdc_passport');
     const created_by = urlParams.get('created_by');
 
     
@@ -123,6 +124,7 @@ document.getElementById('contract_onboard_final_settlement').value = onboardFina
 document.getElementById('contract_other_deductions').value = otherDeductions;
 document.getElementById('contract_training').value = training;
 document.getElementById('contract_bond_store').value = bondStore;
+document.getElementById('cdc_passport').value = cdc_passport;
 
 
 console.log('Opening Balance:', openingBalance);
@@ -147,6 +149,7 @@ console.log('Onboard Final Settlement:', onboardFinalSettlement);
 console.log('Other Deductions:', otherDeductions);
 console.log('Training:', training);
 console.log('Bond Store:', bondStore);
+console.log('CDC / passport:', cdc_passport);
 
     async function displayDropdown() {
         try {
@@ -447,6 +450,7 @@ function formatDate(dateString) {
     const otherDeductions = document.getElementById('contract_other_deductions').value.trim();
     const training = document.getElementById('contract_training').value.trim();
     const bondStore = document.getElementById('contract_bond_store').value.trim();
+    const cdc_passport = document.getElementById('cdc_passport').value.trim();
 
     // Upload Document file if it exists
     if (documentFile) {
@@ -530,7 +534,8 @@ function formatDate(dateString) {
         onboardFinalSettlement,
         otherDeductions,
         training,
-        bondStore
+        bondStore,
+        cdc_passport
     };
 
     try {

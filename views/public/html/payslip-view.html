@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Payslip Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -15,8 +17,8 @@
 </head>
 <body>
     <div class="m-3 mt-0 pt-0">
-        <img src="./Nautilus Logo.svg" style="width: 150px;height: 140px;" class="mt-0 pt-0"/>
-        <h4 class="mb-4" id="payslip-header">Payslip Details</h4>
+        <img src="./Nautilus Logo.svg" style="width: 130px;height: 100px;" class="mt-0 pt-0"/>
+        <h4 class="mb-4" id="payslip-header">Payslip </h4>
 
         <!-- Table for Start Date and End Date -->
         <table class="table table-striped table-bordered mb-4 table-sm">
@@ -30,7 +32,7 @@
                 <!-- Payslip details will be populated here -->
             </tbody>
         </table>
-
+        <span id="currency"></span>
         <!-- Table for Additions -->
         <h4>Additions</h4>
         <table class="table table-striped table-bordered mb-4 table-sm" id="additions-table">
@@ -92,18 +94,51 @@
 
         <button class="btn btn-primary no-print" onclick="printPayslip()">Print to PDF</button>
     </div>
-    <small>For Reference Purpose Only.</small>
+    <small>Computer generated - No Signature Required.</small>
     <small class="float-end">© Nautilus Shipping - All rights reserved</small>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+         let userData =[];
+         let vslsData =[];
+         let names;
+         async function getReq() {
+                try {
+                    const token = localStorage.getItem('token');
+                    
+                  
+                    const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+                    vslsData = serverResponse.data.vessels;
+    
+                    console.log('Vessels Data:', vslsData); // Debugging line
+                    
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+          
+          
+
+            async function getUserName(id) {
+    const token = localStorage.getItem('token');
+    const serverResponseUser = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`, { headers: { "Authorization": token } });
+    return serverResponseUser.data.candidate.fname; // Return the name
+}
+
+
+    
+            function getVesselName(id) {
+                const vessel = vslsData.find(vessel => vessel.id == id);
+                return vessel ? vessel.vesselName : id;
+            }
+    
+        document.addEventListener("DOMContentLoaded",async function () {
             const urlParams = new URLSearchParams(window.location.search);
             const payslipData = Object.fromEntries(urlParams.entries()); // Convert URL parameters back to an object
-
+            await getReq() 
             // Update the heading with Candidate ID
             const candidateId = payslipData.candidateId ? payslipData.candidateId : 'N/A'; // Default to 'N/A' if not provided
-            document.getElementById('payslip-header').innerText = `Payslip Details for Candidate ID: ${candidateId}`;
-
+            document.getElementById('payslip-header').innerText = `Payslip - ${candidateId}`;
+            names = await getUserName(candidateId);            
             populatePayslipDetails(payslipData); // Populate the payslip details
         });
 
@@ -124,6 +159,38 @@
             additionsFooter.innerHTML = '';
             deductionsFooter.innerHTML = '';
 
+            if(names){
+                const formattedEndDate =names;
+                console.log(formattedEndDate)
+                const endDateRow = document.createElement('tr');
+                endDateRow.innerHTML = `<td>Name</td><td>${formattedEndDate}</td>`;
+                detailsBody.appendChild(endDateRow);
+            }
+            if (payslip.rank) {
+                const formattedEndDate = payslip.rank;
+                const endDateRow = document.createElement('tr');
+                endDateRow.innerHTML = `<td>Rank</td><td>${formattedEndDate}</td>`;
+                detailsBody.appendChild(endDateRow);
+            }
+            if (payslip.vesselName) {
+                const formattedEndDate = getVesselName(payslip.vesselName);
+                console.log(formattedEndDate)
+                const endDateRow = document.createElement('tr');
+                endDateRow.innerHTML = `<td>Vessel Name</td><td>${formattedEndDate}</td>`;
+                detailsBody.appendChild(endDateRow);
+            }
+            if (payslip.sign_on) {
+                const formattedEndDate = formatDate(payslip.sign_on);
+                const endDateRow = document.createElement('tr');
+                endDateRow.innerHTML = `<td>Sign On</td><td>${formattedEndDate}</td>`;
+                detailsBody.appendChild(endDateRow);
+            }
+            if (payslip.cdc_passport) {
+                const formattedEndDate = payslip.cdc_passport;
+                const endDateRow = document.createElement('tr');
+                endDateRow.innerHTML = `<td>CDC / Passport No</td><td>${formattedEndDate}</td>`;
+                detailsBody.appendChild(endDateRow);
+            }
             // Add Start Date and End Date
             if (payslip.startDate) {
                 const formattedStartDate = formatDate(payslip.startDate);
@@ -138,6 +205,16 @@
                 endDateRow.innerHTML = `<td>End Date</td><td>${formattedEndDate}</td>`;
                 detailsBody.appendChild(endDateRow);
             }
+            
+           
+           
+            if(payslip.currency){
+                const data = payslip.currency;
+                const id = document.getElementById('currency')
+                id.innerHTML+= `<h5 class='text-center'>SALARY IN ${data}</h5>`
+            }
+           
+         
 
             // Check and modify daysWorked
             const daysWorked = (parseFloat(payslip.daysWorked) === 31 || parseFloat(payslip.daysWorked) === 29 || parseFloat(payslip.daysWorked) === 28) ? 30 : payslip.daysWorked;
@@ -267,6 +344,8 @@
         function printPayslip() {
             window.print(); // Print the current page
         }
+
+    
     </script>
 </body>
 </html>

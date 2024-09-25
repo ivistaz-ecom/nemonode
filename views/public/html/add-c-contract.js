@@ -228,6 +228,7 @@ async function handleContractForm(event) {
     const otherDeductions = document.getElementById('contract_other_deductions').value.trim()|| 0;
     const training = document.getElementById('contract_training').value.trim()|| 0;
     const bondStore = document.getElementById('contract_bond_store').value.trim()|| 0;
+    const cdc_passport = document.getElementById('cdc_passport').value.trim()|| 0;
 
     // Files
     const documentFile = document.getElementById('contract_document').files[0];
@@ -318,7 +319,8 @@ async function handleContractForm(event) {
         onboardFinalSettlement,
         otherDeductions,
         training,
-        bondStore
+        bondStore,
+        cdc_passport
     };
 
     try {

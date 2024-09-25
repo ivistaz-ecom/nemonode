@@ -1034,7 +1034,8 @@ const add_contractdetails = async (req, res) => {
             onboardFinalSettlement,
             otherDeductions,
             training,
-            bondStore
+            bondStore,
+            cdc_passport,
         } = req.body;
 
         // Create a new ContractDetails entry
@@ -1080,7 +1081,8 @@ const add_contractdetails = async (req, res) => {
             onboardFinalSettlement,
             otherDeductions,
             training,
-            bondStore
+            bondStore,
+            cdc_passport:cdc_passport
         });
 
     
@@ -1383,6 +1385,7 @@ const update_contractdetails = async (req, res) => {
             contract.otherDeductions=updatedContractData.otherDeductions
             contract.training=updatedContractData.training
             contract.bondStore=updatedContractData.bondStore
+            contract.cdc_passport=updatedContractData.cdc_passport
 
             // Conditionally update the documents and aoa fields
             if (updatedContractData.documentFile) {
@@ -3535,6 +3538,11 @@ const generatePayslip = async (req, res) => {
                     otherDeductions: contract.otherDeductions,
                     training: contract.training,
                     bondStore: contract.bondStore,
+                    sign_on:contract.sign_on,
+                    rank:contract.rank,
+                    currency:contract.currency,
+                    cdc_passport:contract.cdc_passport,
+                    vesselName:contract.vslName
                 };
 
                 await Payslip.create(payslip);
@@ -3573,6 +3581,7 @@ const getPayslips = async (req, res) => {
 
         const payslips = await Payslip.findAll({
             where: { contractId: contractId }
+            
         });
 
         if (payslips.length === 0) {
