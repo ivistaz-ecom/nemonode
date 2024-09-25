@@ -2545,61 +2545,52 @@ const proposals = async (req, res) => {
         // Extract query parameters
         const { status, startDate, endDate, companyName, category } = req.query;
 
-        // Base query without company join
+        // Base query
         let query = `
             SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName
-            FROM discussion AS a, Candidates AS b, Users AS c
-            WHERE a.candidateId = b.candidateId
-           
+            FROM discussion AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN Users AS c ON a.post_by = c.id
         `;
 
-        // Conditionally add company join and select if companyName is provided
+        const conditions = [];
+
+        // Conditionally add filters
         if (companyName) {
-            query = `
-                SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName, d.company_name
-                FROM discussion AS a, Candidates AS b, Users AS c, companies AS d
-                WHERE a.candidateId = b.candidateId
-                AND a.post_by = c.id
-                AND a.companyname = d.company_id
-                AND d.company_id = :companyName
+            query += `
+                JOIN companies AS d ON a.companyname = d.company_id
             `;
+            conditions.push(`d.company_id = :companyName`);
         }
 
-        // Conditionally add status filter if provided
         if (status) {
-            query += ` AND a.discussion LIKE :status`;
+            conditions.push(`a.discussion LIKE :status`);
         } else {
             // Include all statuses if status is not provided
-            query += ` AND a.discussion IN ('Proposed', 'Rejected', 'Approved', 'Joined')`;
+            conditions.push(`a.discussion IN ('Proposed', 'Rejected', 'Approved', 'Joined')`);
         }
 
-        // Conditionally add date range filter if provided
         if (startDate && endDate) {
-            query += ` AND a.join_date BETWEEN :startDate AND :endDate`;
+            conditions.push(`a.join_date BETWEEN :startDate AND :endDate`);
         }
 
-        // Conditionally add category filter if provided
         if (category) {
-            query += ` AND b.category = :category`;
+            conditions.push(`b.category = :category`);
         }
 
-        // Build the replacements object dynamically
+        // Append conditions to the query if any exist
+        if (conditions.length > 0) {
+            query += ` WHERE ${conditions.join(' AND ')}`;
+        }
+
+        // Build the replacements object
         const replacements = {
-            status: status ? `%${status}%` : null
+            status: status ? `%${status}%` : null,
+            companyName: companyName || null,
+            startDate: startDate || null,
+            endDate: endDate || null,
+            category: category || null,
         };
-
-        if (startDate && endDate) {
-            replacements.startDate = startDate;
-            replacements.endDate = endDate;
-        }
-
-        if (companyName) {
-            replacements.companyName = companyName;
-        }
-
-        if (category) {
-            replacements.category = category;
-        }
 
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
@@ -2614,6 +2605,7 @@ const proposals = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', success: false });
     }
 };
+
 
 
 

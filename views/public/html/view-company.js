@@ -18,7 +18,7 @@ window.onload = async function () {
             document.getElementById('vendorManagementSections').style.display = 'block';
     
         }
-        if(staff) {
+        if(staff) {ß
             // Hide the settings container
             document.getElementById('settingsContainer').style.display = 'none';
             document.getElementById('settingsCard').style.display='block'
