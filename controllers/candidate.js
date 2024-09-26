@@ -136,17 +136,12 @@ const add_candidate = async (req, res) => {
         }
 
         // Check for existing data
-        const whereClause = {};
-        if (email1) {
-            whereClause.email1 = email1;
-        }
-        
-
-        const existingCandidate = await Candidate.findOne({
-            where: whereClause,
+        const query = `SELECT candidateId FROM candidates WHERE (c_tel1='${c_tel1}' AND c_tel1!='') OR (c_mobi1='${c_mobi1}' AND c_mobi1!='') OR (email1='${email1}' AND email1!='')`;
+        const existingCandidate = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
         });
 
-        if (existingCandidate) {
+        if (existingCandidate.length>0) {
             return res.status(409).json({ message: "Duplicate Entry", success: false });
         }
 
