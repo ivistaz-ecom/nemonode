@@ -15,7 +15,7 @@ document.getElementById("vessel-form").addEventListener("submit", async (e) => {
 
     try {
         // Add a new vessel
-        await axios.post("https://nsnemo.com/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
+        await axios.post("http://localhost:8001/others/create-vessel", { vesselName }, { headers: { "Authorization": token } });
         console.log('Vessel added successfully');
         // Refresh the vessel list after adding a new vessel
     } catch (error) {
@@ -26,7 +26,7 @@ document.getElementById("vessel-form").addEventListener("submit", async (e) => {
 // Function to fetch data using Axios for companies
 const fetchCompanyData = async () => {
     try {
-        const response = await axios.get('https://nsnemo.com/company/dropdown-company');  // Adjust URL as per your backend setup
+        const response = await axios.get('http://localhost:8001/company/dropdown-company');  // Adjust URL as per your backend setup
         const companies = response.data.companies;
 
         // Reference to the select element for companies
@@ -61,7 +61,7 @@ document.getElementById("vsl-form").addEventListener("submit", async (e) => {
     const vesselFlag = document.getElementById("vessel_flag").value;
 
     try {
-        const serverResponse = await axios.post("https://nsnemo.com/others/create-vsl", {
+        const serverResponse = await axios.post("http://localhost:8001/others/create-vsl", {
             vesselName,
             vesselType,
             vsl_company,
@@ -84,7 +84,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -182,7 +182,7 @@ const displayVesselTypeDropdown = async function () {
         vesselDropdown.appendChild(defaultOption);
     
         // Fetch vessel types from the API
-        const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", {
+        const vesselResponse = await axios.get("http://localhost:8001/others/get-vessel", {
             headers: { "Authorization": token } // Make sure `token` is defined elsewhere
         });
         const vessels = vesselResponse.data.vessels;

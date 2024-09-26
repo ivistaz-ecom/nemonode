@@ -810,7 +810,7 @@ SIRE/CDI experience Right ship
         async function fetchEvaluationData(candidateId, evalId) {
             try {
                 // Replace with your actual API endpoint
-                const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+                const response = await axios.get(`http://localhost:8001/candidate/viewevaluation/${evalId}/${candidateId}`);
                 const evaluationData = response.data;
                 console.log("Fetched Evaluation Data:", evaluationData);
         

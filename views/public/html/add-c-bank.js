@@ -87,7 +87,7 @@ const candidateId = urlParams.get('memId');
 
 async function fetchAndDisplayBankDetails(candidateId) {
     try {
-        const response = await axios.get(`https://nsnemo.com/candidate/get-bank-details/${candidateId}`, {
+        const response = await axios.get(`http://localhost:8001/candidate/get-bank-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -115,10 +115,10 @@ async function fetchAndDisplayBankDetails(candidateId) {
             <td>${bank.pan_num}</td>
             <td>${bank.passbook}</td>
 
-            <td><a href='https://nsnemo.com/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></td>
+            <td><a href='http://localhost:8001/views/public/bank_details/${bank.passbook}' target="_blank">Click here to view Document!</a></td>
             <td>${bank.pan_card}</td>
 
-            <td><a href='https://nsnemo.com/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
+            <td><a href='http://localhost:8001/views/public/bank_details/pan_card/${bank.pan_card}' target="_blank">Click here to view Document!</a></td>
             <td>${bank.branch}</td>
             <td>${bank.types}</td>
             <td>${bank.created_by}</td>
@@ -157,7 +157,7 @@ function deleteBank(bankId) {
     // Confirm with the user before deleting
     if (confirm("Are you sure you want to delete this bank?")) {
         // Send an AJAX request to delete the bank
-        axios.delete(`https://nsnemo.com/candidate/delete-bank/${bankId}`,{headers:{"Authorization":token}})
+        axios.delete(`http://localhost:8001/candidate/delete-bank/${bankId}`,{headers:{"Authorization":token}})
             .then(response => {
                 // Handle success response
                 console.log(response.data.message);
@@ -256,7 +256,7 @@ async function handleBankDetailsForm(event) {
     };
 
     try {
-        const response = await axios.post(`https://nsnemo.com/candidate/bank-details/${currentCandidateId}`, bankDetails, {
+        const response = await axios.post(`http://localhost:8001/candidate/bank-details/${currentCandidateId}`, bankDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -295,7 +295,7 @@ const storedName = localStorage.getItem('username');
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nsnemo.com/user/${userId}/logout`)
+          axios.put(`http://localhost:8001/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })

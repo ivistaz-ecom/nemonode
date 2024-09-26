@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             // Send data to the server using Axios with async/await for update
-            const response = await axios.put(`https://nsnemo.com/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.put(`http://localhost:8001/candidate/update-nkd/${id}`, formData, { headers: { "Authorization": token } });
 
             // Handle success
             console.log('NKD data updated successfully:', response.data);
@@ -135,7 +135,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

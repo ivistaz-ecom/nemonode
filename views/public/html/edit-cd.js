@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function fetchAndDisplayExp() {
         try {
-            const serverResponse = await axios.get(`https://nsnemo.com/others/get-experiences`);
+            const serverResponse = await axios.get(`http://localhost:8001/others/get-experiences`);
             console.log(serverResponse.data)
 
             const experiences = serverResponse.data.experiences;
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded',async function ()
     
     async function fetchData() {
         try {
-            const response = await axios.get(`https://nsnemo.com/candidate/get-c-candidate/${candidateId}`, {
+            const response = await axios.get(`http://localhost:8001/candidate/get-c-candidate/${candidateId}`, {
                 headers: { "Authorization": token }
             });
 
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded',async function ()
             defaultOption.text = '-- Select Nationality --';
             countryDropdown.appendChild(defaultOption);
 
-            const countryResponse = await axios.get("https://nsnemo.com/others/country-codes", { headers: { "Authorization": token } });
+            const countryResponse = await axios.get("http://localhost:8001/others/country-codes", { headers: { "Authorization": token } });
             const countries = countryResponse.data.countryCodes;
 
             for (let i = 0; i < countries.length; i++) {
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded',async function ()
 
     async function updateCandidate(candidateData) {
         try {
-            const response = await axios.put(`https://nsnemo.com/candidate/update-c-candidate/${cmemId}`, candidateData);
+            const response = await axios.put(`http://localhost:8001/candidate/update-c-candidate/${cmemId}`, candidateData);
             const responseData = response.data;
             console.log('Update response:', responseData);
 
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded',async function ()
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`https://nsnemo.com/user/${userId}/logout`)
+          axios.put(`http://localhost:8001/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })

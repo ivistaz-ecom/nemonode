@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function fetchData(days) {
       try {
-          const response = await axios.get(`https://nsnemo.com/candidate/signups?days=${days}`);
+          const response = await axios.get(`http://localhost:8001/candidate/signups?days=${days}`);
           const signupCount = response.data.signupCount;
           console.log(response);
           document.getElementById('signupCount').innerText = signupCount;
@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-          const callCountResponse = await axios.get(`https://nsnemo.com/candidate/call-count?days=${days}`, { headers: { "Authorization": token } });
-          const statusCountResponse = await axios.get(`https://nsnemo.com/candidate/statuscount?days=${days}`, { headers: { "Authorization": token } });
-          const callCountFromModelResponse = await axios.get(`https://nsnemo.com/candidate/percentage?days=${days}`, { headers: { "Authorization": token } });
+          const callCountResponse = await axios.get(`http://localhost:8001/candidate/call-count?days=${days}`, { headers: { "Authorization": token } });
+          const statusCountResponse = await axios.get(`http://localhost:8001/candidate/statuscount?days=${days}`, { headers: { "Authorization": token } });
+          const callCountFromModelResponse = await axios.get(`http://localhost:8001/candidate/percentage?days=${days}`, { headers: { "Authorization": token } });
       
           const callCountData = callCountResponse.data;
           const statusCountData = statusCountResponse.data.counts[0];
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-          const response = await axios.get(`https://nsnemo.com/candidate/signondaily`);
+          const response = await axios.get(`http://localhost:8001/candidate/signondaily`);
           console.log('Sign on', response);
           const candidates = response.data.count;
           const contractsDiv = document.getElementById('contracts');
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Send request to update logged status to false
       const userId = localStorage.getItem('userId');
       if (userId) {
-          axios.put(`https://nsnemo.com/user/${userId}/logout`)
+          axios.put(`http://localhost:8001/user/${userId}/logout`)
               .then(response => {
                   console.log('Logged out successfully');
               })
@@ -199,7 +199,7 @@ console.log(err)
 
 
   async function signOff(days) {
-    const response = await axios.get(`https://nsnemo.com/candidate/signoffdaily/?days=${days}`);
+    const response = await axios.get(`http://localhost:8001/candidate/signoffdaily/?days=${days}`);
     console.log(response);
     const signOffContainer = document.getElementById('sign-off'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -207,7 +207,7 @@ console.log(err)
     signOffContainer.textContent=signOffData
 }
 async function onboard() {
-    const response = await axios.get(`https://nsnemo.com/candidate/onboardcount`);
+    const response = await axios.get(`http://localhost:8001/candidate/onboardcount`);
     console.log(response);
     const signOffContainer = document.getElementById('onboardcount'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -217,7 +217,7 @@ async function onboard() {
 onboard()
 
 async function dueforrenewal() {
-    const response = await axios.get(`https://nsnemo.com/candidate/dueforrenewalcount`);
+    const response = await axios.get(`http://localhost:8001/candidate/dueforrenewalcount`);
     console.log(response);
     const signOffContainer = document.getElementById('dueforrenewal'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -227,7 +227,7 @@ async function dueforrenewal() {
 dueforrenewal()
 
 async function signoffdailycount() {
-    const response = await axios.get(`https://nsnemo.com/candidate/signoffcount`);
+    const response = await axios.get(`http://localhost:8001/candidate/signoffcount`);
     console.log(response);
     const signOffContainer = document.getElementById('signoffcount'); // Use a different variable name
     signOffContainer.innerHTML = ''; // Clear previous content
@@ -255,7 +255,7 @@ signoffdailycount()
 
 async function fetchDatas() {
     try {
-        const url = 'https://nsnemo.com/candidate/statusdata';
+        const url = 'http://localhost:8001/candidate/statusdata';
         const response = await axios.get(url);
         renderDiscussionData(response.data);
     } catch (error) {
@@ -322,7 +322,7 @@ fetchDatas()
 
 async function fetchCallsCount() {
     try {
-      const response = await axios.get('https://nsnemo.com/candidate/callforoneday');
+      const response = await axios.get('http://localhost:8001/candidate/callforoneday');
       const { count } = response.data;
         console.log(count)
       // Update the DOM with the fetched count

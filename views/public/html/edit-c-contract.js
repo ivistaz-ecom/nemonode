@@ -153,7 +153,7 @@ console.log('CDC / passport:', cdc_passport);
 
     async function displayDropdown() {
         try {
-            const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", {
+            const rankResponse = await axios.get("http://localhost:8001/others/get-ranks", {
                 headers: { "Authorization": token }
             });
             const ranks = rankResponse.data.ranks;
@@ -184,7 +184,7 @@ console.log('CDC / passport:', cdc_passport);
             defaultOption.text = '-- Select Vessel --';
             vesselDropdown.appendChild(defaultOption);
         
-            const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+            const vesselResponse = await axios.get("http://localhost:8001/others/get-vessel", { headers: { "Authorization": token } });
             const vessels = vesselResponse.data.vessels;
             const vesselNames = vessels.map(vessel => vessel.vesselName);
         
@@ -206,7 +206,7 @@ console.log('CDC / passport:', cdc_passport);
 
    async function displayVesselTypeDropdown() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -242,7 +242,7 @@ console.log('CDC / passport:', cdc_passport);
 async function fetchAndDisplayDropdowns() {
     try {
         // Fetch ports from the server
-        const portsResponse = await axios.get("https://nsnemo.com/others/get-ports", { headers: { "Authorization": token } });
+        const portsResponse = await axios.get("http://localhost:8001/others/get-ports", { headers: { "Authorization": token } });
         const ports = portsResponse.data.ports;
 
         // Get the select elements
@@ -287,7 +287,7 @@ async function fetchAndDisplayDropdowns() {
 // Modify the fetchAndDisplayDropdowns function
 async function fetchAndDisplayCompanies() {
     try {
-        const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get("http://localhost:8001/company/dropdown-company", { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('editcontract_company');
         companyDropdown.innerHTML = ''; // Clear existing options
@@ -539,7 +539,7 @@ function formatDate(dateString) {
     };
 
     try {
-        const response = await axios.put(`https://nsnemo.com/candidate/update-contract-details/${contractId}`, contractDetails, {
+        const response = await axios.put(`http://localhost:8001/candidate/update-contract-details/${contractId}`, contractDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -576,7 +576,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

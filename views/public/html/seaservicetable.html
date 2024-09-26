@@ -772,7 +772,7 @@
                 async function fetchAndDisplaySeaService(candidateId) {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await axios.get(`https://nsnemo.com/candidate/get-sea-service/${candidateId}`, {
+                        const response = await axios.get(`http://localhost:8001/candidate/get-sea-service/${candidateId}`, {
                             headers: { "Authorization": token }
                         });
             
@@ -815,7 +815,7 @@
                     if (confirm('Are you sure you want to delete this sea service record?')) {
                         try {
                             const token = localStorage.getItem('token');
-                            await axios.delete(`https://nsnemo.com/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
+                            await axios.delete(`http://localhost:8001/candidate/delete-sea-service/${id}`, { headers: { "Authorization": token } });
                             // Remove the corresponding row from the table
                             const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
                             seaServiceRow.remove();
@@ -884,7 +884,7 @@ function editSeaService(id) {
     
     // Get the candidateId from the URL parameter
     const id = urlParams.get('memId');
-            const response = await axios.post(`https://nsnemo.com/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`http://localhost:8001/candidate/sea-service/${id}`, formData, { headers: { "Authorization": token } });
             console.log(response.data);
             alert('Sea Service record added successfully!');
             seaServiceForm.reset();
@@ -902,7 +902,7 @@ function editSeaService(id) {
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nsnemo.com/user/${userId}/logout`)
+    axios.put(`http://localhost:8001/user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
@@ -928,7 +928,7 @@ function editSeaService(id) {
 
 async function fetchAndDisplayCompanies() {
             try {
-                const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", {
+                const companyResponse = await axios.get("http://localhost:8001/company/dropdown-company", {
                     headers: { "Authorization": token }
                 });
                 const companies = companyResponse.data.companies;
@@ -949,7 +949,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayRanks() {
             try {
-                const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", {
+                const rankResponse = await axios.get("http://localhost:8001/others/get-ranks", {
                     headers: { "Authorization": token }
                 });
                 const ranks = rankResponse.data.ranks;
@@ -970,7 +970,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayVessels() {
             try {
-                const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", {
+                const vesselResponse = await axios.get("http://localhost:8001/others/get-vessel", {
                     headers: { "Authorization": token }
                 });
                 const vessels = vesselResponse.data.vessels;
@@ -992,7 +992,7 @@ async function fetchAndDisplayCompanies() {
 
         async function fetchAndDisplayVesselTypes() {
             try {
-                const vesselTypeResponse = await axios.get("https://nsnemo.com/others/get-vsls", {
+                const vesselTypeResponse = await axios.get("http://localhost:8001/others/get-vsls", {
                     headers: { "Authorization": token }
                 });
                 const vesselTypes = vesselTypeResponse.data.vessels;

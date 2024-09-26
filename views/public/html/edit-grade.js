@@ -4,7 +4,7 @@ let currentPage = 1; // Initialize current page
 async function displayGrade(page = 1, limit = 10) {
     try {
         // Fetch grades from the server with pagination parameters
-        const gradeResponse = await axios.get(`https://nsnemo.com/others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const gradeResponse = await axios.get(`http://localhost:8001/others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Grade Response:', gradeResponse);
 
         const gradeTable = document.getElementById("grade-table");
@@ -134,7 +134,7 @@ async function deleteGrade(gradeId, event) {
     event.preventDefault();
 
     const id = gradeId;
-    const url = `https://nsnemo.com/others/delete-grade/${id}`;
+    const url = `http://localhost:8001/others/delete-grade/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -168,7 +168,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`http://localhost:8001/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

@@ -689,7 +689,7 @@ function generateExcelFile() {
         try {
             const base64File = await blobToBase64(blob);
 
-            const response = await axios.post('https://nsnemo.com/send-email', {
+            const response = await axios.post('http://localhost:8001/send-email', {
                 base64File: base64File
             }, {
                 headers: {
@@ -734,7 +734,7 @@ function generateExcelFile() {
                 startDate += 'T00:00:00Z';
               
                 if (startDate) {
-                    axios.get(`https://nsnemo.com/candidate/contractsdue`, {
+                    axios.get(`http://localhost:8001/candidate/contractsdue`, {
                         params: { startDate }
                     })
                     .then(response => {
@@ -788,7 +788,7 @@ function generateExcelFile() {
             function logout() {
                 const userId = localStorage.getItem('userId');
                 if (userId) {
-                    axios.put(`https://nsnemo.com/user/${userId}/logout`)
+                    axios.put(`http://localhost:8001/user/${userId}/logout`)
                         .then(response => {
                             console.log('Logged out successfully');
                         })
@@ -816,10 +816,10 @@ function generateExcelFile() {
                 try {
                     const token = localStorage.getItem('token');
                     
-                    const nationalityResponse = await axios.get("https://nsnemo.com/others/country-codes");
+                    const nationalityResponse = await axios.get("http://localhost:8001/others/country-codes");
                     nationalityData = nationalityResponse.data.countryCodes;
                     
-                    const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+                    const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
                     vslsData = serverResponse.data.vessels;
     
                     console.log('Vessels Data:', vslsData); // Debugging line
@@ -841,7 +841,7 @@ function generateExcelFile() {
             }
     
             function fetchContractsEndingSoon() {
-                axios.get('https://nsnemo.com/candidate/contractseoc')
+                axios.get('http://localhost:8001/candidate/contractseoc')
                     .then(response => {
                         const contracts = response.data.contracts;
                         const tbody = document.querySelector('#contractsEndingSoonTable tbody');

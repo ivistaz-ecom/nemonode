@@ -103,7 +103,7 @@ document.getElementById('exportCandidatesButton').addEventListener('click', asyn
             
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId')
-            const response = await axios.get(`https://nsnemo.com/candidate/reportsAll/${userId}`,{headers:{"Authorization":token}});
+            const response = await axios.get(`http://localhost:8001/candidate/reportsAll/${userId}`,{headers:{"Authorization":token}});
 
             if (!response.data || !response.data.candidates) {
                 throw new Error('Error fetching candidates data');
