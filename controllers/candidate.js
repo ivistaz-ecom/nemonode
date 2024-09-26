@@ -25,6 +25,7 @@ const Payslip = require('../models/payslip')
 
 const add_candidate = async (req, res) => {
     try {
+        console.log('works')
   const {
             active_details,
             area_code1,
@@ -136,7 +137,7 @@ const add_candidate = async (req, res) => {
         }
 
         // Check for existing data
-        const query = `SELECT candidateId FROM candidates WHERE (c_tel1='${c_tel1}' AND c_tel1!='') OR (c_mobi1='${c_mobi1}' AND c_mobi1!='') OR (email1='${email1}' AND email1!='')`;
+        const query = `SELECT candidateId FROM Candidates WHERE (c_tel1='${c_tel1}' AND c_tel1!='') OR (c_mobi1='${c_mobi1}' AND c_mobi1!='') OR (email1='${email1}' AND email1!='')`;
         const existingCandidate = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
