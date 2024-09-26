@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function displayVesselTypeDropdown() {
     try {
-        const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -89,7 +89,7 @@ async function handleOnBoardSubmit(event) {
         console.log(decodedToken)
 
         // Send request to fetch onboard candidates with filters
-        const response = await axios.get('http://localhost:8001/candidate/onboard3', {
+        const response = await axios.get('https://nsnemo.com/candidate/onboard3', {
             params: {
                 startDate: startDate,
                 vslName: vesselDropdown,

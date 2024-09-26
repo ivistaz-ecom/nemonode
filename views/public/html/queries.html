@@ -635,7 +635,7 @@
     const fetchQueries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8001/others/query-fetch', {
+        const response = await axios.get('https://nsnemo.com/others/query-fetch', {
           headers: {
             'Authorization': token
           }
@@ -661,7 +661,7 @@
             <td>${query.description}</td>
             <td>${query.status}</td>
             <td>${query.query_file}</td>
-            <td><a href='http://localhost:8001/views/public/files/queries/${query.query_file}' target="_blank">Click here to view!</a></td>
+            <td><a href='https://nsnemo.com/views/public/files/queries/${query.query_file}' target="_blank">Click here to view!</a></td>
 
             <td>${getUserName(query.created_by)}</td>
             <td>${query.reply}</td>
@@ -729,7 +729,7 @@
         }
 
         // Send the form data with the filename included only if it exists
-        await axios.post('http://localhost:8001/others/query', {
+        await axios.post('https://nsnemo.com/others/query', {
             description,
             status,
             query_file: queryFileName || '', // Use the filename received from the upload response or an empty string
@@ -779,7 +779,7 @@
 
       try {
         const token = localStorage.getItem('token');
-        await axios.put(`http://localhost:8001/others/query/${queryId}`, {
+        await axios.put(`https://nsnemo.com/others/query/${queryId}`, {
           description: editDescription,
           status: editStatus,
           reply: editReply
@@ -810,7 +810,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -834,7 +834,7 @@
     }, 2000);
   });
   async function getReq(){
-    const serverResponseUser = await axios.get('http://localhost:8001/user/userdropdown');
+    const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
         userData = serverResponseUser.data
   }
   getReq();

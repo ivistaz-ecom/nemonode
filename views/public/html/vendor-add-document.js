@@ -87,7 +87,7 @@ const id = decodedId
 // Function to fetch data from the server and populate the table
 async function fetchAndDisplayDocumentDetails(candidateId) {
     try {
-        const response = await axios.get(`http://localhost:8001/candidate/get-document-details/${candidateId}`, {
+        const response = await axios.get(`https://nsnemo.com/candidate/get-document-details/${candidateId}`, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -110,7 +110,7 @@ async function fetchAndDisplayDocumentDetails(candidateId) {
                 <td>${doc.issue_place}</td>
                 <td>${doc.document_files}</td>
 
-                <td><a href='http://localhost:8001/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='https://nsnemo.com/views/public/files/${doc.document_files}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${doc.stcw}</td>
                 <td>${doc.expiry_date}</td>
@@ -197,7 +197,7 @@ document.getElementById('documentForm').addEventListener('submit', async functio
     };
 
     try {
-        const response = await axios.post(`http://localhost:8001/candidate/document-details/${id}`, formData, {
+        const response = await axios.post(`https://nsnemo.com/candidate/document-details/${id}`, formData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -260,7 +260,7 @@ setInterval(updateDateTime, 1000);
 
 async function fetchDocumentTypes() {
     try {
-        const response = await axios.get('http://localhost:8001/others/get-documenttype');
+        const response = await axios.get('https://nsnemo.com/others/get-documenttype');
         const documents = response.data.documents;
 
         const dropdown = document.getElementById('documentTypeDropdown');

@@ -17,7 +17,7 @@ function addOption(selectElement, value) {
 }
 // async function createCompanyDropdown() {
 
-//     const companyResponse = await axios.get("http://localhost:8001/company/view-company", { headers: { "Authorization": token } });
+//     const companyResponse = await axios.get("https://nsnemo.com/company/view-company", { headers: { "Authorization": token } });
 //         const companyOptions = companyResponse.data.company;
 //         console.log(companyOptions)
 //         const companyNames = companyOptions.map(company => company.company_name);
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 // await createCompanyDropdown()
 // await createVendorDropdown()
 try {
-  const response = await axios.get('http://localhost:8001/company/dropdown-company');
+  const response = await axios.get('https://nsnemo.com/company/dropdown-company');
   const companies = response.data.companies;
 
   const userVendorDropdown = document.getElementById('user_vendor');
@@ -185,7 +185,7 @@ else{
         console.log(formData);
     
         try {
-            const response = await axios.post(`http://localhost:8001/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
+            const response = await axios.post(`https://nsnemo.com/user/create-user/${user_id}`, formData, { headers: { "Authorization": token } });
             // Handle the server response here
             console.log(response.data);
         } catch (error) {
@@ -200,7 +200,7 @@ else{
 })
 // async function createVendorDropdown() {
 //     try {
-//         const vendorResponse = await axios.get("http://localhost:8001/others/view-vendor", { headers: { "Authorization": token } });
+//         const vendorResponse = await axios.get("https://nsnemo.com/others/view-vendor", { headers: { "Authorization": token } });
 //         const vendorOptions = vendorResponse.data.vendors;
 //         console.log(vendorOptions);
         
@@ -243,7 +243,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

@@ -140,6 +140,7 @@ const add_candidate = async (req, res) => {
         if (email1) {
             whereClause.email1 = email1;
         }
+        
 
         const existingCandidate = await Candidate.findOne({
             where: whereClause,

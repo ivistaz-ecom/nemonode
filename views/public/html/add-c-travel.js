@@ -51,7 +51,7 @@ const candidateId = urlParams.get('memId');
 
             try {
                 // Make an Axios request to your backend API to add travel details
-                const response = await axios.post(`http://localhost:8001/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
+                const response = await axios.post(`https://nsnemo.com/candidate/travel-details/${id}`,travelDetails, {headers:{"Authorization": token}});
 
                 // Handle success response from the server
                 console.log('Travel details added successfully:', response.data);
@@ -66,7 +66,7 @@ const candidateId = urlParams.get('memId');
         async function fetchAndDisplayTravelDetails() {
             try {
                 // Make an Axios request to your backend API to get travel details
-                const response = await axios.get(`http://localhost:8001/candidate/get-travel-details/${id}`, {
+                const response = await axios.get(`https://nsnemo.com/candidate/get-travel-details/${id}`, {
                     headers: { "Authorization": token }
                 });
 
@@ -106,7 +106,7 @@ const candidateId = urlParams.get('memId');
             }
         }
 
-        const portAgentResponse = await axios.get("http://localhost:8001/others/get-portAgent", { headers: { "Authorization": token } });
+        const portAgentResponse = await axios.get("https://nsnemo.com/others/get-portAgent", { headers: { "Authorization": token } });
             const portAgents = portAgentResponse.data.portAgent;
             console.log(portAgentResponse,portAgents)
             const portAgentname = portAgents.map(pa => pa.portAgentName);
@@ -200,7 +200,7 @@ const candidateId = urlParams.get('memId');
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`http://localhost:8001/user/${userId}/logout`)
+          axios.put(`https://nsnemo.com/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })
@@ -231,7 +231,7 @@ async function deleteTravel(travelId) {
 
     try {
         // Make an Axios request to your backend API to delete the travel entry
-        const response = await axios.delete(`http://localhost:8001/candidate/delete-travel/${travelId}`, {
+        const response = await axios.delete(`https://nsnemo.com/candidate/delete-travel/${travelId}`, {
             headers: { "Authorization": token }
         });
 

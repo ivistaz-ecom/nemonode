@@ -106,7 +106,7 @@
                     const token = localStorage.getItem('token');
                     
                   
-                    const serverResponse = await axios.get("http://localhost:8001/others/get-vsls", { headers: { "Authorization": token } });
+                    const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
                     vslsData = serverResponse.data.vessels;
     
                     console.log('Vessels Data:', vslsData); // Debugging line
@@ -120,7 +120,7 @@
 
             async function getUserName(id) {
     const token = localStorage.getItem('token');
-    const serverResponseUser = await axios.get(`http://localhost:8001/candidate/get-candidate/${id}`, { headers: { "Authorization": token } });
+    const serverResponseUser = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`, { headers: { "Authorization": token } });
     return serverResponseUser.data.candidate.fname; // Return the name
 }
 

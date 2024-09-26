@@ -20,7 +20,7 @@ document.getElementById("port-agent-form").addEventListener("submit", async (e) 
     const country = document.getElementById("port-agent-country").value.trim();
 
     try {
-        const serverResponse = await axios.post("http://localhost:8001/others/create-port-agent", {
+        const serverResponse = await axios.post("https://nsnemo.com/others/create-port-agent", {
             portAgentName,
             contactPerson,
             address,
@@ -44,7 +44,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`http://localhost:8001/user/${userId}/logout`)
+      axios.put(`https://nsnemo.com/user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

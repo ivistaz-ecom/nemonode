@@ -29,7 +29,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
 }
 
         try {
-            const response = await axios.get(`http://localhost:8001/candidate/get-hospital-details/${id}`, {
+            const response = await axios.get(`https://nsnemo.com/candidate/get-hospital-details/${id}`, {
                 headers: {
                     'Authorization': token,
                 },
@@ -65,7 +65,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                 <td>${hospital.done_by}</td>
                 <td>${hospital.status}</td>
                 <td>${hospital.amount}</td>
-                <td><a href='http://localhost:8001/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
+                <td><a href='https://nsnemo.com/views/public/uploads/medical/${hospital.upload}' target="_blank">Click here to view Document!</a></td>
 
                 <td>${hospital.created_by}</td>
                 <td>
@@ -141,7 +141,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         async function populateHospitalDropdown() {
             const token = localStorage.getItem('token');
             try {
-                const hospitalResponse = await axios.get("http://localhost:8001/others/get-hospital", { 
+                const hospitalResponse = await axios.get("https://nsnemo.com/others/get-hospital", { 
                     headers: { "Authorization": token } 
                 });
                 console.log(hospitalResponse);
@@ -217,7 +217,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     
         // Submit the form data
         try {
-            const response = await axios.post(`http://localhost:8001/candidate/hospital-details/${memId}`, medicalDetails, {
+            const response = await axios.post(`https://nsnemo.com/candidate/hospital-details/${memId}`, medicalDetails, {
                 headers: {
                     'Authorization': token,
                 }
@@ -255,7 +255,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
         // Send request to update logged status to false
         const userId = localStorage.getItem('userId');
         if (userId) {
-          axios.put(`http://localhost:8001/user/${userId}/logout`)
+          axios.put(`https://nsnemo.com/user/${userId}/logout`)
             .then(response => {
               console.log('Logged out successfully');
             })

@@ -1124,7 +1124,7 @@ SIRE/CID experience
               document.getElementById('write').addEventListener('click', function() {
                   const evalObject = fetchValues();
   
-                  axios.post(`http://localhost:8001/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+                  axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
                       eval_type: 'Officers Engine',
                       applied_rank: appliedRank,
                       applied_date: appliedDate,
@@ -1163,7 +1163,7 @@ SIRE/CID experience
           const userPassword = document.getElementById('userPassword').value;
   
           try {
-              const response = await axios.post('http://localhost:8001/user/login', {
+              const response = await axios.post('https://nsnemo.com/user/login', {
                   userName: userName,
                   userPassword: userPassword
               });
