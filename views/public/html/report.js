@@ -2340,6 +2340,9 @@ async function handleOnBoardSubmit(event) {
         const contracts = response.data.contracts;
         setupPagination(contracts);
         addExportToExcelButton(contracts);
+        const message = `${contracts.length} data fetched`;
+        document.getElementById('messageContainer').innerText = message;
+
 
     } catch (error) {
         console.error("Error fetching onboard contracts:", error);
