@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>JSW JAIGARH PORT LTD</title>
+    <style>
+          @media print {
+            .print-button {
+                display: none; /* Hide print button when printing */
+            }
+        }
+table.seafarer-info {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+table.seafarer-info th, 
+table.seafarer-info td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+}
+
+table.seafarer-info th {
+    background-color: #f2f2f2;
+}
+
+table.seafarer-info input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+table.seafarer-info label {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 2px;
+}
+
+table.seafarer-info tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table.seafarer-info tr:hover {
+    background-color: #f1f1f1;
+}
+
+table.seafarer-info td {
+    width: 33%; /* Ensures all input fields take up equal width in their row */
+}
+
+table {
+    width: 80%; /* Consistent width for both tables */
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px; /* Optional: maximum width for layout */
+    margin: 20px auto;
+}
+
+.card {
+    border: 1px solid #ddd;
+  
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 45%; /* Adjust as needed for layout */
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+p {
+    margin: 0; /* Remove default margin from paragraphs */
+}
+
+body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .signature {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+</style>
+</head>
+<body style="padding: 50px 50px 50px 50px;text-align: center;" >
+    <div >
+        <h4 style="float: left;border: solid 1px black;padding: 5px 5px 5px 5px;">NEMO ID : <span id="candidateId"></span></h4>
+        <h4 style="float: right;border: solid 1px black;padding: 5px 5px 5px 5px;"> RPSL/CHN/012</h4>
+    </div>
+    <div style="text-align: center;margin-top: 50px;">
+    <h3>CONTRACT OF EMPLOYMENT</h3>
+    <p>BETWEEN</p>
+    <h3>JSW JAIGARH PORT LTD</h3>
+    <p>JSW Centre, Bandra Kurla Complex, near MMRDA Grounds, Bandra East, Mumbai – 400 051</p>
+    <p style="font-weight: bold;">the owner of the vessel below stated and the employer herein (the “Shipowner”)</p>
+    <p>AND</p>
+    <p>(the <span style="font-weight: bold;">“Seafarer”</span>)</p>
+    </div>
+    <table class="seafarer-info">
+        <tr>
+            <th>Full Name</th>
+            <td colspan="3"><input type="text" placeholder="XXXXX (the “Seafarer”)" id="fullName"></td>
+        </tr>
+        <tr>
+            <th>Date and Place of Birth</th>
+            <td colspan="3"><input type="text" placeholder="XXXX, XXXX" id="dob"></td>
+        </tr>
+        <tr>
+            <th>Passport Details</th>
+            <td>
+                <input type="text" placeholder="No. XXXX">
+            </td>
+            <td>
+                <label>Issued on</label>
+                <input type="date" placeholder="YYYY-MM-DD">
+            </td>
+            <td>
+                <label>At</label>
+                <input type="text" placeholder="Location">
+            </td>
+        </tr>
+        <tr>
+            <th>Seaman's Book Details</th>
+            <td>
+                <input type="text" placeholder="No. XXXX">
+            </td>
+            <td>
+                <label>Issued on</label>
+                <input type="date" placeholder="YYYY-MM-DD">
+            </td>
+            <td>
+                <label>At</label>
+                <input type="text" placeholder="Location">
+            </td>
+        </tr>
+        <tr>
+            <th>Cert. of Competency</th>
+            <td>
+                <input type="text" placeholder="No. XXXX">
+            </td>
+            <td>
+                <label>Issued on</label>
+                <input type="date" placeholder="YYYY-MM-DD">
+            </td>
+            <td>
+                <label>At</label>
+                <input type="text" placeholder="Location">
+            </td>
+        </tr>
+        <tr>
+            <th>Joining Port</th>
+            <td >
+              <select id="portDropdown">
+                <option value="">Select a Port</option>
+                <!-- Ports will be populated here -->
+              </select>
+            </td>
+          </tr>
+          
+        <tr>
+            <th>Vessel</th>
+            <td >
+              <select id="vslDrop">
+                <option value="">Select a Vessel</option>
+                <!-- Ports will be populated here -->
+              </select>
+            </td>
+          
+        </tr>
+        <tr>
+            <th>Vessel Type</th>
+            <td >
+              <select id="vesselDrop">
+                <option value="">Select a Vessel Type</option>
+                <!-- Ports will be populated here -->
+              </select>
+            </td>
+        </tr>
+    </table>
+
+    <p style="font-weight: bold;">For Officers - as per conditions of services of MUI - ICCSA CBA (MIC) for INDIAN seafarers </p>
+    <p style="font-weight: bold;">For Ratings - as per conditions of services of NUSI - ICCSA CBA (NIC) for INDIAN seafarers.</p>
+    <small>1.The terms and conditions apply from the commencement of service for the duration shown below are in accordance with and subject to the following terms and Conditions of Service the contents of which the Seafarer acknowledges as having read, understood, and agreed to:</small>
+    
+    <!-- First Table: Employment Details -->
+<!-- First Table: Employment Details -->
+<table class="employment-details">
+    <tr>
+        <th>Rank on Board</th>
+        <th>Place of Engagement</th>
+        <th>Duration of Contract</th>
+        <th>Wage starts from</th>
+    </tr>
+    <tr>
+        <td><input type="text" placeholder="Rank" id="rank"></td>
+        <td><input type="text" placeholder="Location"></td>
+        <td><input type="text" placeholder="Duration"></td>
+        <td><input type="text" placeholder="Wage"></td>
+    </tr>
+</table>
+
+<!-- Second Table: Wage Details -->
+<table class="wage-details">
+    <tr>
+        <th>BASIC MONTHLY WAGE</th>
+        <th>LEAVE WAGE</th>
+        <th>O.T</th>
+        <th>MISCELLANEOUS ALLOWANCES</th>
+        <th>OTHER ALLOWANCES</th>
+        <th>PF SEAFARER</th>
+        <th>PF COMPANY CONTRIBUTION</th>
+        <th>TOTAL WAGES [CTC]</th>
+    </tr>
+    <tr>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Amount"></td>
+        <td><input type="text" placeholder="Total Amount"></td>
+    </tr>
+</table>
+<div style="padding-left: 50px;">
+<p style="font-weight: bold;text-align: start;">Note: * (+/- 1) month is the option of Owners/managers of the vessel</p>
+<p style="text-align: start;">2.The wage and allowance elements in this form are machine printed. any additions or alterations to those elements require the initials of the Seafarer and the Owner's authorized agent(s).</p>
+<p style="text-align: start;">3.Stand-by wages, amounting to INR. ___NA_______, are payable for ___NA______ days in accordance with the conditions of service referred to above.</p>
+<p style="text-align: start;">4._____NA_________ Year wages are applicable and payable from ______NA________</p>
+<p style="text-align: start;">5.The appointment letter is automatically rendered null and void, should for any reason, the Seafarer does not travel to join the Vessel.</p>
+<p style="text-align: start;">6.In case of any higher revision of wages during the contract, the existing additional allowance will be adjusted accordingly, to meet the new wage scale.</p>
+<p style="text-align: start;">7.PF will be remitted to relevant offices and Taxes as applicable will be deducted and form 16A issued accordingly for the taxes deducted.</p>
+<p style="text-align: start;">8.PF applicable and Gratuity applicable will be deducted from the total wages and remitted to relevant offices.</p>
+<p style="text-align: start;">9.Basic wages will be applicable from the day crew reaches embarkation port until embarkation vessel on pro rata basis.</p>
+<p style="text-align: start;">10.PIRATES and ARMED ROBBERY: During the period of employment, if the ship attacked by pirates or armed robbery, you are entitled to receive the wages until you have been released and duly repatriated.</p>
+</div>
+<div class="container">
+    <div class="card employer-info" style="border: 1px solid black;">
+        <h3>NAUTILUS SHIPPING INDIA PVT LTD (Employer)</h3>
+        <p style="text-align: start;"> For and on behalf of JSW JAIGARH PORT LTD (As Agent only, of the Shipowner).</p>
+        
+        <div class="form-group" style="margin-top: 340px;text-align: start;">
+            <p>ESAKIAMMAL THEVAR<br>GM – Crewing & Operations</p>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <label>Place:</label>
+            <input type="text" placeholder="XXXX">
+        </div>
+        <div class="form-group">
+            <label>Date:</label>
+            <input type="date" placeholder="XXXX">
+        </div>
+    </div>
+    <!-- Seafarer Declaration Card -->
+    <div class="card seafarer-declaration" style="border: 1px solid black;">
+        <h3>The Seafarer:</h3>
+        <p>I hereby declare that the above facts and information are true and accurate. I further consent to the holding and processing by (i) the owners of any vessel on which I may be assigned from time to time and (ii) the Managers and any direct or indirect parent or subsidiary or associated or affiliated company of the Managers (together referred to as "the Companies") for the purposes of my employment, of personal data about me contained herein, or provided to any of the Companies at a later date, including with respect to personal and pensions administration, employee management and as required to comply with any laws, regulations or contracts applicable to any of the Companies or their businesses. I understand that this data will be stored in the Managers’ database for the purposes of my current or future employment arranged by the Managers. Further, I confirm that the above may involve the transfer of my personal data within the Managers’ organization.</p>
+        
+        <div class="form-group" style="margin-top: 50px;">
+            <label>Signature:</label>
+            <input type="text" placeholder="XXXX">
+        </div>
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" placeholder="XXXX">
+        </div>
+        <div class="form-group">
+            <label>Date:</label>
+            <input type="date" placeholder="Date">
+        </div>
+    </div>
+
+    <!-- Employer Info Card -->
+    
+</div>
+<div>
+   <h2> TERMS AND CONDITIONS</h2>
+<h4 style="text-align: start;">AA)</h4>
+<p style="font-weight: bold;text-align: start;">1. INCREMENTS:</p>
+<p  style="text-align: start;">Increments are calculated basis completion of 12 months sailing time if any. Accordingly, your increment will be due after completion of 12 months of sea service if any.</p>
+<p style="font-weight: bold;text-align: start;">2. DEDUCTIONS:</p>
+<p  style="text-align: start;">The following will be deducted from your on-board salary towards the following:</p>
+<table>
+    <tr>
+        <th>PARTICULARS</th>
+        <th>AMOUNT</th>
+    </tr>
+    <tr>
+        <td>CASH ADVANCE</td>
+        <td>As applicable</td>
+    </tr>
+    <tr>
+        <td>OTHERS</td>
+        <td>As applicable</td>
+    </tr>
+</table>
+<h4 style="text-align: start;">BB)</h4>
+<p style="font-weight: bold; text-align: start;">CASH ADVANCES ON BOARD:</p>
+<p style="text-align: start;">All seafarers will be allowed to draw advances up to the amount of their earnings standing against their name. At no time will their accounts run into a negative balance. As far as possible, the company will endeavor to make advances available in U.S. Dollars / local currency.</p>
+<h4 style="text-align: start;">CC)</h4>
+<p style="font-weight: bold; text-align: start;">ALLOTMENT:</p>
+<p style="text-align: start;">The employer will provide the facility of sending one monthly allotment without any extra cost to the seafarer. To facilitate the transfer of any monies to your account, you may be required to open an account at a specified bank. The company will assist you in opening such an account. You may leave the necessary instructions with the bank for the transfer of monies as required by you.</p>
+<h4 style="text-align: start;">DD)</h4>
+<p style="font-weight: bold; text-align: start;">BALANCE OF WAGES:</p>
+<p style="text-align: start;">As far as possible, the company will pay your balance of wages prior to your signing off the vessel. However, in the event of currency restrictions prevailing in that port, the employer will pay you in local currency if you desire so. If, in exceptional circumstances, funds are not available on board or with agents, the employer will settle your balance of wages within a month by remitting the same into your nominated bank account provided by you to the Master prior to signing off.</p>
+
+<h4 style="text-align: start;">EE)</h4>
+<p style="font-weight: bold; text-align: start;">PROBATION PERIOD:</p>
+<p style="text-align: start;">During your first contract with the employer, the first tour of duty will be considered as the probation period. In case a seafarer is promoted on board during their contract, the first three months after the promotion will be the probation period. During the probation period, the company is entitled to terminate your employment in case of unsatisfactory performance and appraisals from your superiors.</p>
+<h4 style="text-align: start;">FF)</h4>
+<p style="font-weight: bold; text-align: start;">WORKING HOURS, BREAKS AND PERIOD OF REST:</p>
+<p style="text-align: start;">The ordinary hours of work for all categories of officers shall be as hereunder:</p>
+<ul style="text-align: start;">
+    <li>Monday to Friday: 8 hours per day</li>
+    <li>Saturday: 4 hours per day</li>
+    <li>Rest Hours: 77 hours per week</li>
+</ul>
+
+<h4 style="text-align: start;">GG)</h4>
+<p style="font-weight: bold; text-align: start;">TAXATION:</p>
+<p style="text-align: start;">You will be responsible for all personal taxation whether of an income or capital nature, which may be levied upon you from time to time. Form -16A will be issued by the employer for all tax deducted at the end of the financial year.</p>
+<h4 style="text-align: start;">HH)</h4>
+<p style="font-weight: bold; text-align: start;">MEDICAL ATTENTION, SICK PAY, DEATH AND DISABILITY COMPENSATION:</p>
+<ol style="text-align: start;">
+    <li>The employer will pay all medical expenses from the date of commencement of the contract until your repatriation to your town, for any sickness contracted or injury received whilst upon the employer’s business, provided it was not self-inflicted or due to your fault or negligence. A seafarer repatriated to their port of engagement, unfit due to sickness or injury, shall be entitled to medical attention (including hospitalization) at the company’s expense as per the MUI-ICCSA CBA (MIC) (Officers) or the NUSI-ICCSA CBA (NIC) (Ratings).</li>
+    <li>Compensation for loss of life: In case of the death of a seafarer due to an accident while serving on board or while traveling to or from the vessel on the employer’s business or due to marine peril, the employer will pay compensation as per clause TT to their immediate next of kin.</li>
+    <li>Disability Compensation: If a seafarer, due to no fault of their own, meets with an accident while working on board or while traveling to or from the vessel on the employer’s business or due to marine peril, and as a result, their ability to work is reduced, the employer will pay disability compensation as per clause UU.</li>
+</ol>
+
+<h4 style="text-align: start;">II)</h4>
+<p style="font-weight: bold; text-align: start;">DENTAL / OPTICAL TREATMENT:</p>
+<p style="text-align: start;">Cosmetic dental work will not be paid by the employer. Spectacles are to be at the seafarer’s own expense. In the event of spectacles being broken during service, replacements will be at the employer's expense (subject to a suitable on-board log entry).</p>
+
+<h4 style="text-align: start;">JJ)</h4>
+<p style="font-weight: bold; text-align: start;">LOSS OF PERSONAL EFFECTS:</p>
+<p style="text-align: start;">Seafarers shall be compensated for loss of personal effects resulting from fire, collision, sinking, or similar marine accidents, or occurring while they are being transported by rail, sea, or air (provided a claim for the lost baggage is made under Airline Rules with the airline at the time of recovery before leaving the airport) as unaccompanied baggage (excluding loss occasioned by the officer's own fault). The amount payable as compensation for loss of personal effects for officers shall be Rs. 75,000/- and for Ratings shall be Rs. 50,000/-. There will be no recovery in case of loss of valuables and cash.</p>
+
+<h4 style="text-align: start;">KK)</h4>
+<p style="font-weight: bold; text-align: start;">TRAVEL:</p>
+<p style="text-align: start;">Unless otherwise provided, the cost of travel from the country where the seafarer commenced services (the “Place of Engagement”) to the port of embarkation of the vessel and from the port of discharge to the Place of Engagement shall be at the employer’s expense. Seafarers will be flown economy class and will be entitled to baggage allowance as applicable. Any extra baggage expenses incurred will be paid by the seafarer. In case of domestic travel, other available modes such as road, rail, and water shall also be used depending on availability as per the employer. The terms and conditions of insurance cover applicable during service on board a vessel would apply from the time of the seafarer’s departure from their hometown to join the vessel and up to their return. This cover is subject to conditions under the repatriation clause of the agreement. Seafarers are advised to carry some currency in USD (approximately 50 USD) for international travel and in INR (approximately 2500 INR) for domestic travel to use in case of emergency during travel to the vessel. Any expenses incurred will be reimbursed upon submission of bills.</p>
+<h4 style="text-align: start;">LL)</h4>
+<p style="font-weight: bold; text-align: start;">DOCUMENTS:</p>
+<p style="text-align: start;">Seafarers are required to carry all necessary original documents for service on board the assigned vessel. Any expenses incurred by the employer due to non-compliance will be chargeable to the office. Such documents include:</p>
+<ol style="text-align: start;">
+    <li>Valid Continuous Discharge Certificate (CDC)</li>
+    <li>Passport with a validity of not less than 6 months, having at least 2 blank pages for any required visa.</li>
+    <li>International vaccination certificate in respect of yellow fever and other specific requirements.</li>
+    <li>Certificate of competency.</li>
+    <li>Certificates of courses mandatory as per STCW’2010 convention.</li>
+    <li>Certificate for any additional training attended by the seafarer.</li>
+</ol>
+
+<h4 style="text-align: start;">MM)</h4>
+<p style="font-weight: bold; text-align: start;">DRUG & ALCOHOL:</p>
+<p style="text-align: start;">At the time of joining the company, a seafarer is required to give an undertaking that he is not a habitual user of drugs other than those prescribed by a doctor. Seafarers’ attention is drawn to the abuse act as laid down by the company. Any infringements that incur a penalty or prosecution will not be defended by the employer. Seafarers must not consume alcohol within 4 hours of going on watch and must maintain a blood alcohol level of 0% (0 mg/l in breath). Violation of these requirements may lead to disciplinary action, including dismissal. The employer will not defend personal liability for any infringements of drug laws, and violations may result in termination of contract as per clause NN.</p>
+
+<h4 style="text-align: start;">NN)</h4>
+<p style="font-weight: bold; text-align: start;">HEALTH, SAFETY AND ENVIRONMENTAL PROTECTION POLICY:</p>
+<p style="text-align: start;">Seafarers’ attention is drawn to the Manager’s policy on health, safety, and environmental protection, emphasizing priority for occupational health, safety at sea, prevention of human injury or loss of life, pollution prevention, and continual improvement in health, safety, and environmental performance.</p>
+
+<h4 style="text-align: start;">OO)</h4>
+<p style="font-weight: bold; text-align: start;">EARLY TERMINATION OF CONTRACT:</p>
+<p style="text-align: start;">A seafarer may resign at any time before the expiry of the contract by giving 1 (one) month’s notice in writing, in which case he will be entitled to leave pay pro-rata, but will be responsible for repatriation expenses. Leaving with less than 1 (one) month’s notice will also entitle the seafarer to leave pay pro-rata, but he will be responsible for repatriation and relief expenses, with the employer reserving the right to recover costs incurred. If employment is terminated due to circumstances beyond the seafarer’s control, the employer will provide 1 (one) month’s notice or wages in lieu, plus leave pay on a pro-rata basis and free repatriation. If discharged for misconduct or incompetence within this period, only wages up to the termination date will be provided, and the seafarer will be responsible for repatriation expenses. The company reserves the right to transfer the seafarer to any vessel managed by the company under similar terms and conditions.</p>
+
+<h4 style="text-align: start;">PP)</h4>
+<p style="font-weight: bold; text-align: start;">SUPERIOR CERTIFICATE / ADMINISTRATIVE ALLOWANCE:</p>
+<p style="text-align: start;">The superior certificate / administrative allowance has already been included in the wages.</p>
+
+<h4 style="text-align: start;">QQ)</h4>
+<p style="font-weight: bold; text-align: start;">NEW BUILDING – SUPERVISION / OFFICE BRIEFINGS / TRAINING COURSES:</p>
+<p style="text-align: start;">During your employment, you may be required to attend building inspections of new ships or training courses, including office briefings, prior to joining vessels as required by the company. The basic salary shall apply during these periods, with a food allowance if not provided. If office assignments exceed 8 days, the seafarer shall be paid complete remuneration without Trade Allowance.</p>
+
+<h4 style="text-align: start;">RR)</h4>
+<p style="font-weight: bold; text-align: start;">CERTIFICATION AND EQUIVALENT LICENSES:</p>
+<p style="text-align: start;">During your employment, you may be required to sail or serve on vessels of any type under any flag within normal trading limits without extra pay. The employer may assist in applying for and obtaining foreign licenses or certificates to meet flag country requirements. All expenses for obtaining such certificates will be covered by the employer, who will also bear the cost of necessary visas or permits.</p>
+
+<h4 style="text-align: start;">SS)</h4>
+<p style="font-weight: bold; text-align: start;">SERVICE IN WAR ZONE OR WAR RISK AREAS (AS DECLARED BY LLOYD’S):</p>
+<ol style="text-align: start;">
+    <li>A war risk bonus amounting to 100% of basic wage will be provided during service in a designated war risk area, starting from the day the ship enters the zone until it leaves, with a minimum payment of 5 days.</li>
+    <li>In the event of death, the surviving kin will receive compensation of twice the amount they would have received had the vessel been trading in normal areas.</li>
+    <li>In the event of disability, compensation will be twice the amount the officer would have received had the vessel been trading in normal areas.</li>
+</ol>
+
+<h4 style="text-align: start;">TT)</h4>
+<p style="font-weight: bold; text-align: start;">MEDICAL and SICK PAY:</p>
+<p style="text-align: start;">You warrant that you will disclose true and complete information about your health status during the medical examination. Any failure to disclose relevant information may result in liability for costs incurred by the employer. Sick pay is calculated at the rate of the seafarer’s basic pay. If a seafarer is landed at any port due to sickness or injury, he is entitled to sick pay plus guaranteed overtime until repatriated at the owner’s expense. Following repatriation, sick pay applies as follows:</p>
+<ul style="text-align: start;">
+    <li>In case of sickness, up to 16 weeks after discharge with valid medical certification.</li>
+    <li>In case of injury (not self-inflicted), for as long as medical attention is required or until a medical determination is made.</li>
+</ul>
+<p style="text-align: start;">Seafarers must report to the manning agent for prompt medical attention upon repatriation. Failure to avail treatment may release the owner from liability. Satisfactory medical certificates, endorsed by the owner’s approved doctor, are required to prove entitlement to sick pay. If there is a disagreement, a third doctor may be jointly nominated by both parties, and their decision will be final.</p>
+<h4 style="text-align: start;">UU)</h4>
+<p style="font-weight: bold; text-align: start;">DEATH & DISABILITY COMPENSATION:</p>
+<p style="text-align: start;">The ship owner undertakes to repatriate the seafarers if stranded at any place, as well as to provide reasonable maintenance and to transport the mortal remains of the seafarer, if permissible under local laws, in case of death.</p>
+<p style="text-align: start;">a) Death compensation for officers as per the MUI – ICCSA CBA agreement:</p>
+<p style="text-align: start;">Payment of compensation for personal injury resulting in permanent incapacity or death arising out of and in the course of employment, including death from heart attack or other proven causes (excluding self-inflicted injuries or misconduct), shall be:</p>
+<ul style="text-align: start;">
+    <li>In the event of death: Rs. 40,00,000/-</li>
+    <li>In the event of permanent incapacity from sea service: Rs. 45,00,000/-</li>
+</ul>
+<p style="text-align: start;">aa) ** Additional Death & Disability Compensation due to Radioactive Cargo:</p>
+<ul style="text-align: start;">
+    <li>Death Compensation: Rs. 5.00 lakhs</li>
+    <li>100% Disability Compensation: Rs. 5.00 lakhs</li>
+</ul>
+<p style="text-align: start;">b) Death compensation for ratings as per the NUSI-ICCSA CBA Agreement for India ratings:</p>
+<ul style="text-align: start;">
+    <li>Death Compensation: Rs. 30 lakhs</li>
+    <li>100% Disability Compensation: Rs. 35 lakhs</li>
+</ul>
+<p style="text-align: start;">In the case of a rating declared partially incapacitated while in employment, the disability compensation shall be paid on a proportionate basis. This Death & Disability compensation shall be paid if the death and/or disability result from the rating’s own willful act.</p>
+<p style="text-align: start;">bb) ** Additional Death & Disability Compensation due to Radioactive Cargo:</p>
+<ul style="text-align: start;">
+    <li>Death Compensation: Rs. 5.00 lakhs</li>
+    <li>100% Disability Compensation: Rs. 5.00 lakhs</li>
+</ul>
+
+<h4 style="text-align: start;">VV)</h4>
+<p style="font-weight: bold; text-align: start;">NEXT-OF-KIN:</p>
+<p style="text-align: start;">Name / Relationship: </p>
+<p style="text-align: start;">Address: </p>
+<p style="text-align: start;">Contact No: </p>
+<p style="text-align: start;">I hereby confirm that I have read and fully understood the foregoing terms as well as the terms & conditions at the time of my appointment. Furthermore, I voluntarily agree to those terms and will comply therewith in every respect.</p>
+<p style="text-align: start;">Seafarer: Original<br>
+Master: Copy<br>
+Office/Ship Owner: Original</p>
+
+<p style="text-align: start;margin-top: 150px;">Signature of Seafarer: ___________________  Date: _______________</p>
+
+</div>
+<button class="print-button" onclick="printPage()">Print Form</button>
+<script>
+    function printPage() {
+        window.print();
+    }
+</script>
+<script>
+    const token =  localStorage.getItem('token')
+const id = new URLSearchParams(window.location.search).get('id');
+const candidateId = document.getElementById('candidateId')
+candidateId.textContent=id
+getCandidate(id)
+
+async function getCandidate(id){
+const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}})
+console.log(response.data)
+const fullName = document.getElementById('fullName')
+const dob = document.getElementById('dob')
+const rank = document.getElementById('rank')
+
+fullName.value=response.data.candidate.fname
+dob.value=response.data.candidate.dob
+rank.value=response.data.candidate.c_rank
+
+}
+
+const fetchPorts = async () => {
+    try {
+      const response = await axios.get('https://nsnemo.com/others/get-ports');
+      
+   console.log(response.data.ports)
+
+      populatePortDropdown(response.data.ports);
+    } catch (error) {
+      console.error('Error fetching ports:', error);
+    }
+  };
+
+  const populatePortDropdown = (ports) => {
+    const dropdown = document.getElementById('portDropdown');
+    ports.forEach(port => {
+      const option = document.createElement('option');
+      option.value = port.id; // Assuming each port has an 'id'
+      option.textContent = port.portName; // Assuming each port has a 'name'
+      dropdown.appendChild(option);
+    });
+  };
+fetchPorts()
+
+async function fetchAndDisplayVessels() {
+    try {
+        const token = localStorage.getItem('token');
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        // console.log(serverResponse);
+        const vessels = serverResponse.data.vessels;
+
+        // Get the select elements
+        const vesselSelect = document.getElementById("vslDrop");
+
+
+        // Clear previous options
+        vesselSelect.innerHTML = '';
+     
+
+        // Add a default option to each select element
+        const defaultOption = document.createElement("option");
+        defaultOption.value = '';
+        defaultOption.text = "-- Select Vessel --";
+
+        vesselSelect.appendChild(defaultOption.cloneNode(true));
+       
+
+        // Add vessels to the dropdowns
+        vessels.forEach((vessel) => {
+            const option = document.createElement("option");
+            option.value = vessel.id;
+            option.text = vessel.vesselName;
+            vesselSelect.appendChild(option.cloneNode(true));
+          
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+}
+
+fetchAndDisplayVessels()
+
+
+async function fetchAndDisplayVsls() {
+    try {
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+        const vessels = serverResponse.data.vessels;
+
+        // Get the select element
+        const vesselSelect = document.getElementById("vesselDrop");
+
+        // Clear previous options
+        vesselSelect.innerHTML = '';
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "-- Select Vessel --";
+
+        vesselSelect.appendChild(defaultOption);
+
+        // Add vessels to the dropdown
+        vessels.forEach((vessel) => {
+            const option = document.createElement("option");
+            option.value = vessel.vesselName;
+            option.text = vessel.vesselName;
+            vesselSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+}
+fetchAndDisplayVsls()
+</script>
+</body>
+</html>

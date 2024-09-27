@@ -1485,3 +1485,18 @@ async function fetchAndDisplayFiles(candidateId) {
         console.error('Candidate ID not found in URL parameters');
     }
 }
+
+const updateURL = () => {
+    const candidateId = new URLSearchParams(window.location.search).get('id'); // Get the candidateId
+    const dropdown = document.getElementById('contractDropdown');
+
+    dropdown.addEventListener('change', (event) => {
+      if (event.target.value) {
+        const newUrl = `./JSWINFRA-contract.html?id=${candidateId}`;
+        window.location.href = newUrl; // Redirect to the new URL
+      }
+    });
+  };
+
+  // Call the function to set up the event listener
+  updateURL();
