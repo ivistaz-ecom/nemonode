@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pre-Employment Evaluation Sheet</title>
     <!-- Bootstrap CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
       body{
@@ -123,6 +125,10 @@
       </div>  
 
       <form>
+        <div class="d-flex justify-content-center" id="imageContainer" >
+ <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
+        
+        </div>
         <div class="mb-3">
           <label for="fullName" class="form-label"
             >Family Name & Given name</label
@@ -945,16 +951,10 @@ SIRE/CID experience
                 <label for="grading">GRADING:</label>
                 <select class="form-control" id="grading" >
                   <option value=""></option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
+                  <option value="1">Excellent</option>
+                  <option value="2">Satisfactory</option>
+                  <option value="3">Bad</option>
+                
                 </select>
               </div>
             </div>
@@ -971,10 +971,7 @@ SIRE/CID experience
                 placeholder="INTERVIEWER NAME"
               />
             </div>
-            <div class="col-md-4 mb-3">
-              <small class="p-2">SIGNATURE:</small>
-              <input type="text" class="form-control" placeholder="SIGNATURE"  id="signature"/>
-            </div>
+           
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
               <input type="date" class="form-control" id="dateNow" />
@@ -1003,6 +1000,12 @@ SIRE/CID experience
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    let nationalityData = []; // Add this line to declare nationalityData globally
+let portData=[];
+let vslsData =[];
+let companyData =[];
+let userData=[];
+
     function updatePrintableArea() {
         var form = document.getElementById('evaluationForm');
         var formData = new FormData(form);
@@ -1045,51 +1048,41 @@ SIRE/CID experience
         window.print();
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        function getURLParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                candidateId: params.get('candidateId'),
-                appliedDate: params.get('appliedDate'),
-                appliedRank: params.get('appliedRank'),
-                interviewerName: params.get('interviewerName'),
-                time: params.get('time') // Ensure 'time' parameter is included
-            };
-        }
+    document.addEventListener('DOMContentLoaded', async function() {
+     await getReq()
+    function getURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            candidateId: params.get('candidateId'),
+            appliedDate: params.get('appliedDate'),
+            appliedRank: params.get('appliedRank'),
+            interviewerName: params.get('interviewerName'),
+            time: params.get('time')
+        };
+    }
 
-        const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
-        if (token) {
-            const decodedToken = decodeToken(token);
-            const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
+    if (token) {
+        const decodedToken = decodeToken(token);
+        const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
 
-            // Store the values in sessionStorage
-            sessionStorage.setItem('candidateId', candidateId);
-            sessionStorage.setItem('appliedDate', appliedDate);
-            sessionStorage.setItem('appliedRank', appliedRank);
-            sessionStorage.setItem('interviewerName', interviewerName);
-            sessionStorage.setItem('time', time); // Store 'time' parameter
+        // Store the values in sessionStorage
+        sessionStorage.setItem('candidateId', candidateId);
+        sessionStorage.setItem('appliedDate', appliedDate);
+        sessionStorage.setItem('appliedRank', appliedRank);
+        sessionStorage.setItem('interviewerName', interviewerName);
+        sessionStorage.setItem('time', time);
 
-            // Display the applied rank in the input field
-            const rankApplied = document.getElementById('rankApplied');
-            if (rankApplied) {
-                rankApplied.value = appliedRank;
-            }
+        // Display values in input fields
+        document.getElementById('rankApplied').value = appliedRank || '';
+        document.getElementById('dateNow').value = appliedDate || '';
+        document.getElementById('intName').value = getUserName(interviewerName )|| '';
 
-            // Set today's date in the date input field
-            const dateNowElement = document.getElementById('dateNow');
-            if (dateNowElement) {
-                dateNowElement.value = appliedDate;
-            }
-
-            const intName = document.getElementById('intName');
-            if (intName) {
-                intName.value = interviewerName;
-            }
-
-            var originalContent = document.body.innerHTML; // Store the original content before printing
-
-            function fetchValues() {
+        // Fetch candidate details
+        getCandidate(candidateId);
+        updateCandidatePhoto(candidateId)
+        function fetchValues() {
                 const ids = [
                 'fullName','rankApplied','nationality','telephone','othersTAE',
                 'mobile','qualification','lastContract','englishGood','englishSatisf',
@@ -1108,7 +1101,7 @@ SIRE/CID experience
                 'auditsYes','auditsNo','awareYes','awareNo','yardYes','yardNo',
                 'cmsYes','cmsNo','mandatYes','mandatNo','riverYes','riverNo',
                 'reasonForLeaving','intComments','accepted','rejected','grading',
-                'intName','signature','dateNow','sseInapplicable','edisInapplicable',
+                'intName','dateNow','sseInapplicable','edisInapplicable',
                 'anchorInapplicable','deckInapplicable','bridgeInapplicable','ballastInapplicable',
                 'mlcInapplicable','pmsInapplicable','lsaInapplicable','extraInapplicable',
                 'expInapplicable','distressInapplicable','dryInapplicable','privacyInapplicable',
@@ -1133,30 +1126,102 @@ SIRE/CID experience
                 return evalObject;
             }
 
-            document.getElementById('write').addEventListener('click', function() {
-                const evalObject = fetchValues();
-              
-                axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
-                    eval_type: 'Engine Officers',
-                    applied_rank: appliedRank,
-                    applied_date: appliedDate,
-                    applied_by: decodedToken.userName,
-                    interviewer_name: interviewerName,
-                    values: evalObject,
-                    remote: window.location.href,
-                    time: time // Use the 'time' parameter
-                })
-                .then(response => {
-                    console.log(response.data.message);
-                })
-                .catch(error => {
-                    console.error('Error updating evaluation:', error);
-                });
+
+        document.getElementById('write').addEventListener('click', function() {
+            const evalObject = fetchValues();
+            axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+                eval_type: 'Engine Officers',
+                applied_rank: appliedRank,
+                applied_date: appliedDate,
+                applied_by: decodedToken.userName,
+                interviewer_name: interviewerName,
+                values: evalObject,
+                remote: window.location.href,
+                time: time
+            })
+            .then(response => {
+                console.log(response.data.message);
+            })
+            .catch(error => {
+                console.error('Error updating evaluation:', error);
             });
-        } else {
-            document.getElementById('loginModal').style.display = 'block';
+        });
+    } else {
+        document.getElementById('loginModal').style.display = 'block';
+    }
+
+    async function getCandidate(id) {
+        try {
+            const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`, {
+                headers: { "Authorization": token }
+            });
+            
+            const candidate = response.data.candidate;
+            const fullName = document.getElementById('fullName')
+            const nationality = document.getElementById('nationality')
+            const mobile = document.getElementById('mobile')
+            const lastContract=document.getElementById('lastContract')
+            const bmi = document.getElementById('vessel1')
+            
+            
+
+            fullName.value=response.data.candidate.fname
+            nationality.value=getNationalityName(response.data.candidate.nationality)
+            mobile.value=response.data.candidate.c_mobi1
+            lastContract.value=response.data.candidate.c_rank
+
+            bmi.value = (response.data.candidate.weight / (response.data.candidate.height )).toFixed(2);
+
+
+            
+            
+            console.log(candidate)
+        } catch (error) {
+            console.error('Error fetching candidate:', error);
         }
-    });
+    }
+});
+
+
+async function getReq() {
+    try {
+        const token = localStorage.getItem('token');
+        
+        // Fetch nationality data
+        const nationalityResponse = await axios.get("https://nsnemo.com/others/country-codes");
+        nationalityData = nationalityResponse.data.countryCodes;
+        
+        // Fetch other necessary data
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        vslsData= serverResponse.data.vessels
+        const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
+        userData = serverResponseUser.data
+        console.log(serverResponseUser)
+        const serverResponsecomp = await axios.get('https://nsnemo.com/company/dropdown-company');
+        companyData= serverResponsecomp.data.companies
+
+
+        const serverrespPort = await axios.get('https://nsnemo.com/others/get-ports')
+        portData=serverrespPort.data.ports
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+
+function getNationalityName(code) {
+    const nationality = nationalityData.find(nationality => nationality.code == code);
+    return nationality ? nationality.country : code;
+}
+function getUserName(email){
+  console.log(email)
+  console.log(userData)
+    const user = userData.find(user=>user.userEmail==email);
+    console.log(user)
+    return user ? user.userName : email;
+}
+
 
     document.querySelector('.close').onclick = function() {
         document.getElementById('loginModal').style.display = 'none';
@@ -1195,6 +1260,30 @@ SIRE/CID experience
             alert('An error occurred. Please try again.');
         }
     });
+
+    async function updateCandidatePhoto(id) {
+    // Simulate fetching the photo value from a database or other source
+    // Set the fetched photo value to the input field
+    const token = sessionStorage.getItem('token')
+    
+    const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    console.log(response)
+    const fetchedPhotoValue = response.data.candidate.photos
+    console.log(fetchedPhotoValue)
+    // Fetch the photo value from the form
+    const photoValue = fetchedPhotoValue
+
+    // Extract the photo name from the photo value
+    const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+    console.log(photoName)
+    // Update the src attribute of the img tag
+    const imageContainer = document.getElementById('imageContainer');
+    const image = imageContainer.querySelector('img');
+    image.src = "/photos/" + photoName;
+    image.alt = "Description of the image"; // Add alt attribute if needed
+    console.log(image.src); // Check the src attribute in the console
+}
+
 </script>
 
 

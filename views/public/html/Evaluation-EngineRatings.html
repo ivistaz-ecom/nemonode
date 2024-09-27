@@ -122,7 +122,10 @@
         </div> 
 
         <form>
-          <div class=""></div>
+            <div class="d-flex justify-content-center" id="imageContainer" >
+                <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
+                       
+                       </div>
             <div class="mb-3">
                 <label for="fullName" class="form-label">Family Name & Given name</label>
                 <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
@@ -766,16 +769,10 @@ SIRE/CDI experience Right ship
                     <label for="grading">GRADING:</label>
                     <select class="form-control" id="grading" >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
+                      <option value="1">Excellent</option>
+                      <option value="2">Satisfactory</option>
+                      <option value="3">Bad</option>
+                    
                     </select>
                   </div>
             </div>
@@ -792,10 +789,7 @@ SIRE/CDI experience Right ship
                 placeholder="INTERVIEWER NAME"
               />
             </div>
-            <div class="col-md-4 mb-3">
-              <small class="p-2">SIGNATURE:</small>
-              <input id="signNow" type="text" class="form-control" placeholder="SIGNATURE" />
-            </div>
+           
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
               <input id="dateNow" type="date" class="form-control" />

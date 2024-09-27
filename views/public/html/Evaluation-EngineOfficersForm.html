@@ -125,6 +125,10 @@
       </div>  
 
       <form>
+        <div class="d-flex justify-content-center" id="imageContainer" >
+          <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
+                 
+                 </div>
         <div class="mb-3">
           <label for="fullName" class="form-label"
             >Family Name & Given name</label
@@ -947,18 +951,12 @@ SIRE/CID experience
             <div class="col-md-4">
               <div class="form-group">
                 <label for="grading">GRADING:</label>
-                <select class="form-control" id="grading" readonly>
+                <select class="form-control" id="grading" >
                   <option value=""></option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
+                  <option value="1">Excellent</option>
+                  <option value="2">Satisfactory</option>
+                  <option value="3">Bad</option>
+                
                 </select>
               </div>
             </div>
@@ -975,10 +973,7 @@ SIRE/CID experience
                 placeholder="INTERVIEWER NAME"
               />
             </div>
-            <div class="col-md-4 mb-3">
-              <small class="p-2">SIGNATURE:</small>
-              <input type="text" class="form-control" placeholder="SIGNATURE"  id="signature"/>
-            </div>
+           
             <div class="col-md-4 mb-3">
               <small class="d-block">DATE:</small>
               <input type="date" class="form-control" id="dateNow" />
@@ -1005,6 +1000,10 @@ SIRE/CID experience
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+
+    document.addEventListener('DOMcontentloaded',async ()=>{
+      await getReq()
+    })
     // Function to fetch evaluation data based on candidateId and id
     async function fetchEvaluationData(candidateId, evalId) {
         try {
@@ -1038,7 +1037,7 @@ SIRE/CID experience
         'tugsYes', 'tugsNo', 'gmoYes', 'gmoNo', 'ecaYes', 'ecaNo', 'auditsYes', 'auditsNo', 
         'awareYes', 'awareNo', 'yardYes', 'yardNo', 'cmsYes', 'cmsNo', 'mandatYes', 
         'mandatNo', 'riverYes', 'riverNo', 'reasonForLeaving', 'intComments', 'accepted', 
-        'rejected', 'grading', 'intName', 'signature', 'dateNow','sseInapplicable','edisInapplicable',
+        'rejected', 'grading', 'intName', 'dateNow','sseInapplicable','edisInapplicable',
          'anchorInapplicable','deckInapplicable','bridgeInapplicable','ballastInapplicable',
           'mlcInapplicable','pmsInapplicable','lsaInapplicable','extraInapplicable',
           'expInapplicable','distressInapplicable','dryInapplicable','privacyInapplicable',
@@ -1158,6 +1157,49 @@ SIRE/CID experience
             });
         });
     }
+
+
+    
+
+async function getReq() {
+    try {
+        const token = localStorage.getItem('token');
+        
+        // Fetch nationality data
+        const nationalityResponse = await axios.get("https://nsnemo.com/others/country-codes");
+        nationalityData = nationalityResponse.data.countryCodes;
+        
+        // Fetch other necessary data
+        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        vslsData= serverResponse.data.vessels
+        const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
+        userData = serverResponseUser.data
+        console.log(serverResponseUser)
+        const serverResponsecomp = await axios.get('https://nsnemo.com/company/dropdown-company');
+        companyData= serverResponsecomp.data.companies
+
+
+        const serverrespPort = await axios.get('https://nsnemo.com/others/get-ports')
+        portData=serverrespPort.data.ports
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+
+function getNationalityName(code) {
+    const nationality = nationalityData.find(nationality => nationality.code == code);
+    return nationality ? nationality.country : code;
+}
+function getUserName(email){
+  console.log(email)
+  console.log(userData)
+    const user = userData.find(user=>user.userEmail==email);
+    console.log(user)
+    return user ? user.userName : email;
+}
+
 </script>
 
 
