@@ -452,6 +452,10 @@
               <input class="form-check-input" type="text" id="gears" placeholder="gears">
               <label class="form-check-label" for="gears">GEARS</label>
             </div>
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="text" id="othersPG" placeholder="Others">
+              <label class="form-check-label" for="gears">Others</label>
+            </div>
           </div>
         </div>
       </div>
@@ -1081,6 +1085,7 @@ let userData=[];
 
         // Fetch candidate details
         getCandidate(candidateId);
+        
         updateCandidatePhoto(candidateId)
         function fetchValues() {
                 const ids = [
@@ -1089,7 +1094,7 @@ let userData=[];
                 'englishPoor','vessel1','europe','usa','medSea','farEast','pgGoa',
                 'crewExperienceYes','crewExperienceNo','nationality1','cargosHandled',
                 'automation','ceInput1','ceInput2','ceInput3','ceInput4','ceInput5',
-                'ceInput6','pumps','gears','drinkingYes','drinkingNo','medicalYes',
+                'ceInput6','pumps','gears','othersPG','drinkingYes','drinkingNo','medicalYes',
                 'medicalNo','contractsNo','vesselServed','lastContractsignOff',
                 'mainExp','auxExp','cargoCranes','cargoCarried','cargoPumps',
                 'tradingArea','mixedCrew','ecdis','psc','sire','sseYes','sseNo',
