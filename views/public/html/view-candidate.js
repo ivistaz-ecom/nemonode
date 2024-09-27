@@ -1491,12 +1491,22 @@ const updateURL = () => {
     const dropdown = document.getElementById('contractDropdown');
 
     dropdown.addEventListener('change', (event) => {
-      if (event.target.value) {
-        const newUrl = `./JSWINFRA-contract.html?id=${candidateId}`;
-        window.location.href = newUrl; // Redirect to the new URL
-      }
-    });
-  };
+        let newUrl = '';
 
-  // Call the function to set up the event listener
-  updateURL();
+        switch (event.target.value) {
+            case '1':
+                newUrl = `./JSWINFRA-contract.html?id=${candidateId}`;
+                break;
+            case '2':
+                newUrl = `./JSWSHIPPING-contract.html?id=${candidateId}`;
+                break;
+            default:
+                return; // Do nothing if the selected value is empty
+        }
+
+        window.location.href = newUrl; // Redirect to the new URL
+    });
+};
+
+// Call the function to set up the event listener
+updateURL();
