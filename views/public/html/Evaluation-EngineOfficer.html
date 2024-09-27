@@ -1176,7 +1176,7 @@ let userData=[];
             lastContract.value=response.data.candidate.c_rank
             qualification.value=response.data.candidate.qualifications
 
-            bmi.value = (response.data.candidate.weight / (response.data.candidate.height )).toFixed(2);
+            bmi.value = (response.data.candidate.weight / response.data.candidate.height ).toFixed(2);
 
 
             
