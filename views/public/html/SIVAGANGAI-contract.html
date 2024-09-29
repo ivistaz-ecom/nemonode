@@ -1,0 +1,564 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="Content-Style-Type" content="text/css" />
+      <meta name="generator" content="Aspose.Words for .NET 24.9.0" />
+      <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <title></title>
+      <style>
+
+@media print {
+            .page-break {
+    page-break-before: always;
+  }
+            .print-button {
+                display: none; /* Hide print button when printing */
+            }
+        }
+      </style>
+      <style type="text/css">body { font-family:'Book Antiqua'; font-size:12pt }h1, h6, p { margin:0pt }li, table { margin-top:0pt; margin-bottom:0pt }h1 { text-align:center; page-break-inside:auto; page-break-after:avoid; font-family:Arial; font-size:11.5pt; font-weight:bold; color:#000000 }h6 { margin-top:2pt; page-break-inside:avoid; page-break-after:avoid; line-height:115%; font-family:'Calibri Light'; font-size:11pt; font-weight:normal; color:#1f3763 }.Heading8 { margin-top:12pt; margin-bottom:3pt; page-break-inside:auto; page-break-after:auto; font-family:Calibri; font-size:12pt; font-weight:bold; font-style:italic; color:#000000; -aw-style-name:heading8 }.BalloonText { line-height:normal; font-family:Tahoma; font-size:8pt; -aw-style-name:balloon-text }.BodyText { margin-bottom:6pt; font-family:'Book Antiqua'; font-size:12pt; -aw-style-name:body-text }.BodyText2 { margin-left:35.45pt; text-indent:-35.45pt; text-align:justify; line-height:normal; font-family:Arial; font-size:8pt; -aw-style-name:body-text2 }.Default { font-family:'Book Antiqua'; font-size:12pt; color:#000000 }.FontStyleHeader { font-family:Arial; font-size:9pt; font-weight:bold }.FontStyleValue { font-family:Arial; font-size:8pt }.Footer { line-height:normal; font-family:'Book Antiqua'; font-size:12pt; -aw-style-name:footer }.Header { line-height:normal; font-family:'Book Antiqua'; font-size:12pt; -aw-style-name:header }.ListParagraph { margin-left:36pt; text-indent:-18pt; text-align:justify; font-family:'Microsoft Sans Serif'; font-size:16pt; color:#7030a0; -aw-style-name:list-paragraph }.NoSpacing { line-height:normal; font-family:'Book Antiqua'; font-size:12pt; -aw-style-name:no-spacing }.NormalWeb { font-family:'Times New Roman'; font-size:12pt; -aw-style-name:normal-web }.PlainText { line-height:normal; font-family:'Courier New'; font-size:10pt; -aw-style-name:plain-text }.TableParagraph { margin-left:10pt; line-height:13.95pt; widows:0; orphans:0; font-family:'Book Antiqua'; font-size:11pt; -aw-style-name:'Table Paragraph' }span.BalloonTextChar { font-family:Tahoma; font-size:8pt }span.BodyText2Char { font-family:Arial; font-size:8pt }span.BodyTextChar { font-family:'Book Antiqua'; font-size:12pt }span.Heading1Char { font-family:Arial; font-size:11.5pt; font-weight:bold }span.Heading6Char { font-family:'Calibri Light'; font-size:11pt; color:#1f3763 }span.Heading8Char { font-size:12pt; font-weight:bold; font-style:italic }span.Hyperlink { text-decoration:underline; color:#0563c1; -aw-style-name:hyperlink }span.NoList1 { -aw-style-name:'No List1' }span.PageNumber { font-family:Tahoma; -aw-style-name:page-number }span.PlainTextChar { font-family:'Courier New' }span.UnresolvedMention { color:#605e5c; background-color:#e1dfdd; -aw-style-name:unresolved-mention }.TableGrid {  }.TableGrid1 {  }.awlist1 { list-style:none; counter-reset:awlistcounter44_0 }.awlist1 > li:before { content:counter(awlistcounter44_0, lower-latin) ')'; counter-increment:awlistcounter44_0 }.awlist2 { list-style:none; counter-reset:awlistcounter44_0 1 }.awlist2 > li:before { content:counter(awlistcounter44_0, lower-latin) ')'; counter-increment:awlistcounter44_0 }</style>
+   </head>
+   <body>
+      <div style="margin-top: 150px;">
+         <div style="-aw-headerfooter-type:header-primary; clear:both">
+            <span style="border: 2px solid black;padding: 5px;">NEMO ID:<span id="candidateId"></span></span>
+         </div>
+         <h1 style="text-align:left; line-height:115%; font-size:12pt"><span style="height:0pt; display:block; position:absolute; z-index:0"></span><span style="font-family:'Arial Narrow'; font-weight:normal; -aw-import:ignore">&#xa0;</span></h1>
+         <table cellspacing="0" cellpadding="0" style="margin-right:9pt; margin-left:9pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse; float:right">
+            <tr style="height:14.7pt">
+               <td style="width:97.1pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">
+                  <h1 style="line-height:115%; font-size:12pt"><span style="font-family:'Arial Narrow'; font-weight:normal">RPSL/CHN/012</span></h1>
+               </td>
+            </tr>
+         </table>
+         <p style="line-height:115%; font-size:8pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span></p>
+         <p style="margin-left:7.1pt; widows:0; orphans:0; font-size:13.5pt"><span style="font-family:'Arial Narrow'; font-size:8pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">CONTRACT OF EMPLOYMENT</span><span style="width:128.02pt; font-family:'Arial Narrow'; font-size:12pt; display:inline-block; -aw-tabstop-align:right; -aw-tabstop-pos:535.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;</span></p>
+         <p style="margin-left:144pt; text-indent:36pt; font-size:9.5pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">BETWEEN</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'; font-weight:bold">NAUTILUS SHIPPING INDIA PVT LTD</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">1st Floor, Maalavika Centre, 144, Kodambakkam High Road, Nungambakkam, Chennai-600034</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">As Agents for the Owner</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'; font-weight:bold">SIVAGANGAI FERRY PVT LTD,</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">143/1 Uttamar Gandhi Salai, Awfis Office Space, Nungambakkam, Chennai 600034</span></p>
+         <p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">the owner of the vessel below stated and the employer herein (the “Shipowner”)</span><br /><span style="font-family:'Arial Narrow'">AND</span></p>
+         <p style="text-align:center; widows:0; orphans:0; font-size:11pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <table cellspacing="0" cellpadding="0" class="TableGrid" style="width:100%; max-width: 558.25pt; border-collapse:collapse;">
+            <tr style="height:10.9pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Full Name :</span></p>
+                </td>
+                <td colspan="7" style="width:275.7pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="fullName" style="border: none; width: 100%;"></p>
+                </td>
+                <td colspan="2" style="width:125.05pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-left:36.6pt; margin-bottom:1pt; font-size:11pt;">(the “Seafarer”)</p>
+                </td>
+            </tr>
+            <tr style="height:13.9pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Date and Place of Birth :</span></p>
+                </td>
+                <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="dob" style="border: none; width: 100%;"></p>
+                </td>
+            </tr>
+            <tr style="height:13.9pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Passport Details:</span></p>
+                </td>
+                <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+                </td>
+                <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;">
+                        <span style="font-family:'Arial Narrow'">Issued on:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                        <span style="font-family:'Arial Narrow'">At:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:4pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Seaman's Book Details:</span></p>
+                </td>
+                <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+                </td>
+                <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;">
+                        <span style="font-family:'Arial Narrow'">Issued on:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                        <span style="font-family:'Arial Narrow'">At:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:13.9pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Cert. of Competency:</span></p>
+                </td>
+                <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+                </td>
+                <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;">
+                        <span style="font-family:'Arial Narrow'">Issued on:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                        <span style="font-family:'Arial Narrow'">At:</span>
+                        <input type="text" style="border: none; width: 30%; display: inline-block;">
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:13.9pt">
+                <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Joining Port:</span></p>
+                </td>
+                <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
+                    <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'"><input type="text" id="port" style="border: none; width: 100%;"></span></p>
+                </td>
+            </tr>
+            <tr style="height:9.55pt">
+                <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'">for service onboard MV</span></p>
+                </td>
+                <td colspan="2" style="width:88.45pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"> <select id="vslDrop" style="border: none; outline: none;">
+                        <option value="">Select a Vessel</option>
+                        <!-- Options will be populated here -->
+                    </select></span></p>
+                </td>
+                <td style="width:9.1pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">of</span></p>
+                </td>
+                <td colspan="2" style="width:61.4pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border: none;"></span></p>
+                </td>
+                <td style="width:70.5pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Flag, IMO Nbr:</span></p>
+                </td>
+                <td colspan="3" style="width:49.65pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border: none;"></span></p>
+                </td>
+                <td style="width:88.45pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">(the “VESSEL”)</span></p>
+                </td>
+            </tr>
+            <tr style="height:22pt">
+                <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="text-align:right; font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Vessel Type:</span></p>
+                </td>
+                <td colspan="6" style="width:261.85pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;">   <select id="vesselDrop" style="border: none; outline: none;">
+                        <option value="">Select a Vessel Type</option>
+                        <!-- Options will be populated here -->
+                    </select></span></p>
+                </td>
+                <td colspan="4" style="width:148.9pt; padding:5.4pt; vertical-align:top;">
+                    <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">&#xa0;</span></p>
+                </td>
+            </tr>
+        </table>
+        
+        
+         <p class="ListParagraph" style="margin-left:21.3pt; text-align:center; widows:0; orphans:0; font-size:10pt"><span style="font-family:'Arial Narrow'; color:#000000; -aw-import:ignore">&#xa0;</span></p>
+         <h1 style="margin-right:62.55pt; text-indent:28.35pt; text-align:left"><span style="font-family:'Arial Narrow'; font-weight:normal">For</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">Officers</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">-</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">as</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">per</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">conditions</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">services</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">MUI</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">- ICCSA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">CBA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">(MIC)</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">for</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">INDIAN</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">seafarers</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.05pt"> </span></h1>
+         <h1 style="margin-right:62.55pt; text-indent:28.35pt; text-align:left"><span style="font-family:'Arial Narrow'; font-weight:normal">For</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">Ratings</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">-</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">as</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">per</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">conditions</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">services</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">NUSI - ICCSA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">CBA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">(NIC)</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">for</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">INDIAN</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">seafarers.</span></h1>
+         <p><span style="-aw-import:ignore">&#xa0;</span></p>
+         <ol type="1" style="margin:0pt; padding-left:0pt">
+            <li class="ListParagraph" style="margin-left:10.13pt; text-indent:0pt; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>The terms and conditions apply from the commencement of service for the duration shown below are in accordance with and subject to the following terms and Conditions of Service the contents of which the Seafarer acknowledges as having read, understood, and agreed to:</span></li>
+         </ol>
+         <p style="widows:0; orphans:0; font-size:5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <div style="text-align:center">
+            <table cellspacing="0" cellpadding="0" class="TableGrid" style="margin-right:auto; margin-left:auto; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">
+               <tr style="height:18.85pt">
+                  <td style="width:109.4pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Rank on Board</span></p>
+                  </td>
+                  <td style="width:124pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Place of Engagement</span></p>
+                  </td>
+                  <td style="width:123.15pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Duration of Contract</span></p>
+                  </td>
+                  <td style="width:123.05pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Wage starts from</span></p>
+                  </td>
+               </tr>
+               <tr style="height:18.4pt">
+                  <td style="width:109.4pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;" id="rank"></span></p>
+                  </td>
+                  <td style="width:124pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;"></span></p>
+                  </td>
+                  <td style="width:123.15pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;</span><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;">(+/- 1 MONTHS)</span></p>
+                  </td>
+                  <td style="width:123.05pt; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">
+                     <p style="text-align:center; widows:0; orphans:0; font-size:8pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;font-size: 8px;width:100%;" placeholder="THE DAY CREW EMBARK THE VESSEL"></span></p>
+                  </td>
+               </tr>
+            </table>
+         </div>
+         <p style="widows:0; orphans:0; font-size:6pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <table cellspacing="0" cellpadding="0" style="width:100%; max-width: 522.55pt; border:0.75pt solid #000000; border-collapse:collapse; font-family:'Arial Narrow';">
+            <tr style="height:22.85pt">
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">BASIC MONTHLY WAGE</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">LEAVE WAGE</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">O.T</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">MISCELLANEOUS ALLOWANCES</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">TRADE ALLOWANCE</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">OTHER ALLOWANCES</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">PF SEAFARER</td>
+                <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">PF COMPANY CONTRIBUTION</td>
+                <td style="border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">TOTAL WAGES [CTC]</td>
+            </tr>
+            <tr style="height:19.75pt">
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+                <td style="padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+            </tr>
+        </table>
+        <div class="page-break"></div>
+         <p style="widows:0; orphans:0; font-size:6pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="widows:0; orphans:0; font-size:7.5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="widows:0; orphans:0; font-size:7.5pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">Note</span><span style="font-family:'Arial Narrow'">: * (+/- 1) month is the option of Owners/managers of the vessel</span></p>
+         <p style="widows:0; orphans:0; font-size:3pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <ol start="2" type="1" style="margin:0pt; padding-left:0pt">
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>The wage and allowance elements in this form are machine printed. any additions or alterations to those elements require the initials of the Seafarer and the Owner's authorized agent(s).</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>Stand-by wages, amounting to INR.</span><span style="text-decoration:underline"> ___NA_______</span><span>, are payable for </span><span style="text-decoration:underline">___NA______</span><span> days in accordance with the conditions of service referred to above.</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span style="text-decoration:underline">_____NA_________ </span><span>Year wages are applicable and payable from </span><span style="text-decoration:underline">______NA________</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>The appointment letter is automatically rendered null and void, should for any reason, the Seafarer does not travel to join the Vessel.</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>In case of any higher revision of wages during the contract, the existing additional allowance will be adjusted accordingly, to meet the new wage scale.</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>PF will be remitted to relevant offices and Taxes as applicable will be deducted and form 16A issued accordingly for the taxes deducted.</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>PF applicable and Gratuity applicable will be deducted from the total wages and remitted to relevant offices.</span></li>
+            <li class="ListParagraph" style="margin-left:10.13pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>Basic wages will be applicable from the day crew reaches embarkation port until embarkation vessel on pro rata basis.</span></li>
+            <li class="ListParagraph" style="margin-left:13.55pt; margin-bottom:4pt; text-indent:0pt; line-height:115%; widows:0; orphans:0; padding-left:4.45pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>PIRATES and ARMED ROBBERY: During the period of employment, if the ship attacked by pirates or armed robbery, you are entitled to receive the wages until you have been released and duly repatriated.</span></li>
+         </ol>
+         <table cellspacing="0" cellpadding="0" class="TableGrid" style="width:540pt; border-collapse:collapse">
+            <tr style="height:6.75pt">
+               <td style="width:272.7pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top">
+                  <p style="widows:0; orphans:0; font-size:9pt"><span style="font-family:'Arial Narrow'">NAUTILUS SHIPPING INDIA PVT LTD (Employer)</span></p>
+                  <p style="widows:0; orphans:0; font-size:6.5pt"><span style="font-family:'Arial Narrow'">For and on behalf of (As Agent only, of the Shipowner).</span></p>
+                  <p style="margin-bottom:6pt; line-height:150%; widows:0; orphans:0; font-size:7.5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+                  <p style="margin-bottom:6pt; line-height:150%; widows:0; orphans:0; font-size:7.5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+                  <p style="margin-bottom:6pt; line-height:150%; widows:0; orphans:0; font-size:7.5pt"><span style="height:0pt; display:block; position:absolute; z-index:1">&#xa0;</span></p>
+                  <p style="margin-bottom:3pt; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Place</span><span style="width:12.01pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:31.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: <input type="text" style="border: none;"></span></p>
+                  <p style="margin-bottom:3pt; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Date</span><span style="width:15.05pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:31.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: <input type="text" style="border: none;"></span><span style="width:222.39pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:center; -aw-tabstop-pos:279pt">&#xa0;</span></p>
+               </td>
+               <td style="width:245.7pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top">
+                  <p style="margin-right:10.25pt; margin-bottom:3pt; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">The Seafarer:</span></p>
+                  <p style="margin-right:10.25pt; text-align:justify; widows:0; orphans:0; font-size:5pt"><span style="font-family:'Arial Narrow'">I hereby declare that the above facts and information are true and accurate. I further consent to the holding and processing by (i) the owners of any vessel on which I may be assigned from time to time and (ii) the Managers and any direct or indirect parent or subsidiary or associated or affiliated company of the Managers (together referred to as "the Companies") for the purposes of my employment, of personal data about me contained herein, or provided to any of the Companies at a later date, including with respect to personal and pensions administration, employee management and as required to comply with any laws, regulations or contracts applicable to any of the Companies or their businesses. I understand that this data will be stored in the Managers’ database for the purposes of my current or future employment arranged by the Managers. Further, I confirm that the above may involve the transfer of my personal data within the Managers’ organization.</span></p>
+                  <p style="widows:0; orphans:0; font-size:5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+                  <p style="widows:0; orphans:0; font-size:5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+                  <p style="widows:0; orphans:0; font-size:9.5pt"><span style="width:84.54pt; font-family:'Arial Narrow'; font-size:5pt; display:inline-block; -aw-tabstop-align:center; -aw-tabstop-pos:93.3pt">&#xa0;</span><span style="font-family:'Arial Narrow'; font-size:6.5pt">Signature</span><br /><span style="font-family:'Arial Narrow'">Name : <input type="text" style="border: none;"></span><br /><span style="font-family:'Arial Narrow'">Date <input type="date" style="border: none;"></span><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">: </span></p>
+                  <p style="widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+                  <p style="widows:0; orphans:0; font-size:6.5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+               </td>
+            </tr>
+         </table>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;</span></p>
+         <p><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span></p>
+         <p style="text-align:center; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">TERMS AND CONDITIONS</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">AA)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">1. INCREMENTS:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Increments are calculated basis completion of 12 months sailing time if any. Accordingly, your increment will be due after completion of 12 months of sea service if any.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">2. DEDUCTIONS:</span></p>
+         <p style="margin-bottom:4pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The following will be deducted from your on-board salary towards the following:</span></p>
+         <table cellspacing="0" cellpadding="0" style="margin-left:36.9pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">
+            <tr style="height:13.9pt">
+               <td style="width:187.2pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">PARTICULARS </span></p>
+               </td>
+               <td style="width:190.8pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">AMOUNT </span></p>
+               </td>
+            </tr>
+            <tr>
+               <td style="width:187.2pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">CASH ADVANCE </span></p>
+               </td>
+               <td style="width:190.8pt; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">As applicable </span></p>
+               </td>
+            </tr>
+            <tr>
+               <td style="width:187.2pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">OTHERS</span></p>
+               </td>
+               <td style="width:190.8pt; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">
+                  <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">As applicable</span></p>
+               </td>
+            </tr>
+         </table>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">BB)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">CASH ADVANCES ON BOARD:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">All seafarers will be allowed to draw advances up to the amount of their earnings standing against their name. At no time his accounts will run in to negative balance. As far as possible the company will endeavor to make advances available in U.S. Dollars / local currency.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">CC)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">ALLOTMENT:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The employer will provide the facility of sending one monthly allotment without any extra cost to the seafarer. To facilitate transfer of any monies to your account, you may be required to open an account at specified bank. The company will assist you in opening of such account. You may leave the necessary instructions with the Bank transfer of monies as required by you.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">DD)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">BALANCE OF WAGES:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">As far as possible, the company will pay your balance of wages prior to your signing off the vessel. However, in the event of currency restrictions prevailing in that port, the employer will pay you in local currency if you desire so. If, in exceptional circumstances, funds are not available on board or with agents, the employer will settle your Balance Of wages within a month by remitting same into your nominated bank account provided by you to the Master prior signing off.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">EE)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">PROBATION PERIOD:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">During your first contract with the employer, the first tour of duty will be considered as probation period. In case a seafarer is promoted on board during his contract. The first three months after the promotion will be the probation period. During probation period company is entitled to terminate your employment in case of unsatisfactory performance and appraisals from your superiors.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">FF)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">WORKING HOURS, BREAKS AND PERIOD OF REST:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The ordinary hours of work for all categories of officers shall be as hereunder:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Monday to Friday </span><span style="width:6.36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="font-family:'Arial Narrow'">8 hours per day</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Saturday </span><span style="width:0.9pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="width:36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="font-family:'Arial Narrow'">4 hours per day</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Rest Hours</span><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">77 hours per week</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">GG)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">TAXATION:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">You will be responsible for all personal taxation whether of an income or capital nature, which may be levied upon you from time to time. Form -16A will be issued by the employer for all tax deducted at the end of financial year. </span></p>
+         <p style="text-align:justify; font-size:10pt"><br /><span style="font-family:'Arial Narrow'">HH)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">MEDICAL ATTNETION, SICK PAY, DEATH AND DISABILITY COMPENSATION:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">1. The employer will pay all medical expenses from the date of commencement of the contract till the time of your repatriation to your town, for any sickness contracted or injury received whilst upon the employer’s business, provided it was not self-inflicted or due to your fault or negligence.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">A Seafarer repatriated to their port of engagement, unfit because of sickness or injury, shall be entitled to medical attention (including hospitalization) at the company’s expense as per the MUI-ICCSA CBA (MIC) (Officers) or the NUSI-ICCSA CBA (NIC (Ratings). </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">2. Compensation of loss of life: In case of death of seafarer due to an accident while serving on board or while travelling to or from vessel on employer’s business or due to marine peril, the employer will pay to his immediate next to kin a compensation as per clause TT</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">3. Disability Compensation: If a seafarer due to no fault of his own meets with an accident while working on board or while travelling to or from the vessel on employer’s business or due to marine peril and as a result his ability to work is reduced, the employer will pay him disability compensation as per the clause UU</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">II) </span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">DENTAL / OPTICAL TREATMENT:</span><span style="font-family:'Arial Narrow'"> </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Cosmetic dental work will not be paid by the employer. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Spectacles are to be the seafarer’s own account. In the event of spectacles being broken during service, replacements will be on employers account (Subject to suitable on-board log entry) </span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">JJ)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">LOSS OF PERSONAL EFFECTS:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; color:#171412">Seafarers shall be paid compensation for loss of personal effects resulting from fire, collision, sinking or similar other marine accidents or occurring while they are being transported by rail, sea, or air (provided claim for the lost baggage is made under Airline Rules with the airline at the time of recovery of baggage before leaving the airport) as unaccompanied baggage (excluding loss occasioned by the officer's own fault). The amount payable as compensation for loss of personal effects for officers shall be Rs.75, 000/- and Ratings Shall be Rs.50,000/-. There will be no recovery in case of loss of Valuables and Cash.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">KK)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">TRAVEL:</span><span style="font-family:'Arial Narrow'; text-decoration:underline; -aw-import:spaces">&#xa0; </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Unless otherwise herein provided, the cost of travel from the country where the Seafarer commenced his services hereunder (the “Place of Engagement”) to the port of embarkation of the Vessel and from the port of discharge to the Place of Engagement shall be at the expense of the Employer.</span><span style="font-family:'Arial Narrow'; color:#ff0000"> </span><span style="font-family:'Arial Narrow'">At all times seafarers will be flown economy class and will be entitled to baggage allowance as applicable. Any extra baggage expenses incurred will be paid by the seafarer. In case of domestic travel, other available modes shall also be used like Road, Rail, and Water depending on availability as per employer. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The terms and conditions of insurance cover, as applicable during the service on board a vessel would apply from time to time of the seafarer’s departure from his hometown to join the vessel and up to his return to hometown. This cover is subject to conditions under repatriation clause of the agreement. Seafarers are advised to carry some currency in USD approximate (50 USD) for international travel and in INR approximately (2500 INR) for domestic travel that he can use to contact Agents/Owners in case of emergency during travel to vessel. In case if any expenses are incurred, it will be reimbursed on submitting bills.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">LL)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">DOCUMENTS:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Seafarer will be requiring to carry all his documents in original which are considered necessary for service on board the vessel to which assigned. Any expenses that the employer may incur due to the office not having complied with the above will be chargeable to the office. Without limiting the extent, such documents will mean to include: </span></p>
+         <ol type="1" style="margin:0pt; padding-left:0pt">
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>Valid Continuous Discharge certificate (CDC)</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>Passport with validity of not less than 6 months having at least 2 blank pages for any requires visa.</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span style="-aw-import:spaces">&#xa0;</span><span>International vaccination certificate in respect of yellow fever and other specific requirements.</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>Certificate of competency.</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>Certificate of courses which are mandatory as per STCW’2010 convention.</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>Certificate for any additional training, which the seafarer may have attended. </span></li>
+         </ol>
+         <p style="text-align:justify; font-size:10pt"><br /><span style="font-family:'Arial Narrow'">MM)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">DRUG &amp; ALCOHOL:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">At the time of joining the company, a seafarer is required to give an undertaking that he is not a habitual user of drug other than at time when prescribed by doctors for medications. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Seafarers’ attention is drawn to the abuse act as laid down by the company. Any infringements by the officer which incur a penalty or prosecution on him not be defended by the employer.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Seafarer’s attention is drawn to our policy on use of drugs and misuse of Alcohol. The seafarer undertakes not to consume any alcohol 4 hours of going on watch keeping and further agrees that at no time he will consume alcohol in a limit of not greater than 0 % blood alcohol level(BAC) or 0 mg/l alcohol in the breath or a quantity of alcohol leading to such alcohol concentration for masters, officers and other seafarers while performing designated safety, security, and marine environmental duties. at the time of taking over his watch keeping / port duties and aggress to abide by the Managers Drug &amp; alcohol policy which he has read and understood. Company maintaining zero alcohol policy and at the time of joining crew were briefed compliance of drug and alcohol policy strictly.</span><br /><span style="font-family:'Arial Narrow'">Any violation of these requirements may lead to disciplinary action including dismissal of the seafarer.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The employer will not defend your personal liability for infringements of any drugs or drugs trafficking law. Violation of these rules may result in termination of your contract and discharged as per clause NN.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">NN)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">HEALTH, SAFETY AND ENVIRONMENTAL PROTECTION POLICY:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Seafarers’ attention is drawn to the Managers policy on health, safety, and environmental protection policy to give priority to occupational health, ensure safety at sea, prevention of human injury or loss of life prevention of pollution, avoidance of damage to the marine environment, preservation / conservation of our environment and continual improvement in health, safety and environmental performance.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">OO)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">EARLY TEMINATION OF CONTRACT:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; widows:0; orphans:0; font-size:10pt"><span style="font-family:'Arial Narrow'">A seafarer may resign from our services at any time before the expiry of his contract after giving 1(one)month’s notice in writing, in which case he will be entitled to leave pay-rata, but he is to be responsible for his repatriation expenses. In the event of his leaving the employers service on less that 1(one) month’s notice, he is entitled to leave pay pro-rata but he will be responsible for his repatriation and relief expenses and the employer reserves the right to recover from his all costs and / or losses incurred, which would not have arisen had he fulfilled his contract period.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">If, due to circumstances involving no fault of a seafarer, it becomes necessary to terminate employment within the period of your service, the employer will give 1 (one) month’s notice in writing or 1 (one) month’s basic wages in lieu thereof, plus leave pay on pro-rata for the actual period of service and free repatriation to the place of your engagement. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">If you are discharged due to your misconduct, negligence or incompetence within this period or during your probationary period as in (FF), you will receive wages only up to and including the day of termination of your services, but you will be responsible for your repatriation and relief expenses and for all costs and / or losses incurred, which would not have arisen, had you not been discharged. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The company reserves the right to transfer you on any vessel managed by the company during the tenure of this contract under similar terms and conditions.</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">PP)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">SUPERIOR CERTIFICATE / ASMINISTRATIVE ALLOWANCE:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Superior certificate / Administrative allowance has already been included in the wages. </span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">QQ)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">NEW BUILDING – SUPERVISION / OFFICE BRIEFINGS / TRANING COURSES:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">During the period of your employment, you may be required either to attend to building inspection of new ships or ashore attend training courses including office briefings prior to joining vessels as required by the company. The basic salary shall apply during these periods with food allowance if not been provided for. In the event the office assignments exceed 8 days, the seafarer shall be paid complete remuneration without Trade Allowance. </span><br /><br /><span style="font-family:'Arial Narrow'">RR)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">CERTIFICATION AND EQUIVALENT LICENSES:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">During the period of your employment, you may be requiring sailing or serve on vessels of any type under any flag within normal trading limits without extra pay.</span><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0; </span><span style="font-family:'Arial Narrow'">The employer may assist you in making application and obtaining foreign licenses or certificates to meet vessel’s flag country requirements on certification of officers. All expenses in obtaining such certificates will be to employer’s account. The employer will bear the cost involved in obtaining any necessary visas or permit, which may allow you to enter or remain in any area in employers’ business. </span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">SS)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">SERVICE IN WAR ZONE OR WAR RISK LIKE AREAS ( AS DECLARED BY LLOYD’S:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">If during the period of your employment, any area is designated as a war risk then you will during the period for which you are required to work in that area shall be entitled to following: </span></p>
+         <ol type="1" style="margin:0pt; padding-left:0pt">
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>A war risk bonus amounting to 100% of basic wage. Such entitlement to the bonus will start from and including the calendar day that the ship enters the zone and continue to and including the calendar day that the ship leaves the zone. However, the payment of bonus would not be less than 5 days. </span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>In the event of death, the surviving would receive a compensation of twice the amount they would have received had the vessel been trading in normal areas.</span></li>
+            <li class="ListParagraph" style="margin-left:29.84pt; text-indent:0pt; padding-left:6.16pt; font-family:'Arial Narrow'; font-size:10pt; color:#000000"><span>In the event of disability, any compensation for disability would be twice the amount of compensation the officer would have received as if the vessel was trading in normal area. </span></li>
+         </ol>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">TT)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">MEDICAL and SICK PAY:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">You warrant that you will disclose to the doctor, at the time of medical examination, true and complete information about and relevant to your past and present health status. Any continuing medication needed, and surgical operation undergone must be disclosed also. If you are subsequently found to have failed to disclose the true status of health, you will be liable for all costs and expenses incurred by the employer as a consequence thereof.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Sick Pay is calculated at the rate of seafarer’s Basic Pay.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">If the seafarer is landed at any port because of sickness and injury, he is entitled to receive sick pay plus guaranteed overtime, or in case of officers, fixed overtime, until he has been repatriated at the owner’s expense. There after he is entitled to sick pay as follows:</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">In case of sickness up to 16 weeks after discharge, subject to submission of valid medical certificate, without undue delay.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">In case of injury (other than self-inflicted injuries or injuries caused by willful act of the seafarer), for so long as medical attention is required or until a medical determination is made in accordance with clause TT concerning disability, whichever is sooner.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Provided however, that the seafarer reports as soon as possible upon repatriation to manning agent who will arrange such medical attention promptly. Where the nature of sickness or injury inhibits the seafarer from reporting to the manning agent it is incumbent upon the seafarer to notify them in writing accordingly so that alternative arrangements can be made for medical treatment. Failure by seafarer to avail himself of the treatment offered will release the owner from any liability to the seafarer in respect thereof.</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">The submission of satisfactory medical certificates endorsed, where necessary, by the owner’s approved doctor, shall be considered proof of continuing entitlement to sick pay. If a doctor appointed by on or behalf of the seafarer disagrees with the assessment, a third doctor may be jointly nominated by the owner and seafarer and the decision of this doctor will be final and binding on both parties.</span></p>
+         <p style="text-align:justify; font-size:10pt"><br /><span style="font-family:'Arial Narrow'">UU)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">DEATH &amp; DISABILITY COMPENSATION:</span></p>
+         <p style="font-size:10pt"><span style="font-family:'Arial Narrow'">The ship owner undertakes to repatriate the seafarers so employed if stranded at any place as well as to look after his reasonable maintenance and to transport the mortal remains of the seafarer, if permissible under local laws, in case of death .</span></p>
+         <ol type="a" class="awlist1" style="margin:0pt; padding-left:0pt">
+            <li style="margin-left:36pt; text-indent:-18pt; text-align:justify; font-family:'Arial Narrow'; font-size:10pt; -aw-list-padding-sml:10.71pt"><span style="width:10.71pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="text-decoration:underline">Death compensation for officer as per MUI</span><span style="text-decoration:underline; letter-spacing:0.45pt"> </span><span style="text-decoration:underline">–</span><span style="text-decoration:underline; letter-spacing:0.35pt"> </span><span style="text-decoration:underline">ICCSA</span><span style="text-decoration:underline; letter-spacing:0.45pt"> </span><span style="text-decoration:underline">CBA agreement.</span></li>
+         </ol>
+         <p style="margin-left:36pt; font-size:10pt"><span style="font-family:'Arial Narrow'">Payment of compensation for personal injury resulting in permanent incapacity or death arising out of and in the course of employment including death arising from heart attack or that due to proven cause but not being death or injuring caused by officers own willful act or default or misbehavior, the company shall pay a lump sum compensation as under:-</span></p>
+         <p style="margin-left:36pt; font-size:10pt"><span style="font-family:'Arial Narrow'">In the event of death</span><span style="width:118.71pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs.40,00,000/-</span></p>
+         <p style="margin-left:36pt; font-size:10pt"><span style="font-family:'Arial Narrow'">In the event of Permanent </span><span style="width:96.84pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span></p>
+         <p style="margin-left:36pt; margin-bottom:6pt; font-size:10pt"><span style="font-family:'Arial Narrow'">in-capacity from Sea service </span><span style="width:88.21pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs.45,00,000/-</span></p>
+         <p style="margin-left:36pt; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">aa) ** Additional Death &amp; Disability Compensation due to Radioactive Cargo in addition to clause UU) a) Above</span></p>
+         <p style="margin-top:6pt; margin-left:36pt; margin-bottom:6pt; font-size:10pt"><span style="font-family:'Arial Narrow'">Death Compensation </span><span style="width:114.18pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs. 5.00 lakhs </span></p>
+         <p style="margin-top:6pt; margin-left:36pt; margin-bottom:6pt; font-size:10pt"><span style="font-family:'Arial Narrow'">100% Disability Compensation</span><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0; </span><span style="width:73.16pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs. 5.00 lakhs </span></p>
+         <ol start="2" type="a" class="awlist2" style="margin:0pt; padding-left:0pt">
+            <li style="margin-left:36pt; text-indent:-18pt; text-align:justify; font-family:'Arial Narrow'; font-size:10pt; -aw-list-padding-sml:10.71pt"><span style="width:10.71pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="text-decoration:underline">Death Compensation for rating as per NUSI-ICCSA</span><span style="text-decoration:underline; letter-spacing:0.35pt"> </span><span style="text-decoration:underline">CBA</span><span style="text-decoration:underline; letter-spacing:0.4pt"> </span><span style="text-decoration:underline">Agreement for India rating: </span></li>
+         </ol>
+         <p style="margin-top:6pt; margin-left:38.9pt; margin-bottom:6pt; text-indent:-3.45pt; font-size:10pt"><span style="font-family:'Arial Narrow'">Death Compensation</span><span style="width:117.01pt; text-indent:0pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs. 30 lakhs </span></p>
+         <p style="margin-top:6pt; margin-left:38.9pt; margin-bottom:6pt; text-indent:-3.45pt; font-size:10pt"><span style="font-family:'Arial Narrow'">100% Disability Compensation </span><span style="width:80.55pt; text-indent:0pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs. 35 lakhs </span></p>
+         <p style="margin-left:35.45pt; font-size:10pt"><span style="font-family:'Arial Narrow'">In case of a rating declares partially incapacitated whilst in employment above disability compensation shall be paid on proportionate basis. This Death &amp; Disability compensation shall be paid if the death and / or disability have resulted due to the rating’s own willful act. </span></p>
+         <p style="margin-left:39pt; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="margin-left:36pt; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">bb) **Additional Death &amp; Disability compensation due to Radioactive Cargo in addition to clause UU) b) above</span></p>
+         <p style="margin-top:6pt; margin-left:40.3pt; margin-bottom:6pt; text-indent:-4.85pt; font-size:10pt"><span style="font-family:'Arial Narrow'">Death Compensation</span><span style="width:117.01pt; text-indent:0pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs 5.00 lakhs</span></p>
+         <p style="margin-top:6pt; margin-left:40.3pt; margin-bottom:6pt; text-indent:-4.85pt; font-size:10pt"><span style="font-family:'Arial Narrow'">100% Disability Compensation</span><span style="width:82.83pt; text-indent:0pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:229.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'">Rs 5.00 lakhs</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">VV)</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; text-decoration:underline">NEXT – OF – KIN:</span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="margin-bottom:4pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Name / Relationship</span><span style="width:25.16pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: </span></p>
+         <p style="margin-bottom:4pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Address</span><span style="width:68.92pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: </span></p>
+         <p style="margin-bottom:4pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Contact No</span><span style="width:57.98pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: </span></p>
+         <p style="text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">I hereby confirm that I have read and fully understood the foregoing terms as well as terms &amp; conditions at the time of my appointment and further that I voluntarily agree to those terms and will comply therewith in every respect. </span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Seafarer</span><span style="width:67.8pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99.25pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: Original</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Master</span><span style="width:74.19pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99.25pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: Copy</span></p>
+         <p style="margin-bottom:6pt; text-align:justify; font-size:10pt"><span style="font-family:'Arial Narrow'">Office/Ship owner</span><span style="width:34.52pt; font-family:'Arial Narrow'; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:99.25pt">&#xa0;</span><span style="font-family:'Arial Narrow'">: Original</span></p>
+         <p style="text-align:center; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:center; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="text-align:center; font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+         <p style="font-size:10pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">Signature of Seafarer</span><span style="width:6.27pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="width:36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="width:36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="width:36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="width:36pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span><span style="font-family:'Arial Narrow'">Date:</span></p>
+         <p><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+        
+      </div>
+      <button class="print-button" onclick="printPage()">Print Form</button>
+
+      <script>
+          function printPage() {
+              window.print();
+          }
+      </script>
+      <script>
+          const token =  localStorage.getItem('token')
+      const id = new URLSearchParams(window.location.search).get('id');
+      const candidateId = document.getElementById('candidateId')
+      candidateId.textContent=id
+      getCandidate(id)
+      
+      async function getCandidate(id){
+      const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}})
+      console.log(response.data)
+      const fullName = document.getElementById('fullName')
+      const dob = document.getElementById('dob')
+      const rank = document.getElementById('rank')
+      
+      fullName.value=response.data.candidate.fname
+      dob.value=response.data.candidate.dob
+      rank.value=response.data.candidate.c_rank
+      
+      }
+      
+      const fetchPorts = async () => {
+          try {
+            const response = await axios.get('https://nsnemo.com/others/get-ports');
+            
+         console.log(response.data.ports)
+      
+            populatePortDropdown(response.data.ports);
+          } catch (error) {
+            console.error('Error fetching ports:', error);
+          }
+        };
+      
+        const populatePortDropdown = (ports) => {
+          const dropdown = document.getElementById('portDropdown');
+          ports.forEach(port => {
+            const option = document.createElement('option');
+            option.value = port.id; // Assuming each port has an 'id'
+            option.textContent = port.portName; // Assuming each port has a 'name'
+            dropdown.appendChild(option);
+          });
+        };
+      fetchPorts()
+      
+      async function fetchAndDisplayVessels() {
+          try {
+              const token = localStorage.getItem('token');
+              const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+              // console.log(serverResponse);
+              const vessels = serverResponse.data.vessels;
+      
+              // Get the select elements
+              const vesselSelect = document.getElementById("vslDrop");
+      
+      
+              // Clear previous options
+              vesselSelect.innerHTML = '';
+           
+      
+              // Add a default option to each select element
+              const defaultOption = document.createElement("option");
+              defaultOption.value = '';
+              defaultOption.text = "-- Select Vessel --";
+      
+              vesselSelect.appendChild(defaultOption.cloneNode(true));
+             
+      
+              // Add vessels to the dropdowns
+              vessels.forEach((vessel) => {
+                  const option = document.createElement("option");
+                  option.value = vessel.id;
+                  option.text = vessel.vesselName;
+                  vesselSelect.appendChild(option.cloneNode(true));
+                
+              });
+          } catch (error) {
+              console.error('Error fetching vessels:', error);
+          }
+      }
+      
+      fetchAndDisplayVessels()
+      
+      
+      async function fetchAndDisplayVsls() {
+          try {
+              const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+              const vessels = serverResponse.data.vessels;
+      
+              // Get the select element
+              const vesselSelect = document.getElementById("vesselDrop");
+      
+              // Clear previous options
+              vesselSelect.innerHTML = '';
+      
+              // Add a default option
+              const defaultOption = document.createElement("option");
+              defaultOption.value = "";
+              defaultOption.text = "-- Select Vessel --";
+      
+              vesselSelect.appendChild(defaultOption);
+      
+              // Add vessels to the dropdown
+              vessels.forEach((vessel) => {
+                  const option = document.createElement("option");
+                  option.value = vessel.vesselName;
+                  option.text = vessel.vesselName;
+                  vesselSelect.appendChild(option);
+              });
+          } catch (error) {
+              console.error('Error fetching vessels:', error);
+          }
+      }
+      fetchAndDisplayVsls()
+      </script>
+  </body>
+  
+  </html>
+   </body>
+</html>

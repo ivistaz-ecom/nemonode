@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
+		<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8" />
 		<title>
 		</title>
 		<style>
+                   @media print {
+            .page-break {
+    page-break-before: always;
+  }
+            .print-button {
+                display: none; /* Hide print button when printing */
+            }
+        }
 			body { line-height:115%; font-family:Calibri; font-size:11pt }
 			h1, h6, p { margin:0pt 0pt 10pt }
 			li, table { margin-top:0pt; margin-bottom:10pt }
@@ -30,6 +40,15 @@
 			span.PlainTextChar { font-family:'Courier New'; font-size:10pt }
 			.awlist1 { list-style:none; counter-reset:awlistcounter41_0 }
 			.awlist1 > li:before { content:counter(awlistcounter41_0, decimal-leading-zero) ')'; counter-increment:awlistcounter41_0 }
+
+@media print {
+            .page-break {
+    page-break-before: always;
+  }
+            .print-button {
+                display: none; /* Hide print button when printing */
+            }
+        }
 @media (max-width: 900px) { 
 img { 
    max-width: 100%;
@@ -56,7 +75,212 @@ td, th {
 
 		</style>
 	</head>
+	
 	<body>
+
+		<div style="margin-top: 150px;">
+			<div style="-aw-headerfooter-type:header-primary; clear:both">
+			   <span style="padding: 5px;">NEMO ID:<span id="candidateId"></span></span>
+			</div>
+			<div style="font-family:'Arial Narrow'; font-weight:normal; margin-left:600px;">RPSL/CHN/012</div>
+			<h1 style="text-align:left; line-height:115%; font-size:12pt"><span style="height:0pt; display:block; position:absolute; z-index:0"></span><span style="font-family:'Arial Narrow'; font-weight:normal; -aw-import:ignore">&#xa0;</span></h1>
+			<table cellspacing="0" cellpadding="0" style="margin-right:9pt; margin-left:9pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse; float:right">
+			
+			</table>
+			<p style="line-height:115%; font-size:8pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span></p>
+			<p style="margin-left:7.1pt; widows:0; orphans:0; font-size:13.5pt"><span style="font-family:'Arial Narrow'; font-size:8pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">CONTRACT OF EMPLOYMENT</span><span style="width:128.02pt; font-family:'Arial Narrow'; font-size:12pt; display:inline-block; -aw-tabstop-align:right; -aw-tabstop-pos:535.5pt">&#xa0;</span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'; font-size:12pt; -aw-import:spaces">&#xa0;</span></p>
+			<p style="margin-left:144pt; text-indent:36pt; font-size:9.5pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">BETWEEN</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'; font-weight:bold">NAUTILUS SHIPPING INDIA PVT LTD</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">1st Floor, Maalavika Centre, 144, Kodambakkam High Road, Nungambakkam, Chennai-600034</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">As Agents for the Owner</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'; font-weight:bold">SCL MERCURY PTE LTD</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">05-38, 60, Paya Lebar Road, Singapore 409051 Singapore	</span></p>
+			<p style="text-align:center; font-size:10.5pt"><span style="font-family:'Arial Narrow'">the owner of the vessel below stated and the employer herein (the “Shipowner”)</span><br /><span style="font-family:'Arial Narrow'">AND</span></p>
+			<p style="text-align:center; widows:0; orphans:0; font-size:11pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+			<table cellspacing="0" cellpadding="0" class="TableGrid" style="width:100%; max-width: 558.25pt; border-collapse:collapse;">
+			   <tr style="height:10.9pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Full Name :</span></p>
+				   </td>
+				   <td colspan="7" style="width:275.7pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="fullName" style="border: none; width: 100%;"></p>
+				   </td>
+				   <td colspan="2" style="width:125.05pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-left:36.6pt; margin-bottom:1pt; font-size:11pt;">(the “Seafarer”)</p>
+				   </td>
+			   </tr>
+			   <tr style="height:13.9pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Date and Place of Birth :</span></p>
+				   </td>
+				   <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="dob" style="border: none; width: 100%;"></p>
+				   </td>
+			   </tr>
+			   <tr style="height:13.9pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Passport Details:</span></p>
+				   </td>
+				   <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+				   </td>
+				   <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;">
+						   <span style="font-family:'Arial Narrow'">Issued on:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+						   <span style="font-family:'Arial Narrow'">At:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+					   </p>
+				   </td>
+			   </tr>
+			   <tr style="height:4pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Seaman's Book Details:</span></p>
+				   </td>
+				   <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+				   </td>
+				   <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;">
+						   <span style="font-family:'Arial Narrow'">Issued on:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+						   <span style="font-family:'Arial Narrow'">At:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+					   </p>
+				   </td>
+			   </tr>
+			   <tr style="height:13.9pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Cert. of Competency:</span></p>
+				   </td>
+				   <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+				   </td>
+				   <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;">
+						   <span style="font-family:'Arial Narrow'">Issued on:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+						   <span style="font-family:'Arial Narrow'">At:</span>
+						   <input type="text" style="border: none; width: 30%; display: inline-block;">
+					   </p>
+				   </td>
+			   </tr>
+			   <tr style="height:13.9pt">
+				   <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Joining Port:</span></p>
+				   </td>
+				   <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
+					   <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none; width: 100%;"></span></p>
+				   </td>
+			   </tr>
+			   <tr style="height:9.55pt">
+				   <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'">for service onboard MV</span></p>
+				   </td>
+				   <td colspan="2" style="width:88.45pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"> <select id="vslDrop" style="border: none; outline: none;">
+						   <option value="">Select a Vessel</option>
+						   <!-- Options will be populated here -->
+					   </select></span></p>
+				   </td>
+				   <td style="width:9.1pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">of</span></p>
+				   </td>
+				   <td colspan="2" style="width:61.4pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border: none;"></span></p>
+				   </td>
+				   <td style="width:70.5pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Flag, IMO Nbr:</span></p>
+				   </td>
+				   <td colspan="3" style="width:49.65pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border:none"></span></p>
+				   </td>
+				   <td style="width:88.45pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">(the “VESSEL”)</span></p>
+				   </td>
+			   </tr>
+			   <tr style="height:22pt">
+				   <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="text-align:right; font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Vessel Type:</span></p>
+				   </td>
+				   <td colspan="6" style="width:261.85pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;">   <select id="vesselDrop" style="border: none; outline: none;">
+						   <option value="">Select a Vessel Type</option>
+						   <!-- Options will be populated here -->
+					   </select></span></p>
+				   </td>
+				   <td colspan="4" style="width:148.9pt; padding:5.4pt; vertical-align:top;">
+					   <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">&#xa0;</span></p>
+				   </td>
+			   </tr>
+		   </table>
+		   
+		   
+			<p class="ListParagraph" style="margin-left:21.3pt; text-align:center; widows:0; orphans:0; font-size:10pt"><span style="font-family:'Arial Narrow'; color:#000000; -aw-import:ignore">&#xa0;</span></p>
+			<h1 style="margin-right:62.55pt; text-indent:28.35pt; text-align:left"><span style="font-family:'Arial Narrow'; font-weight:normal">For</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">Officers</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">-</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">as</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">per</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">conditions</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">services</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">MUI</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">- ICCSA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">CBA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">(MIC)</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.45pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">for</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">INDIAN</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">seafarers</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.05pt"> </span></h1>
+			<h1 style="margin-right:62.55pt; text-indent:28.35pt; text-align:left"><span style="font-family:'Arial Narrow'; font-weight:normal">For</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">Ratings</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">-</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">as</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">per</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">conditions</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">services</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">of</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">NUSI - ICCSA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">CBA</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">(NIC)</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">for</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.35pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">INDIAN</span><span style="font-family:'Arial Narrow'; font-weight:normal; letter-spacing:0.4pt"> </span><span style="font-family:'Arial Narrow'; font-weight:normal">seafarers.</span></h1>
+			<p><span style="-aw-import:ignore">&#xa0;</span></p>
+			<ol type="1" style="margin:0pt; padding-left:0pt">
+			   <li class="ListParagraph" style="margin-left:10.13pt; text-indent:0pt; widows:0; orphans:0; padding-left:7.87pt; font-family:'Arial Narrow'; font-size:7.5pt; color:#000000"><span>The terms and conditions apply from the commencement of service for the duration shown below are in accordance with and subject to the following terms and Conditions of Service the contents of which the Seafarer acknowledges as having read, understood, and agreed to:</span></li>
+			</ol>
+			<p style="widows:0; orphans:0; font-size:5pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+			<div style="text-align:center">
+			   <table cellspacing="0" cellpadding="0" class="TableGrid" style="margin-right:auto; margin-left:auto; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">
+				  <tr style="height:18.85pt">
+					 <td style="width:109.4pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Rank on Board</span></p>
+					 </td>
+					 <td style="width:124pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Place of Engagement</span></p>
+					 </td>
+					 <td style="width:123.15pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Duration of Contract</span></p>
+					 </td>
+					 <td style="width:123.05pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'">Wage starts from</span></p>
+					 </td>
+				  </tr>
+				  <tr style="height:18.4pt">
+					 <td style="width:109.4pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;" id="rank"></span></p>
+					 </td>
+					 <td style="width:124pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;"></span></p>
+					 </td>
+					 <td style="width:123.15pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-right:0.5pt single; -aw-border-top:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:9.5pt"><span style="font-family:'Arial Narrow'; -aw-import:spaces">&#xa0;</span><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;">(+/- 1 MONTHS)</span></p>
+					 </td>
+					 <td style="width:123.05pt; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">
+						<p style="text-align:center; widows:0; orphans:0; font-size:8pt"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none;font-size: 8px;width:100%;" placeholder="THE DAY CREW EMBARK THE VESSEL"></span></p>
+					 </td>
+				  </tr>
+			   </table>
+			</div>
+			<p style="widows:0; orphans:0; font-size:6pt"><span style="font-family:'Arial Narrow'; -aw-import:ignore">&#xa0;</span></p>
+			<table cellspacing="0" cellpadding="0" style="width:100%; max-width: 522.55pt; border:0.75pt solid #000000; border-collapse:collapse; font-family:'Arial Narrow';">
+			   <tr style="height:22.85pt">
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">BASIC MONTHLY WAGE</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">LEAVE WAGE</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">O.T</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">MISCELLANEOUS ALLOWANCES</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">TRADE ALLOWANCE</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">OTHER ALLOWANCES</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">PF SEAFARER</td>
+				   <td style="border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">PF COMPANY CONTRIBUTION</td>
+				   <td style="border-bottom:0.75pt solid #000000; padding:5px; text-align:center; font-size:7pt;">TOTAL WAGES [CTC]</td>
+			   </tr>
+			   <tr style="height:19.75pt">
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="border-right:0.75pt solid #000000; padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+				   <td style="padding:5px; text-align:center; font-size:8pt;"><input type="text" style="border: none; width:100%;"></td>
+			   </tr>
+		   </table>
 	
 			<h4 style="text-align: center;font-family: Arial, Helvetica, sans-serif;">SEAFARERS EMPLOYMENT AGREEMENT</h4>
 			<p style="text-align:center; line-height:115%; font-size:12pt">
@@ -98,9 +322,10 @@ td, th {
 			<p style=" text-align:justify">
 				<strong><span style="font-family:'Arial Narrow'; ">HAVING AGREED AS FOLLOWS:</span></strong>
 			</p>
+            <div style="margin-left: 5px;margin-right: 5px;">
 			<ol class="awlist1" style="margin:0pt; padding-left:0pt">
-				<li class="ListParagraph" style="pt; margin-bottom:0pt; text-indent:-18pt; text-align:justify; line-height:normal; font-family:'Arial Narrow'; font-weight:bold">
-					<span style="width:4.96pt; font:7pt 'Times New Roman'; display:inline-block">&#xa0;&#xa0; </span><u>DURATION OF EMPLOYMENT:</u>
+				<li class="ListParagraph" style="margin-left: 15pt; margin-bottom:0pt; text-indent:-18pt; text-align:justify; line-height:normal; font-family:'Arial Narrow'; font-weight:bold">
+					<u>DURATION OF EMPLOYMENT:</u>
 				</li>
 			</ol>
 			<p style=" margin-bottom:0pt; text-align:justify; line-height:normal">
@@ -1069,13 +1294,13 @@ td, th {
 			<h1 style="margin-top:3.6pt; margin-right:152.35pt; pt; line-height:201%; font-size:10pt">
 				<br /><u><span style="font-family:'Arial Narrow'; color:#000000">COMPENSATION SCALE</span></u>
 			</h1>
-			<p class="BodyText" style="5pt; text-indent:-21.25pt; font-size:9pt">
+			<p class="BodyText" style="margin-left: 22pt; text-indent:-21.25pt; font-size:9pt">
 				<u><span style="font-family:'Arial Narrow'; ">Injuries to</span></u><u><span style="font-family:'Arial Narrow'; letter-spacing:-0.55pt"> </span></u><u><span style="font-family:'Arial Narrow'; ">Extremities</span></u>
 			</p>
 			<p class="BodyText" style="font-size:9pt">
 				<span style="font-family:'Arial Narrow'">&#xa0;</span>
 			</p>
-			<p class="BodyText" style="5pt; text-indent:-21.25pt; font-size:9pt">
+			<p class="BodyText" style="margin-left: 22pt; text-indent:-21.25pt; font-size:9pt">
 				<u><span style="font-family:'Arial Narrow'; ">Hand, Arm,</span></u><u><span style="font-family:'Arial Narrow'; letter-spacing:-0.55pt"> </span></u><u><span style="font-family:'Arial Narrow'; ">Shoulder</span></u>
 			</p>
 			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
@@ -1763,7 +1988,7 @@ td, th {
 			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
 				<span style="font-family:'Arial Narrow'">&#xa0;</span>
 			</p>
-			<p class="BodyText" style="5pt; text-indent:-21.25pt; font-size:9pt">
+			<p class="BodyText" style="margin-left: 22pt; text-indent:-21.25pt; font-size:9pt">
 				<u><span style="font-family:'Arial Narrow'; ">Hand, Wrist</span></u>
 			</p>
 			<table style="pt; margin-bottom:0pt; border-collapse:collapse">
@@ -1774,10 +1999,10 @@ td, th {
 						</p>
 					</td>
 					<td style="width:77.2pt; border:0.75pt solid #000000; vertical-align:top">
-						<p class="TableParagraph" style="margin-right:6.05pt; pt; text-align:center; line-height:normal; font-size:9pt">
+						<p class="TableParagraph" style="margin-right:6.05pt;; text-align:center; line-height:normal; font-size:9pt">
 							<span style="font-family:'Arial Narrow'">Percentage</span>
 						</p>
-						<p class="TableParagraph" style="margin-right:6.05pt; pt; text-align:center; line-height:normal; font-size:9pt">
+						<p class="TableParagraph" style="margin-right:6.05pt;; text-align:center; line-height:normal; font-size:9pt">
 							<span style="font-family:'Arial Narrow'">Right</span>
 						</p>
 					</td>
@@ -2223,9 +2448,9 @@ td, th {
 			<table style="margin-right:9pt;  margin-bottom:0pt; border-collapse:collapse; float:left">
 				<tr style="height:1pt">
 					<td style="width:346.92pt; border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; vertical-align:top">
-						<p class="TableParagraph" style="margin-right:6.05pt;  text-align:right; line-height:normal; font-size:9pt">
-							<span style="font-family:'Arial Narrow'">&#xa0;</span>
-						</p>
+                        <p class="BodyText" style="margin-right:22.7pt; font-size:9pt">
+                            <span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">The Brain</span>
+                        </p>
 					</td>
 					<td style="width:77.2pt; border:0.75pt solid #000000; vertical-align:top">
 						<p class="TableParagraph" style="margin-right:6.05pt; pt; text-align:center; line-height:normal; font-size:9pt">
@@ -2537,9 +2762,9 @@ td, th {
 			<table style="margin-right:9pt;  margin-bottom:0pt; border-collapse:collapse; float:left">
 				<tr style="height:1pt">
 					<td style="width:346.92pt; border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; vertical-align:top">
-						<p class="TableParagraph" style="margin-right:6.05pt;  text-align:right; line-height:normal; font-size:9pt">
-							<span style="font-family:'Arial Narrow'">&#xa0;</span>
-						</p>
+                        <p class="BodyText" style="margin-right:22.7pt; font-size:9pt">
+                            <span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">Leg</span>
+                        </p>
 					</td>
 					<td style="width:77.2pt; border:0.75pt solid #000000; vertical-align:top">
 						<p class="TableParagraph" style="margin-right:6.05pt; pt; text-align:center; line-height:normal; font-size:9pt">
@@ -2941,7 +3166,7 @@ td, th {
 					<td style="width:375.28pt; border-right:0.75pt solid #000000; border-bottom:0.75pt solid #000000; vertical-align:top">
                       
                         <p class="BodyText" style="margin-top:4.6pt; margin-right:22.6pt; font-size:9pt">
-                            <span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">The Head <br>The Face</span>
+                            <span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'"> <br>The Face</span>
                         </p>
 					</td>
 					<td style="width:70.15pt; border:0.75pt solid #000000; vertical-align:top">
@@ -3061,9 +3286,7 @@ td, th {
 			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
 				<span style="font-family:'Arial Narrow'">&#xa0;</span>
 			</p>
-			<p class="BodyText" style="margin-right:22.7pt; font-size:9pt">
-				<span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">The Brain</span>
-			</p>
+		
 		
 			<table style="margin-right:9pt;  margin-bottom:0pt; border-collapse:collapse; float:left">
 				<tr style="height:11.35pt">
@@ -4547,7 +4770,7 @@ td, th {
 				<span style="width:415.85pt; font-family:'Arial Narrow'; display:inline-block">&#xa0;</span>
 			</p>
 			<p class="BodyText" style="5pt; text-indent:-21.25pt; font-size:9pt">
-				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><u><span style="font-family:'Arial Narrow'; ">Neck and Back</span></u>
+				<br /><u><span style="font-family:'Arial Narrow'; ">Neck and Back</span></u>
 			</p>
 			<p class="BodyText" style="font-size:9pt">
 				<span style="font-family:'Arial Narrow'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span><span style="font-family:'Arial Narrow'">Vertebral Column</span>
@@ -5181,7 +5404,7 @@ td, th {
 			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
 				<span style="font-family:'Arial Narrow'">&#xa0;</span>
 			</p>
-			<p class="BodyText" style="margin-top:0.35pt; 5pt; text-indent:-21.25pt; font-size:9pt">
+			<p class="BodyText" style="margin-top:0.35pt; margin-left: 22pt; text-indent:-21.25pt; font-size:9pt">
 				<u><span style="font-family:'Arial Narrow'; ">Abdominal Cavity and Pelvis</span></u>
 			</p>
 			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
@@ -5410,24 +5633,129 @@ td, th {
 					</td>
 				</tr>
 			</table>
-			<p class="BodyText" style="margin-right:22.6pt; font-size:9pt">
-				<span style="font-family:'Arial Narrow'">&#xa0;</span>
-			</p>
-			<p style="text-align:center; line-height:115%; font-size:9pt">
-				<span style="font-family:'Arial Narrow'">&#xa0;</span>
-			</p>
-			<p style="line-height:115%; font-size:9pt">
-				<span style="font-family:'Arial Narrow'">&#xa0;</span>
-			</p>
-			<h1 style="margin-top:3.6pt; margin-right:152.35pt; 1pt; text-indent:0.1pt; line-height:201%; font-size:9pt">
-				<span style="font-family:'Arial Narrow'">&#xa0;</span>
-			</h1>
-			<div style="clear:both">
-				<p class="Footer">
-					<img src="1727495951_scl-mercury-coe-draft-sep-2024/1727495951_scl-mercury-coe-draft-sep-2024-4.png" width="819" height="87" alt="" />
-				</p>
-			</div>
-		</div>
-	<p style="bottom: 10px; right: 10px; position: absolute;"><a href="https://wordtohtml.net" target="_blank" style="font-size:11px; color: #d0d0d0">Converted to HTML with WordToHTML.net</a></p>
-</body>
-</html>
+            </div>
+			<button class="print-button" onclick="printPage()">Print Form</button>
+
+			<script>
+				function printPage() {
+					window.print();
+				}
+			</script>
+			<script>
+				const token =  localStorage.getItem('token')
+			const id = new URLSearchParams(window.location.search).get('id');
+			const candidateId = document.getElementById('candidateId')
+			candidateId.textContent=id
+			getCandidate(id)
+			
+			async function getCandidate(id){
+			const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}})
+			console.log(response.data)
+			const fullName = document.getElementById('fullName')
+			const dob = document.getElementById('dob')
+			const rank = document.getElementById('rank')
+			
+			fullName.value=response.data.candidate.fname
+			dob.value=response.data.candidate.dob
+			rank.value=response.data.candidate.c_rank
+			
+			}
+			
+			const fetchPorts = async () => {
+				try {
+				  const response = await axios.get('https://nsnemo.com/others/get-ports');
+				  
+			   console.log(response.data.ports)
+			
+				  populatePortDropdown(response.data.ports);
+				} catch (error) {
+				  console.error('Error fetching ports:', error);
+				}
+			  };
+			
+			  const populatePortDropdown = (ports) => {
+				const dropdown = document.getElementById('portDropdown');
+				ports.forEach(port => {
+				  const option = document.createElement('option');
+				  option.value = port.id; // Assuming each port has an 'id'
+				  option.textContent = port.portName; // Assuming each port has a 'name'
+				  dropdown.appendChild(option);
+				});
+			  };
+			fetchPorts()
+			
+			async function fetchAndDisplayVessels() {
+				try {
+					const token = localStorage.getItem('token');
+					const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+					// console.log(serverResponse);
+					const vessels = serverResponse.data.vessels;
+			
+					// Get the select elements
+					const vesselSelect = document.getElementById("vslDrop");
+			
+			
+					// Clear previous options
+					vesselSelect.innerHTML = '';
+				 
+			
+					// Add a default option to each select element
+					const defaultOption = document.createElement("option");
+					defaultOption.value = '';
+					defaultOption.text = "-- Select Vessel --";
+			
+					vesselSelect.appendChild(defaultOption.cloneNode(true));
+				   
+			
+					// Add vessels to the dropdowns
+					vessels.forEach((vessel) => {
+						const option = document.createElement("option");
+						option.value = vessel.id;
+						option.text = vessel.vesselName;
+						vesselSelect.appendChild(option.cloneNode(true));
+					  
+					});
+				} catch (error) {
+					console.error('Error fetching vessels:', error);
+				}
+			}
+			
+			fetchAndDisplayVessels()
+			
+			
+			async function fetchAndDisplayVsls() {
+				try {
+					const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+					const vessels = serverResponse.data.vessels;
+			
+					// Get the select element
+					const vesselSelect = document.getElementById("vesselDrop");
+			
+					// Clear previous options
+					vesselSelect.innerHTML = '';
+			
+					// Add a default option
+					const defaultOption = document.createElement("option");
+					defaultOption.value = "";
+					defaultOption.text = "-- Select Vessel --";
+			
+					vesselSelect.appendChild(defaultOption);
+			
+					// Add vessels to the dropdown
+					vessels.forEach((vessel) => {
+						const option = document.createElement("option");
+						option.value = vessel.vesselName;
+						option.text = vessel.vesselName;
+						vesselSelect.appendChild(option);
+					});
+				} catch (error) {
+					console.error('Error fetching vessels:', error);
+				}
+			}
+			fetchAndDisplayVsls()
+			</script>
+		</body>
+		
+		</html>
+		 </body>
+	  </html>

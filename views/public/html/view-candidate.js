@@ -44,6 +44,7 @@ function loadContent(section) {
     document.getElementById('seaServiceContent').style.display = 'none';
     document.getElementById('evaluationContent').style.display = 'none';
     document.getElementById('filesContent').style.display = 'none';
+    document.getElementById('contractgenerationContent').style.display = 'none';
 
     // Show the selected content div
     document.getElementById(`${section}Content`).style.display = 'block';
@@ -1500,6 +1501,40 @@ const updateURL = () => {
             case '2':
                 newUrl = `./JSWSHIPPING-contract.html?id=${candidateId}`;
                 break;
+                case '3':
+                    newUrl=`./ETERNALLIGHT-contract.html?id=${candidateId};`
+                    break;
+                    case '4':
+                        newUrl=`./GARUDA-contract.html?id=${candidateId};`
+                        break;
+                        case '5':
+                            newUrl=`./LIBAI-contract.html?id=${candidateId};`
+                            break;
+                            case '6':
+                                newUrl=`./NEGMAR-contract.html?id=${candidateId};`
+                                break;
+                                case '7':
+                                    newUrl=`./SANGLOBE-contract.html?id=${candidateId};`
+                                    break;
+                                    case '8':
+                                        newUrl=`./SANMARRAGA-contract.html?id=${candidateId};`
+                                        break;
+                                        case '9':
+                                            newUrl=`./SANMARREGENT-contract.html?id=${candidateId};`
+                                            break;
+                                            case '10':
+                                                newUrl=`./SANMARROYAL-contract.html?id=${candidateId};`
+                                                break;
+                                                case '11':
+                                                    newUrl=`./SCLMERCURY-contract.html?id=${candidateId};`
+                                                    break;
+                                                    case '12':
+                                                        newUrl=`./SIVAGANGAI-contract.html?id=${candidateId};`
+                                                        break;
+                                                        case '13':
+                                                            newUrl=`./YANGTZE-contract.html?id=${candidateId};`
+                                                            break;
+
             default:
                 return; // Do nothing if the selected value is empty
         }
