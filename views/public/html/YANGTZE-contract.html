@@ -14,11 +14,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<style type="text/css">
 		@page { size: 8.27in 11.69in; margin-left: 0.44in; margin-right: 0.5in; margin-top: 1.11in; margin-bottom: 0.19in }
-		p { line-height: 100%; text-align: left; orphans: 0; widows: 0; margin-bottom: 0in; direction: ltr; background: transparent }
-		p.western { font-family: "Book Antiqua", serif; font-size: 12pt; so-language: en-GB }
-		p.cjk { font-family: "Book Antiqua"; font-size: 12pt; so-language: en-GB }
-		p.ctl { font-family: "Book Antiqua"; font-size: 12pt; so-language: en-GB }
-		h1 { color: #376092; line-height: 115%; text-align: left; page-break-inside: avoid; orphans: 2; widows: 2; margin-bottom: 0in; direction: ltr; background: transparent; page-break-after: avoid }
+		h1 { color: #376092;  text-align: left; page-break-inside: avoid; orphans: 2; widows: 2; margin-bottom: 0in; direction: ltr; background: transparent; page-break-after: avoid }
 		h1.western { font-family: "Cambria", serif; font-size: 16pt; so-language: en-US }
 		h1.cjk { font-family: "宋体"; font-size: 16pt; so-language: en-US }
 		h1.ctl { font-family: "Mangal"; font-size: 16pt; so-language: ar-SA }
@@ -28,6 +24,7 @@
     body {
         font-family: Arial, sans-serif;
         line-height: 1.6;
+		margin:0px;
     }
     .container {
         width: 80%;
@@ -75,53 +72,53 @@
 </style>
 </head>
 <body>
-
+<div style="width:100%;background-color: #008E9C; text-align: center; height:100px;padding:3px"> <img src="../assets/img/illustrations/nautilus-logo.svg"  style="width:100%; height:90px"></div>
 <div class="container">
-    <div class="header" style="margin-top: 150px;">
+    <div class="header" style=";">
         <span style="border: 2px solid black ;padding: 5px;"><strong>NEMO ID: <span id="candidateId"></span></strong></span>
-        <span style="border: 2px solid black ;margin-left: 300px;padding: 5px;"><strong>RPSL/CHN/012</strong></span>
+        <span style="border: 2px solid black ;margin-left: 600px;padding: 5px;"><strong>RPSL/CHN/012</strong></span>
     </div>
 
     <p class="center-text section-title">CONTRACT OF EMPLOYMENT</p>
 
-    <p class="center-text"><strong>BRAVO MARINE PRIVATE LIMITED</strong></p>
-    <p class="center-text">AWFIS, 143, Nungambakkam High Road, Nungambakkam, Chennai-600034</p>
-    <p class="center-text"><strong>As Agents for the Owner</strong></p>
-    <p class="center-text"><strong>ZENITH SHIPPING INC</strong></p>
-    <p class="center-text">Suite 212, Second Floor, Block A, Unity House, Victoria Mahe, Seychelles</p>
-    <p class="center-text"><strong>The owner of the vessel below stated and the employer herein (the “Shipowner”)</strong></p>
+    <p class="center-text" style="line-height: 30%;"><strong>BRAVO MARINE PRIVATE LIMITED</strong></p>
+    <p class="center-text" style="line-height: 30%;">AWFIS, 143, Nungambakkam High Road, Nungambakkam, Chennai-600034</p>
+    <p class="center-text" style="line-height: 30%;"><strong>As Agents for the Owner</strong></p>
+    <p class="center-text" style="line-height: 30%;"><strong>ZENITH SHIPPING INC</strong></p>
+    <p class="center-text"  style="line-height: 30%;">Suite 212, Second Floor, Block A, Unity House, Victoria Mahe, Seychelles</p>
+    <p class="center-text" style="line-height: 30%;"><strong>The owner of the vessel below stated and the employer herein (the “Shipowner”)</strong></p>
 
     <p class="center-text section-title">AND</p>
 
-    <table cellspacing="0" cellpadding="0" class="TableGrid" style="width:100%; max-width: 558.25pt; border-collapse:collapse;">
-        <tr style="height:10.9pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Full Name :</span></p>
+    <table cellspacing="0" cellpadding="0" style="width:100%; max-width: 558.25pt; margin: 0%;padding: 0%;">
+        <tr >
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Full Name :</span></p>
             </td>
-            <td colspan="7" style="width:275.7pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="fullName" style="border: none; width: 100%;"></p>
+            <td colspan="7" style="width:275.7pt; ;">
+                <p style=" font-size: 12px;"><input type="text" id="fullName" style="border: none; width: 100%;"></p>
             </td>
-            <td colspan="2" style="width:125.05pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-left:36.6pt; margin-bottom:1pt; font-size:11pt;">(the “Seafarer”)</p>
-            </td>
-        </tr>
-        <tr style="height:13.9pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Date and Place of Birth :</span></p>
-            </td>
-            <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" id="dob" style="border: none; width: 100%;"></p>
+            <td colspan="2" style="width:125.05pt; ;">
+                <p style="margin-left:36.6pt;  font-size: 12px;">(the “Seafarer”)</p>
             </td>
         </tr>
         <tr style="height:13.9pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Passport Details:</span></p>
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Date and Place of Birth :</span></p>
             </td>
-            <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+            <td colspan="9" style="width:411.55pt; ;">
+                <p style=" font-size: 12px;"><input type="text" id="dob" style="border: none; width: 100%;"></p>
             </td>
-            <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;">
+        </tr>
+        <tr style="height:13.9pt">
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Passport Details:</span></p>
+            </td>
+            <td colspan="3" style="width:128.2pt; ;">
+                <p style=" font-size: 12px;"><input type="text" style="border: none; width: 100%;"></p>
+            </td>
+            <td colspan="6" style="width:283.35pt; ;">
+                <p style=" font-size: 12px;">
                     <span style="font-family:'Arial Narrow'">Issued on:</span>
                     <input type="text" style="border: none; width: 30%; display: inline-block;">
                     <span style="font-family:'Arial Narrow'">At:</span>
@@ -130,14 +127,14 @@
             </td>
         </tr>
         <tr style="height:4pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Seaman's Book Details:</span></p>
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Seaman's Book Details:</span></p>
             </td>
-            <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+            <td colspan="3" style="width:128.2pt; ;">
+                <p style=" font-size: 12px;"><input type="text" style="border: none; width: 100%;"></p>
             </td>
-            <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;">
+            <td colspan="6" style="width:283.35pt; ;">
+                <p style=" font-size: 12px;">
                     <span style="font-family:'Arial Narrow'">Issued on:</span>
                     <input type="text" style="border: none; width: 30%; display: inline-block;">
                     <span style="font-family:'Arial Narrow'">At:</span>
@@ -146,14 +143,14 @@
             </td>
         </tr>
         <tr style="height:13.9pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Cert. of Competency:</span></p>
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Cert. of Competency:</span></p>
             </td>
-            <td colspan="3" style="width:128.2pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><input type="text" style="border: none; width: 100%;"></p>
+            <td colspan="3" style="width:128.2pt; ;">
+                <p style=" font-size: 12px;"><input type="text" style="border: none; width: 100%;"></p>
             </td>
-            <td colspan="6" style="width:283.35pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;">
+            <td colspan="6" style="width:283.35pt; ;">
+                <p style=" font-size: 12px;">
                     <span style="font-family:'Arial Narrow'">Issued on:</span>
                     <input type="text" style="border: none; width: 30%; display: inline-block;">
                     <span style="font-family:'Arial Narrow'">At:</span>
@@ -162,50 +159,50 @@
             </td>
         </tr>
         <tr style="height:13.9pt">
-            <td colspan="2" style="width:125.1pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'">Joining Port:</span></p>
+            <td colspan="2" style="width:125.1pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'">Joining Port:</span></p>
             </td>
-            <td colspan="9" style="width:411.55pt; padding:5.4pt; vertical-align:top;">
-                <p style="margin-bottom:1pt; font-size:11pt;"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none; width: 100%;"></span></p>
+            <td colspan="9" style="width:411.55pt; ;">
+                <p style=" font-size: 12px;"><span style="font-family:'Arial Narrow'"><input type="text" style="border: none; width: 100%;"></span></p>
             </td>
         </tr>
         <tr style="height:9.55pt">
-            <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+            <td style="width:115.1pt;  vertical-align:bottom;">
                 <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'">for service onboard MV</span></p>
             </td>
-            <td colspan="2" style="width:88.45pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+            <td colspan="2" style="width:88.45pt; border-bottom:solid 0.75pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"> <select id="vslDrop" style="border: none; outline: none;">
                     <option value="">Select a Vessel</option>
                     <!-- Options will be populated here -->
                 </select></span></p>
             </td>
-            <td style="width:9.1pt; padding:5.4pt; vertical-align:bottom;">
+            <td style="width:9.1pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">of</span></p>
             </td>
-            <td colspan="2" style="width:61.4pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+            <td colspan="2" style="width:61.4pt; border-bottom:solid 0.75pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border: none;"></span></p>
             </td>
-            <td style="width:70.5pt; padding:5.4pt; vertical-align:bottom;">
+            <td style="width:70.5pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Flag, IMO Nbr:</span></p>
             </td>
-            <td colspan="3" style="width:49.65pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+            <td colspan="3" style="width:49.65pt; border-bottom:solid 0.75pt;  vertical-align:bottom;">
                 <p style="font-size:10pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;"><input type="text" style="border:none"></span></p>
             </td>
-            <td style="width:88.45pt; padding:5.4pt; vertical-align:bottom;">
+            <td style="width:88.45pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">(the “VESSEL”)</span></p>
             </td>
         </tr>
         <tr style="height:22pt">
-            <td style="width:115.1pt; padding:5.4pt; vertical-align:bottom;">
+            <td style="width:115.1pt;  vertical-align:bottom;">
                 <p style="text-align:right; font-size:9.5pt;"><span style="font-family:'Arial Narrow'">Vessel Type:</span></p>
             </td>
-            <td colspan="6" style="width:261.85pt; border-bottom:solid 0.75pt; padding:5.4pt; vertical-align:bottom;">
+            <td colspan="6" style="width:261.85pt; border-bottom:solid 0.75pt;  vertical-align:bottom;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'; font-weight:bold;">   <select id="vesselDrop" style="border: none; outline: none;">
                     <option value="">Select a Vessel Type</option>
                     <!-- Options will be populated here -->
                 </select></span></p>
             </td>
-            <td colspan="4" style="width:148.9pt; padding:5.4pt; vertical-align:top;">
+            <td colspan="4" style="width:148.9pt; ;">
                 <p style="font-size:9.5pt;"><span style="font-family:'Arial Narrow'">&#xa0;</span></p>
             </td>
         </tr>
@@ -277,14 +274,8 @@
 
 </p>
 
-<div class="page-break"></div>
 <table width="709" cellpadding="7" cellspacing="0">
-	<col width="63"/>
-	<col width="73"/>
-	<col width="73"/>
-	<col width="132"/>
-	<col width="128"/>
-	<col width="155"/>
+
 	<tr>
 		<td colspan="6" width="693" height="8" style="background: transparent; border: 1.00pt solid #000000; padding: 0in 0.08in"><p class="western" align="center" style="orphans: 2; widows: 2">
 			<font face="Calibri, serif"><font size="2" style="font-size: 11pt"><font color="#000000"><font face="Arial Narrow, serif"><font size="2" style="font-size: 9pt"><b>Remuneration
@@ -558,6 +549,8 @@
 		</td>
 	</tr>
 </table>
+<div style="width:100%; height:10px; text-align: center;"> <img src="./Footer.jpg"  style="width:100%; height:90px"></div>				
+
 <p class="western" align="center" style="line-height: 115%; orphans: 2; widows: 2; margin-bottom: 0.14in; page-break-before: always">
 <font face="Calibri, serif"><font size="2" style="font-size: 11pt"><font face="Arial Narrow, serif"><font size="3" style="font-size: 12pt"><b>SEAFARER
 EMPLOYMENT AGREEMENT</b></font></font></font></font></p>
