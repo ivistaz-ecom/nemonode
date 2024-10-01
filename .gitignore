@@ -166,14 +166,14 @@ tools/*/*.i.tmp
 /view/
 /views/public/uploads
 /views/public/files
-/views/public/dist
-/views/public/fonts
-/views/public/index
-/views/public/libs
-/views/public/tasks
-/views/public/scss
-/views/public/assets
-/views/public/js
+views/public/dist
+views/public/fonts
+views/public/index
+views/public/libs
+views/public/tasks
+views/public/scss
+views/public/assets
+views/public/js
 /views/public/bank_details
 
 

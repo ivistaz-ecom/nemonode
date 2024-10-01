@@ -1,0 +1,293 @@
+[
+    {
+        "title": "Dashboard",
+        "link": "indexpage.html",
+        "type": "link",
+        "icon": "bxs-category",
+        "submenu": [],
+        "active":"Dashboard"
+    },
+    {
+        "title": "Settings",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "Customers",
+        "link": "",
+        "icon": "bx-building",
+        "type": "link",
+        "active":"Customers",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-company.html",
+                "active":"addcompany"
+            },
+            {
+                "title": "List",
+                "link": "view-company.html",
+                "active":"viewcompany"
+            }
+        ]
+    },
+    {
+        "title": "Vessel Type",
+        "link": "",
+        "icon": "bxs-ship",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-vesseltype.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-vessel.html"
+            }
+        ]
+    },
+    {
+        "title": "Experience",
+        "link": "",
+        "icon": "bx-detail",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-experience.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-experience.html"
+            }
+        ]
+    },
+    {
+        "title": "Rank",
+        "link": "",
+        "icon": "bx-bookmark",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-rank.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-rank.html"
+            }
+        ]
+    },
+    {
+        "title": "Grade",
+        "link": "",
+        "icon": "bx-book",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-grade.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-grade.html"
+            }
+        ]
+    },
+    {
+        "title": "Port",
+        "link": "",
+        "icon": "bx-map-pin",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-port.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-port.html"
+            }
+        ]
+    },
+    {
+        "title": "Port Agent",
+        "link": "",
+        "icon": "bx-user",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-vesseltype.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-portagent.html"
+            }
+        ]
+    },
+    {
+        "title": "Hospital",
+        "link": "",
+        "icon": "bx-building-house",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-hospital.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-hospital.html"
+            }
+        ]
+    },
+    {
+        "title": "Document Type",
+        "link": "",
+        "icon": "bx-copy-alt",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-document.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-document.html"
+            }
+        ]
+    },
+    {
+        "title": "Country List",
+        "link": "",
+        "icon": "bx-world",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "View",
+                "link": "view-country.html"
+            }
+        ]
+    },
+    {
+        "title": "Vendor",
+        "link": "",
+        "icon": "bx-anchor",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Manage",
+                "link": "manage-vendor.html"
+            }
+        ]
+    },
+    {
+        "title": "Candidate Management",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "Candidate",
+        "link": "",
+        "icon": "bx-street-view",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Add",
+                "link": "add-candidate.html"
+            },
+            {
+                "title": "List",
+                "link": "edit-candidate.html"
+            }
+        ]
+    },
+    {
+        "title": "User Management",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "User",
+        "link": "",
+        "icon": "bx-user-pin",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Manage",
+                "link": "add-user.html"
+            },
+            {
+                "title": "Add",
+                "link": "add-userdata.html"
+            }
+        ]
+    },
+    {
+        "title": "Vendor Management",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "Vendor",
+        "link": "",
+        "icon": "bx-dock-top",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Manage",
+                "link": "add-user.html"
+            },
+            {
+                "title": "Add Vendor User",
+                "link": "add-vendor.html"
+            }
+        ]
+    },
+    {
+        "title": "Others",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "Report",
+        "link": "report.html",
+        "icon": "bx-file",
+        "type": "link",
+        "submenu": [],
+        "traget":"_blank"
+    },
+    {
+        "title": "Search",
+        "link": "search.html",
+        "icon": "bx-file",
+        "type": "link",
+        "submenu": [],
+        "traget":"_blank"
+    },
+    {
+        "title": "Crew Planner",
+        "link": "crew-planner.html",
+        "icon": "bx-file",
+        "type": "link",
+        "submenu": [],
+        "traget":"_blank"
+    }
+]
