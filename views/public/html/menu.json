@@ -214,6 +214,8 @@
         "title": "User Management",
         "link": "",
         "type": "static",
+        "id":"userManagementSection",
+        "display":"none",
         "icon": "",
         "submenu": [],
         "active":""
@@ -221,6 +223,8 @@
     {
         "title": "User",
         "link": "",
+        "id":"userManagementSections",
+        "display":"none",
         "icon": "bx-user-pin",
         "type": "link",
         "submenu": [
@@ -239,6 +243,8 @@
         "link": "",
         "type": "static",
         "icon": "",
+        "id":"vendorManagementSection",
+        "display":"none",
         "submenu": [],
         "active":""
     },
@@ -246,6 +252,8 @@
         "title": "Vendor",
         "link": "",
         "icon": "bx-dock-top",
+        "id":"vendorManagementSections",
+        "display":"none",
         "type": "link",
         "submenu": [
             {
