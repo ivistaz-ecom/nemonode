@@ -5145,7 +5145,7 @@ const fullName = document.getElementById('fullName')
 const dob = document.getElementById('dob')
 const rank = document.getElementById('rank')
 
-fullName.value=response.data.candidate.fname
+fullName.value=response.data.candidate.fname + ' '+ response.data.candidate.lname
 dob.value=response.data.candidate.dob
 rank.value=response.data.candidate.c_rank
 

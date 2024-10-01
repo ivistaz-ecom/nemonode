@@ -478,8 +478,9 @@
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">LEAVE WAGE</th>
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">O.T</th>
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">MISCELLANEOUS ALLOWANCES</th>
-                                                                            <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">OTHER ALLOWANCES</th>
+                                                                            <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">OWNERS ALLOWANCES</th>
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">PF SEAFARER</th>
+                                                                            <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">CBA WAGES ONBOARD</th>
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">PF COMPANY CONTRIBUTION</th>
                                                                             <th width="12.5%" style=" word-break: break-word; font-weight: 700; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd; border-bottom: 1px solid #dddddd; border-left: 1px solid #dddddd;">TOTAL WAGES (CTC)</th>
                                                                         </tr>
@@ -1309,7 +1310,7 @@
     const dob = document.getElementById('dob')
     const rank = document.getElementById('rank')
     
-    fullName.value=response.data.candidate.fname
+    fullName.value=response.data.candidate.fname +' '+ response.data.candidate.lname
     dob.value=response.data.candidate.dob
     rank.value=response.data.candidate.c_rank
     
