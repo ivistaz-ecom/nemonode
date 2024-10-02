@@ -39,14 +39,17 @@
         "link": "",
         "icon": "bxs-ship",
         "type": "link",
+        "active":"vesseltype",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-vesseltype.html"
+                "link": "add-vesseltype.html",
+                "active":"addvesseltype"
             },
             {
                 "title": "List",
-                "link": "edit-vessel.html"
+                "link": "edit-vessel.html",
+                "active":"viewvesseltype"
             }
         ]
     },
