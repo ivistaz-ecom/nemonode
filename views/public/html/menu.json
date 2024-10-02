@@ -58,14 +58,17 @@
         "link": "",
         "icon": "bx-detail",
         "type": "link",
+        "active":"experience",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-experience.html"
+                "link": "add-experience.html",
+                "active":"addexperience"
             },
             {
                 "title": "List",
-                "link": "edit-experience.html"
+                "link": "edit-experience.html",
+                "active":"viewexperience"
             }
         ]
     },
