@@ -77,14 +77,17 @@
         "link": "",
         "icon": "bx-bookmark",
         "type": "link",
+        "active":"rank",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-rank.html"
+                "link": "add-rank.html",
+                "active":"addrank"
             },
             {
                 "title": "List",
-                "link": "edit-rank.html"
+                "link": "edit-rank.html",
+                "active":"viewrank"
             }
         ]
     },
