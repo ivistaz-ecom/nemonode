@@ -3404,7 +3404,7 @@ const crewList = async (req, res) => {
         SELECT 
             a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
             a.wages_types, a.sign_on, a.sign_off, a.eoc,a.sign_on_port, a.sign_off_port, 
-            b.fname, b.lname, b.nationality, b.c_rank, 
+            b.fname, b.lname, b.indos_number, b.nationality, b.c_rank, 
             c.id AS vesselId, b.category, e.company_name,
             rb.bank_name, rb.account_num, rb.bank_addr, rb.ifsc_code, rb.swift_code,
             rb.beneficiary, rb.beneficiary_addr, rb.pan_num, rb.passbook, rb.pan_card,
