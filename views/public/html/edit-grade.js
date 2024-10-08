@@ -1,10 +1,7 @@
-const token = localStorage.getItem('token');
-let currentPage = 1; // Initialize current page
-
 async function displayGrade(page = 1, limit = 10) {
     try {
         // Fetch grades from the server with pagination parameters
-        const gradeResponse = await axios.get(`https://nsnemo.com/others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
+        const gradeResponse = await axios.get(`${config.APIURL}others/view-grade?page=${page}&limit=${limit}`, { headers: { "Authorization": token } });
         console.log('Grade Response:', gradeResponse);
 
         const gradeTable = document.getElementById("grade-table");
@@ -93,48 +90,15 @@ async function displayGrade(page = 1, limit = 10) {
     }
 }
 
-
-
-
 window.onload = async function () {
-
-     displayGrade();
-     const hasUserManagement = decodedToken.userManagement;
-     const vendorManagement = decodedToken.vendorManagement;
-     const staff = decodedToken.staff
-     console.log(vendorManagement);
-     if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-        document.getElementById('userManagementSection').style.display = 'block';
-        document.getElementById('userManagementSections').style.display = 'block';
-    }
-     if (vendorManagement) {
-        document.getElementById('vendorManagementSection').style.display = 'block';
-        document.getElementById('vendorManagementSections').style.display = 'block';
- 
-     }
-     if(staff)
-     {
-         document.getElementById('settingsContainer').style.display='none'
-         document.getElementById('settingsCard').style.display='block'
-     }
+    displayGrade();
 };
 
-
-
-
-function decodeToken(token) {
-    // Implementation depends on your JWT library
-    // Here, we're using a simple base64 decode
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
-}
-const decodedToken = decodeToken(token);
 async function deleteGrade(gradeId, event) {
     event.preventDefault();
 
     const id = gradeId;
-    const url = `https://nsnemo.com/others/delete-grade/${id}`;
+    const url = `${config.APIURL}others/delete-grade/${id}`;
 
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -159,61 +123,3 @@ async function editGrade(gradeId, grade, event) {
     // Redirect to the editUrl
     window.location.href = editUrl;
 }
-
-document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    
-    // Send request to update logged status to false
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
-        .then(response => {
-          console.log('Logged out successfully');
-        })
-        .catch(error => {
-          console.error('Error logging out:', error);
-        });
-    } else {
-      console.error('User ID not found in localStorage');
-    }
-  
-    localStorage.clear();
-    
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-  
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-  });
-  
-
-
-
-function updateDateTime() {
-    const dateTimeElement = document.getElementById('datetime');
-    const now = new Date();
-
-    const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        month: 'short',
-        day: 'numeric',
-        ordinal: 'numeric',
-    };
-
-    const dateTimeString = now.toLocaleString('en-US', options);
-
-    dateTimeElement.textContent = dateTimeString;
-}
-
-// Update date and time initially and every second
-updateDateTime();
-setInterval(updateDateTime, 1000);

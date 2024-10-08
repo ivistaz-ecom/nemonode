@@ -96,14 +96,17 @@
         "link": "",
         "icon": "bx-book",
         "type": "link",
+        "active":"grade",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-grade.html"
+                "link": "add-grade.html",
+                "active":"addgrade"
             },
             {
                 "title": "List",
-                "link": "edit-grade.html"
+                "link": "edit-grade.html",
+                "active":"viewgrade"
             }
         ]
     },
