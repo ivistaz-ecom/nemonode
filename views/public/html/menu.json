@@ -115,14 +115,17 @@
         "link": "",
         "icon": "bx-map-pin",
         "type": "link",
+        "active":"port",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-port.html"
+                "link": "add-port.html",
+                "active":"addport"
             },
             {
                 "title": "List",
-                "link": "edit-port.html"
+                "link": "edit-port.html",
+                "active":"viewport"
             }
         ]
     },
