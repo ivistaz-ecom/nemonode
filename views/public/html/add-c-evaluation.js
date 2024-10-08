@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const token = localStorage.getItem('token');
-    const decodedToken = decodeToken(token);
-    console.log(decodedToken);
     await displayDropdown();
     await displayUserDropdown();
     const hasUserManagement = decodedToken.userManagement;
@@ -61,44 +59,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
-    document.getElementById("logout").addEventListener("click", function () {
-        var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-        myModal.show();
-        localStorage.clear();
-
-        setTimeout(function () {
-            document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-        }, 1000);
-
-        setTimeout(function () {
-            window.location.href = "loginpage.html";
-        }, 2000);
-    });
-
-    function updateDateTime() {
-        const dateTimeElement = document.getElementById('datetime');
-        const now = new Date();
-
-        const options = {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true,
-            month: 'short',
-            day: 'numeric',
-            ordinal: 'numeric',
-        };
-
-        const dateTimeString = now.toLocaleString('en-US', options);
-
-        dateTimeElement.textContent = dateTimeString;
-    }
-
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
 
     function displayDropdown() {
-        return axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } })
+        return axios.get(`${config.APIURL}others/get-ranks`, { headers: { "Authorization": token } })
             .then(response => {
                 const rankDropdown = document.getElementById('appliedRank');
                 rankDropdown.innerHTML = ''; // Clear existing options
@@ -122,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     function displayUserDropdown() {
-        return axios.get("https://nsnemo.com/user/userdropdown")
+        return axios.get(`${config.APIURL}user/userdropdown`)
             .then(response => {
                 const userDropdown = document.getElementById('interviewer_name');
                 userDropdown.innerHTML = ''; // Clear existing options
@@ -157,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const time = document.getElementById('time').value;
         const remoteLink = document.getElementById('remoteLink').value;
         const interviewerName = document.getElementById('interviewer_name').value;
-        const decodedToken = decodeToken(token);
         const appliedBy = decodedToken.userName;
     
         const evaluationData = {
@@ -165,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         };
     
         try {
-            const response = await axios.post(`https://nsnemo.com/candidate/sendmail/${id}`, { eval_type: evalType,
+            const response = await axios.post(`${config.APIURL}candidate/sendmail/${id}`, { eval_type: evalType,
             applied_rank: appliedRank,
             applied_date: appliedDate,
             time: time,
@@ -175,8 +137,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             values: null, // or any other value you want to set
                 headers: { 'Authorization': token }
             });
+            Swal.fire({
+                title: "Success",
+                text: "Evaluation data created and email sent successfully ",
+                icon: "success"
+              });
             console.log('Evaluation dataset created and email sent successfully:', response.data);
         } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.message,
+              });
             console.error('Error creating evaluation dataset or sending email:', error.message);
         }
     });
@@ -193,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const appliedRank = document.getElementById('appliedRank').value;
         const interviewerName = document.getElementById('interviewer_name').value;
         const time = document.getElementById('time').value;
-        let baseUrl = 'https://nsnemo.com/views/public/html/';
+        let baseUrl = `${config.APIURL}views/public/html/`;
         let formUrl = '';
     
         const engineOfficers = [
@@ -221,8 +193,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             'PORT ENGINEER',
             'RIG ASSISTANT ELECTRICIAN',
             'RIG ELECTRICIAN',
-
-
         ];
 
         const deckOfficers = [
@@ -438,12 +408,4 @@ function goBack() {
     } else {
         console.error('Candidate ID not found in URL parameters');
     }
-}
-
-function decodeToken(token) {
-    // Implementation depends on your JWT library
-    // Here, we're using a simple base64 decode
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
 }
