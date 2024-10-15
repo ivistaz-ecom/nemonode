@@ -117,6 +117,7 @@ router.get('/callforoneday',candidateControllers.getCallsCountForOneDay)
 router.get('/contractsdue',candidateControllers.getContractsOverTenMonths)
 router.get('/contractseoc',candidateControllers.getContractsEndingSoon)
 router.get('/viewevaluation/:evalid/:id',candidateControllers.viewEvaluation)
+router.post('/sendApplicationMail',candidateControllers.sendApplicationEmail)
 
 
 

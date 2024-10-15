@@ -4201,6 +4201,56 @@ const viewEvaluation = async (req, res) => {
     }
 }
 
+const sendApplicationEmail = async (req, res) => {
+    try {
+
+        const {
+            candidateName,
+            candidateId,
+            applicationURL,
+            candidateEmail
+        } = req.body;
+       
+        const interviewerEmail = candidateEmail
+
+        // Send email to the interviewer
+        const client = Sib.ApiClient.instance;
+        const apiKey = client.authentications['api-key'];
+        apiKey.apiKey = process.env.BREVO_API_KEY;
+        const tranEmailApi = new Sib.TransactionalEmailsApi();
+        const sender = {
+            email: 'mccivistasolutions@gmail.com',
+            name: 'I-Vistaz'
+        };
+        const receivers = [
+            {
+                email: interviewerEmail
+            }
+        ];
+
+        await tranEmailApi.sendTransacEmail({
+            sender,
+            to: receivers,
+            subject: 'Nautilus Shipping Application Form',
+            htmlContent: `
+                <h2>Hello!</h2>
+                <p>Please click below URL and fill your information</p>
+                <h1>Interview Details</h1>
+                <p>Remote Link: ${applicationURL}</p>
+                <p>Have a wonderful day!</p>
+                <br>
+                <p>Thanks and Regards,</p>
+                <p>Nemo</p>
+                <p>Nautilus Shipping</p>
+            `,
+        });
+        console.log('Email sent successfully');
+        res.status(200).json({ message: 'Email sent successfully' });
+    } catch (err) {
+        console.error('Error sending email:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 
@@ -4294,5 +4344,6 @@ module.exports = {
    viewEvaluation,
    onBoard2,
    onBoard3,
-   delete_Medical
+   delete_Medical,
+   sendApplicationEmail
 };
