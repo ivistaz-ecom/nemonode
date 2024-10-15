@@ -4219,8 +4219,8 @@ const sendApplicationEmail = async (req, res) => {
         apiKey.apiKey = process.env.BREVO_API_KEY;
         const tranEmailApi = new Sib.TransactionalEmailsApi();
         const sender = {
-            email: 'mccivistasolutions@gmail.com',
-            name: 'I-Vistaz'
+            email: 'crewing@nautilusshipping.com',
+            name: 'Nautilus Shipping - Crewing'
         };
         const receivers = [
             {
@@ -4233,10 +4233,9 @@ const sendApplicationEmail = async (req, res) => {
             to: receivers,
             subject: 'Nautilus Shipping Application Form',
             htmlContent: `
-                <h2>Hello!</h2>
+                <h2>Dear ${candidateName}!</h2>
                 <p>Please click below URL and fill your information</p>
-                <h1>Interview Details</h1>
-                <p>Remote Link: ${applicationURL}</p>
+                <p>Application Form Link: ${applicationURL}</p>
                 <p>Have a wonderful day!</p>
                 <br>
                 <p>Thanks and Regards,</p>
