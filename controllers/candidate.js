@@ -4246,11 +4246,11 @@ const submitApplicationForm = async (req, res) => {
             }
 
             const documentType = [{"key":'passport','name':"PASSPORT"},{"key":'seamanbook','name':"SEAMANS BOOK"},{"key":'seamanid','name':"SEAFARER ID"},{"key":'coc','name':"COC"},{"key":'dceoil','name':"DCE OIL"},{"key":'dcegas','name':"DCE GAS"},{"key":'dcechem','name':"DCE CHEM"}];
-            documentType.map(doc => {
+            documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 console.log(dnumbers, 'dnumbers')
                 if(dnumbers!=="") {
-                    let evaluation =  Documents.findOne({
+                    let evaluation = await Documents.findAll({
                         where: { document: doc.name, candidateId: candidateId }
                     });
                     console.log(evaluation, 'evaluation')
@@ -4259,7 +4259,7 @@ const submitApplicationForm = async (req, res) => {
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                     let expiry_date = (expirydate!=="")?convertToDate(expirydate):'';
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
-                    if(evaluation!==null) {
+                    if(evaluation.length>0) {
                         let updatedFields = {
                             document_number: dnumbers,
                             issue_date: issue_date,
