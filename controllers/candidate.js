@@ -4248,11 +4248,12 @@ const submitApplicationForm = async (req, res) => {
             const documentType = [{"key":'passport','name':"PASSPORT"},{"key":'seamanbook','name':"SEAMANS BOOK"},{"key":'seamanid','name':"SEAFARER ID"},{"key":'coc','name':"COC"},{"key":'dceoil','name':"DCE OIL"},{"key":'dcegas','name':"DCE GAS"},{"key":'dcechem','name':"DCE CHEM"}];
             documentType.map(doc => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
+                console.log(dnumbers, 'dnumbers')
                 if(dnumbers!=="") {
                     let evaluation =  Documents.findOne({
                         where: { document: doc.name, candidateId: candidateId }
                     });
-
+                    console.log(evaluation, 'evaluation')
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
@@ -4278,6 +4279,7 @@ const submitApplicationForm = async (req, res) => {
                             stcw: 'No',
                             candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
                         });
+                        console.log(Documents, 'Documents')
                     }
                 }
                 return '';
