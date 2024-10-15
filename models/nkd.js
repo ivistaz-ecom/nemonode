@@ -19,6 +19,10 @@ const CandidateNkd = sequelize.define('CandidateNkd', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  kin_email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
   kin_contact_address: {
     type: DataTypes.STRING,
     allowNull: true,

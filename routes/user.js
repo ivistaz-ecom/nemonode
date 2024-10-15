@@ -17,4 +17,6 @@ router.put('/:userId/logout',userControllers.updateLogout)
 router.put('/edit-userdata/:id',userControllers.updateUserData)
 router.post('/temp-login',userControllers.tempLogin)
 router.post('/temp-change-password',userControllers.tempChange)
+router.post("/canditatelogin", userControllers.canditatelogin)
+
 module.exports = router;

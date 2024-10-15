@@ -574,6 +574,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           
           // Example usage
           const candidateId = getCandidateIdFromUrl();
+          $('#applicationURL').val(`${config.APIURL}views/public/html/applicationform.html?id=${candidateId}`)
           console.log(`Candidate ID from URL: ${candidateId}`);
                  memId.textContent= candidateId
         await   fetchAndDisplayDiscussions(candidateId);
@@ -586,6 +587,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchAndDisplayNkdData(candidateId);
         await fetchAndDisplaySeaService(candidateId);
         await fetchAndDisplayEvaluationData(candidateId)
+        await fetchpreviousexperience(candidateId)
         updateCandidatePhoto(candidateId)
         fetchAndDisplayFiles(candidateId)
         const hasUserManagement = decodedToken.userManagement;
@@ -1278,21 +1280,21 @@ async function updateCandidatePhoto(id) {
     // Set the fetched photo value to the input field
     
     const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
-    console.log(response)
     const fetchedPhotoValue = response.data.candidate.photos
-    console.log(fetchedPhotoValue)
     // Fetch the photo value from the form
     const photoValue = fetchedPhotoValue
 
     // Extract the photo name from the photo value
     const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-    console.log(photoName)
     // Update the src attribute of the img tag
     const imageContainer = document.getElementById('imageContainer');
+    if(photoName!=="") {
     const image = imageContainer.querySelector('img');
     image.src = "/photos/" + photoName;
     image.alt = "Description of the image"; // Add alt attribute if needed
-    console.log(image.src); // Check the src attribute in the console
+    }else {
+       $('#imageContainer').attr('style','display:none !important');
+    }
 }
 
 // Call the function to update the photo
@@ -1545,3 +1547,78 @@ const updateURL = () => {
 
 // Call the function to set up the event listener
 updateURL();
+
+async function fetchpreviousexperience(candidateId) {
+    try {
+        const response = await axios.get(`${config.APIURL}candidate/get-previous-experience/${candidateId}`, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const expDetails = response.data;
+        console.log(expDetails, 'documentDetails')
+      
+        const expTableBody = document.getElementById('experienceTableBody');
+        expTableBody.innerHTML = ''; // Clear existing rows
+
+        let index = 1;
+        expDetails.forEach(exp => {
+            // Check if search input matches any document details
+                const row = document.createElement('tr');
+                // Add data to each cell
+                row.innerHTML = `
+                    <td>${index++}</td>
+                    <td>${formatDateNew(exp.expFrom)}</td>
+                    <td>${formatDateNew(exp.expTo)}</td>
+                    <td>${exp.vesselName}</td>
+                    <td>${exp.Flag}</td>                    
+                    <td>${exp.dwt}</td>
+                    <td>${exp.kwt}</td>
+                    <td>${exp.engine}</td>
+                    <td>${exp.typeofvessel}</td>
+                    <td>${exp.position}</td>
+                    <td>${exp.remarks}</td>                    
+                `;
+                expTableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error('Error fetching exp details:', error);
+    }
+}
+
+async function sendApplicationMali() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get('id');
+    $('#sendMailBtn').html('<span class="spinner-grow me-1" role="status" aria-hidden="true"></span>Loading...').attr('disabled');
+    const response = await axios.post(`${config.APIURL}candidate/sendApplicationMail`, {
+        candidateId: candidateId,
+        applicationURL: $('#applicationURL').val(),
+        candidateName:$('#edit_candidate_fname').val(),
+        candidateEmail:$('#edit_candidate_email1').val(),
+    }, {
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+    });
+    $('#sendMailBtn').html('Send Application').removeAttr('disabled');
+    const sendMail = response.data;
+    if(response.status===200) {
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text:"Mail Successfully Send!",
+          });
+    }else {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text:"Mail not send try again!",
+          });
+    }
+}

@@ -22,6 +22,7 @@ const Sib = require('sib-api-v3-sdk');
 const Company = require('../models/company')
 const fs = require('fs').promises;
 const Payslip = require('../models/payslip')
+const prevExp = require('../models/prevexperience')
 
 const add_candidate = async (req, res) => {
     try {
@@ -4201,6 +4202,137 @@ const viewEvaluation = async (req, res) => {
     }
 }
 
+
+const submitApplicationForm = async (req, res) => {
+    try {
+        const candidateId = req.params.candidateId;
+        const { applicationDatas } = req.body;
+        const checkingCandidate = await Candidate.findByPk(candidateId);
+        if(checkingCandidate!==null) {
+            var postData = JSON.parse(applicationDatas);
+            const avb_date = convertToDate(postData.avb_date);
+            const dob = convertToDate(postData.dob);
+            const candidateDetails = {
+                fname:postData.fname,
+                lname:postData.lname,
+                c_rank:postData.c_rank,
+                avb_date:avb_date,
+                dob:dob,
+                birth_place:postData.birth_place,
+                m_status:postData.m_status,
+                nationality:postData.nationality,
+                religion:postData.religion,
+                totalChild:postData.totalChild,
+                c_ad1:postData.c_ad1,                
+                nearestAirport:postData.nearest_airport,
+                mobile_code1:postData.mobile_code1.replace('+',''),
+                c_mobi1:postData.c_mobi1,
+                weight:postData.weight,
+                height:postData.height
+            }
+            await Candidate.update(candidateDetails, {
+                where: { candidateId: candidateId },
+            });
+            if(postData.kin_name!=="") {
+                 await CandidateNkd.create({
+                    kin_name:postData.kin_name,
+                    kin_relation:postData.kin_relation,
+                    kin_contact_number:postData.kin_contact_number,
+                    kin_email:postData.kin_email,
+                    kin_contact_address:postData.kin_contact_address,
+                    kin_priority:2,
+                    candidateId: candidateId
+                });
+            }
+
+            const documentType = [{"key":'passport','name':"PASSPORT"},{"key":'seamanbook','name':"SEAMANS BOOK"},{"key":'seamanid','name':"SEAFARER ID"},{"key":'coc','name':"COC"},{"key":'dceoil','name':"DCE OIL"},{"key":'dcegas','name':"DCE GAS"},{"key":'dcechem','name':"DCE CHEM"}];
+            documentType.map(doc => {
+                let dnumbers = postData[`document_${doc.key}_numbers`]||'';
+                if(dnumbers!=="") {
+                    let evaluation =  Documents.findOne({
+                        where: { document: doc.name, candidateId: candidateId }
+                    });
+
+                    let issuedate = postData[`document_${doc.key}_issuedate`]||'';
+                    let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
+                    let expirydate = postData[`document_${doc.key}_validuntill`]||'';
+                    let expiry_date = (expirydate!=="")?convertToDate(expirydate):'';
+                    let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
+                    if(evaluation!==null) {
+                        let updatedFields = {
+                            document_number: dnumbers,
+                            issue_date: issue_date,
+                            expiry_date:expiry_date,
+                            issue_place: issue_place,
+                        };
+                        Documents.update(updatedFields, {
+                            where: { candidateId: candidateId, document: doc.name },
+                        })
+                    } else {
+                        Documents.create({
+                            document: doc.name,
+                            document_number: dnumbers,
+                            issue_date: issue_date,
+                            expiry_date:expiry_date,
+                            issue_place: issue_place,
+                            stcw: 'No',
+                            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
+                        });
+                    }
+                }
+                return '';
+            });
+
+            const expVessel = postData.exp_vesselname||[];
+            if(expVessel.length>0) {
+                expVessel.map((Vessel, index) => {
+                    if(Vessel!=="") {
+                        let exp_from = postData.exp_from[index]||'';
+                        let expFrom = (exp_from!=="")?convertToDate(exp_from):'';
+                        let exp_to = postData.exp_to[index]||'';
+                        let expTo = (exp_to!=="")?convertToDate(exp_to):'';
+                        prevExp.create({
+                            expFrom: expFrom,
+                            expTo: expTo,
+                            vesselName:Vessel,
+                            Flag: postData.exp_flag[index]||'',
+                            dwt: postData.exp_DWT[index]||'',
+                            kwt: postData.exp_KWT[index]||'',
+                            engine: postData.exp_Engine[index]||'',
+                            typeofvessel: postData.exp_typeofvessel[index]||'',
+                            position: postData.exp_Position[index]||'',
+                            remarks: postData.exp_remarks[index]||'',
+                            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
+                        });
+                    }
+                });
+            }
+            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: candidateId, applicationDatas:postData, checkingCandidate:checkingCandidate, candidateDetails:candidateDetails, avb_date:avb_date});
+           
+        } else {
+        res.status(404).json({ success: false, message: 'Contract not found' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
+
+const getPreviousExperience = async (req, res) => {
+    try {
+        const candidateId = req.params.candidateId;      
+        // Assuming you have a Document model
+        const prevExps = await prevExp.findAll({
+            where: { candidateId: candidateId }
+        });
+
+        res.status(200).json(prevExps);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
+
 const sendApplicationEmail = async (req, res) => {
     try {
 
@@ -4251,6 +4383,16 @@ const sendApplicationEmail = async (req, res) => {
     }
 };
 
+
+function convertToDate (postDate) {
+    const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
+    const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
+    if(splitdate.length>0) {
+        return splitdate[0]
+    }else {
+        return "";
+    }
+}
 
 
 module.exports = {
@@ -4344,5 +4486,7 @@ module.exports = {
    onBoard2,
    onBoard3,
    delete_Medical,
+   submitApplicationForm,
+   getPreviousExperience,
    sendApplicationEmail
 };

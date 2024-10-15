@@ -124,4 +124,8 @@ router.post('/sendApplicationMail',candidateControllers.sendApplicationEmail)
 router.post('/generate-payslip', candidateControllers.generatePayslip);
 router.get('/get-payslips/:contractId', candidateControllers.getPayslips);
 
+router.post("/submit-application/:candidateId", candidateControllers.submitApplicationForm)
+router.get("/get-previous-experience/:candidateId",userAuthentication.authenticate, candidateControllers.getPreviousExperience);
+
+
 module.exports = router;

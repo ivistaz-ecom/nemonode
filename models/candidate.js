@@ -310,7 +310,19 @@ const Candidate = sequelize.define('Candidate', {
     us_visa:{
         type:Sequelize.INTEGER,
         allowNull:true
-    }
+    },
+    religion:{
+        type:Sequelize.STRING,
+        allowNull:true
+    },
+    nearestAirport:{
+        type:Sequelize.STRING,
+        allowNull:true
+    },
+    totalChild:{
+        type:Sequelize.STRING,
+        allowNull:true
+    },
 },{timestamps:false});
 
 module.exports = Candidate;

@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt=require("jsonwebtoken")
 const sequelize=require('../util/database')
 const { Op } = require('sequelize');
+const Candidate = require('../models/candidate'); 
 
 
 
@@ -579,6 +580,30 @@ const tempChange= async (req, res) => {
 
 
 
+const canditatelogin = async (req, res, next) => {
+  try {
+      const { userName,candidateId } = req.body;
+      // Find the user with the provided username
+      const candidates = await Candidate.findOne({ where: { email1: userName, candidateId: candidateId} });
+      if (candidates) {
+        const user = await User.findOne({ where: { userName: 'candidatelogin' } });
+          const token =  generateAccessToken(user.id, user.userName, user.userEmail, user.disableUser, user.userGroup, user.readOnly, user.Write, user.imports, user.exports, user.reports, user.reports_all, user.userManagement, user.vendorManagement, user.master_create, user.staff, user.deletes, user.logged, user.userPhone, user.userClient, user.userVendor,user.nationality,user.interviewer);
+          console.log(token);
+          return res.status(200).json({
+              success: true,
+              message: 'User Logged in Successfully',
+              token: token,
+          });             
+      } else {
+          // User does not exist
+          return res.status(404).json({ success: false, message: 'Invalid Email ID' });
+      }
+  } catch (err) {
+      console.error('Error during login:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   create_user,
   edit_user,
@@ -592,4 +617,5 @@ module.exports = {
   tempChange,
   tempLogin,
   updateUserData,
+  canditatelogin
 };
