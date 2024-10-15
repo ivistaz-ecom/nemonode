@@ -4253,7 +4253,6 @@ const submitApplicationForm = async (req, res) => {
                     let evaluation = await Documents.findAll({
                         where: { document: doc.name, candidateId: candidateId }
                     });
-                    console.log(evaluation, 'evaluation')
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
@@ -4279,7 +4278,6 @@ const submitApplicationForm = async (req, res) => {
                             stcw: 'No',
                             candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
                         });
-                        console.log(Documents, 'Documents')
                     }
                 }
                 return '';
