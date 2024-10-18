@@ -4209,8 +4209,15 @@ const submitApplicationForm = async (req, res) => {
         const { applicationDatas } = req.body;
         const checkingCandidate = await Candidate.findByPk(candidateId);
         if(checkingCandidate!==null) {
-            var postData = JSON.parse(applicationDatas);
-            const avb_date = convertToDate(postData.avb_date);
+            const candidateDetails = {
+                applicationDatas:applicationDatas
+            }
+            const datass = await Candidate.update(candidateDetails, {
+                where: { candidateId: candidateId },
+            });
+            console.log(datass, 'datassdatassdatass')
+           /* var postData = JSON.parse(applicationDatas);
+             const avb_date = convertToDate(postData.avb_date);
             const dob = convertToDate(postData.dob);
             const candidateDetails = {
                 fname:postData.fname,
@@ -4248,17 +4255,17 @@ const submitApplicationForm = async (req, res) => {
             const documentType = [{"key":'passport','name':"PASSPORT"},{"key":'seamanbook','name':"SEAMANS BOOK"},{"key":'seamanid','name':"SEAFARER ID"},{"key":'coc','name':"COC"},{"key":'dceoil','name':"DCE OIL"},{"key":'dcegas','name':"DCE GAS"},{"key":'dcechem','name':"DCE CHEM"}];
             documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
-                console.log(dnumbers, 'dnumbers')
                 if(dnumbers!=="") {
                     let evaluation = await Documents.findAll({
                         where: { document: doc.name, candidateId: candidateId }
                     });
+                   
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                     let expiry_date = (expirydate!=="")?convertToDate(expirydate):'';
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
-                    if(evaluation.length>0) {
+                    if(evaluation.length>0) {                       
                         let updatedFields = {
                             document_number: dnumbers,
                             issue_date: issue_date,
@@ -4306,8 +4313,8 @@ const submitApplicationForm = async (req, res) => {
                         });
                     }
                 });
-            }
-            res.status(201).json({ message: "Successfully Created New Candidate!", success: true, candidateId: candidateId, applicationDatas:postData, checkingCandidate:checkingCandidate, candidateDetails:candidateDetails, avb_date:avb_date});
+            } */
+            res.status(201).json({ message: "Successfully Created New Candidate!", success: true});
            
         } else {
         res.status(404).json({ success: false, message: 'Contract not found' });

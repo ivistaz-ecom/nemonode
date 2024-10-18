@@ -311,6 +311,10 @@ const Candidate = sequelize.define('Candidate', {
         type:Sequelize.INTEGER,
         allowNull:true
     },
+    applicationDatas:{
+        type:Sequelize.STRING,
+        allowNull:true
+    },
     religion:{
         type:Sequelize.STRING,
         allowNull:true

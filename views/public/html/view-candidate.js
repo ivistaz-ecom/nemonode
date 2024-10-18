@@ -685,6 +685,10 @@ async function displayCandidateDetails() {
         document.getElementById('edit_candidate_group').value = candidateData.group;
         document.getElementById('edit_candidate_nemo_source').value = candidateData.nemo_source;
         document.getElementById('edit_candidate_active_details').value = candidateData.active_details === 1 ? 'Active' : 'Inactive';
+        const applicationDatas = candidateData?.applicationDatas || '';
+        if(applicationDatas!=="") {
+            $('#viewApplication').show().attr('href', `${config.APIURL}views/public/html/viewapplicationform.html?id=${candidateId}`)
+        }
         // Assuming you have the candidateData object available
 const photoName = candidateData.photos;
 const resumeName = candidateData.resume;
@@ -696,6 +700,7 @@ if (photoName) {
     prevPhotoButton.onclick = function() {
         window.open(`https://nsnemo.com/views/public/files/photos/${photoName}`, '_blank');
     };
+    $('#imageContainer img').show()
 } else {
     prevPhotoButton.value = 'No photo available';
     prevPhotoButton.onclick = function() {
