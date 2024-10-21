@@ -1192,8 +1192,8 @@ async function fetchAndDisplayDiscussions(candidateId) {
             discussionElement.classList.add('discussion'); // Add CSS class for styling
             
             // Fetch username based on user ID (post_by value)
-            const usernameResponse = await axios.get(`https://nsnemo.com/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
-            const username = usernameResponse.data.user.userName;
+            const usernameResponse = await axios.get(`https://nsnemo.com/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } }).catch((e)=> {});
+            const username = usernameResponse?.data?.user?.userName||'Admin';
 
             // Format the created date
             const createdDate = new Date(discussion.created_date);
