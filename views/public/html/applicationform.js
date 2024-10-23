@@ -238,13 +238,14 @@ async function displayCandidateDetails(candidateData) {
           }
           let displyExp = '';
           if(totalDays>=30) {
+            console.log('fdssfdf')
             totalMonth =  parseInt(totalMonth) + 1;
             totalDays = parseInt(totalDays) - 30;
           }
           if(totalDays>0 || totalDays>0) {
             let workNautilus = 'Yes -';
-            if(totalDays>0) {
-              workNautilus+=' '+totalDays+' Month';
+            if(totalMonth>0) {
+              workNautilus+=' '+totalMonth+' Month';
             }
             if(totalDays>0) {
               workNautilus+=' '+totalDays+' days';
@@ -371,8 +372,8 @@ const response = await axios.get(`https://nsnemo.com/candidate/get-contract-deta
     }
     if(totalDays>0 || totalDays>0) {
       let workNautilus = 'Yes -';
-      if(totalDays>0) {
-        workNautilus+=' '+totalDays+' Month';
+      if(totalMonth>0) {
+        workNautilus+=' '+totalMonth+' Month';
       }
       if(totalDays>0) {
         workNautilus+=' '+totalDays+' days';
