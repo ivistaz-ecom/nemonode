@@ -169,12 +169,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         let formUrl = '';
     
         const engineOfficers = [
-            'CHIEF ENGINEER', 
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR ENGINEER',
-            'ADDL. CHIEF ENGINEER',
+            'CHIEF ENGINEER',
             'ELECTRICAL OFFICER',
             'TRAINEE E/O',
             'NCV CHIEF ENGINEER',
@@ -186,13 +184,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             'PANAMA 3ENG',
             'PANAMA 4ENG',
             'GAS ENGINEER',
-            'SUPERNUMERY',
-            'TME',
+            'IV ENGINEER',
             '2ND ASST ENGINEER',
-            'ELECTRO TECHNICAL OFFICER',
-            'PORT ENGINEER',
-            'RIG ASSISTANT ELECTRICIAN',
-            'RIG ELECTRICIAN',
+            'IV 2ND DRIVER',
+            'ELECTRO TECHNICAL OFFICER'
         ];
 
         const deckOfficers = [
@@ -226,7 +221,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     ]
 
     const engineRatings = [
-        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV ENGINEER', 'IV OILER', 'IV 2ND DRIVER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
+        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV OILER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
     ]
 
     const galleyRanks = [
@@ -295,12 +290,10 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
         console.log(appliedRank)
         //console.log(evalType)
         const engineOfficers = [
-            'CHIEF ENGINEER', 
             '2ND ENGINEER', 
             '3RD ENGINEER', 
             '4TH ENGINEER', 
-            'JUNIOR ENGINEER',
-            'ADDL. CHIEF ENGINEER',
+            'CHIEF ENGINEER',
             'ELECTRICAL OFFICER',
             'TRAINEE E/O',
             'NCV CHIEF ENGINEER',
@@ -312,15 +305,10 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'PANAMA 3ENG',
             'PANAMA 4ENG',
             'GAS ENGINEER',
-            'SUPERNUMERY',
-            'TME',
+            'IV ENGINEER',
             '2ND ASST ENGINEER',
-            'ELECTRO TECHNICAL OFFICER',
-            'PORT ENGINEER',
-            'RIG ASSISTANT ELECTRICIAN',
-            'RIG ELECTRICIAN',
-
-
+            'IV 2ND DRIVER',
+            'ELECTRO TECHNICAL OFFICER'
         ];
 
         const deckOfficers = [
@@ -358,7 +346,7 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
     ]
 
     const engineRatings = [
-        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV ENGINEER', 'IV OILER', 'IV 2ND DRIVER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
+        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV OILER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
     ]
 
 

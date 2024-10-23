@@ -16,7 +16,7 @@
         .static-row {
             display: flex;
             align-items: stretch; /* Ensure columns are the same height */
-            height: 150px; /* Fixed height for rows */
+            height: 90px; /* Fixed height for rows */
         }
 
         .logo-col {
@@ -110,15 +110,14 @@
             </div>
             <div class="title-col">
                 <p class="fw-bolder ">
-                  "PRE-EMPLOYEMENT EVALUATION SHEET OFFICERS - ENGINE"													
-													
+                  PRE-EMPLOYEMENT EVALUATION SHEET<br/> OFFICERS - ENGINE
                 </p>
             </div>
             <div class="info-col">
                 <p class="small p-2 pt-4">
                     FORM NO: OFF 47B<br />
                     REVISION NO: 00<br />
-                    DATE: 17/08/2023
+                    DATE: <span id="showFormDate"></span>
                 </p>
             </div>
         </div>
@@ -185,7 +184,7 @@
                   </div>
               </div>
               <div class="col-md-2 text-center  bg-light">
-                  <p class="mt-2">BMI</p>
+                  <p class="card-header">BMI</p>
                   <input type="text" id="bmi" name="bmi" class="form-control border" />
               </div>
           </div>
@@ -420,7 +419,7 @@
       <div class="col-md-6 mb-3">
       <div class="border border-black-1">
         <div class="bg-light pt-3 p-3">
-          <h5 class="form-label">TRADE AREA EXPERIENCE (indicate number of contracts)</h5>
+          <h5 class="form-label">Types of Auxiliaries previously worked with:</h5>
           <div class="d-flex flex-wrap">
             <div class="form-check me-2">
               <input class="form-check-input" type="checkbox" id="yanmar">
@@ -505,112 +504,7 @@
   
 
     <div class="" >
-          <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4">
-    <h3 class=" ">PRACTICAL SKILLS</h3>
-    <div class="row ">
-    <div class="col-5 border pt-3">
-Number of Contracts in Ranks
-    </div>
-    <div class="col border p-2">
-       <input class="form-control" id="psInput1">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Type or size of the vessels served    </div>
-    <div class="col border p-2">
-       <input class="form-control" id="psInput2">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Last contract sign off date
-    </div>
-    <div class="col border p-2">
-       <input class="form-control" id="psInput3">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Type of main engine exp.
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput4">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Type of AUX engine exp.
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput5">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Cargo cranes/gear (marker) exp.
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput6">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Type of Cargo carried
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput7">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Type of Cargo pumps(tankers)
-    </div>
-    <div class="col border p-2">
-       <input class="form-control" id="psInput8">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Trading Area(limited/WW)
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput9">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-Mixed crew (nationalities) exp.
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput10">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-ECDIS experience in previous 12 months
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput11">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-PSC experience
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput12">
-    </div>
-</div>
-<div class="row ">
-    <div class="col-5 border pt-3">
-SIRE/CID experience
-    </div>
-    <div class="col border p-2">
-       <input class="form-control"  id="psInput13">
-    </div>
-</div>
-  </div>
+        
         <div>
 
     <div class=" border border-black-1 p-3">
@@ -682,7 +576,7 @@ SIRE/CID experience
                           <label class="form-check-label" for="reeferContainersInapplicable">Inapplicable</label>
                       </div>
                     </div>
-                        <label class="form-label">Experience in any extraordinary circumstances such as collision, abandon ship, pollution, Piracy zone</label>
+                        <label class="form-label">Experience in any extra-ordinary circumstances such as collision, abandon ship, pollution, Piracy zone</label>
                         <div class="mb-2">
 
                         <div class="form-check form-check-inline">
@@ -980,6 +874,19 @@ SIRE/CID experience
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+      
+
+      function addFrontZero(value) {
+        if(value!=="") {
+          if(parseInt(value)<10) {
+              return '0'+value;
+          }else {
+            return value;
+          }
+        }
+      }
+      const todayDate = new Date();
+      $('#showFormDate').html(todayDate.getDate()+'/'+addFrontZero(parseInt(todayDate.getMonth())+1)+'/'+todayDate.getFullYear());
       function updatePrintableArea() {
           var form = document.getElementById('evaluationForm');
           var formData = new FormData(form);
