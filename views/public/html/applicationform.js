@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         await fetchAndDisplayDocumentDetails(candidateId, token);
       }
       await fetchAndDisplayCandidate(candidateId, token);
+      await getContract(candidateId, token)
     } else {
       console.error("Invalid URL. Missing memId parameter.");
     }
@@ -125,8 +126,10 @@ function addFrontZero(value) {
 async function displayCandidateDetails(candidateData) {
   try {
     const userName = localStorage.getItem("username");
+    const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     if(formType==='view' && candidateData.applicationDatas!=="") {
       candidateData = JSON.parse(candidateData.applicationDatas);
+      postdate = new Date(candidateData.postdate);
       $('#totalChild').val(candidateData.totalChild);
       $('#nearest_airport').val(candidateData.nearest_airport);
       $('#kin_name').val(candidateData.kin_name);
@@ -134,11 +137,7 @@ async function displayCandidateDetails(candidateData) {
       $('#kin_contact_number').val(candidateData.kin_contact_number);
       $('#kin_email').val(candidateData.kin_email);
       $('#kin_contact_address').val(candidateData.kin_contact_address);
-
-      postdate = new Date(candidateData.postdate);
-      const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      const createDate = addFrontZero(postdate.getDate())+'-'+month[postdate.getMonth()]+'-'+postdate.getFullYear()
-      $('#postdate').html(createDate);
+      
       const documentTableBody1 = document.getElementById("documentTableBody");
       documentTableBody1.innerHTML = "";
       const documentType = [
@@ -157,8 +156,16 @@ async function displayCandidateDetails(candidateData) {
       documentType.map((doc) => {
         let docnumbers = candidateData[`document_${doc.key}_numbers`] || "";
         let issuedate = candidateData[`document_${doc.key}_issuedate`] || "";
+        if(issuedate!=="") {
+          issuedate = new Date(issuedate);
+          issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
+        }
         let issueplace = candidateData[`document_${doc.key}_issueplace`] || "";
         let validuntill = candidateData[`document_${doc.key}_validuntill`] || "";
+        if(validuntill!=="") {
+          validuntill = new Date(validuntill);
+          validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
+        }
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>
@@ -184,12 +191,16 @@ async function displayCandidateDetails(candidateData) {
         const eperienceTableBody = document.getElementById("preveperience");
         eperienceTableBody.innerHTML = `
         <tr>
-              <td width="61">
+              <td width="80">
                 <p><strong>From</strong></p>
               </td>
-              <td width="61">
+              <td width="80">
                 <p><strong>To</strong></p>
               </td>
+              <td width="100">
+                <p><strong>Duration</strong></p>
+              </td>
+              
               <td width="122">
                 <p><strong>Vessel Name</strong></p>
               </td>
@@ -209,16 +220,54 @@ async function displayCandidateDetails(candidateData) {
                 <p><strong>Type of Vessel</strong></p>
               </td>
               <td width="62">
-                <p><strong>Position</strong></p>
+                <p><strong>Rank</strong></p>
               </td>
               <td width="65">
-                <p><strong>Remarks</strong></p>
+                <p><strong>Company</strong></p>
               </td>
             </tr>`;
         candidateData.exp_from.map((doc, index) => {
           const row = document.createElement("tr");
           let exp_to = candidateData.exp_to[index]||'';
-          let exp_vesselname = candidateData.exp_vesselname[index]||'';
+          let totalMonth = 0;
+          let totalDays = 0;
+          if(doc!=="" && exp_to!=="") {
+            let resultMonth =  calculateTotalMonth(doc, exp_to);
+            totalMonth = parseInt(resultMonth.totalMonths);
+            totalDays = parseInt(resultMonth.days);
+          }
+          let displyExp = '';
+          if(totalDays>=30) {
+            totalMonth =  parseInt(totalMonth) + 1;
+            totalDays = parseInt(totalDays) - 30;
+          }
+          if(totalDays>0 || totalDays>0) {
+            let workNautilus = 'Yes -';
+            if(totalDays>0) {
+              workNautilus+=' '+totalDays+' Month';
+            }
+            if(totalDays>0) {
+              workNautilus+=' '+totalDays+' days';
+            }
+            displyExp = workNautilus;;
+          }else {
+            displyExp = '';
+          }
+
+
+          if(doc!=="") {
+            doc = new Date(doc);
+            doc = addFrontZero(doc.getDate())+'-'+month[doc.getMonth()]+'-'+doc.getFullYear()
+          }
+
+          if(exp_to!=="") {
+            exp_to = new Date(exp_to);
+            exp_to = addFrontZero(exp_to.getDate())+'-'+month[exp_to.getMonth()]+'-'+exp_to.getFullYear()
+          }
+
+          
+
+          let exp_vesselname = candidateData.exp_vesselname[index]||'&nbsp;';
           let exp_flag = candidateData.exp_flag[index]||'';
           let exp_DWT = candidateData.exp_DWT[index]||'';
           let exp_KWT = candidateData.exp_KWT[index]||'';
@@ -227,40 +276,50 @@ async function displayCandidateDetails(candidateData) {
           let exp_Position = candidateData.exp_Position[index]||'';
           let exp_remarks = candidateData.exp_remarks[index]||'';
           row.innerHTML = `
-          <td width="61">
-                <input readonly type="text" name="exp_from" value="${doc}" />
+          <td>
+                ${doc}
               </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" value="${exp_to}" />
+              <td>
+                ${exp_to}
+              </td>
+              <td>
+                ${displyExp}
               </td>
               <td width="122">
-                <input readonly type="text" name="exp_vesselname" value="${exp_vesselname}" />
+                ${exp_vesselname}
               </td>
               <td width="61">
-                <input readonly type="text" name="exp_flag" value="${exp_flag}" />
+                ${exp_flag}
               </td>
               <td width="61">
-                <input readonly type="text" name="exp_DWT" value="${exp_DWT}" />
+                ${exp_DWT}
               </td>
               <td width="61">
-                <input readonly type="text" name="exp_KWT" value="${exp_KWT}" />
+                ${exp_KWT}
               </td>
               <td width="61">
-                <input readonly type="text" name="exp_Engine" value="${exp_Engine}" />
+                ${exp_Engine}
               </td>
               <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" value="${exp_typeofvessel}" />
+                ${exp_typeofvessel}
               </td>
               <td width="62">
-                <input readonly type="text" name="exp_Position" value="${exp_Position}" />
+                ${exp_Position}
               </td>
               <td width="65">
-                <input readonly type="text" name="exp_remarks" value="${exp_remarks}" />
+                ${exp_remarks}
               </td>`;
             eperienceTableBody.appendChild(row);
         });
       }
+    }else {
+      postdate = new Date();
     }
+
+    
+    const createDate = addFrontZero(postdate.getDate())+'-'+month[postdate.getMonth()]+'-'+postdate.getFullYear()
+    $('#postdate').html(createDate);
+
     $("#lname").val(candidateData.lname);
     $("#fname").val(candidateData.fname);
     const avb_date = candidateData?.avb_date
@@ -275,16 +334,82 @@ async function displayCandidateDetails(candidateData) {
     $("#m_status").val(candidateData.m_status);
     $("#weight").val(candidateData.weight);
     $("#height").val(candidateData.height);
+    $("#boiler_suit_size").val(candidateData.boiler_suit_size);
+    $("#safety_shoe_size").val(candidateData.safety_shoe_size);     
     $("#m_status").val(candidateData.m_status);
-    $("#candidate_c_rank").val(candidateData.c_rank);
     let mobile_code1 = '+'+(candidateData.mobile_code1.replace('+',''));
     $('#countryCodeSelect2').val(mobile_code1)
     $("#c_mobi1").val(candidateData.c_mobi1);
-    $("#religion").val(candidateData.religion);
     $("#nearest_airport").val(candidateData.nearestAirport);
     $("#totalChild").val(candidateData.totalChild);
   } catch (error) {
     console.error("Error displaying candidate details:", error);
+  }
+}
+async function getContract(candidateId, token) {
+const response = await axios.get(`https://nsnemo.com/candidate/get-contract-details/${candidateId}`, {
+  headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      }
+  });
+  const contractDetails = response?.data||[];
+  if(contractDetails.length>0) {
+    var totalMonth = 0;
+    var totalDays = 0;
+    contractDetails.map((item)=> {
+      if(item.sign_off!=="1970-01-01") {
+        let resultMonth =  calculateTotalMonth(item.sign_on, item.sign_off);
+        totalMonth = parseInt(totalMonth)+ parseInt(resultMonth.totalMonths);
+        totalDays = parseInt(totalDays) + parseInt(resultMonth.days);
+        console.log(resultMonth, 'resultMonth')
+      }     
+    })
+    if(totalDays>=30) {
+      totalMonth =  parseInt(totalMonth) + 1;
+      totalDays = parseInt(totalDays) - 30;
+    }
+    if(totalDays>0 || totalDays>0) {
+      let workNautilus = 'Yes -';
+      if(totalDays>0) {
+        workNautilus+=' '+totalDays+' Month';
+      }
+      if(totalDays>0) {
+        workNautilus+=' '+totalDays+' days';
+      }
+      $('#workNautilus').html(workNautilus);
+    }else {
+      $('#workNautilus').html('No');
+    }
+    console.log(contractDetails,totalMonth, totalDays,'responseresponse')
+  }
+ 
+}
+
+function calculateTotalMonth(fromDate, toDate) {
+  if(fromDate!=="" && toDate!=="") {
+    var fromDate = new Date(fromDate);
+    var toDate = new Date(toDate);
+
+    if (fromDate && toDate && fromDate <= toDate) {
+        var years = toDate.getFullYear() - fromDate.getFullYear();
+        var months = toDate.getMonth() - fromDate.getMonth();
+        var days = toDate.getDate() - fromDate.getDate();
+
+        if (days < 0) {
+            months--;
+            var prevMonthDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0); // Last day of the previous month
+            days += prevMonthDate.getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        var totalMonths = years * 12 + months;
+        return {totalMonths:totalMonths, days:days}
+    }
   }
 }
 

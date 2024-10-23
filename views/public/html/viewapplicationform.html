@@ -77,6 +77,11 @@
         display: none; /* Hide print button when printing */
     }
 }
+
+.preveperience td{
+  padding: 5px 2px;
+  min-height: 50px;
+}
     </style>
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../assets/js/config.js"></script>
@@ -357,11 +362,11 @@
               <td style="height: 35px" width="170">
                 <input readonly type="text" name="nationality" id="nationality" />
               </td>
-              <td style="height: 35px" width="104">
-                <p>Religion</p>
+              <td style="height: 35px" width="123">
+                <p>Marital Status</p>
               </td>
-              <td style="height: 35px" width="161">
-                <input readonly type="text" name="religion" id="religion" />
+              <td style="height: 35px" width="170">
+                <input readonly type="text" name="m_status" id="m_status" />
               </td>
             </tr>
             <tr style="height: 35px">
@@ -372,27 +377,21 @@
                 <input readonly type="text" name="c_ad1" id="c_ad1" />
               </td>
             </tr>
-            <tr style="height: 35px">
-              <td style="height: 35px" width="123">
-                <p>Marital Status</p>
-              </td>
-              <td style="height: 35px" width="170">
-                <input readonly type="text" name="m_status" id="m_status" />
-              </td>
+            <tr style="height: 35px">              
               <td style="height: 35px" width="104">
                 <p>Nearest Airport</p>
               </td>
               <td style="height: 35px" width="161">
                 <input readonly type="text" name="nearest_airport" id="nearest_airport" />
               </td>
-            </tr>
-            <tr style="height: 35px">
               <td style="height: 35px" width="123">
                 <p>No. of Children</p>
               </td>
               <td style="height: 35px" width="170">
                 <input readonly type="text" name="totalChild" id="totalChild" />
               </td>
+            </tr>
+            <tr style="height: 35px">              
               <td style="height: 35px" width="104">
                 <p>Contact</p>
               </td>
@@ -403,19 +402,40 @@
                 
                 </div>
               </td>
-            </tr>
-            <tr style="height: 35px">
               <td style="height: 35px" width="123">
                 <p>Weight</p>
               </td>
               <td style="height: 35px" width="170">
                 <input readonly type="text" name="weight" id="weight" />
               </td>
+            </tr>
+            <tr style="height: 35px">              
               <td style="height: 35px" width="104">
                 <p>Height</p>
               </td>
               <td style="height: 35px" width="161">
                 <input readonly type="text" name="height" id="height" />
+              </td>
+              <td style="height: 35px" width="123">
+                <p>Boiler Suit size</p>
+              </td>
+              <td style="height: 35px" width="170">
+                <input type="text" name="boiler_suit_size" id="boiler_suit_size" />
+              </td>
+            </tr>
+            <tr style="height: 35px">
+              
+              <td style="height: 35px" width="104">
+                <p>Safety Shoe Size</p>
+              </td>
+              <td style="height: 35px" width="161">
+                <input type="text" name="safety_shoe_size" id="safety_shoe_size" />
+              </td>
+              <td style="height: 35px" width="123">
+                Sailed with Nautilus
+              </td>
+              <td style="height: 35px" width="170" colspan="3" id="workNautilus">
+                
               </td>
             </tr>
           </tbody>
@@ -496,518 +516,6 @@
         </p>
         <table class="fulltable" cellspacing="0" cellpadding="5" id="preveperience">
           <tbody>
-            <tr>
-              <td width="61">
-                <p><strong>From</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>To</strong></p>
-              </td>
-              <td width="122">
-                <p><strong>Vessel Name</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Flag</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>DWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>KWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Engine</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Type of Vessel</strong></p>
-              </td>
-              <td width="62">
-                <p><strong>Position</strong></p>
-              </td>
-              <td width="65">
-                <p><strong>Remarks</strong></p>
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input readonly type="text" name="exp_from" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_to" />
-              </td>
-              <td width="122">
-                <input readonly type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input readonly type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input readonly type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input readonly type="text" name="exp_remarks" />
-              </td>
-            </tr>
           </tbody>
         </table>
         <p>&nbsp;</p>

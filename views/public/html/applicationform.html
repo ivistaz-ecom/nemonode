@@ -281,7 +281,7 @@
                   <tr>
                     <td>Date</td>
                     <td>:</td>
-                    <td>01/10/2024</td>
+                    <td id="postdate"></td>
                   </tr>
                   <tr>
                     <td>Page</td>
@@ -349,22 +349,6 @@
               <td style="height: 35px" width="170">
                 <select id="nationality" name="nationality"></select>
               </td>
-              <td style="height: 35px" width="104">
-                <p>Religion</p>
-              </td>
-              <td style="height: 35px" width="161">
-                <input type="text" name="religion" id="religion" />
-              </td>
-            </tr>
-            <tr style="height: 35px">
-              <td style="height: 35px" width="123">
-                <p>Address</p>
-              </td>
-              <td style="height: 35px" colspan="3" width="434">
-                <input type="text" name="c_ad1" id="c_ad1" />
-              </td>
-            </tr>
-            <tr style="height: 35px">
               <td style="height: 35px" width="123">
                 <p>Marital Status</p>
               </td>
@@ -377,6 +361,16 @@
                   <option value="WIDOW">WIDOW</option>
                 </select>
               </td>
+            </tr>
+            <tr style="height: 35px">
+              <td style="height: 35px" width="123">
+                <p>Address</p>
+              </td>
+              <td style="height: 35px" colspan="3" width="434">
+                <input type="text" name="c_ad1" id="c_ad1" />
+              </td>
+            </tr>
+            <tr style="height: 35px">              
               <td style="height: 35px" width="104">
                 <p>Nearest Airport</p>
               </td>
@@ -387,14 +381,15 @@
                   id="nearest_airport"
                 />
               </td>
-            </tr>
-            <tr style="height: 35px">
               <td style="height: 35px" width="123">
                 <p>No. of Children</p>
               </td>
               <td style="height: 35px" width="170">
                 <input type="text" name="totalChild" id="totalChild" />
               </td>
+            </tr>
+            <tr style="height: 35px">
+             
               <td style="height: 35px" width="104">
                 <p>Contact</p>
               </td>
@@ -413,19 +408,41 @@
                   </div>
                 </div>
               </td>
-            </tr>
-            <tr style="height: 35px">
               <td style="height: 35px" width="123">
                 <p>Weight</p>
               </td>
               <td style="height: 35px" width="170">
                 <input type="text" name="weight" id="weight" />
               </td>
+            </tr>
+            <tr style="height: 35px">
+              
               <td style="height: 35px" width="104">
                 <p>Height</p>
               </td>
               <td style="height: 35px" width="161">
                 <input type="text" name="height" id="height" />
+              </td>
+              <td style="height: 35px" width="123">
+                <p>Boiler Suit size</p>
+              </td>
+              <td style="height: 35px" width="170">
+                <input type="text" name="boiler_suit_size" id="boiler_suit_size" />
+              </td>
+            </tr>
+            <tr style="height: 35px">
+              
+              <td style="height: 35px" width="104">
+                <p>Safety Shoe Size</p>
+              </td>
+              <td style="height: 35px" width="161">
+                <input type="text" name="safety_shoe_size" id="safety_shoe_size" />
+              </td>
+              <td style="height: 35px" width="123">
+                Sailed with Nautilus
+              </td>
+              <td style="height: 35px" width="170" colspan="3" id="workNautilus">
+                Yes
               </td>
             </tr>
           </tbody>
@@ -547,12 +564,13 @@
                 <p><strong>Type of Vessel</strong></p>
               </td>
               <td width="62">
-                <p><strong>Position</strong></p>
+                <p><strong>Rank</strong></p>
               </td>
               <td width="65">
-                <p><strong>Remarks</strong></p>
+                <p><strong>Company</strong></p>
               </td>
             </tr>
+
             <tr>
               <td width="61">
                 <input type="date" name="exp_from" />
