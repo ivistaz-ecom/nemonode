@@ -128,6 +128,7 @@ async function displayCandidateDetails(candidateData) {
     const userName = localStorage.getItem("username");
     const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     if(formType==='view' && candidateData.applicationDatas!=="") {
+      
       candidateData = JSON.parse(candidateData.applicationDatas);
       postdate = new Date(candidateData.postdate);
       $('#totalChild').val(candidateData.totalChild);
@@ -137,6 +138,13 @@ async function displayCandidateDetails(candidateData) {
       $('#kin_contact_number').val(candidateData.kin_contact_number);
       $('#kin_email').val(candidateData.kin_email);
       $('#kin_contact_address').val(candidateData.kin_contact_address);
+      $('#candidate_c_rank').val(candidateData.c_rank)
+
+      if(candidateData?.avb_date!=="") {
+        avb_date = new Date(candidateData?.avb_date);
+        avb_date = addFrontZero(avb_date.getDate())+'-'+month[avb_date.getMonth()]+'-'+avb_date.getFullYear()
+        $("#avb_date").val(avb_date);
+      }
       
       const documentTableBody1 = document.getElementById("documentTableBody");
       documentTableBody1.innerHTML = "";
@@ -191,10 +199,10 @@ async function displayCandidateDetails(candidateData) {
         const eperienceTableBody = document.getElementById("preveperience");
         eperienceTableBody.innerHTML = `
         <tr>
-              <td width="80">
+              <td width="100">
                 <p><strong>From</strong></p>
               </td>
-              <td width="80">
+              <td width="100">
                 <p><strong>To</strong></p>
               </td>
               <td width="100">
@@ -238,12 +246,11 @@ async function displayCandidateDetails(candidateData) {
           }
           let displyExp = '';
           if(totalDays>=30) {
-            console.log('fdssfdf')
             totalMonth =  parseInt(totalMonth) + 1;
             totalDays = parseInt(totalDays) - 30;
           }
           if(totalDays>0 || totalDays>0) {
-            let workNautilus = 'Yes -';
+            let workNautilus = '';
             if(totalMonth>0) {
               workNautilus+=' '+totalMonth+' Month';
             }
@@ -323,10 +330,6 @@ async function displayCandidateDetails(candidateData) {
 
     $("#lname").val(candidateData.lname);
     $("#fname").val(candidateData.fname);
-    const avb_date = candidateData?.avb_date
-      ? formatDate(candidateData.avb_date)
-      : "";
-    $("#avb_date").val(avb_date);
     const dob = candidateData?.dob ? formatDate(candidateData.dob) : "";
     $("#dob").val(dob);
     $("#birth_place").val(candidateData.birth_place);
@@ -341,8 +344,6 @@ async function displayCandidateDetails(candidateData) {
     let mobile_code1 = '+'+(candidateData.mobile_code1.replace('+',''));
     $('#countryCodeSelect2').val(mobile_code1)
     $("#c_mobi1").val(candidateData.c_mobi1);
-    $("#nearest_airport").val(candidateData.nearestAirport);
-    $("#totalChild").val(candidateData.totalChild);
   } catch (error) {
     console.error("Error displaying candidate details:", error);
   }
@@ -363,7 +364,6 @@ const response = await axios.get(`https://nsnemo.com/candidate/get-contract-deta
         let resultMonth =  calculateTotalMonth(item.sign_on, item.sign_off);
         totalMonth = parseInt(totalMonth)+ parseInt(resultMonth.totalMonths);
         totalDays = parseInt(totalDays) + parseInt(resultMonth.days);
-        console.log(resultMonth, 'resultMonth')
       }     
     })
     if(totalDays>=30) {
@@ -371,7 +371,7 @@ const response = await axios.get(`https://nsnemo.com/candidate/get-contract-deta
       totalDays = parseInt(totalDays) - 30;
     }
     if(totalDays>0 || totalDays>0) {
-      let workNautilus = 'Yes -';
+      let workNautilus = '';
       if(totalMonth>0) {
         workNautilus+=' '+totalMonth+' Month';
       }
