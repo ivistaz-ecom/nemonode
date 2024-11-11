@@ -168,13 +168,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         let baseUrl = `${config.APIURL}views/public/html/`;
         let formUrl = '';
     
+        const deckOfficers = [
+            '2ND OFFICER',
+            '3RD OFFICER',
+            'CHIEF OFFICER',
+            'MASTER',
+            'TUG MASTER',
+            'NCV MASTER',
+            'NCV CHIEF OFFICER',
+            'NCV NWKO',
+            'PANAMA MASTER',
+            'PANAMA CHIEF OFFICER',
+            'PANAMA 2ND OFFICER',
+            'PANAMA 3RD OFFICER',
+            'DREDGER OPERATOR',
+            'IV MASTER',
+            'JUNIOR OFFICER',
+            'RADIO OFFICER',
+            'DPO',
+            'DREDGE MASTER',
+            'SAFETY OFFICER'
+        ];
         const engineOfficers = [
-            '2ND ENGINEER', 
-            '3RD ENGINEER', 
-            '4TH ENGINEER', 
+            '2ND ENGINEER',
+            '3RD ENGINEER',
+            '4TH ENGINEER',
+            'ADDL. CHIEF ENGINEER',
             'CHIEF ENGINEER',
             'ELECTRICAL OFFICER',
-            'TRAINEE E/O',
             'NCV CHIEF ENGINEER',
             'NCV 2ND ENGINEER',
             'NCV 3RD ENGINEER',
@@ -189,48 +210,40 @@ document.addEventListener('DOMContentLoaded', async function () {
             'IV 2ND DRIVER',
             'ELECTRO TECHNICAL OFFICER'
         ];
-
-        const deckOfficers = [
-            'MASTER', 
-            'CHIEF OFFICER', 
-            '2ND OFFICER', 
-            '3RD OFFICER', 
-            'JUNIOR OFFICER','DECK CADET',
-            'TUG MASTER',
-            'NCV MASTER',
-            'NCV CHIEF OFFICER',
-            'NCV NWKO',
-            'PANAMA MASTER',
-            'PANAMA CHIEF OFFICER',
-            'PANAMA 2ND OFFICER',
-            'PANAMA 3RD OFFICER',
-            'DREDGER OPERATOR',
-            'RADIO OFFICER',
-            'DPO',
-            'PIPE OPERATOR',
-            'TUBE OPERATOR',
-            'MEDICAL OFFICER',
-            'DREDGE MASTER',
-            'SAFETY OFFICER',
-            'RIG RADIO OPERATOR',
+        const deckRatings =[
+            'BOSUN',
+            'DECK CADET',
+            'AB',
+            'IV BOSUN',
+            'IV DECK HAND',
+            'NAVIGATION HANDLER'
         ];
-
-
-    const deckRatings =[
-        'BOSUN', 'RPTM CLEANER', 'FITTER-DECK', 'AB', 'STORE KEEPER', 'OS', 'TR OS', 'WELDER', 'CRANE OPERATOR', 'IV LASKER', 'IV SERANG', 'IV MASTER', 'IV FITTER', 'IV DECK HAND', 'RIGGER', 'NAVIGATION HANDLER', 'RIG HEAVY LIFT CRANE OPERATOR', 'RIG BALLAST CRANE OPERATOR', 'RIG ASSISTANT BALLAST CRANE OPERATOR', 'RIG ASSISTANT DRILLER', 'RIG FLOORMAN', 'RIG WELDER', 'RIG DECK PUSHER', 'RIG CRANE OPERATOR', 'RIG ASSISTANT CRANE OPERATOR', 'RIG LEAD ROUSTABOUT', 'RIG ROUSTABOUT', 'RIG LEAD PAINTER / AB', 'RIG PAINTER / AB', 'TRAINEE OS'
-    ]
-
-    const engineRatings = [
-        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV OILER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
-    ]
-
-    const galleyRanks = [
-        'CHIEF COOK', 'SECOND COOK', 'TR. GS', 'IV BOSUN', 'COOK', 'MSM/GS'
-    ]
-
-  
-
-
+        const engineRatings = [
+            'PUMPMAN',
+            'REPAIR TEAM FITTER',
+            'RPTM CLEANER',
+            'TRAINEE E/O',
+            'WIPER',
+            'FITTER-DECK',
+            'FITTER-ENGINE',
+            'TR WIPER',
+            'OS',
+            'MTM/OILER',
+            'TR OS',
+            'TME',
+            'WELDER',
+            'IV FITTER',
+            'IV OILER',
+            'FITTER',
+            'TRAINEE OS'
+        ];
+        const galleyRanks = [
+            'CHIEF COOK',
+            'SECOND COOK',
+            'TR. GS',
+            'COOK',
+            'MSM/GS'
+        ];
 
    // Ensure `selectedType` and `appliedRank` are defined and initialized
 
@@ -289,13 +302,35 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
         const appliedRank = this.value;
         console.log(appliedRank)
         //console.log(evalType)
+
+        const deckOfficers = [
+            '2ND OFFICER',
+            '3RD OFFICER',
+            'CHIEF OFFICER',
+            'MASTER',
+            'TUG MASTER',
+            'NCV MASTER',
+            'NCV CHIEF OFFICER',
+            'NCV NWKO',
+            'PANAMA MASTER',
+            'PANAMA CHIEF OFFICER',
+            'PANAMA 2ND OFFICER',
+            'PANAMA 3RD OFFICER',
+            'DREDGER OPERATOR',
+            'IV MASTER',
+            'JUNIOR OFFICER',
+            'RADIO OFFICER',
+            'DPO',
+            'DREDGE MASTER',
+            'SAFETY OFFICER'
+        ];
         const engineOfficers = [
-            '2ND ENGINEER', 
-            '3RD ENGINEER', 
-            '4TH ENGINEER', 
+            '2ND ENGINEER',
+            '3RD ENGINEER',
+            '4TH ENGINEER',
+            'ADDL. CHIEF ENGINEER',
             'CHIEF ENGINEER',
             'ELECTRICAL OFFICER',
-            'TRAINEE E/O',
             'NCV CHIEF ENGINEER',
             'NCV 2ND ENGINEER',
             'NCV 3RD ENGINEER',
@@ -310,49 +345,40 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'IV 2ND DRIVER',
             'ELECTRO TECHNICAL OFFICER'
         ];
-
-        const deckOfficers = [
-            'MASTER', 
-            'CHIEF OFFICER', 
-            '2ND OFFICER', 
-            '3RD OFFICER', 
-            'JUNIOR OFFICER','DECK CADET',
-            'TUG MASTER',
-            'NCV MASTER',
-            'NCV CHIEF OFFICER',
-            'NCV NWKO',
-            'PANAMA MASTER',
-            'PANAMA CHIEF OFFICER',
-            'PANAMA 2ND OFFICER',
-            'PANAMA 3RD OFFICER',
-            'DREDGER OPERATOR',
-            'RADIO OFFICER',
-            'DPO',
-            'PIPE OPERATOR',
-            'TUBE OPERATOR',
-            'MEDICAL OFFICER',
-            'DREDGE MASTER',
-            'SAFETY OFFICER',
-            'RIG RADIO OPERATOR',
+        const deckRatings =[
+            'BOSUN',
+            'DECK CADET',
+            'AB',
+            'IV BOSUN',
+            'IV DECK HAND',
+            'NAVIGATION HANDLER'
         ];
-
-
-    const deckRatings =[
-        'BOSUN', 'RPTM CLEANER', 'FITTER-DECK', 'AB', 'STORE KEEPER', 'OS', 'TR OS', 'WELDER', 'CRANE OPERATOR', 'IV LASKER', 'IV SERANG', 'IV MASTER', 'IV FITTER', 'IV DECK HAND', 'RIGGER', 'NAVIGATION HANDLER', 'RIG HEAVY LIFT CRANE OPERATOR', 'RIG BALLAST CRANE OPERATOR', 'RIG ASSISTANT BALLAST CRANE OPERATOR', 'RIG ASSISTANT DRILLER', 'RIG FLOORMAN', 'RIG WELDER', 'RIG DECK PUSHER', 'RIG CRANE OPERATOR', 'RIG ASSISTANT CRANE OPERATOR', 'RIG LEAD ROUSTABOUT', 'RIG ROUSTABOUT', 'RIG LEAD PAINTER / AB', 'RIG PAINTER / AB', 'TRAINEE OS'
-    ]
-
-    const galleyRanks = [
-        'CHIEF COOK', 'SECOND COOK', 'TR. GS', 'IV BOSUN', 'COOK', 'MSM/GS'
-    ]
-
-    const engineRatings = [
-        'PUMPMAN', 'REPAIR TEAM FITTER', 'WIPER', 'FITTER-ENGINE', 'TR WIPER', 'MTM/OILER', 'IV OILER', 'FITTER', 'HYDRAULIC TECHNICIAN', 'ENGINE MECHANIC', 'TECHNICIAN', 'MECHANIC', 'RIG SENIOR PUMPMAN', 'RIG PUMPMAN', 'RIG DERRICK MAN', 'RIG MECHANIC', 'RIG MOTORMAN'
-    ]
-
-
-
-
-
+        const engineRatings = [
+            'PUMPMAN',
+            'REPAIR TEAM FITTER',
+            'RPTM CLEANER',
+            'TRAINEE E/O',
+            'WIPER',
+            'FITTER-DECK',
+            'FITTER-ENGINE',
+            'TR WIPER',
+            'OS',
+            'MTM/OILER',
+            'TR OS',
+            'TME',
+            'WELDER',
+            'IV FITTER',
+            'IV OILER',
+            'FITTER',
+            'TRAINEE OS'
+        ];
+        const galleyRanks = [
+            'CHIEF COOK',
+            'SECOND COOK',
+            'TR. GS',
+            'COOK',
+            'MSM/GS'
+        ];
 
         if (engineOfficers.includes(appliedRank)) {
             evalType.value = '1';
