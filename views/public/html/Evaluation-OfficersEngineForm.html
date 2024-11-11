@@ -89,6 +89,7 @@
         
 
     </style>
+    <script src="../assets/js/config.js"></script>
 </head>
 <body style="font-size: 18px;">
  
@@ -102,14 +103,15 @@
             </div>
             <div class="title-col">
                 <p class="fw-bolder ">
-                  PRE-EMPLOYEMENT EVALUATION SHEET OFFICERS - ENGINE													
+                  PRE-EMPLOYEMENT EVALUATION SHEET<br/>
+                  OFFICERS - ENGINE
                 </p>
             </div>
             <div class="info-col">
                 <p class="small p-2 pt-4">
                     FORM NO: OFF 47B<br />
                     REVISION NO: 00<br />
-                    DATE: <span id="applicationDate"></span>
+                    DATE: <span id="application_date"></span>
                 </p>
             </div>
         </div>
@@ -188,43 +190,37 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
-                            <div class="form-check">
+                        
+                            <div class="form-check mr-4">
                                 <input class="form-check-input" readonly type="checkbox" id="europe">
                                 <label class="form-check-label" for="europe">Europe</label>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
+                        
+                            <div class="form-check mr-4">
                                 <input class="form-check-input" readonly type="checkbox" id="usa">
                                 <label class="form-check-label" for="usa">USA</label>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
+                       
+                            <div class="form-check mr-4">
                                 <input class="form-check-input" readonly type="checkbox" id="medSea">
                                 <label class="form-check-label" for="medSea">Med.-Sea</label>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
+                       
+                            <div class="form-check mr-4">
                                 <input class="form-check-input" readonly type="checkbox" id="farEast">
                                 <label class="form-check-label" for="farEast">Far East</label>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-check">
+                       
+                            <div class="form-check mr-4">
                                 <input class="form-check-input" readonly type="checkbox" id="pgGoa">
                                 <label class="form-check-label" for="pgGoa">PG/GOA</label>
                             </div>
-                        </div>
-                        <div class="col">
+                       
                           <div class="">
                             <label for="othersTAE">Others</label>
-                              <input class="" readonly type="text" id="othersTAE" placeholder="others">
+                              <input class="form-control" readonly type="text" id="othersTAE" placeholder="others">
                               
                           </div>
-                      </div>
                     </div>
                 </div>
             </div>
@@ -286,7 +282,7 @@
           <div class="bg-light p-3">
             <h5 for="cargosHandled" class="form-label">CARGO's CARRIED											
             </h5>
-            <input id="cargosHandled" type="text" readonly>
+            <input id="cargosHandled" type="text" readonly class="form-control">
           </div>
         </div>
       </div>
@@ -440,7 +436,8 @@
               <label class="form-check-label"  for="caterpillar">Caterpillar</label>
             </div>
             <div class="form-check">
-              <input class="" readonly type="text" id="other" placeholder="other">
+              <input class="form-check-input" readonly type="checkbox" id="other">
+              <label class="form-check-label"  for="other">Other</label>
             </div>
           </div>
         </div>
@@ -627,7 +624,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsInapplicable" value="no">
-                              <label class="form-check-label" for="umsVesselsInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="umsVesselsInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -643,7 +640,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeInapplicable" value="no">
-                              <label class="form-check-label" for="bilgeSludgeInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="bilgeSludgeInapplicable">N/A</label>
                           </div>
                         </div>
                               <label class="form-label">Planned Maintenance System (PMS) Software experience</label>
@@ -659,7 +656,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareInapplicable" value="no">
-                              <label class="form-check-label" for="pmsSoftwareInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="pmsSoftwareInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -675,7 +672,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersInapplicable" value="no">
-                              <label class="form-check-label" for="reeferContainersInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="reeferContainersInapplicable">N/A</label>
                           </div>
                         </div>
                             <label class="form-label">Experience in any extraordinary circumstances such as collision, abandon ship, pollution, Piracy zone</label>
@@ -691,7 +688,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesInapplicable" value="no">
-                              <label class="form-check-label" for="extraordinaryCircumstancesInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="extraordinaryCircumstancesInapplicable">N/A</label>
                           </div>
                         </div>
                        
@@ -708,7 +705,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageInapplicable" value="no">
-                              <label class="form-check-label" for="congestedPassageInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="congestedPassageInapplicable">N/A</label>
                           </div>
                         </div>
                        
@@ -725,7 +722,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockInapplicable" value="no">
-                              <label class="form-check-label" for="dryDockInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="dryDockInapplicable">N/A</label>
                           </div>
                         </div>
                        
@@ -742,7 +739,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable" value="no">
-                              <label class="form-check-label" for="csmPlanningInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="csmPlanningInapplicable">N/A</label>
                           </div>
                         </div>
                     </div>
@@ -761,7 +758,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryInapplicable" value="no">
-                              <label class="form-check-label" for="yardDeliveryInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="yardDeliveryInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -778,7 +775,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMInapplicable" value="no">
-                              <label class="form-check-label" for="safetyISMInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="safetyISMInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -795,7 +792,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="audits" id="auditsInapplicable" value="no">
-                              <label class="form-check-label" for="auditsInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="auditsInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -812,7 +809,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationInapplicable" value="no">
-                              <label class="form-check-label" for="ecaSecaOperationInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="ecaSecaOperationInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -829,7 +826,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementInapplicable" value="no">
-                              <label class="form-check-label" for="garbageManagementInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="garbageManagementInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -846,7 +843,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverInapplicable" value="no">
-                              <label class="form-check-label" for="fuelChangeoverInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="fuelChangeoverInapplicable">N/A</label>
                           </div>
                         </div>
                         
@@ -863,7 +860,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresInapplicable" value="no">
-                              <label class="form-check-label" for="operationProceduresInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="operationProceduresInapplicable">N/A</label>
                           </div>
                         </div>
                             <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL, COLREGS STCW, etc.) or new regulations - e.g., GHG, SEEMP, FAL</label>
@@ -879,7 +876,7 @@
                             </div>
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" name="regulations" id="regulationsInapplicable" value="no">
-                              <label class="form-check-label" for="regulationsInapplicable">Inapplicable</label>
+                              <label class="form-check-label" for="regulationsInapplicable">N/A</label>
                           </div>
                         </div>
                     </div>
@@ -990,20 +987,20 @@
       async function fetchEvaluationData(candidateId, evalId) {
           try {
               // Replace with your actual API endpoint
-              const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+              const response = await axios.get(`${config.APIURL}candidate/viewevaluation/${evalId}/${candidateId}`);
               const evaluationData = response.data.values;
               console.log("Fetched Evaluation Data:", evaluationData);
-  
+              var evaluationalues =
+                    evaluationData !== "" && evaluationData !== null
+                        ? JSON.parse(evaluationData)
+                        : "";
              const applied_date = response?.data?.applied_date || '';
-             if(applied_date!=="") {
-              applieddate = new Date(applied_date);
+              applieddate = (applied_date!=="")?new Date(applied_date):new Date();
               const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
               applieddate = addFrontZero(applieddate.getDate())+'-'+month[applieddate.getMonth()]+'-'+applieddate.getFullYear();              
-              $('#applicationDate').html(applieddate)
-        }
-             
+              $('#application_date').html(applieddate)
               // Call function to populate form fields with the evaluation data
-              populateFormFields(evaluationData);
+              populateFormFields(evaluationalues);
           } catch (error) {
               console.error('Error fetching evaluation data:', error);
           }
@@ -1039,7 +1036,7 @@
               'extraordinaryCircumstancesInapplicable','congestedPassageInapplicable','dryDockInapplicable',
               'csmPlanningInapplicable','yardDeliveryInapplicable','safetyISMInapplicable','auditsInapplicable',
               'ecaSecaOperationInapplicable','garbageManagementInapplicable','fuelChangeoverInapplicable',
-              'operationProceduresInapplicable','regulationsInapplicable'
+              'operationProceduresInapplicable','regulationsInapplicable','otherME'
           ];
   
           ids.forEach(id => {
