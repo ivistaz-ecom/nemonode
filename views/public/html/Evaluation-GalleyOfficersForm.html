@@ -84,10 +84,13 @@
             }
         }
 
-        
+        .text-align-center {
+            text-align: center;
+        }
         
 
     </style>
+    <script src="../assets/js/config.js"></script>
 </head>
 <body>
   <div id="printableArea">
@@ -97,16 +100,15 @@
           <div class="col-md-2 border d-flex justify-content-center align-items-center">
           <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
           </div>
-          <div class="col border d-flex justify-content-center align-items-center">
-            <p class=" fw-bolder" >
-              "PRE-EMPLOYEMENT EVALUATION SHEET RATINGS - ENGINE"	
-            </p>
-          </div>
+          <div class="col border d-flex justify-content-center align-items-center text-align-center">         
+            PRE-EMPLOYEMENT EVALUATION SHEET<br/>
+            RATINGS - GALLEY
+        </div>
           <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
             <p style="font-size: 10px;">
-              FORM NO: OFF 47B<br />
+              FORM NO: OFF 47E<br />
               REVISION NO: 00<br />
-              DATE: 17/08/2023
+              DATE: <span id="application_date"></span>
             </p>
           </div>
         </div>  
@@ -227,197 +229,61 @@
         </form>
     
 
-         <div class="card mb-4">
-          <div class="card-header bg-light">
-            <h5 class="mb-0">
-              MULTINATIONAL CREW EXPERIENCE (tick the appropriate box)
-            </h5>
-          </div>
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    readonly
-                    type="checkbox"
-                    name="crewExperience"
-                    id="crewExperienceYes"
-                    value="yes"
-                  />
-                  <label class="form-check-label" for="crewExperienceYes"
-                    >YES</label
-                  >
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
+       
+
+  <div class="container">
+  <div class="row ">
+    <div class="col-md-7">
+      <div class="card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            MULTINATIONAL CREW EXPERIENCE (tick the appropriate box)
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
                   readonly
-                    class="form-check-input"
-                    type="checkbox"
-                    name="crewExperience"
-                    id="crewExperienceNo"
-                    value="no"
-                  />
-                  <label class="form-check-label" for="crewExperienceNo"
-                    >NO</label
-                  >
-                </div>
+                  type="checkbox"
+                  name="crewExperience"
+                  id="crewExperienceYes"
+                  value="yes"
+                />
+                <label class="form-check-label" for="crewExperienceYes"
+                  >YES</label
+                >
               </div>
-              <div class="col">
+              <div class="form-check form-check-inline">
                 <input
                 readonly
-                  type="text"
-                  class="form-control w-50"
-                  placeholder="Enter nationality"
-                  id="newNationality"
+                  class="form-check-input"
+                  type="checkbox"
+                  name="crewExperience"
+                  id="crewExperienceNo"
+                  value="no"
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-  <div class="container">
-    <div class="row mb-3">
-   <div class="container">
-  <div class="row ">
-    <div class="col-md-6 ">
-     <div class="row">
-    <div class="col">
-     
-       <div class="border border-black-1">
-        <div class="bg-light p-4">
-          <h5 class="form-label">CONTAINER EXPERIENCE/TEU (indicate number of vessels)</h5>
-          <div class="row row-cols-2 g-2">
-            <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput1" readonly>
-                <label class="form-check-label" for="ceInput1">&lt; 1000</label>
+                <label class="form-check-label" for="crewExperienceNo"
+                  >NO</label
+                >
               </div>
             </div>
             <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput2" readonly>
-                <label class="form-check-label" for="ceInput2">1000 - 3000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput3" readonly>
-                <label class="form-check-label" for="ceInput3">3000 - 6000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput4" readonly>
-                <label class="form-check-label" for="ceInput4">6000 - 10000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput5" readonly>
-                <label class="form-check-label" for="ceInput5">10000 - 15000</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="containerExperience" id="ceInput6" readonly>
-                <label class="form-check-label" for="ceInput6">&gt;15000</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-    </div>
- 
-    <div class="col-md-6 mb-3">
-      <div class="border border-black-1">
-        <div class="bg-light p-3">
-          <h5 class="form-label">MAIN ENGINE EXPERIENCE (indicate number of vessels)</h5>
-          <div class="row row-cols-1 row-cols-md-3 ">
-            <div class="col">
-              <div class="">
-                <label for="sulzer" class="form-label fs-6">Sulzer</label>
-                <input type="text" id="sulzer" class="form-control" readonly>
-              </div>
-            </div>
-            <div class="col">
-              <div class="">
-                <label for="sulzer_rta" class="form-label fs-6">Sulzer RTA</label>
-                <input type="text" id="sulzer_rta" class="form-control" readonly>
-              </div>
-            </div>
-            <div class="col">
-              <div class="p-1">
-                <label for="man_bw" class="form-label fs-6">MAN/B&W</label>
-                <input type="text" id="man_bw" class="form-control" readonly>
-              </div>
-            </div>
-            <div class="col">
-              <div class="">
-                <label for="pielstick" class="form-label fs-6">Pielstick</label>
-                <input type="text" id="pielstick" class="form-control" readonly>
-              </div>
-            </div>
-            <div class="col">
-              <div class="  ">
-                <label for="mak" class="form-label fs-6">MAK</label>
-                <input type="text" id="mak" class="form-control" readonly>
-              </div>
+              <input
+              readonly
+                type="text"
+                class="form-control w-50"
+                placeholder="Enter nationality"
+                id="newNationality"
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
- 
-</div>
-</div>
-</div>
-</div>
-
-
-
-  <div class="container">
-  <div class="row ">
-      <div class="col-md-6 mb-3">
-      <div class="border border-black-1">
-        <div class="bg-light pt-3 p-3">
-          <h5 class="form-label">Types of Auxiliaries previously worked with:	</h5>
-          <div class="d-flex flex-wrap">
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="yanmar" readonly>
-              <label class="form-check-label" for="yanmar">Yanmar</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="bw" readonly>
-              <label class="form-check-label" for="bw">B&W</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="deutz" readonly>
-              <label class="form-check-label" for="deutz">Deutz</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="daihatsu" readonly>
-              <label class="form-check-label" for="daihatsu">Daihatsu</label>
-            </div>
-            <div class="form-check me-2">
-              <input class="form-check-input" type="checkbox" id="caterpillar" readonly>
-              <label class="form-check-label" for="caterpillar">Caterpillar</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="other" readonly>
-              <label class="form-check-label" for="other">Other</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 mb-3 border border-black-1">
+    <div class="col-md-5 mb-3 border border-black-1">
       <div class="bg-light p-2">
           <div class="mb-2">
             <label class="form-label me-4 ">Drinking Habits</label>
@@ -562,330 +428,295 @@ SIRE/CDI experience Right ship
 </div>
   </div>
 
-        <div/>
+</div>
 
-        <div class="container mt-5 border border-black-1 p-3">
-          <h4 class="mb-4">OTHER PRACTICAL EXPERIENCE (tick the appropriate box)</h4>
-          <form>
-              <div class="row">
-                  <div class="col-md-6 ">
-                    
-                          <label class="form-label">Engine procedures (for Engine Ratings)</label>
-                            <div class="mb-2  ">
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
-                              <label class="form-check-label" for="umsVesselsYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsNo" value="no">
-                              <label class="form-check-label" for="umsVesselsNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsInapplicable" value="no">
-                            <label class="form-check-label" for="umsVesselsInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Bilge & Sludge Management : Engine Ratings</label>
-                          <div class="mb-2">
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
-                              <label class="form-check-label" for="bilgeSludgeYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeNo" value="no">
-                              <label class="form-check-label" for="bilgeSludgeNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeInapplicable" value="no">
-                            <label class="form-check-label" for="bilgeSludgeInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                                             <label class="form-label">Experience on fresh water generator (MTM, WIPER)</label>
-                                              <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareYes" value="yes">
-                              <label class="form-check-label" for="pmsSoftwareYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareNo" value="no">
-                              <label class="form-check-label" for="pmsSoftwareNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareInapplicable" value="no">
-                            <label class="form-check-label" for="pmsSoftwareInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Principle & Operation procedure -OWS (MTM, WIPER)</label>
-                          <div class="mb-2 ">
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
-                              <label class="form-check-label" for="reeferContainersYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersNo" value="no">
-                              <label class="form-check-label" for="reeferContainersNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersInapplicable" value="no">
-                            <label class="form-check-label" for="reeferContainersInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                          <label class="form-label">Main Engine starting procedure expereince (MTM, WIPER, OWS)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesYes" value="yes">
-                              <label class="form-check-label" for="extraordinaryCircumstancesYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesNo" value="no">
-                              <label class="form-check-label" for="extraordinaryCircumstancesNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesInapplicable" value="no">
-                            <label class="form-check-label" for="extraordinaryCircumstancesInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                     
-                          <label class="form-label">Sewage treatment plant experience (MTM, WIPER, OWS)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageYes" value="yes">
-                              <label class="form-check-label" for="congestedPassageYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageNo" value="no">
-                              <label class="form-check-label" for="congestedPassageNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageInapplicable" value="no">
-                            <label class="form-check-label" for="congestedPassageInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                     
-                          <label class="form-label">Experience with Cargo pumps (MTM, WIPER, OWS)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockYes" value="yes">
-                              <label class="form-check-label" for="dryDockYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockNo" value="no">
-                              <label class="form-check-label" for="dryDockNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockInapplicable" value="no">
-                            <label class="form-check-label" for="dryDockInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                     
-                          <label class="form-label">Experience with boilers (MTM, WIPER, OWS)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes" value="yes">
-                              <label class="form-check-label" for="csmPlanningYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo" value="no">
-                              <label class="form-check-label" for="csmPlanningNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable" value="no">
-                            <label class="form-check-label" for="csmPlanningInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                        <label class="form-label">Knowledge on types of welding for eg: ARC, TIG, MIG (FITTER)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes1" value="yes">
-                              <label class="form-check-label" for="csmPlanningYes1">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo1" value="no">
-                              <label class="form-check-label" for="csmPlanningNo1">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable1" value="no">
-                            <label class="form-check-label" for="csmPlanningInapplicable1">Inapplicable</label>
-                        </div>
-                      </div>
-                          <label class="form-label">Garbage Management - Engine</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes2" value="yes">
-                              <label class="form-check-label" for="csmPlanningYes2">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo2" value="no">
-                              <label class="form-check-label" for="csmPlanningNo2">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable2" value="no">
-                            <label class="form-check-label" for="csmPlanningInapplicable2">Inapplicable</label>
-                        </div>
-                      </div>
-  
-  
+<div class="container mt-5 border border-black-1 p-3">
+  <h4 class="mb-4">OTHER PRACTICAL EXPERIENCE (tick the appropriate box)</h4>
+  <form>
+      <div class="row">
+          <div class="col-md-6 ">
+            
+                  <label class="form-label">Cleanliness & Maintenance of Galley</label>
+                    <div class="mb-2  ">
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsYes" value="yes">
+                      <label class="form-check-label" for="umsVesselsYes">YES</label>
                   </div>
-                  <div class="col-md-6">
-                        <label class="form-label">Awareness of safety and ISM Code</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes3" value="yes">
-                              <label class="form-check-label" for="csmPlanningYes3">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo3" value="no">
-                              <label class="form-check-label" for="csmPlanningNo3">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable3" value="no">
-                            <label class="form-check-label" for="csmPlanningInapplicable3">Inapplicable</label>
-                        </div>
-                      </div>
-  
-                      
-                          <label class="form-label">Knowledge on generators & working principle (MTM, WIPER)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryYes" value="yes">
-                              <label class="form-check-label" for="yardDeliveryYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryNo" value="no">
-                              <label class="form-check-label" for="yardDeliveryNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryInapplicable" value="no">
-                            <label class="form-check-label" for="yardDeliveryInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMYes" value="yes">
-                              <label class="form-check-label" for="safetyISMYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMNo" value="no">
-                              <label class="form-check-label" for="safetyISMNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMInapplicable" value="no">
-                            <label class="form-check-label" for="safetyISMInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="audits" id="auditsYes" value="yes">
-                              <label class="form-check-label" for="auditsYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="audits" id="auditsNo" value="no">
-                              <label class="form-check-label" for="auditsNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="audits" id="auditsInapplicable" value="no">
-                            <label class="form-check-label" for="auditsInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Experience of piracy Zone (any previous bad expereince)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationYes" value="yes">
-                              <label class="form-check-label" for="ecaSecaOperationYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationNo" value="no">
-                              <label class="form-check-label" for="ecaSecaOperationNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationInapplicable" value="no">
-                            <label class="form-check-label" for="ecaSecaOperationInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementYes" value="yes">
-                              <label class="form-check-label" for="garbageManagementYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementNo" value="no">
-                              <label class="form-check-label" for="garbageManagementNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementInapplicable" value="no">
-                            <label class="form-check-label" for="garbageManagementInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">Awareness of ISPS</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverYes" value="yes">
-                              <label class="form-check-label" for="fuelChangeoverYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverNo" value="no">
-                              <label class="form-check-label" for="fuelChangeoverNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverInapplicable" value="no">
-                            <label class="form-check-label" for="fuelChangeoverInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
-                          <label class="form-label">knowledge on procedure about 6G & 4G Welding (FITTER)</label>
-                          <div class="mb-2">
-  
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="operationProcedures" id="opeartionProceduresYes" value="yes">
-                              <label class="form-check-label" for="opeartionProceduresYes">YES</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresNo" value="no">
-                              <label class="form-check-label" for="operationProceduresNo">NO</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresInapplicable" value="no">
-                            <label class="form-check-label" for="operationProceduresInapplicable">Inapplicable</label>
-                        </div>
-                      </div>
-                      
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsNo" value="no">
+                      <label class="form-check-label" for="umsVesselsNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="umsVessels" id="umsVesselsInapplicable" value="no">
+                    <label class="form-check-label" for="umsVesselsInapplicable">N/A</label>
+                </div>
               </div>
-                     <div class="mt-4 mb-3">
-              <label class="block mb-2">Last Employer – Reason for Leaving</label>
-              <input
-              id="leaving"
-                type="text"
-                placeholder="Enter reason for leaving"
-                class="w-full p-2 border rounded"
-              />
-            </div>
+              
+                  <label class="form-label">Cleanlineness & Maintenance of Mess Room</label>
+                  <div class="mb-2">
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeYes" value="yes">
+                      <label class="form-check-label" for="bilgeSludgeYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeNo" value="no">
+                      <label class="form-check-label" for="bilgeSludgeNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="bilgeSludge" id="bilgeSludgeInapplicable" value="no">
+                    <label class="form-check-label" for="bilgeSludgeInapplicable">N/A</label>
+                </div>
               </div>
+                                     <label class="form-label">Cleanliness & Maintenance of Reefer Chambers</label>
+                                      <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareYes" value="yes">
+                      <label class="form-check-label" for="pmsSoftwareYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareNo" value="no">
+                      <label class="form-check-label" for="pmsSoftwareNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="pmsSoftware" id="pmsSoftwareInapplicable" value="no">
+                    <label class="form-check-label" for="pmsSoftwareInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Cleanliness & Maintenance of Provision Store room</label>
+                  <div class="mb-2 ">
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersYes" value="yes">
+                      <label class="form-check-label" for="reeferContainersYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersNo" value="no">
+                      <label class="form-check-label" for="reeferContainersNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="reeferContainers" id="reeferContainersInapplicable" value="no">
+                    <label class="form-check-label" for="reeferContainersInapplicable">N/A</label>
+                </div>
+              </div>
+                  <label class="form-label">General Hygiene and cooking methods</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesYes" value="yes">
+                      <label class="form-check-label" for="extraordinaryCircumstancesYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesNo" value="no">
+                      <label class="form-check-label" for="extraordinaryCircumstancesNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="extraordinaryCircumstances" id="extraordinaryCircumstancesInapplicable" value="no">
+                    <label class="form-check-label" for="extraordinaryCircumstancesInapplicable">N/A</label>
+                </div>
+              </div>
+             
+                  <label class="form-label">Procedure while preparing for cooking? (COOK & GS)</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageYes" value="yes">
+                      <label class="form-check-label" for="congestedPassageYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageNo" value="no">
+                      <label class="form-check-label" for="congestedPassageNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="congestedPassage" id="congestedPassageInapplicable" value="no">
+                    <label class="form-check-label" for="congestedPassageInapplicable">N/A</label>
+                </div>
+              </div>
+             
+                  <label class="form-label">Dairy products stored at what level in refrigerator? (COOK & GS)</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockYes" value="yes">
+                      <label class="form-check-label" for="dryDockYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockNo" value="no">
+                      <label class="form-check-label" for="dryDockNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="dryDock" id="dryDockInapplicable" value="no">
+                    <label class="form-check-label" for="dryDockInapplicable">N/A</label>
+                </div>
+              </div>
+             
+                  <label class="form-label">Temperature to maintain while storing Fish, Meat & Vegetables (COOK & GS)</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes" value="yes">
+                      <label class="form-check-label" for="csmPlanningYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo" value="no">
+                      <label class="form-check-label" for="csmPlanningNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable" value="no">
+                    <label class="form-check-label" for="csmPlanningInapplicable">N/A</label>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-6">
+                <label class="form-label">Garbage Management - Galley</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningYes3" value="yes">
+                      <label class="form-check-label" for="csmPlanningYes3">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningNo3" value="no">
+                      <label class="form-check-label" for="csmPlanningNo3">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="csmPlanning" id="csmPlanningInapplicable3" value="no">
+                    <label class="form-check-label" for="csmPlanningInapplicable3">N/A</label>
+                </div>
               </div>
 
+              
+                  <label class="form-label">Knowledge on Cutting boards - Colours</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryYes" value="yes">
+                      <label class="form-check-label" for="yardDeliveryYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryNo" value="no">
+                      <label class="form-check-label" for="yardDeliveryNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="yardDelivery" id="yardDeliveryInapplicable" value="no">
+                    <label class="form-check-label" for="yardDeliveryInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Waste Cooking oil maintenance</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMYes" value="yes">
+                      <label class="form-check-label" for="safetyISMYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMNo" value="no">
+                      <label class="form-check-label" for="safetyISMNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="safetyISM" id="safetyISMInapplicable" value="no">
+                    <label class="form-check-label" for="safetyISMInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Knowledge on existing mandatory regulations (SOLAS, MARPOL)</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="audits" id="auditsYes" value="yes">
+                      <label class="form-check-label" for="auditsYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="audits" id="auditsNo" value="no">
+                      <label class="form-check-label" for="auditsNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="audits" id="auditsInapplicable" value="no">
+                    <label class="form-check-label" for="auditsInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationYes" value="yes">
+                      <label class="form-check-label" for="ecaSecaOperationYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationNo" value="no">
+                      <label class="form-check-label" for="ecaSecaOperationNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="ecaSecaOperation" id="ecaSecaOperationInapplicable" value="no">
+                    <label class="form-check-label" for="ecaSecaOperationInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Experience of piracy Zone</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementYes" value="yes">
+                      <label class="form-check-label" for="garbageManagementYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementNo" value="no">
+                      <label class="form-check-label" for="garbageManagementNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="garbageManagement" id="garbageManagementInapplicable" value="no">
+                    <label class="form-check-label" for="garbageManagementInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Cleanliness & Maintenance of Accomodation, common areas and cabins</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverYes" value="yes">
+                      <label class="form-check-label" for="fuelChangeoverYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverNo" value="no">
+                      <label class="form-check-label" for="fuelChangeoverNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="fuelChangeover" id="fuelChangeoverInapplicable" value="no">
+                    <label class="form-check-label" for="fuelChangeoverInapplicable">N/A</label>
+                </div>
+              </div>
+              
+                  <label class="form-label">Awareness of Fire Fighting system in Galley</label>
+                  <div class="mb-2">
+
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="operationProcedures" id="opeartionProceduresYes" value="yes">
+                      <label class="form-check-label" for="opeartionProceduresYes">YES</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresNo" value="no">
+                      <label class="form-check-label" for="operationProceduresNo">NO</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="operationProcedures" id="operationProceduresInapplicable" value="no">
+                    <label class="form-check-label" for="operationProceduresInapplicable">N/A</label>
+                </div>
+              </div>
+              
+      </div>
+             <div class="mt-4 mb-3">
+      <label class="block mb-2">Last Employer – Reason for Leaving</label>
+      <input
+      id="leaving"
+        type="text"
+        placeholder="Enter reason for leaving"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+      </div>
+      </div>
             
               
 
@@ -956,16 +787,33 @@ SIRE/CDI experience Right ship
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+       function addFrontZero(value) {
+              if(value!=="") {
+                if(parseInt(value)<10) {
+                    return '0'+value;
+                }else {
+                  return value;
+                }
+              }
+            }
       // Function to fetch evaluation data based on candidateId and id
       async function fetchEvaluationData(candidateId, evalId) {
           try {
               // Replace with your actual API endpoint
-              const response = await axios.get(`https://nsnemo.com/candidate/viewevaluation/${evalId}/${candidateId}`);
+              const response = await axios.get(`${config.APIURL}candidate/viewevaluation/${evalId}/${candidateId}`);
               const evaluationData = response.data;
               console.log("Fetched Evaluation Data:", evaluationData);
-      
+              var evaluationalues =
+                    evaluationData.values !== "" && evaluationData.values !== null
+                        ? JSON.parse(evaluationData.values)
+                        : "";
+             const applied_date = response?.data?.applied_date || '';
+              applieddate = (applied_date!=="")?new Date(applied_date):new Date();
+              const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              applieddate = addFrontZero(applieddate.getDate())+'-'+month[applieddate.getMonth()]+'-'+applieddate.getFullYear();              
+              $('#application_date').html(applieddate)
               // Call function to populate form fields with the evaluation data
-              populateFormFields(evaluationData.values);
+              populateFormFields(evaluationalues);
           } catch (error) {
               console.error('Error fetching evaluation data:', error);
           }
