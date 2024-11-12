@@ -87,10 +87,13 @@
             }
         }
 
-        
+        .text-align-center {
+            text-align: center;
+        }
         
 
     </style>
+    <script src="../assets/js/config.js"></script>
 </head>
   <body class="bg-light">
     <div id="loginModal" class="modal">
@@ -110,24 +113,24 @@
         <div class="col-md-2 border d-flex justify-content-center align-items-center">
         <img src="../assets/img/illustrations/NautilusLogo.svg" style="width: 100px;" />
         </div>
-        <div class="col border d-flex justify-content-center align-items-center">
-          <p class=" fw-bolder" >
-            "PRE-EMPLOYEMENT EVALUATION SHEET OFFICERS - DECK"   
-          </p>
+        <div class="col border d-flex justify-content-center align-items-center text-align-center">
+         
+            PRE-EMPLOYEMENT EVALUATION SHEET<br/>
+            RATINGS - DECK
+         
         </div>
         <div class="col-md-2 border d-flex justify-content-center align-items-center pt-3">
           <p style="font-size: 10px;">
-            FORM NO: OFF 47B<br />
+            FORM NO: OFF 47C<br />
             REVISION NO: 00<br />
-            DATE: 17/08/2023
+            DATE: <span id="application_date"></span>
           </p>
         </div>
       </div>  
 
       <form>
         <div class="d-flex justify-content-center" id="imageContainer" >
- <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
-        
+          <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>        
         </div>
         <div class="mb-3">
           <label for="fullName" class="form-label"
@@ -211,7 +214,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
-                    type="checkbox"
+                    type="radio"
                     name="englishLevel"
                     id="englishGood"
                     value="good"
@@ -221,7 +224,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
-                    type="checkbox"
+                    type="radio"
                     name="englishLevel"
                     id="englishSatisf"
                     value="satisfactory"
@@ -233,7 +236,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
-                    type="checkbox"
+                    type="radio"
                     name="englishLevel"
                     id="englishPoor"
                     value="poor"
@@ -320,7 +323,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
-                    type="checkbox"
+                    type="radio"
                     name="crewExperience"
                     id="crewExperienceYes"
                     value="yes"
@@ -332,7 +335,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
-                    type="checkbox"
+                    type="radio"
                     name="crewExperience"
                     id="crewExperienceNo"
                     value="no"
@@ -363,7 +366,7 @@
           </div>
         </div>
               <div class="card-body">
-                <input id="cargosHandled" type="text" >
+                <input id="cargosHandled" type="text" class="form-control">
 
               </div>
             </div>
@@ -442,20 +445,24 @@
       <div class="border border-black-1">
         <div class="bg-light pt-3 p-3 ">
           <h5 class="form-label">TYPES OF CARGO GEARS PREVIOUSLY WORKED WITH:</h5>
+
           <div class="d-flex">
-            <div class="form-check me-3 ">
-              <input class="form-check-input" type="text" id="pumps" placeholder="pumps">
-              <label class="form-check-label" for="pumps">PUMPS</label>
-            </div>
-            <div class="form-check ms-3">
-              <input class="form-check-input" type="text" id="gears" placeholder="gears">
-              <label class="form-check-label" for="gears">GEARS</label>
-            </div>
-            <div class="form-check ms-3">
-              <input class="form-check-input" type="text" id="othersPG" placeholder="Others">
-              <label class="form-check-label" for="gears">Others</label>
-            </div>
+              <div class="form-check me-3 mr-2">
+                  <input class="form-check-input" type="checkbox"
+                      id="pumps" />
+                  <label class="form-check-label" for="pumps">PUMPS</label>
+              </div>
+              <div class="form-check mr-3">
+                  <input class="form-check-input" type="checkbox"
+                      id="gears" />
+                  <label class="form-check-label" for="gears">GEARS</label>
+              </div>
+              <div class="form-check ms-3">
+                <input class="form-check-input" type="text" id="othersPG" placeholder="Others">
+                <label class="form-check-label" for="gears">Others</label>
+              </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -474,22 +481,22 @@
           <div class="mb-2">
             <label class="form-label me-4 ">Drinking Habits</label>
             <div class="form-check form-check-inline p ">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+              <input class="form-check-input" type="radio" name="drinkingHabits" id="drinkingYes">
               <label class="form-check-label " for="drinkingYes ">YES</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+              <input class="form-check-input" type="radio" name="drinkingHabits" id="drinkingNo">
               <label class="form-check-label" for="drinkingNo">NO</label>
             </div>
           </div>
           <div>
             <label class="form-label ">Any Medical issues</label>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+              <input class="form-check-input" type="radio" name="medicalIssues" id="medicalYes">
               <label class="form-check-label" for="medicalYes">YES</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+              <input class="form-check-input" type="radio" name="medicalIssues" id="medicalNo">
               <label class="form-check-label" for="medicalNo">NO</label>
             </div>
           </div>
@@ -499,7 +506,7 @@
       </div>
 
 
-      <div class="container" style="margin-top: 200px;">
+      <div class="container" >
           <div class="bg-gray-100 p-4 border border-dark-1 rounded-1  bg-light mb-4">
     <h3 class="   mb-4">PRACTICAL SKILLS</h3>
     <div class="row ">
@@ -618,301 +625,223 @@ SIRE/CID experience
           <div class="grid grid-cols-2 d-flex">
             <div class="space-y-2">
               <div class="flex items-center justify-between py-1">
-                <span>Stability software experience (C/Officer)</span>
+                <span>Bridge Procedures:  Deck Ratings</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="sseYes" />
+                  <input type="radio" class="form-checkbox" id="sseYes" />
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="sseNo" />
+                  <input type="radio" class="form-checkbox" id="sseNo" />
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="sseInapplicable" />
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="sseInapplicable" />
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>ECDIS experience</span>
+                <span>Experience/Knowledge of navigation thru congested passage like Singapore straits/Sunda Straits/Gibraltor/Bosporus/Dover Straits/Skaw straits (for Deck Ratings)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="ecdisYes" />
+                  <input type="radio" class="form-checkbox" id="ecdisYes" />
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="ecdisNo"/>
+                  <input type="radio" class="form-checkbox" id="ecdisNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="edisInapplicable" />
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="edisInapplicable" />
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Knowledge of Anchoring for Deck Officers</span>
+                <span>Knowledge of Steering while anchoring and port arrivals for Deck Ratings</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="anchorYes"/>
+                  <input type="radio" class="form-checkbox" id="anchorYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="anchorNo"/>
+                  <input type="radio" class="form-checkbox" id="anchorNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="anchorInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="anchorInapplicable"/>
+                  <span>N/A</span>
                   
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>General deck maintenance</span>
+                <span>Experience of River passage like (Parana river/Argentina) / Uruguay etc.. Steering knowledge</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="deckYes"/>
+                  <input type="radio" class="form-checkbox" id="deckYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="deckNo"/>
+                  <input type="radio" class="form-checkbox" id="deckNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="deckInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="deckInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Bridge procedures - Arrival/Departure</span>
+                <span>General Deck Maintenance</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="bridgeYes"/>
+                  <input type="radio" class="form-checkbox" id="bridgeYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="bridgeNo"/>
+                  <input type="radio" class="form-checkbox" id="bridgeNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="bridgeInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="bridgeInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between">
-                <span>Ballast exchange knowledge & Provision in CP</span>
+                <span>Bridge equipments handling experience (Bosun/AB/OS)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="ballastYes"/>
+                  <input type="radio" class="form-checkbox" id="ballastYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="ballastNo" />
+                  <input type="radio" class="form-checkbox" id="ballastNo" />
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="ballastInapplicable" />
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="ballastInapplicable" />
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between">
-                <span>MLC requirements / Compliance experience</span>
+                <span>Knowledge on Distress signal at sea (Bosun/AB/OS)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="mlcYes"/>
+                  <input type="radio" class="form-checkbox" id="mlcYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="mlcNo"/>
+                  <input type="radio" class="form-checkbox" id="mlcNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="mlcInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="mlcInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Planned Maintenance System(PMS) Software experience</span>
+                <span>Knowledge on Fire fighting equipments (Bosun/AB/OS)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="pmsYes"/>
+                  <input type="radio" class="form-checkbox" id="pmsYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="pmsNo" />
+                  <input type="radio" class="form-checkbox" id="pmsNo" />
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="pmsInapplicable" />
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="pmsInapplicable" />
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>LSA/FFA Maintenance and Requirements</span>
+                <span>Knowledge on enclosed space entry (Bosun/AB/OS)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="lsaYes"/>
+                  <input type="radio" class="form-checkbox" id="lsaYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="lsaInapplicable"/>
-                  <span>Inapplicable</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between py-1">
-                <span
-                  >Experience in any extra-ordinary circumstances such as,
-                  collision, abandon ship, pollution</span
-                >
-                <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="extraYes"/>
-                  <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="extraNo"/>
-                  <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="extraInapplicable"/>
-                  <span>Inapplicable</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between py-1">
-                <span
-                  >Exp/Kldge of navigation thru congested passage (Singapore
-                  straits/ Sunda Straits/ Gibraltar /Bosporus/Dover
-                  Straits/Skaw)</span
-                >
-                <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="expYes"/>
-                  <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="expNo"/>
-                  <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="expInapplicable"/>
-                  <span>Inapplicable</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between py-1">
-                <span>Knowledge on Distress signal at sea</span>
-                <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="distressYes"/>
-                  <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="distressNo"/>
-                  <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="distressInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="checkbox" class="form-checkbox" id="lsaNo"/>
+                  <span>No</span>
+                  <input type="radio" class="form-checkbox" id="lsaInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
             </div>
 
             <div class="space-y-2">
               <div class="flex items-center justify-between py-1">
-                <span>Dry dock experience during last three years?</span>
+                <span>Garbage Management: Deck</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="dryYes"/>
+                  <input type="radio" class="form-checkbox" id="dryYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="dryNo"/>
+                  <input type="radio" class="form-checkbox" id="dryNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="dryInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="dryInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Experience of piracy Zone?</span>
+                <span>Knowledge on existing mandatory regulations (SOLAS, MARPOL)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="privacyYes"/>
+                  <input type="radio" class="form-checkbox" id="privacyYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="privacyNo"/>
+                  <input type="radio" class="form-checkbox" id="privacyNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="privacyInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="privacyInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between">
-                <span
-                  >Knowledge on use of tugs(Berthing and Unberthing) -
-                  Masters</span
-                >
+                <span>Experience in any extra-ordinary circumstances such as Collision, abandon ship, pollution</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="tugsYes" />
+                  <input type="radio" class="form-checkbox" id="tugsYes" />
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="tugsNo"/>
+                  <input type="radio" class="form-checkbox" id="tugsNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="tugsInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="tugsInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Garbage Management onboard</span>
+                <span>Experience of piracy Zone (any previous bad expereince)</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="gmoYes"/>
+                  <input type="radio" class="form-checkbox" id="gmoYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="gmoNo"/>
+                  <input type="radio" class="form-checkbox" id="gmoNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="gmoInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="gmoInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between">
-                <span>Knowledge of ECA/SECA Operation</span>
+                <span>Cleanliness & Maintenance of Accomodation, common areas and cabins</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="ecaYes"/>
+                  <input type="radio" class="form-checkbox" id="ecaYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="ecaNo"/>
+                  <input type="radio" class="form-checkbox" id="ecaNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="ecaInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="ecaInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
                 <span
-                  >Experience in Internal/external audits, survey, Insp</span
+                  >Awareness of ISPS</span
                 >
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="auditsYes"/>
+                  <input type="radio" class="form-checkbox" id="auditsYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="auditsNo"/>
+                  <input type="radio" class="form-checkbox" id="auditsNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="auditsInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="auditsInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Awareness to Safety and ISM Code</span>
+                <span>Awareness of safety and ISM Code</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="awareYes"/>
+                  <input type="radio" class="form-checkbox" id="awareYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="awareNo"/>
+                  <input type="radio" class="form-checkbox" id="awareNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="awareInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="awareInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span>Yard delivery team experience</span>
+                <span>Knowledge on Mooring and Anchoring stations</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="yardYes" />
+                  <input type="radio" class="form-checkbox" id="yardYes" />
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="yardNo"/>
+                  <input type="radio" class="form-checkbox" id="yardNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="yardInapplicable"/>
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="yardInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
 
               <div class="flex items-center justify-between py-1">
-                <span
-                  >Continous Monitoring System (PMS Planning and
-                  experience)</span
-                >
+                <span>Tank cleaning/Hatch cleaning - Experience</span>
                 <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="cmsYes"/>
+                  <input type="radio" class="form-checkbox" id="cmsYes"/>
                   <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="cmsNo"/>
+                  <input type="radio" class="form-checkbox" id="cmsNo"/>
                   <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="cmsInapplicable"/>
-                  <span>Inapplicable</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between py-1">
-                <span
-                  >Knowledge on existing mandatory regulations (SOLAS, MARPOL,
-                  COLREGS STCW, etc.) or new regulations - eg GHG, SEEMP,
-                  FAL</span
-                >
-                <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="mandatYes"/>
-                  <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="mandatNo"/>
-                  <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="mandatInapplicable"/>
-                  <span>Inapplicable</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between py-1">
-                <span
-                  >Experience of River passage like (Parana river/Argentina) /
-                  Uruguay etc.... UKC compliance Knowledge?</span
-                >
-                <div class="space-x-2">
-                  <input type="checkbox" class="form-checkbox" id="riverYes"/>
-                  <span>YES</span>
-                  <input type="checkbox" class="form-checkbox" id="riverNo" />
-                  <span>NO</span>
-                  <input type="checkbox" class="form-checkbox" id="riverInapplicable" />
-                  <span>Inapplicable</span>
+                  <input type="radio" class="form-checkbox" id="cmsInapplicable"/>
+                  <span>N/A</span>
                 </div>
               </div>
             </div>
@@ -1003,6 +932,39 @@ SIRE/CID experience
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+
+      const month = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        var application_date = new Date();
+        application_date =
+          addFrontZero(application_date.getDate()) +
+          "/" +
+          month[application_date.getMonth()] +
+          "/" +
+          application_date.getFullYear();
+        $("#application_date").html(application_date);
+        function addFrontZero(value) {
+          if (value !== "") {
+            if (parseInt(value) < 10) {
+              return "0" + value;
+            } else {
+              return value;
+            }
+          }
+        }
+
     let nationalityData = []; // Add this line to declare nationalityData globally
 let portData=[];
 let vslsData =[];
@@ -1020,7 +982,7 @@ let userData=[];
         formData.forEach((value, key) => {
             var element = clone.querySelector(`#${key}`);
             if (element) {
-                if (element.type === 'checkbox') {
+                if (element.type === 'checkbox' || element.type === 'radio') {
                     var checked = formData.has(key);
                     element.checked = checked;
                 } else {
@@ -1119,7 +1081,7 @@ let userData=[];
                 ids.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
-                        if (element.type === 'checkbox') {
+                        if (element.type === 'checkbox' || element.type === 'radio') {
                             evalObject[id] = element.checked;
                         } else {
                             evalObject[id] = element.value;
@@ -1133,7 +1095,7 @@ let userData=[];
 
         document.getElementById('write').addEventListener('click', function() {
             const evalObject = fetchValues();
-            axios.post(`https://nsnemo.com/candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
+            axios.post(`${config.APIURL}candidate/evaluation/${sessionStorage.getItem('candidateId')}`, {
                 eval_type: 'Engine Officers',
                 applied_rank: appliedRank,
                 applied_date: appliedDate,
@@ -1156,7 +1118,7 @@ let userData=[];
 
     async function getCandidate(id) {
         try {
-            const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`, {
+            const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`, {
                 headers: { "Authorization": token }
             });
             
@@ -1166,7 +1128,7 @@ let userData=[];
             const mobile = document.getElementById('mobile')
             const lastContract=document.getElementById('lastContract')
             const bmi = document.getElementById('vessel1')
-            const qualification = document.getElementById('qualificaton')
+            const qualification = document.getElementById('qualification')
             
 
             fullName.value=response.data.candidate.fname
@@ -1175,7 +1137,7 @@ let userData=[];
             bmi.value = (response.data.candidate.weight / response.data.candidate.height ).toFixed(2);
 
             lastContract.value=response.data.candidate.c_rank
-            qualification.value=response.data.candidate.qualifications
+            qualification.value=response.data.candidate?.qualifications||''
 
 
 
@@ -1194,20 +1156,20 @@ async function getReq() {
         const token = localStorage.getItem('token');
         
         // Fetch nationality data
-        const nationalityResponse = await axios.get("https://nsnemo.com/others/country-codes");
+        const nationalityResponse = await axios.get(`${config.APIURL}others/country-codes`);
         nationalityData = nationalityResponse.data.countryCodes;
         
         // Fetch other necessary data
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`${config.APIURL}others/get-vsls`, { headers: { "Authorization": token } });
         vslsData= serverResponse.data.vessels
-        const serverResponseUser = await axios.get('https://nsnemo.com/user/userdropdown');
+        const serverResponseUser = await axios.get(`${config.APIURL}user/userdropdown`);
         userData = serverResponseUser.data
         console.log(serverResponseUser)
-        const serverResponsecomp = await axios.get('https://nsnemo.com/company/dropdown-company');
+        const serverResponsecomp = await axios.get(`${config.APIURL}company/dropdown-company`);
         companyData= serverResponsecomp.data.companies
 
 
-        const serverrespPort = await axios.get('https://nsnemo.com/others/get-ports')
+        const serverrespPort = await axios.get(`${config.APIURL}others/get-ports`);
         portData=serverrespPort.data.ports
     }
     catch(err){
@@ -1246,7 +1208,7 @@ function getUserName(email){
         const userPassword = document.getElementById('userPassword').value;
 
         try {
-            const response = await axios.post('https://nsnemo.com/user/login', {
+            const response = await axios.post(`${config.APIURL}user/login`, {
                 userName: userName,
                 userPassword: userPassword
             });
@@ -1272,7 +1234,7 @@ function getUserName(email){
     // Set the fetched photo value to the input field
     const token = sessionStorage.getItem('token')
     
-    const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+    const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
     console.log(response)
     const fetchedPhotoValue = response.data.candidate.photos
     console.log(fetchedPhotoValue)
@@ -1281,13 +1243,15 @@ function getUserName(email){
 
     // Extract the photo name from the photo value
     const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-    console.log(photoName)
+    console.log(photoName, 'photoNamephotoName')
     // Update the src attribute of the img tag
-    const imageContainer = document.getElementById('imageContainer');
-    const image = imageContainer.querySelector('img');
-    image.src = "/photos/" + photoName;
-    image.alt = "Description of the image"; // Add alt attribute if needed
-    console.log(image.src); // Check the src attribute in the console
+    if(photoName!=="") {
+      const imageContainer = document.getElementById('imageContainer');
+      const image = imageContainer.querySelector('img');
+      image.src = "/photos/" + photoName;
+      image.alt = "Description of the image"; // Add alt attribute if needed
+      console.log(image.src); // Check the src attribute in the console
+    }
 }
 
 </script>
