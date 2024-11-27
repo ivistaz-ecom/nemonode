@@ -264,9 +264,8 @@ app.post('/send-email', async (req, res) => {
     const emailData = {
         sender: { email: "mccivistasolutions@gmail.com" }, // Replace with your email
         to: [
-            { email: "praba9717@gmail.com" }
-            /* { email: "crewing@nautilusshipping.com" },
-            { email: "operations@nautilusshipping.com" } */
+            { email: "crewing@nautilusshipping.com" },
+            { email: "operations@nautilusshipping.com" }
         ], // Recipient email addresses
         subject: "Contracts Due Report",
         htmlContent: "<p>Please find the attached Excel file.</p>",
