@@ -2287,6 +2287,8 @@ const getStatusDate = async (req, res) => {
 
 const getCallCount = async (req, res) => {
     try {
+        const days = req.query?.days || 1;
+        
         const currentTime = new Date();
         const startOfDay = new Date(currentTime);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
@@ -2316,6 +2318,8 @@ const getCallCount = async (req, res) => {
 }
 const getStatusCount = async (req, res) => {
     try {
+        const days = req.query?.days || 1;
+
         const currentTime = new Date();
         const startOfDay = new Date(currentTime);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
