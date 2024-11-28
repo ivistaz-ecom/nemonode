@@ -2288,7 +2288,7 @@ const getStatusDate = async (req, res) => {
 const getCallCount = async (req, res) => {
     try {
         const days = req.query?.days || 1;
-        
+
         const currentTime = new Date();
         const startOfDay = new Date(currentTime);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
@@ -2359,7 +2359,7 @@ const percentage = async (req, res) => {
             attributes: ['call_count', 'proposed_count', 'approved_count', 'joined_count', 'rejected_count'],
             limit: 1 // Limit the result to one record
         });
-
+        console.log(counts, 'countscounts')
         // If counts is not empty, extract the first element (which should be the only one)
         const countRecord = counts.length ? counts[0] : null;
 

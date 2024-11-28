@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const approvedPercentageChange = statusCountData.approved_count - percentageData.approved_count;
       const joinedPercentageChange = statusCountData.joined_count - percentageData.joined_count;
       const rejectedPercentageChange = statusCountData.rejected_count - percentageData.rejected_count;
-    console.log(statusCountData.proposed_count, 'statusCountData.proposed_count')
+
       elements.proposedCount.textContent = statusCountData.proposed_count;
       elements.approvedCount.textContent = statusCountData.approved_count;
       elements.joinedCount.textContent = statusCountData.joined_count;
