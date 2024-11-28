@@ -2332,10 +2332,10 @@ const getStatusCount = async (req, res) => {
         // Fetch the counts of discussions created today
         const counts = await Discussion.findAll({
             attributes: [
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Proposed" THEN 1 ELSE NULL END')), 'proposed_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Approved" THEN 1 ELSE NULL END')), 'approved_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Joined" THEN 1 ELSE NULL END')), 'joined_count'],
-                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Rejected" THEN 1 ELSE NULL END')), 'rejected_count']
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Proposed%" THEN 1 ELSE NULL END')), 'proposed_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Approved%" THEN 1 ELSE NULL END')), 'approved_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Joined%" THEN 1 ELSE NULL END')), 'joined_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN `discussion` LIKE "Rejected%" THEN 1 ELSE NULL END')), 'rejected_count']
             ],
             where: {
                 created_date: {
