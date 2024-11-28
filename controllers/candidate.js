@@ -2290,6 +2290,11 @@ const getCallCount = async (req, res) => {
         const currentTime = new Date();
         const startOfDay = new Date(currentTime);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+        if(parseInt(days)===7) {
+            startOfDay.setDate(startOfDay.getDate() - 7);
+        }else if(parseInt(days)===30) {
+            startOfDay.setDate(startOfDay.getDate() - 30);
+        }
 
         // Fetch the count of discussions created within the current day
         const callCount = await Discussion.count({
@@ -2314,6 +2319,11 @@ const getStatusCount = async (req, res) => {
         const currentTime = new Date();
         const startOfDay = new Date(currentTime);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+        if(parseInt(days)===7) {
+            startOfDay.setDate(startOfDay.getDate() - 7);
+        }else if(parseInt(days)===30) {
+            startOfDay.setDate(startOfDay.getDate() - 30);
+        }
 
         // Fetch the counts of discussions created today
         const counts = await Discussion.findAll({
@@ -3851,7 +3861,6 @@ const getSignupsCountByDate = async (req, res) => {
         startDate.setDate(startDate.getDate() - 30);
       }
       let endDate = new Date(date.setHours(23, 59, 59, 999));
-      console.log(startDate, endDate, 'endDateendDate')
       const count = await Candidate.count({
         where: {
           cr_date: {
