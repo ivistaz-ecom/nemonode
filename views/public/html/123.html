@@ -26,6 +26,7 @@
 
 
 </style>
+<script src="../assets/js/config.js"></script>
 </head>
 <body style="padding: 0px 0px 0px 0px;text-align: center;" >
    <div style="background-color: rgb(9, 140, 131);">
@@ -401,7 +402,7 @@ candidateId.textContent=id
 getCandidate(id)
 
 async function getCandidate(id){
-const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${id}`,{headers:{"Authorization":token}})
+const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}})
 console.log(response.data)
 const fullName = document.getElementById('fullName')
 const dob = document.getElementById('dob')
@@ -415,7 +416,7 @@ rank.value=response.data.candidate.c_rank
 
 const fetchPorts = async () => {
     try {
-      const response = await axios.get('https://nsnemo.com/others/get-ports');
+      const response = await axios.get(`${config.APIURL}others/get-ports`);
       
    console.log(response.data.ports)
 
@@ -439,7 +440,7 @@ fetchPorts()
 async function fetchAndDisplayVessels() {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-vsls", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`${config.APIURL}others/get-vsls`, { headers: { "Authorization": token } });
         // console.log(serverResponse);
         const vessels = serverResponse.data.vessels;
 
@@ -477,7 +478,7 @@ fetchAndDisplayVessels()
 
 async function fetchAndDisplayVsls() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`${config.APIURL}others/get-vessel`, { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
