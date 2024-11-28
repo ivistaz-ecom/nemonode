@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function fetchData(days) {
       try {
+          signOff(days)
           const response = await axios.get(`https://nsnemo.com/candidate/signups?days=${days}`);
           const signupCount = response.data.signupCount;
           console.log(response);
@@ -72,9 +73,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
   }
 
-  document.getElementById('dailyButton').addEventListener('click', () => fetchData(1),  signOff(1));
-  document.getElementById('weeklyButton').addEventListener('click', () => fetchData(7),  signOff(7));
-  document.getElementById('monthlyButton').addEventListener('click', () => fetchData(30),  signOff(7));
+  document.getElementById('dailyButton').addEventListener('click', () => fetchData(1));
+  document.getElementById('weeklyButton').addEventListener('click', () => fetchData(7));
+  document.getElementById('monthlyButton').addEventListener('click', () => fetchData(30));
 
   // Fetch initial data for daily view
   fetchData(1);
