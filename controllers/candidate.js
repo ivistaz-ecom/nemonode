@@ -3841,12 +3841,17 @@ const sendEmail = async (req, res) => {
 
 const getSignupsCountByDate = async (req, res) => {
     try {
-       console.log(req.params, req.query, 'req.query');
+      const days = req.query?.days || 1;
 
       const date = new Date();
-      const startDate = new Date(date.setHours(0, 0, 0, 0));
-      const endDate = new Date(date.setHours(23, 59, 59, 999));
-        
+      let startDate = new Date(date.setHours(0, 0, 0, 0));
+      if(days==='7') {
+        startDate.setDate(startDate.getDate() - 7);
+      }else if(days==='30') {
+        startDate.setDate(startDate.getDate() - 30);
+      }
+      let endDate = new Date(date.setHours(23, 59, 59, 999));
+      console.log(startDate, endDate, 'endDateendDate')
       const count = await Candidate.count({
         where: {
           cr_date: {
