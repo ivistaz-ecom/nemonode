@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   document.getElementById('dailyButton').addEventListener('click', () => fetchData(1),  signOff(1));
-  document.getElementById('weeklyButton').addEventListener('click', () => fetchData(7));
-  document.getElementById('monthlyButton').addEventListener('click', () => fetchData(30));
+  document.getElementById('weeklyButton').addEventListener('click', () => fetchData(7),  signOff(7));
+  document.getElementById('monthlyButton').addEventListener('click', () => fetchData(30),  signOff(7));
 
   // Fetch initial data for daily view
   fetchData(1);
