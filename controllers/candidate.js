@@ -3845,9 +3845,9 @@ const getSignupsCountByDate = async (req, res) => {
 
       const date = new Date();
       let startDate = new Date(date.setHours(0, 0, 0, 0));
-      if(days==='7') {
+      if(parseInt(days)===7) {
         startDate.setDate(startDate.getDate() - 7);
-      }else if(days==='30') {
+      }else if(parseInt(days)===30) {
         startDate.setDate(startDate.getDate() - 30);
       }
       let endDate = new Date(date.setHours(23, 59, 59, 999));
