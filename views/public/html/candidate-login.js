@@ -11,7 +11,7 @@ document.getElementById('candidate_login').addEventListener('submit', async func
     };
 
     // Send data to the server using Axios
-    const response = await axios.post('https://nsnemo.com/candidate/login', formData);
+    const response = await axios.post(`${config.APIURL}candidate/login`, formData);
 
     console.log(response.data);
     const token = response.data.token;

@@ -735,7 +735,7 @@
 async function populateCandidatesTable() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://nsnemo.com/candidate/avbreport');
+        const response = await axios.get(`${config.APIURL}candidate/avbreport`);
         const responseData = response.data;
         const candidates = responseData.candidates;
 
@@ -888,7 +888,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`${config.APIURL}user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

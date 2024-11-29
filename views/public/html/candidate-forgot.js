@@ -19,7 +19,7 @@ document.getElementById('cand-form').addEventListener('submit', async function s
       };
 
       // Use Axios to send a POST request to the server
-      const response = await axios.post(`https://nsnemo.com/candidate-password/forgotpassword`, data);
+      const response = await axios.post(`${config.APIURL}candidate-password/forgotpassword`, data);
       console.log(response.data)
       // Check the response from the server
       if (response.data.success) {

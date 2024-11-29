@@ -637,7 +637,7 @@
                     loader.style.display = 'block';
                     error.style.display = 'none';
     
-                    axios.get('https://nsnemo.com/candidate/birthday', {
+                    axios.get(`${config.APIURL}candidate/birthday`, {
                         params: { date },
                         headers: { "Authorization": token }
                     })
@@ -734,7 +734,7 @@
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`${config.APIURL}user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })

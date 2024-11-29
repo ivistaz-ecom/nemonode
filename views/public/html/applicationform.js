@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function fetchCountryCodes() {
   try {
-      const response = await axios.get('https://nsnemo.com/fetch-nationality');
+      const response = await axios.get(`${config.APIURL}fetch-nationality`);
       const countries = response.data.countries;
       // Clear existing options
       var select2 = document.getElementById("countryCodeSelect2");
@@ -349,7 +349,7 @@ async function displayCandidateDetails(candidateData) {
   }
 }
 async function getContract(candidateId, token) {
-const response = await axios.get(`https://nsnemo.com/candidate/get-contract-details/${candidateId}`, {
+const response = await axios.get(`${config.APIURL}candidate/get-contract-details/${candidateId}`, {
   headers: {
         'Authorization': token,
         'Content-Type': 'application/json'

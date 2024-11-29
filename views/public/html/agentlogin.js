@@ -19,7 +19,7 @@ async function login(e) {
         console.log(loginCredentials);
         
         const response = await axios.post(
-            "https://nsnemo.com/user/login",
+            `${config.APIURL}user/login`,
             loginCredentials
         );
         console.log(response);

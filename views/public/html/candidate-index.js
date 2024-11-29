@@ -37,7 +37,7 @@ document.getElementById("logout").addEventListener("click", function() {
   // Send request to update logged status to false
   const userId = localStorage.getItem('userId');
   if (userId) {
-    axios.put(`https://nsnemo.com/user/${userId}/logout`)
+    axios.put(`${config.APIURL}user/${userId}/logout`)
       .then(response => {
         console.log('Logged out successfully');
       })
