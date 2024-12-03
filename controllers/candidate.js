@@ -2742,7 +2742,7 @@ const getContractsBySignOnDate = async (req, res) => {
 
         // Complete the query with order by clause
         query += `
-        GROUP BY r.id 
+        GROUP BY a.id 
         ORDER BY r.rankOrder ASC
         `;
 
