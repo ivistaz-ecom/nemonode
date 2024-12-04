@@ -272,7 +272,7 @@ async function getUserStats(days) {
     if (days === 7) {
       lables = "Last 7 Days";
     } else if (days === 30) {
-      lables = "Last 7 Days";
+      lables = "Last 30 Days";
     }
   
     Highcharts.chart("chartcontainer", {
