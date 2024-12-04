@@ -4452,7 +4452,7 @@ const getUserStats = async (req, res) => {
     try {
         const days = req.query?.days || 1;
         // Construct the base SQL query
-        const query = `SELECT userName, id FROM users WHERE allowStats='Y'`;
+        const query = `SELECT userName, id FROM Users WHERE allowStats='Y'`;
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
