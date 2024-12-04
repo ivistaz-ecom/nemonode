@@ -604,6 +604,25 @@ const canditatelogin = async (req, res, next) => {
   }
 };
 
+const currentuserDropdown = async (req, res) => {
+  try {    
+    const user = await User.findAll({ where: { allowStats: 'Y' }, attributes: ['id', 'userName']  });
+    if(user.length>0) {
+      return res.status(200).json({
+        success: true,
+        userList: user,
+    });    
+    }else {
+      return res.status(500).json({ success: false, message: 'No User Found' });
+    }                   
+  } catch (err) {
+      console.error('Error during login:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+
+
 module.exports = {
   create_user,
   edit_user,
@@ -617,5 +636,6 @@ module.exports = {
   tempChange,
   tempLogin,
   updateUserData,
-  canditatelogin
+  canditatelogin,
+  currentuserDropdown
 };

@@ -19,4 +19,6 @@ router.post('/temp-login',userControllers.tempLogin)
 router.post('/temp-change-password',userControllers.tempChange)
 router.post("/canditatelogin", userControllers.canditatelogin)
 
+router.get('/current-user',userControllers.currentuserDropdown)
+
 module.exports = router;

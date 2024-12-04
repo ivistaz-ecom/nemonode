@@ -12,7 +12,7 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../util/database')
-const {Op} = require('sequelize')
+const {Op, Sequelize } = require('sequelize')
 const validate = (inputString) => inputString !== undefined && inputString.length !== 0;
 const SeaService = require('../models/seaservice')
 const Calls = require('../models/todaysCalls')
@@ -2289,20 +2289,23 @@ const getCallCount = async (req, res) => {
     try {
         const days = req.query?.days || 1;
 
-        const currentTime = new Date();
-        const startOfDay = new Date(currentTime);
-        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+        
+        let startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
         if(parseInt(days)===7) {
-            startOfDay.setDate(startOfDay.getDate() - 7);
+            startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
-            startOfDay.setDate(startOfDay.getDate() - 30);
+            startOfDay.setDate(startOfDay.getDate() - 29);
         }
 
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
+       
         // Fetch the count of discussions created within the current day
         const callCount = await Discussion.count({
             where: {
                 created_date: {
-                    [Op.between]: [startOfDay, currentTime] // Filter discussions within the current day
+                    [Op.between]: [startOfDay, endDate] // Filter discussions within the current day
                 }
             }
         });
@@ -2320,14 +2323,16 @@ const getStatusCount = async (req, res) => {
     try {
         const days = req.query?.days || 1;
 
-        const currentTime = new Date();
-        const startOfDay = new Date(currentTime);
-        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the current day
+        let startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
         if(parseInt(days)===7) {
-            startOfDay.setDate(startOfDay.getDate() - 7);
+            startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
-            startOfDay.setDate(startOfDay.getDate() - 30);
+            startOfDay.setDate(startOfDay.getDate() - 29);
         }
+      
+        let currentTime = new Date();
+        currentTime.setUTCHours(23, 59, 59, 0);
 
         // Fetch the counts of discussions created today
         const counts = await Discussion.findAll({
@@ -3011,16 +3016,19 @@ const dueForRenewal = async (req, res) => {
 
 const getDueForRenewalCountForOneDay = async (req, res) => {
     try {
-        // Get the current date
-        const currentDate = new Date();
+        const { days } = req.query;
+        let startDate = new Date(); // Start date is today
+        
+        startDate.setUTCHours(0, 0, 0, 0);
+       
+        let endDate = new Date();
+        if(parseInt(days)===7) {
+            endDate.setDate(parseInt(endDate.getDate()) + 6);
+        }else if(parseInt(days)===30) {
+            endDate.setDate(parseInt(endDate.getDate()) + 29);
+        }
+        endDate.setUTCHours(23, 59, 59, 0);
 
-        // Set the start date to the current date (midnight)
-        const startDate = new Date(currentDate);
-        startDate.setHours(0, 0, 0, 0);
-
-        // Set the end date to the current date (end of the day)
-        const endDate = new Date(currentDate);
-        endDate.setHours(23, 59, 59, 999);
 
         // Fetch count of documents due for renewal
         const documentCount = await Documents.count({
@@ -3858,13 +3866,15 @@ const getSignupsCountByDate = async (req, res) => {
       const days = req.query?.days || 1;
 
       const date = new Date();
-      let startDate = new Date(date.setHours(0, 0, 0, 0));
+        let startDate = new Date(date.setUTCHours(0, 0, 0, 0));
       if(parseInt(days)===7) {
-        startDate.setDate(startDate.getDate() - 7);
+            startDate.setDate(startDate.getDate() - 6);
       }else if(parseInt(days)===30) {
-        startDate.setDate(startDate.getDate() - 30);
+            startDate.setDate(startDate.getDate() - 29);
       }
-      let endDate = new Date(date.setHours(23, 59, 59, 999));
+
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
       const count = await Candidate.count({
         where: {
           cr_date: {
@@ -3882,10 +3892,19 @@ const getSignupsCountByDate = async (req, res) => {
 
   const getContractsBySignOnDatedaily = async (req, res) => {
     try {
+        const { days } = req.query;
         // Set start and end date to today's date
-        const date = new Date();
-        const startDate = new Date(date.setHours(0, 0, 0, 0));
-        const endDate = new Date(date.setHours(23, 59, 59, 999));
+        let startDate = new Date();
+        startDate.setUTCHours(0, 0, 0, 0);
+        if(parseInt(days)===7) {
+            startDate.setDate(startDate.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startDate.setDate(startDate.getDate() - 29);
+        }
+        
+
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
 
         // Fetch the count of candidates with associated contracts signed on within the current day
         const count = await Candidate.count({
@@ -3917,12 +3936,17 @@ const getContractsBySignOffDatedaily = async (req, res) => {
         }
 
         // Calculate the date range
-        const startDate = new Date(); // Start date is today
-        const endDate = new Date();
-        endDate.setDate(startDate.getDate() + numDays - 1); // End date is today + (numDays - 1)
-
-        // Ensure endDate includes the whole day
-        endDate.setHours(23, 59, 59, 999);
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+        if(parseInt(days)===7) {
+            startDate.setDate(startDate.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startDate.setDate(startDate.getDate() - 29);
+        }
+        
+       
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
 
         console.log(`Fetching count of contracts signed off between ${startDate.toISOString()} and ${endDate.toISOString()}`);
 
@@ -3993,21 +4017,26 @@ const getContractsAndDiscussions = async (req, res) => {
 
 const getCandidatesCountOnBoardForOneDay = async (req, res) => {
     try {
-        // Get the current date
-        const currentDate = new Date();
-
-        // Set the start date to the current date (midnight)
-        const startDate = new Date(currentDate);
-        startDate.setHours(0, 0, 0, 0);
-
-        // Set the end date to the current date (end of the day)
-        const endDate = new Date(currentDate);
-        endDate.setHours(23, 59, 59, 999);
+       
+        const { days } = req.query;
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+        if(parseInt(days)===7) {
+            startDate.setDate(startDate.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startDate.setDate(startDate.getDate() - 29);
+        }        
+       
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
 
         // Construct the filtering criteria for contracts
         const contractFilterCriteria = {
             sign_on: { [Op.between]: [startDate, endDate] }, // Sign-on date falls within the current day
-            sign_off: null // Sign-off date is not present
+            [Op.or]: [
+                { sign_off: null }, // Sign-off date is null
+                Sequelize.literal("`Contracts`.`sign_off` = '1970-01-01'")
+            ]
         };
 
         // Fetch onboard candidates with the specified criteria
@@ -4028,25 +4057,31 @@ const getCandidatesCountOnBoardForOneDay = async (req, res) => {
 
 const getContractsCountBySignOffDateForOneDay = async (req, res) => {
     try {
-        // Get the current date
-        const currentDate = new Date();
-
-        // Set the start date to the current date (midnight)
-        const startDate = new Date(currentDate);
-        startDate.setHours(0, 0, 0, 0);
-
-        // Set the end date to the current date (end of the day)
-        const endDate = new Date(currentDate);
-        endDate.setHours(23, 59, 59, 999);
+        const { days } = req.query;
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+       
+        let endDate = new Date();
+        if(parseInt(days)===7) {
+            endDate.setDate(parseFloat(endDate.getDate()) + 6);
+        }else if(parseInt(days)===30) {
+            endDate.setDate(parseFloat(endDate.getDate()) + 29);
+        }
+        endDate.setUTCHours(23, 59, 59, 0);
 
         // Fetch count of candidates with associated contracts signed off within the current day
         const candidatesCount = await Candidate.count({
             include: [{
                 model: Contract,
                 where: {
-                    sign_off: {
+                    eoc: {
                         [Op.between]: [startDate, endDate]
-                    }
+                    },
+                    [Op.or]: [
+                        { sign_off: null }, // Sign-off date is null
+                        Sequelize.literal("`Contracts`.`sign_off` = '1970-01-01'")
+                    ]
+                    
                 },
                 attributes: [] // Exclude attributes from contracts
             }]
@@ -4412,6 +4447,303 @@ const sendApplicationEmail = async (req, res) => {
 };
 
 
+
+const getUserStats = async (req, res) => {
+    try {
+        const days = req.query?.days || 1;
+        // Construct the base SQL query
+        const query = `SELECT userName, id FROM users WHERE allowStats='Y'`;
+        // Run the raw SQL query using sequelize.query
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });        
+        let userList = [];
+        let userID = [];
+        if(results.length>0) {
+            results.map((item)=> {
+                userList.push(item.userName);
+                userID.push(item.id);
+            });            
+        }
+
+        let startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
+        if(parseInt(days)===7) {
+            startOfDay.setDate(startOfDay.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startOfDay.setDate(startOfDay.getDate() - 29);
+        }
+      
+        let currentTime = new Date();
+        currentTime.setUTCHours(23, 59, 59, 0);
+
+        // Fetch the counts of discussions created today
+        const totalDiscusstion = await Discussion.findAll({
+            attributes: [
+                'post_by',
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Proposed:%" OR `discussion` = "Proposed") THEN 1 ELSE NULL END')), 'proposed_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Approved:%" OR `discussion` = "Approved") THEN 1 ELSE NULL END')), 'approved_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Joined:%" OR `discussion` = "Joined") THEN 1 ELSE NULL END')), 'joined_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Rejected:%" OR `discussion` = "Rejected") THEN 1 ELSE NULL END')), 'rejected_count']
+            ],
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                post_by: {
+                    [Op.in]: userID // Use Op.in with the array
+                }
+            },
+            group: ['post_by'],
+            raw: true
+        });
+
+
+        const callCount = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime]
+                },
+                post_by: {
+                    [Op.in]: userID
+                }
+            },
+            attributes: [
+                'post_by',
+                [Sequelize.fn('COUNT', Sequelize.col('post_by')), 'discussion_count']
+            ],
+            group: ['post_by'], // Group by post_by
+            raw: true
+        });
+
+
+        const candidatecount = await Candidate.findAll({
+            where: {
+                cr_date: {
+                    [Op.between]: [startOfDay, currentTime]
+                },
+                userId: {
+                    [Op.in]: userID
+                }
+                 
+            },
+            attributes: [
+                'userId',
+                [Sequelize.fn('COUNT', Sequelize.col('userId')), 'created_count']
+            ],
+            group: ['userId'], // Group by userId
+            raw: true
+        });
+        
+        console.log(candidatecount, 'callCountcallCount')
+
+        var totalCallList = [];
+        var proposedList = [];
+        var approvedList = [];
+        var joinedList = [];
+        var rejectedList = [];
+        var createdList = [];
+
+        
+        if(userID.length>0) {
+            results.map((uitem)=> {
+                let isDataAvailable = totalDiscusstion.filter((item) => { return (item.post_by===uitem.id) });                
+                if(isDataAvailable.length>0) {                    
+                    proposedList.push(isDataAvailable[0].proposed_count);
+                    approvedList.push(isDataAvailable[0].approved_count);
+                    joinedList.push(isDataAvailable[0].joined_count);
+                    rejectedList.push(isDataAvailable[0].rejected_count);                    
+                }else {
+                    proposedList.push(0);
+                    approvedList.push(0);
+                    joinedList.push(0);
+                    rejectedList.push(0);
+                }
+
+                let isCountAvailable = callCount.filter((item) => { return (item.post_by===uitem.id) });
+                if(isCountAvailable.length>0) {
+                    totalCallList.push({name:uitem.userName, y:isCountAvailable[0].discussion_count})
+                }else {
+                    totalCallList.push({name:uitem.userName, y:0})
+                }
+
+                let iscandiCount = candidatecount.filter((item) => { return (item.userId===uitem.id) });
+                if(iscandiCount.length>0) {
+                    createdList.push({name:uitem.userName, y:iscandiCount[0].created_count});
+                }else {
+                    createdList.push({name:uitem.userName, y:0});
+                }
+
+               // console.log(isDataAvailable, 'isDataAvailableisDataAvailable')
+            })
+        }
+
+        var chartdata = [
+            {
+                name: 'Proposed',
+                data: proposedList,
+                dataLabels: {
+                    enabled: true, // Enable data labels
+                    format: '{point.y}', // Show the exact value
+                    style: {
+                        fontWeight: 'bold',
+                        color: '#000' // Optional: customize text color
+                    }
+                }
+            },
+            {
+                name: 'Approved',
+                data: approvedList,
+                dataLabels: {
+                    enabled: true, // Enable data labels
+                    format: '{point.y}', // Show the exact value
+                    style: {
+                        fontWeight: 'bold',
+                        color: '#000' // Optional: customize text color
+                    }
+                }
+            },
+            {
+                name: 'Joined',
+                data: joinedList,
+                dataLabels: {
+                    enabled: true, // Enable data labels
+                    format: '{point.y}', // Show the exact value
+                    style: {
+                        fontWeight: 'bold',
+                        color: '#000' // Optional: customize text color
+                    }
+                }
+            },
+            {
+                name: 'Rejected',
+                data: rejectedList,
+                dataLabels: {
+                    enabled: true, // Enable data labels
+                    format: '{point.y}', // Show the exact value
+                    style: {
+                        fontWeight: 'bold',
+                        color: '#000' // Optional: customize text color
+                    }
+                }
+            }
+        ]
+
+        /* const results = await sequelize.query(query, {
+            replacements: { today: todayString, thirtyDaysFromNow: thirtyDaysFromNowString },
+            type: sequelize.QueryTypes.SELECT
+        }); */
+
+        res.status(200).json({ users: userList, chartdata:chartdata, totalCallList:totalCallList, createdList:createdList, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts ending soon:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
+const getSelectedUserStats = async (req, res) => {
+    try {
+        const days = req.query?.days || 1;
+        const userID = req.query?.userID || 1;
+        let startOfDay = new Date();
+        startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
+        if(parseInt(days)===7) {
+            startOfDay.setDate(startOfDay.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startOfDay.setDate(startOfDay.getDate() - 29);
+        }
+      
+        let currentTime = new Date();
+        currentTime.setUTCHours(23, 59, 59, 0);
+
+        // Fetch the counts of discussions created today
+        const totalDiscusstion = await Discussion.findAll({
+            attributes: [
+                'post_by',
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Proposed:%" OR `discussion` = "Proposed") THEN 1 ELSE NULL END')), 'proposed_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Approved:%" OR `discussion` = "Approved") THEN 1 ELSE NULL END')), 'approved_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Joined:%" OR `discussion` = "Joined") THEN 1 ELSE NULL END')), 'joined_count'],
+                [sequelize.fn('COUNT', sequelize.literal('CASE WHEN (`discussion` LIKE "Rejected:%" OR `discussion` = "Rejected") THEN 1 ELSE NULL END')), 'rejected_count']
+            ],
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime] // Filter discussions created today
+                },
+                post_by: userID
+            },
+            group: ['post_by'],
+            raw: true
+        });
+
+        const callCount = await Discussion.findAll({
+            where: {
+                created_date: {
+                    [Op.between]: [startOfDay, currentTime]
+                },
+                post_by: userID
+            },
+            attributes: [
+                'post_by',
+                [Sequelize.fn('COUNT', Sequelize.col('post_by')), 'discussion_count']
+            ],
+            group: ['post_by'], // Group by post_by
+            raw: true
+        });
+
+
+        const candidatecount = await Candidate.findAll({
+            where: {
+                cr_date: {
+                    [Op.between]: [startOfDay, currentTime]
+                },
+                userId: userID
+                 
+            },
+            attributes: [
+                'userId',
+                [Sequelize.fn('COUNT', Sequelize.col('userId')), 'created_count']
+            ],
+            group: ['userId'], // Group by userId
+            raw: true
+        });
+        
+        
+
+        var totalCallList = 0;
+        var proposedList = 0;
+        var approvedList = 0;
+        var joinedList = 0;
+        var rejectedList = 0;
+        var createdList = 0;       
+   
+        let isDataAvailable = totalDiscusstion.filter((item) => { return (item.post_by===parseInt(userID)) });
+        console.log(isDataAvailable, totalDiscusstion, userID, 'isDataAvailable')                
+        if(isDataAvailable.length>0) {                    
+            proposedList = isDataAvailable[0].proposed_count;
+            approvedList = isDataAvailable[0].approved_count;
+            joinedList = isDataAvailable[0].joined_count;
+            rejectedList = isDataAvailable[0].rejected_count;                    
+        }
+
+        let isCountAvailable = callCount.filter((item) => { return (item.post_by===parseInt(userID)) });
+        if(isCountAvailable.length>0) {
+            totalCallList = isCountAvailable[0].discussion_count;
+        }
+
+        let iscandiCount = candidatecount.filter((item) => { return (item.userId===parseInt(userID)) });
+        if(iscandiCount.length>0) {
+            createdList = iscandiCount[0].created_count;
+        }
+        res.status(200).json({totalCallList:totalCallList, proposedList:proposedList, approvedList:approvedList, joinedList:joinedList, rejectedList:rejectedList, createdList:createdList, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts ending soon:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
+
+
+
+
+
 function convertToDate (postDate) {
     const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
     const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
@@ -4516,5 +4848,7 @@ module.exports = {
    delete_Medical,
    submitApplicationForm,
    getPreviousExperience,
-   sendApplicationEmail
+   sendApplicationEmail,
+   getUserStats,
+   getSelectedUserStats
 };

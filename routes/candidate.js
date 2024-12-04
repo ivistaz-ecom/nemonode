@@ -127,5 +127,8 @@ router.get('/get-payslips/:contractId', candidateControllers.getPayslips);
 router.post("/submit-application/:candidateId", candidateControllers.submitApplicationForm)
 router.get("/get-previous-experience/:candidateId",userAuthentication.authenticate, candidateControllers.getPreviousExperience);
 
+router.get('/user-stats',userAuthentication.authenticate,candidateControllers.getUserStats);
+router.get('/single-user-stats',userAuthentication.authenticate,candidateControllers.getSelectedUserStats);
+
 
 module.exports = router;
