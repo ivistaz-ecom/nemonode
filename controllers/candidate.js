@@ -2309,7 +2309,6 @@ const getCallCount = async (req, res) => {
                 }
             }
         });
-        
         // Update the call_count field in the Calls model
         
         // Send the call_count value as a JSON response
@@ -3863,27 +3862,27 @@ const sendEmail = async (req, res) => {
 
 const getSignupsCountByDate = async (req, res) => {
     try {
-      const days = req.query?.days || 1;
+        const days = req.query?.days || 1;
 
-      const date = new Date();
+        const date = new Date();
         let startDate = new Date(date.setUTCHours(0, 0, 0, 0));
-      if(parseInt(days)===7) {
+        if(parseInt(days)===7) {
             startDate.setDate(startDate.getDate() - 6);
-      }else if(parseInt(days)===30) {
+        }else if(parseInt(days)===30) {
             startDate.setDate(startDate.getDate() - 29);
-      }
+        }
 
         let endDate = new Date();
         endDate.setUTCHours(23, 59, 59, 0);
-      const count = await Candidate.count({
-        where: {
-          cr_date: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      });
-  
-      res.status(200).json({ signupCount: count });
+        const count = await Candidate.count({
+            where: {
+            cr_date: {
+                [Op.between]: [startDate, endDate]
+            }
+            }
+        });
+    
+        res.status(200).json({ signupCount: count });
     } catch (error) {
       console.error('Error fetching candidate count:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -3917,7 +3916,6 @@ const getSignupsCountByDate = async (req, res) => {
                 }
             }]
         });
-
         res.status(200).json({ count: count, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_on date:', error);
@@ -3961,7 +3959,6 @@ const getContractsBySignOffDatedaily = async (req, res) => {
                 }
             }]
         });
-
         res.status(200).json({ count: count, success: true });
     } catch (error) {
         console.error('Error fetching count of contracts by sign_off date:', error);
@@ -4068,7 +4065,7 @@ const getContractsCountBySignOffDateForOneDay = async (req, res) => {
             endDate.setDate(parseFloat(endDate.getDate()) + 29);
         }
         endDate.setUTCHours(23, 59, 59, 0);
-
+        
         // Fetch count of candidates with associated contracts signed off within the current day
         const candidatesCount = await Candidate.count({
             include: [{
@@ -4643,7 +4640,7 @@ const getUserStats = async (req, res) => {
 const getSelectedUserStats = async (req, res) => {
     try {
         const days = req.query?.days || 1;
-        const userID = req.query?.userID || 1;
+        const userID = req.query?.userID || '';
         let startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
         if(parseInt(days)===7) {
@@ -4740,6 +4737,210 @@ const getSelectedUserStats = async (req, res) => {
     }
 };
 
+
+const getStatsList = async (req, res) => {
+    try {
+        const days = req.query?.days || 1;
+        const userID = req.query?.userID || '';
+        const type = req.query?.type || '';
+        const searchKeywords = req.query?.searchKeywords || '';
+        
+
+        let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
+        let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
+        let offset = (page - 1) * limit; // Calculate the offset based on the page and limit
+        let startOfDay = new Date();
+        let currentTime = new Date();
+        if(type==='DueforSignOff' || type==='DueforRenewal') {            
+            
+            if(parseInt(days)===7) {
+                currentTime.setDate(parseInt(currentTime.getDate()) + 5);
+            }else if(parseInt(days)===30) {
+                currentTime.setDate(parseInt(currentTime.getDate()) + 28);
+            }
+            currentTime.setUTCHours(23, 59, 59, 0); // Set to the beginning of the current day
+
+            startOfDay.setUTCHours(0, 0, 0, 0);
+        }else {
+            startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
+            if(parseInt(days)===7) {
+                startOfDay.setDate(startOfDay.getDate() - 6);
+            }else if(parseInt(days)===30) {
+                startOfDay.setDate(startOfDay.getDate() - 29);
+            }
+
+            currentTime.setUTCHours(23, 59, 59, 0);
+        }
+        
+       
+        
+        let listData = [];
+        let query = '';
+        let countquery = "";
+        let where = '';
+        let totalRecord = [];
+
+        if(searchKeywords!=="") {
+            if (/^-?\d+$/.test(searchKeywords)) {
+                where = ` AND b.candidateId='${searchKeywords}'`;
+            } else {
+                where =  ` AND (b.fname LIKE '%${searchKeywords}%' OR b.lname LIKE '%${searchKeywords}%' OR b.c_mobi1 LIKE '%${searchKeywords}%' OR b.email1 LIKE '%${searchKeywords}%' `;
+                if(type==='totalcalls' || type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
+                    where+=` OR a.discussion LIKE '%${searchKeywords}%' `; 
+                }
+                where+=`)`;
+            }
+        }
+
+        if(type==='totalcalls') {
+            if(userID!=="") {
+                where+=` AND post_by='${userID}' `;
+            }
+            console.log(where)
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM discussion AS a INNER JOIN candidates as b ON a.candidateid=b.candidateId WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN candidates as b ON a.candidateid=b.candidateId WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+            }
+        }else if(type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
+            if(userID!=="") {
+                where+=` AND post_by='${userID}' `;
+            }
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM discussion AS a INNER JOIN candidates as b ON a.candidateid=b.candidateId WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN candidates as b ON a.candidateid=b.candidateId WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+            }
+        }else if(type==='Created') {
+            if(userID!=="") {
+                where+=` AND userId='${userID}' `;
+            }
+            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date FROM candidates AS b WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM candidates AS b  WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
+            }
+        }else if(type==='SignOff' || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
+            var whereDate = ''
+            if(type==='SignOff') {
+                whereDate = `a.sign_off BETWEEN :startDate AND :endDate`;
+            }else if(type==='SignOn') {
+                whereDate = `a.sign_on BETWEEN :startDate AND :endDate`;
+            }else if(type==='OnBoard') {
+                whereDate = ` (sign_off IS NULL OR sign_off = '1970-01-01') AND a.sign_on BETWEEN :startDate AND :endDate`;
+            } else if(type==='DueforSignOff') {
+                whereDate = ` (sign_off IS NULL OR sign_off = '1970-01-01') AND a.eoc BETWEEN :startDate AND :endDate`;
+            }
+            
+            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name FROM contract AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id WHERE ${whereDate}  ${where}`;
+            }
+        }else if(type==='DueforRenewal') {
+            
+            query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+            }
+        }
+
+        if(query!=="") {
+            listData = await sequelize.query(query, {
+                replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
+                type: sequelize.QueryTypes.SELECT
+            });
+            if(page===1) {            
+            totalRecord = await sequelize.query(countquery, {
+                replacements: { startDate: startOfDay.toISOString(), endDate: currentTime},
+                type: sequelize.QueryTypes.SELECT
+            });
+            }
+        }
+   
+
+        res.status(200).json({listData:listData,totalRecord:(totalRecord.length>0)?totalRecord[0].total:0, totalPage:(totalRecord.length>0)?Math.ceil(totalRecord[0].total/10):0, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts ending soon:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
+
+const getMedicalStatsList = async (req, res) => {
+    try {
+        const days = req.query?.days || 1;
+        const type = req.query?.type || '';
+        const searchKeywords = req.query?.searchKeywords || '';
+        
+
+        let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
+        let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
+        let offset = (page - 1) * limit; // Calculate the offset based on the page and limit
+        let startOfDay = new Date();
+        let currentTime = new Date();
+           
+        if(parseInt(days)===7) {
+            currentTime.setDate(parseInt(currentTime.getDate()) + 5);
+        }else if(parseInt(days)===30) {
+            currentTime.setDate(parseInt(currentTime.getDate()) + 28);
+        }
+        currentTime.setUTCHours(23, 59, 59, 0); // Set to the beginning of the current day
+
+        startOfDay.setUTCHours(0, 0, 0, 0);
+       
+        let listData = [];
+        let query = '';
+        let countquery = "";
+        let where = '';
+        let totalRecord = [];
+
+        if(searchKeywords!=="") {
+            if (/^-?\d+$/.test(searchKeywords)) {
+                where = ` AND b.candidateId='${searchKeywords}'`;
+            } else {
+                where =  ` AND (b.fname LIKE '%${searchKeywords}%' OR b.lname LIKE '%${searchKeywords}%' OR b.c_mobi1 LIKE '%${searchKeywords}%' OR b.email1 LIKE '%${searchKeywords}%' `;
+                if(type==='totalcalls' || type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
+                    where+=` OR a.discussion LIKE '%${searchKeywords}%' `; 
+                }
+                where+=`)`;
+            }
+        }
+
+
+        query = `SELECT a.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM medicals AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+        if(page===1) {
+            countquery = `SELECT COUNT(b.candidateId) AS total FROM medicals AS a INNER JOIN candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+        }
+        
+
+        if(query!=="") {
+            listData = await sequelize.query(query, {
+                replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
+                type: sequelize.QueryTypes.SELECT
+            });
+            if(page===1) {            
+            totalRecord = await sequelize.query(countquery, {
+                replacements: { startDate: startOfDay.toISOString(), endDate: currentTime},
+                type: sequelize.QueryTypes.SELECT
+            });
+            }
+        }
+       
+        if(query!=="") {
+            listData = await sequelize.query(query, {
+                replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
+                type: sequelize.QueryTypes.SELECT
+            });
+            if(page===1) {            
+                totalRecord = await sequelize.query(countquery, {
+                    replacements: { startDate: startOfDay.toISOString(), endDate: currentTime},
+                    type: sequelize.QueryTypes.SELECT
+                });
+            }
+        }       
+
+        res.status(200).json({listData:listData,totalRecord:(totalRecord.length>0)?totalRecord[0].total:0, totalPage:(totalRecord.length>0)?Math.ceil(totalRecord[0].total/10):0, success: true });
+    } catch (error) {
+        console.error('Error fetching contracts ending soon:', error);
+        res.status(500).json({ error: error.message || 'Internal server error', success: false });
+    }
+};
 
 
 
@@ -4850,5 +5051,7 @@ module.exports = {
    getPreviousExperience,
    sendApplicationEmail,
    getUserStats,
-   getSelectedUserStats
+   getSelectedUserStats,
+   getStatsList,
+   getMedicalStatsList
 };

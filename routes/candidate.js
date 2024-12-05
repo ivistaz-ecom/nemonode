@@ -129,6 +129,8 @@ router.get("/get-previous-experience/:candidateId",userAuthentication.authentica
 
 router.get('/user-stats',userAuthentication.authenticate,candidateControllers.getUserStats);
 router.get('/single-user-stats',userAuthentication.authenticate,candidateControllers.getSelectedUserStats);
+router.get('/stats-list',userAuthentication.authenticate,candidateControllers.getStatsList);
+router.get('/medical-stats-list',userAuthentication.authenticate,candidateControllers.getMedicalStatsList);
 
 
 module.exports = router;

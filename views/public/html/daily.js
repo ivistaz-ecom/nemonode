@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Fetch the data from the backend using Axios
 
-  const elements = {
+    const elements = {
       userName: document.getElementById("user_name"),
       userAvatar: document.getElementById("user-avatar"),
       userAvatar1: document.getElementById("user-avatar1"),
@@ -34,9 +34,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       arrowIcon: document.getElementById("arrowIcon"),
       datetime: document.getElementById("datetime"),
       icon: document.querySelector('link[rel="icon"]'),
-  };
+    };
 
-  async function fetchData(days) {
+    async function fetchData(days) {
         const selectUser = document.getElementById("userList").value;
         const userFilter = document.getElementById("filterByUser").checked;
       try {       
@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const response = await axios.get(
             `${config.APIURL}candidate/signups?days=${days}`
             );
-          const signupCount = response.data.signupCount;
-          console.log(response);
+            const signupCount = response.data.signupCount;
+            console.log(response);
             document.getElementById("signupCount").innerText = signupCount;
         }
       } catch (error) {
@@ -79,13 +79,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             `${config.APIURL}candidate/percentage?days=${days}`,
             { headers: { Authorization: token } }
             );
-      
-          const callCountData = callCountResponse.data;
-          const statusCountData = statusCountResponse.data.counts[0];
-          const percentageData = callCountFromModelResponse.data;
-      
-          updateCallCounts(callCountData, percentageData, elements);
-          updateStatusCounts(statusCountData, percentageData, elements);
+
+            const callCountData = callCountResponse.data;
+            const statusCountData = statusCountResponse.data.counts[0];
+            const percentageData = callCountFromModelResponse.data;
+
+            updateCallCounts(callCountData, percentageData, elements);
+            updateStatusCounts(statusCountData, percentageData, elements);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           `${config.APIURL}candidate/signondaily?days=${days}`
         );
         console.log("Sign on", response);
-          const candidates = response.data.count;
+        const candidates = response.data.count;
         const contractsDiv = document.getElementById("contracts");
         contractsDiv.innerHTML = ""; // Clear previous content
         contractsDiv.textContent = candidates;
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("contracts").innerText =
           "Error fetching contracts";
       }
-  }
+    }
 
     document
       .getElementById("dailyButton")
@@ -117,14 +117,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       .getElementById("monthlyButton")
       .addEventListener("click", () => { document.getElementById("currentOption").value = 30; fetchData(30) });
 
-  // Fetch initial data for daily view
-  fetchData(1);
+    // Fetch initial data for daily view
+    fetchData(1);
 
-  const decodedToken = decodeToken(token);
-  updateDateTime(elements.datetime);
-  setInterval(() => updateDateTime(elements.datetime), 1000);
+    const decodedToken = decodeToken(token);
+    updateDateTime(elements.datetime);
+    setInterval(() => updateDateTime(elements.datetime), 1000);
 
-  function updateCallCounts(callCountData, percentageData, elements) {
+    function updateCallCounts(callCountData, percentageData, elements) {
       const callCountFromAPI = callCountData.call_count;
       const callCountFromModel = percentageData.call_count;
       const percentageChange = callCountFromAPI - callCountFromModel;
@@ -134,24 +134,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         elements.percentageChange &&
         elements.arrowIcon
       ) {
-          elements.callCount.textContent = callCountFromAPI;
+        elements.callCount.textContent = callCountFromAPI;
         elements.callCount.className = "text-dark";
 
-          elements.percentageChange.textContent = `${Math.abs(percentageChange)}`;
+        elements.percentageChange.textContent = `${Math.abs(percentageChange)}`;
 
-          if (percentageChange > 0) {
+        if (percentageChange > 0) {
           elements.arrowIcon.className = "bx bx-up-arrow-alt text-success";
-          } else if (percentageChange < 0) {
+        } else if (percentageChange < 0) {
           elements.arrowIcon.className = "bx bx-down-arrow-alt text-danger";
-          } else {
+        } else {
           elements.arrowIcon.className = "bx bx-minus text-secondary";
-          }
+        }
       } else {
         console.error("One or more elements are missing in the DOM.");
       }
-  }
+    }
 
-  function updateStatusCounts(statusCountData, percentageData, elements) {
+    function updateStatusCounts(statusCountData, percentageData, elements) {
       const proposedPercentageChange =
         statusCountData.proposed_count - percentageData.proposed_count;
       const approvedPercentageChange =
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         elements.rejectedPercentageChange,
         rejectedPercentageChange
       );
-  }
+    }
 
     function updateArrowIcon(
       arrowIconElement,
@@ -202,13 +202,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         arrowIconElement.className = "bx bx-minus text-secondary";
       }
-  }
+    }
 
     document.getElementById("logout").addEventListener("click", function () {
       // Display the modal with initial message
       var myModal = new bootstrap.Modal(document.getElementById("logoutModal"));
       myModal.show();
-      
+
       // Send request to update logged status to false
       const userId = localStorage.getItem("userId");
       if (userId) {
@@ -216,50 +216,50 @@ document.addEventListener("DOMContentLoaded", async () => {
           .put(`${config.APIURL}user/${userId}/logout`)
           .then((response) => {
             console.log("Logged out successfully");
-              })
+          })
           .catch((error) => {
             console.error("Error logging out:", error);
-              });
+          });
       } else {
         console.error("User ID not found in localStorage");
       }
-  
+
       localStorage.clear();
-      
+
       // Change the message and spinner after a delay
       setTimeout(function () {
         document.getElementById("logoutMessage").textContent =
           "Shutting down all sessions...";
       }, 1000);
-  
+
       // Redirect after another delay
       setTimeout(function () {
-          window.location.href = "loginpage.html";
+        window.location.href = "loginpage.html";
       }, 2000);
-  });
+    });
 
-  function decodeToken(token) {
+    function decodeToken(token) {
       const base64Url = token.split(".")[1];
       const base64 = base64Url.replace("-", "+").replace("_", "/");
       return JSON.parse(atob(base64));
-  }
+    }
 
-  function updateDateTime(element) {
+    function updateDateTime(element) {
       const now = new Date();
-  
+
       // Format time
       const options = { hour: "2-digit", minute: "2-digit", hour12: true };
       const formattedTime = now.toLocaleTimeString("en-IN", options);
-  
+
       // Get day of the week
       const dayOfWeek = now.toLocaleDateString("en-IN", { weekday: "long" });
-  
+
       // Update the element's text content
       element.textContent = `Indian Time: ${formattedTime}, ${dayOfWeek}`;
-  }
+    }
 
 
-
+    
 async function getUserStats(days) {
     
     showLoader("chart-sec");
@@ -488,13 +488,13 @@ async function getUserStats(days) {
   }
 });
 
-  async function signOff(days) {
+async function signOff(days) {
   const response = await axios.get(
     `${config.APIURL}candidate/signoffdaily/?days=${days}`
   );
   const signOffContainer = document.getElementById("sign-off"); // Use a different variable name
   signOffContainer.innerHTML = ""; // Clear previous content
-    const signOffData = response.data.count;
+  const signOffData = response.data.count;
   signOffContainer.textContent = signOffData;
 }
 async function onboard(days) {
@@ -503,7 +503,7 @@ async function onboard(days) {
   );
   const signOffContainer = document.getElementById("onboardcount"); // Use a different variable name
   signOffContainer.innerHTML = ""; // Clear previous content
-    const signOffData = response.data.count;
+  const signOffData = response.data.count;
   signOffContainer.textContent = signOffData;
 }
 
@@ -513,7 +513,7 @@ async function dueforrenewal(days) {
   );
   const signOffContainer = document.getElementById("dueforrenewal"); // Use a different variable name
   signOffContainer.innerHTML = ""; // Clear previous content
-    const signOffData = response.data.count;
+  const signOffData = response.data.count;
   signOffContainer.textContent = signOffData;
 }
 
@@ -524,18 +524,18 @@ async function signoffdailycount(days) {
   );
   const signOffContainer = document.getElementById("signoffcount"); // Use a different variable name
   signOffContainer.innerHTML = ""; // Clear previous content
-    const signOffData = response.data.count;
+  const signOffData = response.data.count;
   signOffContainer.textContent = signOffData;
 }
 
 async function fetchDatas() {
-    try {
+  try {
     const url = `${config.APIURL}candidate/statusdata`;
-        const response = await axios.get(url);
-        renderDiscussionData(response.data);
-    } catch (error) {
+    const response = await axios.get(url);
+    renderDiscussionData(response.data);
+  } catch (error) {
     console.error("Error fetching discussion data:", error);
-    }
+  }
 }
 
 // Function to render discussion data
@@ -543,16 +543,16 @@ function renderDiscussionData(data) {
   const discussionList = document.getElementById("discussionList");
   discussionList.innerHTML = ""; // Clear existing items
 
-    // Iterate over each status and render discussions for each status
-    for (const status in data) {
-        const discussions = data[status];
+  // Iterate over each status and render discussions for each status
+  for (const status in data) {
+    const discussions = data[status];
     console.log(status);
 
     discussions.forEach((discussion) => {
-            // Render each discussion item
+      // Render each discussion item
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item");
-            listItem.innerHTML = `
+      listItem.innerHTML = `
                 <div class="d-flex justify-content-between">
                     <div>
                         <h5 class="mb-1 d-flex align-items-center text-white">Candidate ID: <button class="btn btn-primary btn-link  ms-2  pt-0 pb-0 candidate-btn text-white" data-candidate-id="${
@@ -570,22 +570,22 @@ function renderDiscussionData(data) {
                   discussion.r_date
                 }</small>
             `;
-            discussionList.appendChild(listItem);
+      discussionList.appendChild(listItem);
 
-            // Add event listener to candidate ID button
+      // Add event listener to candidate ID button
       listItem.querySelector(".candidate-btn").addEventListener("click", () => {
-                const candidateId = discussion.candidateId;
+        const candidateId = discussion.candidateId;
         localStorage.setItem("memId", candidateId);
-                // Redirect to view-candidate page with candidateId
-                window.location.href = `view-candidate.html?id=${candidateId}`;
-            });
-        });
-    }
+        // Redirect to view-candidate page with candidateId
+        window.location.href = `view-candidate.html?id=${candidateId}`;
+      });
+    });
+  }
 }
 
 // Function to determine badge color based on discussion status
 function getBadgeColor(status) {
-    switch (status) {
+  switch (status) {
     case "Proposed":
       return "badge bg-primary";
     case "Approved":
@@ -594,21 +594,23 @@ function getBadgeColor(status) {
       return "badge bg-info";
     case "Rejected":
       return "badge bg-danger";
-        default:
+    default:
       return "badge bg-secondary"; // Default badge color for unknown statuses
-    }
+  }
 }
 fetchDatas();
 
-async function fetchCallsCount() {
-    try {
-    const response = await axios.get(`${config.APIURL}candidate/callforoneday`);
-      const { count } = response.data;
-    console.log(count);
-      // Update the DOM with the fetched count
-    document.getElementById("callsCount").textContent = count;
-    } catch (error) {
-    console.error("Error fetching calls count:", error);
-    }
+function gotoStats(type) {
+  selecteddays = document.getElementById("currentOption").value;
+  
+  const selectUser = document.getElementById("userList").value;
+  const userFilter = document.getElementById("filterByUser").checked;
+  var userCond = '';
+  if(selectUser!=="" && userFilter===true) {
+    userCond=`&userID=${selectUser}`
   }
-fetchCallsCount();
+  window.open(
+    `daily-stats.html?type=${type}&days=${selecteddays}${userCond}`,
+    '_blank' // <- This is what makes it open in a new window.
+  );
+}
