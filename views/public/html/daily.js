@@ -309,7 +309,7 @@ async function getUserStats(days) {
       },
       yAxis: {
           min: 0,
-      title: {
+          title: {
               text: 'Call Count'
           }
       },
@@ -367,13 +367,13 @@ async function getUserStats(days) {
         enabled: false
     },
     tooltip: {
-        pointFormat: '<b>{point.y} Created</b>'
-      },
+        pointFormat: '<b>{point.y} Profiles created</b>'
+    },
     series: [{
         name: 'Call Count',
-          colorByPoint: true,
+        colorByPoint: true,
         groupPadding: 0,
-          data: response.data.createdList,
+        data: response.data.createdList,
         dataLabels: {
             enabled: true,
             rotation: -90,
@@ -388,7 +388,7 @@ async function getUserStats(days) {
             }
         }
     }]
-    });
+});
   
     Highcharts.chart("chartcontainer2", {
       chart: {
