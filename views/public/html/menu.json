@@ -202,6 +202,30 @@
         ]
     },
     {
+        "title": "User Management",
+        "link": "",
+        "type": "static",
+        "icon": "",
+        "submenu": [],
+        "active":""
+    },
+    {
+        "title": "Users",
+        "link": "",
+        "icon": "bx-user-pin",
+        "type": "link",
+        "submenu": [
+            {
+                "title": "Manage",
+                "link": "add-user.html"
+            },
+            {
+                "title": "Add",
+                "link": "add-userdata.html"
+            }            
+        ]
+    },
+    {
         "title": "Candidate Management",
         "link": "",
         "type": "static",
@@ -295,7 +319,9 @@
         "icon": "bx-file",
         "type": "link",
         "submenu": [],
-        "traget":"_blank"
+        "traget":"_blank",
+        "active":"report"
+        
     },
     {
         "title": "Search",
