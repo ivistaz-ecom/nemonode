@@ -267,6 +267,7 @@ async function getUserStats(days) {
       `${config.APIURL}candidate/user-stats?days=${days}`,
       { headers: { Authorization: localStorage.getItem("token") } }
     );
+    
     hideLoader("chart-sec");
     var lables = "Today";
     if (days === 7) {
@@ -274,86 +275,119 @@ async function getUserStats(days) {
     } else if (days === 30) {
       lables = "Last 30 Days";
     }
-  
-    Highcharts.chart("chartcontainer", {
+    var UserList = response?.data?.users || [];
+    const rankDropdown = document.getElementById("userList");
+    rankDropdown.innerHTML = "";
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.text = "-- Select User --"; 
+    rankDropdown.appendChild(defaultOption);
+    if(UserList.length>0) {
+      for (let i = 0; i < UserList.length; i++) {
+          const option = document.createElement("option");
+          option.value = UserList[i].id;
+          option.text = UserList[i].userName;
+          rankDropdown.appendChild(option);
+      }
+    }
+    Highcharts.chart('chartcontainer', {
       chart: {
-        type: "pie",
+          type: 'column'
       },
       title: {
-        text: `${lables} Total Calls`,
+          text: `${lables} Total Calls`
+      },
+      xAxis: {
+          type: 'category',
+          labels: {
+              autoRotation: [-45, -90],
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      },
+      yAxis: {
+          min: 0,
+      title: {
+              text: 'Call Count'
+          }
+      },
+      legend: {
+          enabled: false
       },
       tooltip: {
-        valueSuffix: "",
+          pointFormat: '<b>{point.y} Calls</b>'
       },
-      plotOptions: {
-        series: {
-          allowPointSelect: true,
-          cursor: "pointer",
-          dataLabels: [
-            {
-              enabled: true,
-              distance: 20,
-            },
-            {
-              enabled: true,
-              distance: -40,
-              format: "{point.y}",
-              style: {
-                fontSize: "1.2em",
-                textOutline: "none",
-                opacity: 0.7,
-              },
-            },
-          ],
-        },
-      },
-      series: [
-        {
-          name: "",
+      series: [{
+          name: 'Call Count',
           colorByPoint: true,
+          groupPadding: 0,
           data: response.data.totalCallList,
-        },
-      ],
-    });
-    Highcharts.chart("chartcontainer1", {
-      chart: {
-        type: "pie",
-      },
-      title: {
-        text: `${lables} Total Created`,
-      },
-      tooltip: {
-        valueSuffix: "",
-      },
-      plotOptions: {
-        series: {
-          allowPointSelect: true,
-          cursor: "pointer",
-          dataLabels: [
-            {
+          dataLabels: {
               enabled: true,
-              distance: 20,
-            },
-            {
-              enabled: true,
-              distance: -40,
-              format: "{point.y}",
+              rotation: -90,
+              color: '#FFFFFF',
+              inside: true,
+              verticalAlign: 'top',
+              format: '{point.y}',
+              y: 10,
               style: {
-                fontSize: "1.2em",
-                textOutline: "none",
-                opacity: 0.7,
-              },
-            },
-          ],
-        },
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      }]
+  });
+
+  Highcharts.chart('chartcontainer1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: `${lables} Total Created`
+    },
+    xAxis: {
+        type: 'category',
+        labels: {
+            autoRotation: [-45, -90],
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Call Count'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: '<b>{point.y} Created</b>'
       },
-      series: [
-        {
-          name: "",
+    series: [{
+        name: 'Call Count',
           colorByPoint: true,
+        groupPadding: 0,
           data: response.data.createdList,
-        },
-      ],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            inside: true,
+            verticalAlign: 'top',
+            format: '{point.y}',
+            y: 10,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
     });
   
     Highcharts.chart("chartcontainer2", {
@@ -366,7 +400,7 @@ async function getUserStats(days) {
       },
   
       xAxis: {
-        categories: response.data.users,
+        categories: response.data.currentUser,
         crosshair: true,
         accessibility: {
           description: "Countries",
@@ -462,27 +496,6 @@ async function getUserStats(days) {
   
   }
   
-  loadCurrentUser();
-  async function loadCurrentUser() {
-    const rankDropdown = document.getElementById("userList");
-    rankDropdown.innerHTML = "";
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.text = "-- Select User --";
-    rankDropdown.appendChild(defaultOption);
-    const response = await axios.get(`${config.APIURL}user/current-user`);
-    if (response.data.success === true) {
-      if (response.data.userList.length > 0) {
-        for (let i = 0; i < response.data.userList.length; i++) {
-          const option = document.createElement("option");
-          option.value = response.data.userList[i].id;
-          option.text = response.data.userList[i].userName;
-          rankDropdown.appendChild(option);
-        }
-      }
-    } 
-  }
-
   } catch (err) {
     console.log(err);
   }

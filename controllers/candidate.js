@@ -4449,7 +4449,7 @@ const getUserStats = async (req, res) => {
     try {
         const days = req.query?.days || 1;
         // Construct the base SQL query
-        const query = `SELECT userName, id FROM Users WHERE allowStats='Y'`;
+        const query = `SELECT userName, id FROM Users`;
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
@@ -4541,37 +4541,41 @@ const getUserStats = async (req, res) => {
         var rejectedList = [];
         var createdList = [];
 
+        var activeUserList = [];
+        var currentUser = [];
         
         if(userID.length>0) {
             results.map((uitem)=> {
+                var avalReco = 0;
                 let isDataAvailable = totalDiscusstion.filter((item) => { return (item.post_by===uitem.id) });                
                 if(isDataAvailable.length>0) {                    
+                    if(parseInt(isDataAvailable[0].proposed_count)>0 || parseInt(isDataAvailable[0].approved_count)>0 || parseInt(isDataAvailable[0].joined_count)>0 || parseInt(isDataAvailable[0].rejected_count)) {                  
                     proposedList.push(isDataAvailable[0].proposed_count);
                     approvedList.push(isDataAvailable[0].approved_count);
                     joinedList.push(isDataAvailable[0].joined_count);
                     rejectedList.push(isDataAvailable[0].rejected_count);                    
-                }else {
-                    proposedList.push(0);
-                    approvedList.push(0);
-                    joinedList.push(0);
-                    rejectedList.push(0);
+                        currentUser.push(uitem.userName)
+                        avalReco++;
+                    }
+                                    
                 }
 
                 let isCountAvailable = callCount.filter((item) => { return (item.post_by===uitem.id) });
                 if(isCountAvailable.length>0) {
-                    totalCallList.push({name:uitem.userName, y:isCountAvailable[0].discussion_count})
-                }else {
-                    totalCallList.push({name:uitem.userName, y:0})
+                    totalCallList.push([uitem.userName, isCountAvailable[0].discussion_count]);
+                    avalReco++;
                 }
 
                 let iscandiCount = candidatecount.filter((item) => { return (item.userId===uitem.id) });
                 if(iscandiCount.length>0) {
-                    createdList.push({name:uitem.userName, y:iscandiCount[0].created_count});
-                }else {
-                    createdList.push({name:uitem.userName, y:0});
+                    createdList.push([uitem.userName, iscandiCount[0].created_count]);
+                    avalReco++;
+                }
+                if(avalReco>0) {
+                    activeUserList.push(uitem);
+
                 }
 
-               // console.log(isDataAvailable, 'isDataAvailableisDataAvailable')
             })
         }
 
@@ -4626,12 +4630,7 @@ const getUserStats = async (req, res) => {
             }
         ]
 
-        /* const results = await sequelize.query(query, {
-            replacements: { today: todayString, thirtyDaysFromNow: thirtyDaysFromNowString },
-            type: sequelize.QueryTypes.SELECT
-        }); */
-
-        res.status(200).json({ users: userList, chartdata:chartdata, totalCallList:totalCallList, createdList:createdList, success: true });
+        res.status(200).json({ users: activeUserList, userName:userList,  currentUser:currentUser, chartdata:chartdata, totalCallList:totalCallList, createdList:createdList, success: true });
     } catch (error) {
         console.error('Error fetching contracts ending soon:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
@@ -4796,26 +4795,25 @@ const getStatsList = async (req, res) => {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            console.log(where)
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }else if(type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }else if(type==='Created') {
             if(userID!=="") {
                 where+=` AND userId='${userID}' `;
             }
-            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date FROM Candidates AS b WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
+            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date, userName FROM Candidates AS b  INNER JOIN users AS c ON b.userId=c.id  WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM Candidates AS b  WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM Candidates AS b  INNER JOIN users AS c ON b.userId=c.id   WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
             }
         }else if(type==='SignOff' || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
             var whereDate = ''
@@ -4834,7 +4832,6 @@ const getStatsList = async (req, res) => {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id WHERE ${whereDate}  ${where}`;
             }
         }else if(type==='DueforRenewal') {
-            
             query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;

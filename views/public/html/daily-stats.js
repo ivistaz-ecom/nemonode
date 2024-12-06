@@ -70,6 +70,9 @@ async function displayStats(intitalLoad=false, page = 1, limit = 10) {
         }else if(type==='SignOff' || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
           tblheader.push("Sign On", "Sign On Port", "EOC", "Sign Off", "Sign Off Port", "Reason for Sign Off", "Wages", "Wages Types", "Company Name", "AOA Number");
         }
+        if(type==='totalcalls' || type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected' || type==='Created') {
+          tblheader.push("User");
+        }
         row.innerHTML = '';
         if(tblheader.length>0) {
           tblheader.forEach((item) => { 
@@ -105,6 +108,9 @@ async function displayStats(intitalLoad=false, page = 1, limit = 10) {
           fieldsToDisplay.push("cr_date");
         } else if(type==='SignOff'  || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
           fieldsToDisplay.push("sign_on", "sign_on_port", "eoc", "sign_off", "sign_off_port", "reason_for_sign_off", "wages", "wages_types", "company_name", "aoa_number");
+        }
+        if(type==='totalcalls' || type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected' || type==='Created') {
+          fieldsToDisplay.push("userName");
         }
         
 
