@@ -12,6 +12,7 @@
         "link": "",
         "type": "static",
         "icon": "",
+        "allowtoshow":false,
         "submenu": [],
         "active":""
     },
@@ -20,6 +21,7 @@
         "link": "",
         "icon": "bx-building",
         "type": "link",
+        "allowtoshow":false,
         "active":"Customers",
         "submenu": [
             {
@@ -39,6 +41,7 @@
         "link": "",
         "icon": "bxs-ship",
         "type": "link",
+        "allowtoshow":false,
         "active":"vesseltype",
         "submenu": [
             {
@@ -58,6 +61,7 @@
         "link": "",
         "icon": "bx-detail",
         "type": "link",
+        "allowtoshow":false,
         "active":"experience",
         "submenu": [
             {
@@ -77,6 +81,7 @@
         "link": "",
         "icon": "bx-bookmark",
         "type": "link",
+        "allowtoshow":false,
         "active":"rank",
         "submenu": [
             {
@@ -96,6 +101,7 @@
         "link": "",
         "icon": "bx-book",
         "type": "link",
+        "allowtoshow":false,
         "active":"grade",
         "submenu": [
             {
@@ -115,6 +121,7 @@
         "link": "",
         "icon": "bx-map-pin",
         "type": "link",
+        "allowtoshow":false,
         "active":"port",
         "submenu": [
             {
@@ -133,6 +140,7 @@
         "title": "Port Agent",
         "link": "",
         "icon": "bx-user",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -149,6 +157,7 @@
         "title": "Hospital",
         "link": "",
         "icon": "bx-building-house",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -165,6 +174,7 @@
         "title": "Document Type",
         "link": "",
         "icon": "bx-copy-alt",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -181,6 +191,7 @@
         "title": "Country List",
         "link": "",
         "icon": "bx-world",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -193,6 +204,7 @@
         "title": "Vendor",
         "link": "",
         "icon": "bx-anchor",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -206,6 +218,7 @@
         "link": "",
         "type": "static",
         "icon": "",
+        "allowtoshow":false,
         "submenu": [],
         "active":""
     },
@@ -213,6 +226,7 @@
         "title": "Users",
         "link": "",
         "icon": "bx-user-pin",
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -229,6 +243,7 @@
         "title": "Candidate Management",
         "link": "",
         "type": "static",
+        "allowtoshow":true,
         "icon": "",
         "submenu": [],
         "active":""
@@ -237,6 +252,7 @@
         "title": "Candidate",
         "link": "",
         "icon": "bx-street-view",
+        "allowtoshow":true,
         "type": "link",
         "submenu": [
             {
@@ -254,6 +270,7 @@
         "link": "",
         "type": "static",
         "id":"userManagementSection",
+        "allowtoshow":true,
         "display":"none",
         "icon": "",
         "submenu": [],
@@ -265,6 +282,7 @@
         "id":"userManagementSections",
         "display":"none",
         "icon": "bx-user-pin",
+        "allowtoshow":true,
         "type": "link",
         "submenu": [
             {
@@ -283,6 +301,7 @@
         "type": "static",
         "icon": "",
         "id":"vendorManagementSection",
+        "allowtoshow":true,
         "display":"none",
         "submenu": [],
         "active":""
@@ -292,6 +311,7 @@
         "link": "",
         "icon": "bx-dock-top",
         "id":"vendorManagementSections",
+        "allowtoshow":true,
         "display":"none",
         "type": "link",
         "submenu": [
@@ -310,6 +330,7 @@
         "link": "",
         "type": "static",
         "icon": "",
+        "allowtoshow":true,
         "submenu": [],
         "active":""
     },
@@ -318,6 +339,7 @@
         "link": "report.html",
         "icon": "bx-file",
         "type": "link",
+        "allowtoshow":true,
         "submenu": [],
         "traget":"_blank",
         "active":"report"
@@ -328,6 +350,7 @@
         "link": "search.html",
         "icon": "bx-file",
         "type": "link",
+        "allowtoshow":true,
         "submenu": [],
         "traget":"_blank"
     },
@@ -336,6 +359,7 @@
         "link": "crew-planner.html",
         "icon": "bx-file",
         "type": "link",
+        "allowtoshow":true,
         "submenu": [],
         "traget":"_blank"
     }

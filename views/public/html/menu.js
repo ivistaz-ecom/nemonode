@@ -1,38 +1,42 @@
+var userName_ = localStorage.getItem('username');
+
 $.getJSON("menu.json", function(json) {
     let menuHtml = "";
     if(json.length>0) {
         json.forEach(menu => {
-            let menuID = menu?.id || '';
-            let menuStyle = menu?.display||'';
-            if(menu.type==="static") {
-                menuHtml+=`<li class="menu-header small text-uppercase" ${menuID!==""?'id="'+menuID+'"':""} ${menuStyle!==""?'style="display:'+menuStyle+';"':""}>
-                <span class="menu-header-text">${menu.title}</span>
-                </li>`;
-            }else {
+            if(userName_==='admin' || menu.allowtoshow===true) {
+              let menuID = menu?.id || '';
+              let menuStyle = menu?.display||'';
+              if(menu.type==="static") {
+                  menuHtml+=`<li class="menu-header small text-uppercase" ${menuID!==""?'id="'+menuID+'"':""} ${menuStyle!==""?'style="display:'+menuStyle+';"':""}>
+                  <span class="menu-header-text">${menu.title}</span>
+                  </li>`;
+              }else {
 
-                menuHtml+=`<li class="menu-item ${menu.active==activeMenu?'open active':''}" ${menuID!==""?'id="'+menuID+'"':""}  ${menuStyle!==""?'style="display:'+menuStyle+';"':""}>
-                <a href="${(menu.link!=="")?menu.link:'javascript:void(0);'}" class="menu-link ${menu.submenu.length>0?'menu-toggle':''}">
-                  <i class="menu-icon tf-icons bx ${menu.icon}"></i>
-                  <div data-i18n="Analytics">${menu.title}</div>
-                </a>`;
-                if(menu.submenu.length>0) {
-                    menuHtml+=`<ul class="menu-sub">`;
-                    menu.submenu.forEach(submenu => {
-                        menuHtml+=`<li class="menu-item">
-                        <a href="${submenu.link}" class="menu-link ${submenu.active===activesub?'active':''}">
-                            <div data-i18n="${submenu.title}">${submenu.title}</div>
-                        </a>
-                        </li>`;
-                    });
-                    menuHtml+=`</ul>`;
-                }
-                 menuHtml+=`
-              </li>
-              `;
+                  menuHtml+=`<li class="menu-item ${menu.active==activeMenu?'open active':''}" ${menuID!==""?'id="'+menuID+'"':""}  ${menuStyle!==""?'style="display:'+menuStyle+';"':""}>
+                  <a href="${(menu.link!=="")?menu.link:'javascript:void(0);'}" class="menu-link ${menu.submenu.length>0?'menu-toggle':''}">
+                    <i class="menu-icon tf-icons bx ${menu.icon}"></i>
+                    <div data-i18n="Analytics">${menu.title}</div>
+                  </a>`;
+                  if(menu.submenu.length>0) {
+                      menuHtml+=`<ul class="menu-sub">`;
+                      menu.submenu.forEach(submenu => {
+                          menuHtml+=`<li class="menu-item">
+                          <a href="${submenu.link}" class="menu-link ${submenu.active===activesub?'active':''}">
+                              <div data-i18n="${submenu.title}">${submenu.title}</div>
+                          </a>
+                          </li>`;
+                      });
+                      menuHtml+=`</ul>`;
+                  }
+                  menuHtml+=`
+                </li>
+                `;
+              }
             }
         })
         menuHtml+=`<li class="d-flex justify-content-center align-items-center m-4">
-                <a class="dropdown-item btn text-danger text-center" id="logout">
+                <a class="dropdown-item btn text-danger text-center applogout" id="logout">
                 <i class="bx bx-power-off me-0 "></i>
                 <span class="align-middle">Log Out</span>
                 </a>
@@ -329,7 +333,7 @@ const topNav = `<div
                   <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                  <a class="dropdown-item" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                  <a class="dropdown-item applogout" id="logout" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
     <i class="bx bx-power-off me-2"></i>
    <span class="align-middle">Log Out</span>
 </a>
@@ -387,7 +391,14 @@ const logoutContent = `
     </div>`;
 $('#logoutContent').html(logoutContent);
 
-document.getElementById("logout").addEventListener("click", function() {
+const logoutElements = document.getElementsByClassName("applogout");
+for (let i = 0; i < logoutElements.length; i++) {
+  logoutElements[i].addEventListener("click", function() {
+    logoutFN()
+  });
+}
+
+function logoutFN() {
     // Display the modal with initial message
     var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
     myModal.show();
@@ -417,4 +428,4 @@ document.getElementById("logout").addEventListener("click", function() {
     setTimeout(function() {
         window.location.href = "loginpage.html";
     }, 2000);
-  });
+}
