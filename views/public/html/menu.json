@@ -5,7 +5,7 @@
         "type": "link",
         "icon": "bxs-category",
         "submenu": [],
-        "active":"Dashboard"
+        "active":"dashboard"
     },
     {
         "title": "Settings",
@@ -342,6 +342,7 @@
         "type": "link",
         "allowtoshow":true,
         "submenu": [],
-        "traget":"_blank"
+        "traget":"_blank",
+        "active":"crewplanner"
     }
 ]

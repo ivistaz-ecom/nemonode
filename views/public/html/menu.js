@@ -96,6 +96,7 @@ const decodedToken = decodeToken(token);
 
 function updateDateTime() {
     const dateTimeElement = document.getElementById('datetime');
+    if(dateTimeElement!==null){
     const now = new Date();
 
     const options = {
@@ -111,6 +112,7 @@ function updateDateTime() {
     const dateTimeString = now.toLocaleString('en-US', options);
 
     dateTimeElement.textContent = dateTimeString;
+  }
 }
 
 // Update date and time initially and every second
@@ -118,28 +120,6 @@ setTimeout(function () {
 updateDateTime();
 setInterval(updateDateTime, 1000);
 }, 500);
-
-
-
-function updateDateTime() {
-    const dateTimeElement = document.getElementById('datetime');
-    const now = new Date();
-
-    const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        month: 'short',
-        day: 'numeric',
-        ordinal: 'numeric',
-    };
-
-    const dateTimeString = now.toLocaleString('en-US', options);
-
-    dateTimeElement.textContent = dateTimeString;
-}
-
 
 // Add Left Logo
 const leftLogo = ` <a href="indexpage.html" class="app-brand-link">
@@ -311,7 +291,7 @@ const leftLogo = ` <a href="indexpage.html" class="app-brand-link">
               <i class="bx bx-chevron-left bx-sm align-middle"></i>
             </a>`;
 $('#leftLogo').append(leftLogo);
-
+if(currentPage!=="Dashboard"){
 //Top Navication
 const topNav = `<div
               class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
@@ -354,6 +334,7 @@ const topNav = `<div
             </div>
 `;
 $('#layout-navbar').append(topNav)
+}
 
 //Permissing Details
 const permMsg= `
