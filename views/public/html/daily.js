@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const token = localStorage.getItem("token");
   try {
     // Fetch the data from the backend using Axios
 
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       callCount: document.getElementById("callCount"),
       percentageChange: document.getElementById("percentageChange"),
       arrowIcon: document.getElementById("arrowIcon"),
-      datetime: document.getElementById("datetime"),
+      datetime: document.getElementById("datetimedashboard"),
       icon: document.querySelector('link[rel="icon"]'),
     };
 
@@ -120,9 +119,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch initial data for daily view
     fetchData(1);
 
-    const decodedToken = decodeToken(token);
-    updateDateTime(elements.datetime);
-    setInterval(() => updateDateTime(elements.datetime), 1000);
+    updateDateTimeN(elements.datetime);
+    setInterval(() => updateDateTimeN(elements.datetime), 1000);
 
     function updateCallCounts(callCountData, percentageData, elements) {
       const callCountFromAPI = callCountData.call_count;
@@ -193,6 +191,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       percentageChangeElement,
       percentageChange
     ) {
+    console.log(percentageChangeElement, 'percentageChangeElement')
       percentageChangeElement.textContent = Math.abs(percentageChange);
 
       if (percentageChange > 0) {
@@ -204,49 +203,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    document.getElementById("logout").addEventListener("click", function () {
-      // Display the modal with initial message
-      var myModal = new bootstrap.Modal(document.getElementById("logoutModal"));
-      myModal.show();
-
-      // Send request to update logged status to false
-      const userId = localStorage.getItem("userId");
-      if (userId) {
-        axios
-          .put(`${config.APIURL}user/${userId}/logout`)
-          .then((response) => {
-            console.log("Logged out successfully");
-          })
-          .catch((error) => {
-            console.error("Error logging out:", error);
-          });
-      } else {
-        console.error("User ID not found in localStorage");
-      }
-
-      localStorage.clear();
-
-      // Change the message and spinner after a delay
-      setTimeout(function () {
-        document.getElementById("logoutMessage").textContent =
-          "Shutting down all sessions...";
-      }, 1000);
-
-      // Redirect after another delay
-      setTimeout(function () {
-        window.location.href = "loginpage.html";
-      }, 2000);
-    });
-
-    function decodeToken(token) {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace("-", "+").replace("_", "/");
-      return JSON.parse(atob(base64));
-    }
-
-    function updateDateTime(element) {
+  
+    function updateDateTimeN(element) {
       const now = new Date();
-
+      if(element!==null) { 
       // Format time
       const options = { hour: "2-digit", minute: "2-digit", hour12: true };
       const formattedTime = now.toLocaleTimeString("en-IN", options);
@@ -256,6 +216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Update the element's text content
       element.textContent = `Indian Time: ${formattedTime}, ${dayOfWeek}`;
+      }
     }
 
 
