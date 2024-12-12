@@ -142,14 +142,17 @@
         "icon": "bx-user",
         "allowtoshow":false,
         "type": "link",
+        "active":"portagent",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-vesseltype.html"
+                "link": "add-portagent.html",
+                "active":"addportagent"
             },
             {
                 "title": "List",
-                "link": "edit-portagent.html"
+                "link": "edit-portagent.html",
+                "active":"viewportagent"
             }
         ]
     },
@@ -214,32 +217,6 @@
         ]
     },
     {
-        "title": "User Management",
-        "link": "",
-        "type": "static",
-        "icon": "",
-        "allowtoshow":false,
-        "submenu": [],
-        "active":""
-    },
-    {
-        "title": "Users",
-        "link": "",
-        "icon": "bx-user-pin",
-        "allowtoshow":false,
-        "type": "link",
-        "submenu": [
-            {
-                "title": "Manage",
-                "link": "add-user.html"
-            },
-            {
-                "title": "Add",
-                "link": "add-userdata.html"
-            }            
-        ]
-    },
-    {
         "title": "Candidate Management",
         "link": "",
         "type": "static",
@@ -253,15 +230,18 @@
         "link": "",
         "icon": "bx-street-view",
         "allowtoshow":true,
+        "active":"candidate",
         "type": "link",
         "submenu": [
             {
                 "title": "Add",
-                "link": "add-candidate.html"
+                "link": "add-candidate.html",
+                "active":"addcandidate"
             },
             {
                 "title": "List",
-                "link": "edit-candidate.html"
+                "link": "edit-candidate.html",
+                "active":"viewcandidate"
             }
         ]
     },
@@ -270,7 +250,7 @@
         "link": "",
         "type": "static",
         "id":"userManagementSection",
-        "allowtoshow":true,
+        "allowtoshow":false,
         "display":"none",
         "icon": "",
         "submenu": [],
@@ -282,7 +262,7 @@
         "id":"userManagementSections",
         "display":"none",
         "icon": "bx-user-pin",
-        "allowtoshow":true,
+        "allowtoshow":false,
         "type": "link",
         "submenu": [
             {
@@ -352,7 +332,8 @@
         "type": "link",
         "allowtoshow":true,
         "submenu": [],
-        "traget":"_blank"
+        "traget":"_blank",
+        "active":"search"
     },
     {
         "title": "Crew Planner",

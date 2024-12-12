@@ -1,134 +1,153 @@
-const token = localStorage.getItem('token')
-
-if(!token)
-{
-  window.location.href='./loginpage.html'
+if (!token) {
+  window.location.href = "./loginpage.html";
 }
-
-document.getElementById('search_btn').addEventListener('click', async function (e) {
-  e.preventDefault();
-  // Get the value from the input field
-  const searchValue = document.getElementById('search_input').value.trim();
-  if (searchValue.length == 0) {
-      alert('Blank Field! Enter some value to continue!');
+const rowsPerPage = 10;
+var candiateList = [];
+document
+  .getElementById("search_btn")
+  .addEventListener("click", async function (e) {
+    e.preventDefault();
+    // Get the value from the input field
+    const searchValue = document.getElementById("search_input").value.trim();
+    if (searchValue.length == 0) {
+      alert("Blank Field! Enter some value to continue!");
       return;
-  }
+    }
+    $('html, body').animate({
+        scrollTop: $("#candidatedatas").offset().top
+    }, 500);
+    // Get the user group from wherever it's stored in your client-side code
+    const userGroup = getUserGroup(); // Modify this to get the user group
 
-  // Get the user group from wherever it's stored in your client-side code
-  const userGroup = getUserGroup(); // Modify this to get the user group
-
-  try {
-    const id = decodedToken.userId;
-    console.log(id)
+    try {
+      showLoader('candidatedatas')
+      const id = decodedToken.userId;
+      console.log(id);
       // Send an asynchronous request to the server using Axios with async/await
-      const response = await axios.post('https://nsnemo.com/search', { 
+      const response = await axios.post(
+        `${config.APIURL}search`,
+        {
           search: searchValue,
-          userId:id,
-          userGroup: userGroup // Pass the user group value in the request body
-      }, { headers: { 'Authorization': token } });
-
+          userId: id,
+          userGroup: userGroup, // Pass the user group value in the request body
+        },
+        { headers: { Authorization: token } }
+      );
+      hideLoader('candidatedatas')
       // Handle the response from the server (e.g., display search results)
       console.log(response.data);
+      candiateList = response.data;
       populateTables(response.data);
-  } catch (error) {
-      console.error('Error in search request:', error);
+    } catch (error) {
+      console.error("Error in search request:", error);
+    }
+  });
+const getUserGroup = () => {
+  return decodedToken.userGroup;
+};
+
+const resultContainer = document.getElementById("result-container"); // Get the result container div
+const searchForm = document.getElementById("search-form");
+
+searchForm.addEventListener("submit", function (event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  // Get values from all form fields
+  const nemoId = document.getElementById("nemoId").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const rank = document.getElementById("rank").value.trim();
+  const vsl = document.getElementById("vsl").value.trim();
+  const experience = document.getElementById("experience").value.trim();
+  const grade = document.getElementById("grade").value.trim();
+  const status = document.getElementById("status").value.trim();
+  const availableFrom = document.getElementById("availableFrom").value.trim();
+  const availableTo = document.getElementById("availableTo").value.trim();
+  const license = document.getElementById("license").value.trim();
+  const zone = document.getElementById("zone").value.trim();
+  const group = document.getElementById("groupSearch").value;
+  const fromAge = document.getElementById("fromAge").value.trim();
+  const toAge = document.getElementById("toAge").value.trim();
+  const c_mobi1 = document.getElementById("c_mobi1").value.trim();
+  const email1 = document.getElementById("email1").value.trim();
+
+  // Prepare data for the POST request
+  const searchData = {
+    nemoId: nemoId,
+    name: name,
+    rank: rank,
+    vsl: vsl,
+    experience: experience,
+    grade: grade,
+    status: status,
+    avb_date: availableFrom,
+    las_date: availableTo,
+    license: license,
+    zone: zone,
+    group: group,
+    c_mobi1: c_mobi1,
+    email1: email1,
+  };
+
+  // Add age range if provided
+  if (fromAge) {
+    searchData.fromAge = fromAge;
   }
-});
-const getUserGroup=() =>{
-const token = localStorage.getItem('token')
-const decodedToken =decodeToken(token)
-return decodedToken.userGroup
-}
+  if (toAge) {
+    searchData.toAge = toAge;
+  }
 
-  const resultContainer = document.getElementById('result-container'); // Get the result container div
-  const searchForm = document.getElementById('search-form');
+  // Make a POST request using Axios
+  axios
+    .post(`${config.APIURL}searchspl`, searchData, {
+      headers: { Authorization: token },
+    })
+    .then(function (response) {
+      // Handle the successful response
+      const searchResults = response.data;
+      console.log(response);
+      // Process and display the search results in the table
+      populateTable(searchResults);
 
-  searchForm.addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    // Get values from all form fields
-    const nemoId = document.getElementById('nemoId').value.trim();
-    const name = document.getElementById('name').value.trim();
-    const rank = document.getElementById('rank').value.trim();
-    const vsl = document.getElementById('vsl').value.trim();
-    const experience = document.getElementById('experience').value.trim();
-    const grade = document.getElementById('grade').value.trim();
-    const status = document.getElementById('status').value.trim();
-    const availableFrom = document.getElementById('availableFrom').value.trim();
-    const availableTo = document.getElementById('availableTo').value.trim();
-    const license = document.getElementById('license').value.trim();
-    const zone = document.getElementById('zone').value.trim();
-    const group = document.getElementById('groupSearch').value;
-    const fromAge = document.getElementById('fromAge').value.trim();
-    const toAge = document.getElementById('toAge').value.trim();
-    const c_mobi1 = document.getElementById('c_mobi1').value.trim();
-    const email1 = document.getElementById('email1').value.trim();
-
-    // Prepare data for the POST request
-    const searchData = {
-        nemoId: nemoId,
-        name: name,
-        rank: rank,
-        vsl: vsl,
-        experience: experience,
-        grade: grade,
-        status: status,
-        avb_date: availableFrom,
-        las_date: availableTo,
-        license: license,
-        zone: zone,
-        group: group,
-        c_mobi1:c_mobi1,
-        email1:email1
-    };
-
-    // Add age range if provided
-    if (fromAge) {
-        searchData.fromAge = fromAge;
-    }
-    if (toAge) {
-        searchData.toAge = toAge;
-    }
-
-    // Make a POST request using Axios
-    axios.post('https://nsnemo.com/searchspl', searchData, { headers: { 'Authorization': token } })
-        .then(function (response) {
-            // Handle the successful response
-            const searchResults = response.data;
-            console.log(response);
-            // Process and display the search results in the table
-            populateTable(searchResults);
-
-            console.log(response.data); // Log the retrieved data to the console
-        })
-        .catch(function (error) {
-            // Handle errors
-            console.error('Error:', error);
-            // You can update the UI to show an error message or perform other error handling
-        });
+      console.log(response.data); // Log the retrieved data to the console
+    })
+    .catch(function (error) {
+      // Handle errors
+      console.error("Error:", error);
+      // You can update the UI to show an error message or perform other error handling
+    });
 });
 
 function populateTable(results) {
-  const tableBody = document.getElementById('table-body');
+  const tableBody = document.getElementById("table-body");
 
   // Clear existing rows
-  tableBody.innerHTML = '';
+  tableBody.innerHTML = "";
 
   // Iterate over results and append rows to the table
-  results.forEach(result => {
-    const row = document.createElement('tr');
-    const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob', 'email1', 'resume'];
-
-    fieldsToDisplay.forEach(field => {
-      const cell = document.createElement('td');
+  results.forEach((result) => {
+    const row = document.createElement("tr");
+    const fieldsToDisplay = [
+      "candidateId",
+      "fname",
+      "lname",
+      "c_rank",
+      "c_vessel",
+      "c_mobi1",
+      "dob",
+      "email1",
+      "resume",
+    ];
+   
+    fieldsToDisplay.forEach((field) => {
+      const cell = document.createElement("td");
       // Format date fields if needed
-      if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
+      if (field === "dob" || field === "avb_date" || field === "las_date") {
         const date = new Date(result[field]).toLocaleDateString();
         cell.textContent = date;
-      } else if (field === 'candidateId') {
+      } else if (field === "candidateId") {
         // Create a clickable link for candidateId
-        const link = document.createElement('a');
-        link.href = '#';
+        const link = document.createElement("a");
+        link.href = "#";
         link.textContent = result[field];
         link.onclick = (event) => {
           event.preventDefault(); // Prevent default link behavior
@@ -136,8 +155,10 @@ function populateTable(results) {
         };
 
         // Hover event to show discussion popup
-        link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
-        link.addEventListener('mouseleave', () => hideDiscussionPopup());
+        link.addEventListener("mouseenter", () =>
+          showDiscussionPopup(link, result[field])
+        );
+        link.addEventListener("mouseleave", () => hideDiscussionPopup());
 
         cell.appendChild(link);
       } else {
@@ -147,11 +168,23 @@ function populateTable(results) {
     });
 
     // Add buttons for delete, edit, and view
-    const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
-    const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
-    const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
+    const deleteButton = createButton(
+      "fa-trash",
+      () => handleDelete(result.candidateId),
+      "Delete"
+    );
+    const editButton = createButton(
+      "fa-pencil-alt",
+      () => handleEdit(result.candidateId),
+      "Edit"
+    );
+    const viewButton = createButton(
+      "fa-eye",
+      () => handleView(result.candidateId),
+      "View"
+    );
 
-    const buttonsCell = document.createElement('td');
+    const buttonsCell = document.createElement("td");
     buttonsCell.appendChild(deleteButton);
     buttonsCell.appendChild(editButton);
     buttonsCell.appendChild(viewButton);
@@ -161,7 +194,6 @@ function populateTable(results) {
     tableBody.appendChild(row);
   });
 }
-
 
 let discussionTimeout; // Variable to store timeout ID
 async function showDiscussionPopup(link, candidateId) {
@@ -173,23 +205,23 @@ async function showDiscussionPopup(link, candidateId) {
     const discussions = await fetchDiscussions(candidateId); // Example function to fetch discussions
 
     // Create Bootstrap card
-    const card = document.createElement('div');
-    card.className = 'card discussion-popup-card';
+    const card = document.createElement("div");
+    card.className = "card discussion-popup-card";
 
     // Card body
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
 
     // Header with candidate ID
-    const header = document.createElement('h5');
-    header.className = 'card-title';
+    const header = document.createElement("h5");
+    header.className = "card-title";
     header.textContent = `Discussions for Candidate ID: ${candidateId}`;
     cardBody.appendChild(header);
 
     // Discussions content
-    discussions.forEach(discussion => {
-      const discussionItem = document.createElement('p');
-      discussionItem.className = 'card-text';
+    discussions.forEach((discussion) => {
+      const discussionItem = document.createElement("p");
+      discussionItem.className = "card-text";
       discussionItem.textContent = discussion;
       cardBody.appendChild(discussionItem);
     });
@@ -205,38 +237,38 @@ async function showDiscussionPopup(link, candidateId) {
     const topPosition = linkRect.top + window.scrollY - popupHeight;
     const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
 
-    card.style.position = 'absolute';
+    card.style.position = "absolute";
     card.style.top = `${topPosition}px`;
     card.style.left = `${leftPosition}px`;
 
     // Append card to the body
     document.body.appendChild(card);
   } catch (error) {
-    console.error('Error showing discussion popup:', error);
+    console.error("Error showing discussion popup:", error);
   }
 }
 
 // Function to hide discussion popup
 function hideDiscussionPopup() {
-  const card = document.querySelector('.discussion-popup-card');
+  const card = document.querySelector(".discussion-popup-card");
   if (card) {
     card.remove();
   }
 }
 
 // Event listener to show discussion popup on hover
-document.addEventListener('mouseover', (event) => {
+document.addEventListener("mouseover", (event) => {
   const link = event.target;
-  if (link.tagName === 'A' && link.classList.contains('candidate-link')) {
+  if (link.tagName === "A" && link.classList.contains("candidate-link")) {
     const candidateId = link.textContent;
     showDiscussionPopup(link, candidateId);
   }
 });
 
 // Event listener to hide discussion popup when mouse leaves
-document.addEventListener('mouseleave', (event) => {
+document.addEventListener("mouseleave", (event) => {
   const link = event.target;
-  if (link.tagName === 'A' && link.classList.contains('candidate-link')) {
+  if (link.tagName === "A" && link.classList.contains("candidate-link")) {
     hideDiscussionPopup();
   }
 });
@@ -245,219 +277,241 @@ document.addEventListener('mouseleave', (event) => {
 async function fetchDiscussions(candidateId) {
   try {
     // Replace with actual fetch logic from your data source
-    const response = await axios.post(`https://nsnemo.com/candidate/hover-disc/${candidateId}`);
+    const response = await axios.post(
+      `${config.APIURL}candidate/hover-disc/${candidateId}`
+    );
     const discussions = response.data;
 
     // Check if discussions is an array (or convert if necessary based on actual API response structure)
     if (Array.isArray(discussions)) {
-      return discussions.map(discussion => discussion.discussion);
+      return discussions.map((discussion) => discussion.discussion);
     } else {
       // If discussions is not an array, handle it accordingly
       return [];
     }
   } catch (error) {
-    console.error('Error fetching discussions:', error);
+    console.error("Error fetching discussions:", error);
     return []; // Return an empty array or handle the error as needed
   }
 }
 
-
-
 // Function to hide discussion popup
-
 
 function viewCandidate(candidateId) {
   // Construct the URL with query parameter
-  let url = './view-candidate.html?id=' + candidateId;
-  
+  let url = "./view-candidate.html?id=" + candidateId;
+
   // Open the URL in a new tab/window
-  window.open(url, '_blank');
+  window.open(url, "_blank");
 }
 
-  
+function createButton(iconClass, onClickHandler, buttonText = null) {
+  const button = document.createElement("button");
+  button.classList.add("btn", "btn-primary", "btn-sm", "mx-1");
 
-  
-    
-  function createButton(iconClass, onClickHandler, buttonText = null) {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'btn-primary', 'btn-sm', 'mx-1');
-  
-    if (buttonText !== null) {
-        button.textContent = buttonText;
-    }
-  
-    const icon = document.createElement('i');
-    icon.classList.add('fa', iconClass);
-  
-    button.appendChild(icon);
-  
-    button.addEventListener('click', onClickHandler);
-  
-    return button;
-}
-
-  
-  
-  
-  // Usage
- 
-    
-    // Example event handlers
-    async function handleDelete(candidateId) {
-        // Display a confirmation dialog
-        const confirmDelete = window.confirm(`Are you sure you want to delete candidate with ID ${candidateId}?`);
-    
-        // Check if the user clicked OK in the confirmation dialog
-        if (confirmDelete) {
-            try {
-                console.log(`Deleting candidate with ID ${candidateId}`);
-                // Add your delete logic here
-                await axios.delete(`https://nsnemo.com/candidate/delete-candidate/${candidateId}`, { headers: { "Authorization": token } });
-                console.log(`Candidate with ID ${candidateId} successfully deleted.`);
-            } catch (error) {
-                console.error(`Error deleting candidate with ID ${candidateId}:`, error);
-                // Handle the error, e.g., show an alert or log it
-            }
-        } else {
-            console.log('Delete operation canceled.');
-        }
-    }
-    function decodeToken(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace('-', '+').replace('_', '/');
-      return JSON.parse(atob(base64));
+  if (buttonText !== null) {
+    button.textContent = buttonText;
   }
-  
-  const decodedToken = decodeToken(token);
-  
-    
-function handleEdit(candidateId) {
-    console.log(`Edit button clicked for candidateId ${candidateId}`);
-    
-    
-    const canEdit = decodedToken.Write;
-    if (canEdit) {
-        console.log('Edited:', candidateId);
-        window.open(`./edit-candidate-2.html?memId=${candidateId}`, '_blank');
-        // Add your logic for editing here
-    } else {
-        alert('You do not have permission to edit this candidate.');
-    }
+
+  const icon = document.createElement("i");
+  icon.classList.add("fa", iconClass);
+
+  button.appendChild(icon);
+
+  button.addEventListener("click", onClickHandler);
+
+  return button;
 }
 
-    
+// Usage
+
+// Example event handlers
+async function handleDelete(candidateId) {
+  // Display a confirmation dialog
+  const confirmDelete = window.confirm(
+    `Are you sure you want to delete candidate with ID ${candidateId}?`
+  );
+
+  // Check if the user clicked OK in the confirmation dialog
+  if (confirmDelete) {
+    try {
+      console.log(`Deleting candidate with ID ${candidateId}`);
+      // Add your delete logic here
+      await axios.delete(
+        `${config.APIURL}candidate/delete-candidate/${candidateId}`,
+        { headers: { Authorization: token } }
+      );
+      console.log(`Candidate with ID ${candidateId} successfully deleted.`);
+    } catch (error) {
+      console.error(`Error deleting candidate with ID ${candidateId}:`, error);
+      // Handle the error, e.g., show an alert or log it
+    }
+  } else {
+    console.log("Delete operation canceled.");
+  }
+}
+
+function handleEdit(candidateId) {
+  console.log(`Edit button clicked for candidateId ${candidateId}`);
+
+  const canEdit = decodedToken.Write;
+  if (canEdit) {
+    console.log("Edited:", candidateId);
+    window.open(`./edit-candidate-2.html?memId=${candidateId}`, "_blank");
+    // Add your logic for editing here
+  } else {
+    alert("You do not have permission to edit this candidate.");
+  }
+}
+
 function handleView(candidateId) {
   console.log(`View button clicked for candidateId ${candidateId}`);
-  
+
   // Construct the URL with query parameter
   let url = `./view-candidate.html?id=${candidateId}`;
-  
+
   // Open the URL in a new tab/window
-  window.open(url, '_blank');
+  window.open(url, "_blank");
 }
 
-    
-      
-    
-    function populateTables(data) {
-      // Clear existing rows
-      const tableBody = document.getElementById('table-body');
-      tableBody.innerHTML = '';
-    
-      // Display candidateResults in the main table
-      if (data.candidateResults && data.candidateResults.length > 0) {
-        displayCandidateResults(data.candidateResults);
+function populateTables(data) {
+  // Clear existing rows
+  const tableBody = document.getElementById("table-body");
+  tableBody.innerHTML = "";
+  
+  // Display candidateResults in the main table
+  if (candiateList.candidateResults && candiateList.candidateResults.length > 0) {
+    displayCandidateResults(candiateList.candidateResults);
+  }
+
+  // Display bankResults in a separate table
+  if (data.bankResults && data.bankResults.length > 0) {
+    displayBankResults(data.bankResults);
+  }
+
+  // Display cdocumentsResults in a separate table
+  if (data.cdocumentsResults && data.cdocumentsResults.length > 0) {
+    displayCDocumentsResults(data.cdocumentsResults);
+  }
+
+  // Add more sections for other types of results as needed
+}
+
+// Function to display candidateResults in the main table
+function displayCandidateResults(results, page=1) {
+  const tableBody = document.getElementById("table-body");
+  const start = (page - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  const paginatedCandidates = results.slice(start, end);
+  console.log(paginatedCandidates, 'paginatedCandidates')
+  // Iterate over results and append rows to the table
+  paginatedCandidates.forEach((result) => {
+    const row = document.createElement("tr");
+    const fieldsToDisplay = [
+      "candidateId",
+      "fname",
+      "lname",
+      "c_rank",
+      "c_vessel",
+      "c_mobi1",
+      "dob",
+      "email1",
+      "resume",
+    ];
+
+    fieldsToDisplay.forEach((field) => {
+      const cell = document.createElement("td");
+      // Format date fields if needed
+      if (field === "dob" || field === "avb_date" || field === "las_date") {
+        const date = new Date(result[field]).toLocaleDateString();
+        cell.textContent = date;
+      } else if (field === "candidateId") {
+        // Create a clickable link for candidateId
+        const link = document.createElement("a");
+        link.href = "#"; // Replace '#' with actual link or leave it as '#' if it's handled by click event
+        link.textContent = result[field];
+        link.onclick = (event) => {
+          event.preventDefault(); // Prevent default anchor behavior
+          viewCandidate(result[field]);
+        };
+
+        // Hover event to show discussion popup
+        link.addEventListener("mouseenter", () =>
+          showDiscussionPopup(link, result[field])
+        );
+        link.addEventListener("mouseleave", () => hideDiscussionPopup());
+
+        cell.appendChild(link);
+      } else {
+        cell.textContent = result[field];
       }
-    
-      // Display bankResults in a separate table
-      if (data.bankResults && data.bankResults.length > 0) {
-        displayBankResults(data.bankResults);
-      }
-    
-      // Display cdocumentsResults in a separate table
-      if (data.cdocumentsResults && data.cdocumentsResults.length > 0) {
-        displayCDocumentsResults(data.cdocumentsResults);
-      }
-    
-      // Add more sections for other types of results as needed
-    }
-    
-    // Function to display candidateResults in the main table
-    function displayCandidateResults(results) {
-      const tableBody = document.getElementById('table-body');
-    
-      // Iterate over results and append rows to the table
-      results.forEach(result => {
-        const row = document.createElement('tr');
-        const fieldsToDisplay = ['candidateId', 'fname', 'lname', 'c_rank', 'c_vessel', 'c_mobi1', 'dob','email1','resume'];
-    
-        fieldsToDisplay.forEach(field => {
-          const cell = document.createElement('td');
-          // Format date fields if needed
-          if (field === 'dob' || field === 'avb_date' || field === 'las_date') {
-            const date = new Date(result[field]).toLocaleDateString();
-            cell.textContent = date;
-          } else if (field === 'candidateId') {
-            // Create a clickable link for candidateId
-            const link = document.createElement('a');
-            link.href = '#'; // Replace '#' with actual link or leave it as '#' if it's handled by click event
-            link.textContent = result[field];
-            link.onclick = (event) => {
-              event.preventDefault(); // Prevent default anchor behavior
-              viewCandidate(result[field]);
-            };
-    
-            // Hover event to show discussion popup
-            link.addEventListener('mouseenter', () => showDiscussionPopup(link, result[field]));
-            link.addEventListener('mouseleave', () => hideDiscussionPopup());
-    
-            cell.appendChild(link);
-          } else {
-            cell.textContent = result[field];
-          }
-          row.appendChild(cell);
-        });
-    
-        // Add buttons for delete, edit, and view
-        const deleteButton = createButton('fa-trash', () => handleDelete(result.candidateId), 'Delete');
-        const editButton = createButton('fa-pencil-alt', () => handleEdit(result.candidateId), 'Edit');
-        const viewButton = createButton('fa-eye', () => handleView(result.candidateId), 'View');
-    
-        const buttonsCell = document.createElement('td');
-        buttonsCell.appendChild(deleteButton);
-        buttonsCell.appendChild(editButton);
-        buttonsCell.appendChild(viewButton);
-    
-        row.appendChild(buttonsCell);
-    
-        tableBody.appendChild(row);
+      row.appendChild(cell);
+    });
+
+    // Add buttons for delete, edit, and view
+    const deleteButton = createButton(
+      "fa-trash",
+      () => handleDelete(result.candidateId),
+      "Delete"
+    );
+    const editButton = createButton(
+      "fa-pencil-alt",
+      () => handleEdit(result.candidateId),
+      "Edit"
+    );
+    const viewButton = createButton(
+      "fa-eye",
+      () => handleView(result.candidateId),
+      "View"
+    );
+
+    const buttonsCell = document.createElement("td");
+    buttonsCell.appendChild(deleteButton);
+    buttonsCell.appendChild(editButton);
+    buttonsCell.appendChild(viewButton);
+
+    row.appendChild(buttonsCell);
+
+    tableBody.appendChild(row);
+  });
+  if(results.length>0) {
+    var totalPages = Math.ceil(results.length)/10
+    loadPagenation("paginationContainer",page, totalPages, results.length, 'candidate')
+  }
+  
+
+}
+
+async function loadPageData(page, tableType) {
+  if(tableType==='candidate') {
+    console.log(candiateList, 'candiateList')
+    displayCandidateResults(candiateList.candidateResults, page);
+  }
+  
+}
+
+// Function to display bankResults in a separate table
+function displayBankResults(bankResults) {
+  const candidateIds = bankResults.map((result) => result.candidateId);
+
+  // Check if there are candidateIds to fetch
+  if (candidateIds.length > 0) {
+    // Fetch candidate data for the unique candidateIds
+    fetchCandidateData(candidateIds)
+      .then((candidateData) => {
+        // Display candidate data in the main table
+        displayCandidateResults(candidateData.candidateResults);
+      })
+      .catch((error) => {
+        console.error("Error fetching candidate data:", error);
       });
-    }
-    
-    
-    // Function to display bankResults in a separate table
-    function displayBankResults(bankResults) {
-      const candidateIds = bankResults.map(result => result.candidateId);
-    
-      // Check if there are candidateIds to fetch
-      if (candidateIds.length > 0) {
-        // Fetch candidate data for the unique candidateIds
-        fetchCandidateData(candidateIds)
-          .then(candidateData => {
-            // Display candidate data in the main table
-            displayCandidateResults(candidateData.candidateResults);
-          })
-          .catch(error => {
-            console.error('Error fetching candidate data:', error);
-          });
-      }
-    }
-    
-    // Function to display cdocumentsResults in a separate table
-    function displayCDocumentsResults(cdocumentsResults) {
-      // Similar implementation to displayBankResults
-    }
-    
+  }
+}
+
+// Function to display cdocumentsResults in a separate table
+function displayCDocumentsResults(cdocumentsResults) {
+  // Similar implementation to displayBankResults
+}
 
 async function showDiscussionPopup(link, candidateId) {
   try {
@@ -469,24 +523,26 @@ async function showDiscussionPopup(link, candidateId) {
     const discussions = await fetchDiscussions(candidateId);
 
     // Create Bootstrap card
-    const card = document.createElement('div');
-    card.className = 'card discussion-popup-card';
+    const card = document.createElement("div");
+    card.className = "card discussion-popup-card";
 
     // Card body
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
 
     // Header with candidate ID
-    const header = document.createElement('h5');
-    header.className = 'card-title';
+    const header = document.createElement("h5");
+    header.className = "card-title";
     header.textContent = `Discussions for Candidate ID: ${candidateId}`;
     cardBody.appendChild(header);
 
     // Discussions content
-    discussions.forEach(discussion => {
-      const discussionItem = document.createElement('p');
-      discussionItem.className = 'card-text';
-      discussionItem.textContent = `${discussion.discussion} - Created: ${new Date(discussion.created_date).toLocaleDateString()}`;
+    discussions.forEach((discussion) => {
+      const discussionItem = document.createElement("p");
+      discussionItem.className = "card-text";
+      discussionItem.textContent = `${
+        discussion.discussion
+      } - Created: ${new Date(discussion.created_date).toLocaleDateString()}`;
       cardBody.appendChild(discussionItem);
     });
 
@@ -501,7 +557,7 @@ async function showDiscussionPopup(link, candidateId) {
     const topPosition = linkRect.top + window.scrollY - popupHeight;
     const leftPosition = linkRect.left + window.scrollX + link.offsetWidth;
 
-    card.style.position = 'absolute';
+    card.style.position = "absolute";
     card.style.top = `${topPosition}px`;
     card.style.left = `${leftPosition}px`;
 
@@ -513,56 +569,55 @@ async function showDiscussionPopup(link, candidateId) {
       hideDiscussionPopup();
     }, 5000);
   } catch (error) {
-    console.error('Error showing discussion popup:', error);
+    console.error("Error showing discussion popup:", error);
   }
 }
 
+// Function to hide discussion popup
+function hideDiscussionPopup() {
+  const card = document.querySelector(".discussion-popup-card");
+  if (card) {
+    card.remove();
+  }
+}
+function hideAllDiscussionPopups() {
+  const existingPopups = document.querySelectorAll(".discussion-popup-card");
+  existingPopups.forEach((popup) => popup.remove());
+}
 
-    
-    // Function to hide discussion popup
-    function hideDiscussionPopup() {
-      const card = document.querySelector('.discussion-popup-card');
-      if (card) {
-        card.remove();
-      }
-    }
-    function hideAllDiscussionPopups() {
-      const existingPopups = document.querySelectorAll('.discussion-popup-card');
-      existingPopups.forEach(popup => popup.remove());
-    }
-    
-    // Example function to fetch discussions (placeholder)
-    async function fetchDiscussions(candidateId) {
-      try {
-        // Replace with actual fetch logic from your data source
-        const response = await axios.post(`https://nsnemo.com/candidate/hover-disc/${candidateId}`);
-        const discussionsData = response.data;
-    
-        // Check if discussionsData has discussions array
-        if (Array.isArray(discussionsData)) {
-          return discussionsData.map(discussion => ({
-            discussion: discussion.discussion,
-            created_date: discussion.created_date
-          }));
-        } else {
-          return []; // Return empty array if no discussions found
-        }
-      } catch (error) {
-        console.error('Error fetching discussions:', error);
-        return []; // Return empty array on error
-      }
-    }
-    
-    
-    
+// Example function to fetch discussions (placeholder)
+async function fetchDiscussions(candidateId) {
+  try {
+    // Replace with actual fetch logic from your data source
+    const response = await axios.post(
+      `${config.APIURL}candidate/hover-disc/${candidateId}`
+    );
+    const discussionsData = response.data;
 
+    // Check if discussionsData has discussions array
+    if (Array.isArray(discussionsData)) {
+      return discussionsData.map((discussion) => ({
+        discussion: discussion.discussion,
+        created_date: discussion.created_date,
+      }));
+    } else {
+      return []; // Return empty array if no discussions found
+    }
+  } catch (error) {
+    console.error("Error fetching discussions:", error);
+    return []; // Return empty array on error
+  }
+}
 
 async function fetchCandidateData(candidateIds) {
   try {
     // Check if candidateIds is defined and not empty
     if (candidateIds && candidateIds.length > 0) {
-      const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${candidateIds}`, { headers: { "Authorization": token } });
-      console.log(response)
+      const response = await axios.get(
+        `${config.APIURL}candidate/get-candidate/${candidateIds}`,
+        { headers: { Authorization: token } }
+      );
+      console.log(response);
       return response.data;
     } else {
       // If candidateIds is undefined or empty, return an empty object
@@ -573,251 +628,120 @@ async function fetchCandidateData(candidateIds) {
   }
 }
 
-
-      // Function to display cdocumentsResults in a separate table
-      function displayCDocumentsResults(cdocumentsResults) {
-        // Similar to displayCandidateResults, create a new table or modify the existing table for cdocumentsResults
-      }
-
-  const displayDropdown = async function () {
-    const rankDropdown = document.getElementById('rank');
-    rankDropdown.innerHTML = ''; // Clear existing options
-
-    // Add the default option
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.text = '';
-    rankDropdown.appendChild(defaultOption);
-
-    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
-    const rankOptions = rankResponse.data.ranks;
-    const rankNames = rankOptions.map(rank => rank.rank);
-
-    for (let i = 0; i < rankNames.length; i++) {
-        const option = document.createElement('option');
-        option.value = rankNames[i];
-        option.text = rankNames[i];
-        rankDropdown.appendChild(option);
-    }
+// Function to display cdocumentsResults in a separate table
+function displayCDocumentsResults(cdocumentsResults) {
+  // Similar to displayCandidateResults, create a new table or modify the existing table for cdocumentsResults
 }
-displayDropdown()
+
+const displayDropdown = async function () {
+  const rankResponse = await axios.get(`${config.APIURL}others/get-ranks`, {
+    headers: { Authorization: token },
+  });
+  const rankOptions = rankResponse?.data?.ranks || [];
+  if(rankOptions.length>0) {
+    const rankNames = rankOptions.map((rank) => rank.rank);
+    loadDropdown("rank", rankOptions, rankNames);
+  }
+  
+};
+displayDropdown();
 
 const displayVesselTypeDropdown = async function () {
-    try {
-        const vesselDropdown = document.getElementById('vsl');
-        vesselDropdown.innerHTML = ''; // Clear existing options
-    
-        // Add the default option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.text = '';
-        vesselDropdown.appendChild(defaultOption);
-    
-        const vesselResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
-        const vessels = vesselResponse.data.vessels;
-        const vesselNames = vessels.map(vessel => vessel.vesselName);
-    
-        for (let i = 0; i < vesselNames.length; i++) {
-            const option = document.createElement('option');
-            option.value = vesselNames[i];
-            option.text = vesselNames[i];
-            vesselDropdown.appendChild(option);
-        }
-    } catch (error) {
-        console.error('Error fetching vessels:', error);
+  try {
+    const vesselResponse = await axios.get(
+      `${config.APIURL}others/get-vessel`,
+      { headers: { Authorization: token } }
+    );
+    const vessels = vesselResponse.data?.vessels || [];
+    if(vessels.length>0) {
+      const vesselNames = vessels.map((vessel) => vessel.vesselName);
+      loadDropdown("vsl", vesselNames, vesselNames);
     }
-}
-displayVesselTypeDropdown()
+   
+  } catch (error) {
+    console.error("Error fetching vessels:", error);
+  }
+};
+displayVesselTypeDropdown();
 
 async function fetchAndDisplayExp() {
-    try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/view-experience", { headers: { "Authorization": token } });
-        const experiences = serverResponse.data.experiences; // Access the array using response.data.experiences
-
-        // Check if experiences is an array
-        if (Array.isArray(experiences)) {
-            // Get the dropdown element by its ID
-            const expDropdown = document.getElementById('experience');
-
-            // Clear existing options
-            expDropdown.innerHTML = '';
-
-            // Create and append a default option (optional)
-            const defaultOption = document.createElement('option');
-            defaultOption.text = '';
-            expDropdown.add(defaultOption);
-
-            // Iterate through experiences and add them as options
-            experiences.forEach((exp) => {
-                const option = document.createElement('option');
-                option.value = exp.experience; // Use the appropriate property from your data
-                option.text = exp.experience; // Use the appropriate property from your data
-                expDropdown.add(option);
-            });
-
-            // Now the dropdown is populated with experience values
-        } else {
-            console.error('Invalid or empty experiences:', experiences);
-        }
-    } catch (error) {
-        console.error('Error fetching experiences:', error);
-        // Handle error as needed
+  try {
+    const serverResponse = await axios.get(
+      `${config.APIURL}others/view-experience`,
+      { headers: { Authorization: token } }
+    );
+    const experiences = serverResponse?.data?.experiences || []; // Access the array using response.data.experiences
+    if(experiences.length>0) {
+      const experince = experiences.map((item) => item.experience);
+      loadDropdown("experience", experince, experince);
     }
+  } catch (error) {
+    console.error("Error fetching experiences:", error);
+    // Handle error as needed
+  }
 }
 
-fetchAndDisplayExp()
+fetchAndDisplayExp();
 
 async function fetchAndDisplayGrades() {
-    try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-grades", { headers: { "Authorization": token } });
-        const grades = serverResponse.data.grades;
-
-        // Get the dropdown element by its ID
-        const gradeDropdown = document.getElementById('grade');
-
-        // Clear existing options
-        gradeDropdown.innerHTML = '';
-
-        // Create and append a default option (optional)
-        const defaultOption = document.createElement('option');
-        defaultOption.text = '';
-        gradeDropdown.add(defaultOption);
-
-        // Iterate through grades and add them as options
-        grades.forEach((grade) => {
-            const option = document.createElement('option');
-            option.value = grade.gradeExp;
-            option.text = grade.gradeExp;
-            gradeDropdown.add(option);
-        });
-
-        // Now the dropdown is populated with grade values
-    } catch (error) {
-        console.error('Error fetching grades:', error);
-        // Handle error as needed
+  try {
+    const serverResponse = await axios.get(
+      `${config.APIURL}others/get-grades`,
+      { headers: { Authorization: token } }
+    );
+    const grades = serverResponse?.data?.grades || [];
+    if(grades.length>0) {
+      const grade = grades.map((item) => item.gradeExp);
+      loadDropdown("grade", grade, grade);
     }
+    // Now the dropdown is populated with grade values
+  } catch (error) {
+    console.error("Error fetching grades:", error);
+    // Handle error as needed
+  }
 }
-fetchAndDisplayGrades()
+fetchAndDisplayGrades();
 
 const displayCountryDropdown = async function () {
-    try {
-        const countryDropdown = document.getElementById('license');
-        countryDropdown.innerHTML = ''; // Clear existing options
+  try {
+    // Assuming the country data is an array of objects with the property "country"
+    const countryResponse = await axios.get(
+      `${config.APIURL}others/country-codes`,
+      { headers: { Authorization: token } }
+    );
+    const countries = countryResponse?.data?.countryCodes || []; // Assuming the array is directly returned
 
-        // Add the default option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.text = '';
-        countryDropdown.appendChild(defaultOption);
-
-        // Assuming the country data is an array of objects with the property "country"
-        const countryResponse = await axios.get("https://nsnemo.com/others/country-codes", { headers: { "Authorization": token } });
-        const countries = countryResponse.data.countryCodes; // Assuming the array is directly returned
-
-        for (let i = 0; i < countries.length; i++) {
-            const option = document.createElement('option');
-            option.value = countries[i].country; // Assuming the country name is in the "country" property
-            option.text = countries[i].country; // Assuming the country name is in the "country" property
-            countryDropdown.appendChild(option);
-            // If you want to clone the options for another dropdown, do it here
-            // licenseDropdown.appendChild(option.cloneNode(true));
-        }
-    } catch (error) {
-        console.error('Error fetching countries:', error);
+    if(countries.length>0) {
+      const country = countries.map((item) => item.country);
+      loadDropdown("license", country, country);
     }
-}
-displayCountryDropdown()
 
-document.getElementById("logout").addEventListener("click", function() {
-  // Display the modal with initial message
-  var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-  myModal.show();
-  
-  // Send request to update logged status to false
-  const userId = localStorage.getItem('userId');
-  if (userId) {
-    axios.put(`https://nsnemo.com/user/${userId}/logout`)
-      .then(response => {
-        console.log('Logged out successfully');
-      })
-      .catch(error => {
-        console.error('Error logging out:', error);
-      });
-  } else {
-    console.error('User ID not found in localStorage');
+  } catch (error) {
+    console.error("Error fetching countries:", error);
   }
-
-  localStorage.clear();
-  
-  // Change the message and spinner after a delay
-  setTimeout(function() {
-      document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-  }, 1000);
-
-  // Redirect after another delay
-  setTimeout(function() {
-      window.location.href = "loginpage.html";
-  }, 2000);
-});
-
-window.onload = async function () {
-
-    
-  const hasUserManagement = decodedToken.userManagement;
-    const vendorManagement = decodedToken.vendorManagement;
-    console.log(vendorManagement);
-    if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-      document.getElementById('userManagementSection').style.display = 'block';
-      document.getElementById('userManagementSections').style.display = 'block';
-  }
-    if (vendorManagement) {
-      document.getElementById('vendorManagementSection').style.display = 'block';
-      document.getElementById('vendorManagementSections').style.display = 'block';
-
-    }
 };
+displayCountryDropdown();
 
-
-
-function updateDateTime() {
-  const dateTimeElement = document.getElementById('datetime');
-  const now = new Date();
-
-  const options = {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true,
-      month: 'short',
-      day: 'numeric',
-      ordinal: 'numeric',
-  };
-
-  const dateTimeString = now.toLocaleString('en-US', options);
-
-  dateTimeElement.textContent = dateTimeString;
-}
-
-// Update date and time initially and every second
-updateDateTime();
-setInterval(updateDateTime, 1000);
+window.onload = async function () {};
 
 // Add event listener to the search input field
-document.getElementById('clientSearchInput').addEventListener('input', function () {
+document
+  .getElementById("clientSearchInput")
+  .addEventListener("input", function () {
     const searchText = this.value.toLowerCase().trim();
     filterTable(searchText);
-});
+  });
 
 // Function to filter table rows based on search input
 function filterTable(searchText) {
-    const tableRows = document.querySelectorAll('#table-body tr');
+  const tableRows = document.querySelectorAll("#table-body tr");
 
-    tableRows.forEach(row => {
-        const textContent = row.textContent.toLowerCase();
-        if (textContent.includes(searchText)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
+  tableRows.forEach((row) => {
+    const textContent = row.textContent.toLowerCase();
+    if (textContent.includes(searchText)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
 }

@@ -1,32 +1,12 @@
-const token = localStorage.getItem('token');
-const decodedToken = decodeToken(token);
-
 window.onload = async function () {
 
     try {
         await displayCandidates();
-        const hasUserManagement = decodedToken.userManagement;
-        const vendorManagement = decodedToken.vendorManagement;
-        console.log(vendorManagement);
-        if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
-            document.getElementById('userManagementSection').style.display = 'block';
-            document.getElementById('userManagementSections').style.display = 'block';
-        }
-        if (vendorManagement) {
-            document.getElementById('vendorManagementSection').style.display = 'block';
-            document.getElementById('vendorManagementSections').style.display = 'block';
-        }
     } catch (err) {
         console.log('No entries present');
         console.log(err);
     }
 };
-
-function decodeToken(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(atob(base64));
-}
 
 async function fetchData(url) {
     try {
@@ -37,13 +17,13 @@ async function fetchData(url) {
         throw error;
     }
 }
-document.getElementById('search-input').addEventListener('input', function() {
+/* document.getElementById('search-input').addEventListener('input', function() {
     searchCandidates(this.value);
-});
+}); */
 
 async function searchCandidates(query) {
     try {
-        const url = `https://nsnemo.com/candidate/search?search=${query}`;
+        const url = `${config.APIURL}candidate/search?search=${query}`;
         const responseData = await fetchData(url);
         const candidates = responseData.candidates;
         const candidateTable = document.getElementById("candidate-table");
@@ -78,9 +58,10 @@ async function searchCandidates(query) {
             candidateTable.appendChild(row);
             sno++;
         });
-
-        updatePagination(responseData.totalPages, 1, 10, query);
-
+        var totalPages = responseData?.totalPages || 0;
+        if(totalPages>0) {
+            loadPagenation('pagination-controls', page, totalPages, responseData.totalCount, 'candidate')
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -89,8 +70,11 @@ async function searchCandidates(query) {
 
 async function displayCandidates(page = 1, limit = 10, search = '') {
     try {
-        const url = `https://nsnemo.com/candidate/view-candidate?page=${page}&limit=${limit}&search=${search}`;
+        showLoader('candidate-list')
+        const url = `${config.APIURL}candidate/view-candidate?page=${page}&limit=${limit}&search=${search}`;
         const responseData = await fetchData(url);
+        hideLoader('candidate-list')
+        console.log(responseData, 'responseDataresponseData')
         const candidates = responseData.candidates;
         const candidateTable = document.getElementById("candidate-table");
         candidateTable.innerHTML = "";
@@ -123,70 +107,27 @@ async function displayCandidates(page = 1, limit = 10, search = '') {
             candidateTable.appendChild(row);
             sno++;
         });
-
-        updatePagination(responseData.totalPages, page, limit, search);
+        const totalPages = responseData?.totalPages|| 0;
+        if(totalPages>0) {
+            loadPagenation('pagination-controls', page, totalPages, responseData.totalCount, 'candidate')
+        }  
+        
 
     } catch (error) {
+        hideLoader('candidate-list')
         console.error('Error:', error);
     }
 }
 
-
-function updatePagination(totalPages, currentPage, limit, search) {
-    const paginationControls = document.getElementById("pagination-controls");
-    let paginationHTML = `<nav aria-label="Page navigation" class="d-flex justify-content-start">
-                                <ul class="pagination">
-                                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                                        <a class="page-link" href="javascript:void(0);" onclick="displayCandidates(1, ${limit}, '${search}')">
-                                            <i class="tf-icon bx bx-chevrons-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                                        <a class="page-link" href="javascript:void(0);" onclick="displayCandidates(${currentPage - 1}, ${limit}, '${search}')">
-                                            <i class="tf-icon bx bx-chevron-left"></i>
-                                        </a>
-                                    </li>`;
-
-    const maxButtons = 4;
-    for (let i = 1; i <= Math.ceil(totalPages); i++) {
-        if (
-            i === 1 ||
-            i === Math.ceil(totalPages) ||
-            (i >= currentPage - 1 && i <= currentPage + maxButtons - 2)
-        ) {
-            paginationHTML += `<li class="page-item ${currentPage === i ? 'active' : ''}">
-                                      <a class="page-link"  onclick="displayCandidates(${i}, ${limit}, '${search}')">${i}</a>
-                                  </li>`;
-        } else if (i === currentPage + maxButtons - 1) {
-            paginationHTML += `<li class="page-item disabled">
-                                      <span class="page-link">...</span>
-                                  </li>`;
-        }
-    }
-
-    paginationHTML += `<li class="page-item ${currentPage === Math.ceil(totalPages) ? 'disabled' : ''}">
-                            <a class="page-link" href="javascript:void(0);" onclick="displayCandidates(${currentPage + 1 > totalPages ? totalPages : currentPage + 1}, ${limit}, '${search}')">
-                                <i class="tf-icon bx bx-chevron-right"></i>
-                            </a>
-                        </li>
-                        <li class="page-item ${currentPage === Math.ceil(totalPages) ? 'disabled' : ''}">
-                            <a class="page-link" href="javascript:void(0);" onclick="displayCandidates(${Math.ceil(totalPages)}, ${limit}, '${search}')">
-                                <i class="tf-icon bx bx-chevrons-right"></i>
-                            </a>
-                        </li>
-                        <span class='mt-2'> Showing ${currentPage} of ${Math.ceil(totalPages)} pages </span>
-                    </ul>
-                </nav>`;
-
-    paginationControls.innerHTML = paginationHTML;
+function loadPageData(page, tableType) {
+    displayCandidates(page);
 }
-
 
 async function deleteCandidate(candidateId, event) {
     event.preventDefault();
     let id = candidateId;
     console.log(id);
-    const url = `https://nsnemo.com/candidate/delete-candidate/${id}`;
+    const url = `${config.APIURL}candidate/delete-candidate/${id}`;
     console.log(url);
     try {
         const response = await axios.delete(url, { headers: { "Authorization": token } });
@@ -210,18 +151,10 @@ function calculateAge(birthdate) {
     return age;
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const formattedDate = date.toISOString().split('T')[0];
-    return formattedDate;
-}
-
 function viewCandidate(id) {
     // Add your view logic here
     window.open(`./view-candidate.html?id=${id}`, '_blank');
-
 }
-
 
 function editCandidate(memId) {
     console.log('memId:', memId);
@@ -234,37 +167,3 @@ function editCandidate(memId) {
         alert('You do not have permission to edit this candidate.');
     }
 }
-
-
-document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    
-    // Send request to update logged status to false
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
-        .then(response => {
-          console.log('Logged out successfully');
-        })
-        .catch(error => {
-          console.error('Error logging out:', error);
-        });
-    } else {
-      console.error('User ID not found in localStorage');
-    }
-  
-    localStorage.clear();
-    
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-  
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-  });
-  

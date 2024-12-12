@@ -47,6 +47,14 @@ $.getJSON("menu.json", function(json) {
 });
 
 const token = localStorage.getItem('token');
+if($('.select-dropdown').length>0) {
+  $(".select-dropdown").select2({
+    placeholder: function() {
+      return $(this).data('placeholder'); // Dynamically get the data-placeholder value
+    },
+    allowClear: true,
+  });
+}
 window.onload = async function () {
 
     const hasReadOnly = decodedToken.readOnly;
@@ -55,8 +63,12 @@ window.onload = async function () {
     const staff = decodedToken.staff;
     console.log(vendorManagement);
     if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
+      if(document.getElementById('userManagementSection').length>0) {
         document.getElementById('userManagementSection').style.display = 'block';
+      }
+      if(document.getElementById('userManagementSections').length>0) {
         document.getElementById('userManagementSections').style.display = 'block';
+      } 
     }
     if (vendorManagement) {
         document.getElementById('vendorManagementSection').style.display = 'block';
