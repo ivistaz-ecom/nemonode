@@ -624,6 +624,28 @@
                                     <option value="0">No</option>
                                   </select>
                                 </div>
+                                <div class="col-md-2 mb-1">
+                                  <label for="nearest_airport"
+                                    >Nearest Airport</label
+                                  >
+                                  <input
+                                    type="text"
+                                    class="form-control small-font"
+                                    id="nearest_airport"
+                                    aria-describedby="fieldX_2_Help"
+                                  />
+                                </div>
+                                <div class="col-md-2 mb-1">
+                                  <label for="totalChild"
+                                    >No. of Children</label
+                                  >
+                                  <input
+                                    type="text"
+                                    class="form-control small-font"
+                                    id="totalChild"
+                                    aria-describedby="fieldX_2_Help"
+                                  />
+                                </div>
                                 <div class="col-md-6 mb-1 mt-2">
                                   <label for="prevPhoto"
                                     >Existing Photo (click to view)</label
@@ -834,33 +856,39 @@
                                   />
                                 </div>
                               </div>
-                              <!-- <div class="content-wrapper mt-5 mb-5 rounded-3">
-                                            <div class="w-100 ">
-                                                <div class="">
-                                                  <h4 class="text-center  mb-0 rounded-0 shadow-none border border-dark  card p-2"> PREVIOUS SEA EXPERIENCE </h4>                                                     
-                                                    
-                                                        <table class="table table table-striped table-bordered " style="font-size: 12px;">
-                                                            <thead>
-                                                                <tr>
-                                                                  <th scope="col" >S.no</th>
-                                                                    <th scope="col">From</th>
-                                                                    <th scope="col">To</th>
-                                                                    <th scope="col">Vessel Name</th>
-                                                                    <th scope="col">Flag</th>
-                                                                    <th scope="col">DWT</th>        
-                                                                    <th scope="col">KWT</th>
-                                                                    <th scope="col">Engine</th>
-                                                                    <th scope="col">Type of Vessel</th>
-                                                                    <th scope="col">Position</th>
-                                                                    <th scope="col">Remarks</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="experienceTableBody">
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                              <div class="content-wrapper mt-5 mb-5 rounded-3">
+                                <div class="w-100">
+                                  <div class="">
+                                    <h4
+                                      class="text-center mb-0 rounded-0 shadow-none border border-dark card p-2"
+                                    >
+                                      PREVIOUS SEA EXPERIENCE
+                                    </h4>
+
+                                    <table
+                                      class="table table table-striped table-bordered"
+                                      style="font-size: 12px"
+                                    >
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">S.no</th>
+                                          <th scope="col">From</th>
+                                          <th scope="col">To</th>
+                                          <th scope="col">Vessel Name</th>
+                                          <th scope="col">Flag</th>
+                                          <th scope="col">DWT</th>
+                                          <th scope="col">KWT</th>
+                                          <th scope="col">Engine</th>
+                                          <th scope="col">Type of Vessel</th>
+                                          <th scope="col">Position</th>
+                                          <th scope="col">Remarks</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="experienceTableBody"></tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
 
                               <div class="row mt-5">
                                 <div class="col-md-2">
@@ -1663,11 +1691,11 @@
             <!-- Buttons for different sections -->
           </div>
           <footer
-          class="footer mt-auto py-3 bg-footer-theme"
-          id="footetcontent"
-        ></footer>
+            class="footer mt-auto py-3 bg-footer-theme"
+            id="footetcontent"
+          ></footer>
         </div>
-       
+
         <!-- Modals for each section -->
         <!-- Replace the content of modals with the actual information you want to display -->
         <div
@@ -1696,7 +1724,7 @@
             </div>
           </div>
         </div>
-        
+
         <div
           class="modal fade"
           id="contractModal"
@@ -1725,7 +1753,7 @@
         </div>
         <div class="content-backdrop fade"></div>
         <!-- Footer -->
-       
+
         <!-- / Footer -->
       </div>
       <!-- Overlay -->

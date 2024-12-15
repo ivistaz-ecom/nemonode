@@ -947,6 +947,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           candidateData.c_pin;
         document.getElementById("edit_candidate_c_mobi1").value =
           candidateData.c_mobi1;
+        document.getElementById("nearest_airport").value =
+          candidateData.nearestAirport;
+        document.getElementById("totalChild").value =
+          candidateData.totalChild;
         document.getElementById("edit_candidate_email1").value =
           candidateData.email1;
         document.getElementById("edit_candidate_c_tel1").value =

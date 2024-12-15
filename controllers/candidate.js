@@ -267,6 +267,7 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
+                order: [['candidateId', 'DESC']],
                 offset,
                 limit,
             });
@@ -287,6 +288,7 @@ const getAllCandidates = async (req, res) => {
                     { model: Discussion_plus },
                     // Add other associated models as needed
                 ],
+                order: [['candidateId', 'DESC']],
                 offset,
                 limit,
             });
@@ -4262,14 +4264,14 @@ const submitApplicationForm = async (req, res) => {
         const { applicationDatas } = req.body;
         const checkingCandidate = await Candidate.findByPk(candidateId);
         if(checkingCandidate!==null) {
-            const candidateDetails = {
+            const candidateDetailsupd = {
                 applicationDatas:applicationDatas
             }
-            const datass = await Candidate.update(candidateDetails, {
+            const datass = await Candidate.update(candidateDetailsupd, {
                 where: { candidateId: candidateId },
             });
             console.log(datass, 'datassdatassdatass')
-           /* var postData = JSON.parse(applicationDatas);
+           var postData = JSON.parse(applicationDatas);
              const avb_date = convertToDate(postData.avb_date);
             const dob = convertToDate(postData.dob);
             const candidateDetails = {
@@ -4366,7 +4368,7 @@ const submitApplicationForm = async (req, res) => {
                         });
                     }
                 });
-            } */
+            }
             res.status(201).json({ message: "Successfully Created New Candidate!", success: true});
            
         } else {
