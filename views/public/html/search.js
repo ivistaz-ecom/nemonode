@@ -69,7 +69,9 @@ searchForm.addEventListener("submit", function (event) {
   const toAge = document.getElementById("toAge").value.trim();
   const c_mobi1 = document.getElementById("c_mobi1").value.trim();
   const email1 = document.getElementById("email1").value.trim();
-
+  $('html, body').animate({
+    scrollTop: $("#candidatedatas").offset().top
+}, 500);
   // Prepare data for the POST request
   const searchData = {
     nemoId: nemoId,
@@ -95,7 +97,7 @@ searchForm.addEventListener("submit", function (event) {
   if (toAge) {
     searchData.toAge = toAge;
   }
-
+  showLoader('candidatedatas')
   // Make a POST request using Axios
   axios
     .post(`${config.APIURL}searchspl`, searchData, {
@@ -107,12 +109,14 @@ searchForm.addEventListener("submit", function (event) {
       console.log(response);
       // Process and display the search results in the table
       populateTable(searchResults);
+      hideLoader('candidatedatas')
 
       console.log(response.data); // Log the retrieved data to the console
     })
     .catch(function (error) {
       // Handle errors
       console.error("Error:", error);
+      hideLoader('candidatedatas')
       // You can update the UI to show an error message or perform other error handling
     });
 });
