@@ -640,7 +640,7 @@ const displayDropdown = async function () {
   const rankOptions = rankResponse?.data?.ranks || [];
   if(rankOptions.length>0) {
     const rankNames = rankOptions.map((rank) => rank.rank);
-    loadDropdown("rank", rankOptions, rankNames);
+    loadDropdown("rank", rankNames, rankNames);
   }
   
 };
