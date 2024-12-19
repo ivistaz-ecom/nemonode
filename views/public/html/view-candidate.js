@@ -1968,7 +1968,8 @@ async function fetchpreviousexperience(candidateId) {
                     <td>${formatDateNew(exp.expFrom)}</td>
                     <td>${formatDateNew(exp.expTo)}</td>
                     <td>${exp.vesselName}</td>
-                    <td>${exp.Flag}</td>                    
+                    <td>${exp.Flag}</td>
+                    <td></td>                
                     <td>${exp.dwt}</td>
                     <td>${exp.kwt}</td>
                     <td>${exp.engine}</td>
