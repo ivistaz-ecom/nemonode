@@ -682,6 +682,7 @@ async function createCompanyDropdown() {
     { headers: { Authorization: token } }
   );
   const companyOptions = companyResponse.data.companies;
+  const companyID = companyOptions.map((company) => company.company_name);
   const companyNames = companyOptions.map((company) => company.company_id);
 
   const companyDropdown = document.getElementById("edit_candidate_vendor");
@@ -696,7 +697,7 @@ async function createCompanyDropdown() {
   // Add options for each company
   for (let i = 0; i < companyNames.length; i++) {
     const option = document.createElement("option");
-    option.value = companyNames[i];
+    option.value = companyID[i];
     option.text = companyNames[i];
     companyDropdown.appendChild(option);
     // If you want to clone the options for another dropdown, do it here
