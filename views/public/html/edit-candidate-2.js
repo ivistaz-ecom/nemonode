@@ -682,8 +682,8 @@ async function createCompanyDropdown() {
     { headers: { Authorization: token } }
   );
   const companyOptions = companyResponse.data.companies;
-  const companyID = companyOptions.map((company) => company.company_name);
-  const companyNames = companyOptions.map((company) => company.company_id);
+  const companyID = companyOptions.map((company) => company.company_id);
+  const companyNames = companyOptions.map((company) => company.company_name);
 
   const companyDropdown = document.getElementById("edit_candidate_vendor");
   companyDropdown.innerHTML = ""; // Clear existing options
