@@ -51,7 +51,6 @@ const searchForm = document.getElementById("search-form");
 
 searchForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission
-
   // Get values from all form fields
   const nemoId = document.getElementById("nemoId").value.trim();
   const name = document.getElementById("name").value.trim();
@@ -104,19 +103,19 @@ searchForm.addEventListener("submit", function (event) {
       headers: { Authorization: token },
     })
     .then(function (response) {
+      hideLoader('candidatedatas')
       // Handle the successful response
       const searchResults = response.data;
       console.log(response);
       // Process and display the search results in the table
       populateTable(searchResults);
-      hideLoader('candidatedatas')
 
       console.log(response.data); // Log the retrieved data to the console
     })
     .catch(function (error) {
       // Handle errors
-      console.error("Error:", error);
       hideLoader('candidatedatas')
+      console.error("Error:", error);
       // You can update the UI to show an error message or perform other error handling
     });
 });
@@ -384,8 +383,8 @@ function populateTables(data) {
   tableBody.innerHTML = "";
   
   // Display candidateResults in the main table
-  if (candiateList.candidateResults && candiateList.candidateResults.length > 0) {
-    displayCandidateResults(candiateList.candidateResults);
+  if (data.candidateResults && data.candidateResults.length > 0) {
+    displayCandidateResults(data.candidateResults);
   }
 
   // Display bankResults in a separate table
@@ -738,8 +737,14 @@ document
 
 // Function to filter table rows based on search input
 function filterTable(searchText) {
-  const tableRows = document.querySelectorAll("#table-body tr");
-
+  
+  var result_ = searchArray(candiateList.candidateResults, searchText);
+  var finalData = [];
+  finalData['candidateResults'] = result_;
+  populateTables(finalData);
+ 
+ /*
+ const tableRows = document.querySelectorAll("#table-body tr"); 
   tableRows.forEach((row) => {
     const textContent = row.textContent.toLowerCase();
     if (textContent.includes(searchText)) {
@@ -747,5 +752,14 @@ function filterTable(searchText) {
     } else {
       row.style.display = "none";
     }
-  });
+  }); */
+}
+
+
+function searchArray(array, searchTerm) {
+  return array.filter(obj =>
+      Object.values(obj).some(value =>
+          value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  );
 }
