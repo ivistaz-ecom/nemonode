@@ -4267,11 +4267,12 @@ const submitApplicationForm = async (req, res) => {
             const candidateDetailsupd = {
                 applicationDatas:applicationDatas
             }
-            const datass = await Candidate.update(candidateDetailsupd, {
+            await Candidate.update(candidateDetailsupd, {
                 where: { candidateId: candidateId },
             });
-            console.log(datass, 'datassdatassdatass')
+           
            var postData = JSON.parse(applicationDatas);
+            
              const avb_date = convertToDate(postData.avb_date);
             const dob = convertToDate(postData.dob);
             const candidateDetails = {
@@ -4290,12 +4291,28 @@ const submitApplicationForm = async (req, res) => {
                 mobile_code1:postData.mobile_code1.replace('+',''),
                 c_mobi1:postData.c_mobi1,
                 weight:postData.weight,
-                height:postData.height
+                height:postData.height,
+            }
+            if(postData.photos) {
+                candidateDetails['photos'] = postData.photos;
             }
             await Candidate.update(candidateDetails, {
                 where: { candidateId: candidateId },
             });
             if(postData.kin_name!=="") {
+
+                let checkingkin = await CandidateNkd.findOne({ where: { candidateId: candidateId, kin_relation:postData.kin_relation  }, raw: true});
+                if(checkingkin) {
+                    await CandidateNkd.update({
+                        kin_name:postData.kin_name,
+                        kin_contact_number:postData.kin_contact_number,
+                        kin_email:postData.kin_email,
+                        kin_contact_address:postData.kin_contact_address,
+                        kin_priority:2,
+                      }, {
+                        where: { id: checkingkin.id },
+                    });
+                }else {
                  await CandidateNkd.create({
                     kin_name:postData.kin_name,
                     kin_relation:postData.kin_relation,
@@ -4307,12 +4324,34 @@ const submitApplicationForm = async (req, res) => {
                 });
             }
 
-            const documentType = [{"key":'passport','name':"PASSPORT"},{"key":'seamanbook','name':"SEAMANS BOOK"},{"key":'seamanid','name':"SEAFARER ID"},{"key":'coc','name':"COC"},{"key":'dceoil','name':"DCE OIL"},{"key":'dcegas','name':"DCE GAS"},{"key":'dcechem','name':"DCE CHEM"}];
+                 
+            }
+
+            const documentType = [
+                { key: "passport", name: "PASSPORT" },
+                { key: "seamanbook", name: "SEAMANS BOOK" },
+                { key: "seamanid", name: "SEAFARER ID" },      
+                { key: "coc", name: "COC" },
+                { key:'tankerany', name:'Tanker If any'},
+                { key: "aff_fpff", name: "AFF / FPFF" },
+                { key: "pst_pscrb", name: "PST / PSCRB" },
+                { key: "medicare", name: "MEDICARE / MFA / EFA" },
+                { key: "pssr", name: "PSSR" },
+                { key: "stsdsd", name: "STSDSD / SSO" },
+              ];
             documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 if(dnumbers!=="") {
+                    var docWhere = doc.name;
+                    var  documentName = doc.name
+                    if(doc.key==='tankerany') {
+                        let docname = postData[`document_${doc.key}_name`]||'';
+                        var docWhere = docname;
+                        documentName = docname;
+                    }
+                    if(docWhere!=="") {
                     let evaluation = await Documents.findAll({
-                        where: { document: doc.name, candidateId: candidateId }
+                            where: { document: docWhere, candidateId: candidateId }
                     });
                    
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
@@ -4332,7 +4371,7 @@ const submitApplicationForm = async (req, res) => {
                         })
                     } else {
                         Documents.create({
-                            document: doc.name,
+                                document:documentName,
                             document_number: dnumbers,
                             issue_date: issue_date,
                             expiry_date:expiry_date,
@@ -4342,34 +4381,88 @@ const submitApplicationForm = async (req, res) => {
                         });
                     }
                 }
+                }
                 return '';
             });
 
             const expVessel = postData.exp_vesselname||[];
             if(expVessel.length>0) {
-                expVessel.map((Vessel, index) => {
+               
+                await expVessel.map(async (Vessel, index) => {
                     if(Vessel!=="") {
                         let exp_from = postData.exp_from[index]||'';
                         let expFrom = (exp_from!=="")?convertToDate(exp_from):'';
                         let exp_to = postData.exp_to[index]||'';
                         let expTo = (exp_to!=="")?convertToDate(exp_to):'';
-                        prevExp.create({
-                            expFrom: expFrom,
-                            expTo: expTo,
-                            vesselName:Vessel,
-                            Flag: postData.exp_flag[index]||'',
-                            dwt: postData.exp_DWT[index]||'',
-                            kwt: postData.exp_KWT[index]||'',
-                            engine: postData.exp_Engine[index]||'',
-                            typeofvessel: postData.exp_typeofvessel[index]||'',
-                            position: postData.exp_Position[index]||'',
-                            remarks: postData.exp_remarks[index]||'',
-                            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
-                        });
+                        var experienceID = postData.experienceID[index]||'';
+                        var company = postData.exp_company[index]||'';
+                        var rank = postData.exp_Position[index]||'';
+                        var vessel = postData.exp_vesselname[index]||'';
+                        var type = postData.exp_typeofvessel[index]||'';
+                        var DWT = postData.exp_DWT[index]||'';
+                        var KWT = postData.exp_KWT[index]||'';
+                        var Flag = postData.exp_flag[index]||'';
+                        var GRT = postData.exp_GRT[index]||'';
+                        var Engine = postData.exp_Engine[index]||'';
+                        
+                        var totalMMDD = await calculateTotalMonth(expFrom, expTo);
+                       
+                        var createdBy = 1;
+                        var total_MMDD = '';
+                        if(parseInt(totalMMDD.totalMonths)>0) {
+                            total_MMDD+=totalMMDD.totalMonths+' Months';
+                        }
+                        if(parseInt(totalMMDD.days)>0) {
+                            if(total_MMDD!=="") {
+                                total_MMDD+=' ';
+                            }
+                            total_MMDD+=totalMMDD.days+' Days';   
+                        }
+                        const checkingSeaService = await SeaService.findOne({ where: { candidateId: candidateId, company:company,rank:rank, vessel:vessel, from1: expFrom, to1: expTo  }, raw: true});
+                        if (checkingSeaService || experienceID!=='') {
+                            experienceID = checkingSeaService.id;
+                            await SeaService.update({
+                                company,
+                                rank,
+                                vessel,
+                                type,
+                                Flag,
+                                KWT,
+                                GRT,
+                                DWT,
+                                Engine,
+                                from1: expFrom,
+                                to1: expTo,
+                                total_MMDD,
+                                createdBy,
+                              }, {
+                                where: { id: experienceID },
+                            });
+
+                      
+                        }else {
+                            await SeaService.create({
+                                candidateId,
+                                company,
+                                rank,
+                                vessel,
+                                type,
+                                Flag,
+                                KWT,
+                                GRT,
+                                DWT,
+                                Engine,
+                                from1: expFrom,
+                                to1: expTo,
+                                total_MMDD,
+                                createdBy,
+                              });
+                    
+                        }                   
                     }
                 });
             }
-            res.status(201).json({ message: "Successfully Created New Candidate!", success: true});
+            res.status(201).json({ message: "Your Application Submited Successfully!", success: true});
            
         } else {
         res.status(404).json({ success: false, message: 'Contract not found' });
@@ -4379,6 +4472,33 @@ const submitApplicationForm = async (req, res) => {
         res.status(500).json({ error: err, message: "Internal Server Error", success: false });
     }
 };
+
+const calculateTotalMonth = async (fromDate, toDate) => {
+    if(fromDate!=="" && toDate!=="") {
+      var fromDate = new Date(fromDate);
+      var toDate = new Date(toDate);
+  
+      if (fromDate && toDate && fromDate <= toDate) {
+          var years = toDate.getFullYear() - fromDate.getFullYear();
+          var months = toDate.getMonth() - fromDate.getMonth();
+          var days = toDate.getDate() - fromDate.getDate();
+  
+          if (days < 0) {
+              months--;
+              var prevMonthDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0); // Last day of the previous month
+              days += prevMonthDate.getDate();
+          }
+  
+          if (months < 0) {
+              years--;
+              months += 12;
+          }
+  
+          var totalMonths = years * 12 + months;
+          return {totalMonths:totalMonths, days:days}
+      }
+    }
+  }
 
 const getPreviousExperience = async (req, res) => {
     try {

@@ -25,11 +25,27 @@ const SeaService = sequelize.define('SeaService', {
   },
   type: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   DWT: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
+  },
+  KWT: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  Flag: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  GRT: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  Engine: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
   },
   from1: {
     type: DataTypes.DATEONLY,
@@ -45,7 +61,7 @@ const SeaService = sequelize.define('SeaService', {
   },
   reason_for_sign_off: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   createdBy: {
     type: DataTypes.INTEGER,

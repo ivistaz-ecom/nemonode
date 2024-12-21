@@ -274,6 +274,11 @@
                     <td>OFF 02</td>
                   </tr>
                   <tr>
+                    <td>RPSL Number</td>
+                    <td>:</td>
+                    <td>RPSL-CHN-012</td>
+                  </tr>                  
+                  <tr>
                     <td>Revision No</td>
                     <td>:</td>
                     <td>00</td>
@@ -312,6 +317,10 @@
               </td>
               <td width="161">
                 <input type="date" name="avb_date" id="avb_date" />
+              </td>
+              <td rowspan="4" width="100" align="center" valign="top">
+                <img src="./no-images.png" id="profileImage" style="width: 150px; height: 150px; display: none;">
+                <input type="file" id="uploadFiles" style="width: 95px; margin-top: 10px;"  />
               </td>
             </tr>
             <tr style="height: 35px">
@@ -366,7 +375,7 @@
               <td style="height: 35px" width="123">
                 <p>Address</p>
               </td>
-              <td style="height: 35px" colspan="3" width="434">
+              <td style="height: 35px" colspan="4" width="434">
                 <input type="text" name="c_ad1" id="c_ad1" />
               </td>
             </tr>
@@ -384,7 +393,7 @@
               <td style="height: 35px" width="123">
                 <p>No. of Children</p>
               </td>
-              <td style="height: 35px" width="170">
+              <td style="height: 35px" width="170" colspan="2">
                 <input type="text" name="totalChild" id="totalChild" />
               </td>
             </tr>
@@ -411,7 +420,7 @@
               <td style="height: 35px" width="123">
                 <p>Weight</p>
               </td>
-              <td style="height: 35px" width="170">
+              <td style="height: 35px" width="170" colspan="2">
                 <input type="text" name="weight" id="weight" />
               </td>
             </tr>
@@ -426,7 +435,7 @@
               <td style="height: 35px" width="123">
                 <p>Boiler Suit size</p>
               </td>
-              <td style="height: 35px" width="170">
+              <td style="height: 35px" width="170" colspan="2">
                 <input type="text" name="boiler_suit_size" id="boiler_suit_size" />
               </td>
             </tr>
@@ -458,13 +467,13 @@
                 <p>Name</p>
               </td>
               <td width="229">
-                <input type="text" name="kin_name" />
+                <input type="text" name="kin_name" id="kin_name" />
               </td>
               <td width="66">
                 <p>Relation</p>
               </td>
               <td width="265">
-                <select class="form-control" name="kin_relation">
+                <select class="form-control" name="kin_relation" id="kin_relation">
                   <option value="FATHER">Father</option>
                   <option value="MOTHER">Mother</option>
                   <option value="SON">Son</option>
@@ -487,13 +496,13 @@
                 <p>Contact: Mobile / Tel</p>
               </td>
               <td width="229">
-                <input type="text" name="kin_contact_number" />
+                <input type="text" name="kin_contact_number" id="kin_contact_number" />
               </td>
               <td width="66">
                 <p>Email</p>
               </td>
               <td width="265">
-                <input type="text" name="kin_email" />
+                <input type="text" name="kin_email" id="kin_email" />
               </td>
             </tr>
             <tr>
@@ -501,7 +510,7 @@
                 <p>Address</p>
               </td>
               <td colspan="3" width="560">
-                <input type="text" name="kin_contact_address" />
+                <input type="text" name="kin_contact_address" id="kin_contact_address" />
               </td>
             </tr>
           </tbody>
@@ -536,521 +545,8 @@
         <p>
           <strong><u>PREVIOUS SEA EXPERIENCE (FOR LAST 10 YEARS)</u></strong>
         </p>
-        <table class="fulltable" cellspacing="0" cellpadding="5">
+        <table class="fulltable" cellspacing="0" cellpadding="5" id="preveperience">
           <tbody>
-            <tr>
-              <td width="61">
-                <p><strong>From</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>To</strong></p>
-              </td>
-              <td width="122">
-                <p><strong>Vessel Name</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Flag</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>DWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>KWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Engine</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Type of Vessel</strong></p>
-              </td>
-              <td width="62">
-                <p><strong>Rank</strong></p>
-              </td>
-              <td width="65">
-                <p><strong>Company</strong></p>
-              </td>
-            </tr>
-
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
-            <tr>
-              <td width="61">
-                <input type="date" name="exp_from" />
-              </td>
-              <td width="61">
-                <input type="date" name="exp_to" />
-              </td>
-              <td width="122">
-                <input type="text" name="exp_vesselname" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_flag" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_DWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_KWT" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_Engine" />
-              </td>
-              <td width="61">
-                <input type="text" name="exp_typeofvessel" />
-              </td>
-              <td width="62">
-                <input type="text" name="exp_Position" />
-              </td>
-              <td width="65">
-                <input type="text" name="exp_remarks" />
-              </td>
-            </tr>
           </tbody>
         </table>
         <p>&nbsp;</p>

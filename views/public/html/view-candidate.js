@@ -763,7 +763,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetchAndDisplayNkdData(candidateId);
     await fetchAndDisplaySeaService(candidateId);
     await fetchAndDisplayEvaluationData(candidateId);
-    await fetchpreviousexperience(candidateId);
     updateCandidatePhoto(candidateId);
     fetchAndDisplayFiles(candidateId);
     const hasUserManagement = decodedToken.userManagement;
@@ -891,15 +890,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           candidateData.nemo_source;
         document.getElementById("edit_candidate_active_details").value =
           candidateData.active_details === 1 ? "Active" : "Inactive";
-        const applicationDatas = candidateData?.applicationDatas || "";
-        if (applicationDatas !== "") {
+      
           $("#viewApplication")
             .show()
             .attr(
               "href",
               `${config.APIURL}views/public/html/viewapplicationform.html?id=${candidateId}`
             );
-        }
         // Assuming you have the candidateData object available
         const photoName = candidateData.photos;
         const resumeName = candidateData.resume;
@@ -916,6 +913,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           };
           $("#imageContainer img").show();
         } else {
+
           prevPhotoButton.value = "No photo available";
           prevPhotoButton.onclick = function () {
             alert("No photo available");
@@ -1674,10 +1672,14 @@ async function updateCandidatePhoto(id) {
   const imageContainer = document.getElementById("imageContainer");
   if (photoName !== "") {
     const image = imageContainer.querySelector("img");
-    image.src = "/photos/" + photoName;
+    image.src = "../files/photos/" + photoName;
     image.alt = "Description of the image"; // Add alt attribute if needed
+    $('#imageContainer img').show();
   } else {
-    $("#imageContainer").attr("style", "display:none !important");
+    const image = imageContainer.querySelector("img");
+    image.src = "no-images.png";
+    image.alt = "Description of the image"; // Add alt attribute if needed
+    $('#imageContainer img').show();
   }
 }
 
@@ -1938,51 +1940,6 @@ const updateURL = () => {
 // Call the function to set up the event listener
 updateURL();
 
-async function fetchpreviousexperience(candidateId) {
-  try {
-    const response = await axios.get(
-      `${config.APIURL}candidate/get-previous-experience/${candidateId}`,
-      {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const expDetails = response.data;
-    console.log(expDetails, "documentDetails");
-
-    const expTableBody = document.getElementById("experienceTableBody");
-    if (expTableBody.length > 0) {
-      expTableBody.innerHTML = ""; // Clear existing rows
-    }
-
-    let index = 1;
-    expDetails.forEach((exp) => {
-      // Check if search input matches any document details
-      const row = document.createElement("tr");
-      // Add data to each cell
-      row.innerHTML = `
-                    <td>${index++}</td>
-                    <td>${formatDateNew(exp.expFrom)}</td>
-                    <td>${formatDateNew(exp.expTo)}</td>
-                    <td>${exp.vesselName}</td>
-                    <td>${exp.Flag}</td>
-                    <td></td>                
-                    <td>${exp.dwt}</td>
-                    <td>${exp.kwt}</td>
-                    <td>${exp.engine}</td>
-                    <td>${exp.typeofvessel}</td>
-                    <td>${exp.position}</td>
-                    <td>${exp.remarks}</td>                    
-                `;
-      expTableBody.appendChild(row);
-    });
-  } catch (error) {
-    console.error("Error fetching exp details:", error);
-  }
-}
 
 async function sendApplicationMali() {
   const urlParams = new URLSearchParams(window.location.search);

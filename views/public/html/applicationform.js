@@ -1,9 +1,10 @@
 //const { JSON } = require("sequelize");
-
+const token = localStorage.getItem("token")||'';
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 document.addEventListener("DOMContentLoaded", async function () {
   const urlParams = new URLSearchParams(window.location.search);
   const candidateId = urlParams.get("id");
-  const token = localStorage.getItem("token")||'';
+ 
   if(token!=="") {
     $('#applicationLogin').hide();
     $('#applicationFrm').show();
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         await fetchAndDisplayDocumentDetails(candidateId, token);
       }
       await fetchAndDisplayCandidate(candidateId, token);
+      await fetchAndDisplaySeaService(candidateId);
       await getContract(candidateId, token)
     } else {
       console.error("Invalid URL. Missing memId parameter.");
@@ -103,12 +105,171 @@ async function fetchAndDisplayCandidate(candidateId, token) {
     );
 
     const candidateData = serverResponse.data.candidate;
-    displayCandidateDetails(candidateData);
+
+    const nkdResponse = await axios.get(
+      `${config.APIURL}candidate/get-nkd-details/${candidateId}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
+    const nkd = nkdResponse.data;
+
+    const response = await axios.get(
+      `${config.APIURL}candidate/get-previous-experience/${candidateId}`,
+      {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const expDetails = response.data;
+
+    displayCandidateDetails(candidateData, nkd, expDetails);
   } catch (error) {
     console.error("Error fetching candidate data:", error);
     // Handle error as needed
   }
 }
+
+async function fetchAndDisplaySeaService(candidateId) {
+  try {
+    let index = 1;
+    const response = await axios.get(
+      `${config.APIURL}candidate/get-sea-service/${candidateId}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
+
+    const seaServices = response.data;
+    const eperienceTableBody = document.getElementById("preveperience");
+    eperienceTableBody.innerHTML = `
+        <tr>
+              <td align="center" style="width:120px">
+                <strong>From</strong>
+              </td>
+              <td align="center" style="width:120px">
+                <strong>To</strong>
+              </td>
+              <td width="122" align="center">
+                <p><strong>Vessel Name</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>Flag</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>KWT</strong></p>
+              </td>              
+              <td width="61" align="center">
+                <p><strong>GRT</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>DWT</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>Engine</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>Type of Vessel</strong></p>
+              </td>
+              <td width="62" align="center">
+                <p><strong>Rank</strong></p>
+              </td>
+              <td width="100" align="center">
+                <p><strong>Company</strong></p>
+              </td>
+            </tr>`;
+    $.each(new Array(10),function(n){
+      const row = document.createElement("tr");
+      const seaExp =(seaServices.length>0)?(seaServices[n] || ''):'';
+      console.log(seaExp, 'seaExpseaExpseaExp')
+      var exp_from = '';
+      var exp_to = '';
+      var exp_vesselname = '';
+      var exp_flag = '';
+      var exp_KWT = '';
+      var exp_GRT = '';
+      var exp_DWT = '';
+      var exp_Engine = '';
+      var exp_typeofvessel = '';
+      var exp_Position = '';
+      var exp_company = '';
+      var experienceID = '';
+
+       if(seaExp!=="") {
+        exp_from = (seaExp.from1!=="" && seaExp.from1!==null && seaExp.from1!=='1970-01-01')?seaExp.from1:'';
+        exp_to = (seaExp.to1!=="" && seaExp.to1!==null && seaExp.from1!=='1970-01-01')?seaExp.to1:'';
+        exp_vesselname = seaExp.vessel;
+        exp_flag = seaExp.Flag;
+        exp_KWT = seaExp.KWT;
+        exp_GRT = seaExp.GRT;
+        exp_DWT = seaExp.DWT;
+        exp_Engine = seaExp.Engine;
+        exp_typeofvessel = seaExp.type;
+        exp_Position = seaExp.rank;
+        exp_company = seaExp.company;
+        experienceID = seaExp.id;
+      }
+      if(formType==='view') {
+        if(exp_from!=="") {
+          exp_from = new Date(exp_from);
+          exp_from = addFrontZero(exp_from.getDate())+'-'+month[exp_from.getMonth()]+'-'+exp_from.getFullYear()
+        }
+        if(exp_to!=="") {
+          exp_to = new Date(exp_to);
+          exp_to = addFrontZero(exp_to.getDate())+'-'+month[exp_to.getMonth()]+'-'+exp_to.getFullYear()
+        }
+      }
+
+      row.innerHTML = `
+      <td style="width:120px">  
+      <div style="min-height: 20px !important;">     
+        ${((formType==='edit') )?`<input type="date" name="exp_from" value="${exp_from}" />` :`${exp_from}`}
+        </div>
+      </td>
+      <td>
+       <div style="width:120px">
+       ${((formType==='edit') )?`<input type="date" name="exp_to" value="${exp_to}" />` :`${exp_to}`}        
+      </td>
+      <td width="122">
+        ${((formType==='edit') )?`<input type="text" name="exp_vesselname" value="${exp_vesselname}" />` :`${exp_vesselname}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_flag" value="${exp_flag}" />` :`${exp_flag}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_KWT" value="${exp_KWT}" />` :`${exp_KWT}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_GRT" value="${exp_GRT}" />` :`${exp_GRT}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_DWT" value="${exp_DWT}" />` :`${exp_DWT}`}
+      </td>
+      
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_Engine" value="${exp_Engine}" />` :`${exp_Engine}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_typeofvessel" value="${exp_typeofvessel}" />` :`${exp_typeofvessel}`}
+      </td>
+      <td width="62">
+        ${((formType==='edit') )?`<input type="text" name="exp_Position" value="${exp_Position}" />` :`${exp_Position}`}        
+      </td>
+      <td width="100">
+        ${((formType==='edit') )?`<input type="text" name="exp_company" value="${exp_company}" />` :`${exp_company}`}        
+        <input type="hidden" name="experienceID" value="${experienceID}" />
+      </td>`;
+      eperienceTableBody.appendChild(row);
+    });
+    
+  } catch (error) {
+    console.error("Error fetching and displaying sea service records:", error);
+  }
+}
+
 function formatDate(dateString) {
   const date = new Date(dateString);
   const formattedDate = date.toISOString().split("T")[0];
@@ -123,22 +284,17 @@ function addFrontZero(value) {
     }
   }
 }
-async function displayCandidateDetails(candidateData) {
+async function displayCandidateDetails(candidateData, nkd, expDetails) {
   try {
+   
     const userName = localStorage.getItem("username");
-    const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    if(formType==='view' && candidateData.applicationDatas!=="") {
+
+    if(formType==='view') {
       
-      candidateData = JSON.parse(candidateData.applicationDatas);
-      postdate = new Date(candidateData.postdate);
+     // candidateData = JSON.parse(candidateData.applicationDatas);
+     var postdate =  new Date(candidateData.cr_date);
       $('#totalChild').val(candidateData.totalChild);
-      $('#nearest_airport').val(candidateData.nearest_airport);
-      $('#kin_name').val(candidateData.kin_name);
-      $('#kin_relation').val(candidateData.kin_relation);
-      $('#kin_contact_number').val(candidateData.kin_contact_number);
-      $('#kin_email').val(candidateData.kin_email);
-      $('#kin_contact_address').val(candidateData.kin_contact_address);
-      $('#candidate_c_rank').val(candidateData.c_rank)
+      $('#nearest_airport').val(candidateData.nearestAirport);
 
       if(candidateData?.avb_date!=="") {
         avb_date = new Date(candidateData?.avb_date);
@@ -153,23 +309,37 @@ async function displayCandidateDetails(candidateData) {
         { key: "seamanbook", name: "SEAMANS BOOK" },
         { key: "seamanid", name: "SEAFARER ID" },
         { key: "coc", name: "COC" },
-        { key: "dceoil", name: "DCE OIL" },
-        { key: "dcegas", name: "DCE GAS" },
-        { key: "dcechem", name: "DCE CHEM" },
+      { key:'tankerany', name:'Tanker If any'},
+      { key: "aff_fpff", name: "AFF / FPFF" },
+      { key: "pst_pscrb", name: "PST / PSCRB" },
+      { key: "medicare", name: "MEDICARE / MFA / EFA" },
+      { key: "pssr", name: "PSSR" },
+      { key: "stsdsd", name: "STSDSD / SSO" },
       ];
       let inputType = "text"
       if(formType==='edit') {
         inputType = "date";
       }
       documentType.map((doc) => {
-        let docnumbers = candidateData[`document_${doc.key}_numbers`] || "";
-        let issuedate = candidateData[`document_${doc.key}_issuedate`] || "";
+        var checkingArray = searchArray(candidateData.cDocuments, doc.name)
+        if(doc.key==='tankerany') {
+          checkingArray = searchArray(candidateData.cDocuments, 'DCE OIL');
+          if(checkingArray.length===0) {
+            checkingArray = searchArray(candidateData.cDocuments, 'DCE GAS');
+          }else  if(checkingArray.length===0) {
+            checkingArray = searchArray(candidateData.cDocuments, 'DCE CHEM');
+          }
+        }
+        let docnumbers = (checkingArray.length>0)?checkingArray[0].document_number : "";
+        let documentName = (checkingArray.length>0)?checkingArray[0].document : "";
+
+        let issuedate = (checkingArray.length>0)?checkingArray[0].issue_date : "";
         if(issuedate!=="") {
           issuedate = new Date(issuedate);
           issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
         }
-        let issueplace = candidateData[`document_${doc.key}_issueplace`] || "";
-        let validuntill = candidateData[`document_${doc.key}_validuntill`] || "";
+        let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
+        let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
         if(validuntill!=="") {
           validuntill = new Date(validuntill);
           validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
@@ -177,149 +347,22 @@ async function displayCandidateDetails(candidateData) {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>
-              <p>${doc.name}</p>
+              <p>${doc.key==='tankerany'?documentName:doc.name}</p>
             </td>
             <td width="151">
-              <input type="text" name="document_${doc.key}_numbers" value="${docnumbers}" />
+              ${docnumbers}
             </td>
             <td width="50">
-              <input type="${inputType}" name="document_${doc.key}_issuedate" value="${issuedate}"/>
+              ${issuedate}
             </td>
             <td width="198">
-              <input type="text" name="document_${doc.key}_issueplace" value="${issueplace}"/>
+              ${issueplace}
             </td>
             <td width="50">
-              <input type="${inputType}" name="document_${doc.key}_validuntill" value="${validuntill}"/>
+              ${validuntill}
             </td>`;
-        documentTableBody.appendChild(row);
-      });
-
-      
-      if(candidateData.exp_from.length>0) {
-        const eperienceTableBody = document.getElementById("preveperience");
-        eperienceTableBody.innerHTML = `
-        <tr>
-              <td width="100">
-                <p><strong>From</strong></p>
-              </td>
-              <td width="100">
-                <p><strong>To</strong></p>
-              </td>
-              <td width="100">
-                <p><strong>Duration</strong></p>
-              </td>
-              
-              <td width="122">
-                <p><strong>Vessel Name</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Flag</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>DWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>KWT</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Engine</strong></p>
-              </td>
-              <td width="61">
-                <p><strong>Type of Vessel</strong></p>
-              </td>
-              <td width="62">
-                <p><strong>Rank</strong></p>
-              </td>
-              <td width="65">
-                <p><strong>Company</strong></p>
-              </td>
-            </tr>`;
-        candidateData.exp_from.map((doc, index) => {
-          const row = document.createElement("tr");
-          let exp_to = candidateData.exp_to[index]||'';
-          let totalMonth = 0;
-          let totalDays = 0;
-          if(doc!=="" && exp_to!=="") {
-            let resultMonth =  calculateTotalMonth(doc, exp_to);
-            totalMonth = parseInt(resultMonth.totalMonths);
-            totalDays = parseInt(resultMonth.days);
-          }
-          let displyExp = '';
-          if(totalDays>=30) {
-            totalMonth =  parseInt(totalMonth) + 1;
-            totalDays = parseInt(totalDays) - 30;
-          }
-          if(totalDays>0 || totalDays>0) {
-            let workNautilus = '';
-            if(totalMonth>0) {
-              workNautilus+=' '+totalMonth+' Month';
-            }
-            if(totalDays>0) {
-              workNautilus+=' '+totalDays+' days';
-            }
-            displyExp = workNautilus;;
-          }else {
-            displyExp = '';
-          }
-
-
-          if(doc!=="") {
-            doc = new Date(doc);
-            doc = addFrontZero(doc.getDate())+'-'+month[doc.getMonth()]+'-'+doc.getFullYear()
-          }
-
-          if(exp_to!=="") {
-            exp_to = new Date(exp_to);
-            exp_to = addFrontZero(exp_to.getDate())+'-'+month[exp_to.getMonth()]+'-'+exp_to.getFullYear()
-          }
-
-          
-
-          let exp_vesselname = candidateData.exp_vesselname[index]||'&nbsp;';
-          let exp_flag = candidateData.exp_flag[index]||'';
-          let exp_DWT = candidateData.exp_DWT[index]||'';
-          let exp_KWT = candidateData.exp_KWT[index]||'';
-          let exp_Engine = candidateData.exp_Engine[index]||'';
-          let exp_typeofvessel = candidateData.exp_typeofvessel[index]||'';
-          let exp_Position = candidateData.exp_Position[index]||'';
-          let exp_remarks = candidateData.exp_remarks[index]||'';
-          row.innerHTML = `
-          <td>
-                ${doc}
-              </td>
-              <td>
-                ${exp_to}
-              </td>
-              <td>
-                ${displyExp}
-              </td>
-              <td width="122">
-                ${exp_vesselname}
-              </td>
-              <td width="61">
-                ${exp_flag}
-              </td>
-              <td width="61">
-                ${exp_DWT}
-              </td>
-              <td width="61">
-                ${exp_KWT}
-              </td>
-              <td width="61">
-                ${exp_Engine}
-              </td>
-              <td width="61">
-                ${exp_typeofvessel}
-              </td>
-              <td width="62">
-                ${exp_Position}
-              </td>
-              <td width="65">
-                ${exp_remarks}
-              </td>`;
-            eperienceTableBody.appendChild(row);
+            documentTableBody1.appendChild(row);
         });
-      }
     }else {
       postdate = new Date();
     }
@@ -328,6 +371,9 @@ async function displayCandidateDetails(candidateData) {
     const createDate = addFrontZero(postdate.getDate())+'-'+month[postdate.getMonth()]+'-'+postdate.getFullYear()
     $('#postdate').html(createDate);
 
+    $("#candidate_c_rank").val(candidateData.c_rank);
+    var avb_date = candidateData.avb_date!==null && candidateData.avb_date!=="" && candidateData.avb_date!=='11970-01-01'?candidateData.avb_date:'';
+    $('#avb_date').val(avb_date);
     $("#lname").val(candidateData.lname);
     $("#fname").val(candidateData.fname);
     const dob = candidateData?.dob ? formatDate(candidateData.dob) : "";
@@ -344,10 +390,37 @@ async function displayCandidateDetails(candidateData) {
     let mobile_code1 = '+'+(candidateData.mobile_code1.replace('+',''));
     $('#countryCodeSelect2').val(mobile_code1)
     $("#c_mobi1").val(candidateData.c_mobi1);
+    $('#nearest_airport').val(candidateData.nearestAirport);
+    $('#totalChild').val(candidateData.totalChild);
+    var photos_ = candidateData.photos;
+    console.log(candidateData, 'candidateData.photos')
+    if(photos_!=="" && photos_!==null) {
+      $('#profileImage').attr('src', "../files/photos/" +photos_);
+      $('#no-image').hide();
+    }else {
+      $('#profileImage').hide()
+      $('#no-image').show();
+    }
+
+
+    if(nkd.length>0) {
+      var nkdF = nkd[0];
+      $('#kin_name').val(nkdF.kin_name);
+      $('#kin_relation').val(nkdF.kin_relation);
+      $('#kin_contact_number').val(nkdF.kin_contact_number);
+      $('#kin_email').val(nkdF.kin_email);
+      $('#kin_contact_address').val(nkdF.kin_contact_address);
+    }
+
   } catch (error) {
     console.error("Error displaying candidate details:", error);
   }
 }
+
+function searchArray(array, searchTerm) {
+  return array.filter(obj => obj.document === searchTerm);;
+}
+
 async function getContract(candidateId, token) {
 const response = await axios.get(`${config.APIURL}candidate/get-contract-details/${candidateId}`, {
   headers: {
@@ -504,9 +577,12 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
       { key: "seamanbook", name: "SEAMANS BOOK" },
       { key: "seamanid", name: "SEAFARER ID" },
       { key: "coc", name: "COC" },
-      { key: "dceoil", name: "DCE OIL" },
-      { key: "dcegas", name: "DCE GAS" },
-      { key: "dcechem", name: "DCE CHEM" },
+      { key:'tankerany', name:'Tanker If any'},
+      { key: "aff_fpff", name: "AFF / FPFF" },
+      { key: "pst_pscrb", name: "PST / PSCRB" },
+      { key: "medicare", name: "MEDICARE / MFA / EFA" },
+      { key: "pssr", name: "PSSR" },
+      { key: "stsdsd", name: "STSDSD / SSO" },
     ];
     let inputType = "text"
     if(formType==='edit') {
@@ -515,13 +591,24 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
     documentType.map((doc) => {
       let chekcingDoct = exitpassport[doc.name] || "";
       const row = document.createElement("tr");
-      
+      var docName = '';
+      if(doc.key==='tankerany') {
+        docName = `<select name="document_${doc.key}_name" />
+          <option value="">----${doc.name}----</option>
+          <option value="DCE OIL">DCE OIL</option>
+          <option value="DCE GAS">DCE GAS</option>
+          <option value="DCE CHEM">DCE CHEM</option>
+        </select>
+        `
+      }else {
+        docName = `${doc.name}`
+      }
       row.innerHTML = `
            <td>
-                <p>${doc.name}</p>
+                <p>${docName}</p>
               </td>
               <td width="151">
-                <input type="text" name="document_${doc.key}_numbers" value="${
+                <input type="${inputType}" name="document_${doc.key}_numbers" value="${
         chekcingDoct !== "" ? chekcingDoct.document_number : ""
       }" />
               </td>
@@ -554,6 +641,23 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
   }
 }
 
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+          $('#profileImage').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#uploadFiles").change(function(){
+  readURL(this);
+});
+
 document
   .getElementById("application-form")
   .addEventListener("submit", async (e) => {
@@ -573,7 +677,28 @@ document
     candidate_details['postdate'] = new Date();
 
     try {     
-      const token = localStorage.getItem("token");
+
+      const newPhotoFile = document.getElementById("uploadFiles").files[0];
+      // Check if there's a new photo to upload
+      if (newPhotoFile) {
+        const photoFormData = new FormData();
+        photoFormData.append("file", newPhotoFile);
+        const photoUploadResponse = await axios.post(
+            "/upload1",
+            photoFormData,
+            {
+              headers: {
+                Authorization: token,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+        console.log(photoUploadResponse);
+        uploadedPhotoName = photoUploadResponse.data.filename; // Use the returned filename
+        candidate_details['photos'] = uploadedPhotoName;
+        console.log("Photo uploaded successfully");
+        
+      }
       const urlParams1 = new URLSearchParams(window.location.search);
       const candidateId1 = urlParams1.get("id");
       await axios.post(

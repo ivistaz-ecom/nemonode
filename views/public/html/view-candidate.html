@@ -331,27 +331,15 @@
                           >
                             <div>
                               <!-- No need for the hidden input here -->
-                              <div
-                                id="imageContainer"
-                                class="d-flex justify-content-center"
-                              >
-                                <img
-                                  src=""
-                                  alt=" &nbsp;No Photo present for the candidate"
-                                  class="border border-primary border-5"
-                                  style="
-                                    width: 100px;
-                                    height: auto;
-                                    display: none;
-                                  "
-                                />
-                              </div>
+                             
                             </div>
 
                             <!-- First set of input fields -->
                             <div class="p-2">
                               <div class="row">
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-10 mb-1">
+                              <div class="row">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_fname"
                                     >First Name</label
                                   >
@@ -363,7 +351,7 @@
                                     aria-describedby="firstNameHelp"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_lname"
                                     >Last Name</label
                                   >
@@ -374,7 +362,7 @@
                                     aria-describedby="lastNameHelp"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_c_rank"
                                     >Rank</label
                                   >
@@ -384,7 +372,7 @@
                                     id="edit_candidate_c_rank"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_avb_date"
                                     >Availability</label
                                   >
@@ -395,7 +383,11 @@
                                     aria-describedby="availabilityHelp"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                               
+                               
+                              </div>
+                              <div class="row">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_nationality"
                                     >Nationality</label
                                   >
@@ -405,7 +397,7 @@
                                     id="edit_candidate_nationality"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_company_status"
                                     >Marital Status</label
                                   >
@@ -415,13 +407,7 @@
                                     id="edit_company_status"
                                   />
                                 </div>
-                              </div>
-                            </div>
-
-                            <!-- Second set of input fields -->
-                            <div class="p-2">
-                              <div class="row">
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_dob"
                                     >Date of Birth</label
                                   >
@@ -433,7 +419,7 @@
                                     aria-describedby="dateOfBirthHelp"
                                   />
                                 </div>
-                                <div class="col-md-2 mb-1">
+                                <div class="col-md-3 mb-1">
                                   <label for="edit_candidate_birth_place"
                                     >Birth Place</label
                                   >
@@ -444,6 +430,28 @@
                                     aria-describedby="birthPlaceHelp"
                                   />
                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-md-2 mb-1">
+                              <div
+                              id="imageContainer"
+                              class="d-flex justify-content-center"
+                            >
+                              <img
+                                src="no-images.png"
+                                alt=" &nbsp;No Photo present for the candidate"
+                                class="border border-primary border-5"
+                                style=" width: 125px; height: auto; display: none;"
+                              />
+                            </div>
+                            </div>
+
+                            </div>
+                            </div>
+
+                            <!-- Third set of input fields -->
+                            <div class="p-2">
+                              <div class="row">
                                 <div class="col-md-2 mb-1">
                                   <label for="edit_candidate_work_nautilus"
                                     >Worked with us</label
@@ -482,12 +490,6 @@
                                     id="edit_candidate_zone"
                                   />
                                 </div>
-                              </div>
-                            </div>
-
-                            <!-- Third set of input fields -->
-                            <div class="p-2">
-                              <div class="row">
                                 <div class="col-md-2 mb-1">
                                   <label for="edit_candidate_grade"
                                     >Grade</label
@@ -509,6 +511,10 @@
                                     aria-describedby="fieldX_2_Help"
                                   />
                                 </div>
+                              </div>
+                            </div>
+                            <div class="p-2">
+                              <div class="row">
                                 <div class="col-md-2 mb-1">
                                   <label for="edit_candidate_safety_shoe_size"
                                     >Safety Shoe Size</label
@@ -552,12 +558,6 @@
                                     id="edit_candidate_I_country"
                                   />
                                 </div>
-                              </div>
-                            </div>
-
-                            <!-- Fourth set of input fields -->
-                            <div class="p-2">
-                              <div class="row">
                                 <div class="col-md-2 mb-1">
                                   <label for="edit_candidate_indos_number"
                                     >INDOS Number</label
@@ -579,6 +579,12 @@
                                     id="edit_candidate_company_status"
                                   />
                                 </div>
+                              </div>
+                            </div>
+
+                            <!-- Fourth set of input fields -->
+                            <div class="p-2">
+                              <div class="row">
                                 <div class="col-md-2 mb-1">
                                   <label for="edit_candidate_group"
                                     >Group</label
@@ -645,19 +651,6 @@
                                     id="totalChild"
                                     aria-describedby="fieldX_2_Help"
                                   />
-                                </div>
-                                <div class="col-md-6 mb-1 mt-2">
-                                  <label for="prevPhoto"
-                                    >Existing Photo (click to view)</label
-                                  >
-                                  <input
-                                    type="button"
-                                    class="form-control small-font btn btn-light border"
-                                    id="prevPhoto"
-                                    aria-describedby="fieldX_2_Help"
-                                  />
-                                  <!-- <label for="edit_candidate_photo mt-2">Upload new Photo</label>
-                                                <input type="file" class="form-control small-font" id="edit_candidate_photo"  aria-describedby="fieldX_2_Help"  /> -->
                                 </div>
                                 <div class="col-md-6 mb-1 mt-2">
                                   <label for="prevRes"
@@ -856,43 +849,10 @@
                                   />
                                 </div>
                               </div>
-                              <div class="content-wrapper mt-5 mb-5 rounded-3">
-                                <div class="w-100">
-                                  <div class="">
-                                    <h4
-                                      class="text-center mb-0 rounded-0 shadow-none border border-dark card p-2"
-                                    >
-                                      PREVIOUS SEA EXPERIENCE
-                                    </h4>
-
-                                    <table
-                                      class="table table table-striped table-bordered"
-                                      style="font-size: 12px"
-                                    >
-                                      <thead>
-                                        <tr>
-                                          <th scope="col">S.no</th>
-                                          <th scope="col">From</th>
-                                          <th scope="col">To</th>
-                                          <th scope="col">Vessel Name</th>
-                                          <th scope="col">Flag</th>
-                                          <th scope="col">GRT</th>
-                                          <th scope="col">DWT</th>
-                                          <th scope="col">KWT</th>
-                                          <th scope="col">Engine</th>
-                                          <th scope="col">Type of Vessel</th>
-                                          <th scope="col">Position</th>
-                                          <th scope="col">Company</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody id="experienceTableBody"></tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
 
                               <div class="row mt-5">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
+                                  <div class="float-end">
                                   <button
                                     class="btn btn-primary"
                                     type="button"
@@ -901,6 +861,7 @@
                                   >
                                     Send Application
                                   </button>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="input-group">
@@ -919,12 +880,11 @@
                                     ></span>
                                   </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                   <a
                                     href="#"
                                     id="viewApplication"
                                     target="_blank"
-                                    style="display: none"
                                   >
                                     <button
                                       class="btn btn-primary"
