@@ -163,7 +163,7 @@ app.post('/search', async (req, res) => {
         });
 
         if (candidateResults.length > 0) {
-            console.log('Search Results:', candidateResults);
+         //   console.log('Search Results:', candidateResults);
             res.json({ success: true, candidateResults });
         } else {
             console.log('No results found');
