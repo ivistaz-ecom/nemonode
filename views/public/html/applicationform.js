@@ -608,7 +608,7 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
                 <p>${docName}</p>
               </td>
               <td width="151">
-                <input type="${inputType}" name="document_${doc.key}_numbers" value="${
+                <input type="text" name="document_${doc.key}_numbers" value="${
         chekcingDoct !== "" ? chekcingDoct.document_number : ""
       }" />
               </td>
