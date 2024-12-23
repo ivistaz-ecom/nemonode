@@ -914,10 +914,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           $("#imageContainer img").show();
         } else {
 
-          prevPhotoButton.value = "No photo available";
+          /* prevPhotoButton.value = "No photo available";
           prevPhotoButton.onclick = function () {
             alert("No photo available");
-          };
+          }; */
         }
 
         if (resumeName) {
