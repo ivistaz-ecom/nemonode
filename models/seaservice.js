@@ -13,15 +13,15 @@ const SeaService = sequelize.define('SeaService', {
   },
   company: {
     type: DataTypes.STRING(150),
-    allowNull: false,
+    allowNull: true,
   },
   rank: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   vessel: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   type: {
     type: DataTypes.STRING(100),
@@ -49,15 +49,15 @@ const SeaService = sequelize.define('SeaService', {
   },
   from1: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
   },
   to1: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
   },
   total_MMDD: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   reason_for_sign_off: {
     type: DataTypes.STRING(100),
@@ -65,7 +65,7 @@ const SeaService = sequelize.define('SeaService', {
   },
   createdBy: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   tableName: 'sea_service',
