@@ -903,7 +903,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const prevPhotoButton = document.getElementById("prevPhoto");
         const prevResButton = document.getElementById("prevRes");
-        if (photoName) {
+        if (photoName && photoName!=null) {
           prevPhotoButton.value = photoName;
           prevPhotoButton.onclick = function () {
             window.open(
