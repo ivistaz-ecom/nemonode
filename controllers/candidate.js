@@ -4385,12 +4385,13 @@ const submitApplicationForm = async (req, res) => {
                 return '';
             });
 
-            const expVessel = postData.exp_vesselname||[];
-            if(expVessel.length>0) {
+            const exp_from = postData.exp_from||[];
+            if(exp_from.length>0) {
                
-                await expVessel.map(async (Vessel, index) => {
-                    if(Vessel!=="") {
+                await exp_from.map(async (item, index) => {
+                    if(item!=="") {
                         let exp_from = postData.exp_from[index]||'';
+
                         let expFrom = (exp_from!=="")?convertToDate(exp_from):'';
                         let exp_to = postData.exp_to[index]||'';
                         let expTo = (exp_to!=="")?convertToDate(exp_to):'';
