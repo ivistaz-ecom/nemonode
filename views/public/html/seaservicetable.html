@@ -974,7 +974,7 @@ async function fetchAndDisplayCompanies() {
                     headers: { "Authorization": token }
                 });
                 const vessels = vesselResponse.data.vessels;
-                const vesselSelect = document.getElementById("vessel");
+                const vesselSelect = document.getElementById("type");
 
                 vesselSelect.innerHTML = '<option value="" disabled selected>-- Select Vessel --</option>';
 
@@ -996,7 +996,7 @@ async function fetchAndDisplayCompanies() {
                     headers: { "Authorization": token }
                 });
                 const vesselTypes = vesselTypeResponse.data.vessels;
-                const typeSelect = document.getElementById("type");
+                const typeSelect = document.getElementById("vessel");
 
                 typeSelect.innerHTML = '<option value="" disabled selected>-- Select Type --</option>';
 
