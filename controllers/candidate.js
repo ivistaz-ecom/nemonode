@@ -4275,6 +4275,7 @@ const submitApplicationForm = async (req, res) => {
             
              const avb_date = convertToDate(postData.avb_date);
             const dob = convertToDate(postData.dob);
+            var mobile_code1 = postData?.mobile_code1 || ''
             const candidateDetails = {
                 fname:postData.fname,
                 lname:postData.lname,
@@ -4288,7 +4289,7 @@ const submitApplicationForm = async (req, res) => {
                 totalChild:postData.totalChild,
                 c_ad1:postData.c_ad1,                
                 nearestAirport:postData.nearest_airport,
-                mobile_code1:(postData.mobile_code1!=="")?postData.mobile_code1.replace('+',''):'+91',
+                mobile_code1:(mobile_code1!=="")?mobile_code1.replace('+',''):'+91',
                 c_mobi1:postData.c_mobi1,
                 weight:postData.weight,
                 height:postData.height,
