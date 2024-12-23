@@ -659,7 +659,7 @@
                                 <div class="col-md-6">
                                     <label for="type" class="form-label">Type</label>
                                     <select class="form-control" id="type" required>
-                                        <option value="" disabled selected>-- Select Type --</option>
+                                        <option value="" disabled selected>-- Select Vessel Type --</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -976,7 +976,7 @@ async function fetchAndDisplayCompanies() {
                 const vessels = vesselResponse.data.vessels;
                 const vesselSelect = document.getElementById("type");
 
-                vesselSelect.innerHTML = '<option value="" disabled selected>-- Select Vessel --</option>';
+                vesselSelect.innerHTML = '<option value="" disabled selected>-- Select Vessel Type --</option>';
 
                 vessels.forEach((vessel) => {
                     const option = document.createElement("option");
@@ -998,7 +998,7 @@ async function fetchAndDisplayCompanies() {
                 const vesselTypes = vesselTypeResponse.data.vessels;
                 const typeSelect = document.getElementById("vessel");
 
-                typeSelect.innerHTML = '<option value="" disabled selected>-- Select Type --</option>';
+                typeSelect.innerHTML = '<option value="" disabled selected>-- Select Veseel --</option>';
 
                 vesselTypes.forEach((vesselType) => {
                     const option = document.createElement("option");
