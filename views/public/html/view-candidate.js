@@ -903,7 +903,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const prevPhotoButton = document.getElementById("prevPhoto");
         const prevResButton = document.getElementById("prevRes");
-        if (photoName && photoName!=null) {
+       /*  if (photoName) {
           prevPhotoButton.value = photoName;
           prevPhotoButton.onclick = function () {
             window.open(
@@ -914,11 +914,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           $("#imageContainer img").show();
         } else {
 
-          /* prevPhotoButton.value = "No photo available";
+          prevPhotoButton.value = "No photo available";
           prevPhotoButton.onclick = function () {
             alert("No photo available");
-          }; */
-        }
+          };
+        } */
 
         if (resumeName) {
           prevResButton.value = resumeName;
