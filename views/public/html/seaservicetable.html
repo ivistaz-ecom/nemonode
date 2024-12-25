@@ -1019,6 +1019,7 @@
             $('#othercompany, #otherrank, #othervessel, #othervesseltype').hide();
             $('#seaServiceHeading button').trigger('click');
             $(".select-dropdown").select2();
+            $('#editID').val('');
             fetchAndDisplaySeaService(id);
           }else {
             Swal.fire({
