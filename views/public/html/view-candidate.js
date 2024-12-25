@@ -1483,15 +1483,19 @@ async function fetchAndDisplaySeaService(candidateId) {
         const seaServiceRow = document.createElement("tr");
         seaServiceRow.innerHTML = `
                 <td>${index++}</td>
-                    <td>${seaService.company}</td>
-                    <td>${seaService.rank}</td>
-                    <td>${seaService.vessel}</td>
-                    <td>${seaService.type}</td>
-                    <td>${seaService.DWT}</td>
                     <td>${formatDateNew(seaService.from1)}</td>
                     <td>${formatDateNew(seaService.to1)}</td>
-                    <td>${seaService.total_MMDD}</td>
-                    <td>${seaService.reason_for_sign_off}</td>
+                  <td>${(seaService.company!==null)?seaService.company:''}</td>
+                  <td>${(seaService.rank!==null)?seaService.rank:''}</td>
+                  <td>${(seaService.vessel!==null)?seaService.vessel:''}</td>
+                  <td>${(seaService.Flag!==null)?seaService.Flag:''}</td>
+                  <td>${(seaService.KWT!==null)?seaService.KWT:''}</td>
+                  <td>${(seaService.GRT!==null)?seaService.GRT:''}</td>
+                  <td>${(seaService.DWT!==null)?seaService.DWT:''}</td>
+                  <td>${(seaService.Engine!==null)?seaService.Engine:''}</td>
+                  <td>${(seaService.type!==null)?seaService.type:''}</td>
+                  <td>${(seaService.total_MMDD!==null)?seaService.total_MMDD:''}</td>
+                  <td>${(seaService.reason_for_sign_off!==null)?seaService.reason_for_sign_off:''}</td>
                     <td>
                       
                         <button class="btn border-0 m-0 p-0" onclick="editSeaService('${candidateId}','${
@@ -1520,23 +1524,54 @@ async function fetchAndDisplaySeaService(candidateId) {
 }
 
 async function deleteSeaService(id) {
-  if (confirm("Are you sure you want to delete this sea service record?")) {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "Are you sure you want to delete this sea service record?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    preConfirm: () => {
+      Swal.showLoading();
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // Resolve or reject based on your condition
+            resolve("Success");
+            // Or use reject("Error message") for failure
+        }, 2000);
+    }).catch(error => {
+        Swal.showValidationMessage(`Error: ${error}`);
+    });
+  }
+}).then(async(result) => {
+  if (result.value) {
     try {
-      await axios.delete(`${config.APIURL}candidate/delete-sea-service/${id}`, {
-        headers: { Authorization: token },
+    await axios.delete(
+      `${config.APIURL}candidate/delete-sea-service/${id}`,
+      { headers: { Authorization: token } }
+    );
+    const urlParams = new URLSearchParams(window.location.search);
+    Swal.fire({
+        title: 'Done!',
+        text: 'Deleted successful.',
+        icon: 'success',
       });
+    // Get the candidateId from the URL parameter
+    const candidateId = urlParams.get("id");
       // Remove the corresponding row from the table
-      const seaServiceRow = document.getElementById(`seaServiceRow-${id}`);
-      seaServiceRow.remove();
+    fetchAndDisplaySeaService(candidateId)
     } catch (error) {
       console.error("Error deleting sea service record:", error);
     }
   }
+})
 }
 
 function editSeaService(candidateId, id) {
   // Open seaserviceedit.html in a new tab with the ID parameter
-  window.open(`seaserviceedit.html?memId=${candidateId}&id=${id}`, "_blank");
+  window.open(`seaservicetable.html?memId=${candidateId}&id=${id}`, "_blank");
 }
 
 async function fetchAndDisplayDiscussions(candidateId) {

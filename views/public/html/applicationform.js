@@ -143,6 +143,13 @@ async function fetchAndDisplaySeaService(candidateId) {
       }
     );
 
+    var durationHead = "";
+    if(formType==='view') {
+      durationHead = `<td align="center" style="width:120px">
+                <strong>Duration</strong>
+              </td>`;
+    }
+
     const seaServices = response.data;
     const eperienceTableBody = document.getElementById("preveperience");
     eperienceTableBody.innerHTML = `
@@ -153,6 +160,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               <td align="center" style="width:120px">
                 <strong>To</strong>
               </td>
+              ${durationHead}
               <td width="122" align="center">
                 <p><strong>Vessel Name</strong></p>
               </td>
@@ -197,6 +205,7 @@ async function fetchAndDisplaySeaService(candidateId) {
       var exp_Position = '';
       var exp_company = '';
       var experienceID = '';
+      var total_MMDD =  '';
 
        if(seaExp!=="") {
         exp_from = (seaExp.from1!=="" && seaExp.from1!==null && seaExp.from1!=='1970-01-01')?seaExp.from1:'';
@@ -211,7 +220,10 @@ async function fetchAndDisplaySeaService(candidateId) {
         exp_Position = seaExp.rank;
         exp_company = seaExp.company;
         experienceID = seaExp.id;
+        total_MMDD = seaExp.total_MMDD;
       }
+      
+      var durationVal = "";
       if(formType==='view') {
         if(exp_from!=="") {
           exp_from = new Date(exp_from);
@@ -221,6 +233,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           exp_to = new Date(exp_to);
           exp_to = addFrontZero(exp_to.getDate())+'-'+month[exp_to.getMonth()]+'-'+exp_to.getFullYear()
         }
+        durationVal = `<td>${total_MMDD}</td>`;
       }
 
       row.innerHTML = `
@@ -230,9 +243,9 @@ async function fetchAndDisplaySeaService(candidateId) {
         </div>
       </td>
       <td>
-       <div style="width:120px">
        ${((formType==='edit') )?`<input type="date" name="exp_to" value="${exp_to}" />` :`${exp_to}`}        
       </td>
+      ${durationVal}
       <td width="122">
         ${((formType==='edit') )?`<input type="text" name="exp_vesselname" value="${exp_vesselname}" />` :`${exp_vesselname}`}
       </td>

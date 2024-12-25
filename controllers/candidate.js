@@ -655,6 +655,10 @@ const createSeaService = async (req, res) => {
         vessel,
         type,
         DWT,
+        Flag,
+        KWT,
+        GRT,
+        Engine,
         from1, // Assuming this is a date string
         to1, // Assuming this is a date string
         total_MMDD,
@@ -679,6 +683,10 @@ const createSeaService = async (req, res) => {
         vessel,
         type,
         DWT,
+        Flag,
+        KWT,
+        GRT,
+        Engine,
         from1: parsedFrom1, // Use parsed date if necessary
         to1: parsedTo1, // Use parsed date if necessary
         total_MMDD,
@@ -696,7 +704,6 @@ const createSeaService = async (req, res) => {
   const editSeaService = async (req, res) => {
     const seaServiceId = req.params.id;
     const seaServiceDetails = req.body;
-
     try {
         const [updatedRows] = await SeaService.update(seaServiceDetails, {
             where: { id: seaServiceId },
@@ -4412,13 +4419,13 @@ const submitApplicationForm = async (req, res) => {
                         var createdBy = 1;
                         var total_MMDD = '';
                         if(parseInt(totalMMDD.totalMonths)>0) {
-                            total_MMDD+=totalMMDD.totalMonths+' Months';
+                            total_MMDD+=`${totalMMDD.totalMonths} Month${parseInt(totalMMDD.totalMonths)>1?'s':''}`;
                         }
                         if(parseInt(totalMMDD.days)>0) {
                             if(total_MMDD!=="") {
                                 total_MMDD+=' ';
                             }
-                            total_MMDD+=totalMMDD.days+' Days';   
+                            total_MMDD+=`${totalMMDD.days} Day${parseInt(totalMMDD.days)>1?'s':''}`;   
                         }
                         const checkingSeaService = await SeaService.findOne({ where: { candidateId: candidateId, company:company,rank:rank, vessel:vessel, from1: expFrom, to1: expTo  }, raw: true});
                         if (checkingSeaService || experienceID!=='') {
