@@ -1015,11 +1015,12 @@
               title: "Success",
               text:(editID!=="")?"Sea Service record updated successfully!":"Sea Service record added successfully!",
             });
+            $('#editID').val('');
             seaServiceForm.reset();         
             $('#othercompany, #otherrank, #othervessel, #othervesseltype').hide();
             $('#seaServiceHeading button').trigger('click');
             $(".select-dropdown").select2();
-            $('#editID').val('');
+           
             fetchAndDisplaySeaService(id);
           }else {
             Swal.fire({
