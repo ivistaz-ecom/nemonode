@@ -12,7 +12,7 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../util/database')
-const {Op, Sequelize, fn } = require('sequelize')
+const {Op, Sequelize, fn, col } = require('sequelize')
 const validate = (inputString) => inputString !== undefined && inputString.length !== 0;
 const SeaService = require('../models/seaservice')
 const Calls = require('../models/todaysCalls')
