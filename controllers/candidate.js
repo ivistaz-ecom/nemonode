@@ -23,6 +23,7 @@ const Company = require('../models/company')
 const fs = require('fs').promises;
 const Payslip = require('../models/payslip')
 const prevExp = require('../models/prevexperience')
+const Country = require('../models/country')
 
 const add_candidate = async (req, res) => {
     try {
@@ -584,12 +585,14 @@ const get_candidate = async (req, res) => {
                 { model: Documents },
                 { model: Contract },
                 { model: Discussion_plus },
+                { model: Country },
                 
                 // Add other associated models as needed
             ],
         });
 
         if (!candidate) {
+
             // If no candidate found with the specified ID, return a 404 response
             return res.status(404).json({ message: 'Candidate not found', success: false });
         }
@@ -727,8 +730,10 @@ const getAllSeaService = async (req, res) => {
     try {
         const id = req.params.id;
         const seaServices = await SeaService.findAll(
+            
             {
-                where:{candidateId:id}
+                where:{candidateId:id},
+                order: [['from1', 'ASC']],
             }
         );
         res.json(seaServices);
