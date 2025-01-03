@@ -272,21 +272,23 @@ async function fetchAndDisplaySeaService(candidateId) {
         if(formType==='view') {
           var displyContract = contractData[$i]??'';
           if(displyContract!=="") {
-            const companyName = companies[displyContract.company];
-            const vesselName = vessels[displyContract.vslName];
-            exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
-            exp_to = (displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01')?displyContract.sign_off:'';
-            exp_vesselname = vesselName;
-            exp_flag ='';
-            exp_KWT = '';
-            exp_GRT = '';
-            exp_DWT = '';
-            exp_Engine = '';
-            exp_typeofvessel = displyContract.vesselType;
-            exp_Position = displyContract.rank;
-            exp_company = companyName;
-            experienceID = displyContract.id;
-            total_MMDD = displyContract.total_MMDD;
+            if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01'!) {
+              const companyName = companies[displyContract.company];
+              const vesselName = vessels[displyContract.vslName];
+              exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
+              exp_to = (displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01')?displyContract.sign_off:'';
+              exp_vesselname = vesselName;
+              exp_flag ='';
+              exp_KWT = '';
+              exp_GRT = '';
+              exp_DWT = '';
+              exp_Engine = '';
+              exp_typeofvessel = displyContract.vesselType;
+              exp_Position = displyContract.rank;
+              exp_company = companyName;
+              experienceID = displyContract.id;
+              total_MMDD = displyContract.total_MMDD;
+            }
           }
           $i++;
         }

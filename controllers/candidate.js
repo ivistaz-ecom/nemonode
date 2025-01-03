@@ -625,7 +625,7 @@ const get_candidate = async (req, res) => {
             // If no candidate found with the specified ID, return a 404 response
             return res.status(404).json({ message: 'Candidate not found', success: false });
         }
-        var countryName = await Country.findOne({where:{code:candidate.l_country}});
+        var countryName = await Country.findOne({where:{id:candidate.l_country}});
        
         // Send the candidate data to the client side
         res.status(200).json({ candidate, countryName, success: true });
@@ -1367,20 +1367,9 @@ const delete_candidate = async (req, res) => {
 const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
-        const withsignoff = req.query?.withsignoff || '';
-        let whereCond = [{ candidateId: candidateId }];
-        if (withsignoff === "Yes") {
-            whereCond.push({
-                sign_off: {
-                    [Op.ne]: '1970-01-01',           // Exclude rows with the date '1970-01-01'
-                    [Op.ne]: '0000-00-00',            // Exclude rows with the date '0000-00-00'
-                    [Op.is]: { [Op.ne]: null }        // Exclude rows where the date is NULL
-                }
-            });
-        }
-        console.log(':::::>>>>>',whereCond, req.params,req.query, withsignoff, candidateId)
+        console.log(':::::>>>>>',candidateId)
         const contractDetails = await Contract.findAll({
-            where: whereCond
+            where: { candidateId: candidateId }
         });
 
         res.status(200).json(contractDetails);
