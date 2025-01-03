@@ -424,7 +424,8 @@ const birthday = async (req, res) => {
             // If date is provided, extract the day and month
             const selectedDate = new Date(req.query.date);
             const selectedToDate_ = req.query.selectedToDate?? '';
-            const selectedToDate = (selectedToDate_=="")?new Date(selectedToDate_):'';
+
+            const selectedToDate = (selectedToDate_!=="")?new Date(selectedToDate_):'';
 
             const selectedMonth = selectedDate.getMonth();
             const selectedDay = selectedDate.getDate();
