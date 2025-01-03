@@ -1376,7 +1376,7 @@ const get_contractdetails= async (req, res) => {
                 [Op.ne]: '0000-00-00'            // Exclude rows with the date '0000-00-00'
               }})
         }
-        console.log(':::::>>>>>',candidateId)
+        console.log(':::::>>>>>',whereCond, candidateId)
         const contractDetails = await Contract.findAll({
             where: whereCond
         });
