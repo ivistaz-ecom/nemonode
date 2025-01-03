@@ -239,7 +239,20 @@ async function fetchAndDisplaySeaService(candidateId) {
               </td>
             </tr>`;
     var i = 0;
-    $.each(new Array(10),function(n){
+    var totalContract = 0;
+    if(contractData.length>0) {
+      contractData.map((item)=> {
+        if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
+          totalContract++;
+        }
+      })
+    }
+    var totalRec = parseInt(seaServices.length) + parseInt(totalContract);
+    var displayRecord = 10;
+    if(totalRec>10) {
+      displayRecord = totalRec;
+    }
+    $.each(new Array(displayRecord),function(n){
       const row = document.createElement("tr");
       const seaExp =(seaServices.length>0)?(seaServices[n] || ''):'';
      
