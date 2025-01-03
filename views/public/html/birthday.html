@@ -170,10 +170,17 @@
               </p>
               <div class="col">
                 <div class="d-flex align-items-center justify-content-start">
-                  <label for="date" class="m-0">Select Date:</label>
+                  <label for="date" class="m-0">Form Date:</label>
                   <input
                     type="date"
                     id="date"
+                    class="form-control ms-2 me-2"
+                    style="width: 200px"
+                  />
+                  <label for="date" class="m-0">To Date:</label>
+                  <input
+                    type="date"
+                    id="two_date"
                     class="form-control ms-2 me-2"
                     style="width: 200px"
                   />
@@ -276,6 +283,8 @@
       document.addEventListener("DOMContentLoaded", function () {
         const token = localStorage.getItem("token");
         const dateInput = document.getElementById("date");
+        const todateInput = document.getElementById("two_date");
+        
         const submitBtn = document.getElementById("submitBtn");
         const loader = document.getElementById("loader");
         const error = document.getElementById("error");
@@ -286,18 +295,20 @@
         let index = 1;
         submitBtn.addEventListener("click", function () {
           const selectedDate = dateInput.value;
-          fetchData(selectedDate);
+          const selectedToDate = todateInput.value;
+          
+          fetchData(selectedDate, selectedToDate);
         });
 
         fetchData(); // Initial fetch for the next 7 days
 
-        function fetchData(date) {
+        function fetchData(date, selectedToDate) {
           loader.style.display = "block";
           error.style.display = "none";
 
           axios
             .get(`${config.APIURL}candidate/birthday`, {
-              params: { date },
+              params: { date, selectedToDate},
               headers: { Authorization: token },
             })
             .then((response) => {
