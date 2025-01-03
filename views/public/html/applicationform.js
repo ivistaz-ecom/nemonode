@@ -272,7 +272,7 @@ async function fetchAndDisplaySeaService(candidateId) {
         if(formType==='view') {
           var displyContract = contractData[$i]??'';
           if(displyContract!=="") {
-            if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01'!) {
+            if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
               const companyName = companies[displyContract.company];
               const vesselName = vessels[displyContract.vslName];
               exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
