@@ -186,6 +186,7 @@ async function fetchAndDisplaySeaService(candidateId) {
       );
 
       const contractData = contractResponse.data;
+      console.log(contractData, 'contractDatacontractDatacontractData')
     }
 
     var durationHead = "";
@@ -238,6 +239,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     $.each(new Array(10),function(n){
       const row = document.createElement("tr");
       const seaExp =(seaServices.length>0)?(seaServices[n] || ''):'';
+      console.log(seaExp, 'seaExpseaExp')
       
       
       var exp_from = '';
@@ -270,6 +272,7 @@ async function fetchAndDisplaySeaService(candidateId) {
         total_MMDD = seaExp.total_MMDD;
       }else {
         if(formType==='view') {
+          console.log(contractData[$i], 'contractData[$i]')
           var displyContract = contractData[$i]??'';
           if(displyContract!=="") {
             if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
