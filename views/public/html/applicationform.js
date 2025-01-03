@@ -105,6 +105,7 @@ async function fetchAndDisplayCandidate(candidateId, token) {
     );
 
     const candidateData = serverResponse.data.candidate;
+    const countryName = serverResponse.data.countryName;
 
     const nkdResponse = await axios.get(
       `${config.APIURL}candidate/get-nkd-details/${candidateId}`,
@@ -126,7 +127,7 @@ async function fetchAndDisplayCandidate(candidateId, token) {
 
     const expDetails = response.data;
 
-    displayCandidateDetails(candidateData, nkd, expDetails);
+    displayCandidateDetails(candidateData, nkd, expDetails, countryName);
   } catch (error) {
     console.error("Error fetching candidate data:", error);
     // Handle error as needed
@@ -297,7 +298,7 @@ function addFrontZero(value) {
     }
   }
 }
-async function displayCandidateDetails(candidateData, nkd, expDetails) {
+async function displayCandidateDetails(candidateData, nkd, expDetails, countryName) {
   try {
    
     const userName = localStorage.getItem("username");
@@ -410,7 +411,11 @@ async function displayCandidateDetails(candidateData, nkd, expDetails) {
     const dob = candidateData?.dob ? formatDate(candidateData.dob) : "";
     $("#dob").val(dob);
     $("#birth_place").val(candidateData.birth_place);
-    $("#nationality").val(candidateData.nationality);
+    var nationality = candidateData.nationality;
+    if(formType==='view') {
+      nationality  = countryName.country ?? '';
+    }
+    $("#nationality").val(nationality);
     $("#c_ad1").val(candidateData.c_ad1);
     $("#m_status").val(candidateData.m_status);
     $("#weight").val(candidateData.weight);
