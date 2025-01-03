@@ -292,12 +292,13 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_company = companyName;
               experienceID = displyContract.id;
               total_MMDD = displyContract.total_MMDD;
+              console.log(exp_from, exp_to, 'displyContract.sign_off')
             }
           }
           i++;
         }
       }
-      console.log(exp_from, exp_to, 'displyContract.sign_off')
+      
       var durationVal = "";
       if(formType==='view') {
         if(exp_from!=="") {
