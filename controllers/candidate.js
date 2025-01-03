@@ -1369,12 +1369,14 @@ const get_contractdetails= async (req, res) => {
         const candidateId = req.params.id;
         const withsignoff = req.query?.withsignoff || '';
         let whereCond = [{ candidateId: candidateId }];
-        if(withsignoff==="Yes") {
-            whereCond.push({sign_off: {
-                [Op.ne]: '1970-01-01',          // Exclude rows with the date '1970-01-01'
-                [Op.is]: { [Op.ne]: null },      // Exclude rows where the date is NULL
-                [Op.ne]: '0000-00-00'            // Exclude rows with the date '0000-00-00'
-              }})
+        if (withsignoff === "Yes") {
+            whereCond.push({
+                sign_off: {
+                    [Op.ne]: '1970-01-01',           // Exclude rows with the date '1970-01-01'
+                    [Op.ne]: '0000-00-00',            // Exclude rows with the date '0000-00-00'
+                    [Op.is]: { [Op.ne]: null }        // Exclude rows where the date is NULL
+                }
+            });
         }
         console.log(':::::>>>>>',whereCond, req.params,req.query, withsignoff, candidateId)
         const contractDetails = await Contract.findAll({
