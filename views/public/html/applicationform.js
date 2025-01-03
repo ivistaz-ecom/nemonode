@@ -143,6 +143,7 @@ async function fetchAndDisplaySeaService(candidateId) {
         headers: { Authorization: token },
       }
     );
+    let contractData = [];
     if(formType==='view') {
       const companyResponse = await axios.get(
         `${config.APIURL}company/dropdown-company`,
@@ -185,7 +186,7 @@ async function fetchAndDisplaySeaService(candidateId) {
         }
       );
 
-      const contractData = contractResponse.data;
+      contractData = contractResponse.data;
       console.log(contractData, 'contractDatacontractDatacontractData')
     }
 
