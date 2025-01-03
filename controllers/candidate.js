@@ -1367,9 +1367,18 @@ const delete_candidate = async (req, res) => {
 const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
+        const withsignoff = req.params.withsignoff ?? '';
+        let whereCond = { candidateId: candidateId };
+        if(withsignoff==="Yes") {
+            whereCond.push({sign_off: {
+                [Op.ne]: '1970-01-01',          // Exclude rows with the date '1970-01-01'
+                [Op.is]: { [Op.ne]: null },      // Exclude rows where the date is NULL
+                [Op.ne]: '0000-00-00'            // Exclude rows with the date '0000-00-00'
+              }})
+        }
         console.log(':::::>>>>>',candidateId)
         const contractDetails = await Contract.findAll({
-            where: { candidateId: candidateId }
+            where: whereCond
         });
 
         res.status(200).json(contractDetails);

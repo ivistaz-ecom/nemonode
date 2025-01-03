@@ -143,6 +143,50 @@ async function fetchAndDisplaySeaService(candidateId) {
         headers: { Authorization: token },
       }
     );
+    if(formType==='view') {
+      const companyResponse = await axios.get(
+        `${config.APIURL}company/dropdown-company`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      const companies = {};
+      companyResponse.data.companies.forEach((company) => {
+        companies[company.company_id] = company.company_name;
+      });
+
+      const portsResponse = await axios.get(`${config.APIURL}others/get-ports`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      const ports = {};
+      portsResponse.data.ports.forEach((port) => {
+        ports[port.id] = port.portName;
+      });
+
+      const vesselsResponse = await axios.get(`${config.APIURL}others/get-vsls`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      const vessels = {};
+      vesselsResponse.data.vessels.forEach((vessel) => {
+        vessels[vessel.id] = vessel.vesselName;
+      });
+
+      
+      const contractResponse = await axios.get(
+        `${config.APIURL}candidate/get-contract-details/${candidateId}?withsignoff=Yes`,
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      const contractData = contractResponse.data;
+    }
 
     var durationHead = "";
     if(formType==='view') {
@@ -190,10 +234,12 @@ async function fetchAndDisplaySeaService(candidateId) {
                 <p><strong>Company</strong></p>
               </td>
             </tr>`;
+    var i = 0;
     $.each(new Array(10),function(n){
       const row = document.createElement("tr");
       const seaExp =(seaServices.length>0)?(seaServices[n] || ''):'';
-      console.log(seaExp, 'seaExpseaExpseaExp')
+      
+      
       var exp_from = '';
       var exp_to = '';
       var exp_vesselname = '';
@@ -210,7 +256,7 @@ async function fetchAndDisplaySeaService(candidateId) {
 
        if(seaExp!=="") {
         exp_from = (seaExp.from1!=="" && seaExp.from1!==null && seaExp.from1!=='1970-01-01')?seaExp.from1:'';
-        exp_to = (seaExp.to1!=="" && seaExp.to1!==null && seaExp.from1!=='1970-01-01')?seaExp.to1:'';
+        exp_to = (seaExp.to1!=="" && seaExp.to1!==null && seaExp.to1!=='1970-01-01')?seaExp.to1:'';
         exp_vesselname = seaExp.vessel;
         exp_flag = seaExp.Flag;
         exp_KWT = seaExp.KWT;
@@ -222,6 +268,28 @@ async function fetchAndDisplaySeaService(candidateId) {
         exp_company = seaExp.company;
         experienceID = seaExp.id;
         total_MMDD = seaExp.total_MMDD;
+      }else {
+        if(formType==='view') {
+          var displyContract = contractData[$i]??'';
+          if(displyContract!=="") {
+            const companyName = companies[displyContract.company];
+            const vesselName = vessels[displyContract.vslName];
+            exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
+            exp_to = (displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01')?displyContract.sign_off:'';
+            exp_vesselname = vesselName;
+            exp_flag ='';
+            exp_KWT = '';
+            exp_GRT = '';
+            exp_DWT = '';
+            exp_Engine = '';
+            exp_typeofvessel = displyContract.vesselType;
+            exp_Position = displyContract.rank;
+            exp_company = companyName;
+            experienceID = displyContract.id;
+            total_MMDD = displyContract.total_MMDD;
+          }
+          $i++;
+        }
       }
       
       var durationVal = "";
