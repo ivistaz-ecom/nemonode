@@ -625,7 +625,7 @@ const get_candidate = async (req, res) => {
             // If no candidate found with the specified ID, return a 404 response
             return res.status(404).json({ message: 'Candidate not found', success: false });
         }
-        var countryName = await Country.findOne({where:{id:candidate.l_country}});
+        var countryName = await Country.findOne({where:{code:candidate.l_country}});
        
         // Send the candidate data to the client side
         res.status(200).json({ candidate, countryName, success: true });
