@@ -432,7 +432,7 @@ const birthday = async (req, res) => {
 
             // Set where condition to match day and month
             if(selectedDate!=="" && selectedToDate!=="") {
-                whereCondition = { createdAt: {
+                whereCondition = { dob: {
                     [Op.gte]: new Date(selectedDate), // Date greater than or equal to
                     [Op.lte]: new Date(selectedToDate), // Date less than or equal to
                   }
