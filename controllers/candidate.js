@@ -591,11 +591,14 @@ const get_candidate = async (req, res) => {
         });
 
         if (!candidate) {
-
+           
             // If no candidate found with the specified ID, return a 404 response
             return res.status(404).json({ message: 'Candidate not found', success: false });
         }
-
+        var country_ = await Country.findOne({where:{id:candidate.l_country}});
+        if(country_!==null && country_!=="") {
+            candidate.countryName = country_.country;
+        }
         // Send the candidate data to the client side
         res.status(200).json({ candidate, success: true });
     } catch (err) {
