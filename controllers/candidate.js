@@ -763,7 +763,7 @@ const getAllSeaService = async (req, res) => {
             
             {
                 where:{candidateId:id},
-                order: [['from1', 'ASC']],
+                order: [['from1', 'DESC']],
             }
         );
         res.json(seaServices);
