@@ -146,6 +146,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     let contractData = [];
     let companies = [];
     let ports = [];
+    const vessels = [];
     if(formType==='view') {
       const companyResponse = await axios.get(
         `${config.APIURL}company/dropdown-company`,
@@ -175,7 +176,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           Authorization: token,
         },
       });
-      const vessels = {};
+      
       vesselsResponse.data.vessels.forEach((vessel) => {
         vessels[vessel.id] = vessel.vesselName;
       });
