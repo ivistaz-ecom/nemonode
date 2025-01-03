@@ -291,7 +291,19 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_Position = displyContract.rank;
               exp_company = companyName;
               experienceID = displyContract.id;
-              total_MMDD = calculateTotalMonth(exp_from, exp_to);
+              var  totalMMDD = calculateTotalMonth(exp_from, exp_to);
+              if(totalMMDD!=="") {
+                total_MMDD = '';
+                if(parseInt(totalMMDD.totalMonths)>0) {
+                    total_MMDD+=`${totalMMDD.totalMonths} Month${parseInt(totalMMDD.totalMonths)>1?'s':''}`;
+                }
+                if(parseInt(totalMMDD.days)>0) {
+                    if(total_MMDD!=="") {
+                      total_MMDD+=' ';
+                    }
+                    total_MMDD+=`${totalMMDD.days} Day${parseInt(totalMMDD.days)>1?'s':''}`;
+                }
+              }
             }
           }
           i++;
