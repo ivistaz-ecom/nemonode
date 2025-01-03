@@ -348,7 +348,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails) {
 
         let issuedate = (checkingArray.length>0)?checkingArray[0].issue_date : "";
         if(issuedate!=="") {
-          if (issuedate === "1970-01-01" || issuedate === "01-01-1970") {
+          if (issuedate !== "1970-01-01" || issuedate !== "01-01-1970") {
             issuedate = new Date(issuedate);
             issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
           }
@@ -356,7 +356,8 @@ async function displayCandidateDetails(candidateData, nkd, expDetails) {
         let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
         let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
         if(validuntill!=="") {
-          if (validuntill === "1970-01-01" || validuntill === "01-01-1970") {
+          console.log(validuntill, 'validuntill')
+          if (validuntill !== "1970-01-01" || validuntill !== "01-01-1970") {
             validuntill = new Date(validuntill);
             validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
           }
