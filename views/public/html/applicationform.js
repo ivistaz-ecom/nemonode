@@ -322,12 +322,12 @@ async function displayCandidateDetails(candidateData, nkd, expDetails) {
         { key: "seamanbook", name: "SEAMANS BOOK" },
         { key: "seamanid", name: "SEAFARER ID" },
         { key: "coc", name: "COC" },
-      { key:'tankerany', name:'Tanker If any'},
-      { key: "aff_fpff", name: "AFF / FPFF" },
-      { key: "pst_pscrb", name: "PST / PSCRB" },
-      { key: "medicare", name: "MEDICARE / MFA / EFA" },
-      { key: "pssr", name: "PSSR" },
-      { key: "stsdsd", name: "STSDSD / SSO" },
+        { key:'tankerany', name:'Tanker If any'},
+        { key: "aff_fpff", name: "AFF / FPFF" },
+        { key: "pst_pscrb", name: "PST / PSCRB" },
+        { key: "medicare", name: "MEDICARE / MFA / EFA" },
+        { key: "pssr", name: "PSSR" },
+        { key: "stsdsd", name: "STSDSD / SSO" },
       ];
       let inputType = "text"
       if(formType==='edit') {
@@ -348,33 +348,46 @@ async function displayCandidateDetails(candidateData, nkd, expDetails) {
 
         let issuedate = (checkingArray.length>0)?checkingArray[0].issue_date : "";
         if(issuedate!=="") {
-          issuedate = new Date(issuedate);
-          issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
+          if (issuedate === "1970-01-01" || issuedate === "01-01-1970") {
+            issuedate = new Date(issuedate);
+            issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
+          }
         }
         let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
         let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
         if(validuntill!=="") {
-          validuntill = new Date(validuntill);
-          validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
+          if (validuntill === "1970-01-01" || validuntill === "01-01-1970") {
+            validuntill = new Date(validuntill);
+            validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
+          }
         }
         const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>
-              <p>${doc.key==='tankerany'?documentName:doc.name}</p>
-            </td>
-            <td width="151">
-              ${docnumbers}
-            </td>
-            <td width="50">
-              ${issuedate}
-            </td>
-            <td width="198">
-              ${issueplace}
-            </td>
-            <td width="50">
-              ${validuntill}
-            </td>`;
-            documentTableBody1.appendChild(row);
+        var allowToShow = 'Y';
+        if(doc.key==='tankerany') {
+          if(docnumbers==="") {
+            allowToShow = 'N';
+          }
+
+         }
+        if(allowToShow==="Y") {
+          row.innerHTML = `
+              <td>
+                <p>${doc.key==='tankerany'?documentName:doc.name}</p>
+              </td>
+              <td width="151">
+                ${docnumbers}
+              </td>
+              <td width="50">
+                ${issuedate}
+              </td>
+              <td width="198">
+                ${issueplace}
+              </td>
+              <td width="50">
+                ${validuntill}
+              </td>`;
+              documentTableBody1.appendChild(row);
+          }
         });
     }else {
       postdate = new Date();
