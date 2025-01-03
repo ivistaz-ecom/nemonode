@@ -302,9 +302,10 @@ async function fetchAndDisplaySeaService(candidateId) {
       
       var durationVal = "";
       if(formType==='view') {
-        console.log(exp_from, exp_to, 'displyContract.sign_off')
+       
         if(exp_from!=="") {
           exp_from = new Date(exp_from);
+          console.log(exp_from, exp_to, 'displyContract.sign_off')
           exp_from = addFrontZero(exp_from.getDate())+'-'+month[exp_from.getMonth()]+'-'+exp_from.getFullYear()
         }
         if(exp_to!=="") {
