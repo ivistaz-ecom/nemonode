@@ -190,7 +190,6 @@ async function fetchAndDisplaySeaService(candidateId) {
       );
 
       contractData = contractResponse.data;
-      console.log(contractData, 'contractDatacontractDatacontractData')
     }
 
     var durationHead = "";
@@ -243,9 +242,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     $.each(new Array(10),function(n){
       const row = document.createElement("tr");
       const seaExp =(seaServices.length>0)?(seaServices[n] || ''):'';
-      console.log(seaExp, 'seaExpseaExp')
-      
-      
+     
       var exp_from = '';
       var exp_to = '';
       var exp_vesselname = '';
@@ -276,10 +273,10 @@ async function fetchAndDisplaySeaService(candidateId) {
         total_MMDD = seaExp.total_MMDD;
       }else {
         if(formType==='view') {
-          console.log(contractData[i], 'contractData[i]')
           var displyContract = contractData[i]??'';
           if(displyContract!=="") {
             if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
+              console.log(displyContract.sign_on, displyContract.sign_off, 'displyContract.sign_off')
               const companyName = companies[displyContract.company];
               const vesselName = vessels[displyContract.vslName];
               exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
