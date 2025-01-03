@@ -273,8 +273,8 @@ async function fetchAndDisplaySeaService(candidateId) {
         total_MMDD = seaExp.total_MMDD;
       }else {
         if(formType==='view') {
-          console.log(contractData[$i], 'contractData[$i]')
-          var displyContract = contractData[$i]??'';
+          console.log(contractData[i], 'contractData[i]')
+          var displyContract = contractData[i]??'';
           if(displyContract!=="") {
             if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
               const companyName = companies[displyContract.company];
@@ -294,7 +294,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               total_MMDD = displyContract.total_MMDD;
             }
           }
-          $i++;
+          i++;
         }
       }
       
