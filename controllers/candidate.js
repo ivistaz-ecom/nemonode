@@ -595,14 +595,10 @@ const get_candidate = async (req, res) => {
             // If no candidate found with the specified ID, return a 404 response
             return res.status(404).json({ message: 'Candidate not found', success: false });
         }
-        var country_ = await Country.findOne({where:{id:candidate.l_country}});
-        console.log(country_, 'country_')
-        if(country_!==null && country_!=="") {
-            candidate.countryName = country_.country;
-            console.log(candidate, 'candidatecandidate')
-        }
+        var countryName = await Country.findOne({where:{id:candidate.l_country}});
+       
         // Send the candidate data to the client side
-        res.status(200).json({ candidate, success: true });
+        res.status(200).json({ candidate, countryName, success: true });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err, message: 'Internal Server Error', success: false });
