@@ -276,7 +276,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           var displyContract = contractData[i]??'';
           if(displyContract!=="") {
             if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
-              console.log(displyContract.sign_on, displyContract.sign_off, 'displyContract.sign_off')
+              
               const companyName = companies[displyContract.company];
               const vesselName = vessels[displyContract.vslName];
               exp_from = (displyContract.sign_on!=="" && displyContract.sign_on!==null && displyContract.sign_on!=='1970-01-01')?displyContract.sign_on:'';
@@ -297,7 +297,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           i++;
         }
       }
-      
+      console.log(exp_from, exp_to, 'displyContract.sign_off')
       var durationVal = "";
       if(formType==='view') {
         if(exp_from!=="") {
