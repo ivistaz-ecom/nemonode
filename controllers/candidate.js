@@ -423,16 +423,28 @@ const birthday = async (req, res) => {
         if (req.query.date) {
             // If date is provided, extract the day and month
             const selectedDate = new Date(req.query.date);
+            const selectedToDate_ = req.query.selectedToDate?? '';
+            const selectedToDate = (selectedToDate_=="")?new Date(selectedToDate_):'';
+
             const selectedMonth = selectedDate.getMonth();
             const selectedDay = selectedDate.getDate();
 
             // Set where condition to match day and month
-            whereCondition = {
-                [Op.and]: [
-                    sequelize.where(sequelize.fn('month', sequelize.col('dob')), selectedMonth + 1), // Adding 1 because months are zero-indexed
-                    sequelize.where(sequelize.fn('day', sequelize.col('dob')), selectedDay)
-                ]
-            };
+            if(selectedDate!=="" && selectedToDate!=="") {
+                whereCondition = { createdAt: {
+                    [Op.gte]: new Date(selectedDate), // Date greater than or equal to
+                    [Op.lte]: new Date(selectedToDate), // Date less than or equal to
+                  }
+                };
+            }else {
+                whereCondition = {
+                    [Op.and]: [
+                        sequelize.where(sequelize.fn('month', sequelize.col('dob')), selectedMonth + 1), // Adding 1 because months are zero-indexed
+                        sequelize.where(sequelize.fn('day', sequelize.col('dob')), selectedDay)
+                    ]
+                };
+            }
+           
         }
 
         let allCandidates;
