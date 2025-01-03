@@ -432,11 +432,28 @@ const birthday = async (req, res) => {
 
             // Set where condition to match day and month
             if(selectedDate!=="" && selectedToDate!=="") {
-                whereCondition = { dob: {
-                    [Op.gte]: new Date(selectedDate), // Date greater than or equal to
-                    [Op.lte]: new Date(selectedToDate), // Date less than or equal to
-                  }
-                };
+
+                const endMonth = new Date(selectedToDate).getMonth() + 1;     // September (9)
+                const endDay = new Date(selectedToDate).getDate();            // 1
+
+                whereCondition = {
+                    [Op.or]: [
+                      {
+                        // Case 1: Within the same month (August)
+                        [Op.and]: [
+                          Sequelize.where(fn('MONTH', col('dob')), selectedMonth),
+                          Sequelize.where(fn('DAY', col('dob')), { [Op.gte]: selectedDay }),
+                        ],
+                      },
+                      {
+                        // Case 2: Within the next month (September)
+                        [Op.and]: [
+                          Sequelize.where(fn('MONTH', col('dob')), endMonth),
+                          Sequelize.where(fn('DAY', col('dob')), { [Op.lte]: endDay }),
+                        ],
+                      },
+                    ],
+                  };
             }else {
                 whereCondition = {
                     [Op.and]: [
