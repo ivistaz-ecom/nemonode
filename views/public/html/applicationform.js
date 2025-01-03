@@ -291,8 +291,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_Position = displyContract.rank;
               exp_company = companyName;
               experienceID = displyContract.id;
-              total_MMDD = displyContract.total_MMDD;
-              
+              total_MMDD = calculateTotalMonth(exp_from, exp_to);
             }
           }
           i++;
@@ -307,7 +306,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           exp_from = new Date(exp_from);
          
           exp_from = addFrontZero(exp_from.getDate())+'-'+month[exp_from.getMonth()]+'-'+exp_from.getFullYear()
-          console.log(exp_from, exp_to, 'displyContract.sign_off')
+        
         }
         if(exp_to!=="") {
           exp_to = new Date(exp_to);
