@@ -1368,7 +1368,7 @@ const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
         const withsignoff = req.query?.withsignoff || '';
-        let whereCond = { candidateId: candidateId };
+        let whereCond = [{ candidateId: candidateId }];
         if(withsignoff==="Yes") {
             whereCond.push({sign_off: {
                 [Op.ne]: '1970-01-01',          // Exclude rows with the date '1970-01-01'
