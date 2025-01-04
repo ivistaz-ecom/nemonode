@@ -242,7 +242,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     var totalContract = 0;
     if(contractData.length>0) {
       contractData.map((item)=> {
-        if(displyContract.sign_off!=="" && displyContract.sign_off!==null && displyContract.sign_off!=='1970-01-01') {
+        if(item.sign_off!=="" && item.sign_off!==null && item.sign_off!=='1970-01-01') {
           totalContract++;
         }
       })
