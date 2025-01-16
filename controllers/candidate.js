@@ -3131,7 +3131,7 @@ const onBoard = async (req, res) => {
         // Base SQL query
         let query = `
             SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
-                   b.fname, b.lname, b.dob, b.birth_place, c.vesselName, b.category, b.nationality, e.company_name
+                   b.fname, b.lname, b.dob, b.birth_place, b.email1, c.vesselName, b.category, b.nationality, e.company_name
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id

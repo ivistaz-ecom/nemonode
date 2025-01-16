@@ -2510,6 +2510,7 @@ function setupPagination(contracts) {
                 </td>
                 <td style='font-size:10px'>${contract.fname}</td>
                 <td style='font-size:10px'>${contract.lname}</td>
+                <td style='font-size:10px'>${contract.email1}</td>
                 <td style='font-size:10px'>${contract.birth_place}</td>
                 <td style='font-size:10px'>${contract.rank}</td>
                 <td style='font-size:10px'>${getNationalityName(
