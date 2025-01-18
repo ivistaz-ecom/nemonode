@@ -203,6 +203,35 @@ async function fetchAndDisplaySeaService(candidateId) {
     const eperienceTableBody = document.getElementById("preveperience");
     eperienceTableBody.innerHTML = `
         <tr>
+              <td width="100" align="center">
+                <p><strong>Company</strong></p>
+              </td>
+              <td width="122" align="center">
+                <p><strong>Vessel Name</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>Type of Vessel</strong></p>
+              </td>
+              ${(formType==='edit')?`<td width="61" align="center">
+                <p><strong>DWT</strong></p>
+              </td><td width="61" align="center">
+                <p><strong>KWT</strong></p>
+              </td>`:`<td width="61" align="center">
+                <p><strong>DWT/KWT</strong></p>
+              </td>`}
+              
+              <td width="61" align="center">
+                <p><strong>GRT</strong></p>
+              </td>
+               <td width="61" align="center">
+                <p><strong>Flag</strong></p>
+              </td>
+              <td width="61" align="center">
+                <p><strong>Engine</strong></p>
+              </td>
+              <td width="62" align="center">
+                <p><strong>Rank</strong></p>
+              </td>
               <td align="center" style="width:120px">
                 <strong>From</strong>
               </td>
@@ -210,33 +239,11 @@ async function fetchAndDisplaySeaService(candidateId) {
                 <strong>To</strong>
               </td>
               ${durationHead}
-              <td width="122" align="center">
-                <p><strong>Vessel Name</strong></p>
+              <td align="center" style="width:120px">
+                <strong>Reason for sign off</strong>
               </td>
-              <td width="61" align="center">
-                <p><strong>Flag</strong></p>
-              </td>
-              <td width="61" align="center">
-                <p><strong>KWT</strong></p>
-              </td>              
-              <td width="61" align="center">
-                <p><strong>GRT</strong></p>
-              </td>
-              <td width="61" align="center">
-                <p><strong>DWT</strong></p>
-              </td>
-              <td width="61" align="center">
-                <p><strong>Engine</strong></p>
-              </td>
-              <td width="61" align="center">
-                <p><strong>Type of Vessel</strong></p>
-              </td>
-              <td width="62" align="center">
-                <p><strong>Rank</strong></p>
-              </td>
-              <td width="100" align="center">
-                <p><strong>Company</strong></p>
-              </td>
+              
+                            
             </tr>`;
     var i = 0;
     var totalContract = 0;
@@ -266,6 +273,7 @@ async function fetchAndDisplaySeaService(candidateId) {
       var exp_Engine = '';
       var exp_typeofvessel = '';
       var exp_Position = '';
+      var reason_for_sign_off = '';
       var exp_company = '';
       var experienceID = '';
       var total_MMDD =  '';
@@ -281,6 +289,7 @@ async function fetchAndDisplaySeaService(candidateId) {
         exp_Engine = seaExp.Engine;
         exp_typeofvessel = seaExp.type;
         exp_Position = seaExp.rank;
+        reason_for_sign_off = seaExp.reason_for_sign_off;
         exp_company = seaExp.company;
         experienceID = seaExp.id;
         total_MMDD = seaExp.total_MMDD;
@@ -302,6 +311,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_Engine = '';
               exp_typeofvessel = displyContract.vesselType;
               exp_Position = displyContract.rank;
+              reason_for_sign_off = displyContract?.reason_for_sign_off || '';
               exp_company = companyName;
               experienceID = displyContract.id;
               var  totalMMDD = calculateTotalMonth(exp_from, exp_to);
@@ -339,10 +349,58 @@ async function fetchAndDisplaySeaService(candidateId) {
         }
         durationVal = `<td>${total_MMDD}</td>`;
       }
+      var displydwtkwd = '';
+      if(formType==='edit') {
+        displydwtkwd = `<td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_DWT" value="${exp_DWT}" />` :`${exp_DWT}`}
+      </td>
+      ${(formType==='edit')?`<td width="61">
+        <input type="text" name="exp_KWT" value="${exp_KWT}" />
+      </td>`:''}`;
+      }else {
+        var showdwt = '';
+        if(exp_DWT!=="") {
+          showdwt+= exp_DWT;
+        }
+        if(exp_KWT!=="") {
+          if(showdwt!=="") {
+            showdwt+= ' / ';
+          }
+          showdwt+= exp_KWT;
+        }
+        displydwtkwd = `<td width="61">${showdwt}</td>`
+      }
 
-      row.innerHTML = `
-      <td style="width:120px">  
-      <div style="min-height: 20px !important;">     
+      row.innerHTML = `     
+      <td width="100">
+        ${((formType==='edit') )?`<input type="text" name="exp_company" value="${exp_company}" />` :`${exp_company}`}        
+        <input type="hidden" name="experienceID" value="${experienceID}" />
+      </td>
+      <td width="122">
+        ${((formType==='edit') )?`<input type="text" name="exp_vesselname" value="${exp_vesselname}" />` :`${exp_vesselname}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_typeofvessel" value="${exp_typeofvessel}" />` :`${exp_typeofvessel}`}
+      </td>
+      ${displydwtkwd}
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_flag" value="${exp_flag}" />` :`${exp_flag}`}
+      </td>
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_GRT" value="${exp_GRT}" />` :`${exp_GRT}`}
+      </td>
+     
+      
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_Engine" value="${exp_Engine}" />` :`${exp_Engine}`}
+      </td>
+      
+      <td width="62">
+        ${((formType==='edit') )?`<input type="text" name="exp_Position" value="${exp_Position}" />` :`${exp_Position}`}        
+      </td>
+      
+       <td style="width:120px">  
+       <div style="min-height: 20px !important;">     
         ${((formType==='edit') )?`<input type="date" name="exp_from" value="${exp_from}" />` :`${exp_from}`}
         </div>
       </td>
@@ -350,35 +408,10 @@ async function fetchAndDisplaySeaService(candidateId) {
        ${((formType==='edit') )?`<input type="date" name="exp_to" value="${exp_to}" />` :`${exp_to}`}        
       </td>
       ${durationVal}
-      <td width="122">
-        ${((formType==='edit') )?`<input type="text" name="exp_vesselname" value="${exp_vesselname}" />` :`${exp_vesselname}`}
+      <td>
+       ${((formType==='edit') )?`<input type="text" name="reason_for_sign_off" value="${reason_for_sign_off}" />` :`${reason_for_sign_off}`}        
       </td>
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_flag" value="${exp_flag}" />` :`${exp_flag}`}
-      </td>
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_KWT" value="${exp_KWT}" />` :`${exp_KWT}`}
-      </td>
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_GRT" value="${exp_GRT}" />` :`${exp_GRT}`}
-      </td>
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_DWT" value="${exp_DWT}" />` :`${exp_DWT}`}
-      </td>
-      
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_Engine" value="${exp_Engine}" />` :`${exp_Engine}`}
-      </td>
-      <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_typeofvessel" value="${exp_typeofvessel}" />` :`${exp_typeofvessel}`}
-      </td>
-      <td width="62">
-        ${((formType==='edit') )?`<input type="text" name="exp_Position" value="${exp_Position}" />` :`${exp_Position}`}        
-      </td>
-      <td width="100">
-        ${((formType==='edit') )?`<input type="text" name="exp_company" value="${exp_company}" />` :`${exp_company}`}        
-        <input type="hidden" name="experienceID" value="${experienceID}" />
-      </td>`;
+      `;
       eperienceTableBody.appendChild(row);
     });
     
@@ -462,7 +495,6 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
         let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
         if(validuntill!=="") {
-          console.log(validuntill, 'validuntill')
           if (validuntill !== "1970-01-01" && validuntill !== "01-01-1970") {
             validuntill = new Date(validuntill);
             validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()
@@ -532,7 +564,6 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
     $('#nearest_airport').val(candidateData.nearestAirport);
     $('#totalChild').val(candidateData.totalChild);
     var photos_ = candidateData.photos;
-    console.log(candidateData, 'candidateData.photos')
     if(photos_!=="" && photos_!==null) {
       $('#profileImage').attr('src', "../files/photos/" +photos_);
       $('#no-image').hide();
@@ -540,7 +571,6 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       $('#profileImage').hide()
       $('#no-image').show();
     }
-
 
     if(nkd.length>0) {
       var nkdF = nkd[0];
@@ -594,7 +624,6 @@ const response = await axios.get(`${config.APIURL}candidate/get-contract-details
     }else {
       $('#workNautilus').html('No');
     }
-    console.log(contractDetails,totalMonth, totalDays,'responseresponse')
   }
  
 }

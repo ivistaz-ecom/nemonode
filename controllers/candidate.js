@@ -4448,6 +4448,8 @@ const submitApplicationForm = async (req, res) => {
                         var Flag = postData.exp_flag[index]||'';
                         var GRT = postData.exp_GRT[index]||'';
                         var Engine = postData.exp_Engine[index]||'';
+                        var reason_for_sign_off = postData.reason_for_sign_off[index]||'';
+                        
                         
                         var totalMMDD = await calculateTotalMonth(expFrom, expTo);
                        
@@ -4475,6 +4477,7 @@ const submitApplicationForm = async (req, res) => {
                                 GRT,
                                 DWT,
                                 Engine,
+                                reason_for_sign_off,
                                 from1: expFrom,
                                 to1: expTo,
                                 total_MMDD,
@@ -4496,6 +4499,7 @@ const submitApplicationForm = async (req, res) => {
                                 GRT,
                                 DWT,
                                 Engine,
+                                reason_for_sign_off,
                                 from1: expFrom,
                                 to1: expTo,
                                 total_MMDD,
