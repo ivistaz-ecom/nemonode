@@ -4401,6 +4401,7 @@ const submitApplicationForm = async (req, res) => {
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
+                    console.log(expirydate, 'expirydateexpirydateexpirydateexpirydate')
                     let expiry_date = (expirydate!=="")?convertToDate(expirydate):'';
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
                     if(evaluation.length>0) {                       
