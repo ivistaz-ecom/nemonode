@@ -4382,7 +4382,7 @@ const submitApplicationForm = async (req, res) => {
                 { key: "pssr", name: "PSSR" },
                 { key: "stsdsd", name: "STSDSD / SSO" },
               ];
-              console.log(postData, 'postDatapostDatapostData')
+             // console.log(postData, 'postDatapostDatapostData')
             documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 if(dnumbers!=="") {
@@ -4399,6 +4399,7 @@ const submitApplicationForm = async (req, res) => {
                     });
                    
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
+                    console.log(issuedate, 'issuedateissuedateissuedateissuedateissuedate')
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'';
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                     console.log(expirydate, 'expirydateexpirydateexpirydateexpirydate')
