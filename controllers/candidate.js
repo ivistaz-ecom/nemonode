@@ -5132,7 +5132,7 @@ function convertToDate (postDate) {
         const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
         console.log(splitdate, 'splitdatesplitdatesplitdatesplitdate')
         if(splitdate.length>0) {
-            return splitdate[0]
+            return splitdate[0].replace('+0', '');
         }else {
             return "";
         }
