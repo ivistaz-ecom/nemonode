@@ -4468,7 +4468,7 @@ const submitApplicationForm = async (req, res) => {
                        
                         var createdBy = 1;
                         var total_MMDD = '';
-                        if(parseInt(totalMMDD.totalMonths)>0) {
+                        if(parseInt(totalMMDD?.totalMonths)>0) {
                             total_MMDD+=`${totalMMDD.totalMonths} Month${parseInt(totalMMDD.totalMonths)>1?'s':''}`;
                         }
                         if(parseInt(totalMMDD.days)>0) {
