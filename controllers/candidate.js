@@ -4387,7 +4387,7 @@ const submitApplicationForm = async (req, res) => {
                 for (let index = 0; index < documentType.length; index++) {
                /*     
                 } */
-               let doc = doc[index];
+               let doc = documentType[index];
 
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 console.log(dnumbers, 'dnumbersdnumbersdnumbersdnumbers')
