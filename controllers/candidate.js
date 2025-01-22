@@ -4406,17 +4406,17 @@ const submitApplicationForm = async (req, res) => {
                    console.log({ document: docWhere, candidateId: candidateId }, evaluation, 'evaluationevaluationevaluation')
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     
-                    let issue_date = (issuedate!=="")?convertToDate(issuedate):'0000-00-00';
+                    let issue_date = (issuedate!=="")?convertToDate(issuedate):null;
                     if(issue_date==='Invalid date' || issue_date==='undefined' || typeof issue_date===undefined || typeof issue_date==='undefined') {
-                        issue_date = '0000-00-00';
+                        issue_date = null;
                     }
                     console.log(issue_date, 'issuedateissuedateissuedateissuedateissuedate')
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                    
                    
-                    let expiry_date = (expirydate!=="")?convertToDate(expirydate):'0000-00-00';
+                    let expiry_date = (expirydate!=="")?convertToDate(expirydate):null;
                     if(expiry_date==='Invalid date' || expiry_date==='undefined' || typeof expiry_date===undefined || typeof expiry_date==='undefined') {
-                        expiry_date =  '0000-00-00';
+                        expiry_date =  null;
                     }
                     console.log(expiry_date, 'expirydateexpirydateexpirydateexpirydate')
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
