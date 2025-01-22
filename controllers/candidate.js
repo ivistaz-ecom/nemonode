@@ -4422,9 +4422,9 @@ const submitApplicationForm = async (req, res) => {
                             expiry_date:expiry_date,
                             issue_place: issue_place,
                         };
-                        await  Documents.update(updatedFields, {
+                        /* await  Documents.update(updatedFields, {
                             where: { candidateId: candidateId, document: doc.name },
-                        })
+                        }) */
                     } else {
                         const inserDocData = {
                             document:documentName,
@@ -4436,7 +4436,7 @@ const submitApplicationForm = async (req, res) => {
                         candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
                     };
                     console.log(inserDocData, 'inserDocDatainserDocData')
-                        await  Documents.create(inserDocData);
+                        //await  Documents.create(inserDocData);
                     }
                 }
                 }
