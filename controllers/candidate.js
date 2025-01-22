@@ -4401,7 +4401,7 @@ const submitApplicationForm = async (req, res) => {
                    
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     
-                    let issue_date = (issuedate!=="")?convertToDate(issuedate).replace(" 00:00:00", ""):'0000-00-00';
+                    let issue_date = (issuedate!=="")?convertToDate(issuedate):'0000-00-00';
                     if(issue_date==='Invalid date') {
                         issue_date = '0000-00-00';
                     }
@@ -4409,7 +4409,7 @@ const submitApplicationForm = async (req, res) => {
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                    
                    
-                    let expiry_date = (expirydate!=="")?convertToDate(expirydate).replace(" 00:00:00", ""):'0000-00-00';
+                    let expiry_date = (expirydate!=="")?convertToDate(expirydate):'0000-00-00';
                     if(expiry_date==='Invalid date') {
                         expiry_date = '0000-00-00';
                     }
