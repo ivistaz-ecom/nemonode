@@ -4426,15 +4426,17 @@ const submitApplicationForm = async (req, res) => {
                             where: { candidateId: candidateId, document: doc.name },
                         })
                     } else {
-                        await  Documents.create({
-                                document:documentName,
-                            document_number: dnumbers,
-                            issue_date: issue_date,
-                            expiry_date:expiry_date,
-                            issue_place: issue_place,
-                            stcw: 'No',
-                            candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
-                        });
+                        const inserDocData = {
+                            document:documentName,
+                        document_number: dnumbers,
+                        issue_date: issue_date,
+                        expiry_date:expiry_date,
+                        issue_place: issue_place,
+                        stcw: 'No',
+                        candidateId: candidateId // Assuming you have a foreign key 'user_id' in your DocumentDetails model
+                    };
+                    console.log(inserDocData, 'inserDocDatainserDocData')
+                        await  Documents.create(inserDocData);
                     }
                 }
                 }
