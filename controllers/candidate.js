@@ -4422,11 +4422,11 @@ const submitApplicationForm = async (req, res) => {
                             expiry_date:expiry_date,
                             issue_place: issue_place,
                         };
-                        Documents.update(updatedFields, {
+                        await  Documents.update(updatedFields, {
                             where: { candidateId: candidateId, document: doc.name },
                         })
                     } else {
-                        Documents.create({
+                        await  Documents.create({
                                 document:documentName,
                             document_number: dnumbers,
                             issue_date: issue_date,
@@ -5126,9 +5126,11 @@ const getMedicalStatsList = async (req, res) => {
 
 
 function convertToDate (postDate) {
-    if(postDate!=="" && postDate!==null && typeof expirydate!==undefined && typeof expirydate!=="undefined") {
+    if(postDate!=="" && postDate!==null) {
         const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
+        console.log(convertdate, 'convertdateconvertdateconvertdate')
         const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
+        console.log(splitdate, 'splitdatesplitdatesplitdatesplitdate')
         if(splitdate.length>0) {
             return splitdate[0]
         }else {
