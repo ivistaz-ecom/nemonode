@@ -4383,7 +4383,12 @@ const submitApplicationForm = async (req, res) => {
                 { key: "stsdsd", name: "STSDSD / SSO" },
               ];
               console.log(postData, 'postDatapostDatapostData')
-              await Promise.all(documentType.map(async (doc) => {
+             /*  await Promise.all(documentType.map(async (doc) => { */
+                for (let index = 0; index < documentType.length; index++) {
+               /*     
+                } */
+               let doc = doc[index];
+
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 console.log(dnumbers, 'dnumbersdnumbersdnumbersdnumbers')
                 if(dnumbers!=="") {
@@ -4441,8 +4446,9 @@ const submitApplicationForm = async (req, res) => {
                     }
                 }
                 }
-                return '';
-            }));
+               // return '';
+            }
+            /* })); */
 
             const exp_from = postData.exp_from||[];
             if(exp_from.length>0) {
