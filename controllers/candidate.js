@@ -4385,6 +4385,7 @@ const submitApplicationForm = async (req, res) => {
              // console.log(postData, 'postDatapostDatapostData')
             documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
+                console.log(dnumbers, 'dnumbersdnumbersdnumbersdnumbers')
                 if(dnumbers!=="") {
                     var docWhere = doc.name;
                     var  documentName = doc.name
