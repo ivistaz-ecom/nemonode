@@ -4382,6 +4382,7 @@ const submitApplicationForm = async (req, res) => {
                 { key: "pssr", name: "PSSR" },
                 { key: "stsdsd", name: "STSDSD / SSO" },
               ];
+              console.log(postData, 'postDatapostDatapostData')
             documentType.map(async (doc) => {
                 let dnumbers = postData[`document_${doc.key}_numbers`]||'';
                 if(dnumbers!=="") {
