@@ -4,7 +4,7 @@ const Vsl = require('../models/VSL')
 const Medical= require('../models/medical') 
 const Travel= require('../models/travel')
 const Bank = require('../models/bank')
-const Documents = require('../models/cdocument')
+const cDocument = require('../models/cdocument')
 const Contract = require('../models/contract')
 const Discussion_plus = require('../models/discussionplus')
 const Discussion = require('../models/discussion')
@@ -263,7 +263,7 @@ const getAllCandidates = async (req, res) => {
                     { model: Medical },
                     { model: Travel },
                     { model: Bank },
-                    { model: Documents },
+                    { model: cDocument },
                     { model: Contract },
                     { model: Discussion_plus },
                     // Add other associated models as needed
@@ -284,7 +284,7 @@ const getAllCandidates = async (req, res) => {
                     { model: Medical },
                     { model: Travel },
                     { model: Bank },
-                    { model: Documents },
+                    { model: cDocument },
                     { model: Contract },
                     { model: Discussion_plus },
                     // Add other associated models as needed
@@ -351,7 +351,7 @@ const searchCandidates = async (req, res) => {
                 { model: Medical },
                 { model: Travel },
                 { model: Bank },
-                { model: Documents },
+                { model: cDocument },
                 { model: Contract },
                 { model: Discussion_plus },
             ],
@@ -612,7 +612,7 @@ const get_candidate = async (req, res) => {
                 { model: Medical },
                 { model: Travel },
                 { model: Bank },
-                { model: Documents },
+                { model: cDocument },
                 { model: Contract },
                 { model: Discussion_plus },
               
@@ -1010,7 +1010,7 @@ const add_documentdetails = async (req, res) => {
         }
 
         // Create a new DocumentDetails entry
-        await Documents.create({
+        await cDocument.create({
             document: document,
             document_number: document_number,
             issue_date: issue_date,
@@ -1470,7 +1470,7 @@ const get_documentdetails = async (req, res) => {
         console.log(':::::>>>>>', candidateId);
         
         // Assuming you have a Document model
-        const documentDetails = await Documents.findAll({
+        const documentDetails = await cDocument.findAll({
             where: { candidateId: candidateId }
         });
 
@@ -1656,7 +1656,7 @@ const update_documentdetails = async (req, res) => {
         console.log('Received data:', updatedFields); // Log the received data
 
         // Find the document record by documentId
-        const documentRecord = await Documents.findOne({
+        const documentRecord = await cDocument.findOne({
             where: { id: documentId },
         });
 
@@ -1902,7 +1902,7 @@ const delete_Document = async (req, res) => {
         }
 
         // Delete the document
-        const deletedDocument = await Documents.destroy({
+        const deletedDocument = await cDocument.destroy({
             where: { id: documentId },
         });
 
@@ -2052,7 +2052,7 @@ const checkExpiry = async (req, res) => {
         }
 
         if (userGroup === 'admin') {
-            const expiringSoonDocuments = await Documents.findAll(options);
+            const expiringSoonDocuments = await cDocument.findAll(options);
             return res.status(200).json(expiringSoonDocuments);
         } else if (userGroup === 'vendor' && readOnly) {
             const candidates = await Candidate.findAll({
@@ -2063,7 +2063,7 @@ const checkExpiry = async (req, res) => {
             const documents = [];
 
             for (const candidateId of candidateIds) {
-                const candidateDocuments = await Documents.findAll({
+                const candidateDocuments = await cDocument.findAll({
                     where: {
                         candidateId: candidateId,
                         ...options.where // Include other conditions
@@ -3018,7 +3018,7 @@ const dueForRenewal = async (req, res) => {
         const candidateIds = candidatesWithContracts.map(candidate => candidate.candidateId);
 
         // Fetch documents due for renewal for filtered candidates
-        const documents = await Documents.findAll({
+        const documents = await cDocument.findAll({
             where: {
                 expiry_date: {
                     [Op.gte]: startDate,
@@ -3074,7 +3074,7 @@ const getDueForRenewalCountForOneDay = async (req, res) => {
 
 
         // Fetch count of documents due for renewal
-        const documentCount = await Documents.count({
+        const documentCount = await cDocument.count({
             where: {
                 expiry_date: {
                     [Op.between]: [startDate, endDate]
@@ -4395,7 +4395,7 @@ const submitApplicationForm = async (req, res) => {
                         documentName = docname;
                     }
                     if(docWhere!=="") {
-                    let evaluation = await Documents.findAll({
+                    let evaluation = await cDocument.findAll({
                             where: { document: docWhere, candidateId: candidateId }
                     });
                    console.log({ document: docWhere, candidateId: candidateId }, evaluation, 'evaluationevaluationevaluation')
@@ -4422,7 +4422,8 @@ const submitApplicationForm = async (req, res) => {
                             expiry_date:expiry_date,
                             issue_place: issue_place,
                         };
-                        await  Documents.update(updatedFields, {
+                        console.log(inserDocData, 'inserDocDatainserDocData')
+                        await  cDocument.update(updatedFields, {
                             where: { candidateId: candidateId, document: doc.name },
                         })
                     } else {
@@ -4436,7 +4437,7 @@ const submitApplicationForm = async (req, res) => {
                         candidateId: candidateId
                     };
                     console.log(inserDocData, 'inserDocDatainserDocData')
-                        await  Documents.create(inserDocData);
+                        await  cDocument.create(inserDocData);
                     }
                 }
                 }
