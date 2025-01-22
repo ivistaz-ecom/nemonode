@@ -491,6 +491,8 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
           }else {
             issuedate = '';
           }
+        }else {
+          issuedate = '';
         }
         let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
         let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
@@ -501,6 +503,8 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
           }else {
             validuntill = '';
           }
+        } else {
+          validuntill = '';
         }
         const row = document.createElement("tr");
         var allowToShow = 'Y';
