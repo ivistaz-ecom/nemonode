@@ -4399,18 +4399,20 @@ const submitApplicationForm = async (req, res) => {
                     });
                    
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
-                    console.log(issuedate, 'issuedateissuedateissuedateissuedateissuedate')
+                    
                     let issue_date = (issuedate!=="")?convertToDate(issuedate).replace(" 00:00:00", ""):'0000-00-00';
                     if(issue_date==='Invalid date') {
                         issue_date = '0000-00-00';
                     }
+                    console.log(issue_date, 'issuedateissuedateissuedateissuedateissuedate')
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                    
-                    console.log(expirydate, 'expirydateexpirydateexpirydateexpirydate')
+                   
                     let expiry_date = (expirydate!=="")?convertToDate(expirydate).replace(" 00:00:00", ""):'0000-00-00';
                     if(expiry_date==='Invalid date') {
                         expiry_date = '0000-00-00';
                     }
+                    console.log(expiry_date, 'expirydateexpirydateexpirydateexpirydate')
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
                     if(evaluation.length>0) {                       
                         let updatedFields = {
@@ -5123,12 +5125,14 @@ const getMedicalStatsList = async (req, res) => {
 
 
 function convertToDate (postDate) {
-    const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
-    const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
-    if(splitdate.length>0) {
-        return splitdate[0]
-    }else {
-        return "";
+    (postDate!=="" && postDate!==null) {
+        const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
+        const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
+        if(splitdate.length>0) {
+            return splitdate[0]
+        }else {
+            return "";
+        }
     }
 }
 
