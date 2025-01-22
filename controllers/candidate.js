@@ -4398,7 +4398,7 @@ const submitApplicationForm = async (req, res) => {
                     let evaluation = await Documents.findAll({
                             where: { document: docWhere, candidateId: candidateId }
                     });
-                   
+                   console.log({ document: docWhere, candidateId: candidateId }, evaluation, 'evaluationevaluationevaluation')
                     let issuedate = postData[`document_${doc.key}_issuedate`]||'';
                     
                     let issue_date = (issuedate!=="")?convertToDate(issuedate):'0000-00-00';
