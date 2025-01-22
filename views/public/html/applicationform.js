@@ -337,13 +337,13 @@ async function fetchAndDisplaySeaService(candidateId) {
       var durationVal = "";
       if(formType==='view') {
        
-        if(exp_from!=="") {
+        if(exp_from!=="" && exp_from!==null) {
           exp_from = new Date(exp_from);
          
           exp_from = addFrontZero(exp_from.getDate())+'-'+month[exp_from.getMonth()]+'-'+exp_from.getFullYear()
         
         }
-        if(exp_to!=="") {
+        if(exp_to!=="" && exp_to!==null) {
           exp_to = new Date(exp_to);
           exp_to = addFrontZero(exp_to.getDate())+'-'+month[exp_to.getMonth()]+'-'+exp_to.getFullYear()
         }
@@ -484,7 +484,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         let documentName = (checkingArray.length>0)?checkingArray[0].document : "";
 
         let issuedate = (checkingArray.length>0)?checkingArray[0].issue_date : "";
-        if(issuedate!=="") {
+        if(issuedate!=="" && issuedate!==null) {
           if (issuedate !== "1970-01-01" && issuedate !== "01-01-1970") {
             issuedate = new Date(issuedate);
             issuedate = addFrontZero(issuedate.getDate())+'-'+month[issuedate.getMonth()]+'-'+issuedate.getFullYear()
@@ -494,7 +494,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         }
         let issueplace = (checkingArray.length>0)?checkingArray[0].issue_place : "";
         let validuntill = (checkingArray.length>0)?checkingArray[0].expiry_date : "";
-        if(validuntill!=="") {
+        if(validuntill!=="" && validuntill!==null) {
           if (validuntill !== "1970-01-01" && validuntill !== "01-01-1970") {
             validuntill = new Date(validuntill);
             validuntill = addFrontZero(validuntill.getDate())+'-'+month[validuntill.getMonth()]+'-'+validuntill.getFullYear()

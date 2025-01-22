@@ -4410,7 +4410,6 @@ const submitApplicationForm = async (req, res) => {
                     if(issue_date==='Invalid date' || issue_date==='undefined' || typeof issue_date===undefined || typeof issue_date==='undefined') {
                         issue_date = null;
                     }
-                    console.log(issue_date, 'issuedateissuedateissuedateissuedateissuedate')
                     let expirydate = postData[`document_${doc.key}_validuntill`]||'';
                    
                    
@@ -4418,7 +4417,6 @@ const submitApplicationForm = async (req, res) => {
                     if(expiry_date==='Invalid date' || expiry_date==='undefined' || typeof expiry_date===undefined || typeof expiry_date==='undefined') {
                         expiry_date =  null;
                     }
-                    console.log(expiry_date, 'expirydateexpirydateexpirydateexpirydate')
                     let issue_place = postData[`document_${doc.key}_issueplace`]||''; 
                     if(evaluation.length>0) {                       
                         let updatedFields = {
@@ -4427,7 +4425,6 @@ const submitApplicationForm = async (req, res) => {
                             expiry_date:expiry_date,
                             issue_place: issue_place,
                         };
-                        console.log(updatedFields, 'updatedFieldsupdatedFieldsupdatedFields')
                         await  cDocument.update(updatedFields, {
                             where: { candidateId: candidateId, document: doc.name },
                         })
@@ -4441,15 +4438,12 @@ const submitApplicationForm = async (req, res) => {
                         stcw: 'No',
                         candidateId: candidateId
                     };
-                    console.log(inserDocData, 'inserDocDatainserDocData')
                         await  cDocument.create(inserDocData);
                     }
                 }
                 }
-               // return '';
             }
-            /* })); */
-
+         
             const exp_from = postData.exp_from||[];
             if(exp_from.length>0) {
                
