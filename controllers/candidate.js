@@ -5126,7 +5126,7 @@ const getMedicalStatsList = async (req, res) => {
 
 
 function convertToDate (postDate) {
-    if(postDate!=="" && postDate!==null) {
+    if(postDate!=="" && postDate!==null && typeof expirydate!==undefined && typeof expirydate!=="undefined") {
         const convertdate = (postDate!=="" && postDate!==null)?new Date(postDate):'';
         const splitdate = (convertdate!=="")?convertdate.toISOString().split('T'):[];
         if(splitdate.length>0) {
