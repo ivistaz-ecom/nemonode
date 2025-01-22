@@ -4427,7 +4427,7 @@ const submitApplicationForm = async (req, res) => {
                             expiry_date:expiry_date,
                             issue_place: issue_place,
                         };
-                        console.log(inserDocData, 'inserDocDatainserDocData')
+                        console.log(updatedFields, 'updatedFieldsupdatedFieldsupdatedFields')
                         await  cDocument.update(updatedFields, {
                             where: { candidateId: candidateId, document: doc.name },
                         })
