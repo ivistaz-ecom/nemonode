@@ -456,7 +456,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       documentTableBody1.innerHTML = "";
       const documentType = [
         { key: "passport", name: "PASSPORT" },
-        { key: "seamanbook", name: "SEAMANS BOOK" },
+        { key: "seamanbook", name: "NATIONAL CDC" },
         { key: "seamanid", name: "SEAFARER ID" },
         { key: "coc", name: "COC" },
         { key:'tankerany', name:'Tanker If any'},
@@ -471,6 +471,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         inputType = "date";
       }
       documentType.map((doc) => {
+       
         var checkingArray = searchArray(candidateData.cDocuments, doc.name)
         if(doc.key==='tankerany') {
           checkingArray = searchArray(candidateData.cDocuments, 'DCE OIL');
@@ -512,8 +513,13 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
           if(docnumbers==="") {
             allowToShow = 'N';
           }
+        }
+        if(formType==='view') {
+          if(docnumbers==="") {
+            allowToShow = 'N';
+          }
+        }
 
-         }
         if(allowToShow==="Y") {
           row.innerHTML = `
               <td>
@@ -746,7 +752,7 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
    
     const documentType = [
       { key: "passport", name: "PASSPORT" },
-      { key: "seamanbook", name: "SEAMANS BOOK" },
+      { key: "seamanbook", name: "NATIONAL CDC" },
       { key: "seamanid", name: "SEAFARER ID" },
       { key: "coc", name: "COC" },
       { key:'tankerany', name:'Tanker If any'},
