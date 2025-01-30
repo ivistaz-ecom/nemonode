@@ -4372,7 +4372,7 @@ const submitApplicationForm = async (req, res) => {
 
             const documentType = [
                 { key: "passport", name: "PASSPORT" },
-                { key: "seamanbook", name: "SEAMANS BOOK" },
+                { key: "nationalcdc", name: "NATIONAL CDC" },
                 { key: "seamanid", name: "SEAFARER ID" },      
                 { key: "coc", name: "COC" },
                 { key:'tankerany', name:'Tanker If any'},

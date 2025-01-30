@@ -456,7 +456,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       documentTableBody1.innerHTML = "";
       const documentType = [
         { key: "passport", name: "PASSPORT" },
-        { key: "seamanbook", name: "NATIONAL CDC" },
+        { key: "nationalcdc", name: "NATIONAL CDC" },
         { key: "seamanid", name: "SEAFARER ID" },
         { key: "coc", name: "COC" },
         { key:'tankerany', name:'Tanker If any'},
@@ -473,9 +473,6 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       documentType.map((doc) => {
         
         var checkingArray = searchArray(candidateData.cDocuments, doc.name)
-        if(checkingArray==="" && doc.key==='seamanbook') {
-          checkingArray = searchArray(candidateData.cDocuments, 'SEAMANS BOOK')
-        }
         if(doc.key==='tankerany') {
           checkingArray = searchArray(candidateData.cDocuments, 'DCE OIL');
           if(checkingArray.length===0) {
@@ -755,7 +752,7 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
    
     const documentType = [
       { key: "passport", name: "PASSPORT" },
-      { key: "seamanbook", name: "NATIONAL CDC" },
+      { key: "nationalcdc", name: "NATIONAL CDC" },
       { key: "seamanid", name: "SEAFARER ID" },
       { key: "coc", name: "COC" },
       { key:'tankerany', name:'Tanker If any'},
@@ -771,9 +768,6 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
     }
     documentType.map((doc) => {
       let chekcingDoct = exitpassport[doc.name] || "";
-      if(chekcingDoct==="" && doc.key==='seamanbook') {
-        chekcingDoct = exitpassport['SEAMANS BOOK'] || "";
-      }
       const row = document.createElement("tr");
       var docName = '';
       if(doc.key==='tankerany') {
