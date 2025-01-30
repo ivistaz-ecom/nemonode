@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="./fav-icon.ico" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Port | Nsnemo</title>
+
+    <meta name="description" content="" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link
+      rel="stylesheet"
+      href="../assets/vendor/css/core.css"
+      class="template-customizer-core-css"
+    />
+    <link
+      rel="stylesheet"
+      href="../assets/vendor/css/theme-default.css"
+      class="template-customizer-theme-css"
+    />
+    <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../assets/sweetalert/sweetalert2.min.css" />
+    <style>
+      body {
+        background-color: #fff !important;
+      }
+      .fulltable {
+        width: 1010px;
+      }
+      .fulltable td {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+      }
+      .applicationno {
+        width: 100%;
+      }
+      .applicationno td {
+        border: 0;
+      }
+      .fulltable input[type="text"],
+      .fulltable input[type="text"],
+      .fulltable select {
+        width: 100%;
+        border: 0;
+      }
+      .fulltable input[type="text"]:focus-visible,
+      .fulltable input[type="text"]:focus-visible,
+      .fulltable select:focus-visible {
+        border: 0;
+        outline-width: 0;
+      }
+      @media print {
+        .print-button {
+          display: none; /* Hide print button when printing */
+        }
+      }
+
+      .preveperience td {
+        padding: 5px 2px;
+        min-height: 50px;
+      }
+      .report-table {
+        width: 100%;
+      }
+      .report-table th {
+        font-weight: bold;
+        text-align: center;
+      }
+      .report-table td {
+        text-align: left;
+      }
+      .report-table th, .report-table td {
+        padding: 6px;
+        border-right: 1px solid #ccc;
+      }
+      .report-table th:last-child, .report-table td:last-child { 
+        border-right: 0;
+      }
+      .report-table th:first-child, .report-table td:first-child {
+        border-left: 0;
+      }
+      #loadingcontact {
+        height: 200px;
+      }
+    </style>
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/js/config.js"></script>
+  </head>
+
+  <body>
+    <div
+      style="width: 1024px; margin: 0 auto;"
+      id="applicationFrm"
+    >
+      <form id="application-form" class="card">
+        <table cellspacing="0" cellpadding="5" class="fulltable">
+          <tbody>
+            <tr style="height: 108px">
+              <td style="width: 176.26px; height: 108px; text-align: center">
+                <img src="./logo.jpeg" alt="Nautilus Shipping India Pvt Ltd" />
+                <p><strong>Nautilus Shipping India Pvt Ltd</strong></p>
+              </td>
+              <td style="width: 332.74px; height: 108px">
+                <p style="text-align: center; font-size: 25px; color: #000">
+                  <strong>CREW LIST</strong>
+                </p>
+              </td>
+              <td style="width: 166px; height: 108px">
+                <table class="applicationno">
+                  <tr>
+                    <td>Form Number</td>
+                    <td>:</td>
+                    <td>NDD-01</td>
+                  </tr>
+                  <tr>
+                    <td>Revision No</td>
+                    <td>:</td>
+                    <td>00</td>
+                  </tr>
+                  <tr>
+                    <td>Date</td>
+                    <td>:</td>
+                    <td>27/11/2022</td>
+                  </tr>
+                  <tr>
+                    <td>Page</td>
+                    <td>:</td>
+                    <td>Page 1 of 1</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table
+          class="fulltable"
+          cellspacing="0"
+          cellpadding="5"
+          style="margin-top: 10px"
+        >
+          <tbody>
+            <tr style="height: 35px">
+              <td style="height: 35px" width="104">
+                <b>Vessel:</b>
+              </td>
+              <td style="height: 35px" width="180" id="vesselName_"></td>
+              <td style="height: 35px" width="123"><b>Port of Registry:</b></td>
+              <td style="height: 35px" width="170" id="portofRegistry"></td>
+              <td style="height: 35px" width="170">
+                <b>Arrival</b><input class="form-check-input" type="checkbox" value="" disabled id="arrival" style="margin-left: 5px;"> <b>Departure</b><input class="form-check-input" type="checkbox" value="" id="departure" disabled style="margin-left: 5px;">
+              </td>
+            </tr>
+            <tr style="height: 35px">
+              <td style="height: 35px" width="104">
+                <b>Port:</b>
+              </td>
+              <td style="height: 35px" id="portName"></td>
+              <td style="height: 35px"><b>Port arrived from:</b></td>
+              <td style="height: 35px" id="portarrivedfrom"></td>
+              <td style="height: 35px">
+                <b>Date:</b><span id="datedisplay"></span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="5" style="padding: 0;">
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Given Name, Surname</th>
+                      <th>Rank / Rating</th>
+                      <th>Nationality</th>
+                      <th>Date / Place of birth</th>
+                      <th>Passport No.</th>
+                      <th>CDC No.</th>
+                      <th>Sign on Date</th>
+                      <th>Sign on Port</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-disply">
+                    <tr>
+                      <td colspan="9" align="center"><div id="loadingcontact"></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table
+          class="fulltable"
+          cellspacing="0"
+          cellpadding="5"
+          id="preveperience"
+        >
+          <tbody></tbody>
+        </table>
+        <p>&nbsp;</p>
+        <button
+          type="button"
+          class="btn btn-primary print-button"
+          onclick="printPage()"
+        >
+          Print
+        </button>
+      </form>
+      <p>&nbsp;</p>
+    </div>
+  </body>
+</html>
+<script src="../assets/js/helper.js"></script>
+<script>
+  const token = localStorage.getItem('token');
+  function printPage() {
+    window.print();
+  }
+  let nationalityData = [];
+  let companyData = [];
+  let portData = [];
+  getReq();
+  var datedisplay = new Date();
+  var datedisplay_ = addFrontZero(datedisplay.getDate())+'/'+addFrontZero(parseInt(datedisplay.getMonth())+1)+'/'+datedisplay.getFullYear();
+    $("#datedisplay").html(datedisplay_);
+    function addFrontZero(value) {
+  if(value!=="") {
+    if(parseInt(value)<10) {
+        return '0'+value;
+    }else {
+      return value;
+    }
+  }
+}
+  async function getReq() {
+    showLoader('loadingcontact')
+  try {
+    // Fetch nationality data
+    const nationalityResponse = await axios.get(
+      `${config.APIURL}others/country-codes`
+    );
+    nationalityData = nationalityResponse.data.countryCodes;
+
+    // Fetch other necessary data
+    const serverResponse = await axios.get(`${config.APIURL}others/get-vsls`, {
+      headers: { Authorization: token },
+    });
+    vslsData = serverResponse.data.vessels;
+    const serverResponseUser = await axios.get(
+      `${config.APIURL}user/userdropdown`
+    );
+    userData = serverResponseUser.data;
+    const serverResponsecomp = await axios.get(
+      `${config.APIURL}company/dropdown-company`
+    );
+    companyData = serverResponsecomp.data.companies;
+
+    const serverrespPort = await axios.get(`${config.APIURL}others/get-ports`);
+    portData = serverrespPort.data.ports;
+
+    loadDetails();
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+  async function  loadDetails() {
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  let startDate = urlParams.get("startDate");
+    startDate = startDate + "T00:00:00Z";
+    let endDate = urlParams.get("endDate");
+    endDate = endDate + "T23:59:59Z";
+
+    // Check if startDate and endDate are empty
+    if (!startDate || !endDate) {
+      console.error("Start date and end date are required");
+      // Show a message to the user indicating that start date and end date are required
+      return;
+    }
+    const vslName = urlParams.get("vslName") || null;
+    const companyname = urlParams.get("companyname") || null;
+
+    const portofRegistry = urlParams.get("portofRegistry") || '';
+    const portarrivedfrom = urlParams.get("portarrivedfrom") || '';
+    const portName = urlParams.get("portName") || '';
+    $('#portofRegistry').html(portofRegistry);
+    $('#portarrivedfrom').html(portarrivedfrom);
+    $('#portName').html(portName);
+
+
+
+    
+    const arrival = urlParams.get("arrival") || '';
+    $('#arrival').attr('checked', (arrival==="Yes")?true:false)
+
+    const departure = urlParams.get("departure") || '';
+    $('#departure').attr('checked', (departure==="Yes")?true:false)
+
+    const params = {
+      startDate: startDate,
+      endDate: endDate,
+      vslName: vslName,
+      company: (companyname!==null && companyname!=='null')?companyname:'',
+    };
+
+    const response = await axios.get(`${config.APIURL}candidate/crewlist`, {
+      params: params,
+    });
+    const crewlist = response.data; // Adjust according to your API response structure
+    console.log(crewlist)
+    hideLoader('loadingcontact')
+
+    const tableBody = document.getElementById("report-disply");
+    tableBody.innerHTML = "";
+    var vesselName_  = '';
+    crewlist.forEach((contract, index) => {
+        if(index===0) {
+          vesselName_ = getVesselName(contract.vslName);
+          $('#vesselName_').html(vesselName_);
+        }
+
+        const row = document.createElement("tr");
+        const fields = [
+          index + 1, // Serial Number (S.No)
+          `${contract.fname} ${contract.lname}`,
+          contract.rank,
+          getNationalityName(contract.nationality),
+          `${formatDateNew(contract.dob)}<br/>${contract.birth_place}`,
+          contract.passport_document_number,
+          contract.indian_cdc_document_number,
+          formatDateNew(contract.sign_on),
+          getPortName(contract.sign_on_port), 
+        ];
+
+        fields.forEach((field) => {
+          const cell = document.createElement("td");
+          // Check for the specific date values
+          if (field === "1970-01-01" || field === "01-01-1970") {
+            cell.textContent = ""; // Replace with empty cell
+          } else if (typeof field === "string") {
+            cell.innerHTML = field; // Use innerHTML to allow HTML content
+          } else {
+            cell.textContent = field;
+          }
+          cell.classList.add("text-center");
+          row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+      });
+  }
+
+
+  function getNationalityName(code) {
+  const nationality = nationalityData.find(
+    (nationality) => nationality.code == code
+  );
+  return nationality ? nationality.country : code;
+}
+function getPortName(id) {
+  const port = portData.find((port) => port.id == id);
+  return port ? port.portName : id;
+}
+function getVesselName(id) {
+  const vessel = vslsData.find((vessel) => vessel.id == id);
+  return vessel ? vessel.vesselName : id;
+}
+
+function formatDateNew(dateString) {
+  if (dateString === "1970-01-01" || dateString === "01-01-1970") {
+    return ""; // Return empty string for invalid dates
+  }
+
+  const [year, month, day] = dateString.split("-");
+  return `${day}-${month}-${year}`;
+}
+
+</script>
+

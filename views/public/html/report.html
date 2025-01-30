@@ -390,6 +390,14 @@
                         <a
                           class="dropdown-item"
                           href="#"
+                          onclick="showReport(event, 'imocrewListMonthWise', 'IMO Crew List Month Wise')"
+                          >IMO Crew List Month Wise</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
                           onclick="showReport(event, 'reliefPlan', 'Relief Plan')"
                           >Relief Plan</a
                         >
@@ -1760,7 +1768,133 @@
                   </div>
                 </div>
               </div>
+              <div id="imocrewListMonthWiseContent" class="report-content">
+                <!-- Content for Crew List Month Wise Report -->
+                <div class="card card-body">
+                  <h4>Crew list month wise</h4>
+                  <form id="imocrewListMonthWiseForm">
+                    <div class="row g-2 mb-3">
+                      <div class="col-md-3">
+                        <label for="startDatec2" class="form-label"
+                          >Start Date</label
+                        >
+                        <input
+                          type="date"
+                          id="startDatec2"
+                          class="form-control"
+                          name="startDatec2"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="endDatec2" class="form-label"
+                          >End Date</label
+                        >
+                        <input
+                          type="date"
+                          id="endDatec2"
+                          class="form-control"
+                          name="endDatec2"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="startDatecl" class="form-label"
+                          >Port of Registry</label
+                        >
+                        <input
+                          type="text"
+                          id="portofRegistry"
+                          class="form-control"
+                          name="portofRegistry"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="portName" class="form-label"
+                          >Port</label
+                        >
+                        <input
+                          type="text"
+                          id="portName"
+                          class="form-control"
+                          name="portName"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="portarrivedfrom" class="form-label"
+                          >Port arrived from</label
+                        >
+                        <input
+                          type="text"
+                          id="portarrivedfrom"
+                          class="form-control"
+                          name="portarrivedfrom"
+                          required
+                        />
+                      </div> 
+                      <div class="col-md-3">
+                        <label for="vsl" class="form-label">Vessel Name</label>
+                        <select id="vsl2" class="form-select" name="vsl2" required>
+                          <option value="">Select Vessel Name</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label for="user_client6" class="form-label"
+                          >Company</label
+                        >
+                        <select
+                          class="form-select"
+                          id="user_client6"
+                          name="user-client6"
+                        >
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="mt-2">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="checkbox" value="" id="arrival">
+                          <label class="form-check-label" for="arrival"> Arrival </label>
+                        </div>
+                        <div class="form-check form-check-inline mt-4">
+                          <input class="form-check-input" type="checkbox" value="" id="departure">
+                          <label class="form-check-label" for="departure"> Departure </label>
+                        </div>
+                      </div>
+                      </div>  
+                    </div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary pe-2 float-end" id="generateIMO" data-value="Generate Report"
+                    >
+                      Generate Report
+                    </button>
+                  </form>
+                  <div class="row g-2 mt-1">
+                    <!-- Search Input -->
+                    <!-- Data Count Message -->
+                    <div class="col-md-4 d-flex align-items-center">
+                      <span
+                        id="imocrewListCount"
+                        class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
+                      >
+                        <span id="dataCount" class="text-success"></span>
+                        data match search
+                      </span>
+                    </div>
 
+                    <!-- Export Button -->
+                    <div
+                      class="col-md-4 d-flex align-items-center justify-content-end"
+                    >
+                      <div id="exportimoCrewList"></div>
+                    </div>
+                  </div>
+
+                  <div id="imocrewListMonthWiseContainer"></div>
+                </div>
+              </div>
               <div id="reliefPlanContent" class="report-content">
                 <!-- Content for Relief Plan Report -->
                 <div class="card card-body">
@@ -2461,55 +2595,29 @@
         placeholder: "Select a User",
         allowClear: true,
       });
-
-      $("#user_client").select2({
+      $("#user_client, #user_client1, #user_client2, #user_client3, #user_client4, #user_client5, #user_client6").select2({
         placeholder: "Select a Company",
         allowClear: true,
       });
-
-      $("#candidate_c_vessel").select2({
+      $("#vsl, #vsl1, #vsl2").select2({
         placeholder: "Select a Vessel",
         allowClear: true,
       });
-
-      $("#user_client1").select2({
-        placeholder: "Select a Company",
+      $("#candidate_c_vessel").select2({
+        placeholder: "Select a Vessel",
         allowClear: true,
-      });
+      });     
       $("#candidate_c_vessel1").select2({
         placeholder: "Select a Vessel",
         allowClear: true,
       });
-      $("#user_client2").select2({
-        placeholder: "Select a Company",
-        allowClear: true,
-      });
+     
       $("#candidate_c_vessel2").select2({
         placeholder: "Select a Vessel",
         allowClear: true,
-      });
-      $("#user_client3").select2({
-        placeholder: "Select a Company",
-        allowClear: true,
-      });
+      });     
       $("#avbrank").select2({
         placeholder: "Select a Rank",
-        allowClear: true,
-      });
-      $("#user_client4").select2({
-        placeholder: "Select a User",
-        allowClear: true,
-      });
-      $("#vsl1").select2({
-        placeholder: "Select a Vessel",
-        allowClear: true,
-      });
-      $("#vsl").select2({
-        placeholder: "Select a Vessel",
-        allowClear: true,
-      });
-      $("#user_client5").select2({
-        placeholder: "Select a User",
         allowClear: true,
       });
     </script>

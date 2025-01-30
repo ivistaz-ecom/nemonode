@@ -724,6 +724,8 @@ async function createCompanyDropdown() {
   companyDropdown4.innerHTML = "";
   const companyDropdown5 = document.getElementById("user_client5");
   companyDropdown5.innerHTML = "";
+  const companyDropdown6 = document.getElementById("user_client6");
+  companyDropdown6.innerHTML = "";
   // Add the default option
   const defaultOption = document.createElement("option");
   defaultOption.value = "";
@@ -734,6 +736,7 @@ async function createCompanyDropdown() {
   companyDropdown3.appendChild(defaultOption.cloneNode(true));
   companyDropdown4.appendChild(defaultOption.cloneNode(true));
   companyDropdown5.appendChild(defaultOption.cloneNode(true));
+  companyDropdown6.appendChild(defaultOption.cloneNode(true));
 
   // Add options for each company
   for (let i = 0; i < companyNames.length; i++) {
@@ -746,6 +749,7 @@ async function createCompanyDropdown() {
     companyDropdown3.appendChild(option.cloneNode(true));
     companyDropdown4.appendChild(option.cloneNode(true));
     companyDropdown5.appendChild(option.cloneNode(true));
+    companyDropdown6.appendChild(option.cloneNode(true));
     // If you want to clone the options for another dropdown, do it here
     // companyDropdown.appendChild(option.cloneNode(true));
   }
@@ -3278,6 +3282,355 @@ async function handleCrewList(event) {
   }
 }
 
+
+const handleimoCrewListForm = document.getElementById("imocrewListMonthWiseForm").addEventListener("submit", handleimoCrewList);
+async function handleimoCrewList(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+  try {
+
+    
+    let startDate = document.getElementById("startDatec2").value;
+    startDate = startDate + "T00:00:00Z";
+    let endDate = document.getElementById("endDatec2").value;
+    endDate = endDate + "T23:59:59Z";
+
+    // Check if startDate and endDate are empty
+    if (!startDate || !endDate) {
+      console.error("Start date and end date are required");
+      // Show a message to the user indicating that start date and end date are required
+      return;
+    }
+    showLoaderButton('generateIMO')
+    const vslName = document.getElementById("vsl2").value || null;
+    const companyname = document.getElementById("user_client6").value || null;
+
+    const params = {
+      startDate: startDate,
+      endDate: endDate,
+      vslName: vslName,
+      company: companyname,
+    };
+
+    const response = await axios.get(`${config.APIURL}candidate/crewlist`, {
+      params: params,
+    });
+    const crewlist = response.data; // Adjust according to your API response structure
+    hideLoaderButton('generateIMO')
+    // Clear existing results
+    const crewListResults = document.getElementById(
+      "imocrewListMonthWiseContainer"
+    );
+    crewListResults.innerHTML = "";
+
+    if (crewlist.length === 0) {
+      const message = document.createElement("p");
+      message.textContent = "No data available";
+      crewListResults.appendChild(message);
+      return;
+    }
+
+    // Create search input
+    const searchInput = document.createElement("input");
+    searchInput.classList.add("form-control", "p-0", "mt-2", "mb-2");
+    searchInput.style.width = "150px";
+    searchInput.type = "text";
+    searchInput.placeholder = "Search...";
+    searchInput.id = "imocrewListMonthWiseSearchInput";
+    crewListResults.appendChild(searchInput);
+
+    // Create rows per page select
+    const rowsPerPageSelect = document.createElement("select");
+    rowsPerPageSelect.classList.add("form-select", "p-2", "mt-2", "mb-2");
+    rowsPerPageSelect.style.width = "100px";
+    rowsPerPageSelect.id = "rowsPerPageSelect";
+    [10, 25, 50, 100, 500].forEach((option) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.textContent = option;
+      rowsPerPageSelect.appendChild(optionElement);
+    });
+    rowsPerPageSelect.addEventListener("change", () => {
+      renderTable();
+    });
+    crewListResults.appendChild(rowsPerPageSelect);
+
+    const portofRegistry = document.getElementById("portofRegistry").value || '';
+    const portarrivedfrom = document.getElementById("portarrivedfrom").value || '';
+    const portName = document.getElementById("portName").value || '';
+    const arrival = document.getElementById("arrival").checked || '';
+    const arrival_ = (arrival===true)?'Yes':'No';
+    const departure = document.getElementById("departure").checked || '';
+    const departure_ = (arrival===true)?'Yes':'No';
+   
+    
+
+    // Create export button
+    const exportButton = document.createElement("button");
+    exportButton.classList.add("btn", "btn-success", "p-0", "ps-2", "pe-2");
+    exportButton.textContent = "Print";
+    exportButton.addEventListener("click", () => {
+      window.open(
+        `viewimoreport.html?startDate=${startDate}&endDate=${endDate}&vslName=${vslName}&companyname=${companyname}&portofRegistry=${portofRegistry}&portarrivedfrom=${portarrivedfrom}&portName=${portName}&arrival=${arrival_}&departure=${departure_}`,
+        '_blank' // <- This is what makes it open in a new window.
+      );
+    }
+    );
+    crewListResults.appendChild(exportButton);
+
+    // Create table container
+    const tableContainer = document.createElement("div");
+    tableContainer.id = "imocrewListMonthWiseTableContainer";
+    crewListResults.appendChild(tableContainer);
+
+    // Pagination variables
+    let currentPage_ = 1;
+    let itemsPerPage = parseInt(rowsPerPageSelect.value); // Number of items per page
+    let totalItems = crewlist.length;
+    let totalPages = Math.ceil(totalItems / itemsPerPage);
+    const maxVisiblePages = 5; // Maximum number of page buttons to display
+
+    let filteredCrewlist = crewlist;
+
+    searchInput.addEventListener("input", () => {
+      currentPage_ = 1;
+      renderTable();
+    });
+
+    // Function to render table with pagination and search
+    // Function to render table with pagination and search
+    function renderTable() {
+      itemsPerPage = parseInt(rowsPerPageSelect.value); // Update items per page based on selection
+
+      // Clear existing table content (excluding search input, rows per page select, and export button)
+      tableContainer.innerHTML = "";
+
+      // Apply search filter
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      filteredCrewlist = crewlist.filter((contract) => {
+        return Object.values(contract).some(
+          (value) =>
+            value && value.toString().toLowerCase().includes(searchTerm)
+        );
+      });
+
+      // Update total pages based on filtered crewlist
+      totalPages = Math.ceil(filteredCrewlist.length / itemsPerPage);
+
+      // Paginate data
+      const startIndex = (currentPage_ - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const displayedCrewlist = filteredCrewlist.slice(startIndex, endIndex);
+
+      // Create table element
+      const table = document.createElement("table");
+      table.classList.add("table", "table-bordered", "table-sm");
+
+      // Create table header
+      const tableHeader = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      const headers = [
+        "S.No",
+        "Candidate ID",
+        "First Name",
+        "Last Name",
+        "Rank",
+        'Date Of Birth',
+        'Place of birth',
+        "Nationality",
+        "Company",
+        "Sign On",
+        "Sign On Port",
+        "Vessel Name",
+        "Indian CDC",
+        "Passport Document Number",
+      ];
+
+      headers.forEach((headerText) => {
+        const header = document.createElement("th");
+        header.innerHTML = headerText.replace(/ /g, "&nbsp;"); // Replace spaces with &nbsp;
+        header.scope = "col";
+        header.style.backgroundColor = "#201E43";
+        header.style.color = "#ffffff";
+        header.classList.add("text-center");
+        headerRow.appendChild(header);
+      });
+
+      tableHeader.appendChild(headerRow);
+      table.appendChild(tableHeader);
+
+      // Create table body
+      // Create table body
+      const tableBody = document.createElement("tbody");
+      displayedCrewlist.forEach((contract, index) => {
+        const row = document.createElement("tr");
+        const fields = [
+          startIndex + index + 1, // Serial Number (S.No)
+          `<a href="javascript:void(0);" onclick="viewCandidate('${contract.candidateId}')">${contract.candidateId}</a>`,
+          contract.fname,
+          contract.lname,
+          contract.rank,
+          contract.dob,
+          contract.birth_place,
+          getNationalityName(contract.nationality),
+          contract.company_name,
+          formatDateNew(contract.sign_on),
+          getPortName(contract.sign_on_port),
+          getVesselName(contract.vslName),
+          contract.indian_cdc_document_number,
+          contract.passport_document_number,
+        ];
+
+        fields.forEach((field) => {
+          const cell = document.createElement("td");
+          // Check for the specific date values
+          if (field === "1970-01-01" || field === "01-01-1970") {
+            cell.textContent = ""; // Replace with empty cell
+          } else if (typeof field === "string") {
+            cell.innerHTML = field; // Use innerHTML to allow HTML content
+          } else {
+            cell.textContent = field;
+          }
+          cell.classList.add("text-center");
+          row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+      });
+
+      table.appendChild(tableBody);
+
+      // Append table to tableContainer
+      tableContainer.appendChild(table);
+
+      // Display total number of crewlist fetched
+      // const fetchedDataMessage = document.createElement('p');
+      // fetchedDataMessage.textContent = `${totalItems} data fetched`;
+      // tableContainer.appendChild(fetchedDataMessage);
+
+      // Display number of crewlist matching search criteria
+      const dataCount = document.getElementById("dataCount");
+      dataCount.textContent = `${filteredCrewlist.length}`;
+
+      // Create pagination controls
+      const paginationContainer = document.createElement("div");
+      paginationContainer.classList.add("pagination", "justify-content-center");
+
+      // Previous button
+      const prevButton = createPaginationButton(
+        "Prev",
+        currentPage_ > 1,
+        () => {
+          currentPage_--;
+          renderTable();
+        }
+      );
+      paginationContainer.appendChild(prevButton);
+
+      // Page buttons
+      let startPage = Math.max(
+        1,
+        currentPage_ - Math.floor(maxVisiblePages / 2)
+      );
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      if (startPage > 1) {
+        const firstEllipsis = createPaginationButton("...", false, null);
+        paginationContainer.appendChild(firstEllipsis);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        const pageButton = createPaginationButton(i.toString(), true, () => {
+          currentPage_ = i;
+          renderTable();
+        });
+        if (i === currentPage_) {
+          pageButton.classList.add("active");
+        }
+        paginationContainer.appendChild(pageButton);
+      }
+
+      if (endPage < totalPages) {
+        const lastEllipsis = createPaginationButton("...", false, null);
+        paginationContainer.appendChild(lastEllipsis);
+      }
+
+      // Next button
+      const nextButton = createPaginationButton(
+        "Next",
+        currentPage_ < totalPages,
+        () => {
+          currentPage_++;
+          renderTable();
+        }
+      );
+      paginationContainer.appendChild(nextButton);
+
+      // Append pagination controls to tableContainer
+      tableContainer.appendChild(paginationContainer);
+    }
+
+    // Helper function to create pagination button
+    function createPaginationButton(text, isEnabled, onClick) {
+      const button = document.createElement("button");
+      button.classList.add("btn", "btn-outline-primary", "mx-1");
+      button.textContent = text;
+      button.addEventListener("click", onClick);
+      button.disabled = !isEnabled;
+      return button;
+    }
+
+    // Function to export table data to Excel
+    function exportToExcel(data) {
+      const worksheet = XLSX.utils.json_to_sheet(
+        data.map((contract, index) => ({
+          "S.No": index + 1,
+          "Candidate ID": contract.candidateId,
+          "First Name": contract.fname,
+          "Last Name": contract.lname,
+          Rank: contract.rank,
+          Nationality: getNationalityName(contract.nationality),
+          Company: contract.company_name,
+          Currency: contract.currency,
+          EOC: formatDateNew(contract.eoc),
+          "Sign On": formatDateNew(contract.sign_on),
+          "Sign Off": formatDateNew(contract.sign_off),
+          "Sign On Port": getPortName(contract.sign_on_port),
+          "Sign Off Port": getPortName(contract.sign_off_port),
+          "Vessel Name": getVesselName(contract.vslName),
+          "Vessel Type": contract.vesselType,
+          Wages: contract.wages,
+          "Wage Types": contract.wages_types,
+          "Account Number": contract.account_num, // New field
+          "Bank Name": contract.bank_name, // New field
+          Branch: contract.branch, // New field
+          "IFSC Code": contract.ifsc_code, // New field
+          "SWIFT Code": contract.swift_code, // New field
+          Beneficiary: contract.beneficiary, // New field
+          "Beneficiary Address": contract.beneficiary_addr, // New field
+          "Bank Address": contract.bank_addr, // New field
+          "PAN num": contract.pan_num,
+          "PAN card": contract.pan_card,
+          "Indian CDC": contract.indian_cdc_document_number,
+          "Passport Doc number": contract.passport_document_number,
+        }))
+      );
+
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Crew List Month Wise");
+
+      XLSX.writeFile(workbook, "imo_crew_list_month_wise.xlsx");
+    }
+
+    // Initial render of table
+    renderTable();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function getDocumentNumber(candidate, documentType) {
   const doc = candidate.cDocuments.find((doc) => doc.document === documentType);
   return doc ? doc.document_number : "";
@@ -3292,6 +3645,7 @@ const displayVesselDropdown = async function () {
   try {
     const vesselDropdown = document.getElementById("vsl");
     const vesselDropdown1 = document.getElementById("vsl1");
+    const vesselDropdown2 = document.getElementById("vsl2");
     vesselDropdown.innerHTML = ""; // Clear existing options
     vesselDropdown1.innerHTML = ""; // Clear existing options
 
@@ -3301,6 +3655,7 @@ const displayVesselDropdown = async function () {
     defaultOption.text = "-- Select Vessel --";
     vesselDropdown.appendChild(defaultOption);
     vesselDropdown1.appendChild(defaultOption.cloneNode(true));
+    vesselDropdown2.appendChild(defaultOption.cloneNode(true));
 
     // Fetch vessel names from the server
     const vesselResponse = await axios.get(`${config.APIURL}others/get-vsls`);
@@ -3313,6 +3668,7 @@ const displayVesselDropdown = async function () {
       option.text = vessel.vesselName; // Assuming vesselName is the correct attribute
       vesselDropdown.appendChild(option);
       vesselDropdown1.appendChild(option.cloneNode(true));
+      vesselDropdown2.appendChild(option.cloneNode(true));
     });
   } catch (error) {
     console.error("Error fetching vessels:", error);
