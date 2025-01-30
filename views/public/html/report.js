@@ -3367,7 +3367,7 @@ async function handleimoCrewList(event) {
     // Create export button
     const exportButton = document.createElement("button");
     exportButton.classList.add("btn", "btn-success", "p-0", "ps-2", "pe-2");
-    exportButton.textContent = "Print";
+    exportButton.textContent = "Export";
     exportButton.addEventListener("click", () => {
       window.open(
         `viewimoreport.html?startDate=${startDate}&endDate=${endDate}&vslName=${vslName}&companyname=${companyname}&portofRegistry=${portofRegistry}&portarrivedfrom=${portarrivedfrom}&portName=${portName}&arrival=${arrival_}&departure=${departure_}`,
