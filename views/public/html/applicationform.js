@@ -212,23 +212,22 @@ async function fetchAndDisplaySeaService(candidateId) {
               <td width="61" align="center">
                 <p><strong>Type of Vessel</strong></p>
               </td>
-              ${(formType==='edit')?`<td width="61" align="center">
-                <p><strong>DWT</strong></p>
-              </td><td width="61" align="center">
-                <p><strong>KWT</strong></p>
-              </td>`:`<td width="61" align="center">
-                <p><strong>DWT/KWT</strong></p>
-              </td>`}
-              
               <td width="61" align="center">
                 <p><strong>GRT</strong></p>
               </td>
-               <td width="61" align="center">
+              <td width="61" align="center">
                 <p><strong>Flag</strong></p>
               </td>
               <td width="61" align="center">
                 <p><strong>Engine</strong></p>
               </td>
+              ${(formType==='edit')?`<td width="61" align="center">
+                <p><strong>DWT</strong></p>
+              </td><td width="61" align="center">
+                <p><strong>KWT</strong></p>
+              </td>`:`<td width="61" align="center">
+                <p><strong>KWT</strong></p>
+              </td>`}              
               <td width="62" align="center">
                 <p><strong>Rank</strong></p>
               </td>
@@ -382,19 +381,16 @@ async function fetchAndDisplaySeaService(candidateId) {
       <td width="61">
         ${((formType==='edit') )?`<input type="text" name="exp_typeofvessel" value="${exp_typeofvessel}" />` :`${exp_typeofvessel}`}
       </td>
-      ${displydwtkwd}
+      <td width="61">
+        ${((formType==='edit') )?`<input type="text" name="exp_GRT" value="${exp_GRT}" />` :`${exp_GRT}`}
+      </td>
       <td width="61">
         ${((formType==='edit') )?`<input type="text" name="exp_flag" value="${exp_flag}" />` :`${exp_flag}`}
       </td>
       <td width="61">
-        ${((formType==='edit') )?`<input type="text" name="exp_GRT" value="${exp_GRT}" />` :`${exp_GRT}`}
-      </td>
-     
-      
-      <td width="61">
         ${((formType==='edit') )?`<input type="text" name="exp_Engine" value="${exp_Engine}" />` :`${exp_Engine}`}
       </td>
-      
+      ${displydwtkwd}
       <td width="62">
         ${((formType==='edit') )?`<input type="text" name="exp_Position" value="${exp_Position}" />` :`${exp_Position}`}        
       </td>
