@@ -471,8 +471,11 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         inputType = "date";
       }
       documentType.map((doc) => {
-       
+        
         var checkingArray = searchArray(candidateData.cDocuments, doc.name)
+        if(checkingArray==="" && doc.key==='seamanbook') {
+          checkingArray = searchArray(candidateData.cDocuments, 'SEAMANS BOOK')
+        }
         if(doc.key==='tankerany') {
           checkingArray = searchArray(candidateData.cDocuments, 'DCE OIL');
           if(checkingArray.length===0) {
@@ -768,6 +771,9 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
     }
     documentType.map((doc) => {
       let chekcingDoct = exitpassport[doc.name] || "";
+      if(chekcingDoct==="" && doc.key==='seamanbook') {
+        chekcingDoct = exitpassport['SEAMANS BOOK'] || "";
+      }
       const row = document.createElement("tr");
       var docName = '';
       if(doc.key==='tankerany') {
