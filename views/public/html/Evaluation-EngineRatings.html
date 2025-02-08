@@ -126,8 +126,8 @@
         </div> 
 
         <form>
-            <div class="d-flex justify-content-center" id="imageContainer" >
-                <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
+            <div class="d-flex" id="imageContainer" style="justify-content: end;">
+                <img id="img" style="height: 150px;width: 150px;border: solid 1px grey;"/>
                        
                        </div>
             <div class="mb-3">
@@ -1066,6 +1066,64 @@ SIRE/CDI experience Right ship
             if (token) {
                 const decodedToken = decodeToken(token);
                 const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
+
+                getReq();
+                getCandidate(candidateId);
+                updateCandidatePhoto(candidateId)
+
+                async function getReq() {
+                    try {
+                        // Fetch nationality data
+                        const nationalityResponse = await axios.get(`${config.APIURL}others/country-codes`);
+                        nationalityData = nationalityResponse.data.countryCodes;
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
+                }
+
+                async function getCandidate(id) {
+                    try {
+                        const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`, {
+                            headers: { "Authorization": token }
+                        });
+                        
+                        const candidate = response.data.candidate;
+                        const fullName = document.getElementById('fullName')
+                        const nationality = document.getElementById('newNationality')
+                        const mobile = document.getElementById('mobile')
+                        const lastContract=document.getElementById('lastContract')
+                        const qualification = document.getElementById('qualification');
+                        fullName.value=response.data.candidate.fname
+                        nationality.value=getNationalityName(response.data.candidate.nationality)
+                        mobile.value=response.data.candidate.c_mobi1
+                        lastContract.value=response.data.candidate.c_rank
+                        qualification.value=response.data.candidate?.qualifications||''
+                    } catch (error) {
+                        console.error('Error fetching candidate:', error);
+                    }
+                }
+                async function updateCandidatePhoto(id) {             
+                const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+                const fetchedPhotoValue = response.data.candidate.photos
+                // Fetch the photo value from the form
+                const photoValue = fetchedPhotoValue
+
+                // Extract the photo name from the photo value
+                const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+                // Update the src attribute of the img tag
+                if(photoName!=="") {
+                    const imageContainer = document.getElementById('imageContainer');
+                    const image = imageContainer.querySelector('img');
+                    image.src = "/photos/" + photoName;
+                    image.alt = "Description of the image"; // Add alt attribute if needed
+                }
+                }
+
+                function getNationalityName(code) {
+                    const nationality = nationalityData.find(nationality => nationality.code == code);
+                    return nationality ? nationality.country : code;
+                }
     
                 // Store the values in sessionStorage
                 sessionStorage.setItem('candidateId', candidateId);
