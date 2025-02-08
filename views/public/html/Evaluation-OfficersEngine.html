@@ -1124,34 +1124,24 @@
                     mobile.value=response.data.candidate.c_mobi1
                     lastContract.value=response.data.candidate.c_rank
                     qualification.value=response.data.candidate?.qualifications||''
-
-
-
-                    
-                    
-                    console.log(candidate)
                 } catch (error) {
                     console.error('Error fetching candidate:', error);
                 }
             }
             async function updateCandidatePhoto(id) {             
               const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
-              console.log(response)
               const fetchedPhotoValue = response.data.candidate.photos
-              console.log(fetchedPhotoValue)
               // Fetch the photo value from the form
               const photoValue = fetchedPhotoValue
 
               // Extract the photo name from the photo value
               const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
-              console.log(photoName, 'photoNamephotoName')
               // Update the src attribute of the img tag
               if(photoName!=="") {
                 const imageContainer = document.getElementById('imageContainer');
                 const image = imageContainer.querySelector('img');
                 image.src = "/photos/" + photoName;
                 image.alt = "Description of the image"; // Add alt attribute if needed
-                console.log(image.src); // Check the src attribute in the console
               }
             }
 
