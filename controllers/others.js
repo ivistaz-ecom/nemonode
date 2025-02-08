@@ -2081,8 +2081,7 @@ const getPortAgent = async (req, res) => {
 const getVessels = async (req, res) => {
   try {
       // Fetch all vessel data
-      const vessels = await Vessel.findAll({
-      });
+      const vessels = await Vessel.findAll({order: [['vesselName', 'ASC']]});
 
       // Extract vessel names from the fetched data
      
