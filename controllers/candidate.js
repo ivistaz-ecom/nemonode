@@ -5023,7 +5023,6 @@ const getStatsList = async (req, res) => {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }
-
         if(query!=="") {
             listData = await sequelize.query(query, {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
