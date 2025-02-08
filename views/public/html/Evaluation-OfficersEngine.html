@@ -1001,7 +1001,7 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <script>
 
-
+  let nationalityData = [];
         const month = [
           "Jan",
           "Feb",
@@ -1092,9 +1092,20 @@
           if (token) {
             const decodedToken = decodeToken(token);
             const { candidateId, appliedDate, appliedRank, interviewerName, time } = getURLParams();
+            getReq();
             getCandidate(candidateId);
             updateCandidatePhoto(candidateId)
 
+            async function getReq() {
+                try {
+                    // Fetch nationality data
+                    const nationalityResponse = await axios.get(`${config.APIURL}others/country-codes`);
+                    nationalityData = nationalityResponse.data.countryCodes;
+                }
+                catch(err){
+                    console.log(err);
+                }
+            }
 
             async function getCandidate(id) {
                 try {
