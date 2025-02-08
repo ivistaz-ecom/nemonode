@@ -4981,25 +4981,25 @@ const getStatsList = async (req, res) => {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }else if(type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }else if(type==='Created') {
             if(userID!=="") {
                 where+=` AND userId='${userID}' `;
             }
-            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date, userName FROM Candidates AS b  INNER JOIN users AS c ON b.userId=c.id  WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
+            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date, userName FROM Candidates AS b  INNER JOIN Users AS c ON b.userId=c.id  WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM Candidates AS b  INNER JOIN users AS c ON b.userId=c.id   WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM Candidates AS b  INNER JOIN Users AS c ON b.userId=c.id   WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
             }
         }else if(type==='SignOff' || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
             var whereDate = ''
