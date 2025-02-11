@@ -453,7 +453,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       const documentType = [
         { key: "passport", name: "PASSPORT" },
         { key: "nationalcdc", name: "NATIONAL CDC" },
-        { key: "seamanid", name: "SEAFARER ID" },
+        { key: "seamanid", name: "SEAFARER ID(Indos)" },
         { key: "coc", name: "COC" },
         { key:'tankerany', name:'Tanker If any'},
         { key: "aff_fpff", name: "AFF / FPFF" },
@@ -749,7 +749,7 @@ async function fetchAndDisplayDocumentDetails(candidateId, token) {
     const documentType = [
       { key: "passport", name: "PASSPORT" },
       { key: "nationalcdc", name: "NATIONAL CDC" },
-      { key: "seamanid", name: "SEAFARER ID" },
+      { key: "seamanid", name: "SEAFARER ID(Indos)" },
       { key: "coc", name: "COC" },
       { key:'tankerany', name:'Tanker If any'},
       { key: "aff_fpff", name: "AFF / FPFF" },
