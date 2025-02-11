@@ -1281,7 +1281,7 @@
         window.onload = initialize;
 
         async function updateCandidatePhoto(id) {
-            const token = sessionStorage.getItem("token");      
+            const token = localStorage.getItem("token");      
             console.log(token, 'tokentokentoken')    
             const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
             const fetchedPhotoValue = response.data.candidate.photos
