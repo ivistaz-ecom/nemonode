@@ -1268,17 +1268,14 @@
             }
 
             if (candidateId && evalId) {
-                updateCandidatePhoto(candidateId)
                 console.log("Candidate ID:", candidateId);
                 console.log("Evaluation ID:", evalId);
                 fetchEvaluationData(candidateId, evalId);
+                updateCandidatePhoto(candidateId);
             } else {
                 console.warn("Missing candidateId or id in URL");
             }
         }
-
-        // Call initialize function on page load
-        window.onload = initialize;
 
         async function updateCandidatePhoto(id) {
             const token = localStorage.getItem("token");      
@@ -1298,6 +1295,8 @@
             }
         }
 
+        // Call initialize function on page load
+        window.onload = initialize;
         function updatePrintableArea() {
             var form = document.getElementById("evaluationForm");
             var formData = new FormData(form);

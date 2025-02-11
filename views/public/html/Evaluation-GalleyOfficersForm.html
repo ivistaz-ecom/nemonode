@@ -803,10 +803,12 @@ SIRE/CDI experience Right ship
               const response = await axios.get(`${config.APIURL}candidate/viewevaluation/${evalId}/${candidateId}`);
               const evaluationData = response.data;
               console.log("Fetched Evaluation Data:", evaluationData);
-              var evaluationalues =
-                    evaluationData.values !== "" && evaluationData.values !== null
-                        ? JSON.parse(evaluationData.values)
-                        : "";
+              var evaluationalues = '';
+            if (typeof evaluationData.values !== "string") { 
+                evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? evaluationData.values: "";
+            }else {
+                evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
+            }
              const applied_date = response?.data?.applied_date || '';
               applieddate = (applied_date!=="")?new Date(applied_date):new Date();
               const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -899,10 +901,30 @@ SIRE/CDI experience Right ship
               console.log("Candidate ID:", candidateId);
               console.log("Evaluation ID:", evalId);
               fetchEvaluationData(candidateId, evalId);
+              updateCandidatePhoto(candidateId);
           } else {
               console.warn('Missing candidateId or id in URL');
           }
       }
+
+
+      async function updateCandidatePhoto(id) {
+        const token = localStorage.getItem("token");      
+        const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const fetchedPhotoValue = response.data.candidate.photos
+        // Fetch the photo value from the form
+        const photoValue = fetchedPhotoValue
+
+        // Extract the photo name from the photo value
+        const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+        // Update the src attribute of the img tag
+        if(photoName!=="") {
+            const imageContainer = document.getElementById('imageContainer');
+            const image = imageContainer.querySelector('img');
+            image.src = "/photos/" + photoName;
+            image.alt = "Description of the image"; // Add alt attribute if needed
+        }
+    }
       
       // Call initialize function on page load
       window.onload = initialize;

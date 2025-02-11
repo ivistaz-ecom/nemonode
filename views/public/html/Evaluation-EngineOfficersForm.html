@@ -957,11 +957,11 @@ SIRE/CID experience
             console.log("Fetched Evaluation Data:", evaluationData);
 
             var evaluationalues = '';
-              if (typeof evaluationData.values !== "string") { 
-                  evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? evaluationData.values: "";
-              }else {
-                  evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
-              }
+            if (typeof evaluationData.values !== "string") { 
+                evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? evaluationData.values: "";
+            }else {
+                evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
+            }
              const applied_date = response?.data?.applied_date || '';
               applieddate = (applied_date!=="")?new Date(applied_date):new Date();
               const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
