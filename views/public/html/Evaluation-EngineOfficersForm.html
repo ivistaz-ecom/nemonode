@@ -129,8 +129,8 @@
       </div>  
 
       <form>
-        <div class="d-flex justify-content-center" id="imageContainer" >
-          <img id="img" style="height: 100px;width: 100px;border: solid 1px grey;"/>
+        <div class="d-flex " id="imageContainer" style="justify-content: end;">
+          <img id="img" style="height: 150px; width: 150px; border: solid 1px grey" />
                  
                  </div>
         <div class="mb-3">
@@ -1021,14 +1021,29 @@ SIRE/CID experience
     makeFormReadOnly();
 }
 
-    
+async function updateCandidatePhoto(id) {             
+        const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+        const fetchedPhotoValue = response.data.candidate.photos
+        // Fetch the photo value from the form
+        const photoValue = fetchedPhotoValue
+
+        // Extract the photo name from the photo value
+        const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+        // Update the src attribute of the img tag
+        if(photoName!=="") {
+            const imageContainer = document.getElementById('imageContainer');
+            const image = imageContainer.querySelector('img');
+            image.src = "/photos/" + photoName;
+            image.alt = "Description of the image"; // Add alt attribute if needed
+        }
+        }
     // Function to extract query parameters and call fetchEvaluationData
     function initialize() {
         const params = new URLSearchParams(window.location.search);
         const candidateId = params.get('candidateId');
         const evalId = params.get('id');
         const time = params.get('time');
-    
+        updateCandidatePhoto(candidateId)
         const timeElement = document.getElementById('timeNow');
         if (timeElement) {
             timeElement.value = time || ''; // Default to an empty string if time is null
@@ -1037,6 +1052,8 @@ SIRE/CID experience
         }
     
         if (candidateId && evalId) {
+
+          
             console.log("Candidate ID:", candidateId);
             console.log("Evaluation ID:", evalId);
             fetchEvaluationData(candidateId, evalId);
