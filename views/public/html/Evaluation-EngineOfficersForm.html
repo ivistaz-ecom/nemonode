@@ -936,7 +936,6 @@ SIRE/CID experience
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    const token = sessionStorage.getItem("token");
     function addFrontZero(value) {
               if(value!=="") {
                 if(parseInt(value)<10) {
@@ -1025,7 +1024,8 @@ SIRE/CID experience
     makeFormReadOnly();
 }
 
-    async function updateCandidatePhoto(id) {             
+  async function updateCandidatePhoto(id) {
+        const token = localStorage.getItem("token");      
         const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const fetchedPhotoValue = response.data.candidate.photos
         // Fetch the photo value from the form
