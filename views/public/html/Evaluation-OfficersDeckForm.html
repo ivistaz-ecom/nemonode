@@ -1082,9 +1082,6 @@
                 }else {
                     evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
                 }
-                    evaluationData.values !== "" && evaluationData.values !== null
-                        ? JSON.parse(evaluationData.values)
-                        : "";
                 if(evaluationalues!=="") {
                     var dateNow = evaluationalues?.dateNow || '';
                     var application_date = (evaluationalues.dateNow!=="")?new Date(evaluationalues.dateNow):new Date();
