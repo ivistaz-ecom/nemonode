@@ -129,7 +129,7 @@
       </div>  
 
       <form>
-        <div class="d-flex " id="imageContainer" style="justify-content: end;">
+        <div class="d-flex" id="imageContainer" style="justify-content: end;">
           <img id="img" style="height: 150px; width: 150px; border: solid 1px grey" />
                  
                  </div>
@@ -955,10 +955,13 @@ SIRE/CID experience
             const response = await axios.get(`${config.APIURL}candidate/viewevaluation/${evalId}/${candidateId}`);
             const evaluationData = response.data;
             console.log("Fetched Evaluation Data:", evaluationData);
-            var evaluationalues =
-                    evaluationData.values !== "" && evaluationData.values !== null
-                        ? JSON.parse(evaluationData.values)
-                        : "";
+
+            var evaluationalues = '';
+              if (typeof evaluationData.values !== "string") { 
+                  evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? evaluationData.values: "";
+              }else {
+                  evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
+              }
              const applied_date = response?.data?.applied_date || '';
               applieddate = (applied_date!=="")?new Date(applied_date):new Date();
               const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -1021,7 +1024,7 @@ SIRE/CID experience
     makeFormReadOnly();
 }
 
-async function updateCandidatePhoto(id) {             
+    async function updateCandidatePhoto(id) {             
         const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
         const fetchedPhotoValue = response.data.candidate.photos
         // Fetch the photo value from the form
@@ -1036,7 +1039,7 @@ async function updateCandidatePhoto(id) {
             image.src = "/photos/" + photoName;
             image.alt = "Description of the image"; // Add alt attribute if needed
         }
-        }
+    }
     // Function to extract query parameters and call fetchEvaluationData
     function initialize() {
         const params = new URLSearchParams(window.location.search);

@@ -144,8 +144,8 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center" id="imageContainer">
-                        <img id="img" style="height: 100px; width: 100px; border: solid 1px grey" />
+                    <div class="d-flex" id="imageContainer" style="justify-content: end;">
+                        <img id="img" style="height: 150px; width: 150px; border: solid 1px grey" />
                     </div>
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Family Name & Given name</label>
@@ -1268,6 +1268,7 @@
             }
 
             if (candidateId && evalId) {
+                updateCandidatePhoto(candidateId)
                 console.log("Candidate ID:", candidateId);
                 console.log("Evaluation ID:", evalId);
                 fetchEvaluationData(candidateId, evalId);
@@ -1278,6 +1279,23 @@
 
         // Call initialize function on page load
         window.onload = initialize;
+
+        async function updateCandidatePhoto(id) {             
+            const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
+            const fetchedPhotoValue = response.data.candidate.photos
+            // Fetch the photo value from the form
+            const photoValue = fetchedPhotoValue
+
+            // Extract the photo name from the photo value
+            const photoName = photoValue.substring(photoValue.lastIndexOf('/') + 1);
+            // Update the src attribute of the img tag
+            if(photoName!=="") {
+                const imageContainer = document.getElementById('imageContainer');
+                const image = imageContainer.querySelector('img');
+                image.src = "/photos/" + photoName;
+                image.alt = "Description of the image"; // Add alt attribute if needed
+            }
+        }
 
         function updatePrintableArea() {
             var form = document.getElementById("evaluationForm");
