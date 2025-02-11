@@ -1076,7 +1076,12 @@
                 console.log("Fetched Evaluation Data:", evaluationData);
 
                 // Call function to populate form fields with the evaluation data
-                var evaluationalues =
+                var evaluationalues = '';
+                if (typeof evaluationData.values !== "string") { 
+                    evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? evaluationData.values: "";
+                }else {
+                    evaluationalues =  evaluationData.values !== "" && evaluationData.values !== null? JSON.parse(evaluationData.values): "";
+                }
                     evaluationData.values !== "" && evaluationData.values !== null
                         ? JSON.parse(evaluationData.values)
                         : "";
