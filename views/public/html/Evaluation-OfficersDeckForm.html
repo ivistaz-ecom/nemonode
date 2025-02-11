@@ -1042,7 +1042,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        const token = sessionStorage.getItem("token");
         const month = [
             "Jan",
             "Feb",
@@ -1281,7 +1280,8 @@
         // Call initialize function on page load
         window.onload = initialize;
 
-        async function updateCandidatePhoto(id) {         
+        async function updateCandidatePhoto(id) {
+            const token = sessionStorage.getItem("token");      
             console.log(token, 'tokentokentoken')    
             const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
             const fetchedPhotoValue = response.data.candidate.photos
