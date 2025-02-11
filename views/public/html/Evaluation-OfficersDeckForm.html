@@ -1281,7 +1281,8 @@
         // Call initialize function on page load
         window.onload = initialize;
 
-        async function updateCandidatePhoto(id) {             
+        async function updateCandidatePhoto(id) {         
+            console.log(token, 'tokentokentoken')    
             const response = await axios.get(`${config.APIURL}candidate/get-candidate/${id}`,{headers:{"Authorization":token}});
             const fetchedPhotoValue = response.data.candidate.photos
             // Fetch the photo value from the form
