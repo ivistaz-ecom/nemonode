@@ -17,7 +17,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Vessel | Nsnemo</title>
+    <title>Daily Statistics | Nsnemo</title>
 
     <meta name="description" content="" />
 
@@ -92,7 +92,7 @@
       href="../assets/vendor/css/theme-default.css"
       class="template-customizer-theme-css"
     />
-    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../assets/css/demo.css?v=1" />
 
     <!-- Vendors CSS -->
     <link
@@ -181,22 +181,20 @@
                         </button>
                       </div>
                     </div>
-                    <div
-                      class="table-responsive table-min-height text-nowrap"
-                      id="stats-sec"
-                    >
+                    <div class="text-nowrap" id="stats-sec">
                       <input type="hidden" id="totalPage" />
                       <input type="hidden" id="currentPage" value="1" />
                       <input type="hidden" id="totalRecord" value="" />
-
-                      <table
-                        id="stats-table"
-                        class="table table table-striped table-bordered"
-                        style="font-size: 12px"
-                      >
-                        <thead id="stats-head"></thead>
-                        <tbody id="stats-list"></tbody>
-                      </table>
+                      <div class="table-responsive table-min-height">
+                        <table
+                          id="stats-table"
+                          class="table table table-striped table-bordered"
+                          style="font-size: 12px"
+                        >
+                          <thead id="stats-head"></thead>
+                          <tbody id="stats-list"></tbody>
+                        </table>
+                      </div>
                       <div id="pagination-controls"></div>
                     </div>
                     <div
@@ -228,30 +226,24 @@
                         </div>
                       </div>
 
-                      <div
-                        class="table-responsive table-min-height text-nowrap"
-                        id="medicalstats-sec"
-                      >
+                      <div class="text-nowrap" id="medicalstats-sec">
                         <input type="hidden" id="medicaltotalPage" />
                         <input
                           type="hidden"
                           id="medicalcurrentPage"
                           value="1"
                         />
-                        <input
-                          type="hidden"
-                          id="medicaltotalRecord"
-                          value=""
-                        />
-
-                        <table
-                          id="stats-table"
-                          class="table table table-striped table-bordered"
-                          style="font-size: 12px"
-                        >
-                          <thead id="medicalstats-head"></thead>
-                          <tbody id="medicalstats-list"></tbody>
-                        </table>
+                        <input type="hidden" id="medicaltotalRecord" value="" />
+                        <div class="table-responsive table-min-height">
+                          <table
+                            id="stats-table"
+                            class="table table table-striped table-bordered"
+                            style="font-size: 12px"
+                          >
+                            <thead id="medicalstats-head"></thead>
+                            <tbody id="medicalstats-list"></tbody>
+                          </table>
+                        </div>
                         <div id="medicalpagination-controls"></div>
                       </div>
                     </div>
@@ -301,7 +293,7 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/helper.js"></script>
+    <script src="../assets/js/helper.js?v=1"></script>
     <script src="./daily-stats.js"></script>
     <!-- Page JS -->
     <script src="../assets/js/pages-account-settings-account.js"></script>

@@ -5013,9 +5013,9 @@ const getStatsList = async (req, res) => {
                 whereDate = ` (sign_off IS NULL OR sign_off = '1970-01-01') AND a.eoc BETWEEN :startDate AND :endDate`;
             }
             
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id WHERE ${whereDate}  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id WHERE ${whereDate}  ${where}`;
             }
         }else if(type==='DueforRenewal') {
             query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
@@ -5086,9 +5086,9 @@ const getMedicalStatsList = async (req, res) => {
         }
 
 
-        query = `SELECT a.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+        query = `SELECT h.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN hospitals AS h ON a.hospitalName=h.id   WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
         if(page===1) {
-            countquery = `SELECT COUNT(b.candidateId) AS total FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+            countquery = `SELECT COUNT(b.candidateId) AS total FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId  LEFT JOIN hospitals AS h ON a.hospitalName=h.id WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
         }
         
 
