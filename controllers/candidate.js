@@ -5086,9 +5086,9 @@ const getMedicalStatsList = async (req, res) => {
         }
 
 
-        query = `SELECT a.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+        query = `SELECT a.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
         if(page===1) {
-            countquery = `SELECT COUNT(b.candidateId) AS total FROM medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+            countquery = `SELECT COUNT(b.candidateId) AS total FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
         }
         
 
