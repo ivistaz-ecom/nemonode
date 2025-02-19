@@ -1470,6 +1470,7 @@
 
                     if (result.success) {
                         sessionStorage.setItem("token", result.token);
+                        localStorage.setItem("token", result.token);                        
                         alert("Login successful");
                         document.getElementById("loginModal").style.display = "none";
                         window.location.reload();
