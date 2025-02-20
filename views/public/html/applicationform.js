@@ -450,18 +450,20 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       
       const documentTableBody1 = document.getElementById("documentTableBody");
       documentTableBody1.innerHTML = "";
-      const documentType = [
+      let documentType = [
         { key: "passport", name: "PASSPORT" },
         { key: "nationalcdc", name: "NATIONAL LICENSE" },
         { key: "seamanid", name: "SEAFARER ID (Indos)" },
         { key: "coc", name: "COC" },
-        { key:'tankerany', name:'Tanker If any'},
-        { key: "aff_fpff", name: "AFF / FPFF" },
-        { key: "pst_pscrb", name: "PST / PSCRB" },
-        { key: "medicare", name: "MEDICARE / MFA / EFA" },
-        { key: "pssr", name: "PSSR" },
-        { key: "stsdsd", name: "STSDSD / SSO" },
       ];
+      if(formType==='edit') {
+        documentType.push({ key:'tankerany', name:'Tanker If any'},
+          { key: "aff_fpff", name: "AFF / FPFF" },
+          { key: "pst_pscrb", name: "PST / PSCRB" },
+          { key: "medicare", name: "MEDICARE / MFA / EFA" },
+          { key: "pssr", name: "PSSR" },
+          { key: "stsdsd", name: "STSDSD / SSO" });
+      }
       let inputType = "text"
       if(formType==='edit') {
         inputType = "date";
@@ -515,11 +517,11 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
             allowToShow = 'N';
           }
         }
-        console.log(checkingArray, doc.key, 'doc.keydoc.key')
-        if(allowToShow==="Y" && checkingArray.length>0) {
+
+        if(allowToShow==="Y") {
           row.innerHTML = `
               <td>
-                <p>${doc.key}-${doc.key==='tankerany'?documentName:doc.name}</p>
+                <p>${doc.key==='tankerany'?documentName:doc.name}</p>
               </td>
               <td width="151">
                 ${docnumbers}
@@ -593,8 +595,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
 }
 
 function searchArray(array, searchTerm) {
-  console.log(searchTerm, 'searchTermsearchTerm')
-  return array.filter(obj => obj.document === searchTerm);
+  return array.filter(obj => obj.document === searchTerm);;
 }
 
 async function getContract(candidateId, token) {
