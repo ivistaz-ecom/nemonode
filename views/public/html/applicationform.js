@@ -515,7 +515,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
             allowToShow = 'N';
           }
         }
-
+        console.log(checkingArray, doc.key, 'doc.keydoc.key')
         if(allowToShow==="Y" && checkingArray.length>0) {
           row.innerHTML = `
               <td>
