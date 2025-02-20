@@ -593,7 +593,8 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
 }
 
 function searchArray(array, searchTerm) {
-  return array.filter(obj => obj.document === searchTerm);;
+  console.log(searchTerm, 'searchTermsearchTerm')
+  return array.filter(obj => obj.document === searchTerm);
 }
 
 async function getContract(candidateId, token) {
