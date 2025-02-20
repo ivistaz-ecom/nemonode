@@ -519,7 +519,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         if(allowToShow==="Y" && checkingArray.length>0) {
           row.innerHTML = `
               <td>
-                <p>${doc.key==='tankerany'?documentName:doc.name}</p>
+                <p>${doc.key}-${doc.key==='tankerany'?documentName:doc.name}</p>
               </td>
               <td width="151">
                 ${docnumbers}
