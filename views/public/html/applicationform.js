@@ -516,7 +516,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
           }
         }
 
-        if(allowToShow==="Y") {
+        if(allowToShow==="Y" && checkingArray!=="") {
           row.innerHTML = `
               <td>
                 <p>${doc.key==='tankerany'?documentName:doc.name}</p>
