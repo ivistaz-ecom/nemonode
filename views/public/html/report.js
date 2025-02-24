@@ -30,7 +30,7 @@ newProfile.forEach((item)=> {
 document.getElementById("newprofileFilter").innerHTML = displyFilters;
 
 function formatDateNew(dateString) {
-  if (dateString === "1970-01-01" || dateString === "01-01-1970") {
+  if (dateString === "1970-01-01" || dateString === "01-01-1970" && dateString===null) {
     return ""; // Return empty string for invalid dates
   }
 
