@@ -2521,10 +2521,10 @@ function setupPagination(contracts) {
                   contract.nationality
                 )}</td>
                 <td style='font-size:10px'>${
-                  formatDateNew(contract.dob) === "1970-01-01" ||
+                  contract.dob!==null?(formatDateNew(contract.dob) === "1970-01-01" ||
                   formatDateNew(contract.dob) === "01-01-1970"
                     ? ""
-                    : formatDateNew(contract.dob)
+                    : formatDateNew(contract.dob)):''
                 }</td>
                 <td style='font-size:10px'>${
                   calculateAge(contract.dob) === "1970-01-01" ||
