@@ -475,7 +475,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         }
         var checkingArray = searchArray(candidateData.cDocuments, docNames);
         if(doc.key==='nationalcdc' && checkingArray.length===0) {
-          docNames = 'National Seaman Book';
+          docNames = 'NATIONAL SEAMAN BOOK';
           var checkingArray = searchArray(candidateData.cDocuments, 'National Seaman Book');
         }
         
