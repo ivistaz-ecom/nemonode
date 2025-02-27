@@ -475,6 +475,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         }
         var checkingArray = searchArray(candidateData.cDocuments, docNames);
         if(doc.key==='nationalcdc' && checkingArray.length===0) {
+          docNames = 'National Seaman Book';
           var checkingArray = searchArray(candidateData.cDocuments, 'National Seaman Book');
         }
         
@@ -529,7 +530,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         if(allowToShow==="Y") {
           row.innerHTML = `
               <td>
-                <p>${doc.key==='tankerany'?documentName:doc.name}</p>
+                <p>${doc.key==='tankerany'?documentName:docNames}</p>
               </td>
               <td width="151">
                 ${docnumbers}
