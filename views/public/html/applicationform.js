@@ -452,7 +452,7 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
       documentTableBody1.innerHTML = "";
       let documentType = [
         { key: "passport", name: "PASSPORT" },
-        { key: "nationalcdc", name: "NATIONAL LICENSE" },
+        { key: "nationalcdc", name: "NATIONAL LICENSE" },        
         { key: "seamanid", name: "SEAFARER ID (Indos)" },
         { key: "coc", name: "COC" },
       ];
@@ -469,8 +469,16 @@ async function displayCandidateDetails(candidateData, nkd, expDetails, countryNa
         inputType = "date";
       }
       documentType.map((doc) => {
+        let docNames = doc.name
+        if(doc.key==='seamanid') {
+          docNames = 'SEAFARER ID';
+        }
+        var checkingArray = searchArray(candidateData.cDocuments, docNames);
+        if(doc.key==='nationalcdc' && checkingArray.length===0) {
+          var checkingArray = searchArray(candidateData.cDocuments, 'National Seaman Book');
+        }
         
-        var checkingArray = searchArray(candidateData.cDocuments, doc.name)
+
         if(doc.key==='tankerany') {
           checkingArray = searchArray(candidateData.cDocuments, 'DCE OIL');
           if(checkingArray.length===0) {
