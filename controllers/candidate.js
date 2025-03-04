@@ -3916,6 +3916,7 @@ const sendEmail = async (req, res) => {
                     content: filepath,
                     name: "20250304160157_Resume.docx"
                 }
+                
             ]
         });
         console.log('Email sent successfully');
