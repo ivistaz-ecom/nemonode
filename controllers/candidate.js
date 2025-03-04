@@ -3890,7 +3890,7 @@ const sendEmail = async (req, res) => {
                 email: interviewerEmail
             }
         ];
-
+        const filepath =  '/var/www/html/nemonode/views/public/files/resume/20250304160157_Resume.docx';
         await tranEmailApi.sendTransacEmail({
             sender,
             to: receivers,
@@ -3911,6 +3911,12 @@ const sendEmail = async (req, res) => {
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
             `,
+            attachment: [
+                {
+                    content: filepath,
+                    name: "20250304160157_Resume.docx"
+                }
+            ]
         });
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });
