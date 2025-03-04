@@ -1095,7 +1095,7 @@ const add_contractdetails = async (req, res) => {
             bondStore,
             cdc_passport,
         } = req.body;
-
+        console.log(signOn_dg, signOff_dg, 'signOff_dgsignOff_dgsignOff_dg')
         // Create a new ContractDetails entry
         const contractDetails = await Contract.create({
             rank,
