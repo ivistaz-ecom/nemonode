@@ -139,13 +139,21 @@ const add_candidate = async (req, res) => {
         }
 
         // Check for existing data
-        const query = `SELECT candidateId FROM Candidates WHERE (c_tel1='${c_tel1}' AND c_tel1!='') OR (c_mobi1='${c_mobi1}' AND c_mobi1!='') OR (email1='${email1}' AND email1!='')`;
+        const query = `SELECT candidateId, c_tel1, c_mobi1, email1 FROM Candidates WHERE (c_tel1='${c_tel1}' AND c_tel1!='') OR (c_mobi1='${c_mobi1}' AND c_mobi1!='') OR (email1='${email1}' AND email1!='')`;
         const existingCandidate = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
-
         if (existingCandidate.length>0) {
-            return res.status(409).json({ message: "Duplicate Entry", success: false });
+            let errorMsg = "Duplicate Entry";
+            if(existingCandidate[0]['c_tel1']===c_tel1) {
+                errorMsg = `Mobile Number Already Exist. Candidate ID: ${existingCandidate[0]['candidateId']}`;
+            }else if(existingCandidate[0]['c_mobi1']===c_mobi1) {
+                errorMsg = `Mobile Number Already Exist. Candidate ID: ${existingCandidate[0]['candidateId']}`;
+            }else if(existingCandidate[0]['email1']===email1) {
+                errorMsg = `Email Already Exist. Candidate ID: ${existingCandidate[0]['candidateId']}`;
+            }
+
+            return res.status(409).json({ message: errorMsg, success: false });
         }
 
         // If no duplicate, create a new entry
@@ -1379,7 +1387,7 @@ const get_contractdetails= async (req, res) => {
         const candidateId = req.params.id;
         console.log(':::::>>>>>',candidateId)
 
-        const query = `SELECT a.*, b.userName FROM contract AS a LEFT JOIN users AS b ON a.created_by=b.id WHERE candidateId='${candidateId}'`;
+        const query = `SELECT a.*, b.userName FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id WHERE candidateId='${candidateId}'`;
         const contractDetails = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
