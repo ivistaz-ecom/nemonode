@@ -1211,6 +1211,7 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${contract.training}</td>
                 <td>${contract.bondStore}</td>
                 <td>${contract.cdc_passport}</td>
+                <td>${contract.contractExtension}</td>
                 <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                 <td>
@@ -1263,9 +1264,8 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.training}',
                     '${contract.bondStore}',
                     '${contract.cdc_passport}',
-                    '${
-                      contract.created_by
-                    }')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    '${contract.contractExtension}',
+                    '${contract.created_by}')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${
                       contract.id
@@ -1361,6 +1361,7 @@ function editContract(
   training,
   bondStore,
   cdc_passport,
+  contractExtension,
   created_by
 ) {
   // Construct the query parameters string
@@ -1434,7 +1435,7 @@ function editContract(
     otherDeductions
   )}&training=${encodeURIComponent(training)}&bondStore=${encodeURIComponent(
     bondStore
-  )}&cdc_passport=${cdc_passport}&created_by=${encodeURIComponent(
+  )}&cdc_passport=${cdc_passport}&contractExtension=${contractExtension}&created_by=${encodeURIComponent(
     created_by
   )}}`;
 

@@ -996,12 +996,30 @@
                                         <label for="contract_bond_store">Bond Store</label>
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <div class="row mb-3">
                                 <div class="col-md-6">
                                   <div class="form-floating">
                                       <input name="cdc_passport" type="text" id="cdc_passport" class="form-control"/>
                                       <label for="cdc_passport">CDC / Passport No</label>
                                   </div>
                               </div>
+                            <div class="col-md-6">
+                              <div class="form-floating">
+                                <select
+                                  id="contractExtension"
+                                  class="form-select"
+                                >
+                                  <option value="" disabled selected>
+                                    -- Select Contract Extension--
+                                  </option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                                </select>
+                                <label for="candidate_c_rank">Contract Extension</label>
+                              </div>
+                            </div>
                             </div>
           
                               <div class="card-footer text-end mt-0 pt-0 mb-0 pb-0   pe-0">
@@ -1060,6 +1078,7 @@
     <!-- Vendors JS -->
 
     <!-- Main JS -->
+    <script src="../assets/sweetalert/sweetalert2.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script src ="./edit-c-contract.js"></script>
     <!-- Page JS -->
@@ -1067,6 +1086,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="../assets/sweetalert/sweetalert2.min.js"></script>
+   
   </body>
 </html>

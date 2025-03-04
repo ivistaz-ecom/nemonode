@@ -1094,8 +1094,9 @@ const add_contractdetails = async (req, res) => {
             training,
             bondStore,
             cdc_passport,
+            contractExtension
         } = req.body;
-        console.log(signOn_dg, signOff_dg, 'signOff_dgsignOff_dgsignOff_dg')
+
         // Create a new ContractDetails entry
         const contractDetails = await Contract.create({
             rank,
@@ -1142,7 +1143,8 @@ const add_contractdetails = async (req, res) => {
             otherDeductions,
             training,
             bondStore,
-            cdc_passport:cdc_passport
+            cdc_passport:cdc_passport,
+            contractExtension:contractExtension
         });
 
     
@@ -1450,6 +1452,8 @@ const update_contractdetails = async (req, res) => {
             contract.training=updatedContractData.training
             contract.bondStore=updatedContractData.bondStore
             contract.cdc_passport=updatedContractData.cdc_passport
+            contract.contractExtension=updatedContractData.contractExtension
+            
 
             // Conditionally update the documents and aoa fields
             if (updatedContractData.documentFile) {
@@ -3898,7 +3902,7 @@ const sendEmail = async (req, res) => {
                 email: interviewerEmail
             }
         ];
-        //const filepath =  '/var/www/html/nemonode/views/public/files/resume/20250304160157_Resume.docx';
+
         await tranEmailApi.sendTransacEmail({
             sender,
             to: receivers,
@@ -3919,12 +3923,6 @@ const sendEmail = async (req, res) => {
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
             `,
-            /* attachment: [
-                {
-                    content: filepath,
-                    name: "20250304160157_Resume.docx"
-                }                
-            ] */
         });
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });

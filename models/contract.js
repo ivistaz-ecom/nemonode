@@ -150,7 +150,11 @@ const Contract = sequelize.define('Contract', {
     },
     cdc_passport:{
         type:DataTypes.STRING
+    },
+    contractExtension:{
+        type:DataTypes.STRING
     }
+    
     
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {
