@@ -6,7 +6,7 @@ if (!token) {
 }
 
 function formatDateNew(dateString) {
-  if (dateString === "1970-01-01" || dateString === "01-01-1970") {
+  if (dateString==="" || dateString===null || dateString === "1970-01-01" || dateString === "01-01-1970") {
     return ""; // Return empty string for invalid dates
   }
 
@@ -43,7 +43,7 @@ function loadContent(section) {
   // Show the selected content div
   document.getElementById(`${section}Content`).style.display = "block";
   $("#contentContainer .btn").removeClass("active");
-  $(`#tab-${section}`).adddClass("active");
+  $(`#tab-${section}`).addClass("active");
 }
 
 async function fetchAndDisplayDocumentDetails(candidateId) {
@@ -1168,12 +1168,14 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${contract.vesselType}</td>
                 <td>${signOnPortName}</td>
                 <td>${formatDateNew(contract.sign_on)}</td>
+                <td>${formatDateNew(contract.sign_on_dg)}</td>
                 <td>${formatDateNew(contract.wage_start)}</td>
                 <td>${formatDateNew(contract.eoc)}</td>
                 <td>${contract.wages}</td>
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
                 <td>${formatDateNew(contract.sign_off)}</td>
+                <td>${formatDateNew(contract.sign_off_dg)}</td>
                 <td>${signOffPortName}</td>
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
@@ -1221,12 +1223,14 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.vesselType}',
                     '${contract.sign_on_port}',
                     '${contract.sign_on}',
+                    '${contract.sign_on_dg}',
                     '${contract.wage_start}',
                     '${contract.eoc}',
                     '${contract.wages}',
                     '${contract.currency}',
                     '${contract.wages_types}',
                     '${contract.sign_off}',
+                    '${contract.sign_off_dg}',
                     '${contract.sign_off_port}',
                     '${contract.reason_for_sign_off}',
                     '${contract.aoa_number}',
@@ -1320,12 +1324,14 @@ function editContract(
   vesselType,
   sign_on_port,
   sign_on,
+  sign_on_dg,
   wage_start,
   eoc,
   wages,
   currency,
   wages_types,
   sign_off,
+  sign_off_dg,
   sign_off_port,
   reason_for_sign_off,
   aoa_number,
@@ -1366,7 +1372,7 @@ function editContract(
     vesselType
   )}&sign_on_port=${encodeURIComponent(
     sign_on_port
-  )}&sign_on=${encodeURIComponent(sign_on)}&wage_start=${encodeURIComponent(
+  )}&sign_on=${encodeURIComponent(sign_on)}&sign_on_dg=${encodeURIComponent(sign_on_dg)}&wage_start=${encodeURIComponent(
     wage_start
   )}&eoc=${encodeURIComponent(eoc)}&wages=${encodeURIComponent(
     wages
@@ -1374,6 +1380,8 @@ function editContract(
     wages_types
   )}&sign_off=${encodeURIComponent(
     sign_off
+  )}&sign_off_dg=${encodeURIComponent(
+    sign_off_dg
   )}&sign_off_port=${encodeURIComponent(
     sign_off_port
   )}&reason_for_sign_off=${encodeURIComponent(

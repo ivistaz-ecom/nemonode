@@ -198,6 +198,9 @@
       .loading-content {
         min-height: 200px;
       }
+      .table-responsive thead th {
+        padding: 5px !important;
+      }
     </style>
 
     <!-- Fonts -->
@@ -425,10 +428,10 @@
               <!-- Report Content -->
               <div id="newProfileContent" class="report-content">
                 <!-- Content for New Profile Report -->
-                <form id="newprofilesubmit">
+                
                   <div class="card card-body p-3">
+                <form id="newprofilesubmit">
                     <div class=" ">
-                      <form>
                         <div class="row g-2 mb-3">
                           <div class="col-md-3">
                             <label for="startDate" class="form-label"
@@ -487,58 +490,75 @@
                             <div class="d-flex flex-wrap" id="newprofileFilter"></div>
                           </div>
                         </div>
-                      </form>
                     </div>
 
-                    <div>
+                      <div class="mt-2">
                       <button
                         type="submit"
-                        class="btn btn-primary float-end mt-3 p-0 ps-2 pe-2"
+                          class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                          id="newProfileBtn"
                       >
-                        Generate New Profile Report
+                          Generate Report
                       </button>
                     </div>
-                  </div>
-                  <div class="rounded-3 bg-white p-3 mt-2">
-                    <div class="row mb-2">
-                      <div class="col-md-3">
-                        <input
-                          type="text"
-                          id="searchInput1"
-                          class="form-control"
-                          placeholder="Search..."
-                        />
-                      </div>
+                    </form>
+
+                    <div class="row mb-3" id="newProfileCustom" style="display: none;">
                       <div class="col-md-1">
-                        <select
-                          id="rowsPerPage"
-                          class="form-select"
-                          style="height: 37px; padding: 0%; padding-left: 10px"
-                        >
+                        <label for="pageNewProfile">Page Limit</label>
+                        <select id="pageNewProfile" class="form-select" onchange="changePageLimit('newProfile')">
                           <option value="10">10</option>
                           <option value="25">25</option>
                           <option value="50">50</option>
-                          <option value="100">100</option>
-                          <option value="500">500</option>
-                        </select>
+                        </select>                      
+                  </div>
+                      <div class="col-md-11">
+                        <div class="row">
+                      <div class="col-md-3">
+                            <label for="searchNewProfile">Search</label>
+                        <input
+                          type="text"
+                              id="searchNewProfile"
+                              placeholder="Search..."
+                          class="form-control"
+                              onkeyup="changePageLimit('newProfile')"
+                        />
                       </div>
                       <div class="col-md-2">
                         <div
-                          id="countNewProfile"
-                          class="border ps-2 pe-2 pt-1 pb-1 rounded-2" style="height: 36px;"
+                              id="newProfileCount"
+                              class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
                         ></div>
                       </div>
-                      <div class="col">
-                        <div id="exportContainer" class="float-end"></div>
+                          <div class="col-md-3 mt-4">
+                            <button id="exportToExcelBtnnp" class="btn btn-primary">
+                              Export to Excel
+                            </button>
                       </div>
                     </div>
-                    <div id="candidateTable" style="overflow-x: scroll" class="loading-content"></div>
-                    <div id="pagination" class="mt-4"></div>
                   </div>
-                </form>
+                    </div>
+
+                    <div class="table-responsive text-nowrap">
+                      <table
+                        id="newProfileTable"
+                        class="table table-bordered border-1"
+                      >
+                        <thead  id="newProfileTablehead">
+                         
+                        </thead>
+                        <tbody id="newProfileTableBody" class="table-border-bottom-0">
+                          <!-- Data will be populated here -->
+                        </tbody>
+                      </table>
+                    </div>
+                    <div id="paginationControlsnp" class="pagination mt-2 d-flex justify-content-end">
+                      <!-- Pagination buttons will be injected here -->
+                    </div>
+
+                  </div>
               </div>
               <div id="callsMadeContent" class="report-content">
-                <!-- Content for Calls Made Report -->
                 <div class="card p-3">
                   <form id="callsMadeForm">
                     <div class="row g-2 mb-3">
@@ -591,139 +611,72 @@
                         </select>
                       </div>
                     </div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="callsMadeFormBtn"
+                    >
+                      Generate
+                    </button>
+                  </form>
 
-                    <div class="row g-2 border">
-                      <div class="col-12">
-                        <div class="d-flex flex-wrap">
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="id"
-                              name="id"
-                            />
-                            <label class="form-check-label" for="id">Id</label>
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="nationality"
-                              name="nationality"
-                            />
-                            <label class="form-check-label" for="nationality"
-                              >Nationality</label
-                            >
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="discussion"
-                              name="discussion"
-                            />
-                            <label class="form-check-label" for="discussion"
-                              >Discussion</label
-                            >
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="current-rank"
-                              name="current-rank"
-                            />
-                            <label class="form-check-label" for="current-rank"
-                              >Current Rank</label
-                            >
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="vessel"
-                              name="vessel"
-                            />
-                            <label class="form-check-label" for="vessel"
-                              >Vessel</label
-                            >
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="reminder-date"
-                              name="reminder-date"
-                            />
-                            <label class="form-check-label" for="reminder-date"
-                              >Reminder Date</label
-                            >
-                          </div>
-                          <div class="form-check me-3">
-                            <input
-                              type="checkbox"
-                              class="form-check-input"
-                              id="availability"
-                              name="availability"
-                            />
-                            <label class="form-check-label" for="availability"
-                              >Availability</label
-                            >
-                          </div>
+                  <div class="row mb-3" id="callsMadeCustom" style="display: none;">
+                    <div class="col-md-1">
+                      <label for="rowsPerCallsMade">Page Limit</label>
+                      <select id="rowsPerCallsMade" class="form-select" onchange="changePageLimit('callsMade')">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                    <div class="col-md-3">
+                          <label for="searchCallsMade">Search</label>
+                      <input
+                        type="text"
+                            id="searchCallsMade"
+                            placeholder="Search..."
+                        class="form-control"
+                            onkeyup="changePageLimit('callsMade')"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                          <div
+                            id="callsMadeCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                      ></div>
+                    </div>
+                        <div class="col-md-3 mt-4">
+                          <button id="exportToExcelBtncm" class="btn btn-primary">
+                            Export to Excel
+                          </button>
                         </div>
                       </div>
                     </div>
-
-                    <button
-                      type="submit"
-                      class="btn btn-primary float-end mt-2 p-0 ps-2 pe-2"
-                    >
-                      Generate Calls Made
-                    </button>
-                  </form>
-                </div>
-
-                <div class="rounded-3 bg-white p-3 mt-2">
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <input
-                        type="text"
-                        id="callsmadesearch"
-                        class="form-control"
-                        style="height: 25px"
-                        placeholder="Search..."
-                      />
-                    </div>
-                    <div class="col-md-1">
-                      <select
-                        id="rowsPerPageCallsMade"
-                        class="form-select"
-                        style="height: 25px; padding: 0%; padding-left: 10px"
-                      ></select>
-                    </div>
-                    <div class="col-md-2">
-                      <span
-                        id="countCallsMade"
-                        class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
-                      ></span>
-                    </div>
-                    <div class="col">
-                      <div
-                        id="exportContainerCallsMade"
-                        class="float-end"
-                      ></div>
-                    </div>
                   </div>
 
-                  <div id="callsMadeTable" style="overflow-x: scroll"></div>
-                  <div id="paginationCallsMade"></div>
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="callsMadeTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead  id="callsMadeTablehead">                       
+                      </thead>
+                      <tbody id="callsMadeTableBody" class="table-border-bottom-0">
+                        <!-- Data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="paginationControlscm" class="pagination mt-2 d-flex justify-content-end">
+                    <!-- Pagination buttons will be injected here -->
+                  </div>
                 </div>
               </div>
 
               <div id="proposalsContent" class="report-content">
                 <!-- Content for Proposals Report -->
                 <div class="card card-body">
-                  <form id="discussionForm">
+                  <form id="proposedForm">
                     <div class="row g-2 mb-3">
                       <div class="col-md-2">
                         <label for="status" class="form-label">Status</label>
@@ -789,17 +742,65 @@
                       <div class="col-12">
                         <button
                           type="submit"
-                          class="btn btn-primary float-end p-0 ps-2 pe-2"
+                          class="btn btn-primary ps-2 pe-2 float-end mb-2" id="proposedFormBtn"
                         >
-                          Generate Proposals
+                            Generate
                         </button>
                       </div>
                     </div>
                   </form>
 
-                  <div id="searchInput2"></div>
+                  <div class="row mb-3" id="proposedCustom" style="display: none;">
+                    <div class="col-md-1">
+                      <label for="rowsPerProposed">Page Limit</label>
+                      <select id="rowsPerProposed" class="form-select" onchange="changePageLimit('proposed')">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchProposed">Search</label>
+                          <input
+                            type="text"
+                            id="searchProposed"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('proposed')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="proposedCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button id="exportToExcelBtnpro" class="btn btn-primary">
+                            Export to Excel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                  <div id="discussionResults"></div>
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="proposedTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead  id="proposedTablehead">                       
+                      </thead>
+                      <tbody id="proposedTableBody" class="table-border-bottom-0">
+                        <!-- Data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="paginationControlspro" class="pagination mt-2 d-flex justify-content-end">
+                    <!-- Pagination buttons will be injected here -->
+                  </div>
                 </div>
               </div>
 
@@ -876,36 +877,60 @@
 
                     <button
                       type="submit"
-                      class="btn btn-primary p-0 ps-2 pe-2 float-end"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="signonFormBtn"
                     >
-                      Generate Sign On Report
+                        Generate
                     </button>
                   </form>
 
-                  <!-- Table to display Sign On report data -->
-                  <div class="table-responsive">
-                    <table id="signOnTable" class="table table-bordered">
-                      <tbody id="signOnTableBody" style="font-size: 10px">
-                        <!-- Table body will be populated dynamically -->
-                      </tbody>
-                      <div class="row g-2 mt-1">
-                        <div class="col-md-3" id="signOnSearchContainer"></div>
-                        <div class="col-md-2">
-                          <span
-                            id="countSignOn"
-                            class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
-                          ></span>
+                  <div class="row mb-3" id="signonCustom" style="display: none;">
+                    <div class="col-md-1">
+                      <label for="rowsPerSignon">Page Limit</label>
+                      <select id="rowsPerSignon" class="form-select" onchange="changePageLimit('signon')">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchSignon">Search</label>
+                          <input
+                            type="text"
+                            id="searchSignon"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('signon')"
+                          />
                         </div>
-                        <div class="col">
+                        <div class="col-md-2">
                           <div
-                            id="exportContainerSignOn"
-                            class="float-end"
+                            id="signonCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
                           ></div>
                         </div>
+                        <div class="col-md-3 mt-4">
+                          <button id="exportToExcelBtnpro" class="btn btn-primary">
+                            Export to Excel
+                          </button>
                       </div>
-                      <div id="paginationControlssignon"></div>
-                      <div id="paginationContainersignon"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="signonTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead  id="signonTablehead">                       
+                      </thead>
+                      <tbody id="signonTableBody" class="table-border-bottom-0">
+                      </tbody>
                     </table>
+                  </div>
+                  <div id="paginationControlssignon" class="pagination mt-2 d-flex justify-content-end">
                   </div>
                 </div>
               </div>
@@ -1342,227 +1367,67 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary p-0 ps-2 pe-2 float-end mb-2"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="onBoardFormBtn"
                     >
-                      Submit
+                      Generate
                     </button>
                   </form>
 
                   <div id="messageContainer"></div>
-                  <div class="table-responsive">
-                    <table
-                      id="onBoardTable"
-                      class="table table-bordered table-sm"
-                    >
-                      <thead>
-                        <tr>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            S.no
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Candidate&nbsp;ID
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Name
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Last&nbsp;Name
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Email
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Birth&nbsp;place
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Rank
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Nationality
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Date&nbsp;and&nbsp;Place&nbsp;of&nbsp;Birth
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Age
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Company
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Currency
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            EOC
-                          </th>
-
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Sign&nbsp;On
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Sign&nbsp;Off
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Sign&nbsp;On&nbsp;Port
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Vessel&nbsp;Name
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Vessel&nbsp;Type
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Wages
-                          </th>
-                          <th
-                            style="
-                              background-color: #201e43;
-                              color: white;
-                              font-size: 10px;
-                            "
-                          >
-                            Wages&nbsp;Type
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody id="onBoardTableBody">
-                        <!-- Data will be populated here -->
-                      </tbody>
-                    </table>
+                  <div class="row mb-3" id="onboardCustom" style="display: none;">
+                    <div class="col-md-1">
+                      <label for="rowsPerPage5">Page Limit</label>
+                      <select id="rowsPerPage5" class="form-select" onchange="changePageLimit('onboard')">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchInput5">Search</label>
                     <input
                       type="text"
                       id="searchInput5"
                       placeholder="Search..."
-                    />
-                    <select id="rowsPerPage5">
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                    </select>
+                            class="form-control"
+                            onkeyup="changePageLimit('onboard')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="onboardCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
                     <button id="exportToExcelBtnob" class="btn btn-primary">
                       Export to Excel
                     </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div id="paginationControls5" class="pagination">
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="onBoardTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead  id="onBoardTablehead">
+                       
+                      </thead>
+                      <tbody id="onBoardTableBody" class="table-border-bottom-0">
+                        <!-- Data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="paginationControls5" class="pagination mt-2 d-flex justify-content-end">
                       <!-- Pagination buttons will be injected here -->
                     </div>
                   </div>
                 </div>
-              </div>
 
               <div id="reminderContent" class="report-content">
                 <!-- Content for Reminder Report -->
@@ -1698,7 +1563,7 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary p-0 ps-2 pe-2 float-end"
+                      class="btn btn-primary ps-2 pe-2 float-end" id="crewListMonthWiseBtn"
                     >
                       Generate Report
                     </button>
@@ -1900,129 +1765,81 @@
                 <div class="card card-body">
                   <h4>Relief Plan Report</h4>
                   <form id="reliefPlanForm">
-                    <tr class="table table-bordered">
-                      <td>
-                        <label>Start Date</label>
-                      </td>
-                      <td>
-                        <input id="reliefPlanDate" type="date" required />
-                      </td>
-                    </tr>
-                    <button type="submit" class="btn btn-primary mb-3">
+                    <div class="row g-2 mb-3">
+                      <div class="col-md-3">
+                        <label for="reliefPlanDate" class="form-label"
+                          >Relief Plan Date</label
+                        >
+                        <input
+                          type="date"
+                          id="reliefPlanDate"
+                          class="form-control"
+                          name="reliefPlanDate"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-3">
+                        <button type="submit" id="ReliefPlanFormBtn" class="btn btn-primary" style="margin-top: 29px;">
                       Generate Report
                     </button>
+                      </div>
+                    </div>
+                    
                   </form>
                   <div id="exportButtonContainerrpc"></div>
 
+                  <div class="row mb-3" id="reliefPlan" style="display: none;">
+                    <div class="col-md-1">
+                      <label for="rowsPerPageSelectrpc">Page Limit</label>
+                      <select id="rowsPerPageSelectrpc" class="form-select" onchange="changePageLimit('reliefPlan')">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchInput5">Search</label>
+                          <input
+                            type="text"
+                            id="searchreliefPlan"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('reliefPlan')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="reliefPlanCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button id="exportreliefPlan" class="btn btn-primary">
+                            Export to Excel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="table-responsive text-nowrap">
                   <table
                     id="reliefPlanTable"
-                    class="table table-bordered table"
-                  >
-                    <thead>
-                      <tr>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
+                      class="table table-bordered border-1"
                         >
-                          S.No
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          ID
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          First Name
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Last Name
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Nationality
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Rank
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Vessel
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Company
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          Category
-                        </th>
-                        <th
-                          style="
-                            background-color: #201e43;
-                            color: white;
-                            font-size: 10px;
-                          "
-                        >
-                          End of Contract
-                        </th>
-                      </tr>
+                      <thead  id="reliefPlanTablehead">
+                       
                     </thead>
-                    <tbody id="reliefPlanTableBody"></tbody>
+                      <tbody id="reliefPlanTableBody" class="table-border-bottom-0">
+                      </tbody>
                   </table>
-
-                  <select id="rowsPerPageSelectrpc">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                  </select>
-
-                  <input id="searchInputrpc" placeholder="Search..." />
-                  <div id="paginationControlsrpc"></div>
+                  </div>
+                  <div id="paginationControlsrpc" class="pagination mt-2 d-flex justify-content-end">
+                    <!-- Pagination buttons will be injected here -->
+                  </div>
                 </div>
               </div>
 
@@ -2190,16 +2007,6 @@
                 <form id="newprofilesubmit">
                   <div class="card card-body p-3">
                     <h4>Candidate with Discussions</h4>
-                    <!-- <div class="row">
-              <div class="form-group col mb-2">
-                <label for="startDate">Start Date:</label>
-                <input type="date" class="form-control" id="startDate" name="startDate">
-            </div>
-            <div class="form-group col mb-2">
-                <label for="endDate">End Date:</label>
-                <input type="date" class="form-control" id="endDate" name="endDate">
-            </div>
-              </div> -->
                     <table class="table table-bordered">
                       <tbody>
                         <tr>
@@ -2246,7 +2053,6 @@
                               id="appliedBy1"
                               name="appliedBy1"
                             >
-                              <!-- Options for user dropdown will be added dynamically -->
                             </select>
                           </td>
                         </tr>
@@ -2667,6 +2473,7 @@
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
     <script src="./report.js"></script>
+    <script src="./reportnew.js"></script>
     <!-- Page JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 

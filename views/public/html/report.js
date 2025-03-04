@@ -4,33 +4,9 @@ let vslsData = [];
 let userData = [];
 let companyData = [];
 
-var newProfile = [{candidateId:'Candidate ID', fname:'First Name', lname:'Last Name', c_rank:'Rank', c_vessel:'Vessel Type', c_ad1:'Address', c_city:'City', nationality:'Nationality', c_mobi1:'Contact Number', last_company:'Previous Company', email1:'Email', last_salary:'Last Salary', experience:'Experience', dob:'Date of Birth', avb_date:'Availability', height:'Height', weight:'Weight', safety_shoe_size:'Safety Shoe Size', boiler_suit_size:'Boiler Suit Size', fname:'userId', fname:'User ID'}];
-var displyFilters = "";
-newProfile.forEach((item)=> {
-    Object.keys(item).forEach((key) => {
-        const value = item[key];
-        const checked = (['candidateId', 'fname', 'lname', 'c_rank', c_vessel].indexOf(key)>=0)?'checked="checked"':'';
-        displyFilters+=
-        `<div class="form-check me-3">
-            <input
-                class="form-check-input"
-                type="checkbox"
-                id="${key}"
-                name="${key}"
-                ${checked}
-            />
-            <label
-                class="form-check-label"
-                for="${key}"
-                >${value}</label
-            >
-        </div>`;
-    })
-})
-document.getElementById("newprofileFilter").innerHTML = displyFilters;
 
 function formatDateNew(dateString) {
-  if (dateString === "1970-01-01" || dateString === "01-01-1970" && dateString===null) {
+  if (dateString === "1970-01-01" || dateString === "01-01-1970") {
     return ""; // Return empty string for invalid dates
   }
 
@@ -100,7 +76,7 @@ let filteredCandidates = [];
 let selectedFields = {}; // Move selectedFields to a higher scope
 let selectedFieldsName = {}
 
-async function handleNewProfileSubmit(event) {
+async function handleNewProfileSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -303,13 +279,13 @@ document.getElementById("rowsPerPage").addEventListener("change", (event) => {
 });
 
 // Add event listeners for search and pagination
-document.getElementById("searchInput1").addEventListener("input", searchTable);
+/* document.getElementById("searchInput1").addEventListener("input", searchTable); */
 
-document
+/* document
   .getElementById("newprofilesubmit")
-  .addEventListener("submit", handleNewProfileSubmit);
+  .addEventListener("submit", handleNewProfileSubmit); */
 
-async function handleCallsMadeSubmit(event) {
+async function handleCallsMadeSubmit_(event) {
   event.preventDefault();
   try {
     let fromDate = document.getElementById("fromDate").value;
@@ -699,9 +675,9 @@ function exportToExcel(data, filename) {
   XLSX.writeFile(workbook, filename);
 }
 
-document
+/* document
   .getElementById("callsMadeForm")
-  .addEventListener("submit", handleCallsMadeSubmit);
+  .addEventListener("submit", handleCallsMadeSubmit); */
 
 async function createCompanyDropdown() {
   const companyResponse = await axios.get(
@@ -765,7 +741,7 @@ createCompanyDropdown();
 
 // Add event listener to the New Profile form
 
-async function handleDiscussionSubmit(event) {
+async function handleDiscussionSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -1077,11 +1053,11 @@ async function fetchAndDisplayVessels() {
 fetchAndDisplayVessels();
 
 // Add event listener to the discussion form
-document
+/* document
   .getElementById("discussionForm")
-  .addEventListener("submit", handleDiscussionSubmit);
+  .addEventListener("submit", handleDiscussionSubmit_); */
 
-async function handleSignOnSubmit(event) {
+async function handleSignOnSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -1458,9 +1434,9 @@ async function handleSignOnSubmit(event) {
 }
 
 // Add event listener to the Sign On form
-document
+/* document
   .getElementById("signOnForm")
-  .addEventListener("submit", handleSignOnSubmit);
+  .addEventListener("submit", handleSignOnSubmit); */
 
 // Add event listener to the Sign On form
 async function handleSignOffSubmit(event) {
@@ -2441,10 +2417,10 @@ document
   .getElementById("dueForRenewalForm")
   .addEventListener("submit", handleDueForRenewalSubmit);
 
-async function handleOnBoardSubmit(event) {
+async function handleOnBoardSubmit_(event) {
   event.preventDefault();
   try {
-    let startDate = document.getElementById("startDateo").value;
+   /*  let startDate = document.getElementById("startDateo").value;
     startDate = startDate + "T00:00:00Z";
     const companyname = document.getElementById("user_client4").value || null;
     const vesselDropdown = document.getElementById("vsl1").value || null;
@@ -2467,7 +2443,7 @@ async function handleOnBoardSubmit(event) {
     setupPagination(contracts);
     addExportToExcelButton(contracts);
     const message = `${contracts.length} data fetched`;
-    document.getElementById("messageContainer").innerText = message;
+    document.getElementById("messageContainer").innerText = message; */
   } catch (error) {
     console.error("Error fetching onboard contracts:", error);
   }
@@ -2730,10 +2706,10 @@ function setupPagination(contracts) {
 }
 
 function addExportToExcelButton(contracts) {
-  const exportBtn = document.getElementById("exportToExcelBtnob");
+ /*  const exportBtn = document.getElementById("exportToExcelBtnob");
   exportBtn.addEventListener("click", () => {
     exportToExcel5(contracts);
-  });
+  }); */
 }
 
 function exportToExcel5(contracts) {
@@ -2808,9 +2784,9 @@ function calculateAge(dob) {
   }
   return age;
 }
-document
+/* document
   .getElementById("onBoardForm")
-  .addEventListener("submit", handleOnBoardSubmit);
+  .addEventListener("submit", handleOnBoardSubmit); */
 
 const handleReminder = async (event) => {
   event.preventDefault(); // Prevent default form submission behavior
@@ -3868,8 +3844,8 @@ const handleReliefPlan = async (event) => {
   }
 };
 
-const reliefPlanForm = document.getElementById("reliefPlanForm");
-reliefPlanForm.addEventListener("submit", handleReliefPlan);
+/* const reliefPlanForm = document.getElementById("reliefPlanForm");
+reliefPlanForm.addEventListener("submit", handleReliefPlan); */
 
 const displayUserDropdown = async function () {
   try {

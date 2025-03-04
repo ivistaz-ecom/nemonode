@@ -194,12 +194,14 @@ async function handleContractForm(event) {
     const vesselType = document.getElementById('candidate_c_vessel').value.trim();
     const signOnPort = document.getElementById('contract_signonport').value.trim();
     const signOn = document.getElementById('contract_signon').value.trim();
+    const signOn_dg = document.getElementById('contract_signon_dg').value.trim();
     const wageStart = document.getElementById('contract_wage_start').value.trim() || '1970-01-01';
     const eoc = document.getElementById('contract_eoc').value.trim() || '1970-01-01';
     const wages = document.getElementById('contract_wages').value.trim();
     const currency = document.getElementById('contract_currency').value.trim();
     const wagesType = document.getElementById('contract_wagestype').value.trim();
     const signOff = document.getElementById('contract_signoff').value.trim() || '1970-01-01';
+    const signOff_dg = document.getElementById('contract_signoff_dg').value.trim() || '';
     const signOffPort = document.getElementById('contract_signoffport').value.trim();
     const reasonForSignOff = document.getElementById('contracts_reason').value.trim();
     const aoaNumber = document.getElementById('contract_aoa_num').value.trim();
@@ -285,12 +287,14 @@ async function handleContractForm(event) {
         vesselType,
         signOnPort,
         signOn,
+        signOn_dg,
         wageStart,
         eoc,
         wages,
         currency,
         wagesType,
         signOff,
+        signOff_dg,
         signOffPort,
         reasonForSignOff,
         documentFile: documentFileName,
@@ -330,10 +334,20 @@ async function handleContractForm(event) {
                 'Content-Type': 'application/json'
             }
         });
-        alert('Contract added successfully!');
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text:"New Contract created successfully!",
+          });
         await fetchAndDisplayContractDetails(candidateId);
         document.getElementById('contractForm').reset();
     } catch (err) {
+        const errorMsg = err?.response?.data?.message ?? err?.message;
+        Swal.fire({
+            icon: "error",
+            title: "Alert",
+            text: errorMsg,
+        });
         console.error(err);
     }
 }

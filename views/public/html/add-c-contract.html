@@ -92,6 +92,7 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../assets/sweetalert/sweetalert2.min.css" />
 
     <!-- Page CSS -->
 
@@ -631,12 +632,14 @@
                                       <th scope="col" style="font-size: 8px;">Vessel Name</th>
                                       <th scope="col" style="font-size: 8px;">SignOn Port</th>
                                       <th scope="col" style="font-size: 8px;">SignOn</th>
+                                      <th scope="col" style="font-size: 8px;">SignOn(DG)</th>
                                       <th scope="col" style="font-size: 8px;">Wages Start</th>
                                       <th scope="col" style="font-size: 8px;">EOC</th>
                                       <th scope="col" style="font-size: 8px;">Wages</th>
                                       <th scope="col" style="font-size: 8px;">Currency</th>
                                       <th scope="col" style="font-size: 8px;">Wages Type</th>
                                       <th scope="col" style="font-size: 8px;">SignOff</th>
+                                      <th scope="col" style="font-size: 8px;">SignOff(DG)</th>
                                       <th scope="col" style="font-size: 8px;">SignOff Port</th>
                                       <th scope="col" style="font-size: 8px;">Signoff Reason</th>
                                       <th scope="col" style="font-size: 8px;">AOA Number</th>
@@ -742,25 +745,36 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
+                                        <input name="signonn_dg" type="date" id="contract_signon_dg" class="form-control"/>
+                                        <label for="contract_signonn_dg">Sign on(DG)</label>
+                                    </div>
+                                  </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
                                             <input name="wage" type="date" id="contract_wage_start" class="form-control"/>
                                             <label for="contract_wage_start">Wages start</label>
                                         </div>
                                     </div>
+                                    
+                                </div>
+            
+                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input name="eoc" type="date" id="contract_eoc" class="form-control"/>
                                             <label for="contract_eoc">EOC</label>
                                         </div>
                                     </div>
-                                </div>
-            
-                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input name="wages" type="text" id="contract_wages" class="form-control"/>
                                             <label for="contract_wages">Wages</label>
                                         </div>
                                     </div>
+                                    
+                                </div>
+            
+                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="currency" id="contract_currency" class="form-select">
@@ -777,9 +791,6 @@
 
                                         </div>
                                     </div>
-                                </div>
-            
-                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="wagestype" id="contract_wagestype" class="form-select">
@@ -792,6 +803,9 @@
 
                                         </div>
                                     </div>
+                                    
+                                </div>
+                                <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input name="signoff" type="date" id="contract_signoff" class="form-control"/>
@@ -799,6 +813,12 @@
 
                                         </div>
                                     </div>
+                                <div class="col-md-6">
+                                  <div class="form-floating">
+                                      <input name="signoff_dg" type="date" id="contract_signoff_dg" class="form-control"/>
+                                      <label for="contract_signoff_dg">Sign off(DG)</label>
+                                  </div>
+                              </div>
                                 </div>
             
                                 <div class="row mb-3">
@@ -1155,5 +1175,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="../assets/sweetalert/sweetalert2.min.js"></script>
   </body>
 </html>

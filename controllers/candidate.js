@@ -499,7 +499,8 @@ const new_profile = async (req, res) => {
         const selectedFields = req.body.selectedFields;
 
         let query = `
-            SELECT * FROM Candidates 
+            SELECT a.*, nc.country FROM Candidates AS a
+            LEFT JOIN nemo_country AS nc ON a.nationality = nc.code
             WHERE cr_date BETWEEN :startDate AND :endDate
         `;
         let replacements = { startDate, endDate };
@@ -518,7 +519,12 @@ const new_profile = async (req, res) => {
             const filteredCandidate = {};
             for (const field in candidate) {
                 if (selectedFields[field]) {
+                    if(field==='fname') {
+                        filteredCandidate[field] = `${candidate['fname']} ${candidate['lname']}`;
+                    }else {
                     filteredCandidate[field] = candidate[field];
+                }
+                    
                 }
             }
             return filteredCandidate;
@@ -1042,12 +1048,14 @@ const add_contractdetails = async (req, res) => {
             vesselType,
             signOnPort,
             signOn,
+            signOn_dg,
             wageStart,
             eoc,
             wages,
             currency,
             wagesType,
             signOff,
+            signOff_dg,
             signOffPort,
             reasonForSignOff,
             documentFile,
@@ -1088,12 +1096,14 @@ const add_contractdetails = async (req, res) => {
             vesselType,
             sign_on_port:signOnPort,
             sign_on:signOn,
+            sign_on_dg:signOn_dg,
             wage_start:wageStart,
             eoc,
             wages,
             currency,
             wages_types:wagesType,
             sign_off:signOff,
+            sign_off_dg:signOff_dg,
             sign_off_port:signOffPort,
             reason_for_sign_off:reasonForSignOff,
             documents:documentFile,
@@ -1368,8 +1378,10 @@ const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
         console.log(':::::>>>>>',candidateId)
-        const contractDetails = await Contract.findAll({
-            where: { candidateId: candidateId }
+
+        const query = `SELECT a.*, b.userName FROM contract AS a LEFT JOIN users AS b ON a.created_by=b.id WHERE candidateId='${candidateId}'`;
+        const contractDetails = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
         });
 
         res.status(200).json(contractDetails);
@@ -1394,6 +1406,7 @@ const update_contractdetails = async (req, res) => {
             contract.vesselType = updatedContractData.vesselType;
             contract.sign_on_port = updatedContractData.signOnPort;
             contract.sign_on = updatedContractData.signOnDate;
+            contract.sign_on_dg = updatedContractData.signOnDate_dg;
             contract.wage_start = updatedContractData.wagesStart;
             contract.eoc = updatedContractData.eoc;
             contract.wages = updatedContractData.wages;
@@ -1401,6 +1414,7 @@ const update_contractdetails = async (req, res) => {
             contract.wages_types = updatedContractData.wagesType;
             contract.sign_off_port = updatedContractData.signOffPort;
             contract.sign_off = updatedContractData.signOffDate;
+            contract.sign_off_dg = updatedContractData.signOffDate_dg;
             contract.reason_for_sign_off = updatedContractData.reasonForSignOff;
             contract.aoa_number = updatedContractData.aoaNum;
             contract.emigrate_number = updatedContractData.emigrateNumber;
@@ -2566,10 +2580,11 @@ const calls_made = async (req, res) => {
         console.log("~~~~~~~~~~~~~~",startDate,endDate,userId,category)
         // Build the SQL query
         let query = `
-            SELECT a.candidateId, b.nationality, a.companyname, a.join_date, a.discussion, a.reason, a.r_date, a.post_by, b.c_rank, b.c_vessel, b.fname, b.lname, b.avb_date, b.category, c.userName
+            SELECT a.candidateId, a.companyname, a.join_date, a.discussion, a.reason, a.r_date, a.post_by, b.c_rank, b.c_vessel, CONCAT(b.fname,' ',b.lname) AS name, b.avb_date, b.category, c.userName, nc.country
             FROM discussion AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN Users AS c ON a.post_by = c.id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
             WHERE a.created_date >= :startDate AND a.created_date <= :endDate
         `;
         
@@ -2610,10 +2625,11 @@ const proposals = async (req, res) => {
 
         // Base query
         let query = `
-            SELECT a.candidateId, a.join_date, b.fname, b.lname, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName
+            SELECT a.candidateId, a.join_date, CONCAT(b.fname,' ',b.lname) AS name, b.c_rank, b.c_vessel, b.category, b.nationality, c.userName, nc.country
             FROM discussion AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN Users AS c ON a.post_by = c.id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
         `;
 
         const conditions = [];
@@ -2634,7 +2650,7 @@ const proposals = async (req, res) => {
         }
 
         if (startDate && endDate) {
-            conditions.push(`a.join_date BETWEEN :startDate AND :endDate`);
+            conditions.push(`a.created_date BETWEEN :startDate AND :endDate`);
         }
 
         if (category) {
@@ -2739,37 +2755,17 @@ const getContractsBySignOnDate = async (req, res) => {
 
         // Construct the base SQL query
         let query = `
-        WITH RankedBanks AS (
             SELECT 
-                bd.*,
-                ROW_NUMBER() OVER (PARTITION BY bd.candidateId ORDER BY 
-                    CASE 
-                        WHEN bd.types = 'general' THEN 1 
-                        ELSE 2 
-                    END
-                ) AS rn
-            FROM bank AS bd
-        )
-        SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.sign_on_port, a.emigrate_number, a.aoa_number, a.reason_for_sign_off,
-            b.fname, b.lname, b.nationality, b.indos_number,
-            c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
-            e.company_name,
-            rb.bank_name, rb.account_num, rb.bank_addr, rb.ifsc_code, rb.swift_code, rb.beneficiary, rb.beneficiary_addr, rb.pan_num, rb.passbook, rb.pan_card, rb.branch, rb.types, rb.created_by,
-            CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
-            EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
-            CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
-            u.userName,
-            r.rankOrder
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.sign_on_port, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, CONCAT(b.fname,' ',b.lname) AS name, b.indos_number, c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, e.company_name, u.userName, nc.country, po.portName, bnk.beneficiary, bnk.account_num, bnk.bank_name, bnk.branch, bnk.bank_addr, bnk.beneficiary_addr, bnk.swift_code, bnk.ifsc_code, bnk.passbook, bnk.pan_num, bnk.pan_card, bnk.types 
         FROM contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
         JOIN companies AS e ON a.company = e.company_id
-        LEFT JOIN RankedBanks AS rb ON b.candidateId = rb.candidateId AND rb.rn = 1
-        LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
-        LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
+            JOIN ranks AS r ON a.rank = r.rank
+            LEFT JOIN ports AS po ON a.sign_on_port = po.id            
         LEFT JOIN Users AS u ON a.created_by = u.id
-        JOIN ranks AS r ON a.rank = r.rank
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            LEFT JOIN bank AS bnk ON a.candidateId = bnk.candidateId
         WHERE a.sign_on BETWEEN :startDate AND :endDate
         `;
 
@@ -2805,14 +2801,35 @@ const getContractsBySignOnDate = async (req, res) => {
             },
             type: sequelize.QueryTypes.SELECT
         });
-
-        res.status(200).json({ contracts: results, success: true });
+        let finalResult = [];
+        const candidateIds = results.map(candidate => candidate.candidateId);        
+        if(candidateIds.length>0) {
+            finalResult = await getDocumentList(candidateIds, results);
+        }else {
+            finalResult = results;
+        }       
+        res.status(200).json({ contracts: finalResult, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_on date:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
     }
 };
 
+const getDocumentList = async (candidateIds, canidateDatas) => {
+    const candidateIds_ = candidateIds.join(',')
+    const documentQuery = `SELECT * FROM cdocuments WHERE candidateId IN(${candidateIds_})`;
+    const documentResult = await sequelize.query(documentQuery, {
+        type: sequelize.QueryTypes.SELECT
+    });
+
+    const mergedData = await canidateDatas.map(candidate => {
+        return {
+        ...candidate,
+        document: documentResult.filter(doc => doc.candidateId === candidate.candidateId)
+        };
+    });
+    return mergedData;
+}
 
 
 const getContractsBySignOffDate = async (req, res) => {
@@ -3131,11 +3148,12 @@ const onBoard = async (req, res) => {
         // Base SQL query
         let query = `
             SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
-                   b.fname, b.lname, b.dob, b.birth_place, b.email1, c.vesselName, b.category, b.nationality, e.company_name
+                  CONCAT(b.fname,' ',b.lname) AS name, b.dob, b.birth_place, b.email1, b.indos_number, c.vesselName, b.category, b.nationality, e.company_name, nc.country
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
             WHERE a.sign_on <= :startDate
               AND (a.sign_off > :startDate OR a.sign_off = '1970-01-01')
         `;
@@ -3199,7 +3217,24 @@ const onBoard = async (req, res) => {
             type: sequelize.QueryTypes.SELECT
         });
 
-        res.status(200).json({ contracts: contracts, success: true });
+        const candidateIds = contracts.map(candidate => candidate.candidateId);
+        if(candidateIds.length>0) {
+            const candidateIds_ = candidateIds.join(',')
+            const documentQuery = `SELECT * FROM cdocuments WHERE candidateId IN(${candidateIds_})`;
+            const documentResult = await sequelize.query(documentQuery, {
+                type: sequelize.QueryTypes.SELECT
+            });
+
+            const mergedData = await contracts.map(candidate => {
+                return {
+                  ...candidate,
+                  document: documentResult.filter(doc => doc.candidateId === candidate.candidateId)
+                };
+              });
+            res.status(200).json({ contracts: mergedData, success: true });
+        }else {
+            res.status(200).json({ contracts: [], success: true });
+        }
     } catch (error) {
         console.error("Error fetching onboard contracts:", error);
         res.status(500).json({ error: 'Internal server error', success: false });
@@ -3666,12 +3701,12 @@ const getPayslips = async (req, res) => {
 
         // Define the base SQL query
         let query = `
-            SELECT a.candidateId, a.eoc, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality, c.vesselName, e.company_name
+            SELECT a.candidateId, a.eoc, a.rank, a.vslName, CONCAT(b.fname,' ',b.lname) AS name, b.category, b.nationality, c.vesselName, e.company_name, nc.country
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
-           
             JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
             WHERE a.sign_off = '1970-01-01'
               AND a.eoc <= :startDate
         `;

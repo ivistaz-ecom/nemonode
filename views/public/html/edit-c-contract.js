@@ -41,12 +41,14 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const vesselType = urlParams.get('vesselType');
     const sign_on_port = urlParams.get('sign_on_port');
     const sign_on = urlParams.get('sign_on');
+    const sign_on_dg = urlParams.get('sign_on_dg');
     const wage_start = urlParams.get('wage_start');
     const eoc = urlParams.get('eoc');
     const wages = urlParams.get('wages');
     const currency = urlParams.get('currency');
     const wages_types = urlParams.get('wages_types');
     const sign_off = urlParams.get('sign_off');
+    const sign_off_dg = urlParams.get('sign_off_dg');
     const sign_off_port = urlParams.get('sign_off_port');
     const reason_for_sign_off = urlParams.get('reason_for_sign_off');
     const aoa_number = urlParams.get('aoa_number');
@@ -89,12 +91,14 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontract_vesseltype').value = vesselType;
     document.getElementById('editcontract_signonport').value = sign_on_port;
     document.getElementById('editcontract_signon').value = formatDate(sign_on);
+    document.getElementById('editcontract_signon_dg').value = formatDate(sign_on_dg);
     document.getElementById('editcontract_wage_start').value = formatDate(wage_start);
     document.getElementById('editcontract_eoc').value = formatDate(eoc);
     document.getElementById('editcontract_wages').value = wages;
     document.getElementById('editcontract_currency').value = currency;
     document.getElementById('editcontract_wagestype').value = wages_types;
     document.getElementById('editcontract_signoff').value = formatDate(sign_off);
+    document.getElementById('editcontract_signoff_dg').value = formatDate(sign_off_dg);
     document.getElementById('editcontract_signoffport').value = sign_off_port;
     document.getElementById('editcontracts_reason').value = reason_for_sign_off;
     document.getElementById('editcontract_aoa_num').value = aoa_number;
@@ -412,12 +416,14 @@ function formatDate(dateString) {
     const vesselType = document.getElementById('editcontract_vesseltype').value.trim();
     const signOnPort = document.getElementById('editcontract_signonport').value.trim();
     const signOnDate = document.getElementById('editcontract_signon').value.trim();
+    const signOnDate_dg = document.getElementById('editcontract_signon_dg').value.trim();
     const wagesStart = document.getElementById('editcontract_wage_start').value.trim();
     const eoc = document.getElementById('editcontract_eoc').value.trim();
     const wages = document.getElementById('editcontract_wages').value.trim();
     const currency = document.getElementById('editcontract_currency').value.trim();
     const wagesType = document.getElementById('editcontract_wagestype').value.trim();
     const signOffDate = document.getElementById('editcontract_signoff').value.trim();
+    const signOffDate_dg = document.getElementById('editcontract_signoff_dg').value.trim();
     const signOffPort = document.getElementById('editcontract_signoffport').value.trim();
     const reasonForSignOff = document.getElementById('editcontracts_reason').value.trim();
     const aoaNum = document.getElementById('editcontract_aoa_num').value.trim();
@@ -500,12 +506,14 @@ function formatDate(dateString) {
         vesselType,
         signOnPort,
         signOnDate,
+        signOnDate_dg,
         wagesStart,
         eoc,
         wages,
         currency,
         wagesType,
         signOffDate,
+        signOffDate_dg,
         signOffPort,
         reasonForSignOff,
         documentFile: documentFileName,
@@ -539,20 +547,30 @@ function formatDate(dateString) {
     };
 
     try {
-        const response = await axios.put(`https://nsnemo.com/candidate/update-contract-details/${contractId}`, contractDetails, {
+        const response = await axios.put(`${config.APIURL}candidate/update-contract-details/${contractId}`, contractDetails, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });
         console.log('Contract updated successfully:', response.data);
-        alert('Contract updated successfully');
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text:"Selected Contract updated successfully!",
+          });
         const urlParams = new URLSearchParams(window.location.search);
     
         // Get the candidateId from the URL parameter
         const memId = urlParams.get('candidateId');
         viewCandidate(memId)
     } catch (err) {
+        const errorMsg = err?.response?.data?.message ?? err?.message;
+        Swal.fire({
+            icon: "error",
+            title: "Alert",
+            text: errorMsg,
+        });
         console.error('Error updating contract:', err);
     }
 })

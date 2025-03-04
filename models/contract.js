@@ -26,7 +26,10 @@ const Contract = sequelize.define('Contract', {
     },
     sign_on :{
         type:DataTypes.DATE
-      
+    },
+    sign_on_dg :{
+        type:DataTypes.DATE,
+        allowNull:true
     },
     wage_start :{
         type:DataTypes.DATE,
@@ -53,6 +56,10 @@ const Contract = sequelize.define('Contract', {
         type:DataTypes.STRING
     },
     sign_off :{
+        type:DataTypes.DATE,
+        allowNull:true
+    },
+    sign_off_dg :{
         type:DataTypes.DATE,
         allowNull:true
     },
