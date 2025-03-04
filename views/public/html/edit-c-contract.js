@@ -395,7 +395,7 @@ async function fetchAndDisplayCompanies() {
 
 
 function formatDate(dateString) {
-    if(dateString!=="" && dateString!==null && dateString!=='0000-00-00') {
+    if(dateString!=="" && dateString!=="null" && dateString!==null && dateString!=='0000-00-00') {
     // Assuming dateString is in the format "YYYY-MM-DD HH:mm:ss"
     const date = new Date(dateString);
     const formattedDate = date.toISOString().split('T')[0];
