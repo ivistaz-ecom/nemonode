@@ -1105,14 +1105,14 @@ const add_contractdetails = async (req, res) => {
             vesselType,
             sign_on_port:signOnPort,
             sign_on:signOn,
-            sign_on_dg:signOn_dg,
+            sign_on_dg:(signOn_dg!=="")?signOn_dg:null,
             wage_start:wageStart,
             eoc,
             wages,
             currency,
             wages_types:wagesType,
             sign_off:signOff,
-            sign_off_dg:signOff_dg,
+            sign_off_dg:(signOff_dg!=="")?signOff_dg:null,
             sign_off_port:signOffPort,
             reason_for_sign_off:reasonForSignOff,
             documents:documentFile,
@@ -1416,7 +1416,7 @@ const update_contractdetails = async (req, res) => {
             contract.vesselType = updatedContractData.vesselType;
             contract.sign_on_port = updatedContractData.signOnPort;
             contract.sign_on = updatedContractData.signOnDate;
-            contract.sign_on_dg = updatedContractData.signOnDate_dg;
+            contract.sign_on_dg = (updatedContractData.signOnDate_dg!=="")?updatedContractData.signOnDate_dg:null;
             contract.wage_start = updatedContractData.wagesStart;
             contract.eoc = updatedContractData.eoc;
             contract.wages = updatedContractData.wages;
@@ -1424,7 +1424,7 @@ const update_contractdetails = async (req, res) => {
             contract.wages_types = updatedContractData.wagesType;
             contract.sign_off_port = updatedContractData.signOffPort;
             contract.sign_off = updatedContractData.signOffDate;
-            contract.sign_off_dg = updatedContractData.signOffDate_dg;
+            contract.sign_off_dg = (updatedContractData.signOffDate_dg!=="")?updatedContractData.signOffDate_dg:null;
             contract.reason_for_sign_off = updatedContractData.reasonForSignOff;
             contract.aoa_number = updatedContractData.aoaNum;
             contract.emigrate_number = updatedContractData.emigrateNumber;
