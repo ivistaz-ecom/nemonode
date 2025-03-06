@@ -488,8 +488,8 @@ document
         "1970-01-01",
       nationality:
         document.getElementById("edit_candidate_nationality").value || null,
-      company_status:
-        document.getElementById("edit_candidate_company_status").value || null,
+      active_details:
+        document.getElementById("edit_candidate_company_status").value ?? 0,
       dob: document.getElementById("edit_candidate_dob").value || "1970-01-01",
       birth_place:
         document.getElementById("edit_candidate_birth_place").value || null,
@@ -532,8 +532,8 @@ document
       c_mobi2: document.getElementById("edit_candidate_c_mobi2").value || null,
       c_tel2: document.getElementById("edit_candidate_c_tel2").value || null,
       email2: document.getElementById("edit_candidate_email2").value || null,
-      active_details:
-        document.getElementById("edit_candidate_active_details").value || 0,
+      /* active_details:
+        document.getElementById("edit_candidate_active_details").value || 0, */
       area_code1:
         document.getElementById("edit_candidate_area_code1").value || "",
       area_code2:
