@@ -1439,7 +1439,7 @@ async function handleSignOnSubmit_(event) {
   .addEventListener("submit", handleSignOnSubmit); */
 
 // Add event listener to the Sign On form
-async function handleSignOffSubmit(event) {
+async function handleSignOffSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -1742,12 +1742,12 @@ async function handleSignOffSubmit(event) {
   }
 }
 
-document
+/* document
   .getElementById("signOffForm")
-  .addEventListener("submit", handleSignOffSubmit);
+  .addEventListener("submit", handleSignOffSubmit_); */
 
 // Helper function to calculate status based on EOC date
-async function handleDueforSignOffSubmit(event) {
+async function handleDueforSignOffSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -2061,11 +2061,11 @@ function calculateStatus(eocDate) {
   }
 }
 
-document
+/* document
   .getElementById("dueforsignoffform")
-  .addEventListener("submit", handleDueforSignOffSubmit);
+  .addEventListener("submit", handleDueforSignOffSubmit_); */
 
-async function handleAvailableCandidatesSubmit(event) {
+async function handleAvailableCandidatesSubmit_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -2263,9 +2263,9 @@ async function handleAvailableCandidatesSubmit(event) {
   }
 }
 
-document
+/* document
   .getElementById("availableCandidatesForm")
-  .addEventListener("submit", handleAvailableCandidatesSubmit);
+  .addEventListener("submit", handleAvailableCandidatesSubmit_); */
 
 async function handleDueForRenewalSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior
@@ -2788,7 +2788,7 @@ function calculateAge(dob) {
   .getElementById("onBoardForm")
   .addEventListener("submit", handleOnBoardSubmit); */
 
-const handleReminder = async (event) => {
+const handleReminder_ = async (event) => {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -2893,10 +2893,10 @@ const handleReminder = async (event) => {
   }
 };
 
-const dateFilterForm = document.getElementById("dateFilterForm");
-dateFilterForm.addEventListener("submit", handleReminder);
+/* const dateFilterForm = document.getElementById("dateFilterForm");
+dateFilterForm.addEventListener("submit", handleReminder_); */
 
-async function handleCrewList(event) {
+async function handleCrewList_(event) {
   event.preventDefault(); // Prevent default form submission behavior
 
   try {
@@ -3259,8 +3259,8 @@ async function handleCrewList(event) {
 }
 
 
-const handleimoCrewListForm = document.getElementById("imocrewListMonthWiseForm").addEventListener("submit", handleimoCrewList);
-async function handleimoCrewList(event) {
+/* const handleimoCrewListForm = document.getElementById("imocrewListMonthWiseForm").addEventListener("submit", handleimoCrewList_); */
+async function handleimoCrewList_(event) {
   event.preventDefault(); // Prevent default form submission behavior
   try {
 
@@ -3612,9 +3612,9 @@ function getDocumentNumber(candidate, documentType) {
   return doc ? doc.document_number : "";
 }
 
-const handleCrewListForm = document
+/* const handleCrewListForm = document
   .getElementById("crewListMonthWiseForm")
-  .addEventListener("submit", handleCrewList);
+  .addEventListener("submit", handleCrewList_); */
 
 // Function to fetch vessel names from the server
 const displayVesselDropdown = async function () {

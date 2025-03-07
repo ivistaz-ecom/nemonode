@@ -338,15 +338,15 @@
     tableBody.innerHTML = "";
     var vesselName_  = '';
     crewlist.forEach((contract, index) => {
-        if(index===0) {
-          vesselName_ = getVesselName(contract.vslName);
+        if(vesselName_==="") {
+          vesselName_ = getVesselName(contract.vesselName);
           $('#vesselName_').html(vesselName_);
         }
 
         const row = document.createElement("tr");
         const fields = [
           index + 1, // Serial Number (S.No)
-          `${contract.fname} ${contract.lname}`,
+          `${contract.name}`,
           contract.rank,
           getNationalityName(contract.nationality),
           `${formatDateNew(contract.dob)}<br/>${contract.birth_place}`,

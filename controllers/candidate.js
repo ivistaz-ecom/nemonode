@@ -1291,7 +1291,6 @@ const updateOrCreateCandidateFromVerloop = async (req, res) => {
 const edit_candidate=  async (req, res) => {
     const candidateId = req.params.id;
     const candidateDetails = req.body;
-    console.log
     try {
         const [updatedRows] = await Candidate.update(candidateDetails, {
             where: { candidateId: candidateId },
@@ -2764,7 +2763,6 @@ const proposals = async (req, res) => {
 const getContractsBySignOnDate = async (req, res) => {
     try {
         const { startDate, endDate, vessel_type, companyname, category } = req.query;
-
         // Construct the base SQL query
         let query = `
             SELECT 
@@ -2814,11 +2812,13 @@ const getContractsBySignOnDate = async (req, res) => {
             type: sequelize.QueryTypes.SELECT
         });
         let finalResult = [];
+        if(results.length>0) {
         const candidateIds = results.map(candidate => candidate.candidateId);        
         if(candidateIds.length>0) {
             finalResult = await getDocumentList(candidateIds, results);
         }else {
             finalResult = results;
+            }
         }       
         res.status(200).json({ contracts: finalResult, success: true });
     } catch (error) {
@@ -2850,37 +2850,16 @@ const getContractsBySignOffDate = async (req, res) => {
 
         // Construct the base SQL query with CTE for RankedBanks
         let query = `
-        WITH RankedBanks AS (
             SELECT 
-                bd.*,
-                ROW_NUMBER() OVER (PARTITION BY bd.candidateId ORDER BY 
-                    CASE 
-                        WHEN bd.types = 'general' THEN 1 
-                        ELSE 2 
-                    END
-                ) AS rn
-            FROM bank AS bd
-        )
-        SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, a.sign_on_port, a.sign_off_port,
-            b.fname, b.lname, b.nationality, b.indos_number,
-            c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag AS vesselFlag, 
-            d.company_name,
-            rb.bank_name, rb.account_num, rb.bank_addr, rb.ifsc_code, rb.swift_code, rb.beneficiary, rb.beneficiary_addr, rb.pan_num, rb.passbook, rb.pan_card, rb.branch, rb.types,
-            CASE WHEN cd_indian_cdc.document = 'Indian CDC' THEN cd_indian_cdc.document_number ELSE '' END AS indian_cdc_document_number,
-            EXISTS (SELECT 1 FROM cdocuments cd_other_cdc WHERE cd_other_cdc.document LIKE '%CDC%') AS has_other_cdc_document,
-            CASE WHEN cd_passport.document = 'Passport' THEN cd_passport.document_number ELSE '' END AS passport_document_number,
-            u.userName,
-            r.rankOrder
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, a.sign_on_port, a.sign_off_port, CONCAT(b.fname,' ',b.lname) AS name, b.nationality, b.indos_number, c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag,  d.company_name, bnk.beneficiary, bnk.account_num, bnk.bank_name, bnk.branch, bnk.bank_addr, bnk.beneficiary_addr, bnk.swift_code, bnk.ifsc_code, bnk.passbook, bnk.pan_num, bnk.pan_card, bnk.types, u.userName,  r.rankOrder, nc.country
         FROM contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
         JOIN companies AS d ON a.company = d.company_id
-        LEFT JOIN RankedBanks AS rb ON b.candidateId = rb.candidateId AND rb.rn = 1
-        LEFT JOIN cdocuments cd_indian_cdc ON b.candidateId = cd_indian_cdc.candidateId AND cd_indian_cdc.document = 'Indian CDC'
-        LEFT JOIN cdocuments cd_passport ON b.candidateId = cd_passport.candidateId AND cd_passport.document = 'Passport'
         LEFT JOIN Users AS u ON a.created_by = u.id
         LEFT JOIN ranks AS r ON a.rank = r.rank
+        LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+        LEFT JOIN bank AS bnk ON a.candidateId = bnk.candidateId
         WHERE a.sign_off BETWEEN :startDate AND :endDate
           AND a.sign_on != '1970-01-01'
         `;
@@ -2916,8 +2895,16 @@ const getContractsBySignOffDate = async (req, res) => {
             },
             type: sequelize.QueryTypes.SELECT
         });
-
-        res.status(200).json({ contracts: results, success: true });
+        let finalResult = [];
+        if(results.length>0) {
+            const candidateIds = results.map(candidate => candidate.candidateId);        
+            if(candidateIds.length>0) {
+                finalResult = await getDocumentList(candidateIds, results);
+            }else {
+                finalResult = results;
+            }
+        }
+        res.status(200).json({ contracts: finalResult, success: true });
     } catch (error) {
         console.error('Error fetching contracts by sign_off date:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
@@ -2934,12 +2921,12 @@ const getContractsDueForSignOff = async (req, res) => {
 
         // Construct the base SQL query
         let query = `
-            SELECT a.candidateId, a.eoc, a.rank, a.vslName, b.fname, b.lname, b.category, b.nationality, c.vesselName, e.company_name
+            SELECT a.candidateId, a.eoc, a.rank, a.vslName, CONCAT(b.fname,' ',b.lname) AS name, b.category, b.nationality, c.vesselName, e.company_name, nc.country
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
-            
             JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
             WHERE a.sign_off = '1970-01-01'
               AND a.eoc BETWEEN :startDate AND :endDate
         `;
@@ -2988,8 +2975,9 @@ const avbCandidate = async (req, res) => {
 
         // Base SQL query
         let query = `
-            SELECT candidateid, fname, lname, nationality, avb_date, c_rank, category, c_vessel 
-            FROM Candidates 
+            SELECT candidateid AS candidateId, CONCAT(a.fname,' ',a.lname) AS name, nationality, avb_date, c_rank, category, c_vessel, nc.country
+            FROM Candidates AS a
+            LEFT JOIN nemo_country AS nc ON a.nationality = nc.code
             WHERE avb_date BETWEEN :startDate AND :endDate
               AND active_details = 1
         `;
@@ -3504,42 +3492,20 @@ const crewList = async (req, res) => {
     }
 
     let query = `
-        WITH RankedBanks AS (
+        
             SELECT 
-                bd.*,
-                ROW_NUMBER() OVER (PARTITION BY bd.candidateId ORDER BY 
-                    CASE 
-                        WHEN bd.types = 'general' THEN 1 
-                        ELSE 2 
-                    END
-                ) AS rn
-            FROM bank AS bd
-        )
-        SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, 
-            a.wages_types, a.sign_on, a.sign_off, a.eoc,a.sign_on_port, a.sign_off_port, 
-            b.fname, b.lname, b.dob, b.birth_place, b.indos_number, b.nationality, b.c_rank, 
-            c.id AS vesselId, b.category, e.company_name,
-            rb.bank_name, rb.account_num, rb.bank_addr, rb.ifsc_code, rb.swift_code,
-            rb.beneficiary, rb.beneficiary_addr, rb.pan_num, rb.passbook, rb.pan_card,
-            rb.branch, rb.types, rb.created_by,
-            (SELECT cd_indian_cdc.document_number 
-                FROM cdocuments cd_indian_cdc 
-                WHERE cd_indian_cdc.candidateId = b.candidateId 
-                AND cd_indian_cdc.document = 'Indian CDC' 
-                LIMIT 1) AS indian_cdc_document_number,
-            (SELECT cd_passport.document_number 
-                FROM cdocuments cd_passport 
-                WHERE cd_passport.candidateId = b.candidateId 
-                AND cd_passport.document = 'Passport' 
-                LIMIT 1) AS passport_document_number
+            a.candidateId, a.rank, c.vesselName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,a.sign_on_port, a.sign_off_port, CONCAT(b.fname,' ',b.lname) AS name, b.dob, b.birth_place, b.indos_number, b.nationality, b.c_rank, 
+            c.id AS vesselId, b.category, e.company_name, bnk.bank_name, bnk.account_num, bnk.bank_addr, bnk.ifsc_code, bnk.swift_code, bnk.beneficiary, bnk.beneficiary_addr, bnk.pan_num, bnk.passbook, bnk.pan_card, bnk.branch, bnk.types, bnk.created_by, nc.country, po.portName, sop.portName AS signOffPortName, c.imoNumber, c.vesselFlag
         FROM 
             contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
-            LEFT JOIN RankedBanks AS rb ON b.candidateId = rb.candidateId AND rb.rn = 1
+            LEFT JOIN ports AS po ON a.sign_on_port = po.id
+            LEFT JOIN ports AS sop ON a.sign_off_port = sop.id
             LEFT JOIN ranks AS r ON b.c_rank = r.rank
+            LEFT JOIN bank AS bnk ON a.candidateId = bnk.candidateId
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
         WHERE 
             ((a.sign_on <= :endDate AND a.sign_off='1970-01-01') OR 
             (a.sign_off <= :endDate AND a.sign_off >= :startDate) OR 
@@ -3566,7 +3532,16 @@ const crewList = async (req, res) => {
             type: sequelize.QueryTypes.SELECT,
             replacements
         });
-        res.json(results);
+        let finalResult = [];
+        if(results.length>0) {
+            const candidateIds = results.map(candidate => candidate.candidateId);        
+            if(candidateIds.length>0) {
+                finalResult = await getDocumentList(candidateIds, results);
+            }else {
+                finalResult = results;
+            }
+        }
+        res.json(finalResult);
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred while retrieving the crew list.');

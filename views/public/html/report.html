@@ -349,14 +349,14 @@
                           >Due for Signoff</a
                         >
                       </li>
-                      <li>
+                      <!-- <li>
                         <a
                           class="dropdown-item"
                           href="#"
                           onclick="showReport(event, 'mis', 'MIS')"
                           >MIS</a
                         >
-                      </li>
+                      </li> -->
                       <li>
                         <a
                           class="dropdown-item"
@@ -487,7 +487,10 @@
 
                         <div class="row g-2 border">
                           <div class="col-12">
-                            <div class="d-flex flex-wrap" id="newprofileFilter"></div>
+                          <div
+                            class="d-flex flex-wrap"
+                            id="newprofileFilter"
+                          ></div>
                           </div>
                         </div>
                     </div>
@@ -503,10 +506,18 @@
                     </div>
                     </form>
 
-                    <div class="row mb-3" id="newProfileCustom" style="display: none;">
+                  <div
+                    class="row mb-3"
+                    id="newProfileCustom"
+                    style="display: none"
+                  >
                       <div class="col-md-1">
                         <label for="pageNewProfile">Page Limit</label>
-                        <select id="pageNewProfile" class="form-select" onchange="changePageLimit('newProfile')">
+                      <select
+                        id="pageNewProfile"
+                        class="form-select"
+                        onchange="changePageLimit('newProfile')"
+                      >
                           <option value="10">10</option>
                           <option value="25">25</option>
                           <option value="50">50</option>
@@ -527,11 +538,19 @@
                       <div class="col-md-2">
                         <div
                               id="newProfileCount"
-                              class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                         ></div>
                       </div>
                           <div class="col-md-3 mt-4">
-                            <button id="exportToExcelBtnnp" class="btn btn-primary">
+                          <button
+                            id="exportToExcelBtnnewProfile"
+                            class="btn btn-primary"
+                          >
                               Export to Excel
                             </button>
                       </div>
@@ -544,18 +563,21 @@
                         id="newProfileTable"
                         class="table table-bordered border-1"
                       >
-                        <thead  id="newProfileTablehead">
-                         
-                        </thead>
-                        <tbody id="newProfileTableBody" class="table-border-bottom-0">
+                      <thead id="newProfileTablehead"></thead>
+                      <tbody
+                        id="newProfileTableBody"
+                        class="table-border-bottom-0"
+                      >
                           <!-- Data will be populated here -->
                         </tbody>
                       </table>
                     </div>
-                    <div id="paginationControlsnp" class="pagination mt-2 d-flex justify-content-end">
+                  <div
+                    id="paginationControlsnp"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
                       <!-- Pagination buttons will be injected here -->
                     </div>
-
                   </div>
               </div>
               <div id="callsMadeContent" class="report-content">
@@ -613,16 +635,25 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="callsMadeFormBtn"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="callsMadeFormBtn"
                     >
                       Generate
                     </button>
                   </form>
 
-                  <div class="row mb-3" id="callsMadeCustom" style="display: none;">
+                  <div
+                    class="row mb-3"
+                    id="callsMadeCustom"
+                    style="display: none"
+                  >
                     <div class="col-md-1">
                       <label for="rowsPerCallsMade">Page Limit</label>
-                      <select id="rowsPerCallsMade" class="form-select" onchange="changePageLimit('callsMade')">
+                      <select
+                        id="rowsPerCallsMade"
+                        class="form-select"
+                        onchange="changePageLimit('callsMade')"
+                      >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -643,11 +674,19 @@
                     <div class="col-md-2">
                           <div
                             id="callsMadeCount"
-                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                       ></div>
                     </div>
                         <div class="col-md-3 mt-4">
-                          <button id="exportToExcelBtncm" class="btn btn-primary">
+                          <button
+                            id="exportToExcelBtncallsMade"
+                            class="btn btn-primary"
+                          >
                             Export to Excel
                           </button>
                         </div>
@@ -660,14 +699,19 @@
                       id="callsMadeTable"
                       class="table table-bordered border-1"
                     >
-                      <thead  id="callsMadeTablehead">                       
-                      </thead>
-                      <tbody id="callsMadeTableBody" class="table-border-bottom-0">
+                      <thead id="callsMadeTablehead"></thead>
+                      <tbody
+                        id="callsMadeTableBody"
+                        class="table-border-bottom-0"
+                      >
                         <!-- Data will be populated here -->
                       </tbody>
                     </table>
                   </div>
-                  <div id="paginationControlscm" class="pagination mt-2 d-flex justify-content-end">
+                  <div
+                    id="paginationControlscm"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
                     <!-- Pagination buttons will be injected here -->
                   </div>
                 </div>
@@ -742,7 +786,8 @@
                       <div class="col-12">
                         <button
                           type="submit"
-                          class="btn btn-primary ps-2 pe-2 float-end mb-2" id="proposedFormBtn"
+                          class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                          id="proposedFormBtn"
                         >
                             Generate
                         </button>
@@ -750,10 +795,18 @@
                     </div>
                   </form>
 
-                  <div class="row mb-3" id="proposedCustom" style="display: none;">
+                  <div
+                    class="row mb-3"
+                    id="proposedCustom"
+                    style="display: none"
+                  >
                     <div class="col-md-1">
                       <label for="rowsPerProposed">Page Limit</label>
-                      <select id="rowsPerProposed" class="form-select" onchange="changePageLimit('proposed')">
+                      <select
+                        id="rowsPerProposed"
+                        class="form-select"
+                        onchange="changePageLimit('proposed')"
+                      >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -774,11 +827,19 @@
                         <div class="col-md-2">
                           <div
                             id="proposedCount"
-                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                           ></div>
                         </div>
                         <div class="col-md-3 mt-4">
-                          <button id="exportToExcelBtnpro" class="btn btn-primary">
+                          <button
+                            id="exportToExcelBtnproposed"
+                            class="btn btn-primary"
+                          >
                             Export to Excel
                           </button>
                         </div>
@@ -791,14 +852,19 @@
                       id="proposedTable"
                       class="table table-bordered border-1"
                     >
-                      <thead  id="proposedTablehead">                       
-                      </thead>
-                      <tbody id="proposedTableBody" class="table-border-bottom-0">
+                      <thead id="proposedTablehead"></thead>
+                      <tbody
+                        id="proposedTableBody"
+                        class="table-border-bottom-0"
+                      >
                         <!-- Data will be populated here -->
                       </tbody>
                     </table>
                   </div>
-                  <div id="paginationControlspro" class="pagination mt-2 d-flex justify-content-end">
+                  <div
+                    id="paginationControlspro"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
                     <!-- Pagination buttons will be injected here -->
                   </div>
                 </div>
@@ -877,16 +943,21 @@
 
                     <button
                       type="submit"
-                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="signonFormBtn"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="signonFormBtn"
                     >
                         Generate
                     </button>
                   </form>
 
-                  <div class="row mb-3" id="signonCustom" style="display: none;">
+                  <div class="row mb-3" id="signonCustom" style="display: none">
                     <div class="col-md-1">
                       <label for="rowsPerSignon">Page Limit</label>
-                      <select id="rowsPerSignon" class="form-select" onchange="changePageLimit('signon')">
+                      <select
+                        id="rowsPerSignon"
+                        class="form-select"
+                        onchange="changePageLimit('signon')"
+                      >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -907,11 +978,19 @@
                         <div class="col-md-2">
                           <div
                             id="signonCount"
-                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                           ></div>
                         </div>
                         <div class="col-md-3 mt-4">
-                          <button id="exportToExcelBtnpro" class="btn btn-primary">
+                          <button
+                            id="exportToExcelBtnsignon"
+                            class="btn btn-primary"
+                          >
                             Export to Excel
                           </button>
                       </div>
@@ -924,14 +1003,17 @@
                       id="signonTable"
                       class="table table-bordered border-1"
                     >
-                      <thead  id="signonTablehead">                       
-                      </thead>
-                      <tbody id="signonTableBody" class="table-border-bottom-0">
-                      </tbody>
+                      <thead id="signonTablehead"></thead>
+                      <tbody
+                        id="signonTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                     </table>
                   </div>
-                  <div id="paginationControlssignon" class="pagination mt-2 d-flex justify-content-end">
-                  </div>
+                  <div
+                    id="paginationControlssignon"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                 </div>
               </div>
 
@@ -1005,52 +1087,80 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary p-0 ps-2 pe-2 float-end"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="signoffFormBtn"
                     >
-                      Generate Sign Off Report
+                      Generate
                     </button>
                   </form>
 
-                  <!-- Table to display Sign Off report data -->
-                  <div class="container table-responsive">
-                    <div class="row g-2 mt-1">
-                      <!-- Search Input -->
-                      <div class="col-md-4">
-                        <div
-                          id="signOffSearchContainer"
-                          class="d-flex align-items-center p-0"
+                  <div
+                    class="row mb-3"
+                    id="signoffCustom"
+                    style="display: none"
+                  >
+                    <div class="col-md-1">
+                      <label for="rowsPerSignoff">Page Limit</label>
+                      <select
+                        id="rowsPerSignoff"
+                        class="form-select"
+                        onchange="changePageLimit('signoff')"
                         >
-                          <!-- Search input will be added dynamically here -->
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
                         </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchSignoff">Search</label>
+                          <input
+                            type="text"
+                            id="searchSignoff"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('signoff')"
+                          />
                       </div>
-
-                      <!-- Data Count Message -->
-                      <div class="col-md-4 d-flex align-items-center">
-                        <span
-                          id="countSignOff"
-                          class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
-                        ></span>
+                        <div class="col-md-2">
+                          <div
+                            id="signoffCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
                       </div>
-
-                      <!-- Export Button -->
-                      <div
-                        class="col-md-4 d-flex align-items-center justify-content-end"
-                      >
-                        <div id="exportContainerSignOff"></div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtnsignoff"
+                            class="btn btn-primary"
+                          >
+                            Export to Excel
+                          </button>
                       </div>
                     </div>
-
+                    </div>
+                  </div>
+                  <div class="table-responsive text-nowrap">
                     <table
-                      id="signOffTable"
-                      class="table table-bordered table-sm"
+                      id="signoffTable"
+                      class="table table-bordered border-1"
                     >
-                      <tbody id="signOffTableBody" style="font-size: 10px">
-                        <!-- Table body will be populated dynamically -->
-                      </tbody>
-                      <div id="paginationControlssignoff"></div>
-                      <div id="paginationContainersignoff"></div>
+                      <thead id="signoffTablehead"></thead>
+                      <tbody
+                        id="signoffTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                     </table>
                   </div>
+                  <div
+                    id="paginationControlssignoff"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                 </div>
               </div>
 
@@ -1125,57 +1235,80 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary mb-2 p-0 ps-2 pe-2 float-end"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="dueForsignoffFormBtn"
                     >
-                      Generate Report
+                      Generate
                     </button>
                   </form>
 
-                  <!-- Table to display Sign Off report data -->
-                  <div class="container table-responsive">
+                  <div
+                    class="row mb-3"
+                    id="dueForsignoffCustom"
+                    style="display: none"
+                  >
+                    <div class="col-md-1">
+                      <label for="rowsPerdueForSignoff">Page Limit</label>
+                      <select
+                        id="rowsPerdueForSignoff"
+                        class="form-select"
+                        onchange="changePageLimit('dueForsignoff')"
+                      >
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchdueForSignoff">Search</label>
+                          <input
+                            type="text"
+                            id="searchdueForSignoff"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('dueForsignoff')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="dueForsignoffCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtndueForsignoff"
+                            class="btn btn-primary"
+                          >
+                            Export to Excel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive text-nowrap">
                     <table
-                      id="DuesignOffTable"
-                      class="table table-bordered table"
+                      id="dueForsignoffTable"
+                      class="table table-bordered border-1"
                     >
-                      <thead>
-                        <tr>
-                          <th>S.No</th>
-
-                          <th>Candidate&nbsp;ID</th>
-                          <th>Rank</th>
-                          <th>Vessel</th>
-                          <th>Sign&nbsp;On&nbsp;Date</th>
-                          <th>Sign&nbsp;Off</th>
-                          <th>EOC</th>
-                          <th>Emigrate&nbsp;Number</th>
-                          <th>AOA</th>
-                          <th>Currency</th>
-                          <th>Wages</th>
-                          <th>Wages&nbsp;Type</th>
-                          <th>Reason</th>
-
-                          <th>Name</th>
-                          <th>Nationality</th>
-                          <th>Vessel Name</th>
-                          <th>IMO number</th>
-                          <th>Vessel flag</th>
-                          <th>Category</th>
-                          <th>Company</th>
-
-                          <th>User</th>
-                          <th>PAN&nbsp;Number</th>
-                          <th>INDOS</th>
-
-                          <th>Indian&nbsp;CDC</th>
-                          <th>Passport</th>
-                          <th>User</th>
-                        </tr>
-                      </thead>
-                      <tbody id="signOffTableContainer">
-                        <!-- Table body will be populated dynamically -->
-                      </tbody>
+                      <thead id="dueForsignoffTablehead"></thead>
+                      <tbody
+                        id="dueForsignoffTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                     </table>
                   </div>
+                  <div
+                    id="paginationControlsdueForsignoff"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                 </div>
               </div>
 
@@ -1221,6 +1354,7 @@
                   <div id="candidatesList"></div>
                 </div>
               </div>
+
               <div id="availableCandidatesContent" class="report-content">
                 <!-- Content for Available Candidates Report -->
                 <div class="card card-body">
@@ -1274,41 +1408,81 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary p-0 ps-2 pe-2 float-end mb-2"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="signoffFormBtn"
                     >
-                      Generate Report
+                      Generate
                     </button>
                   </form>
 
-                  <!-- Table to display available candidates data -->
-                  <div class="col-md-4 d-flex align-items-center">
-                    <span
-                      id="avbCandCount"
-                      class="border ps-2 pe-2 pt-1 pb-1 rounded-2 mb-2"
-                    ></span>
-                  </div>
 
-                  <table
-                    id="availableCandidatesTable"
-                    class="table table-bordered table-sm"
+                  <div
+                    class="row mb-3"
+                    id="availCandidateCustom"
+                    style="display: none"
                   >
-                    <thead>
-                      <tr>
-                        <th style="width: 25px">S.No</th>
-                        <th>Candidate&nbsp;ID</th>
-                        <th>First&nbsp;Name</th>
-                        <th>Last&nbsp;Name</th>
-                        <th>Nationality</th>
-                        <th>Rank</th>
-                        <th>Vessel</th>
-                        <th>Avb&nbsp;Date</th>
-                      </tr>
-                    </thead>
-                    <tbody id="availableCandidatesTableBody">
-                      <!-- Table body will be populated dynamically -->
-                    </tbody>
-                    <div id="paginationContaineravbdate"></div>
+                    <div class="col-md-1">
+                      <label for="rowsPeravailCandidate">Page Limit</label>
+                      <select
+                        id="rowsPeravailCandidate"
+                        class="form-select"
+                        onchange="changePageLimit('availCandidate')"
+                      >
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                  </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchavailCandidate">Search</label>
+                          <input
+                            type="text"
+                            id="searchavailCandidate"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('availCandidate')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="availCandidateCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtnavailCandidate"
+                            class="btn btn-primary"
+                          >
+                            Export to Excel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive text-nowrap">
+                  <table
+                      id="availCandidateTable"
+                      class="table table-bordered border-1"
+                  >
+                      <thead id="availCandidateTablehead"></thead>
+                      <tbody
+                        id="availCandidateTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                   </table>
+                  </div>
+                  <div
+                    id="paginationControlsavailCandidate"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                 </div>
               </div>
 
@@ -1367,17 +1541,25 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary ps-2 pe-2 float-end mb-2" id="onBoardFormBtn"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="onBoardFormBtn"
                     >
                       Generate
                     </button>
                   </form>
 
-                  <div id="messageContainer"></div>
-                  <div class="row mb-3" id="onboardCustom" style="display: none;">
+                  <div
+                    class="row mb-3"
+                    id="onboardCustom"
+                    style="display: none"
+                  >
                     <div class="col-md-1">
                       <label for="rowsPerPage5">Page Limit</label>
-                      <select id="rowsPerPage5" class="form-select" onchange="changePageLimit('onboard')">
+                      <select
+                        id="rowsPerPage5"
+                        class="form-select"
+                        onchange="changePageLimit('onboard')"
+                      >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -1398,11 +1580,19 @@
                         <div class="col-md-2">
                           <div
                             id="onboardCount"
-                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                           ></div>
                         </div>
                         <div class="col-md-3 mt-4">
-                    <button id="exportToExcelBtnob" class="btn btn-primary">
+                          <button
+                            id="exportToExcelBtnob"
+                            class="btn btn-primary"
+                          >
                       Export to Excel
                     </button>
                         </div>
@@ -1415,15 +1605,19 @@
                       id="onBoardTable"
                       class="table table-bordered border-1"
                     >
-                      <thead  id="onBoardTablehead">
-                       
-                      </thead>
-                      <tbody id="onBoardTableBody" class="table-border-bottom-0">
+                      <thead id="onBoardTablehead"></thead>
+                      <tbody
+                        id="onBoardTableBody"
+                        class="table-border-bottom-0"
+                      >
                         <!-- Data will be populated here -->
                       </tbody>
                     </table>
                   </div>
-                  <div id="paginationControls5" class="pagination mt-2 d-flex justify-content-end">
+                  <div
+                    id="paginationControls5"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
                       <!-- Pagination buttons will be injected here -->
                     </div>
                   </div>
@@ -1442,7 +1636,7 @@
                       <!-- Date Filters -->
                       <form id="dateFilterForm">
                         <div class="row align-items-end">
-                          <div class="col">
+                          <div class="col-md-3">
                             <label
                               for="startDatedr"
                               class="form-label visually-hidden"
@@ -1456,7 +1650,7 @@
                               placeholder="Start Date"
                             />
                           </div>
-                          <div class="col">
+                          <div class="col-md-3">
                             <label
                               for="endDatedr"
                               class="form-label visually-hidden"
@@ -1470,13 +1664,11 @@
                               placeholder="End Date"
                             />
                           </div>
-
-                          <td style="width: 50%">
+                          <div class="col-md-3">
                             <label for="categoryrem" class="form-label"
                               >Option</label
                             >
-                          </td>
-                          <td style="width: 50%">
+                          
                             <select
                               class="form-select"
                               id="categoryrem"
@@ -1488,10 +1680,11 @@
                               <option value="2">Rating</option>
                               <option value="6">IV Crew</option>
                             </select>
-                          </td>
+                         
+                        </div>
 
                           <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="reminderFormBtn">
                               Apply Filters
                             </button>
                           </div>
@@ -1563,73 +1756,80 @@
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary ps-2 pe-2 float-end" id="crewListMonthWiseBtn"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="crewListMonthWiseBtn"
                     >
-                      Generate Report
+                      Generate
                     </button>
                   </form>
-                  <div class="row g-2 mt-1">
-                    <!-- Search Input -->
-                    <!-- <div class="col-md-4">
-                    <div id="signOffSearchContainer" class="d-flex align-items-center p-0" >
-                    </div>
-                </div>
-           -->
-                    <!-- Data Count Message -->
-                    <div class="col-md-4 d-flex align-items-center">
-                      <span
-                        id="crewListCount"
-                        class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
-                      >
-                        <span id="dataCount" class="text-success"></span>
-                        data match search
-                      </span>
-                    </div>
-
-                    <!-- Export Button -->
+                  <div>
                     <div
-                      class="col-md-4 d-flex align-items-center justify-content-end"
-                    >
-                      <div id="exportCrewList"></div>
+                    class="row mb-3"
+                    id="crewListMonthWiseCustom"
+                    style="display: none"
+                  >
+                    <div class="col-md-1">
+                      <label for="rowsPercrewListMonthWise">Page Limit</label>
+                      <select
+                        id="rowsPercrewListMonthWise"
+                        class="form-select"
+                        onchange="changePageLimit('crewListMonthWise')"
+                      >
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchcrewListMonthWise">Search</label>
+                          <input
+                            type="text"
+                            id="searchcrewListMonthWise"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('crewListMonthWise')"
+                          />
+                </div>
+                        <div class="col-md-2">
+                          <div
+                            id="crewListMonthWiseCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
+                    </div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtncrewListMonthWise"
+                            class="btn btn-primary"
+                          >
+                            Export to Excel
+                          </button>
                     </div>
                   </div>
-
-                  <div id="crewListMonthWiseContainer"></div>
-
-                  <!-- Table to display crew list -->
-                  <div class="mt-4 table-responsive">
+                    </div>
+                  </div>
+                  <div class="table-responsive text-nowrap">
                     <table
-                      class="table table-bordered table-sm table-responsive"
-                      id="crewlisttable"
+                      id="crewListMonthWiseTable"
+                      class="table table-bordered border-1"
                     >
-                      <!-- <thead>
-                      <tr>
-                          <th>#</th>
-                          <th>Candidate ID</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          
-                          <th>Rank</th>
-                          <th>Nationality</th>
-                      
-                          <th>Company Name</th>
-                          <th>Currency</th>
-                          <th>EOC</th>
-                          <th>Sign On</th>
-                          <th>Sign Off</th>
-                          <th>Vessel Name</th>
-                          <th>Vessel Type</th>
-                         
-                          <th>Wages</th>
-                          <th>Wages Types</th>
-                      </tr>
-                  </thead> -->
-
-                      <tbody id="crewListTableBody">
-                        <!-- Table rows will be dynamically added here -->
-                      </tbody>
-                      <div id="paginationControlscl"></div>
+                      <thead id="crewListMonthWiseTablehead"></thead>
+                      <tbody
+                        id="crewListMonthWiseTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                     </table>
+                  </div>
+                  <div
+                    id="paginationControlscrewListMonthWise"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                   </div>
                 </div>
               </div>
@@ -1676,9 +1876,7 @@
                         />
                       </div>
                       <div class="col-md-3">
-                        <label for="portName" class="form-label"
-                          >Port</label
-                        >
+                        <label for="portName" class="form-label">Port</label>
                         <input
                           type="text"
                           id="portName"
@@ -1701,7 +1899,12 @@
                       </div> 
                       <div class="col-md-3">
                         <label for="vsl" class="form-label">Vessel Name</label>
-                        <select id="vsl2" class="form-select" name="vsl2" required>
+                        <select
+                          id="vsl2"
+                          class="form-select"
+                          name="vsl2"
+                          required
+                        >
                           <option value="">Select Vessel Name</option>
                         </select>
                       </div>
@@ -1713,48 +1916,112 @@
                           class="form-select"
                           id="user_client6"
                           name="user-client6"
-                        >
-                        </select>
+                        ></select>
                       </div>
                       <div class="col-md-3">
                         <div class="mt-2">
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" value="" id="arrival">
-                          <label class="form-check-label" for="arrival"> Arrival </label>
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="arrival"
+                            />
+                            <label class="form-check-label" for="arrival">
+                              Arrival
+                            </label>
                         </div>
                         <div class="form-check form-check-inline mt-4">
-                          <input class="form-check-input" type="checkbox" value="" id="departure">
-                          <label class="form-check-label" for="departure"> Departure </label>
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="departure"
+                            />
+                            <label class="form-check-label" for="departure">
+                              Departure
+                            </label>
                         </div>
                       </div>
                       </div>  
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary pe-2 float-end" id="generateIMO" data-value="Generate Report"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="imocrewListMonthWiseBtn"
+                      data-value="Generate Report"
                     >
-                      Generate Report
+                      Generate
                     </button>
                   </form>
-                  <div class="row g-2 mt-1">
-                    <!-- Search Input -->
-                    <!-- Data Count Message -->
-                    <div class="col-md-4 d-flex align-items-center">
-                      <span
-                        id="imocrewListCount"
-                        class="border ps-2 pe-2 pt-1 pb-1 rounded-2"
-                      >
-                        <span id="dataCount" class="text-success"></span>
-                        data match search
-                      </span>
-                    </div>
-
-                    <!-- Export Button -->
+                  <div>
                     <div
-                      class="col-md-4 d-flex align-items-center justify-content-end"
-                    >
-                      <div id="exportimoCrewList"></div>
+                    class="row mb-3"
+                    id="imocrewListMonthWiseCustom"
+                    style="display: none"
+                  >
+                    <div class="col-md-1">
+                      <label for="rowsPerimocrewListMonthWise">Page Limit</label>
+                      <select
+                        id="rowsPerimocrewListMonthWise"
+                        class="form-select"
+                        onchange="changePageLimit('imocrewListMonthWise')"
+                      >
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
                     </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchimocrewListMonthWise">Search</label>
+                          <input
+                            type="text"
+                            id="searchimocrewListMonthWise"
+                            placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('imocrewListMonthWise')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="imocrewListMonthWiseCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtnimocrewListMonthWise"
+                            class="btn btn-primary"
+                          >
+                            Export to Excel
+                          </button>
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="imocrewListMonthWiseTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead id="imocrewListMonthWiseTablehead"></thead>
+                      <tbody
+                        id="imocrewListMonthWiseTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
+                    </table>
+                  </div>
+                  <div
+                    id="paginationControlsimocrewListMonthWise"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  ></div>
                   </div>
 
                   <div id="imocrewListMonthWiseContainer"></div>
@@ -1779,19 +2046,27 @@
                         />
                       </div>
                       <div class="col-md-3">
-                        <button type="submit" id="ReliefPlanFormBtn" class="btn btn-primary" style="margin-top: 29px;">
-                      Generate Report
+                        <button
+                          type="submit"
+                          id="ReliefPlanFormBtn"
+                          class="btn btn-primary"
+                          style="margin-top: 29px"
+                        >
+                          Generate
                     </button>
                       </div>
                     </div>
-                    
                   </form>
                   <div id="exportButtonContainerrpc"></div>
 
-                  <div class="row mb-3" id="reliefPlan" style="display: none;">
+                  <div class="row mb-3" id="reliefPlan" style="display: none">
                     <div class="col-md-1">
                       <label for="rowsPerPageSelectrpc">Page Limit</label>
-                      <select id="rowsPerPageSelectrpc" class="form-select" onchange="changePageLimit('reliefPlan')">
+                      <select
+                        id="rowsPerPageSelectrpc"
+                        class="form-select"
+                        onchange="changePageLimit('reliefPlan')"
+                      >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -1812,7 +2087,12 @@
                         <div class="col-md-2">
                           <div
                             id="reliefPlanCount"
-                            class="border ps-2 pe-2 pb-1 rounded-2" style="height: 38px; margin-top: 24px; padding-top: 8px"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
                           ></div>
                         </div>
                         <div class="col-md-3 mt-4">
@@ -1824,20 +2104,22 @@
                     </div>
                   </div>
 
-
                   <div class="table-responsive text-nowrap">
                   <table
                     id="reliefPlanTable"
                       class="table table-bordered border-1"
                         >
-                      <thead  id="reliefPlanTablehead">
-                       
-                    </thead>
-                      <tbody id="reliefPlanTableBody" class="table-border-bottom-0">
-                      </tbody>
+                      <thead id="reliefPlanTablehead"></thead>
+                      <tbody
+                        id="reliefPlanTableBody"
+                        class="table-border-bottom-0"
+                      ></tbody>
                   </table>
                   </div>
-                  <div id="paginationControlsrpc" class="pagination mt-2 d-flex justify-content-end">
+                  <div
+                    id="paginationControlsrpc"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
                     <!-- Pagination buttons will be injected here -->
                   </div>
                 </div>
@@ -2052,8 +2334,7 @@
                               class="form-select"
                               id="appliedBy1"
                               name="appliedBy1"
-                            >
-                            </select>
+                            ></select>
                           </td>
                         </tr>
                         <tr>
@@ -2401,7 +2682,9 @@
         placeholder: "Select a User",
         allowClear: true,
       });
-      $("#user_client, #user_client1, #user_client2, #user_client3, #user_client4, #user_client5, #user_client6").select2({
+      $(
+        "#user_client, #user_client1, #user_client2, #user_client3, #user_client4, #user_client5, #user_client6"
+      ).select2({
         placeholder: "Select a Company",
         allowClear: true,
       });
@@ -2472,8 +2755,8 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
-    <script src="./report.js"></script>
-    <script src="./reportnew.js"></script>
+    <script src="./report.js?v=1"></script>
+    <script src="./reportnew.js?v=1"></script>
     <!-- Page JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
