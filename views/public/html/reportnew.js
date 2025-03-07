@@ -10,13 +10,23 @@ function changePageLimit(reportType) {
     handleCallsMadeSubmit(1);
   } else if(reportType==='proposed') {
     handleProposedSubmit(1);
-  } else if(reportType==='onboard') {
-    handleOnBoardSubmit(1)
   } else if(reportType==='reliefPlan') {
     handlereliefPlanSubmit(1);
   } else if(reportType==='signon') {
     handlesignonSubmit(1);
-  }
+  } else if(reportType==='signoff') {
+    handlesignoffSubmit(1);
+  } else if(reportType==='dueForsignoff') {
+    handledueForsignoffSubmit(1);
+  } else if(reportType==='availCandidate') {
+    handleavailCandidateSubmit(1);
+  } else if(reportType==='onboard') {
+    handleOnBoardSubmit(1)
+  } else if(reportType==='crewListMonthWise') {
+    handlecrewListMonthWiseSubmit(1);
+  } else if(reportType==='imocrewListMonthWise') {
+    handleimocrewListMonthWiseSubmit(1);
+  } 
 }
 
 
@@ -108,7 +118,7 @@ async function handleNewProfileSubmit(pageNumber, generateNew=false) {
    const rowsPerPage5 = parseInt(document.getElementById('pageNewProfile').value);
    const searchKeyword = document.getElementById('searchNewProfile').value;
    displayTableDetails('newProfileTablehead', headerData, loadHeader, 'newProfileTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControlsnp', 'newProfile', searchKeyword, 'newProfileCount')
-   newProfileCustom.style.display = "inherit";
+   newProfileCustom.style.removeProperty("display");
    if(loadHeader===true) {
      loadHeader = false;
    }
@@ -162,7 +172,7 @@ async function handleCallsMadeSubmit(pageNumber, generateNew=false) {
   const searchKeyword = document.getElementById('searchCallsMade').value;
  
   displayTableDetails('callsMadeTablehead', headerData, loadHeader, 'callsMadeTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControlscm', 'callsMade', searchKeyword, 'callsMadeCount')
-  callsMadeCustom.style.display = "inherit";
+  callsMadeCustom.style.removeProperty("display");
   if(loadHeader===true) {
     loadHeader = false;
   }
@@ -217,53 +227,8 @@ async function handleProposedSubmit(pageNumber, generateNew=false) {
   const searchKeyword = document.getElementById('searchProposed').value;
 
   displayTableDetails('proposedTablehead', headerData, loadHeader, 'proposedTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControlspro', 'proposed', searchKeyword, 'proposedCount')
-  proposedCustom.style.display = "inherit";
-  document.getElementById('paginationControlspro').style.display = "inherit";
-  if(loadHeader===true) {
-    loadHeader = false;
-  }
-}
-
-/* Onboard Report */
-document.getElementById("onBoardForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  handleOnBoardSubmit(1, true)
-});
-
-async function handleOnBoardSubmit(pageNumber, generateNew=false) {
- let onboardCustom = document.getElementById("onboardCustom");
- onboardCustom.style.display = "none";
- if(generateNew===true) {
-  loadHeader = true;
-  showLoader("onBoardFormBtn");
-  let startDate = document.getElementById("startDateo").value;
-  startDate = startDate + "T00:00:00Z";
-  const companyname = document.getElementById("user_client4").value || null;
-  const vesselDropdown = document.getElementById("vsl1").value || null;
-  const category = document.getElementById("categoryob").value;
-
-  // Send request to fetch onboard candidates with filters
-  const response = await axios.get(`${config.APIURL}candidate/onboard`, {
-    params: {
-      startDate: startDate,
-      companyname: companyname,
-      vslName: vesselDropdown,
-      category: category,
-    },
-    headers: {
-      Authorization: token,
-    },
-    });
-    resultData = response.data?.contracts
-  }
-  hideLoader("onBoardFormBtn");
-  headerData = ['S.No.', 'Candidate ID', 'Name', 'Rank', 'Nationality', 'Company Name', 'Vessel Name', 'Sign On', 'Sign Off', 'Wages', 'Pasport Number', 'CDC Number', 'Indos Number'];
-  fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'company_name', 'vesselName', 'sign_on', 'sign_off', 'wages', 'pasportnumber', 'cdcnumber', 'indos_number'];
-  const rowsPerPage5 = parseInt(document.getElementById('rowsPerPage5').value);
-  const searchKeyword = document.getElementById('searchInput5').value;
- 
-  displayTableDetails('onBoardTablehead', headerData, loadHeader, 'onBoardTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControls5', 'onboard', searchKeyword, 'onboardCount')
-  onboardCustom.style.display = "inherit";
+  proposedCustom.style.removeProperty("display");
+  document.getElementById('paginationControlspro').style.removeProperty("display");
   if(loadHeader===true) {
     loadHeader = false;
   }
@@ -313,9 +278,472 @@ async function handlesignonSubmit(pageNumber, generateNew=false) {
   const rowsPerPage = parseInt(document.getElementById('rowsPerSignon').value);
   const searchKeyword = document.getElementById('searchSignon').value;
   displayTableDetails('signonTablehead', headerData, loadHeader, 'signonTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlssignon', 'signon', searchKeyword, 'signonCount')
-  signonCustom.style.display = "inherit";
+  signonCustom.style.removeProperty("display");
   if(loadHeader===true) {
     loadHeader = false;
+  }
+}
+
+/* Sign Off Report */
+document.getElementById("signOffForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handlesignoffSubmit(1, true)
+});
+
+async function handlesignoffSubmit(pageNumber, generateNew=false) {
+  try {
+  let signoffCustom = document.getElementById("signoffCustom");
+  signoffCustom.style.display = "none";
+  if(generateNew===true) {
+    loadHeader = true;
+    showLoader("signoffFormBtn");
+      let startDate = document.getElementById("startDateoff").value;
+      let endDate = document.getElementById("endDateoff").value;
+      const companyName = document.getElementById("user_client2").value;
+      const vesselType = document.getElementById("candidate_c_vessel1").value;
+      const category = document.getElementById("categorysoff").value;
+
+      startDate = startDate + "T00:00:00Z";
+      endDate = endDate + "T23:59:59Z";
+      const params = {
+        startDate: startDate,
+        endDate: endDate,
+        vessel_type: vesselType,
+        companyname: companyName,
+        category: category,
+      };
+      
+      // Send data to server using Axios
+      const response = await axios.get(
+        `${config.APIURL}candidate/reports/sign-off`,
+        {
+          params: params,
+        }
+      );
+      const contracts = response.data.contracts;
+      resultData = contracts;
+    }
+    hideLoader("signoffFormBtn");
+    headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Name", "Vessel Type", "Sign On", "Sign On Port", "Sign Off", "Sign Off Port", "EOC", "Emigrate Number", "AOA Number", "Currency", "Wages", "Wages Types", "Reason for Sign Off", "IMO Number", "Vessel Flag", "Company Name", "Bank Name",  "Account Number", "Bank Address", "IFSC Code", "SWIFT Code", "Beneficiary","Beneficiary Address", "Branch", "Bank Types", "Passbook", "PAN Number", "INDOS Number", 'CDC Number', "Passport Number", "PAN Card", "User Name"];
+
+    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'vesselType', 'sign_on', 'portName', 'sign_off', 'sign_on_port', 'eoc', 'emigrate_number', 'aoa_number', 'currency', 'wages', 'wages_types', 'reason_for_sign_off', 'imoNumber', 'vesselFlag', 'company_name', 'bank_name', 'account_num', 'bank_addr', 'ifsc_code', 'swift_code', 'beneficiary', 'beneficiary_addr', 'branch', 'types', 'passbook', 'pan_num', 'indos_number', 'cdcnumber', 'pasportnumber', 'pan_card', 'userName'];
+    const rowsPerPage = parseInt(document.getElementById('rowsPerSignoff').value);
+    const searchKeyword = document.getElementById('searchSignoff').value;
+    displayTableDetails('signoffTablehead', headerData, loadHeader, 'signoffTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlssignoff', 'signoff', searchKeyword, 'signoffCount')
+    signoffCustom.style.removeProperty("display");
+    if(loadHeader===true) {
+      loadHeader = false;
+    }
+  } catch (error) {
+    console.error(error);
+    hideLoader("signoffFormBtn");
+  }
+}
+
+/* Due For Sign Off Report */
+document.getElementById("dueforsignoffform").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handledueForsignoffSubmit(1, true)
+});
+
+async function handledueForsignoffSubmit(pageNumber, generateNew=false) {
+  try {
+  let dueForsignoffCustom = document.getElementById("dueForsignoffCustom");
+  dueForsignoffCustom.style.display = "none";
+  if(generateNew===true) {
+    loadHeader = true;
+    showLoader("dueForsignoffFormBtn");
+    let startDate = document.getElementById("startDated").value;
+    let endDate = document.getElementById("endDated").value;
+    const companyName = document.getElementById("user_client3").value;
+    const vessel_type = document.getElementById("candidate_c_vessel2").value;
+    const category = document.getElementById("categorydue").value;
+
+    startDate = startDate + "T00:00:00Z";
+    endDate = endDate + "T23:59:59Z";
+
+    const params = {
+      startDate: startDate,
+      endDate: endDate,
+      companyname: companyName,
+      vessel_type: vessel_type,
+      category: category,
+    };
+
+    // Send data to server using Axios
+    const response = await axios.get(
+      `${config.APIURL}candidate/dueforsignoff`,
+      {
+        params: params,
+      }
+    );
+
+    const contracts = response.data.contracts;
+    resultData = contracts;
+  }
+    hideLoader("dueForsignoffFormBtn");
+    headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Name", "EOC-Date", "Company", "Status"];
+
+    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'eoc', 'company_name', 'eoc_status'];
+    const rowsPerPage = parseInt(document.getElementById('rowsPerdueForSignoff').value);
+    const searchKeyword = document.getElementById('searchdueForSignoff').value;
+    displayTableDetails('dueForsignoffTablehead', headerData, loadHeader, 'dueForsignoffTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlsdueForsignoff', 'dueForsignoff', searchKeyword, 'dueForsignoffCount')
+    dueForsignoffCustom.style.removeProperty("display");
+    if(loadHeader===true) {
+      loadHeader = false;
+    }
+  } catch (error) {
+    console.error(error);
+    hideLoader("dueForsignoffFormBtn");
+  }
+}
+
+
+/* Available Candidates Report */
+document.getElementById("availableCandidatesForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handleavailCandidateSubmit(1, true)
+});
+
+async function handleavailCandidateSubmit(pageNumber, generateNew=false) {
+  try {
+  let availCandidateCustom = document.getElementById("availCandidateCustom");
+  availCandidateCustom.style.display = "none";
+  if(generateNew===true) {
+    loadHeader = true;
+    showLoader("availCandidateFormBtn");
+    let startDate = document.getElementById("startDatea").value;
+    startDate = startDate + "T00:00:00Z";
+    let endDate = document.getElementById("endDatea").value;
+    endDate = endDate + "T23:59:59Z";
+    const avbrank = document.getElementById("avbrank").value;
+    const category = document.getElementById("categoryavb").value;
+
+    const params = {
+      startDate: startDate,
+      endDate: endDate,
+      avbrank: avbrank,
+      category: category,
+    };
+
+    // Send data to server using Axios
+    const response = await axios.get(
+      `${config.APIURL}candidate/reports/avb-date`,
+      {
+        params: params,
+      }
+    );
+
+    const candidates = response.data.candidates;
+    resultData = candidates;
+  }
+    hideLoader("availCandidateFormBtn");
+    headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Type", "Available Date"];
+
+    fieldName = ['sno', 'candidateId', 'name', 'c_rank', 'country', 'c_vessel', 'avb_date'];
+    const rowsPerPage = parseInt(document.getElementById('rowsPeravailCandidate').value);
+    const searchKeyword = document.getElementById('searchavailCandidate').value;
+    displayTableDetails('availCandidateTablehead', headerData, loadHeader, 'availCandidateTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlsavailCandidate', 'availCandidate', searchKeyword, 'availCandidateCount')
+    availCandidateCustom.style.removeProperty("display");
+    if(loadHeader===true) {
+      loadHeader = false;
+    }
+  } catch (error) {
+    console.error(error);
+    hideLoader("availCandidateFormBtn");
+  }
+}
+
+/* Onboard Report */
+document.getElementById("onBoardForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handleOnBoardSubmit(1, true)
+});
+
+async function handleOnBoardSubmit(pageNumber, generateNew=false) {
+ let onboardCustom = document.getElementById("onboardCustom");
+ onboardCustom.style.display = "none";
+ if(generateNew===true) {
+  loadHeader = true;
+  showLoader("onBoardFormBtn");
+  let startDate = document.getElementById("startDateo").value;
+  startDate = startDate + "T00:00:00Z";
+  const companyname = document.getElementById("user_client4").value || null;
+  const vesselDropdown = document.getElementById("vsl1").value || null;
+  const category = document.getElementById("categoryob").value;
+
+  // Send request to fetch onboard candidates with filters
+  const response = await axios.get(`${config.APIURL}candidate/onboard`, {
+    params: {
+      startDate: startDate,
+      companyname: companyname,
+      vslName: vesselDropdown,
+      category: category,
+    },
+    headers: {
+      Authorization: token,
+    },
+    });
+    resultData = response.data?.contracts
+  }
+  hideLoader("onBoardFormBtn");
+  headerData = ['S.No.', 'Candidate ID', 'Name', 'Rank', 'Nationality', 'Company Name', 'Vessel Name', 'Sign On', 'Sign Off', 'Wages', 'Pasport Number', 'CDC Number', 'Indos Number'];
+  fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'company_name', 'vesselName', 'sign_on', 'sign_off', 'wages', 'pasportnumber', 'cdcnumber', 'indos_number'];
+  const rowsPerPage5 = parseInt(document.getElementById('rowsPerPage5').value);
+  const searchKeyword = document.getElementById('searchInput5').value;
+ 
+  displayTableDetails('onBoardTablehead', headerData, loadHeader, 'onBoardTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControls5', 'onboard', searchKeyword, 'onboardCount')
+  onboardCustom.style.removeProperty("display");
+  if(loadHeader===true) {
+    loadHeader = false;
+  }
+}
+
+/* Reminder Report */
+document.getElementById("dateFilterForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handleReminder(event)
+});
+
+const handleReminder = async (event) => {
+  event.preventDefault(); // Prevent default form submission behavior
+  try {
+    showLoader("reminderFormBtn");
+    let startDate = document.getElementById("startDatedr").value;
+    startDate += "T00:00:00Z";
+
+    let endDate = document.getElementById("endDatedr").value;
+    endDate = endDate + "T23:59:59Z";
+
+    // Function to fetch discussion reminders based on date filters
+    const fetchData = async (startDate, endDate) => {
+      try {
+        const url = `${config.APIURL}candidate/reminder?startDate=${startDate}&endDate=${endDate}`;
+        const response = await axios.get(url);
+        hideLoader("reminderFormBtn");
+        return response.data.discussions;
+      } catch (error) {
+        console.error("Error fetching discussion reminders:", error);
+        hideLoader("reminderFormBtn");
+        return [];
+      }
+    };
+
+    // Function to render discussion reminders
+    const renderDiscussionReminders = (discussions) => {
+      const discussionList = document.getElementById("discussionList");
+      discussionList.innerHTML = ""; // Clear existing items
+
+      // Display the number of fetched data items
+      const discussionCount = document.getElementById("discussionCount");
+      discussionCount.textContent = `Displaying ${discussions.length} number(s) of Data`;
+
+      discussions.forEach((discussion) => {
+        // Calculate the status based on the r_date
+        const reminderDate = new Date(discussion.r_date);
+        const today = new Date();
+        let status = "";
+
+        if (reminderDate < today) {
+          status = "Expired";
+        } else if (reminderDate.toDateString() === today.toDateString()) {
+          status = "Today";
+        } else {
+          status = "Upcoming";
+        }
+
+        // Render each discussion reminder item
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="mb-1 d-flex align-items-center">Candidate ID: <button class="btn btn-link candidate-btn" data-candidate-id="${
+                              discussion.candidateId
+                            }">${discussion.candidateId}</button></h5>
+                            <p class="mb-1">Discussion: ${
+                              discussion.discussion
+                            }</p>
+                        </div>
+                        <div>
+                            <span class="badge align-content-center h-25 ${getBadgeColor(
+                              status
+                            )}">${status}</span>
+                        </div>
+                    </div>
+                    <small class="text-muted">Reminder Date: ${
+                      discussion.r_date
+                    }</small>
+                `;
+        discussionList.appendChild(listItem);
+
+        // Add event listener to candidate ID button
+        listItem
+          .querySelector(".candidate-btn")
+          .addEventListener("click", () => {
+            const candidateId = discussion.candidateId;
+            localStorage.setItem("memId", candidateId);
+            // Redirect to view-candidate page with candidateId
+            window.location.href = `view-candidate.html?id=${candidateId}`;
+          });
+      });
+    };
+
+    // Function to determine badge color based on discussion status
+    const getBadgeColor = (status) => {
+      switch (status) {
+        case "Expired":
+          return "bg-danger";
+        case "Today":
+          return "bg-warning";
+        case "Upcoming":
+          return "bg-primary";
+        default:
+          return "";
+      }
+    };
+
+    // Fetch discussion reminders based on date filters
+    const discussions = await fetchData(startDate, endDate);
+    // Render discussion reminders
+    renderDiscussionReminders(discussions);
+  } catch (error) {
+    console.error("Error handling reminder:", error);
+  }
+};
+
+/* crew List Month Wise Report */
+document.getElementById("crewListMonthWiseForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handlecrewListMonthWiseSubmit(1, true)
+});
+
+async function handlecrewListMonthWiseSubmit(pageNumber, generateNew=false) {
+  try {
+    let crewListMonthWiseCustom = document.getElementById("crewListMonthWiseCustom");
+    crewListMonthWiseCustom.style.display = "none";
+    if(generateNew===true) {
+      loadHeader = true;
+      showLoader("crewListMonthWiseBtn");
+      let startDate = document.getElementById("startDatecl").value;
+      startDate = startDate + "T00:00:00Z";
+      let endDate = document.getElementById("endDatecl").value;
+      endDate = endDate + "T23:59:59Z";
+
+      // Check if startDate and endDate are empty
+      if (!startDate || !endDate) {
+        console.error("Start date and end date are required");
+        // Show a message to the user indicating that start date and end date are required
+        return;
+      }
+
+      const vslName = document.getElementById("vsl").value || null;
+      const companyname = document.getElementById("user_client5").value || null;
+
+      const params = {
+        startDate: startDate,
+        endDate: endDate,
+        vslName: vslName,
+        company: companyname,
+      };
+
+      const response = await axios.get(`${config.APIURL}candidate/crewlist`, {
+        params: params,
+      });
+      const crewlist = response.data;
+      resultData = crewlist;
+    }
+    hideLoader("crewListMonthWiseBtn");
+    headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Name", "Vessel Type", "Sign On", "Sign On Port", "Sign Off", "Sign Off Port", "Reason for Sign Off", "EOC", "Currency", "Wages", "Wages Types", "IMO Number", "Vessel Flag", "Company Name", "Bank Name",  "Account Number", "Bank Address", "IFSC Code", "SWIFT Code", "Beneficiary","Beneficiary Address", "Branch", "Bank Types", "Passbook", "PAN Number", "INDOS Number", 'CDC Number', "Passport Number", "PAN Card"];
+
+    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'vesselType', 'sign_on', 'portName', 'sign_off', 'signOffPortName', 'reason_for_sign_off', 'eoc', 'currency', 'wages', 'wages_types', 'imoNumber', 'vesselFlag', 'company_name', 'bank_name', 'account_num', 'bank_addr', 'ifsc_code', 'swift_code', 'beneficiary', 'beneficiary_addr', 'branch', 'types', 'passbook', 'pan_num', 'indos_number', 'cdcnumber', 'pasportnumber', 'pan_card'];
+    const rowsPerPage = parseInt(document.getElementById('rowsPercrewListMonthWise').value);
+    const searchKeyword = document.getElementById('searchcrewListMonthWise').value;
+    displayTableDetails('crewListMonthWiseTablehead', headerData, loadHeader, 'crewListMonthWiseTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlscrewListMonthWise', 'crewListMonthWise', searchKeyword, 'crewListMonthWiseCount')
+    crewListMonthWiseCustom.style.removeProperty("display");
+    if(loadHeader===true) {
+      loadHeader = false;
+    }
+  } catch (error) {
+      console.error(error);
+      hideLoader("crewListMonthWiseBtn");
+  }
+}
+
+/* IMO crew List Month Wise Report */
+document.getElementById("imocrewListMonthWiseForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handleimocrewListMonthWiseSubmit(1, true)
+});
+
+async function handleimocrewListMonthWiseSubmit(pageNumber, generateNew=false) {
+  try {
+    let imocrewListMonthWiseCustom = document.getElementById("imocrewListMonthWiseCustom");
+    imocrewListMonthWiseCustom.style.display = "none";
+    if(generateNew===true) {
+      loadHeader = true;
+      showLoader("imocrewListMonthWiseBtn");
+      
+      let startDate = document.getElementById("startDatec2").value;
+      startDate = startDate + "T00:00:00Z";
+      let endDate = document.getElementById("endDatec2").value;
+      endDate = endDate + "T23:59:59Z";
+
+      // Check if startDate and endDate are empty
+      if (!startDate || !endDate) {
+        console.error("Start date and end date are required");
+        // Show a message to the user indicating that start date and end date are required
+        return;
+      }
+      const vslName = document.getElementById("vsl2").value || null;
+      const companyname = document.getElementById("user_client6").value || null;
+
+      const params = {
+        startDate: startDate,
+        endDate: endDate,
+        vslName: vslName,
+        company: companyname,
+      };
+
+      const response = await axios.get(`${config.APIURL}candidate/crewlist`, {
+        params: params,
+      });
+      const crewlist = response.data; // Adjust according to your API response structure
+      resultData = crewlist;
+      
+
+      const portofRegistry = document.getElementById("portofRegistry").value || '';
+      const portarrivedfrom = document.getElementById("portarrivedfrom").value || '';
+      const portName = document.getElementById("portName").value || '';
+      const arrival = document.getElementById("arrival").checked || '';
+      const arrival_ = (arrival===true)?'Yes':'No';
+      const departure = document.getElementById("departure").checked || '';
+      const departure_ = (departure===true)?'Yes':'No';
+
+      const exportButton = document.getElementById("exportToExcelBtnimocrewListMonthWise");
+      exportButton.addEventListener("click", () => {
+        window.open(
+          `viewimoreport.html?startDate=${startDate}&endDate=${endDate}&vslName=${vslName}&companyname=${companyname}&portofRegistry=${portofRegistry}&portarrivedfrom=${portarrivedfrom}&portName=${portName}&arrival=${arrival_}&departure=${departure_}`,
+          '_blank'
+        );
+      })
+
+    }
+    hideLoader("imocrewListMonthWiseBtn");
+    headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Name", "Vessel Type", 'Date Of Birth',
+    'Place of birth', "Company Name", "Sign On", "Sign On Port", 'CDC Number', "Passport Number"];
+
+    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'vesselType', 'dob', 'birth_place', 'company_name', 'sign_on', 'portName', 'cdcnumber', 'pasportnumber'];
+    const rowsPerPage = parseInt(document.getElementById('rowsPerimocrewListMonthWise').value);
+    const searchKeyword = document.getElementById('searchimocrewListMonthWise').value;
+    displayTableDetails('imocrewListMonthWiseTablehead', headerData, loadHeader, 'imocrewListMonthWiseTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlsimocrewListMonthWise', 'imocrewListMonthWise', searchKeyword, 'imocrewListMonthWiseCount')
+    imocrewListMonthWiseCustom.style.removeProperty("display");
+    if(loadHeader===true) {
+      loadHeader = false;
+    }
+  } catch (error) {
+      console.error(error);
+      hideLoader("imocrewListMonthWiseBtn");
   }
 }
 
@@ -357,7 +785,7 @@ async function handlereliefPlanSubmit(pageNumber, generateNew=false) {
    const searchKeyword = document.getElementById('searchreliefPlan').value;
   
    displayTableDetails('reliefPlanTablehead', headerData, loadHeader, 'reliefPlanTableBody', fieldName, resultData, pageNumber, rowsPerPage5, 'paginationControlsrpc', 'reliefPlan', searchKeyword, 'reliefPlanCount')
-   reliefPlan.style.display = "inherit";
+   reliefPlan.style.removeProperty("display");
    if(loadHeader===true) {
      loadHeader = false;
    }
@@ -399,10 +827,8 @@ async function displayTableDetails(theadID, headerData, loadHeader, tbodyId, fie
   let paginatedData = filteredData.slice(startIndex, endIndex);
   if(filteredData.length>0) {
     for (const [index, item] of paginatedData.entries()) {
-   /*  paginatedData.forEach(async(item, index) => {     */
         let row = document.createElement("tr");
         for (const headerText of fieldName) {
-        /* await fieldName.forEach(async(headerText) => { */
             let td = document.createElement("td");
             if(headerText==='sno') {
               td.textContent = parseFloat(startIndex) + parseFloat(index) + 1 ;
@@ -461,14 +887,21 @@ async function displayTableDetails(theadID, headerData, loadHeader, tbodyId, fie
               }              
               const pasportNumber = await checkingDocument(item.document, docTypes) ;
               td.textContent = (pasportNumber!=="" && pasportNumber!==null)?pasportNumber.document_number :'';
+            } else if(headerText=='eoc_status') {
+              const status = calculateStatus_(item.eoc);
+              const badge = document.createElement("span");
+              badge.textContent = status.status;
+              badge.classList.add("badge", "bg-" + status.color);
+              td.classList.add("text-center");
+              td.appendChild(badge);
             }else {
               td.textContent = item[headerText];
             }
             row.appendChild(td);
-        }/* ) */;
+        };
 
         tbody.appendChild(row);
-    }/* ) */;
+    };
   }else {
     let row = document.createElement("tr");
     let td = document.createElement("td");
@@ -494,8 +927,18 @@ async function loadPageData(page, tableType) {
     handleCallsMadeSubmit(page)
   } else if (tableType === "proposed") {
     handleProposedSubmit(page)
-  }  else if (tableType === "signon") {
+  } else if (tableType === "signon") {
     handlesignonSubmit(page)
+  } else if (tableType === "signoff") {
+    handlesignoffSubmit(page)
+  } else if (tableType === "dueForsignoff") {
+    handledueForsignoffSubmit(page)
+  } else if(tableType==='availCandidate') {
+    handleavailCandidateSubmit(page);
+  } else if (tableType === "crewListMonthWise") {
+    handlecrewListMonthWiseSubmit(page)
+  } else if (tableType === "imocrewListMonthWise") {
+    handleimocrewListMonthWiseSubmit(page)
   } else {
     var currentPage = document.getElementById("currentPage").value;
     if (currentPage != page) {
@@ -503,6 +946,7 @@ async function loadPageData(page, tableType) {
       displayStats(false, page);
     }
   }
+  
   
   
 }
@@ -521,32 +965,55 @@ async function checkingDocument(documentList, documentType) {
   return null;
 }
 
-
+document.getElementById("exportToExcelBtnnewProfile").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('New Profile');
+});
+document.getElementById("exportToExcelBtncallsMade").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Calls Made');
+});
+document.getElementById("exportToExcelBtnproposed").addEventListener("click", async (event) => {
+  event.preventDefault();
+  let status = document.getElementById("status").value;
+  exportFN(status);
+});
+document.getElementById("exportToExcelBtnsignon").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Sign On');
+});
+document.getElementById("exportToExcelBtnsignoff").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Sign Off');
+});
+document.getElementById("exportToExcelBtndueForsignoff").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Due For Sign Off');
+});
+document.getElementById("exportToExcelBtnavailCandidate").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Available Candidates');
+});
 document.getElementById("exportToExcelBtnob").addEventListener("click", async (event) => {
   event.preventDefault();
   exportFN("Onboard");
 });
+document.getElementById("exportToExcelBtncrewListMonthWise").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN('Crew List Month Wise');
+});
+
 
 document.getElementById("exportreliefPlan").addEventListener("click", async (event) => {
   event.preventDefault();
   exportFN('Relief Plan');
 });
 
-document.getElementById("exportToExcelBtnnp").addEventListener("click", async (event) => {
-  event.preventDefault();
-  exportFN('New Profile');
-});
 
-document.getElementById("exportToExcelBtncm").addEventListener("click", async (event) => {
-  event.preventDefault();
-  exportFN('Calls Made');
-});
 
-document.getElementById("exportToExcelBtnpro").addEventListener("click", async (event) => {
-  event.preventDefault();
-  let status = document.getElementById("status").value;
-  exportFN(status);
-});
+
+
+
 
 
 
@@ -612,6 +1079,9 @@ async function flattenData() {
           }              
           const pasportNumber = await checkingDocument(item.document, docTypes) ;
           columnData.push((pasportNumber!=="" && pasportNumber!==null)?pasportNumber.document_number :'');
+        } else if(headerText=='eoc_status') {
+          const status = calculateStatus_(item.eoc);
+          columnData.push(status.status);
         }else {
           columnData.push(item[headerText]);
         }
