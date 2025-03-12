@@ -1,3 +1,6 @@
+if (!token) {
+  window.location.href = "./loginpage.html";
+}
 let resultData = [];
 let loadHeader = true;
 let headerData = [];
@@ -326,7 +329,7 @@ async function handlesignoffSubmit(pageNumber, generateNew=false) {
     hideLoader("signoffFormBtn");
     headerData = ["S.No", "Candidate ID", "Name",  "Rank", "Nationality", "Vessel Name", "Vessel Type", "Sign On", "Sign On Port", "Sign Off", "Sign Off Port", "EOC", "Emigrate Number", "AOA Number", "Currency", "Wages", "Wages Types", "Reason for Sign Off", "IMO Number", "Vessel Flag", "Company Name", "Bank Name",  "Account Number", "Bank Address", "IFSC Code", "SWIFT Code", "Beneficiary","Beneficiary Address", "Branch", "Bank Types", "Passbook", "PAN Number", "INDOS Number", 'CDC Number', "Passport Number", "PAN Card", "User Name"];
 
-    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'vesselType', 'sign_on', 'portName', 'sign_off', 'sign_on_port', 'eoc', 'emigrate_number', 'aoa_number', 'currency', 'wages', 'wages_types', 'reason_for_sign_off', 'imoNumber', 'vesselFlag', 'company_name', 'bank_name', 'account_num', 'bank_addr', 'ifsc_code', 'swift_code', 'beneficiary', 'beneficiary_addr', 'branch', 'types', 'passbook', 'pan_num', 'indos_number', 'cdcnumber', 'pasportnumber', 'pan_card', 'userName'];
+    fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'vesselName', 'vesselType', 'sign_on', 'portName', 'sign_off', 'signoffPortName', 'eoc', 'emigrate_number', 'aoa_number', 'currency', 'wages', 'wages_types', 'reason_for_sign_off', 'imoNumber', 'vesselFlag', 'company_name', 'bank_name', 'account_num', 'bank_addr', 'ifsc_code', 'swift_code', 'beneficiary', 'beneficiary_addr', 'branch', 'types', 'passbook', 'pan_num', 'indos_number', 'cdcnumber', 'pasportnumber', 'pan_card', 'userName'];
     const rowsPerPage = parseInt(document.getElementById('rowsPerSignoff').value);
     const searchKeyword = document.getElementById('searchSignoff').value;
     displayTableDetails('signoffTablehead', headerData, loadHeader, 'signoffTableBody', fieldName, resultData, pageNumber, rowsPerPage, 'paginationControlssignoff', 'signoff', searchKeyword, 'signoffCount')

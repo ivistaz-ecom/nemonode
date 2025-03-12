@@ -2851,13 +2851,15 @@ const getContractsBySignOffDate = async (req, res) => {
         // Construct the base SQL query with CTE for RankedBanks
         let query = `
             SELECT 
-            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, a.sign_on_port, a.sign_off_port, CONCAT(b.fname,' ',b.lname) AS name, b.nationality, b.indos_number, c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag,  d.company_name, bnk.beneficiary, bnk.account_num, bnk.bank_name, bnk.branch, bnk.bank_addr, bnk.beneficiary_addr, bnk.swift_code, bnk.ifsc_code, bnk.passbook, bnk.pan_num, bnk.pan_card, bnk.types, u.userName,  r.rankOrder, nc.country
+            a.candidateId, a.rank, a.vslName, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc, a.emigrate_number, a.aoa_number, a.reason_for_sign_off, a.sign_on_port, a.sign_off_port, CONCAT(b.fname,' ',b.lname) AS name, b.nationality, b.indos_number, c.vesselName AS vesselName, c.imoNumber AS imoNumber, c.vesselFlag,  d.company_name, bnk.beneficiary, bnk.account_num, bnk.bank_name, bnk.branch, bnk.bank_addr, bnk.beneficiary_addr, bnk.swift_code, bnk.ifsc_code, bnk.passbook, bnk.pan_num, bnk.pan_card, bnk.types, u.userName,  r.rankOrder, nc.country, po.portName, sop.portName AS signoffPortName
         FROM contract AS a
         JOIN Candidates AS b ON a.candidateId = b.candidateId
         JOIN vsls AS c ON a.vslName = c.id
         JOIN companies AS d ON a.company = d.company_id
         LEFT JOIN Users AS u ON a.created_by = u.id
         LEFT JOIN ranks AS r ON a.rank = r.rank
+        LEFT JOIN ports AS po ON a.sign_on_port = po.id
+        LEFT JOIN ports AS sop ON a.sign_off_port = sop.id
         LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
         LEFT JOIN bank AS bnk ON a.candidateId = bnk.candidateId
         WHERE a.sign_off BETWEEN :startDate AND :endDate
