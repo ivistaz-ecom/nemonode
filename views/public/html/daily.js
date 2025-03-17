@@ -34,6 +34,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       datetime: document.getElementById("datetimedashboard"),
       icon: document.querySelector('link[rel="icon"]'),
     };
+    signOnDGailycount();
+    signOffDGailycount();
+    contractextensioncount();
+    ecoexceededcount();
 
     async function fetchData(days) {
         const selectUser = document.getElementById("userList").value;
@@ -483,7 +487,7 @@ async function onboard(days) {
 
 async function dueforrenewal(days) {
   const response = await axios.get(
-    `${config.APIURL}candidate/dueforrenewalcount?days=${days}`
+    `${config.APIURL}candidate/dueforrenewalcount`
   );
   const signOffContainer = document.getElementById("dueforrenewal"); // Use a different variable name
   signOffContainer.innerHTML = ""; // Clear previous content
@@ -501,6 +505,48 @@ async function signoffdailycount(days) {
   const signOffData = response.data.count;
   signOffContainer.textContent = signOffData;
 }
+
+async function signOnDGailycount() {
+  const response = await axios.get(
+    `${config.APIURL}candidate/signondgcount`
+  );
+  const SignOnDGContainer = document.getElementById("SignOnDG"); // Use a different variable name
+  SignOnDGContainer.innerHTML = ""; // Clear previous content
+  const SignOnDGData = response.data.count;
+  SignOnDGContainer.textContent = SignOnDGData;
+}
+
+async function signOffDGailycount() {
+  const response = await axios.get(
+    `${config.APIURL}candidate/signoffdgcount`
+  );
+  const SignOffDGContainer = document.getElementById("SignOffDG"); // Use a different variable name
+  SignOffDGContainer.innerHTML = ""; // Clear previous content
+  const SignOffDGData = response.data.count;
+  SignOffDGContainer.textContent = SignOffDGData;
+}
+
+async function contractextensioncount() {
+  const response = await axios.get(
+    `${config.APIURL}candidate/contractextensioncount`
+  );
+  const contractextensionContainer = document.getElementById("ContractExtension"); // Use a different variable name
+  contractextensionContainer.innerHTML = ""; // Clear previous content
+  const contractextensionData = response.data.count;
+  contractextensionContainer.textContent = contractextensionData;
+}
+
+async function ecoexceededcount() {
+  const response = await axios.get(
+    `${config.APIURL}candidate/ecoexceededcount`
+  );
+  const ecoexceededContainer = document.getElementById("EOCExceeded"); // Use a different variable name
+  ecoexceededContainer.innerHTML = ""; // Clear previous content
+  const ecoexceededData = response.data.count;
+  ecoexceededContainer.textContent = ecoexceededData;
+}
+
+
 
 async function fetchDatas() {
   try {

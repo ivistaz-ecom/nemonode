@@ -7,6 +7,9 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     const type = params.get("type");
     const days = params.get("days");
     const userID = params.get("userID") || "";
+    const vessleID = params.get("vessleID") || "";
+    const vesselName = params.get("vesselName") || "";
+    
     var stattitle = "";
     var dayText = days;
     if (days == 1) {
@@ -38,14 +41,28 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       stattitle = `${
         days != 1 ? `Next ${dayText}` : dayText
       } days Due for Renewal`;
+    } else if (type === "EOCExceeded" || type ==="EOCExceededVessel") {
+      stattitle = `EOC Exceeded ${vesselName!==""?`- (${vesselName})`:''}`;
+    } else if (type === "ContractExtension" || type ==="ContractExtensionVessel") {
+      stattitle = `Contract Extension ${vesselName!==""?`- (${vesselName})`:''}`;
+    } else if (type === "SignOffDG" || type ==="SignOffDGVessel") {
+      stattitle = `Sign Off DG ${vesselName!==""?`- (${vesselName})`:''}`;
+    } else if (type === "SignOnDG" || type ==="SignOnDGVessel") {
+      stattitle = `Sign On DG ${vesselName!==""?`- (${vesselName})`:''}`;
     }
+    
+    
+    
     document.getElementById("stat-title").innerHTML = stattitle;
 
     const searchKeywords = document.getElementById("searchKeywords").value;
 
+
+    
+
     // Fetch vessels from the server with pagination parameters
     const result = await axios.get(
-      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&page=${page}&limit=${limit}`,
+      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&vessleID=${vessleID}&page=${page}&limit=${limit}`,
       { headers: { Authorization: token } }
     );
     hideLoader("stats-sec");
@@ -62,7 +79,11 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     const statshead = document.getElementById("stats-head");
     if (intitalLoad === true) {
       const row = document.createElement("tr");
-      var tblheader = ["Sno", "Candidate ID", "First Name", "Rank"];
+      var tblheader = ["Sno", ];
+      if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type === "SignOnDG") {
+        tblheader.push("Vessel Name", "Total Contract");
+      }else {
+        tblheader.push("Candidate ID", "First Name", "Rank");
       if (type === "DueforRenewal") {
         tblheader.push(
           "Document",
@@ -90,8 +111,8 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         type === "SignOff" ||
         type === "SignOn" ||
         type === "OnBoard" ||
-        type === "DueforSignOff"
-      ) {
+          type === "DueforSignOff" || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel"
+          || type ==="SignOnDGVessel") {
         tblheader.push(
           "Sign On",
           "Sign On Port",
@@ -115,6 +136,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       ) {
         tblheader.push("User");
       }
+      }
       row.innerHTML = "";
       if (tblheader.length > 0) {
         tblheader.forEach((item) => {
@@ -135,6 +157,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       result.data.listData.forEach((result) => {
         const row = document.createElement("tr");
         var totalDays = "";
+        
         if (type === "DueforRenewal") {
           var totalDays = getDaysBetweenDates(
             new Date(),
@@ -155,7 +178,11 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         const cell_ = document.createElement("td");
         cell_.textContent = sno;
         row.appendChild(cell_);
-        const fieldsToDisplay = ["candidateId", "fname", "c_rank"];
+        const fieldsToDisplay = [];
+        if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type ==="SignOnDG") {
+          fieldsToDisplay.push("vesselName", "totalContract")
+        }else {
+          fieldsToDisplay.push("candidateId", "fname", "c_rank")
         if (type === "DueforRenewal") {
           fieldsToDisplay.push(
             "document",
@@ -184,14 +211,14 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
           type === "SignOff" ||
           type === "SignOn" ||
           type === "OnBoard" ||
-          type === "DueforSignOff"
+            type === "DueforSignOff"  || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel" || type ==="SignOnDGVessel"
         ) {
           fieldsToDisplay.push(
             "sign_on",
             "portName",
             "eoc",
             "sign_off",
-            "sign_off_port",
+            "signOffPort",
             "reason_for_sign_off",
             "wages",
             "wages_types",
@@ -208,6 +235,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
           type === "Created"
         ) {
           fieldsToDisplay.push("userName");
+        }
         }
 
         fieldsToDisplay.forEach((field) => {
@@ -232,6 +260,15 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
             field === "eoc"
           ) {
             cell.textContent = `${showDateFormat(result[field])}`;
+          }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG") {
+            if (field === "vesselName") {
+              const link = document.createElement("a");
+              link.href = `./daily-stats.html?type=${type}Vessel&vessleID=${result['vslName']}&vesselName=${result['vesselName']}&days=1`;
+              link.textContent = result[field];
+              cell.appendChild(link);
+            }else {
+              cell.textContent = result[field];
+            }
           } else {
             if (field === "sign_off") {
               cell.textContent =
