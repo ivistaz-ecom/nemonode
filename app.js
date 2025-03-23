@@ -128,8 +128,8 @@ app.post('/search', async (req, res) => {
             'boiler_suit_size', 'category', 'company_status', 'createdby', 'cr_date', 'cr_time', 
             'c_ad1', 'c_ad2', 'c_city', 'c_mobi1', 'c_mobi2', 'c_pin', 'c_rank', 'c_state', 
             'c_tel1', 'c_tel2', 'c_vessel', 'dob', 'editedby', 'email1', 'email2', 'experience', 
-            'fname', 'grade', 'height', 'imp_discussion', 'indos_number', 'ipadress', 'joined_date', 
-            'last_company', 'last_salary', 'las_date', 'las_time', 'lname', 'l_country', 'mobile_code1', 
+            "CONCAT(fname, ' ', lname)", 'grade', 'height', 'imp_discussion', 'indos_number', 'ipadress', 'joined_date', 
+            'last_company', 'last_salary', 'las_date', 'las_time', 'l_country', 'mobile_code1', 
             'mobile_code2', 'm_status', 'nationality', 'other_mobile_code', 'other_numbers', 'photos', 
             'p_ad1', 'p_ad2', 'p_city', 'p_country', 'p_mobi1', 'p_mobi2', 'p_pin', 'p_rank', 'p_state', 
             'p_tel1', 'p_tel2', 'ref_check', 'resume', 'resume_upload_date', 'safety_shoe_size', 
@@ -140,7 +140,7 @@ app.post('/search', async (req, res) => {
         const orderByCase = fields.map((field, index) => `WHEN ${field} LIKE :searchValue THEN ${index}`).join(' ');
 
         let query = `
-            SELECT * FROM Candidates
+            SELECT *, CONCAT(fname, ' ', lname) AS name FROM Candidates
             WHERE (${searchConditions})
             ORDER BY CASE 
                 ${orderByCase}

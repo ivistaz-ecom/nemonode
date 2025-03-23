@@ -31,7 +31,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       stattitle = `${days != 1 ? `Last ${dayText}` : dayText} days Sign Off`;
     } else if (type === "SignOn") {
       stattitle = `${days != 1 ? `Last ${dayText}` : dayText} days Sign On`;
-    } else if (type === "OnBoard") {
+    } else if (type === "OnBoard" || type ==='OnBoardVessel') {
       stattitle = `${days != 1 ? `Last ${dayText}` : dayText} days On Board`;
     } else if (type === "DueforSignOff") {
       stattitle = `${
@@ -56,13 +56,14 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     document.getElementById("stat-title").innerHTML = stattitle;
 
     const searchKeywords = document.getElementById("searchKeywords").value;
+    const rowsPerPageSelect = document.getElementById("rowsPerPageSelect").value
 
 
     
 
     // Fetch vessels from the server with pagination parameters
     const result = await axios.get(
-      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&vessleID=${vessleID}&page=${page}&limit=${limit}`,
+      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&vessleID=${vessleID}&page=${page}&limit=${rowsPerPageSelect}`,
       { headers: { Authorization: token } }
     );
     hideLoader("stats-sec");
@@ -80,10 +81,10 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     if (intitalLoad === true) {
       const row = document.createElement("tr");
       var tblheader = ["Sno", ];
-      if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type === "SignOnDG") {
+      if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type === "SignOnDG" || type ==='OnBoard') {
         tblheader.push("Vessel Name", "Total Contract");
       }else {
-        tblheader.push("Candidate ID", "First Name", "Rank");
+        tblheader.push("Candidate ID", "Name", "Rank");
       if (type === "DueforRenewal") {
         tblheader.push(
           "Document",
@@ -110,7 +111,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       } else if (
         type === "SignOff" ||
         type === "SignOn" ||
-        type === "OnBoard" ||
+          type === "OnBoardVessel" ||
           type === "DueforSignOff" || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel"
           || type ==="SignOnDGVessel") {
         tblheader.push(
@@ -179,10 +180,10 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         cell_.textContent = sno;
         row.appendChild(cell_);
         const fieldsToDisplay = [];
-        if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type ==="SignOnDG") {
+        if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard') {
           fieldsToDisplay.push("vesselName", "totalContract")
         }else {
-          fieldsToDisplay.push("candidateId", "fname", "c_rank")
+          fieldsToDisplay.push("candidateId", "name", "c_rank")
         if (type === "DueforRenewal") {
           fieldsToDisplay.push(
             "document",
@@ -210,7 +211,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         } else if (
           type === "SignOff" ||
           type === "SignOn" ||
-          type === "OnBoard" ||
+            type === "OnBoardVessel" ||
             type === "DueforSignOff"  || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel" || type ==="SignOnDGVessel"
         ) {
           fieldsToDisplay.push(
@@ -246,9 +247,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
             link.textContent = result[field];
             link.target = "_blank";
             cell.appendChild(link);
-          } else if (field === "fname") {
-            cell.textContent = `${result["fname"]} ${result["lname"]}`;
-          } else if (field === "expirydays") {
+          }else if (field === "expirydays") {
             cell.textContent = `${totalDays} Day${
               parseInt(totalDays) > 1 ? "s" : ""
             }`;
@@ -260,7 +259,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
             field === "eoc"
           ) {
             cell.textContent = `${showDateFormat(result[field])}`;
-          }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG") {
+          }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard') {
             if (field === "vesselName") {
               const link = document.createElement("a");
               link.href = `./daily-stats.html?type=${type}Vessel&vessleID=${result['vslName']}&vesselName=${result['vesselName']}&days=1`;
@@ -483,6 +482,13 @@ document.getElementById("searchData").addEventListener("click", () => {
   document.getElementById("currentPage").value = 1;
   displayStats(false, 1);
 });
+
+document.getElementById("rowsPerPageSelect").addEventListener("change", () => {
+  document.getElementById("currentPage").value = 1;
+  displayStats(false, 1);
+});
+
+
 
 document.getElementById("medicalsearchData").addEventListener("click", () => {
   document.getElementById("medicalcurrentPage").value = 1;

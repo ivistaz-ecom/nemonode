@@ -1171,6 +1171,8 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${formatDateNew(contract.sign_on_dg)}</td>
                 <td>${formatDateNew(contract.wage_start)}</td>
                 <td>${formatDateNew(contract.eoc)}</td>
+                <td>${contract.contractExtension}</td>
+                <td>${contract.contractExtensionDays}</td>
                 <td>${contract.wages}</td>
                 <td>${contract.currency}</td>
                 <td>${contract.wages_types}</td>
@@ -1211,7 +1213,6 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${contract.training}</td>
                 <td>${contract.bondStore}</td>
                 <td>${contract.cdc_passport}</td>
-                <td>${contract.contractExtension}</td>
                 <td>${contractDuration}</td>
                 <td >${badgeText}</td>
                 <td>
@@ -1265,6 +1266,7 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.bondStore}',
                     '${contract.cdc_passport}',
                     '${contract.contractExtension}',
+                    '${contract.contractExtensionDays}',
                     '${contract.created_by}')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${
@@ -1362,6 +1364,7 @@ function editContract(
   bondStore,
   cdc_passport,
   contractExtension,
+  contractExtensionDays,
   created_by
 ) {
   // Construct the query parameters string
@@ -1435,7 +1438,7 @@ function editContract(
     otherDeductions
   )}&training=${encodeURIComponent(training)}&bondStore=${encodeURIComponent(
     bondStore
-  )}&cdc_passport=${cdc_passport}&contractExtension=${contractExtension}&created_by=${encodeURIComponent(
+  )}&cdc_passport=${cdc_passport}&contractExtension=${contractExtension}&contractExtensionDays=${contractExtensionDays}&created_by=${encodeURIComponent(
     created_by
   )}}`;
 

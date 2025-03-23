@@ -167,6 +167,15 @@
                   <input
                     type="radio"
                     name="options"
+                    id="yesterdayButton"
+                    autocomplete="off"
+                  />
+                  Yesterday
+                </label>
+                <label class="btn btn-dark">
+                  <input
+                    type="radio"
+                    name="options"
                     id="weeklyButton"
                     autocomplete="off"
                   />
@@ -562,6 +571,26 @@
                         <div class="content-left">
                           <h3 class="mb-0"><span id="contracts">0</span></h3>
                           <small>Sign On</small>
+                        </div>
+                        <span class="badge bg-label-success rounded-circle p-2">
+                          <i class="bx bx-gift bx-sm"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-sm-6 col-xl-3 handsymb"
+                  onclick="gotoStats('EvaluationCount')"
+                >
+                  <div class="card mt-3 col m-3 rounded-3">
+                    <div class="card-body">
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="content-left">
+                          <h3 class="mb-0"><span id="evaluations">0</span></h3>
+                          <small>Evaluation</small>
                         </div>
                         <span class="badge bg-label-success rounded-circle p-2">
                           <i class="bx bx-gift bx-sm"></i>

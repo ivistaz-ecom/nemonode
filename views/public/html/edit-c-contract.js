@@ -80,6 +80,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const bondStore = urlParams.get('bondStore');
     const cdc_passport = urlParams.get('cdc_passport');
     const contractExtension = urlParams.get('contractExtension');
+    const contractExtensionDays = urlParams.get('contractExtensionDays');    
     const created_by = urlParams.get('created_by');
 
     
@@ -131,6 +132,8 @@ document.getElementById('contract_training').value = training;
 document.getElementById('contract_bond_store').value = bondStore;
 document.getElementById('cdc_passport').value = cdc_passport;
 document.getElementById('contractExtension').value = contractExtension;
+document.getElementById('contractExtensionDays').value = contractExtensionDays;
+
 
 
 
@@ -463,7 +466,7 @@ function formatDate(dateString) {
     const bondStore = document.getElementById('contract_bond_store').value.trim();
     const cdc_passport = document.getElementById('cdc_passport').value.trim();
     const contractExtension = document.getElementById('contractExtension').value.trim();
-    
+    const contractExtensionDays = document.getElementById('contractExtensionDays').value.trim();    
 
     // Upload Document file if it exists
     if (documentFile) {
@@ -551,7 +554,8 @@ function formatDate(dateString) {
         training,
         bondStore,
         cdc_passport,
-        contractExtension
+        contractExtension,
+        contractExtensionDays
     };
 
     try {

@@ -1094,9 +1094,9 @@ const add_contractdetails = async (req, res) => {
             training,
             bondStore,
             cdc_passport,
-            contractExtension
+            contractExtension,
+            contractExtensionDays
         } = req.body;
-
         // Create a new ContractDetails entry
         const contractDetails = await Contract.create({
             rank,
@@ -1144,7 +1144,8 @@ const add_contractdetails = async (req, res) => {
             training,
             bondStore,
             cdc_passport:cdc_passport,
-            contractExtension:contractExtension
+            contractExtension:contractExtension,
+            contractExtensionDays:contractExtensionDays,
         });
 
     
@@ -1452,6 +1453,8 @@ const update_contractdetails = async (req, res) => {
             contract.bondStore=updatedContractData.bondStore
             contract.cdc_passport=updatedContractData.cdc_passport
             contract.contractExtension=updatedContractData.contractExtension
+            contract.contractExtensionDays=updatedContractData.contractExtensionDays
+            
             
 
             // Conditionally update the documents and aoa fields
@@ -2361,7 +2364,9 @@ const getCallCount = async (req, res) => {
         
         let startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startOfDay.setDate(startOfDay.getDate() - 1);
+        }else if(parseInt(days)===7) {
             startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
             startOfDay.setDate(startOfDay.getDate() - 29);
@@ -2393,7 +2398,9 @@ const getStatusCount = async (req, res) => {
 
         let startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startOfDay.setDate(startOfDay.getDate() - 1);
+        } else if(parseInt(days)===7) {
             startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
             startOfDay.setDate(startOfDay.getDate() - 29);
@@ -2675,7 +2682,7 @@ const proposals = async (req, res) => {
 
         // Build the replacements object
         const replacements = {
-            status: status ? `%${status}%` : null,
+            status: status ? `%${status}:%` : null,
             companyName: companyName || null,
             startDate: startDate || null,
             endDate: endDate || null,
@@ -3078,19 +3085,13 @@ const dueForRenewal = async (req, res) => {
 
 const getDueForRenewalCountForOneDay = async (req, res) => {
     try {
-        const { days } = req.query;
         let startDate = new Date(); // Start date is today
         
         startDate.setUTCHours(0, 0, 0, 0);
        
         let endDate = new Date();
-        if(parseInt(days)===7) {
-            endDate.setDate(parseInt(endDate.getDate()) + 6);
-        }else if(parseInt(days)===30) {
             endDate.setDate(parseInt(endDate.getDate()) + 29);
-        }
         endDate.setUTCHours(23, 59, 59, 0);
-
 
         // Fetch count of documents due for renewal
         const documentCount = await cDocument.count({
@@ -3934,7 +3935,9 @@ const getSignupsCountByDate = async (req, res) => {
 
         const date = new Date();
         let startDate = new Date(date.setUTCHours(0, 0, 0, 0));
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startDate.setDate(startDate.getDate() - 1);
+        }else if(parseInt(days)===7) {
             startDate.setDate(startDate.getDate() - 6);
         }else if(parseInt(days)===30) {
             startDate.setDate(startDate.getDate() - 29);
@@ -3963,7 +3966,9 @@ const getSignupsCountByDate = async (req, res) => {
         // Set start and end date to today's date
         let startDate = new Date();
         startDate.setUTCHours(0, 0, 0, 0);
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startDate.setDate(startDate.getDate() - 1);
+        }else if(parseInt(days)===7) {
             startDate.setDate(startDate.getDate() - 6);
         }else if(parseInt(days)===30) {
             startDate.setDate(startDate.getDate() - 29);
@@ -4004,7 +4009,9 @@ const getContractsBySignOffDatedaily = async (req, res) => {
         // Calculate the date range
         let startDate = new Date(); // Start date is today
         startDate.setUTCHours(0, 0, 0, 0);
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startDate.setDate(startDate.getDate() - 1);
+        }else if(parseInt(days)===7) {
             startDate.setDate(startDate.getDate() - 6);
         }else if(parseInt(days)===30) {
             startDate.setDate(startDate.getDate() - 29);
@@ -4033,6 +4040,53 @@ const getContractsBySignOffDatedaily = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
+
+
+const getEvaluationCount = async (req, res) => {
+    try {
+        const { days } = req.query;
+        const numDays = parseInt(days, 10);
+
+        if (isNaN(numDays) || numDays <= 0) {
+            return res.status(400).json({ error: 'Invalid number of days. Please provide a positive integer.', success: false });
+        }
+
+        // Calculate the date range
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+        if(parseInt(days)===2) {
+            startDate.setDate(startDate.getDate() - 1);
+        }else if(parseInt(days)===7) {
+            startDate.setDate(startDate.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startDate.setDate(startDate.getDate() - 29);
+        }
+        
+       
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
+
+        console.log(`Fetching count of contracts signed off between ${startDate.toISOString()} and ${endDate.toISOString()}`);
+
+        // Fetch count of candidates with associated contracts within the specified date range
+        const count = await Candidate.count({
+            include: [{
+                model: Evaluation,
+                where: {
+                    applied_date: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                }
+            }]
+        });
+        res.status(200).json({ count: count, success: true });
+    } catch (error) {
+        console.error('Error fetching count of contracts by applied_date date:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
 
 
 const getContractsAndDiscussions = async (req, res) => {
@@ -4086,11 +4140,6 @@ const getCandidatesCountOnBoardForOneDay = async (req, res) => {
         const { days } = req.query;
         let startDate = new Date(); // Start date is today
         startDate.setUTCHours(0, 0, 0, 0);
-        if(parseInt(days)===7) {
-            startDate.setDate(startDate.getDate() - 6);
-        }else if(parseInt(days)===30) {
-            startDate.setDate(startDate.getDate() - 29);
-        }        
        
         let endDate = new Date();
         endDate.setUTCHours(23, 59, 59, 0);
@@ -4105,13 +4154,36 @@ const getCandidatesCountOnBoardForOneDay = async (req, res) => {
         };
 
         // Fetch onboard candidates with the specified criteria
-        const onboardCandidatesCount = await Candidate.count({
+       /*  const onboardCandidatesCount = await Candidate.count({
             include: [{
                 model: Contract,
                 where: contractFilterCriteria, // Apply filtering criteria specifically for contracts
                 attributes: [] // Include only the count, so no need to retrieve attributes
             }]
+        }); */
+        const today = new Date();
+        //const startDate_ = `${startDate.getFullYear()}-${parseFloat(startDate.getMonth())}`;
+       // const todayString = today.toISOString().split('T')[0];
+        const startDate_ = today.toISOString().split('T')[0];
+        console.log(startDate);
+        let query = `
+            SELECT COUNT(a.candidateId) AS totalDue
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            WHERE a.sign_on <= '${startDate_}'
+              AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01')
+        `;
+
+        const contracts = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
         });
+        let onboardCandidatesCount = 0; 
+        if(contracts.length>0) {
+            onboardCandidatesCount = contracts[0]?.totalDue ?? 0;
+        }
 
         res.json({ count: onboardCandidatesCount });
     } catch (error) {
@@ -4162,7 +4234,7 @@ const getContractsCountBySignOffDateForOneDay = async (req, res) => {
 const getContractSignOnDGCount = async (req, res) => {
     try {        
         // Fetch count of candidates with associated contracts signed off within the current day
-        const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` AND ((`Contracts`.`sign_on_dg` IS NULL OR `Contracts`.`sign_on_dg` = '1969-12-31 16:30:00') AND `Contracts`.`sign_on` >= '2024-11-30')";
+        const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` AND ((`Contracts`.`sign_on_dg` IS NULL OR `Contracts`.`sign_on_dg` = '1970-01-01') AND `Contracts`.`sign_on` >= '2025-03-24')";
         const candidatesCount = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
@@ -4176,7 +4248,7 @@ const getContractSignOnDGCount = async (req, res) => {
 
 const getContractSignOffDGCount = async (req, res) => {
     try {
-        const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` AND ((`Contracts`.`sign_off_dg` IS NULL OR `Contracts`.`sign_off_dg` = '1970-01-01') AND `Contracts`.`sign_on` >= '2024-11-30')";
+        const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` AND ((`Contracts`.`sign_off_dg` IS NULL OR `Contracts`.`sign_off_dg` = '1970-01-01') AND `Contracts`.`sign_on` >= '2025-03-24')";
         const candidatesCount = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
@@ -4194,7 +4266,7 @@ const getcontractExtensionCount = async (req, res) => {
         const candidatesCount = await Candidate.count({
             include: [{
                 model: Contract,
-                where: {contractExtension:'Yes' },
+                where: { contractExtension:'Yes' },
                 attributes: [] // Exclude attributes from contracts
             }]
         });
@@ -4208,7 +4280,7 @@ const getcontractExtensionCount = async (req, res) => {
 
 const getEOCExceededCount = async (req, res) => {
     try {
-       const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE ((`Contracts`.`sign_off` IS NULL OR `Contracts`.`sign_off` = '1970-01-01') AND (`Contracts`.`eoc` IS NOT NULL AND `Contracts`.`eoc` != '1970-01-01'))";
+       const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE ((`Contracts`.`sign_off` IS NULL OR `Contracts`.`sign_off` = '1970-01-01') AND (`Contracts`.`eoc` IS NOT NULL AND `Contracts`.`eoc` != '1970-01-01')) AND sign_on >= '2024-01-01'";
         const candidatesCount = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
@@ -4738,7 +4810,9 @@ const getUserStats = async (req, res) => {
 
         let startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startOfDay.setDate(startOfDay.getDate() - 1);
+        }else if(parseInt(days)===7) {
             startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
             startOfDay.setDate(startOfDay.getDate() - 29);
@@ -4915,7 +4989,9 @@ const getSelectedUserStats = async (req, res) => {
         const userID = req.query?.userID || '';
         let startOfDay = new Date();
         startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
-        if(parseInt(days)===7) {
+        if(parseInt(days)===2) {
+            startOfDay.setDate(startOfDay.getDate() - 1);
+        } else if(parseInt(days)===7) {
             startOfDay.setDate(startOfDay.getDate() - 6);
         }else if(parseInt(days)===30) {
             startOfDay.setDate(startOfDay.getDate() - 29);
@@ -5024,9 +5100,18 @@ const getStatsList = async (req, res) => {
         let offset = (page - 1) * limit; // Calculate the offset based on the page and limit
         let startOfDay = new Date();
         let currentTime = new Date();
-        if(type==='DueforSignOff' || type==='DueforRenewal') {            
+         if(type==='DueforSignOff'){
+            currentTime.setDate(parseInt(currentTime.getDate()) + 28);
+            currentTime.setUTCHours(23, 59, 59, 0); // Set to the beginning of the current day
+
+            startOfDay.setUTCHours(0, 0, 0, 0);
+
+
+         } else if(type==='DueforRenewal') {            
             
-            if(parseInt(days)===7) {
+            if(parseInt(days)===2) {
+                currentTime.setDate(parseInt(startDate.getDate()) + 1);
+            }else if(parseInt(days)===7) {
                 currentTime.setDate(parseInt(currentTime.getDate()) + 5);
             }else if(parseInt(days)===30) {
                 currentTime.setDate(parseInt(currentTime.getDate()) + 28);
@@ -5036,7 +5121,9 @@ const getStatsList = async (req, res) => {
             startOfDay.setUTCHours(0, 0, 0, 0);
         }else {
             startOfDay.setUTCHours(0, 0, 0, 0); // Set to the beginning of the current day
-            if(parseInt(days)===7) {
+            if(parseInt(days)===2) {
+                startOfDay.setDate(startOfDay.getDate() - 1);
+            }else if(parseInt(days)===7) {
                 startOfDay.setDate(startOfDay.getDate() - 6);
             }else if(parseInt(days)===30) {
                 startOfDay.setDate(startOfDay.getDate() - 29);
@@ -5057,7 +5144,7 @@ const getStatsList = async (req, res) => {
             if (/^-?\d+$/.test(searchKeywords)) {
                 where = ` AND b.candidateId='${searchKeywords}'`;
             } else {
-                where =  ` AND (b.fname LIKE '%${searchKeywords}%' OR b.lname LIKE '%${searchKeywords}%' OR b.c_mobi1 LIKE '%${searchKeywords}%' OR b.email1 LIKE '%${searchKeywords}%' `;
+                where =  ` AND (CONCAT(b.fname, ' ', b.lname) LIKE '%${searchKeywords}%' OR b.c_mobi1 LIKE '%${searchKeywords}%' OR b.email1 LIKE '%${searchKeywords}%' `;
                 if(type==='totalcalls' || type==='Proposed' || type==='Approved' || type==='Joined' || type==='Rejected') {
                     where+=` OR a.discussion LIKE '%${searchKeywords}%' `; 
                 }
@@ -5069,7 +5156,7 @@ const getStatsList = async (req, res) => {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id WHERE a.created_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
@@ -5077,7 +5164,7 @@ const getStatsList = async (req, res) => {
             if(userID!=="") {
                 where+=` AND post_by='${userID}' `;
             }
-            query = `SELECT a.discussion, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.discussion, b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, userName FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM discussion AS a INNER JOIN Candidates as b ON a.candidateid=b.candidateId INNER JOIN Users AS c ON a.post_by=c.id  WHERE (discussion LIKE "${type}:%" OR discussion = "${type}") AND a.created_date BETWEEN :startDate AND :endDate  ${where}`;
             }
@@ -5085,11 +5172,11 @@ const getStatsList = async (req, res) => {
             if(userID!=="") {
                 where+=` AND userId='${userID}' `;
             }
-            query = `SELECT b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, b.cr_date, userName FROM Candidates AS b  INNER JOIN Users AS c ON b.userId=c.id  WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
+            query = `SELECT b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, b.cr_date, userName FROM Candidates AS b  INNER JOIN Users AS c ON b.userId=c.id  WHERE cr_date BETWEEN :startDate AND :endDate ${where} LIMIT ${offset}, ${limit}`
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM Candidates AS b  INNER JOIN Users AS c ON b.userId=c.id   WHERE cr_date BETWEEN :startDate AND :endDate ${where}`
             }
-        }else if(type==='SignOff' || type==='SignOn' || type==='OnBoard' || type==='DueforSignOff') {
+        }else if(type==='SignOff' || type==='SignOn' || type==='DueforSignOff') {
             var whereDate = ''
             if(type==='SignOff') {
                 whereDate = `a.sign_off BETWEEN :startDate AND :endDate`;
@@ -5101,12 +5188,60 @@ const getStatsList = async (req, res) => {
                 whereDate = ` (sign_off IS NULL OR sign_off = '1970-01-01') AND a.eoc BETWEEN :startDate AND :endDate`;
             }
             
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id WHERE ${whereDate}  ${where}`;
             }
+        } else if(type==='OnBoard') {
+            if(searchKeywords!=="") {
+                where= ` AND c.vesselName LIKE '%${searchKeywords}%'`;
+            }
+            const today = new Date();
+            const startDate_ = today.toISOString().split('T')[0];
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.candidateId) AS totalContract
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01')  ${where} GROUP BY a.vslName  LIMIT ${offset}, ${limit}`;
+              if(page===1) {
+                countquery = `SELECT COUNT(a.candidateId) AS total
+                FROM contract AS a
+                JOIN Candidates AS b ON a.candidateId = b.candidateId
+                JOIN vsls AS c ON a.vslName = c.id
+                JOIN companies AS e ON a.company = e.company_id
+                LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+                WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01') ${where} GROUP BY a.vslName`;
+              }
+
+        }else if(type==='OnBoardVessel') {
+            if(vessleID!=="") {                
+                where+=`AND vslName=${vessleID}`;   
+            }
+            const today = new Date();
+            const startDate_ = today.toISOString().split('T')[0];
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, e.company_name, d.portName
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            LEFT JOIN ports AS d ON a.sign_on_port=d.id
+            WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01')  ${where}  LIMIT ${offset}, ${limit}`;
+              if(page===1) {
+                countquery = `SELECT COUNT(a.candidateId) AS total
+                FROM contract AS a
+                JOIN Candidates AS b ON a.candidateId = b.candidateId
+                JOIN vsls AS c ON a.vslName = c.id
+                JOIN companies AS e ON a.company = e.company_id
+                LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+                LEFT JOIN ports AS d ON a.sign_on_port=d.id
+                WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01') ${where} `;
+              }
+
         }else if(type==='DueforRenewal') {
-            query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where}  ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit}`;
+            query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where}  ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
             }
@@ -5114,23 +5249,23 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
-                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  ${where} GROUP BY a.vslName`;
+                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName`;
             }
         }else if(type==='EOCExceededVessel') {          
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
             }
 
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE  ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01')) ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE  ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01')) ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01' ${where}`;
             }
         }else if(type==='ContractExtension') {
             if(searchKeywords!=="") {
-                where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
+                where = ` AND (c.vesselName LIKE '%${searchKeywords}%'`;
             }
             query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE contractExtension='Yes'  ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
 
@@ -5141,7 +5276,7 @@ const getStatsList = async (req, res) => {
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
             }
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE contractExtension='Yes' ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE contractExtension='Yes' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE contractExtension='Yes' ${where}`;
             }
@@ -5149,35 +5284,35 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2024-11-30' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
-                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2024-11-30' ${where} GROUP BY a.vslName`;
+                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName`;
             }
         }else if(type==='SignOffDGVessel') {
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
             }
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where}`;
             }
         }else if(type==='SignOnDG') {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
-                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where} GROUP BY a.vslName`;
+                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName`;
             }
         }else if(type==='SignOnDGVessel') {
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
             }
-            query = `SELECT  b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2024-11-30' ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where}`;
             }
         }
 
@@ -5187,18 +5322,23 @@ const getStatsList = async (req, res) => {
                 type: sequelize.QueryTypes.SELECT
             });
             if(page===1) {            
+                
             totalRecord = await sequelize.query(countquery, {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime},
                 type: sequelize.QueryTypes.SELECT
             });
-                if(type==='EOCExceeded' || type==='ContractExtension' || type==='SignOffDG' || type==='SignOnDG') {
-                    totalRecord[0].total = totalRecord.length;
+                if(type==='EOCExceeded' || type==='ContractExtension' || type==='SignOffDG' || type==='SignOnDG' || type==='OnBoard') {
+                    if(totalRecord.length>0) {
+                        totalRecord[0].total = totalRecord[0]?.total || 0 ;
+                    }else {
+                        totalRecord = [{total:0}];
+                    }
                 }
             }
         }
    
 
-        res.status(200).json({listData:listData,totalRecord:(totalRecord.length>0)?totalRecord[0].total:0, totalPage:(totalRecord.length>0)?Math.ceil(totalRecord[0].total/10):0, success: true });
+        res.status(200).json({listData:listData,totalRecord:(totalRecord.length>0)?totalRecord[0].total:0, totalPage:(totalRecord.length>0)?Math.ceil(totalRecord[0].total/limit):0, success: true });
     } catch (error) {
         console.error('Error fetching contracts ending soon:', error);
         res.status(500).json({ error: error.message || 'Internal server error', success: false });
@@ -5375,6 +5515,7 @@ module.exports = {
    getEvaluationDetails,
    getContractsBySignOnDatedaily,
    getContractsBySignOffDatedaily,
+   getEvaluationCount,
    getContractsAndDiscussions,
    getCandidatesCountOnBoardForOneDay,
    getDueForRenewalCountForOneDay,

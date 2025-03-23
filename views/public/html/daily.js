@@ -108,11 +108,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("contracts").innerText =
           "Error fetching contracts";
       }
+
+      try {
+        const response = await axios.get(
+          `${config.APIURL}candidate/evaluationcount?days=${days}`
+        );
+        console.log("Sign on", response);
+        const candidates = response.data.count;
+        const evaluationsDiv = document.getElementById("evaluations");
+        evaluationsDiv.innerHTML = ""; // Clear previous content
+        evaluationsDiv.textContent = candidates;
+      } catch (error) {
+        console.error("Error fetching evaluations:", error);
+        document.getElementById("evaluations").innerText =
+          "Error fetching evaluations";
+      }
     }
 
     document
       .getElementById("dailyButton")
       .addEventListener("click", () => { document.getElementById("currentOption").value = 1; fetchData(1) });
+    document
+      .getElementById("yesterdayButton")
+      .addEventListener("click", () => { document.getElementById("currentOption").value = 1; fetchData(2) });
+      
     document
       .getElementById("weeklyButton")
       .addEventListener("click", () => { document.getElementById("currentOption").value = 7; fetchData(7) });
