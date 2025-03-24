@@ -16,6 +16,7 @@ const userRoutes = require("./routes/user")
 const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
 const { QueryTypes } = require('sequelize');
+const crons = require("./cronRunners/cronRun");
 
 
 app.use(express.json({ limit: '10mb' }));
@@ -1008,6 +1009,7 @@ app.use((req, res, next) => {
 });
 
 
+crons.runCron();
 
 
 sequelize.sync(/*{force:true},*/{logging: console.log})
