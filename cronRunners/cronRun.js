@@ -42,9 +42,9 @@ module.exports = {
               };
 
               const recipients = [
-                  { email: 'praba9717@gmail.com' } // Ensure this is inside an array
+                  { email: 'anutedreamer@gmail.com' } // Ensure this is inside an array
               ];
-
+              console.log(recipients, 'recipients')
               (async () => {
                   try {
                       const response = await tranEmailApi.sendTransacEmail({
