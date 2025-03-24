@@ -5109,13 +5109,13 @@ const getStatsList = async (req, res) => {
 
          } else if(type==='DueforRenewal') {            
             
-            if(parseInt(days)===2) {
+           /*  if(parseInt(days)===2) {
                 currentTime.setDate(parseInt(startDate.getDate()) + 1);
             }else if(parseInt(days)===7) {
                 currentTime.setDate(parseInt(currentTime.getDate()) + 5);
-            }else if(parseInt(days)===30) {
+            }else if(parseInt(days)===30) { */
                 currentTime.setDate(parseInt(currentTime.getDate()) + 28);
-            }
+            /* } */
             currentTime.setUTCHours(23, 59, 59, 0); // Set to the beginning of the current day
 
             startOfDay.setUTCHours(0, 0, 0, 0);
