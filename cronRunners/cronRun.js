@@ -42,11 +42,11 @@ module.exports = {
               };
 
               const recipients = [
-                  { email: 'anutedreamer@gmail.com' } // Ensure this is inside an array
+                  { email: 'praba9717@gmail.com' } // Ensure this is inside an array
               ];
               console.log(recipients, 'recipients')
            
-                  try {
+                  /* try {
                       const response = await tranEmailApi.sendTransacEmail({
                           sender,
                           to: recipients, // Must be an array
@@ -59,7 +59,7 @@ module.exports = {
                       console.log('Email sent successfully:', response);
                   } catch (error) {
                       console.error('Error sending email:', error);
-                  }
+                  } */
            
 
 
