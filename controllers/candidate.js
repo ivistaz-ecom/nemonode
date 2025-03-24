@@ -5358,11 +5358,11 @@ const getMedicalStatsList = async (req, res) => {
         let startOfDay = new Date();
         let currentTime = new Date();
            
-        if(parseInt(days)===7) {
+      /*   if(parseInt(days)===7) {
             currentTime.setDate(parseInt(currentTime.getDate()) + 5);
-        }else if(parseInt(days)===30) {
+        }else if(parseInt(days)===30) { */
             currentTime.setDate(parseInt(currentTime.getDate()) + 28);
-        }
+        /* } */
         currentTime.setUTCHours(23, 59, 59, 0); // Set to the beginning of the current day
 
         startOfDay.setUTCHours(0, 0, 0, 0);
