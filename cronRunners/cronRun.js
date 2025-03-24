@@ -45,7 +45,7 @@ module.exports = {
                   { email: 'anutedreamer@gmail.com' } // Ensure this is inside an array
               ];
               console.log(recipients, 'recipients')
-              (async () => {
+           
                   try {
                       const response = await tranEmailApi.sendTransacEmail({
                           sender,
@@ -60,7 +60,7 @@ module.exports = {
                   } catch (error) {
                       console.error('Error sending email:', error);
                   }
-              })();
+           
 
 
        /* 
