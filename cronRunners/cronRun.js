@@ -20,14 +20,26 @@ module.exports = {
       if(parseInt(month)<=9) {
         month = `0${month}`;
       }
-
-      const query = `SELECT candidateId, CONCAT(fname,' ',lname) AS name, c_mobi1, email1, dob FROM Candidates WHERE dob LIKE '%-${month}-${date}%' AND dob!='1970-01-01' AND active_details=1`;
+      const emailToday = `${month}-${date}-${todaydate.getFullYear()}`;
+      const query = `SELECT candidateId, CONCAT(fname,' ',lname) AS name, c_mobi1, email1, c_rank, dob FROM Candidates WHERE dob LIKE '%-${month}-${date}%' AND dob!='1970-01-01' AND active_details=1`;
       const existingCandidate = await sequelize.query(query, {
           type: sequelize.QueryTypes.SELECT
       });
       if(existingCandidate.length>0) {
+        let htmlContent = `Dear Sir/Madam,<br/><br/>
 
+        I hope you’re doing well!<br/>
 
+        Please find below the list of employees celebrating their birthdays today:<br/><br/>
+
+        🎂 Employee Birthday List:<br/>
+       <table border="1" cellpadding="5" cellspacing="0">
+                <tr><td><b>Candidate ID</b></td><td><b>Name</b></td><td><b>Rank</b></td><td><b>Date Of Birth</b></td><td><b>Phone</b></td><td><b>Email</b></td></tr>
+        `;
+        existingCandidate.map((item)=> {
+            htmlContent+= `<tr><td>${item.candidateId}</td><td>${item.name}</td><td>${item.c_rank}</td><td>${item.dob}</td><td>${item.c_mobi1}</td><td>${item.email1}</td></tr>`;
+        })
+         htmlContent+= `</table>`
 
         
               const client = Sib.ApiClient.instance;
@@ -46,20 +58,18 @@ module.exports = {
               ];
               console.log(recipients, 'recipients')
            
-                  /* try {
+                  try {
                       const response = await tranEmailApi.sendTransacEmail({
                           sender,
                           to: recipients, // Must be an array
-                          subject: 'Evaluation for Nemo Candidate',
-                          htmlContent: `
-                              <h2>Hello!</h2>
-                          `,
+                          subject: `🎉 Birthday Notification – ${emailToday}`,
+                          htmlContent: htmlContent,
                       });
 
                       console.log('Email sent successfully:', response);
                   } catch (error) {
                       console.error('Error sending email:', error);
-                  } */
+                  }
            
 
 
