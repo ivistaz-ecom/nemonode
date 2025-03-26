@@ -12,6 +12,7 @@ module.exports = {
      // twilioWhatsapp.updateWhatsappStatus();
      try {
       const todaydate = new Date();
+      console.log(todaydate, 'todaydatetodaydate')
       let date = todaydate.getMonth();
       if(parseInt(date)<=9) {
         date = `0${date}`;
@@ -49,7 +50,7 @@ module.exports = {
               const tranEmailApi = new Sib.TransactionalEmailsApi();
 
               const sender = {
-                  email: 'anutedreamer@gmail.com',
+                  email: 'nautilusshipping@gmail.com',
                   name: 'Anu'
               };
 
