@@ -159,10 +159,18 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         const row = document.createElement("tr");
         var totalDays = "";
         
-        if (type === "DueforRenewal") {
+        if (type === "DueforRenewal" || type === "DueforSignOff") {
+          if(type === "DueforRenewal") {
+            var totalDays = getDaysBetweenDates(
+              new Date(),
+              result["expiry_date"]
+            );
+          }else if(type === "DueforSignOff") {
+
+          }
           var totalDays = getDaysBetweenDates(
             new Date(),
-            result["expiry_date"]
+            result["eoc"]
           );
           if (totalDays <= -1) {
             totalDays = parseFloat(totalDays) + 1;
