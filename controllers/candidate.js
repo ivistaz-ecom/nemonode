@@ -5187,8 +5187,12 @@ const getStatsList = async (req, res) => {
             } else if(type==='DueforSignOff') {
                 whereDate = ` (sign_off IS NULL OR sign_off = '1970-01-01') AND a.eoc BETWEEN :startDate AND :endDate`;
             }
+            let orderBy = '';
+            if(type==='DueforSignOff') {
+                orderBy = ' ORDER BY a.eoc ASC';
+            }
             
-            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  WHERE ${whereDate} ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  WHERE ${whereDate} ${where} ${orderBy} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id WHERE ${whereDate}  ${where}`;
             }
