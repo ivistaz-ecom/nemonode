@@ -5214,7 +5214,7 @@ const getStatsList = async (req, res) => {
                 LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
                 WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01') ${where} GROUP BY a.vslName`;
               }
-
+              console.log(query, 'queryquery')
         }else if(type==='OnBoardVessel') {
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
