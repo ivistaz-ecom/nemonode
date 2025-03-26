@@ -5329,7 +5329,7 @@ const getStatsList = async (req, res) => {
             });
                 if(type==='EOCExceeded' || type==='ContractExtension' || type==='SignOffDG' || type==='SignOnDG' || type==='OnBoard') {
                     if(totalRecord.length>0) {
-                        totalRecord[0].total = totalRecord[0]?.total || 0 ;
+                        totalRecord[0].total = totalRecord.length || 0 ;
                     }else {
                         totalRecord = [{total:0}];
                     }
