@@ -8,7 +8,7 @@ module.exports = {
   runCron: async function () {
 
     //******************* Get and update[every 1-minit] the whatsapp status from twilio ******************/
-    cron.schedule("*/1 * * * *", async function () {
+    cron.schedule("0 9 * * *", async function () {
      // twilioWhatsapp.updateWhatsappStatus();
      try {
       const todaydate = new Date();
@@ -51,11 +51,14 @@ module.exports = {
 
               const sender = {
                   email: 'nautilusshipping@gmail.com',
-                  name: 'Anu'
+                  name: 'Nautilusshipping'
               };
 
               const recipients = [
-                  { email: 'praba9717@gmail.com' } // Ensure this is inside an array
+                  { email: 'praba9717@gmail.com' },
+                  { email: 'crewing@nautilusshipping.com' },
+                  { email: 'ajay@nautilusshipping.com' },
+                  { email: 'Divakar@nautilusshipping.com' },
               ];
               console.log(recipients, 'recipientssss')
            
