@@ -49,8 +49,8 @@ module.exports = {
               const tranEmailApi = new Sib.TransactionalEmailsApi();
 
               const sender = {
-                  email: 'mccivistasolutions@gmail.com',
-                  name: 'I-Vistaz'
+                  email: 'anutedreamer@gmail.com',
+                  name: 'Anu'
               };
 
               const recipients = [
