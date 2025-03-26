@@ -5204,7 +5204,7 @@ const getStatsList = async (req, res) => {
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
             LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
-            WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01')  ${where} GROUP BY a.vslName  LIMIT ${offset}, ${limit}`;
+            WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01')  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC  LIMIT ${offset}, ${limit}`;
               if(page===1) {
                 countquery = `SELECT COUNT(a.candidateId) AS total
                 FROM contract AS a
@@ -5248,7 +5248,7 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
                 countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName`;
@@ -5266,7 +5266,7 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND (c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE contractExtension='Yes'  ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE contractExtension='Yes'  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
                 countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE contractExtension='Yes' ${where} GROUP BY a.vslName`;
@@ -5283,7 +5283,7 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
                 countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_off_dg IS NULL OR a.sign_off_dg = '1970-01-01') AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName`;
@@ -5300,7 +5300,7 @@ const getStatsList = async (req, res) => {
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
                 countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where} GROUP BY a.vslName`;
