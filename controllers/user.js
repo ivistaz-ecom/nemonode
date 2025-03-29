@@ -142,6 +142,7 @@ const login = async (req, res, next) => {
       const user = await User.findOne({ where: { userName: userName } });
 
       if (user) {
+        console.log(user, 'useruseruser')
           // Check if the user is disabled
           if (user.disableUser) {
               return res.status(403).json({ success: false, message: 'User is disabled' });
@@ -176,6 +177,7 @@ const login = async (req, res, next) => {
                       username: user.userName,
                       userId: user.id,
                   });
+
               } else {
                   // Password is invalid
                   return res.status(400).json({ success: false, message: 'Password is invalid' });
