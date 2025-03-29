@@ -8,7 +8,7 @@ module.exports = {
     cron.schedule("0 1 * * *", async function () {
       try {
         const todaydate = new Date();
-        let date = todaydate.getMonth();
+        let date = todaydate.getDate();
         if (parseInt(date) <= 9) {
           date = `0${date}`;
         }
