@@ -17,8 +17,6 @@ const Contract = require("../models/contract")
 const { Op } = require("sequelize")
 const { write } = require("fs-extra")
 
-require("dotenv").config();
-const Sib = require("sib-api-v3-sdk");
 
 //Vessel and VSL Type
 const create_vessel = async (req, res) => {
@@ -1000,36 +998,6 @@ const view_port = async (req, res) => {
     // Calculate the offset based on the page and limit
     let offset = (page - 1) * limit;
 
-
-
-    const client = Sib.ApiClient.instance;
-    const apiKey = client.authentications["api-key"];
-    apiKey.apiKey = process.env.BREVO_API_KEY; // Ensure this environment variable is set
-    console.log(process.env.BREVO_API_KEY, 'process.env.BREVO_API_KEY')
-    const tranEmailApi = new Sib.TransactionalEmailsApi();
-
-    const htmlContent = 'This is test message';
-    const recipients = [
-      { email: "praba9717@gmail.com" },
-    ];
-    const emailToday = 'Today';
-    const sender = {
-                email: "nautilusshipping@gmail.com",
-                name: "Nautilusshipping",
-              };
-    const response = await tranEmailApi.sendTransacEmail({
-      sender,
-      to: recipients,
-      subject: `🎉 Birthday Notification – ${emailToday}`,
-      htmlContent: htmlContent,
-      /* attachment: [
-          {
-              name: 'BirthdayCandidateList.xlsx', // File name shown in the email
-              content: fileContent     // Base64-encoded content
-          }
-      ] */
-  });
-  console.log(response, 'emailresponse')
 
     if (userGroup === 'admin' || (userGroup === 'vendor' && readOnlyPermission)) {
       // For admin or vendors with ReadOnly permission, fetch all ports with pagination

@@ -8,8 +8,8 @@ const XLSX = require('xlsx');
 
 module.exports = {
   runCron: async function () {
-    // cron.schedule("*/1 * * * *", async function () { 
-    cron.schedule("0 1 * * *", async function () {
+    cron.schedule("*/1 * * * *", async function () { 
+    /* cron.schedule("0 1 * * *", async function () { */
       try {
         const todaydate = new Date();
         let date = todaydate.getDate();
