@@ -5392,6 +5392,7 @@ const getStatsList = async (req, res) => {
         }
 
         if(query!=="") {
+            console.log(query, 'queryqueryquery')
             listData = await sequelize.query(query, {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
                 type: sequelize.QueryTypes.SELECT
@@ -5402,7 +5403,7 @@ const getStatsList = async (req, res) => {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime},
                 type: sequelize.QueryTypes.SELECT
             });
-                if(type==='EOCExceeded' || type==='ContractExtension' || type==='SignOffDG' || type==='SignOnDG' || type==='OnBoard') {
+                if(type==='EOCExceeded' || type==='ContractExtension' || type==='SignOffDG' || type==='SignOnDG' || type==='OnBoard' || type==='SignOnPending') {
                     if(totalRecord.length>0) {
                         totalRecord[0].total = totalRecord.length || 0 ;
                     }else {
