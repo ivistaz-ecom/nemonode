@@ -2679,6 +2679,7 @@ const proposals = async (req, res) => {
         if (conditions.length > 0) {
             query += ` WHERE ${conditions.join(' AND ')}`;
         }
+        
 
         // Build the replacements object
         const replacements = {
@@ -2688,7 +2689,7 @@ const proposals = async (req, res) => {
             endDate: endDate || null,
             category: category || null,
         };
-
+        console.log(query, 'queryqueryquery');
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
             replacements,
