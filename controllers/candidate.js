@@ -4281,7 +4281,19 @@ const getcontractExtensionCount = async (req, res) => {
 
 const getEOCExceededCount = async (req, res) => {
     try {
-       const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE ((`Contracts`.`sign_off` IS NULL OR `Contracts`.`sign_off` = '1970-01-01') AND (`Contracts`.`eoc` IS NOT NULL AND `Contracts`.`eoc` != '1970-01-01')) AND sign_on >= '2024-01-01'";
+        const today = new Date();
+        let todayDate = today.getDate();
+        if(todayDate<=9) {
+            todayDate = `0${todayDate}`;
+        }
+        let todayMonth = parent(today.getMonth()) + 1;
+        if(todayMonth<=9) {
+            todayMonth = `0${todayMonth}`;
+        }
+        let todayYear = today.getFullYear();
+        const dateValue = `${todayYear}-${todayMonth}-${todayDate}`;
+       const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE ((`Contracts`.`sign_off` IS NULL OR `Contracts`.`sign_off` = '1970-01-01') AND (`Contracts`.`eoc` IS NOT NULL AND `Contracts`.`eoc` != '1970-01-01' AND `Contracts`.`eoc` > '"+dateValue+"')) AND sign_on >= '2024-01-01'";
+       console.log(query, 'queryqueryqueryqueryquery')
         const candidatesCount = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
@@ -5250,22 +5262,47 @@ const getStatsList = async (req, res) => {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
             }
         }else if(type==='EOCExceeded') {
+
+            const today__ = new Date();
+            let todayDate = today__.getDate();
+            if(todayDate<=9) {
+                todayDate = `0${todayDate}`;
+            }
+            let todayMonth = parent(today__.getMonth()) + 1;
+            if(todayMonth<=9) {
+                todayMonth = `0${todayMonth}`;
+            }
+            let todayYear = today__.getFullYear();
+            const dateValue = `${todayYear}-${todayMonth}-${todayDate}`;
+
             if(searchKeywords!=="") {
                 where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
             }
-            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01' AND a.eoc < '${dateValue}'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
 
             if(page===1) {
-                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName`;
+                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01' AND a.eoc < '${dateValue}'))  AND a.sign_on >= '2024-01-01'  ${where} GROUP BY a.vslName`;
             }
         }else if(type==='EOCExceededVessel') {          
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
             }
 
-            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE  ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01' ${where} LIMIT ${offset}, ${limit}`;
+            const today__ = new Date();
+            let todayDate = today__.getDate();
+            if(todayDate<=9) {
+                todayDate = `0${todayDate}`;
+            }
+            let todayMonth = parent(today__.getMonth()) + 1;
+            if(todayMonth<=9) {
+                todayMonth = `0${todayMonth}`;
+            }
+            let todayYear = today__.getFullYear();
+            const dateValue = `${todayYear}-${todayMonth}-${todayDate}`;
+
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE  ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01' AND a.eoc < '${dateValue}'))  AND a.sign_on >= '2024-01-01' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01'))  AND a.sign_on >= '2024-01-01' ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01' AND a.eoc < '${dateValue}'))  AND a.sign_on >= '2024-01-01' ${where}`;
             }
         }else if(type==='ContractExtension') {
             if(searchKeywords!=="") {
