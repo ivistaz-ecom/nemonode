@@ -39,7 +39,7 @@ module.exports = {
         let exportDatas = [];
         await Promise.all(existingCandidate.map(async (item) => {
 
-            const contact = `SELECT id FROM contract WHERE candidateId='${item.candidateId}' AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01')`;
+            const contact = `SELECT id FROM contract WHERE candidateId='${item.candidateId}' AND (sign_off IS NULL OR sign_off='1970-01-01')`;
             const checkingContact = await sequelize.query(contact, {
                 type: sequelize.QueryTypes.SELECT,
             });
