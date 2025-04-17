@@ -44,7 +44,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     } else if (type === "EOCExceeded" || type ==="EOCExceededVessel") {
       stattitle = `EOC Exceeded ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "SignOnPending" || type ==="SignOnPendingVessel") {
-      stattitle = `EOC Exceeded ${vesselName!==""?`- (${vesselName})`:''}`;
+      stattitle = `SignOn Pending ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "ContractExtension" || type ==="ContractExtensionVessel") {
       stattitle = `Contract Extension ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "SignOffDG" || type ==="SignOffDGVessel") {

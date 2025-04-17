@@ -20,6 +20,13 @@ document.getElementById("rank-form").addEventListener("submit", async (e) => {
       },
       { headers: { Authorization: token } }
     );
+
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text:"New Rank created successfully!",
+    });
+
     console.log("Response:", serverResponse.data);
   } catch (error) {
     console.error("Error:", error);
