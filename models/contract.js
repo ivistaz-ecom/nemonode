@@ -156,7 +156,11 @@ const Contract = sequelize.define('Contract', {
     },
     contractExtensionDays:{
         type:DataTypes.STRING
-    }
+    },
+    contractCreatedOn: {
+        type: DataTypes.DATE,
+        allowNull: false,  
+    },
     
     // candidate = models.ForeignKey(Candidate,models.CASCADE,null=True)
 }, {

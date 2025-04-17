@@ -1146,6 +1146,7 @@ const add_contractdetails = async (req, res) => {
             cdc_passport:cdc_passport,
             contractExtension:contractExtension,
             contractExtensionDays:contractExtensionDays,
+            contractCreatedOn:new Date(),
         });
 
     
