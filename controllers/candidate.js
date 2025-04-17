@@ -1111,7 +1111,7 @@ const add_contractdetails = async (req, res) => {
             wages,
             currency,
             wages_types:wagesType,
-            sign_off:(sign_off!=="")?sign_off:null,
+            sign_off:(signOff!=="")?signOff:null,
             sign_off_dg:(signOff_dg!=="")?signOff_dg:null,
             sign_off_port:signOffPort,
             reason_for_sign_off:reasonForSignOff,
