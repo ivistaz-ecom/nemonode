@@ -2689,7 +2689,7 @@ const proposals = async (req, res) => {
             endDate: endDate || null,
             category: category || null,
         };
-        console.log(query, 'queryqueryquery');
+        console.log(query,replacements, 'queryqueryquery');
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
             replacements,
