@@ -1013,6 +1013,10 @@ const view_port = async (req, res) => {
       { email: "praba9717@gmail.com" },
     ];
     const emailToday = 'Today';
+    const sender = {
+                email: "nautilusshipping@gmail.com",
+                name: "Nautilusshipping",
+              };
     const response = await tranEmailApi.sendTransacEmail({
       sender,
       to: recipients,
