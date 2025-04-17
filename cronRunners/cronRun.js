@@ -8,8 +8,8 @@ const XLSX = require('xlsx');
 
 module.exports = {
   runCron: async function () {
-    cron.schedule("*/1 * * * *", async function () { 
-    /* cron.schedule("0 1 * * *", async function () { */
+    //cron.schedule("*/1 * * * *", async function () { 
+    cron.schedule("0 1 * * *", async function () {
       try {
         const todaydate = new Date();
         let date = todaydate.getDate();
@@ -34,7 +34,7 @@ module.exports = {
 
         🎂 Employee Birthday List:<br/>
        <table border="1" cellpadding="5" cellspacing="0">
-                <tr><td><b>Candidate ID</b></td><td><b>Name</b></td><td><b>Rank</b></td><td><b>Date Of Birth</b></td><td><b>Phone</b></td><td><b>Email</b></td><td>Onboard<td></tr>
+                <tr><td><b>Candidate ID</b></td><td><b>Name</b></td><td><b>Rank</b></td><td><b>Date Of Birth</b></td><td><b>Phone</b></td><td><b>Email</b></td><td>Onboard</td></tr>
         `;
         let exportDatas = [];
         await Promise.all(existingCandidate.map(async (item) => {
@@ -67,9 +67,9 @@ module.exports = {
 
           const recipients = [
             { email: "praba9717@gmail.com" },
-           /*  { email: "crewing@nautilusshipping.com" },
+            { email: "crewing@nautilusshipping.com" },
             { email: "ajay@nautilusshipping.com" },
-            { email: "Divakar@nautilusshipping.com" }, */
+            { email: "Divakar@nautilusshipping.com" },
           ];
           console.log(recipients, "recipientssss");
 
