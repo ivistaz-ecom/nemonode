@@ -5268,7 +5268,7 @@ const getStatsList = async (req, res) => {
             if(todayDate<=9) {
                 todayDate = `0${todayDate}`;
             }
-            let todayMonth = parent(today__.getMonth()) + 1;
+            let todayMonth = parseInt(today__.getMonth()) + 1;
             if(todayMonth<=9) {
                 todayMonth = `0${todayMonth}`;
             }
@@ -5293,7 +5293,7 @@ const getStatsList = async (req, res) => {
             if(todayDate<=9) {
                 todayDate = `0${todayDate}`;
             }
-            let todayMonth = parent(today__.getMonth()) + 1;
+            let todayMonth = parseInt(today__.getMonth()) + 1;
             if(todayMonth<=9) {
                 todayMonth = `0${todayMonth}`;
             }
