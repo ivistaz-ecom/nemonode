@@ -1005,7 +1005,7 @@ const view_port = async (req, res) => {
     const client = Sib.ApiClient.instance;
     const apiKey = client.authentications["api-key"];
     apiKey.apiKey = process.env.BREVO_API_KEY; // Ensure this environment variable is set
-
+    console.log(process.env.BREVO_API_KEY, 'process.env.BREVO_API_KEY')
     const tranEmailApi = new Sib.TransactionalEmailsApi();
 
     const htmlContent = 'This is test message';
