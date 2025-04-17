@@ -4305,6 +4305,23 @@ const getEOCExceededCount = async (req, res) => {
     }
 };
 
+const getSignOnPending = async (req, res) => {
+    try {
+       const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE  sign_on IS NULL OR sign_on='1970-01-01'";
+       console.log(query, 'queryqueryqueryqueryquery')
+        const candidatesCount = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        const totalCount = (candidatesCount.length>0)?candidatesCount[0].count : 0;
+        res.status(200).json({ count: totalCount, success: true });
+    } catch (error) {
+        console.error('Error fetching count of contracts by sign_off date for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
+
 
 
 const hoverDiscussions =async (req, res) => {
@@ -5564,6 +5581,7 @@ module.exports = {
    getContractSignOffDGCount,
    getcontractExtensionCount,
    getEOCExceededCount,
+   getSignOnPending,
    getContractsCountBySignOffDateForOneDay,
    searchCandidates,
    getContractsDueForSignOff,

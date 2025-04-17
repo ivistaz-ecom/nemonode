@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     signOffDGailycount();
     contractextensioncount();
     ecoexceededcount();
+    signOnPending();
 
     async function fetchData(days) {
         const selectUser = document.getElementById("userList").value;
@@ -565,6 +566,15 @@ async function ecoexceededcount() {
   ecoexceededContainer.textContent = ecoexceededData;
 }
 
+async function signOnPending() {
+  const response = await axios.get(
+    `${config.APIURL}candidate/signonpendingcount`
+  );
+  const SignOnPending = document.getElementById("SignOnPending"); // Use a different variable name
+  SignOnPending.innerHTML = ""; // Clear previous content
+  const SignOnPendingData = response.data.count;
+  SignOnPending.textContent = SignOnPendingData;
+}
 
 
 async function fetchDatas() {
