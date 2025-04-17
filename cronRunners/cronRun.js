@@ -34,7 +34,7 @@ module.exports = {
 
         🎂 Employee Birthday List:<br/>
        <table border="1" cellpadding="5" cellspacing="0">
-                <tr><td><b>Candidate ID</b></td><td><b>Name</b></td><td><b>Rank</b></td><td><b>Date Of Birth</b></td><td><b>Phone</b></td><td><b>Email</b></td><td>Onboard</td></tr>
+                <tr><td><b>Candidate ID</b></td><td><b>Name</b></td><td><b>Rank</b></td><td><b>Date Of Birth</b></td><td><b>Phone</b></td><td><b>Email</b></td><td><b>Onboard</b></td></tr>
         `;
         let exportDatas = [];
         await Promise.all(existingCandidate.map(async (item) => {
