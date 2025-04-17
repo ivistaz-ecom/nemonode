@@ -43,6 +43,8 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       } days Due for Renewal`;
     } else if (type === "EOCExceeded" || type ==="EOCExceededVessel") {
       stattitle = `EOC Exceeded ${vesselName!==""?`- (${vesselName})`:''}`;
+    } else if (type === "SignOnPending" || type ==="SignOnPendingVessel") {
+      stattitle = `EOC Exceeded ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "ContractExtension" || type ==="ContractExtensionVessel") {
       stattitle = `Contract Extension ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "SignOffDG" || type ==="SignOffDGVessel") {
@@ -81,7 +83,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     if (intitalLoad === true) {
       const row = document.createElement("tr");
       var tblheader = ["Sno", ];
-      if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type === "SignOnDG" || type ==='OnBoard') {
+      if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type === "SignOnDG" || type ==='OnBoard' || type==='SignOnPending') {
         tblheader.push("Vessel Name", "Total Contract");
       }else {
         tblheader.push("Candidate ID", "Name", "Rank");
@@ -113,7 +115,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         type === "SignOn" ||
           type === "OnBoardVessel" ||
           type === "DueforSignOff" || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel"
-          || type ==="SignOnDGVessel") {
+          || type ==="SignOnDGVessel" || type==='SignOnPendingVessel') {
         tblheader.push(
           "Sign On",
           "Sign On Port",
@@ -188,7 +190,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         cell_.textContent = sno;
         row.appendChild(cell_);
         const fieldsToDisplay = [];
-        if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard') {
+        if (type === "EOCExceeded" || type==="ContractExtension" || type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard' || type==='SignOnPending') {
           fieldsToDisplay.push("vesselName", "totalContract")
         }else {
           fieldsToDisplay.push("candidateId", "name", "c_rank")
@@ -220,7 +222,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
           type === "SignOff" ||
           type === "SignOn" ||
             type === "OnBoardVessel" ||
-            type === "DueforSignOff"  || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel" || type ==="SignOnDGVessel"
+            type === "DueforSignOff"  || type === "EOCExceededVessel" || type==="ContractExtensionVessel" || type ==="SignOffDGVessel" || type ==="SignOnDGVessel" || type==='SignOnPendingVessel'
         ) {
           fieldsToDisplay.push(
             "sign_on",
@@ -267,7 +269,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
             field === "eoc"
           ) {
             cell.textContent = `${showDateFormat(result[field])}`;
-          }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard') {
+          }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard' || type==='SignOnPending') {
             if (field === "vesselName") {
               const link = document.createElement("a");
               link.href = `./daily-stats.html?type=${type}Vessel&vessleID=${result['vslName']}&vesselName=${result['vesselName']}&days=1`;

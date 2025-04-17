@@ -5321,6 +5321,23 @@ const getStatsList = async (req, res) => {
             if(page===1) {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE ((a.sign_off IS NULL OR a.sign_off = '1970-01-01') AND (a.eoc IS NOT NULL AND a.eoc != '1970-01-01' AND a.eoc < '${dateValue}'))  AND a.sign_on >= '2024-01-01' ${where}`;
             }
+        }else if(type==='SignOnPending') {
+            if(searchKeywords!=="") {
+                where = ` AND c.vesselName LIKE '%${searchKeywords}%'`;
+            }
+            query = `SELECT c.vesselName, a.vslName, COUNT(a.id) AS totalContract FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE sign_on IS NULL OR sign_on='1970-01-01'  ${where} GROUP BY a.vslName ORDER BY c.vesselName ASC LIMIT ${offset}, ${limit}`;
+
+            if(page===1) {
+                countquery = `SELECT COUNT(*) AS total FROM contract a  INNER JOIN Candidates AS b ON a.candidateId = b.candidateId INNER JOIN vsls AS c ON a.vslName=c.id WHERE sign_on IS NULL OR sign_on='1970-01-01'  ${where} GROUP BY a.vslName`;
+            }
+        }else if(type==='SignOnPendingVessel') {          
+            if(vessleID!=="") {                
+                where+=`AND vslName=${vessleID}`;   
+            }
+            query = `SELECT  b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1, a.sign_on, a.sign_on_port, a.wages, a.wages_types, a.sign_off, a.sign_off_port, a.reason_for_sign_off, a.aoa_number, a.eoc, c.company_name, d.portName, e.portName AS signOffPort FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id  WHERE  sign_on IS NULL OR sign_on='1970-01-01' ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE sign_on IS NULL OR sign_on='1970-01-01' ${where}`;
+            }
         }else if(type==='ContractExtension') {
             if(searchKeywords!=="") {
                 where = ` AND (c.vesselName LIKE '%${searchKeywords}%'`;
