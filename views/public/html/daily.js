@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             signoffdailycount(days);
             dueforrenewal(days);
             getUserStats(days);
+            rankWiseConnect(days)
             const response = await axios.get(
             `${config.APIURL}candidate/signups?days=${days}`
             );
@@ -576,6 +577,17 @@ async function signOnPending() {
   SignOnPending.textContent = SignOnPendingData;
 }
 
+async function rankWiseConnect(days) {
+  try {
+    const response = await axios.get(
+      `${config.APIURL}candidate/rankwisecallsmade?days=${days}`    
+    );
+    loadRankWiseChart(response.data.result, days);    
+  } catch (error) {
+    loadRankWiseChart([], days);
+    console.error("Error fetching discussion data:", error);
+  } 
+}
 
 async function fetchDatas() {
   try {
@@ -663,3 +675,325 @@ function gotoStats(type) {
     '_blank' // <- This is what makes it open in a new window.
   );
 }
+
+/* Load Rank Wise Discussion*/ 
+
+function loadRankWiseChart(callsList, days) {
+  let dayDisply = 'Today';
+  if(days===2) {
+    dayDisply = 'Yesterday';
+  }else if(days===7) {
+    dayDisply = 'Last 7 Days';
+  } else if(days===30) {
+    dayDisply = 'Lst 30 Days';
+  }
+  const ranks = callsList.map(item => item.discussionranks);
+  document.getElementById("rankWiseDiscussion").style.height = `${parseInt(100*ranks.length) + 100}px`;
+  const totalCalls = callsList.map(item => parseInt(item.totalCalls));
+  const yesCount = callsList.map(item => parseInt(item.yesCount));
+  const noCount = callsList.map(item => parseInt(item.noCount));
+  Highcharts.chart('rankWiseDiscussion', {
+    chart: {
+        type: 'bar' // 👈 horizontal bars
+    },
+    title: {
+      text: `Rank Wise Calls Made - ${dayDisply}`,
+    },
+    xAxis: {
+        categories: ranks,
+        title: {
+            text: null
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count',
+            align: 'high'
+        },
+        labels: {
+            overflow: 'justify',
+            fontSize:20
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                fontSize:20
+            }
+        }
+    },
+    tooltip: {
+        formatter: function () {
+            return `<b>${this.x}</b><br/>${this.series.name}: ${this.y}<br/>Total: ${this.point.stackTotal}`;
+        }
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                fontSize:20
+            }
+        }
+    },
+    legend: {
+        reversed: true,
+    },
+    series: [{
+        name: 'Connected',
+        color:'#008000',
+        data: yesCount
+    }, {
+        name: 'Not Connected',
+        color:'#C4A484',
+        data: noCount
+    }]
+  });
+}
+
+
+/* 
+
+const startYear = 1960,
+    endYear = 2022,
+    nbr = 20;
+
+let dataset, chart;
+
+
+(function (H) {
+    const FLOAT = /^-?\d+\.?\d*$/;
+
+    // Add animated textSetter, just like fill/strokeSetters
+    H.Fx.prototype.textSetter = function () {
+        const chart = H.charts[this.elem.renderer.chartIndex];
+
+        let thousandsSep = chart.numberFormatter('1000.0')[1];
+
+        if (/[0-9]/.test(thousandsSep)) {
+            thousandsSep = ' ';
+        }
+
+        const replaceRegEx = new RegExp(thousandsSep, 'g');
+
+        let startValue = this.start.replace(replaceRegEx, ''),
+            endValue = this.end.replace(replaceRegEx, ''),
+            currentValue = this.end.replace(replaceRegEx, '');
+
+        if ((startValue || '').match(FLOAT)) {
+            startValue = parseInt(startValue, 10);
+            endValue = parseInt(endValue, 10);
+
+            // No support for float
+            currentValue = chart.numberFormatter(
+                Math.round(startValue + (endValue - startValue) * this.pos),
+                0
+            );
+        }
+
+        this.elem.endText = this.end;
+
+        this.elem.attr(this.prop, currentValue, null, true);
+    };
+
+    // Add textGetter, not supported at all at this moment:
+    H.SVGElement.prototype.textGetter = function () {
+        const ct = this.text.element.textContent || '';
+        return this.endText ? this.endText : ct.substring(0, ct.length / 2);
+    };
+
+    // Temporary change label.attr() with label.animate():
+    // In core it's simple change attr(...) => animate(...) for text prop
+    H.wrap(H.Series.prototype, 'drawDataLabels', function (proceed) {
+        const attr = H.SVGElement.prototype.attr,
+            chart = this.chart;
+
+        if (chart.sequenceTimer) {
+            this.points.forEach(point =>
+                (point.dataLabels || []).forEach(
+                    label =>
+                        (label.attr = function (hash) {
+                            if (
+                                hash &&
+                                hash.text !== undefined &&
+                                chart.isResizing === 0
+                            ) {
+                                const text = hash.text;
+
+                                delete hash.text;
+
+                                return this
+                                    .attr(hash)
+                                    .animate({ text });
+                            }
+                            return attr.apply(this, arguments);
+
+                        })
+                )
+            );
+        }
+
+        const ret = proceed.apply(
+            this,
+            Array.prototype.slice.call(arguments, 1)
+        );
+
+        this.points.forEach(p =>
+            (p.dataLabels || []).forEach(d => (d.attr = attr))
+        );
+
+        return ret;
+    });
+}(Highcharts));
+
+function getData(year) {
+    const output = Object.entries(dataset)
+        .map(country => {
+            const [countryName, countryData] = country;
+            return [countryName, Number(countryData[year])];
+        })
+        .sort((a, b) => b[1] - a[1]);
+    return [output[0], output.slice(1, nbr)];
+}
+
+function getSubtitle() {
+   
+    return `
+        <span style="font-size: 22px">
+            Total:  billion
+        </span>`;
+}
+
+(async () => {
+
+    dataset = await fetch(
+        'https://demo-live-data.highcharts.com/population.json'
+    ).then(response => response.json());
+
+
+    chart = Highcharts.chart('avilablityCandidate', {
+        chart: {
+            animation: {
+                duration: 500
+            },
+            marginRight: 50
+        },
+        title: {
+            text: 'World population by country',
+            align: 'left'
+        },
+        subtitle: {
+            text: getSubtitle(),
+            floating: true,
+            align: 'right',
+            verticalAlign: 'middle',
+            useHTML: true,
+            y: -80,
+            x: -100
+        },
+
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            opposite: true,
+            tickPixelInterval: 150,
+            title: {
+                text: null
+            }
+        },
+        plotOptions: {
+            series: {
+                animation: false,
+                groupPadding: 0,
+                pointPadding: 0.1,
+                borderWidth: 0,
+                colorByPoint: true,
+                dataSorting: {
+                    enabled: true,
+                    matchByName: true
+                },
+                type: 'bar',
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        series: [
+            {
+                type: 'bar',
+                name: startYear,
+                data: getData(startYear)[1]
+            }
+        ],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 550
+                },
+                chartOptions: {
+                    xAxis: {
+                        visible: false
+                    },
+                    subtitle: {
+                        x: 0
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: [{
+                                enabled: true,
+                                y: 8
+                            }, {
+                                enabled: true,
+                                format: '{point.name}',
+                                y: -8,
+                                style: {
+                                    fontWeight: 'normal',
+                                    opacity: 0.7
+                                }
+                            }]
+                        }
+                    }
+                }
+            }]
+        }
+    });
+})();
+
+
+function update(increment) {
+    if (increment) {
+        input.value = parseInt(input.value, 10) + increment;
+    }
+    if (input.value >= endYear) {
+        // Auto-pause
+        pause(btn);
+    }
+
+    chart.update(
+        {
+            subtitle: {
+                text: getSubtitle()
+            }
+        },
+        false,
+        false,
+        false
+    );
+
+    chart.series[0].update({
+        name: input.value,
+        data: getData(input.value)[1]
+    });
+} */
+
+
+
+
+
+
+

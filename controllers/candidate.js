@@ -1205,6 +1205,12 @@ const add_discussionplusdetails = async (req, res) => {
         // Ensure default values for optional fields
         const discussionStatus = discussion || null;
         const validCompanyName = companyname || null; // Handle null or empty string
+        const candidateDetails = await Candidate.findOne({ where: { candidateId: candidateId } });
+        let rankName = '';
+        if (candidateDetails) {
+            const plainCandidate = await candidateDetails.get({ plain: true });
+            rankName = plainCandidate?.c_rank ?? '';
+        }
 
         // Create a new discussion entry in the database
         const newDiscussion = await Discussion.create({
@@ -1216,7 +1222,9 @@ const add_discussionplusdetails = async (req, res) => {
             reminder: reminder || false,
             r_date: r_date || null,
             created_date: created_date || new Date(),
-            candidateId: candidateId // Assuming candidateId is a field in your discussion table
+            candidateId: candidateId, // Assuming candidateId is a field in your discussion table
+            discussionranks:rankName,
+            discussionconnected:discussionconnected ?? ''
         });
 
         res.status(201).json(newDiscussion);
@@ -2680,7 +2688,6 @@ const proposals = async (req, res) => {
         if (conditions.length > 0) {
             query += ` WHERE ${conditions.join(' AND ')}`;
         }
-        
 
         // Build the replacements object
         const replacements = {
@@ -2690,7 +2697,7 @@ const proposals = async (req, res) => {
             endDate: endDate || null,
             category: category || null,
         };
-        console.log(query,replacements, 'queryqueryquery');
+
         // Run the raw SQL query using sequelize.query
         const results = await sequelize.query(query, {
             replacements,
@@ -4294,12 +4301,48 @@ const getEOCExceededCount = async (req, res) => {
         let todayYear = today.getFullYear();
         const dateValue = `${todayYear}-${todayMonth}-${todayDate}`;
        const query = "SELECT count(`Candidate`.`candidateId`) AS `count` FROM `Candidates` AS `Candidate` INNER JOIN `contract` AS `Contracts` ON `Candidate`.`candidateId` = `Contracts`.`candidateId` WHERE ((`Contracts`.`sign_off` IS NULL OR `Contracts`.`sign_off` = '1970-01-01') AND (`Contracts`.`eoc` IS NOT NULL AND `Contracts`.`eoc` != '1970-01-01' AND `Contracts`.`eoc` > '"+dateValue+"')) AND sign_on >= '2024-01-01'";
-       console.log(query, 'queryqueryqueryqueryquery')
         const candidatesCount = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
         const totalCount = (candidatesCount.length>0)?candidatesCount[0].count : 0;
         res.status(200).json({ count: totalCount, success: true });
+    } catch (error) {
+        console.error('Error fetching count of contracts by sign_off date for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+const getRankWiseCallsMadeCount = async (req, res) => {
+    try {
+
+        const { days } = req.query;
+        
+        // Calculate the date range
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+        if(parseInt(days)===2) {
+            startDate.setDate(startDate.getDate() - 1);
+        }else if(parseInt(days)===7) {
+            startDate.setDate(startDate.getDate() - 6);
+        }else if(parseInt(days)===30) {
+            startDate.setDate(startDate.getDate() - 29);
+        }
+        startDate = startDate.toISOString().slice(0, 19).replace('T', ' ');
+        
+        let endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 0);
+        endDate = endDate.toISOString().slice(0, 19).replace('T', ' ');
+
+        const query = `SELECT 
+            discussionranks, SUM(CASE WHEN discussionconnected IN ('Yes', 'No') THEN 1 ELSE 0 END) AS totalCalls,
+            SUM(CASE WHEN discussionconnected = 'Yes' THEN 1 ELSE 0 END) AS "yesCount",
+            SUM(CASE WHEN discussionconnected = 'No' THEN 1 ELSE 0 END) AS "noCount"
+            FROM discussion  where discussionranks IS NOT NULL AND created_date>='${startDate}' AND created_date<='${endDate}'
+            GROUP BY discussionranks`;
+        const disscussionList = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        res.status(200).json({ result: disscussionList, success: true });
     } catch (error) {
         console.error('Error fetching count of contracts by sign_off date for one day:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
@@ -4320,10 +4363,6 @@ const getSignOnPending = async (req, res) => {
         res.status(500).json({ error: 'Internal server error', success: false });
     }
 };
-
-
-
-
 
 const hoverDiscussions =async (req, res) => {
     try {
@@ -5249,6 +5288,7 @@ const getStatsList = async (req, res) => {
                 LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
                 WHERE a.sign_on <= '${startDate_}' AND (a.sign_off > '${startDate_}' OR a.sign_off = '1970-01-01') ${where} GROUP BY a.vslName`;
               }
+
         }else if(type==='OnBoardVessel') {
             if(vessleID!=="") {                
                 where+=`AND vslName=${vessleID}`;   
@@ -5393,7 +5433,6 @@ const getStatsList = async (req, res) => {
         }
 
         if(query!=="") {
-            console.log(query, 'queryqueryquery')
             listData = await sequelize.query(query, {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
                 type: sequelize.QueryTypes.SELECT
@@ -5600,6 +5639,7 @@ module.exports = {
    getContractSignOffDGCount,
    getcontractExtensionCount,
    getEOCExceededCount,
+   getRankWiseCallsMadeCount,
    getSignOnPending,
    getContractsCountBySignOffDateForOneDay,
    searchCandidates,

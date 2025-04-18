@@ -37,7 +37,16 @@ const Discussion = sequelize.define('discussion', {
     created_date: {
         type: DataTypes.DATE,
         allowNull: true,
+    },
+    discussionranks: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    discussionconnected: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
+    
 }, {
     tableName: 'discussion',
     timestamps: false,

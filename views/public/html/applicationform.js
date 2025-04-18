@@ -334,7 +334,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_typeofvessel = seaExp.vesselType;
               exp_Position = seaExp.rank;
               reason_for_sign_off = seaExp?.reason_for_sign_off || '';
-              exp_company = (companyName!=="")?companyName_[1]=="Yes"?'Nautilus':companyName_[0]:'';
+              exp_company = (companyName!=="")?companyName_[1]=="Yes"?'Nautilus Shipping':companyName_[0]:'';
               experienceID = seaExp.id;
               var  totalMMDD = calculateTotalMonth(exp_from, exp_to);
               if(totalMMDD!=="") {

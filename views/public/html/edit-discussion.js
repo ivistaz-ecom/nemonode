@@ -23,7 +23,7 @@ document.getElementById('discussionForm').addEventListener('submit', async funct
     console.log(formData)
     try {
         // Send form data to the backend using Axios
-        const response = await axios.put(`https://nsnemo.com/candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
+        const response = await axios.put(`${config.APIURL}candidate/update-candidate/${currentCandidateId}`, formData, { headers: { "Authorization": token } });
         console.log("Response:", response.data);
         alert('successfully updated!')
         // Handle the response as needed
@@ -139,6 +139,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
     // Fetch basic comments value
     let basicCommentsValue = document.getElementById('basic_comments').value;
+    let discussionconnected = document.getElementById('discussionconnected').value;
     
     // Get the selected status
     let status;
@@ -174,7 +175,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 
         // Update basic comments value in candidate table
         try {
-            await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
+            await axios.put(`${config.APIURL}candidate/update-candidates/${currentCandidateId}`, { basicCommentsValue }, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         
         // Update reference check text value in candidate table
         try {
-            await axios.put(`https://nsnemo.com/candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
+            await axios.put(`${config.APIURL}candidate/update-candidates/${currentCandidateId}`, { referenceCheckText }, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json',
@@ -221,6 +222,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
         r_date: r_date || null,
         reminder: document.getElementById('set_reminder_checkbox').checked,
         companyname: companyName,
+        discussionconnected:discussionconnected,
         reason: reason,
         join_date: null, // Ensure this is handled correctly on the server side if necessary
         created_date: new Date(),
@@ -239,7 +241,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
     }
 
     try {
-        const response = await axios.post(`https://nsnemo.com/candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
+        const response = await axios.post(`${config.APIURL}candidate/discussion-plus-detail/${currentCandidateId}`, discussionPlusData, {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -262,7 +264,7 @@ document.getElementById('discussionPlusForm').addEventListener('submit', async f
 async function fetchAndDisplayDiscussions(candidateId) {
     try {
         const token = localStorage.getItem('token');
-        const serverResponse = await axios.get(`https://nsnemo.com/candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`${config.APIURL}candidate/get-discussionplus-details/${candidateId}`, { headers: { "Authorization": token } });
         let discussions = serverResponse.data.discussions;
 
         // Sort discussions by created_date in descending order
@@ -277,7 +279,7 @@ async function fetchAndDisplayDiscussions(candidateId) {
             discussionElement.classList.add('discussion'); // Add CSS class for styling
             
             // Fetch username based on user ID (post_by value)
-            const usernameResponse = await axios.get(`https://nsnemo.com/user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
+            const usernameResponse = await axios.get(`${config.APIURL}user/get-user/${discussion.post_by}`, { headers: { "Authorization": token } });
             const username = usernameResponse.data.user.userName;
 
             // Format the created date
@@ -319,7 +321,7 @@ document.getElementById("logout").addEventListener("click", function() {
     // Send request to update logged status to false
     const userId = localStorage.getItem('userId');
     if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
+      axios.put(`${config.APIURL}user/${userId}/logout`)
         .then(response => {
           console.log('Logged out successfully');
         })
@@ -374,7 +376,7 @@ const displayDropdown = async function () {
     defaultOption.text = '-- Select Rank --';
     rankDropdown.appendChild(defaultOption);
 
-    const rankResponse = await axios.get("https://nsnemo.com/others/get-ranks", { headers: { "Authorization": token } });
+    const rankResponse = await axios.get(`${config.APIURL}others/get-ranks`, { headers: { "Authorization": token } });
     const rankOptions = rankResponse.data.ranks;
     const rankNames = rankOptions.map(rank => rank.rank);
 
@@ -388,7 +390,7 @@ const displayDropdown = async function () {
 
 async function fetchAndDisplayVessels() {
     try {
-        const serverResponse = await axios.get("https://nsnemo.com/others/get-vessel", { headers: { "Authorization": token } });
+        const serverResponse = await axios.get(`${config.APIURL}others/get-vessel`, { headers: { "Authorization": token } });
         const vessels = serverResponse.data.vessels;
 
         // Get the select element
@@ -417,7 +419,7 @@ async function fetchAndDisplayVessels() {
 }
 async function fetchAndDisplayCompanies() {
     try {
-        const companyResponse = await axios.get("https://nsnemo.com/company/dropdown-company", { headers: { "Authorization": token } });
+        const companyResponse = await axios.get(`${config.APIURL}company/dropdown-company`, { headers: { "Authorization": token } });
         const companyOptions = companyResponse.data.companies; // Corrected property name
         const companyDropdown = document.getElementById('company_name');
         companyDropdown.innerHTML = ''; // Clear existing options
@@ -576,7 +578,7 @@ const proposedCheckbox = document.getElementById('proposed');
     
     
    async function fetchAndDisplayCandidateDetails(candidateId){
-        const response = await axios.get(`https://nsnemo.com/candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
+        const response = await axios.get(`${config.APIURL}candidate/get-candidate/${candidateId}`,{headers:{"Authorization":token}})
         console.log('Candidate:',response)
 
         document.getElementById('avb_date').value = response.data.candidate.avb_date;
