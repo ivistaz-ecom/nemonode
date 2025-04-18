@@ -38,6 +38,10 @@ const Company = sequelize.define("company", {
         type:Sequelize.STRING,
         allowNull:false,
     },
+    rpsl:{
+        type:Sequelize.STRING,
+        allowNull:true,
+    },
     last_update:{
         type:Sequelize.DATE,
         allowNull:false

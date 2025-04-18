@@ -99,6 +99,7 @@
       rel="stylesheet"
       href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"
     />
+    <link rel="stylesheet" href="../assets/sweetalert/sweetalert2.min.css" />
 
     <!-- Page CSS -->
 
@@ -183,6 +184,7 @@
                               id="fms"
                               name="business_type"
                               value="FMS"
+                              checked="true"
                             />
                             <label class="form-check-label" for="fms"
                               >FMS</label
@@ -291,23 +293,22 @@
                           </select>
                         </div>
                       </div>
-
                       <div class="mb-3 row">
                         <label
-                          for="company_last_update"
                           class="col-md-2 col-form-label"
-                          >Last Update</label
+                          >RPSL</label
                         >
                         <div class="col-md-10">
+                        <div class="form-check form-check-inline">
                           <input
-                            type="date"
-                            class="form-control"
-                            id="company_last_update"
-                            required
+                            class="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="rpsl"
                           />
                         </div>
                       </div>
-
+                      </div>
                       <div class="row">
                         <div class="text-end">
                           <button type="submit" class="btn btn-primary">
@@ -411,5 +412,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="../assets/sweetalert/sweetalert2.min.js"></script>
   </body>
 </html>

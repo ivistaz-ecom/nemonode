@@ -1,13 +1,4 @@
 // Get the token from localStorage
-const token = localStorage.getItem('token');
-
-// Check if the token is not present
-if (!token) {
-  // Redirect to the login page
-
-  window.location.href = './loginpage.html';
-}
-
 
 window.onload = async function () {
 
@@ -22,7 +13,7 @@ window.onload = async function () {
     const address = queryParams.get('address');
     const management = queryParams.get('management');
     const phone = queryParams.get('phone');
-    const lastUpdate = queryParams.get('last_update');
+    const rpsl = queryParams.get('rpsl');
 
     // Set values into the input fields
     document.getElementById("u_company_id").value = companyId;
@@ -36,7 +27,7 @@ window.onload = async function () {
     document.getElementById("u_company_address").value = address;
     document.getElementById("u_company_management").value = management;
     document.getElementById("u_company_phone").value = phone;
-    document.getElementById("u_company_last_update").value = lastUpdate;
+    document.getElementById("rpsl").checked = (rpsl==="Yes")?true:false;
 };
 
 
@@ -47,7 +38,7 @@ updateCompanyButton.addEventListener("submit", async (e) => {
     
     const selectedBusinessType = document.querySelector('input[name="u_business_type"]:checked');
     const businessType = selectedBusinessType ? selectedBusinessType.value : null;
-
+    const rpsl = document.getElementById("rpsl")
     const updatedCompanyDetails = {
         company_id: companyId,
         c_name: document.getElementById("u_company_name").value,
@@ -57,79 +48,18 @@ updateCompanyButton.addEventListener("submit", async (e) => {
         c_addr: document.getElementById("u_company_address").value,
         c_mgmt: document.getElementById("u_company_management").value,
         c_ph: document.getElementById("u_company_phone").value,
-        c_last_update: document.getElementById("u_company_last_update").value,
+        rpsl: (rpsl.checked===true)?'Yes':'No',
     };
 
     try {
-        const response = await axios.put(`https://nsnemo.com/company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
+        const response = await axios.put(`${config.APIURL}company/update-company/${companyId}`, updatedCompanyDetails, { headers: { "Authorization": token } });
         console.log('Response:', response.data);
-        alert("Company Updated Successfully!");
-        window.location.href='./view-company.html'
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text:"Customers Updated Successfully!",
+        });
     } catch (error) {
         console.error('Error:', error);
     }
 });
-
-
-
-
-
-
-
-document.getElementById("logout").addEventListener("click", function() {
-    // Display the modal with initial message
-    var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    myModal.show();
-    
-    // Send request to update logged status to false
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      axios.put(`https://nsnemo.com/user/${userId}/logout`)
-        .then(response => {
-          console.log('Logged out successfully');
-        })
-        .catch(error => {
-          console.error('Error logging out:', error);
-        });
-    } else {
-      console.error('User ID not found in localStorage');
-    }
-  
-    localStorage.clear();
-    
-    // Change the message and spinner after a delay
-    setTimeout(function() {
-        document.getElementById("logoutMessage").textContent = "Shutting down all sessions...";
-    }, 1000);
-  
-    // Redirect after another delay
-    setTimeout(function() {
-        window.location.href = "loginpage.html";
-    }, 2000);
-  });
-  
-
-
-
-function updateDateTime() {
-    const dateTimeElement = document.getElementById('datetime');
-    const now = new Date();
-
-    const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-        month: 'short',
-        day: 'numeric',
-        ordinal: 'numeric',
-    };
-
-    const dateTimeString = now.toLocaleString('en-US', options);
-
-    dateTimeElement.textContent = dateTimeString;
-}
-
-// Update date and time initially and every second
-updateDateTime();
-setInterval(updateDateTime, 1000);

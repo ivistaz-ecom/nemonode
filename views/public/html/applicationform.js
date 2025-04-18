@@ -158,7 +158,7 @@ async function fetchAndDisplaySeaService(candidateId) {
       );
      
       companyResponse.data.companies.forEach((company) => {
-        companies[company.company_id] = company.company_name;
+        companies[company.company_id] = `${company.company_name}-${company.rpsl}`;
       });
 
       const portsResponse = await axios.get(`${config.APIURL}others/get-ports`, {
@@ -320,7 +320,8 @@ async function fetchAndDisplaySeaService(candidateId) {
           if(seaExp!=="") {
             if(seaExp.sign_off!=="" && seaExp.sign_off!==null && seaExp.sign_off!=='1970-01-01') {
               
-              const companyName = companies[seaExp.company];
+              const companyName = companies[seaExp.company] ?? '';
+              const companyName_ = (companyName!=="")?companyName.split('-'):'';
               const vesselName = vessels[seaExp.vslName];
               exp_from = (seaExp.sign_on!=="" && seaExp.sign_on!==null && seaExp.sign_on!=='1970-01-01')?seaExp.sign_on:'';
               exp_to = (seaExp.sign_off!=="" && seaExp.sign_off!==null && seaExp.sign_off!=='1970-01-01')?seaExp.sign_off:'';
@@ -333,7 +334,7 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_typeofvessel = seaExp.vesselType;
               exp_Position = seaExp.rank;
               reason_for_sign_off = seaExp?.reason_for_sign_off || '';
-              exp_company = companyName;
+              exp_company = (companyName!=="")?companyName_[1]=="Yes"?'Nautilus':companyName_[0]:'';
               experienceID = seaExp.id;
               var  totalMMDD = calculateTotalMonth(exp_from, exp_to);
               if(totalMMDD!=="") {

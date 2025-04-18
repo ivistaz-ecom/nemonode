@@ -16,10 +16,10 @@ const add_company = async (req, res) => {
             c_addr,
             c_mgmt,
             c_ph,
-            c_last_update
+            rpsl
         } = req.body;
 
-        if (!validate(c_name) || !validate(b_type) || !validate(c_contact) || !validate(c_email) || !validate(c_addr) || !validate(c_mgmt) || !validate(c_ph) || !validate(c_last_update)) {
+        if (!validate(c_name) || !validate(b_type) || !validate(c_contact) || !validate(c_email) || !validate(c_addr) || !validate(c_mgmt) || !validate(c_ph)) {
             return res.status(400).json({ message: "Bad Parameters", success: false });
         }
 
@@ -51,9 +51,10 @@ const add_company = async (req, res) => {
                 company_name: c_name,
                 contact_person: c_contact,
                 email: c_email,
-                last_update: c_last_update,
+                last_update: new Date(),
                 management: c_mgmt,
                 phone: c_ph,
+                rpsl:rpsl
             });
 
             return res.status(201).json({ message: "Successfully Created New Company!", success: true });
@@ -202,7 +203,7 @@ const update_company = async (req, res) => {
             company.address = req.body.c_addr;
             company.management = req.body.c_mgmt;
             company.phone = req.body.c_ph;
-            company.last_update = req.body.c_last_update;
+            company.rpsl = req.body.rpsl;
 
             // Save the updated company
             await company.save();

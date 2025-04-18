@@ -6,7 +6,7 @@ const company_email = document.getElementById("company_email");
 const company_address = document.getElementById("company_address");
 const company_management = document.getElementById("company_management");
 const company_phone = document.getElementById("company_phone");
-const company_last_update = document.getElementById("company_last_update");
+const rpsl = document.getElementById("rpsl");
 
 const addCompanyButton = document.getElementById("company-form");
 addCompanyButton.addEventListener("submit", async (e) => {
@@ -22,13 +22,16 @@ addCompanyButton.addEventListener("submit", async (e) => {
         c_addr: company_address.value.trim(),
         c_mgmt: company_management.value.trim(),
         c_ph: company_phone.value.trim(),
-        c_last_update: company_last_update.value.trim(),
+        rpsl:(rpsl.checked===true)?"Yes":'No',
     };
     try {
         const serverResponse = await axios.post(`${config.APIURL}company/create-company`, company_details,{headers:{"Authorization":token}});
         console.log('Response:', serverResponse.data);
-        var successToast = new bootstrap.Toast(document.getElementById('successToast'));
-        successToast.show();
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text:"Customers Created Successfully!",
+          });
         
     } catch (error) {
         console.error('Error:', error);
