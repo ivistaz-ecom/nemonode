@@ -3911,14 +3911,14 @@ const sendEmail = async (req, res) => {
                 email: interviewerEmail
             }
         ];
-
-        await tranEmailApi.sendTransacEmail({
+        let sendParam = {
             sender,
             to: receivers,
             subject: 'Evaluation for Nemo Candidate',
             htmlContent: `
                 <h2>Hello!</h2>
-                <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
+                <p>Good day.<br/>
+Sir, you are requested to evaluate a candidate sourced through NEMO. The meeting details for this evaluation are provided below for your necessary arrangements.</p>
                 <h1>Interview Details</h1>
                 <p>Candidate Id: ${candidateId}</p>
                 <p>Candidate Name: ${candidateName}</p>
@@ -3932,14 +3932,15 @@ const sendEmail = async (req, res) => {
                 <p>Thanks and Regards,</p>
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
-            `,
-            attachment:fileContent
-            ? [{
+            `
+        }
+        if(fileContent && fileContent.trim() !== '') {
+            sendParam.attachment =  [{
                 name: fileName,
                 content: fileContent // base64-encoded
-            }]
-            : []
-        });
+            }];
+        }
+        await tranEmailApi.sendTransacEmail(sendParam);
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });
     } catch (err) {
