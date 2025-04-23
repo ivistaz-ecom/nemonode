@@ -3895,7 +3895,7 @@ const sendEmail = async (req, res) => {
                 }
             }
         }
-        console.log(candiateDetails, 'candiateDetailscandiateDetails')
+        console.log(candiateDetails,fileContent, 'candiateDetailscandiateDetails')
 
         // Send email to the interviewer
         const client = Sib.ApiClient.instance;
