@@ -3882,6 +3882,7 @@ const sendEmail = async (req, res) => {
         let candidateName = '';
         if(candiateDetails.length>0) {
             candidateName = candiateDetails[0].name;
+            console.log(candiateDetails[0].resume, 'candiateDetails[0].resume')
             if(candiateDetails[0].resume!=="" && candiateDetails[0].resume!==null) {
             const filePath = path.join(process.cwd(), candiateDetails[0].resume);
             console.log(filePath, 'filePathfilePathfilePath')
