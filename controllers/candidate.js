@@ -3874,7 +3874,7 @@ const sendEmail = async (req, res) => {
         console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
-        const query = `SELECT CONCAT(b.fname,' ',b.lname) AS name FROM Candidates WHERE candidateId='${candidateId}'`
+        const query = `SELECT CONCAT(fname, ' ', lname) AS name FROM Candidates WHERE candidateId='${candidateId}'`
         const candiateDetails = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
@@ -3904,6 +3904,7 @@ const sendEmail = async (req, res) => {
                 <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
                 <h1>Interview Details</h1>
                 <p>Candidate Id: ${candidateId}</p>
+                <p>Candidate Name: ${candidateId}</p>
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
                 <p>Time: ${time}</p>
