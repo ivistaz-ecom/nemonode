@@ -3933,12 +3933,12 @@ const sendEmail = async (req, res) => {
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
             `,
-            attachment:(fileContent!=="")? [
-                {
-                    name: fileName, // File name shown in the email
-                    content: fileContent     // Base64-encoded content
-                }
-            ]:[]
+            attachment:fileContent
+            ? [{
+                name: fileName,
+                content: fileContent // base64-encoded
+            }]
+            : []
         });
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });
