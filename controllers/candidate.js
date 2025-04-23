@@ -21,6 +21,7 @@ const uuid = require('uuid');
 const Sib = require('sib-api-v3-sdk');
 const Company = require('../models/company')
 const fs = require('fs').promises;
+const path = require('path');
 const Payslip = require('../models/payslip')
 const prevExp = require('../models/prevexperience')
 const Country = require('../models/country')
@@ -3874,10 +3875,19 @@ const sendEmail = async (req, res) => {
         console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
-        const query = `SELECT CONCAT(fname, ' ', lname) AS name FROM Candidates WHERE candidateId='${candidateId}'`
+        const query = `SELECT CONCAT(fname, ' ', lname) AS name, resume FROM Candidates WHERE candidateId='${candidateId}'`
         const candiateDetails = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
+        let candidateName = '';
+        if(candiateDetails.length>0) {
+            candidateName = candiateDetails[0].name;
+            if(candiateDetails[0].resume!=="" && candiateDetails[0].resume!==null) {
+            const filePath = path.join(process.cwd(), candiateDetails[0].resume);
+            console.log(filePath, 'filePathfilePathfilePath')
+            //const fileContent = fs.readFileSync(filePath, { encoding: 'base64' });
+            }
+        }
         console.log(candiateDetails, 'candiateDetailscandiateDetails')
 
         // Send email to the interviewer
@@ -3904,7 +3914,7 @@ const sendEmail = async (req, res) => {
                 <p>You have been assigned a meeting with a Nemo candidate. Please plan accordingly. Details for the meeting are provided below:</p>
                 <h1>Interview Details</h1>
                 <p>Candidate Id: ${candidateId}</p>
-                <p>Candidate Name: ${candidateId}</p>
+                <p>Candidate Name: ${candidateName}</p>
                 <p>Applied Rank: ${applied_rank}</p>
                 <p>Applied Date: ${applied_date}</p>
                 <p>Time: ${time}</p>
@@ -3915,7 +3925,13 @@ const sendEmail = async (req, res) => {
                 <p>Thanks and Regards,</p>
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
-            `,
+            `/* ,
+            attachment:() [
+                {
+                    name: 'BirthdayCandidateList.xlsx', // File name shown in the email
+                    content: fileContent     // Base64-encoded content
+                }
+            ] */
         });
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });
