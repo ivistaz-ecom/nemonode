@@ -4338,7 +4338,7 @@ const getRankWiseCallsMadeCount = async (req, res) => {
             SUM(CASE WHEN discussionconnected = 'Yes' THEN 1 ELSE 0 END) AS "yesCount",
             SUM(CASE WHEN discussionconnected = 'No' THEN 1 ELSE 0 END) AS "noCount"
             FROM discussion  where discussionranks IS NOT NULL AND created_date>='${startDate}' AND created_date<='${endDate}'
-            GROUP BY discussionranks`;
+            GROUP BY discussionranks HAVING totalCalls > 0`;
         const disscussionList = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
