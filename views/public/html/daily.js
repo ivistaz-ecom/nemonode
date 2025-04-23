@@ -582,9 +582,9 @@ async function rankWiseConnect(days) {
     const response = await axios.get(
       `${config.APIURL}candidate/rankwisecallsmade?days=${days}`    
     );
-    loadRankWiseChart(response.data.result, days);    
+    loadRankWiseChart(response.data.result, response.data.userDisscussionList, days);    
   } catch (error) {
-    loadRankWiseChart([], days);
+    loadRankWiseChart([], [], days);
     console.error("Error fetching discussion data:", error);
   } 
 }
@@ -678,7 +678,7 @@ function gotoStats(type) {
 
 /* Load Rank Wise Discussion*/ 
 
-function loadRankWiseChart(callsList, days) {
+function loadRankWiseChart(callsList, userDisscussionList, days) {
   let dayDisply = 'Today';
   if(days===2) {
     dayDisply = 'Yesterday';
@@ -750,6 +750,59 @@ function loadRankWiseChart(callsList, days) {
         data: noCount
     }]
   });
+
+  if(userDisscussionList.length>0) {
+
+    // Get unique ranks
+    const ranks = [...new Set(userDisscussionList.map(item => item.discussionranks))];
+
+    // Add rank headers
+    const headerRow = document.getElementById('rankHeader');
+    ranks.forEach(rank => {
+      const th = document.createElement('th');
+      th.textContent = rank;
+      headerRow.appendChild(th);
+    });
+
+    // Group data by user
+    const grouped = {};
+    userDisscussionList.forEach(item => {
+      if (!grouped[item.userName]) grouped[item.userName] = {};
+      grouped[item.userName][item.discussionranks] = item;
+    });
+
+    // Build table rows
+    const tbody = document.querySelector('#resultTable tbody');
+    Object.entries(grouped).forEach(([user, rankData]) => {
+      const tr = document.createElement('tr');
+      const nameCell = document.createElement('td');
+      nameCell.textContent = user;
+      tr.appendChild(nameCell);
+
+      ranks.forEach(rank => {
+        const td = document.createElement('td');
+        if (rankData[rank]) {
+          const { yesCount, noCount } = rankData[rank];
+          if (yesCount > 0) {
+            const yesDiv = document.createElement('div');
+            yesDiv.className = 'bar yes';
+            yesDiv.textContent = yesCount;
+            td.appendChild(yesDiv);
+          }
+          if (noCount > 0) {
+            const noDiv = document.createElement('div');
+            noDiv.className = 'bar no';
+            noDiv.textContent = noCount;
+            td.appendChild(noDiv);
+          }
+        }
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+
 }
 
 
