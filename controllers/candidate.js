@@ -3880,13 +3880,19 @@ const sendEmail = async (req, res) => {
             type: sequelize.QueryTypes.SELECT
         });
         let candidateName = '';
+        let fileContent =  '';
+        let fileName = '';
         if(candiateDetails.length>0) {
             candidateName = candiateDetails[0].name;
             console.log(candiateDetails[0].resume, 'candiateDetails[0].resume')
             if(candiateDetails[0].resume!=="" && candiateDetails[0].resume!==null) {
-            const filePath = path.join(process.cwd(), candiateDetails[0].resume);
-            console.log(filePath, 'filePathfilePathfilePath')
-            //const fileContent = fs.readFileSync(filePath, { encoding: 'base64' });
+                const filePath = path.join(process.cwd(), `views/public/files/resume/${candiateDetails[0].resume}`);
+                fileName = candiateDetails[0].resume;
+                console.log(filePath, 'filePathfilePathfilePath')
+                if (fs.existsSync(filePath)) {
+                    console.log('fileExist');
+                    fileContent = fs.readFileSync(filePath, { encoding: 'base64' });
+                }
             }
         }
         console.log(candiateDetails, 'candiateDetailscandiateDetails')
@@ -3926,13 +3932,13 @@ const sendEmail = async (req, res) => {
                 <p>Thanks and Regards,</p>
                 <p>Nemo</p>
                 <p>Nautilus Shipping</p>
-            `/* ,
-            attachment:() [
+            `,
+            attachment:(fileContent!=="")? [
                 {
-                    name: 'BirthdayCandidateList.xlsx', // File name shown in the email
+                    name: fileName, // File name shown in the email
                     content: fileContent     // Base64-encoded content
                 }
-            ] */
+            ]:[]
         });
         console.log('Email sent successfully');
         res.status(200).json({ message: 'Email sent successfully' });
