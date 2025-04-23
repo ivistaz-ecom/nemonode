@@ -3874,6 +3874,11 @@ const sendEmail = async (req, res) => {
         console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
+        const query = `SELECT CONCAT(b.fname,' ',b.lname) AS name FROM Candidates WHERE candidateId='${candidateId}'`
+        const candiateDetails = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        console.log(candiateDetails, 'candiateDetailscandiateDetails')
 
         // Send email to the interviewer
         const client = Sib.ApiClient.instance;
