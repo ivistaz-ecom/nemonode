@@ -62,7 +62,7 @@ module.exports = {
 
           const sender = {
             email: "nautilusshipping@gmail.com",
-            name: "Nautilusshipping",
+            name: "NAUTILUS SHIPPING",
           };
 
           const recipients = [

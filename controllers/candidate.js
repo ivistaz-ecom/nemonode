@@ -3864,13 +3864,13 @@ const sendEmail = async (req, res) => {
 
         const {
             interviewer_name,
-            candidateId,
             applied_rank,
             applied_date,
             time,
             remote,
             applied_by,
         } = req.body;
+        const candidateId = req.params.id;
         console.log(interviewer_name,candidateId,applied_rank,applied_date,time,remote,applied_by)
         // Get interviewer email from some source, e.g., a database or static list
         const interviewerEmail = interviewer_name
@@ -3881,8 +3881,8 @@ const sendEmail = async (req, res) => {
         apiKey.apiKey = process.env.BREVO_API_KEY;
         const tranEmailApi = new Sib.TransactionalEmailsApi();
         const sender = {
-            email: 'mccivistasolutions@gmail.com',
-            name: 'I-Vistaz'
+            email: "nautilusshipping@gmail.com",
+            name: "NAUTILUS SHIPPING",
         };
         const receivers = [
             {
