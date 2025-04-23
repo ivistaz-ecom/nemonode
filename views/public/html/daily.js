@@ -725,7 +725,7 @@ function loadRankWiseChart(callsList, days) {
     },
     tooltip: {
         formatter: function () {
-            return `<b>${this.x}</b><br/>${this.series.name}: ${this.y}<br/>Total: ${this.point.stackTotal}`;
+            return `${this.series.name}: ${this.y}<br/>Total: ${this.point.stackTotal}`;
         }
     },
     plotOptions: {
