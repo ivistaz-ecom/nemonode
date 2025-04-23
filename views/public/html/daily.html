@@ -66,6 +66,24 @@
       .handsymb {
         cursor: pointer;
       }
+      .bar {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 20px;
+    }
+    .yes {
+      background-color: #4A90E2; /* Blue */
+    }
+    .no {
+      background-color: #F5A623; /* Yellow */
+      color: black;
+    }
     </style>
 
     <!-- Fonts -->
@@ -777,8 +795,9 @@
                 </figure>
               </div>
 
-              <div class="row m-1 mt-0 stats-count">
-                <table id="resultTable">
+              <div class="card mt-3 col m-3 rounded-3">
+                <div class="table-responsive">
+                <table id="resultTable" class="table table-bordered table table-min-height">
                   <thead>
                     <tr id="rankHeader">
                       <th>Username</th>
@@ -786,6 +805,7 @@
                   </thead>
                   <tbody></tbody>
                 </table>
+              </div>
               </div>
 
               <div class="container-fluid">
