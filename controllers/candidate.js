@@ -4342,7 +4342,18 @@ const getRankWiseCallsMadeCount = async (req, res) => {
         const disscussionList = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
-        res.status(200).json({ result: disscussionList, success: true });
+
+        const userQuery = `SELECT 
+            discussionranks, userName, SUM(CASE WHEN discussionconnected IN ('Yes', 'No') THEN 1 ELSE 0 END) AS totalCalls,
+            SUM(CASE WHEN discussionconnected = 'Yes' THEN 1 ELSE 0 END) AS "yesCount",
+            SUM(CASE WHEN discussionconnected = 'No' THEN 1 ELSE 0 END) AS "noCount"
+            FROM discussion AS a INNER JOIN Users AS b ON post_by=b.id  where discussionranks IS NOT NULL AND a.created_date>='${startDate}'  AND a.created_date<='${endDate}'
+            GROUP BY post_by, discussionranks HAVING totalCalls > 0`;
+        const userDisscussionList = await sequelize.query(userQuery, {
+                type: sequelize.QueryTypes.SELECT
+            });
+
+        res.status(200).json({ result: disscussionList, userDisscussionList:userDisscussionList, success: true });
     } catch (error) {
         console.error('Error fetching count of contracts by sign_off date for one day:', error);
         res.status(500).json({ error: 'Internal server error', success: false });
