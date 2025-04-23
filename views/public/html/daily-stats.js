@@ -51,7 +51,10 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       stattitle = `Sign Off DG ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "SignOnDG" || type ==="SignOnDGVessel") {
       stattitle = `Sign On DG ${vesselName!==""?`- (${vesselName})`:''}`;
-    }
+    } else if (type === "EvaluationCount") {
+      stattitle = `${days != 1 ? `Last ${dayText}` : dayText} days Evaluvation`;
+    } 
+    
     
     
     
@@ -138,6 +141,9 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         type === "Created"
       ) {
         tblheader.push("User");
+      }
+      if(type === "EvaluationCount") {
+        tblheader.push("Interviewer");
       }
       }
       row.innerHTML = "";
@@ -246,6 +252,9 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
           type === "Created"
         ) {
           fieldsToDisplay.push("userName");
+        }
+        if(type === "EvaluationCount") {
+          fieldsToDisplay.push("interviewer_name");
         }
         }
 

@@ -5309,7 +5309,7 @@ const getStatsList = async (req, res) => {
             }
         } else if(type==='EvaluationCount') {
             var whereDate = `b.applied_date BETWEEN :startDate AND :endDate`;
-            query = `SELECT  a.candidateId, a.c_rank, CONCAT(a.fname,' ',a.lname) AS name, a.c_vessel, a.c_mobi1, a.email1 FROM Candidates AS a INNER JOIN evaluation as b ON a.candidateId=b.candidateId  WHERE ${whereDate} ${where} ORDER BY b.id DESC LIMIT ${offset}, ${limit}`;
+            query = `SELECT  a.candidateId, a.c_rank, CONCAT(a.fname,' ',a.lname) AS name, a.c_vessel, a.c_mobi1, a.email1, b.interviewer_name FROM Candidates AS a INNER JOIN evaluation as b ON a.candidateId=b.candidateId  WHERE ${whereDate} ${where} ORDER BY b.id DESC LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(a.candidateId) AS total FROM Candidates AS a INNER JOIN evaluation as b ON a.candidateId=b.candidateId WHERE ${whereDate}  ${where}`;
             }
@@ -5479,7 +5479,6 @@ const getStatsList = async (req, res) => {
                 countquery = `SELECT COUNT(b.candidateId) AS total FROM contract AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN companies as c ON a.company=c.company_id  LEFT JOIN ports AS d ON a.sign_on_port=d.id  LEFT JOIN ports AS e ON a.sign_off_port=e.id WHERE (a.sign_on_dg IS NULL OR a.sign_on_dg = '1970-01-01')  AND a.sign_on >= '2025-03-24' ${where}`;
             }
         }
-        console.log(query, 'queryquery')
         if(query!=="") {
             listData = await sequelize.query(query, {
                 replacements: { startDate: startOfDay.toISOString(), endDate: currentTime },
