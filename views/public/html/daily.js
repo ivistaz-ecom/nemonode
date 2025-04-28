@@ -826,7 +826,7 @@ async function loadAvailableCandidate() {
 
 function displayAvailableCandidate(availableList) {
   const convertedList = (availableList.length>0)?availableList.map(item => [item.c_rank, item.totalcandidate]):[];
-
+  document.getElementById("rankWiseDiscussion").style.height = `${parseInt(100*convertedList.length) + 100}px`;
   Highcharts.chart("availableCandidate", {
     chart: {
       animation: {
@@ -875,7 +875,7 @@ function displayAvailableCandidate(availableList) {
           enabled: true,
           matchByName: true,
         },
-        pointWidth: 15,
+        pointWidth: 25,
         groupPadding: 0.05,
       pointPadding: 0.05,
         type: "bar",
