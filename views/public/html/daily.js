@@ -824,7 +824,7 @@ async function loadAvailableCandidate() {
 }
 
 function displayAvailableCandidate(availableList) {
-  Highcharts.chart("container", {
+  Highcharts.chart("availableCandidate", {
     chart: {
       animation: {
         duration: 500,
