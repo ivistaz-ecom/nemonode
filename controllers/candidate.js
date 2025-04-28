@@ -5317,7 +5317,7 @@ const getStatsList = async (req, res) => {
             
         } else if(type==='RankWiseAvailableCandidate') {            
             if(rankName!=="") {                
-                where+=`AND c_rank=${rankName}`;   
+                where+=`AND c_rank='${rankName}'`;   
             }
              // Calculate the date range
             let startDate__ = new Date(); // Start date is today
