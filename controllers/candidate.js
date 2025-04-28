@@ -5330,7 +5330,7 @@ const getStatsList = async (req, res) => {
             endDate__.setUTCHours(23, 59, 59, 0);
             endDate__ = endDate__.toISOString().slice(0, 19).replace('T', ' ');
 
-            query = `SELECT  candidateId, c_rank, CONCAT(fname,' ',lname) AS name, c_vessel, c_mobi1, email1 FROM Candidates WHERE avb_date>='${startDate__}' AND avb_date<='${endDate__}' ${where} LIMIT ${offset}, ${limit}`;
+            query = `SELECT  candidateId, c_rank, CONCAT(fname,' ',lname) AS name, c_vessel, c_mobi1, email1, avb_date FROM Candidates WHERE avb_date>='${startDate__}' AND avb_date<='${endDate__}' ${where} LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT candidateId FROM Candidates WHERE avb_date>='${startDate__}' AND avb_date<='${endDate__}' ${where}`;
             }
