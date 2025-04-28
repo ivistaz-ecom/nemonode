@@ -5204,6 +5204,7 @@ const getStatsList = async (req, res) => {
         const type = req.query?.type || '';
         const searchKeywords = req.query?.searchKeywords || '';
         const vessleID = req.query?.vessleID || '';
+        const rankName = req.query?.rankName || '';
         
 
         let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
@@ -5312,6 +5313,26 @@ const getStatsList = async (req, res) => {
             query = `SELECT  a.candidateId, a.c_rank, CONCAT(a.fname,' ',a.lname) AS name, a.c_vessel, a.c_mobi1, a.email1, b.interviewer_name FROM Candidates AS a INNER JOIN evaluation as b ON a.candidateId=b.candidateId  WHERE ${whereDate} ${where} ORDER BY b.id DESC LIMIT ${offset}, ${limit}`;
             if(page===1) {
                 countquery = `SELECT COUNT(a.candidateId) AS total FROM Candidates AS a INNER JOIN evaluation as b ON a.candidateId=b.candidateId WHERE ${whereDate}  ${where}`;
+            }
+            
+        } else if(type==='RankWiseAvailableCandidate') {            
+            if(rankName!=="") {                
+                where+=`AND c_rank=${rankName}`;   
+            }
+             // Calculate the date range
+            let startDate__ = new Date(); // Start date is today
+            startDate__.setUTCHours(0, 0, 0, 0);
+            startDate__.setDate(1);
+            startDate__ = startDate__.toISOString().slice(0, 19).replace('T', ' ');
+            
+            const now = new Date();
+            let endDate__ = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            endDate__.setUTCHours(23, 59, 59, 0);
+            endDate__ = endDate__.toISOString().slice(0, 19).replace('T', ' ');
+
+            query = `SELECT  candidateId, c_rank, CONCAT(fname,' ',lname) AS name, c_vessel, c_mobi1, email1 FROM Candidates WHERE avb_date>='${startDate__}' AND avb_date<='${endDate__}' ${where} LIMIT ${offset}, ${limit}`;
+            if(page===1) {
+                countquery = `SELECT candidateId FROM Candidates WHERE avb_date>='${startDate__}' AND avb_date<='${endDate__}' ${where}`;
             }
             
         }else if(type==='OnBoard') {

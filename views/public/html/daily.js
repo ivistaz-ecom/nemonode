@@ -886,7 +886,7 @@ function displayAvailableCandidate(availableList) {
         point: {
               events: {
                   click: function () {
-                    window.open(`/views/public/html/daily-stats.html?type=${this.options.name}`, '_blank');
+                    window.open(`/views/public/html/daily-stats.html?type=RankWiseAvailableCandidate&rankName=${this.options.name}`, '_blank');
                    
                   }
               }

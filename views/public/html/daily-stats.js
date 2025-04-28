@@ -9,6 +9,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
     const userID = params.get("userID") || "";
     const vessleID = params.get("vessleID") || "";
     const vesselName = params.get("vesselName") || "";
+    const rankName = params.get("rankName") || "";
     
     var stattitle = "";
     var dayText = days;
@@ -53,22 +54,18 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
       stattitle = `Sign On DG ${vesselName!==""?`- (${vesselName})`:''}`;
     } else if (type === "EvaluationCount") {
       stattitle = `${days != 1 ? `Last ${dayText}` : dayText} days Evaluvation`;
-    } 
-    
-    
-    
+    } else if (type === "RankWiseAvailableCandidate") {
+      stattitle = `Available candidate for ${rankName}`;
+    }
     
     document.getElementById("stat-title").innerHTML = stattitle;
 
     const searchKeywords = document.getElementById("searchKeywords").value;
     const rowsPerPageSelect = document.getElementById("rowsPerPageSelect").value
 
-
-    
-
     // Fetch vessels from the server with pagination parameters
     const result = await axios.get(
-      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&vessleID=${vessleID}&page=${page}&limit=${rowsPerPageSelect}`,
+      `${config.APIURL}candidate/stats-list?days=${days}&type=${type}&userID=${userID}&searchKeywords=${searchKeywords}&vessleID=${vessleID}&rankName=${rankName}&page=${page}&limit=${rowsPerPageSelect}`,
       { headers: { Authorization: token } }
     );
     hideLoader("stats-sec");
@@ -141,6 +138,9 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         type === "Created"
       ) {
         tblheader.push("User");
+      }
+      if(type === "RankWiseAvailableCandidate") {
+        tblheader.push("Available Date");
       }
       if(type === "EvaluationCount") {
         tblheader.push("Interviewer");
@@ -253,6 +253,9 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
         ) {
           fieldsToDisplay.push("userName");
         }
+        if(type === "RankWiseAvailableCandidate") {
+          fieldsToDisplay.push("avb_date");
+        }
         if(type === "EvaluationCount") {
           fieldsToDisplay.push("interviewer_name");
         }
@@ -275,7 +278,7 @@ async function displayStats(intitalLoad = false, page = 1, limit = 10) {
             field === "issue_date" ||
             field === "expiry_date" ||
             field === "sign_off" ||
-            field === "eoc"
+            field === "eoc" || field === "avb_date"
           ) {
             cell.textContent = `${showDateFormat(result[field])}`;
           }else if (type === "EOCExceeded"  || type==="ContractExtension"|| type ==="SignOffDG" || type ==="SignOnDG" || type ==='OnBoard' || type==='SignOnPending') {
