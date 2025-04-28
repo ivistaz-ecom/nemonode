@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     contractextensioncount();
     ecoexceededcount();
     signOnPending();
+    loadAvailableCandidate()
 
     async function fetchData(days) {
         const selectUser = document.getElementById("userList").value;
@@ -807,4 +808,149 @@ function loadRankWiseChart(callsList, userDisscussionList, days) {
       tbody.appendChild(tr);
     });
   }
+}
+
+
+async function loadAvailableCandidate() {
+  try {
+    const response = await axios.get(
+      `${config.APIURL}candidate/availableCandidate`    
+    );
+    displayAvailableCandidate(response.data.result);    
+  } catch (error) {
+    displayAvailableCandidate([], []);
+    console.error("Error fetching discussion data:", error);
+  } 
+}
+
+function displayAvailableCandidate(availableList) {
+  Highcharts.chart("container", {
+    chart: {
+      animation: {
+        duration: 500,
+      },
+      marginRight: 50,
+    },
+    title: {
+      text: "World population by country",
+      align: "left",
+    },
+    subtitle: {
+      floating: true,
+      align: "right",
+      verticalAlign: "middle",
+      useHTML: true,
+      y: -80,
+      x: -100,
+    },
+
+    legend: {
+      enabled: false,
+    },
+    xAxis: {
+      type: "category",
+    },
+    yAxis: {
+      opposite: true,
+      tickPixelInterval: 150,
+      gridLineWidth:0,
+      title: {
+        text: null,
+      },
+      labels: {
+          enabled: false // Hide number values on the left side
+      }
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+        groupPadding: 0,
+        pointPadding: 0.1,
+        borderWidth: 0,
+        colorByPoint: true,
+        dataSorting: {
+          enabled: true,
+          matchByName: true,
+        },
+        pointWidth: 15,
+        groupPadding: 0.05,
+      pointPadding: 0.05,
+        type: "bar",
+        dataLabels: {
+          enabled: true,
+        },
+        point: {
+              events: {
+                  click: function () {
+                      console.log(this.options, 'optionsoptionsoptions')
+                  }
+              }
+          }
+      },
+    },
+    series: [
+      {
+        type: "bar",
+        name: 'Fruits',
+        data: [
+          ["China", 667070000],
+          ["India", 445954579],
+          ["United States", 180671000],
+          ["Japan", 93216000],
+          ["Indonesia", 88382881],
+          ["Brazil", 73092515],
+          ["Germany", 72814900],
+          ["United Kingdom", 52400000],
+          ["Bangladesh", 50396429],
+          ["Italy", 50199700],
+          ["France", 46649927],
+          ["Pakistan", 45954226],
+          ["Nigeria", 44928342],
+          ["Ukraine", 42767251],
+          ["Mexico", 36268055],
+          ["Spain", 30455000],
+          ["Poland", 29637450],
+          ["Philippines", 28486871],
+          ["Thailand", 26596584],
+        ],
+      },
+    ],
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 550,
+          },
+          chartOptions: {
+            xAxis: {
+              visible: false,
+            },
+            subtitle: {
+              x: 0,
+            },
+            plotOptions: {
+              series: {
+                dataLabels: [
+                  {
+                    enabled: true,
+                    y: 8,
+                  },
+                  {
+                    enabled: true,
+                    format: "{point.name}",
+                    y: -8,
+                    style: {
+                      fontWeight: "normal",
+                      opacity: 0.7,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+    },
+  });
+
 }
