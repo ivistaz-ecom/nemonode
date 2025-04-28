@@ -816,9 +816,10 @@ async function loadAvailableCandidate() {
     const response = await axios.get(
       `${config.APIURL}candidate/availableCandidate`    
     );
+    console.log(response.data.result, 'response.data.result')
     displayAvailableCandidate(response.data.result);    
   } catch (error) {
-    displayAvailableCandidate([], []);
+    displayAvailableCandidate([]);
     console.error("Error fetching discussion data:", error);
   } 
 }
@@ -832,7 +833,7 @@ function displayAvailableCandidate(availableList) {
       marginRight: 50,
     },
     title: {
-      text: "Rank",
+      text: "Rank Wise Available Candidate",
       align: "left",
     },
     subtitle: {
@@ -891,7 +892,7 @@ function displayAvailableCandidate(availableList) {
     series: [
       {
         type: "bar",
-        name: 'Rank Wise Available Candidate',
+        name: ' ',
         data: availableList,
       },
     ],
