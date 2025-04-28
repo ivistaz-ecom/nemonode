@@ -825,6 +825,8 @@ async function loadAvailableCandidate() {
 }
 
 function displayAvailableCandidate(availableList) {
+  const convertedList = (availableList.length>0)?availableList.map(item => [item.c_rank, item.totalcandidate]):[];
+
   Highcharts.chart("availableCandidate", {
     chart: {
       animation: {
@@ -893,7 +895,7 @@ function displayAvailableCandidate(availableList) {
       {
         type: "bar",
         name: ' ',
-        data: availableList,
+        data: convertedList,
       },
     ],
     responsive: {
