@@ -832,7 +832,7 @@ function displayAvailableCandidate(availableList) {
       marginRight: 50,
     },
     title: {
-      text: "World population by country",
+      text: "Rank",
       align: "left",
     },
     subtitle: {
@@ -891,28 +891,8 @@ function displayAvailableCandidate(availableList) {
     series: [
       {
         type: "bar",
-        name: 'Fruits',
-        data: [
-          ["China", 667070000],
-          ["India", 445954579],
-          ["United States", 180671000],
-          ["Japan", 93216000],
-          ["Indonesia", 88382881],
-          ["Brazil", 73092515],
-          ["Germany", 72814900],
-          ["United Kingdom", 52400000],
-          ["Bangladesh", 50396429],
-          ["Italy", 50199700],
-          ["France", 46649927],
-          ["Pakistan", 45954226],
-          ["Nigeria", 44928342],
-          ["Ukraine", 42767251],
-          ["Mexico", 36268055],
-          ["Spain", 30455000],
-          ["Poland", 29637450],
-          ["Philippines", 28486871],
-          ["Thailand", 26596584],
-        ],
+        name: 'Rank Wise Available Candidate',
+        data: availableList,
       },
     ],
     responsive: {
