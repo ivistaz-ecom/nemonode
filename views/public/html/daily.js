@@ -708,6 +708,7 @@ function loadRankWiseChart(callsList, userDisscussionList, days) {
     },
     yAxis: {
         min: 0,
+        gridLineWidth: 0, // No horizontal grid lines
         title: {
             text: 'Count',
             align: 'high'
@@ -826,7 +827,7 @@ async function loadAvailableCandidate() {
 
 function displayAvailableCandidate(availableList) {
   const convertedList = (availableList.length>0)?availableList.map(item => [item.c_rank, item.totalcandidate]):[];
-  document.getElementById("rankWiseDiscussion").style.height = `${parseInt(100*convertedList.length) + 100}px`;
+  document.getElementById("availableCandidate").style.height = `${parseInt(100*convertedList.length) + 100}px`;
   Highcharts.chart("availableCandidate", {
     chart: {
       animation: {
