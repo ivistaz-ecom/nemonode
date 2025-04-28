@@ -689,7 +689,7 @@ function loadRankWiseChart(callsList, userDisscussionList, days) {
     dayDisply = 'Lst 30 Days';
   }
   const ranks = callsList.map(item => item.discussionranks);
-  document.getElementById("rankWiseDiscussion").style.height = `${parseInt(100*ranks.length) + 100}px`;
+  document.getElementById("rankWiseDiscussion").style.height = `${parseInt(80*ranks.length) + 100}px`;
   const totalCalls = callsList.map(item => parseInt(item.totalCalls));
   const yesCount = callsList.map(item => parseInt(item.yesCount));
   const noCount = callsList.map(item => parseInt(item.noCount));
@@ -886,7 +886,7 @@ function displayAvailableCandidate(availableList) {
         point: {
               events: {
                   click: function () {
-                    window.open('/views/public/html/daily-stats.html?type=RankWiseAvailableCandidate', '_blank');
+                    window.open(`/views/public/html/daily-stats.html?type=${this.options.name}`, '_blank');
                    
                   }
               }
