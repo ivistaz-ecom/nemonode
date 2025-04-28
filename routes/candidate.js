@@ -124,6 +124,7 @@ router.get('/contractsdue',candidateControllers.getContractsOverTenMonths)
 router.get('/contractseoc',candidateControllers.getContractsEndingSoon)
 router.get('/viewevaluation/:evalid/:id',candidateControllers.viewEvaluation)
 router.post('/sendApplicationMail',candidateControllers.sendApplicationEmail)
+router.get('/availableCandidate',candidateControllers.getavailableCandidate);
 
 
 
@@ -137,6 +138,5 @@ router.get('/user-stats',userAuthentication.authenticate,candidateControllers.ge
 router.get('/single-user-stats',userAuthentication.authenticate,candidateControllers.getSelectedUserStats);
 router.get('/stats-list',userAuthentication.authenticate,candidateControllers.getStatsList);
 router.get('/medical-stats-list',userAuthentication.authenticate,candidateControllers.getMedicalStatsList);
-
 
 module.exports = router;

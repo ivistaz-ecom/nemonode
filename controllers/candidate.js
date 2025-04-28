@@ -5589,6 +5589,33 @@ const getMedicalStatsList = async (req, res) => {
 };
 
 
+const getavailableCandidate = async (req, res) => {
+    try {
+
+        // Calculate the date range
+        let startDate = new Date(); // Start date is today
+        startDate.setUTCHours(0, 0, 0, 0);
+        startDate.setDate(1);
+        startDate = startDate.toISOString().slice(0, 19).replace('T', ' ');
+        
+        const now = new Date();
+        let endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        endDate.setUTCHours(23, 59, 59, 0);
+        endDate = endDate.toISOString().slice(0, 19).replace('T', ' ');
+
+        const query = `SELECT c_rank, COUNT(candidateId) AS totalcandidate FROM Candidates WHERE avb_date>='${startDate}' AND avb_date<='${endDate}' GROUP BY c_rank ORDER BY totalcandidate DESC;`;
+        const availableList = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json({ result: availableList, success: true });
+    } catch (error) {
+        console.error('Error fetching count of contracts by sign_off date for one day:', error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
 
 
 function convertToDate (postDate) {
@@ -5710,5 +5737,6 @@ module.exports = {
    getUserStats,
    getSelectedUserStats,
    getStatsList,
-   getMedicalStatsList
+   getMedicalStatsList,
+   getavailableCandidate
 };
