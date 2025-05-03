@@ -2900,7 +2900,7 @@ const getContractsBySignOffDate = async (req, res) => {
 
         // Complete the query with order by clause
         query += `
-        ORDER BY r.rankOrder ASC
+       GROUP BY a.id ORDER BY r.rankOrder ASC
         `;
 
         // Run the raw SQL query using sequelize.query
