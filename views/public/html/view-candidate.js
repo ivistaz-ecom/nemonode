@@ -152,6 +152,7 @@ document
 
     // Get the candidateId from the URL parameter
     const candidateId = urlParams.get("id");
+    document.title=`${candidateId} | Manage Candidate | Nsnemo`;
     fetchAndDisplayDocumentDetails(candidateId);
   });
 
