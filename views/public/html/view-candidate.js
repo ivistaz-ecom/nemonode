@@ -152,7 +152,7 @@ document
 
     // Get the candidateId from the URL parameter
     const candidateId = urlParams.get("id");
-    document.title=`${candidateId} | Manage Candidate | Nsnemo`;
+    
     fetchAndDisplayDocumentDetails(candidateId);
   });
 
@@ -739,7 +739,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Retrieve the candidateId from the query parameters
       const candidateId = urlParams.get("id");
-
+      document.title=`${candidateId} | Manage Candidate | Nsnemo`;
       return candidateId;
     }
 
