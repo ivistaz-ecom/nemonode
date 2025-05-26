@@ -188,8 +188,8 @@ async function fetchAndDisplaySeaService(candidateId) {
           headers: { Authorization: token },
         }
       );
-
-      contractData = contractResponse.data;
+/*  contractResponse.data */
+      contractData =[];
     }
 
     var durationHead = "";
