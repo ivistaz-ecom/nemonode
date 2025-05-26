@@ -222,7 +222,7 @@ async function fetchAndDisplaySeaService(candidateId) {
     }
    
     const finalList = (formType==='view')?finaContact.concat(finaseaServices):finaseaServices;
-    finalList.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    finalList.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
     const eperienceTableBody = document.getElementById("preveperience");
     eperienceTableBody.innerHTML = `
         <tr>
