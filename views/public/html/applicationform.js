@@ -188,8 +188,7 @@ async function fetchAndDisplaySeaService(candidateId) {
           headers: { Authorization: token },
         }
       );
-/*  contractResponse.data */
-      contractData =[];
+      contractData =contractResponse.data;
     }
 
     var durationHead = "";
@@ -326,11 +325,11 @@ async function fetchAndDisplaySeaService(candidateId) {
               exp_from = (seaExp.sign_on!=="" && seaExp.sign_on!==null && seaExp.sign_on!=='1970-01-01')?seaExp.sign_on:'';
               exp_to = (seaExp.sign_off!=="" && seaExp.sign_off!==null && seaExp.sign_off!=='1970-01-01')?seaExp.sign_off:'';
               exp_vesselname = vesselName;
-              exp_flag ='';
-              exp_KWT = '';
-              exp_GRT = '';
+              exp_flag =(seaExp.vesselFlag!==null)?seaExp.vesselFlag:'';
+              exp_KWT = (seaExp.vesselKWT!==null)?seaExp.vesselKWT:'';
+              exp_GRT = (seaExp.vesselGRT!==null)?seaExp.vesselGRT:'';
               exp_DWT = '';
-              exp_Engine = '';
+              exp_Engine = (seaExp.vesselEngine!==null)?seaExp.vesselEngine:'';
               exp_typeofvessel = seaExp.vesselType;
               exp_Position = seaExp.rank;
               reason_for_sign_off = seaExp?.reason_for_sign_off || '';

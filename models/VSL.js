@@ -28,6 +28,15 @@ const Vsl = sequelize.define('Vsl', {
     vessel_max_price:{
         type:DataTypes.STRING
     },
+    vesselGRT:{
+        type:DataTypes.STRING
+    },
+    vesselEngine:{
+        type:DataTypes.STRING
+    },
+    vesselKWT:{
+        type:DataTypes.STRING
+    },
 }, {
     tableName: 'vsls',
     timestamps: false,

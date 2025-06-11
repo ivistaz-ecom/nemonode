@@ -1399,7 +1399,7 @@ const get_contractdetails= async (req, res) => {
         const candidateId = req.params.id;
         console.log(':::::>>>>>',candidateId)
 
-        const query = `SELECT a.*, b.userName FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id WHERE candidateId='${candidateId}'`;
+         const query = `SELECT a.*, b.userName, c.vesselName AS vlsName, vesselGRT, vesselEngine,vesselKWT, vesselFlag FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id LEFT JOIN vsls AS c ON a.vslName=c.id WHERE candidateId='${candidateId}'`;
         const contractDetails = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
