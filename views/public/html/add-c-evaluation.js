@@ -187,7 +187,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             'RADIO OFFICER',
             'DPO',
             'DREDGE MASTER',
-            'SAFETY OFFICER'
+            'SAFETY OFFICER',
+            'DECK CADET'
         ];
         const engineOfficers = [
             '2ND ENGINEER',
@@ -208,15 +209,19 @@ document.addEventListener('DOMContentLoaded', async function () {
             'IV ENGINEER',
             '2ND ASST ENGINEER',
             'IV 2ND DRIVER',
-            'ELECTRO TECHNICAL OFFICER'
+            'ELECTRO TECHNICAL OFFICER',
+            'TME'
         ];
         const deckRatings =[
             'BOSUN',
-            'DECK CADET',
             'AB',
             'IV BOSUN',
             'IV DECK HAND',
-            'NAVIGATION HANDLER'
+            'NAVIGATION HANDLER',
+            'FITTER-DECK',
+            'OS',
+            'TR OS',
+            'TRAINEE OS'
         ];
         const engineRatings = [
             'PUMPMAN',
@@ -224,18 +229,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             'RPTM CLEANER',
             'TRAINEE E/O',
             'WIPER',
-            'FITTER-DECK',
             'FITTER-ENGINE',
             'TR WIPER',
-            'OS',
             'MTM/OILER',
-            'TR OS',
-            'TME',
             'WELDER',
             'IV FITTER',
             'IV OILER',
-            'FITTER',
-            'TRAINEE OS'
+            'FITTER'            
         ];
         const galleyRanks = [
             'CHIEF COOK',
@@ -322,7 +322,8 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'RADIO OFFICER',
             'DPO',
             'DREDGE MASTER',
-            'SAFETY OFFICER'
+            'SAFETY OFFICER',
+            'DECK CADET'
         ];
         const engineOfficers = [
             '2ND ENGINEER',
@@ -343,15 +344,19 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'IV ENGINEER',
             '2ND ASST ENGINEER',
             'IV 2ND DRIVER',
-            'ELECTRO TECHNICAL OFFICER'
+            'ELECTRO TECHNICAL OFFICER',
+            'TME'
         ];
         const deckRatings =[
             'BOSUN',
-            'DECK CADET',
             'AB',
             'IV BOSUN',
             'IV DECK HAND',
-            'NAVIGATION HANDLER'
+            'NAVIGATION HANDLER',
+            'FITTER-DECK',
+            'OS',
+            'TR OS',
+            'TRAINEE OS'
         ];
         const engineRatings = [
             'PUMPMAN',
@@ -359,18 +364,13 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'RPTM CLEANER',
             'TRAINEE E/O',
             'WIPER',
-            'FITTER-DECK',
             'FITTER-ENGINE',
             'TR WIPER',
-            'OS',
             'MTM/OILER',
-            'TR OS',
-            'TME',
             'WELDER',
             'IV FITTER',
             'IV OILER',
-            'FITTER',
-            'TRAINEE OS'
+            'FITTER'  
         ];
         const galleyRanks = [
             'CHIEF COOK',
@@ -379,6 +379,7 @@ if (selectedType === '5' || galleyRanks.includes(appliedRank)) {
             'COOK',
             'MSM/GS'
         ];
+
 
         if (engineOfficers.includes(appliedRank)) {
             evalType.value = '1';
