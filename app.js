@@ -17,7 +17,7 @@ const otherRoutes = require("./routes/other")
 const { Op } = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const crons = require("./cronRunners/cronRun");
-/* const employeeRoutes = require("./routes/employee"); */
+const employeeRoutes = require("./routes/employee");
 
 
 app.use(express.json({ limit: '10mb' }));
@@ -32,7 +32,7 @@ app.use("/company",companyRoutes);
 app.use("/candidate",candidateRoutes)
 app.use("/user",userRoutes)
 app.use('/others',otherRoutes)
-/* app.use("/api/employee",employeeRoutes) */
+app.use("/api/employee",employeeRoutes)
 app.get('/fetch-nationality', async (req, res) => {
     try {
         const countries = await nemo_country.findAll();
