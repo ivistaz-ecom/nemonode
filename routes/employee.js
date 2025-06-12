@@ -24,7 +24,7 @@ const employeedocumentControllers = require("../controllers/api/employeedocument
 const employeeskillsetControllers = require("../controllers/api/employeeskillset")
 const employeelanguageControllers = require("../controllers/api/employeelanguage")
 
-
+console.log('post datassssss');
 router.post("/designation/create", userAuthentication.authenticateEmloyee, empdesignationControllers.save)
 router.get("/designation/dropdown", userAuthentication.authenticateEmloyee, empdesignationControllers.dropdownlist)
 router.get("/designation/:ID", userAuthentication.authenticateEmloyee, empdesignationControllers.getDetails)
