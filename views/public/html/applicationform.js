@@ -73,7 +73,11 @@ async function login(e) {
             localStorage.setItem("token", token);
             localStorage.setItem("loginType", 'canditate');
             setTimeout(() => {
+                if(formType==='view') {
+                  window.location.href = `viewapplicationform.html?id=${candidateId}`;
+                }else  {
                 window.location.href = `applicationform.html?id=${candidateId}`;
+                }                
             }, 850);
         } else {
           Swal.fire({
