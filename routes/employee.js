@@ -4,9 +4,9 @@ const express = require('express');
 const router = express.Router();
 
 const userAuthentication= require('../middleware/auth')
-/* const employeeControllers = require("../controllers/api/employee") */
- const empdesignationControllers = require("../controllers/api/empdesignation")
-/*const empdepartmentControllers = require("../controllers/api/empdepartment")
+const employeeControllers = require("../controllers/api/employee")
+const empdesignationControllers = require("../controllers/api/empdesignation")
+const empdepartmentControllers = require("../controllers/api/empdepartment")
 const empskillControllers = require("../controllers/api/empskill")
 const emplanguagemasterControllers = require("../controllers/api/emplanguagemaster")
 const empindustrymasterControllers = require("../controllers/api/empindustrymaster")
@@ -21,12 +21,12 @@ const employeeidentityControllers = require("../controllers/api/employeeidentity
 const empcityControllers = require("../controllers/api/empcity")
 const empdoctypeControllers = require("../controllers/api/empdoctype")
 const employeedocumentControllers = require("../controllers/api/employeedocument")
-const employeeskillsetControllers = require("../controllers/api/employeeskillset") 
-const employeelanguageControllers = require("../controllers/api/employeelanguage")*/
+const employeeskillsetControllers = require("../controllers/api/employeeskillset")
+const employeelanguageControllers = require("../controllers/api/employeelanguage")
 
 
 router.post("/designation/create", userAuthentication.authenticateEmloyee, empdesignationControllers.save)
-/* router.get("/designation/dropdown", userAuthentication.authenticateEmloyee, empdesignationControllers.dropdownlist)
+router.get("/designation/dropdown", userAuthentication.authenticateEmloyee, empdesignationControllers.dropdownlist)
 router.get("/designation/:ID", userAuthentication.authenticateEmloyee, empdesignationControllers.getDetails)
 router.put("/designation/:ID", userAuthentication.authenticateEmloyee, empdesignationControllers.update)
 router.delete("/designation/:ID", userAuthentication.authenticateEmloyee, empdesignationControllers.deleteData)
@@ -159,7 +159,7 @@ router.put("/updatesalary", userAuthentication.authenticateEmloyee, employeeCont
 router.get("/dropdown", userAuthentication.authenticateEmloyee, employeeControllers.dropdownlist)
 router.get("/:ID", userAuthentication.authenticateEmloyee, employeeControllers.getEmployeeDetails)
 router.put("/:ID", userAuthentication.authenticateEmloyee, employeeControllers.updateEmployee);
-router.get("/", userAuthentication.authenticateEmloyee, employeeControllers.listEmployee) */
+router.get("/", userAuthentication.authenticateEmloyee, employeeControllers.listEmployee)
 
 
 module.exports = router;
