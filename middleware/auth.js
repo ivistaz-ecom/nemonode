@@ -1,4 +1,5 @@
 const User=require("../models/user");
+const Employee=require("../models/employee");
  const jwt=require('jsonwebtoken');
 // Authentication middleware
 const authenticate = async (req, res, next) => {
