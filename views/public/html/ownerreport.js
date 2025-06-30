@@ -80,20 +80,21 @@ async function handleOnBoardSubmit(event) {
 
         contracts.forEach((contract, index) => {
             const row = document.createElement('tr');
+            const age = calculateAge(contract.dob);
+            
             row.innerHTML = `
                 <td>${index + 1}</td>
-                <td><button onclick="viewCandidate('${obfuscateId(contract.candidateId)}')" class="btn btn-link">${contract.fname}</button></td>
-                <td>${contract.lname}</td>
+                <td><button onclick="viewCandidate('${obfuscateId(contract.candidateId)}')" class="btn btn-link">${contract.name}</button></td>
                 <td>${contract.birth_place}</td>
                 <td>${contract.rank}</td>
-                <td>${contract.nationality}</td>
-                <td>${contract.dob}</td>
-                <td>${contract.age}</td>
+                <td>${contract.country}</td>
+                <td>${showDateFormat(contract.dob)}</td>
+                <td>${age}</td>
                 <td>${contract.company_name}</td>
                 <td>${contract.currency}</td>
-                <td>${contract.eoc}</td>
-                <td>${contract.sign_on}</td>
-                <td>${contract.sign_off}</td>
+                <td>${showDateFormat(contract.eoc)}</td>
+                <td>${showDateFormat(contract.sign_on)}</td>
+                <td>${showDateFormat(contract.sign_off)}</td>
                 <td>${contract.sign_on_port}</td>
                 <td>${contract.vesselName}</td>
                 <td>${contract.vesselType}</td>
@@ -104,6 +105,21 @@ async function handleOnBoardSubmit(event) {
         });
     } catch (error) {
         console.error("Error fetching onboard contracts:", error);
+    }
+}
+
+function calculateAge(birthdate) {
+    if(birthdate!=="" && birthdate!==null && birthdate!=='1970-01-01') {
+        const currentDate = new Date();
+        const birthDate = new Date(birthdate);
+
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+        if (currentDate.getMonth() < birthDate.getMonth() || (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age;
     }
 }
 
