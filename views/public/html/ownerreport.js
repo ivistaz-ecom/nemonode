@@ -95,7 +95,7 @@ async function handleOnBoardSubmit(event) {
                 <td>${showDateFormat(contract.eoc)}</td>
                 <td>${showDateFormat(contract.sign_on)}</td>
                 <td>${showDateFormat(contract.sign_off)}</td>
-                <td>${contract.sign_on_port}</td>
+                <td>${contract.portName}</td>
                 <td>${contract.vesselName}</td>
                 <td>${contract.vesselType}</td>
                 <td>${contract.wages}</td>

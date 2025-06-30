@@ -3163,12 +3163,13 @@ const onBoard = async (req, res) => {
         // Base SQL query
         let query = `
             SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
-                  CONCAT(b.fname,' ',b.lname) AS name, b.dob, b.birth_place, b.email1, b.indos_number, c.vesselName, b.category, b.nationality, e.company_name, nc.country
+                  CONCAT(b.fname,' ',b.lname) AS name, b.dob, b.birth_place, b.email1, b.indos_number, c.vesselName, b.category, b.nationality, e.company_name, nc.country, po.portName
             FROM contract AS a
             JOIN Candidates AS b ON a.candidateId = b.candidateId
             JOIN vsls AS c ON a.vslName = c.id
             JOIN companies AS e ON a.company = e.company_id
             LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            LEFT JOIN ports AS po ON a.sign_on_port=po.id
             WHERE a.sign_on <= :startDate
               AND (a.sign_off > :startDate OR a.sign_off = '1970-01-01')
         `;
