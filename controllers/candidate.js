@@ -3104,22 +3104,24 @@ const getDueForRenewalCountForOneDay = async (req, res) => {
         endDate.setUTCHours(23, 59, 59, 0);
 
         // Fetch count of documents due for renewal
-        const documentCount = await cDocument.count({
-            where: {
-                expiry_date: {
-                    [Op.between]: [startDate, endDate]
-                }
-            }
+        const sqlcDocument = `SELECT count(*) AS count FROM cdocuments AS a INNER JOIN contract AS b ON a.candidateId=b.candidateId WHERE expiry_date BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}' AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01')`;
+        const totalDocument = await sequelize.query(sqlcDocument, {
+            type: sequelize.QueryTypes.SELECT
         });
+        let documentCount = 0;
+        if(totalDocument.length>0) {
+            documentCount = totalDocument[0].count;
+        }
 
         // Fetch count of medical records due for renewal
-        const medicalCount = await Medical.count({
-            where: {
-                expiry_date: {
-                    [Op.between]: [startDate, endDate]
-                }
-            }
+        const sqlmedical = `SELECT count(*) AS count FROM Medicals AS a INNER JOIN contract AS b ON a.candidateId=b.candidateId WHERE expiry_date BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}' AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01')`;
+        const totamedical = await sequelize.query(sqlmedical, {
+            type: sequelize.QueryTypes.SELECT
         });
+        let medicalCount = 0;
+        if(totalDocument.length>0) {
+            medicalCount = totamedical[0].count;
+        }
 
         // Combine the counts of document and medical records
         const totalCandidatesCount = documentCount + medicalCount;
@@ -5384,9 +5386,10 @@ const getStatsList = async (req, res) => {
               }
 
         }else if(type==='DueforRenewal') {
-            query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where}  ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit}`;
+            
+            query = `SELECT a.document, a.document_number, a.issue_date, a.expiry_date, a.issue_place,a.document_files, b.candidateId, b.c_rank, CONCAT(b.fname,' ',b.lname) AS name, b.c_vessel, b.c_mobi1, b.email1 FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId INNER JOIN contract AS c ON a.candidateId=c.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01') ${where}  ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit}`;
             if(page===1) {
-                countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+                countquery = `SELECT COUNT(b.candidateId) AS total FROM cdocuments AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId INNER JOIN contract AS c ON a.candidateId=c.candidateId WHERE a.expiry_date BETWEEN :startDate AND :endDate AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01') ${where}`;
             }
         }else if(type==='EOCExceeded') {
 
@@ -5570,9 +5573,9 @@ const getMedicalStatsList = async (req, res) => {
         }
 
 
-        query = `SELECT h.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId LEFT JOIN hospitals AS h ON a.hospitalName=h.id   WHERE a.expiry_date BETWEEN :startDate AND :endDate ${where} ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit} `;
+        query = `SELECT h.hospitalName, a.place, a.date, a.expiry_date, a.upload, b.candidateId, b.c_rank, b.fname, b.lname, b.c_vessel, b.c_mobi1, b.email1 FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId INNER JOIN contract AS c ON a.candidateId=c.candidateId LEFT JOIN hospitals AS h ON a.hospitalName=h.id   WHERE a.expiry_date BETWEEN :startDate AND :endDate AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01') ${where}  ORDER BY a.expiry_date ASC LIMIT ${offset}, ${limit} `;
         if(page===1) {
-            countquery = `SELECT COUNT(b.candidateId) AS total FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId  LEFT JOIN hospitals AS h ON a.hospitalName=h.id WHERE a.expiry_date BETWEEN :startDate AND :endDate  ${where}`;
+            countquery = `SELECT COUNT(b.candidateId) AS total FROM Medicals AS a INNER JOIN Candidates as b ON a.candidateId=b.candidateId INNER JOIN contract AS c ON a.candidateId=c.candidateId  LEFT JOIN hospitals AS h ON a.hospitalName=h.id WHERE a.expiry_date BETWEEN :startDate AND :endDate AND (sign_off='' OR sign_off IS NULL OR sign_off='1970-01-01')  ${where}`;
         }
         
 
