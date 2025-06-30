@@ -2143,9 +2143,9 @@ const getVslsByCompany =async(req,res)=>{
 
   try {
       const vessels = await VSL.findAll({
-          /* where: {
+          where: {
               vsl_company: companyId
-          }, */
+          },
           attributes: ['id', 'vesselName']
       });
 
