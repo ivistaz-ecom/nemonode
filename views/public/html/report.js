@@ -702,6 +702,8 @@ async function createCompanyDropdown() {
   companyDropdown5.innerHTML = "";
   const companyDropdown6 = document.getElementById("user_client6");
   companyDropdown6.innerHTML = "";
+  const companyDropdown7 = document.getElementById("user_client7");
+  companyDropdown4.innerHTML = "";
   // Add the default option
   const defaultOption = document.createElement("option");
   defaultOption.value = "";
@@ -713,6 +715,8 @@ async function createCompanyDropdown() {
   companyDropdown4.appendChild(defaultOption.cloneNode(true));
   companyDropdown5.appendChild(defaultOption.cloneNode(true));
   companyDropdown6.appendChild(defaultOption.cloneNode(true));
+  companyDropdown7.appendChild(defaultOption.cloneNode(true));
+  
 
   // Add options for each company
   for (let i = 0; i < companyNames.length; i++) {
@@ -726,6 +730,7 @@ async function createCompanyDropdown() {
     companyDropdown4.appendChild(option.cloneNode(true));
     companyDropdown5.appendChild(option.cloneNode(true));
     companyDropdown6.appendChild(option.cloneNode(true));
+    companyDropdown7.appendChild(option.cloneNode(true));    
     // If you want to clone the options for another dropdown, do it here
     // companyDropdown.appendChild(option.cloneNode(true));
   }
@@ -3622,8 +3627,10 @@ const displayVesselDropdown = async function () {
     const vesselDropdown = document.getElementById("vsl");
     const vesselDropdown1 = document.getElementById("vsl1");
     const vesselDropdown2 = document.getElementById("vsl2");
+    const vesselDropdown3 = document.getElementById("vsl3");
     vesselDropdown.innerHTML = ""; // Clear existing options
     vesselDropdown1.innerHTML = ""; // Clear existing options
+     vesselDropdown3.innerHTML = ""; // Clear existing options
 
     // Add the default option
     const defaultOption = document.createElement("option");
@@ -3632,6 +3639,7 @@ const displayVesselDropdown = async function () {
     vesselDropdown.appendChild(defaultOption);
     vesselDropdown1.appendChild(defaultOption.cloneNode(true));
     vesselDropdown2.appendChild(defaultOption.cloneNode(true));
+    vesselDropdown3.appendChild(defaultOption.cloneNode(true));
 
     // Fetch vessel names from the server
     const vesselResponse = await axios.get(`${config.APIURL}others/get-vsls`);
@@ -3645,6 +3653,7 @@ const displayVesselDropdown = async function () {
       vesselDropdown.appendChild(option);
       vesselDropdown1.appendChild(option.cloneNode(true));
       vesselDropdown2.appendChild(option.cloneNode(true));
+      vesselDropdown3.appendChild(option.cloneNode(true));
     });
   } catch (error) {
     console.error("Error fetching vessels:", error);

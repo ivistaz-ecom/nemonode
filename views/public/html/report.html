@@ -377,6 +377,14 @@
                         <a
                           class="dropdown-item"
                           href="#"
+                          onclick="showReport(event, 'vesselAssignment', 'Vessel Assignment')"
+                          >Vessel Assignment</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
                           onclick="showReport(event, 'reminder', 'Reminder')"
                           >Reminder</a
                         >
@@ -1622,6 +1630,131 @@
                     </div>
                   </div>
                 </div>
+              <div id="vesselAssignmentContent" class="report-content">
+                <!-- Content for Vessel Assignment Report -->
+                <div class="card card-body">
+                  <h4>Vessel Assignment Report</h4>
+                  <form id="vesselAssignmentForm">
+                    <div class="row g-2 mb-3">
+                      <div class="col-md-3">
+                        <label for="user_client7" class="form-label"
+                          >Client</label
+                        >
+                        <select
+                          class="form-select"
+                          id="user_client7"
+                          name="user-client4"
+                        >
+                          <!-- Options for user dropdown will be added dynamically -->
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label for="vsl3" class="form-label">Vessel Name</label>
+                        <select id="vsl3" name="vsl3" class="form-select">
+                          <option value="">Select Vessel Name</option>
+                          <!-- Options will be dynamically added here -->
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label for="categoryva" class="form-label"
+                          >Option</label
+                        >
+                        <select
+                          class="form-select"
+                          id="categoryva"
+                          name="categoryva"
+                        >
+                          <option value="">--Select option--</option>
+                          <option value="1">Officer</option>
+                          <option value="2">Rating</option>
+                          <option value="6">IV Crew</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary ps-2 pe-2 float-end mb-2"
+                      id="vesselAssignmentFormBtn"
+                    >
+                      Generate
+                    </button>
+                  </form>
+
+                  <div
+                    class="row mb-3"
+                    id="vesselAssignmentCustom"
+                    style="display: none"
+                  >
+                    <div class="col-md-1">
+                      <label for="rowsPerPagevesselAssignment">Page Limit</label>
+                      <select
+                        id="rowsPerPagevesselAssignment"
+                        class="form-select"
+                        onchange="changePageLimit('vesselAssignment')"
+                      >
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>                      
+                    </div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="searchInputvesselAssignment">Search</label>
+                    <input
+                      type="text"
+                      id="searchInputvesselAssignment"
+                      placeholder="Search..."
+                            class="form-control"
+                            onkeyup="changePageLimit('vesselAssignment')"
+                          />
+                        </div>
+                        <div class="col-md-2">
+                          <div
+                            id="vesselAssignmentCount"
+                            class="border ps-2 pe-2 pb-1 rounded-2"
+                            style="
+                              height: 38px;
+                              margin-top: 24px;
+                              padding-top: 8px;
+                            "
+                          ></div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                          <button
+                            id="exportToExcelBtnvesselAssignment"
+                            class="btn btn-primary"
+                          >
+                      Export to Excel
+                    </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive text-nowrap">
+                    <table
+                      id="vesselAssignmentTable"
+                      class="table table-bordered border-1"
+                    >
+                      <thead id="vesselAssignmentTablehead"></thead>
+                      <tbody
+                        id="vesselAssignmentTableBody"
+                        class="table-border-bottom-0"
+                      >
+                        <!-- Data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    id="vesselAssignmentpaginationControls"
+                    class="pagination mt-2 d-flex justify-content-end"
+                  >
+                      <!-- Pagination buttons will be injected here -->
+                    </div>
+                  </div>
+                </div>
+                
 
               <div id="reminderContent" class="report-content">
                 <!-- Content for Reminder Report -->
@@ -2683,12 +2816,12 @@
         allowClear: true,
       });
       $(
-        "#user_client, #user_client1, #user_client2, #user_client3, #user_client4, #user_client5, #user_client6"
+        "#user_client, #user_client1, #user_client2, #user_client3, #user_client4, #user_client5, #user_client6, #user_client7"
       ).select2({
         placeholder: "Select a Company",
         allowClear: true,
       });
-      $("#vsl, #vsl1, #vsl2").select2({
+      $("#vsl, #vsl1, #vsl2, #vsl3").select2({
         placeholder: "Select a Vessel",
         allowClear: true,
       });

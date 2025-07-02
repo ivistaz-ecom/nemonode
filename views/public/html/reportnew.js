@@ -25,6 +25,8 @@ function changePageLimit(reportType) {
     handleavailCandidateSubmit(1);
   } else if(reportType==='onboard') {
     handleOnBoardSubmit(1)
+  } else if(reportType==='vesselAssignment') {
+    handlevesselAssignmentSubmit(1)
   } else if(reportType==='crewListMonthWise') {
     handlecrewListMonthWiseSubmit(1);
   } else if(reportType==='imocrewListMonthWise') {
@@ -502,6 +504,49 @@ async function handleOnBoardSubmit(pageNumber, generateNew=false) {
   }
 }
 
+/* vessel Assignment Report */
+document.getElementById("vesselAssignmentForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  handlevesselAssignmentSubmit(1, true)
+});
+
+async function handlevesselAssignmentSubmit(pageNumber, generateNew=false) {
+ let vesselAssignmentCustom = document.getElementById("vesselAssignmentCustom");
+ vesselAssignmentCustom.style.display = "none";
+ if(generateNew===true) {
+  loadHeader = true;
+  showLoader("vesselAssignmentFormBtn");
+  const companyname = document.getElementById("user_client7").value || null;
+  const vesselDropdown = document.getElementById("vsl3").value || null;
+  const category = document.getElementById("categoryva").value;
+
+  // Send request to fetch vesselAssignment candidates with filters
+  const response = await axios.get(`${config.APIURL}candidate/vesselassignment`, {
+    params: {
+      companyname: companyname,
+      vslName: vesselDropdown,
+      category: category,
+    },
+    headers: {
+      Authorization: token,
+    },
+    });
+    resultData = response.data?.contracts
+  }
+  hideLoader("vesselAssignmentFormBtn");
+  headerData = ['S.No.', 'Candidate ID', 'Name', 'Rank', 'Nationality', 'Company Name', 'Vessel Name', 'Sign On', 'Sign Off', 'Wages', 'Pasport Number', 'CDC Number', 'Indos Number'];
+  fieldName = ['sno', 'candidateId', 'name', 'rank', 'country', 'company_name', 'vesselName', 'sign_on', 'sign_off', 'wages', 'pasportnumber', 'cdcnumber', 'indos_number'];
+  const rowsPerPagevesselAssignment = parseInt(document.getElementById('rowsPerPagevesselAssignment').value);
+  const searchKeyword = document.getElementById('searchInputvesselAssignment').value;
+ 
+  displayTableDetails('vesselAssignmentTablehead', headerData, loadHeader, 'vesselAssignmentTableBody', fieldName, resultData, pageNumber, rowsPerPagevesselAssignment, 'vesselAssignmentpaginationControls', 'vesselAssignmentCount', searchKeyword, 'vesselAssignmentCount')
+  vesselAssignmentCustom.style.removeProperty("display");
+  if(loadHeader===true) {
+    loadHeader = false;
+  }
+}
+
+
 /* Reminder Report */
 document.getElementById("dateFilterForm").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -922,6 +967,8 @@ async function displayTableDetails(theadID, headerData, loadHeader, tbodyId, fie
 async function loadPageData(page, tableType) {
   if (tableType === "onboard") {
     handleOnBoardSubmit(page)
+  } else if (tableType === "vesselAssignment") {
+    handlevesselAssignmentSubmit(page)
   } else if (tableType === "reliefPlan") {
     handlereliefPlanSubmit(page)
   } else if (tableType === "newProfile") {
@@ -1001,6 +1048,11 @@ document.getElementById("exportToExcelBtnob").addEventListener("click", async (e
   event.preventDefault();
   exportFN("Onboard");
 });
+document.getElementById("exportToExcelBtnvesselAssignment").addEventListener("click", async (event) => {
+  event.preventDefault();
+  exportFN("vesselAssignment");
+});
+
 document.getElementById("exportToExcelBtncrewListMonthWise").addEventListener("click", async (event) => {
   event.preventDefault();
   exportFN('Crew List Month Wise');

@@ -3257,6 +3257,104 @@ const onBoard = async (req, res) => {
     }
 };
 
+const vesselAssignment = async (req, res) => {
+    try {
+        console.log('vesselAssignment entered');
+        const { vslName, companyname, category } = req.query;
+
+        // Base SQL query
+        let query = `
+            SELECT a.candidateId, a.rank, a.vslName, a.sign_on_port, a.vesselType, a.wages, a.currency, a.wages_types, a.sign_on, a.sign_off, a.eoc,
+                  CONCAT(b.fname,' ',b.lname) AS name, b.dob, b.birth_place, b.email1, b.indos_number, c.vesselName, b.category, b.nationality, e.company_name, nc.country, po.portName
+            FROM contract AS a
+            JOIN Candidates AS b ON a.candidateId = b.candidateId
+            JOIN vsls AS c ON a.vslName = c.id
+            JOIN companies AS e ON a.company = e.company_id
+            LEFT JOIN nemo_country AS nc ON b.nationality = nc.code
+            LEFT JOIN ports AS po ON a.sign_on_port=po.id
+            WHERE  (a.sign_on IS NULL OR a.sign_on = '1970-01-01')
+        `;
+
+        // Define replacements object
+        const replacements = {};
+
+        // Add vessel name condition if present
+        if (vslName) {
+            query += ` AND c.id = :vslName`;
+            replacements.vslName = vslName;
+        }
+
+        // Add company name condition if present
+        if (companyname) {
+            query += ` AND e.company_id = :companyname`;
+            replacements.companyname = companyname;
+        }
+
+        // Add category condition if present
+        if (category) {
+            query += ` AND b.category = :category`;
+            replacements.category = category;
+        }
+
+        // Complete the query with group by and order by clauses
+        query += `
+        GROUP BY 
+            a.candidateId, 
+            b.fname, 
+            b.lname, 
+            b.dob, 
+            a.rank, 
+            a.vslName, 
+            a.sign_on_port, 
+            a.vesselType, 
+            a.wages, 
+            a.currency, 
+            a.wages_types, 
+            a.sign_on, 
+            a.sign_off, 
+            a.eoc,
+            b.birth_place, 
+            c.vesselName, 
+            b.category, 
+            b.nationality, 
+            e.company_name
+        ORDER BY 
+            a.rank ASC, 
+            b.lname ASC, 
+            b.fname ASC
+        `;
+
+        // Run the raw SQL query using sequelize.query
+        const contracts = await sequelize.query(query, {
+            replacements,
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        const candidateIds = contracts.map(candidate => candidate.candidateId);
+        if(candidateIds.length>0) {
+            const candidateIds_ = candidateIds.join(',')
+            const documentQuery = `SELECT * FROM cdocuments WHERE candidateId IN(${candidateIds_})`;
+            const documentResult = await sequelize.query(documentQuery, {
+                type: sequelize.QueryTypes.SELECT
+            });
+
+            const mergedData = await contracts.map(candidate => {
+                return {
+                  ...candidate,
+                  document: documentResult.filter(doc => doc.candidateId === candidate.candidateId)
+                };
+              });
+            res.status(200).json({ contracts: mergedData, success: true });
+        }else {
+            res.status(200).json({ contracts: [], success: true });
+        }
+    } catch (error) {
+        console.error("Error fetching onboard contracts:", error);
+        res.status(500).json({ error: 'Internal server error', success: false });
+    }
+};
+
+
 
 
 const onBoard2 = async (req, res) => {
@@ -5717,6 +5815,7 @@ module.exports = {
     dueForRenewal,
     avbreport,
     onBoard,
+    vesselAssignment,
     crewList,
     reliefPlan,
     mis,
