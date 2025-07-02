@@ -84,6 +84,7 @@ async function handleOnBoardSubmit(event) {
             
             row.innerHTML = `
                 <td>${index + 1}</td>
+                <td>${contract.candidateId}</td>
                 <td><button onclick="viewCandidate('${obfuscateId(contract.candidateId)}')" class="btn btn-link">${contract.name}</button></td>
                 <td>${contract.birth_place}</td>
                 <td>${contract.rank}</td>

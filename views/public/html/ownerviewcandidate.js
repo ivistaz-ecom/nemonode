@@ -479,6 +479,7 @@ async function displayCandidateDetails() {
         // document.getElementById('creator').textContent = candidateData.createdby
         // document.getElementById('editor').textContent = candidateData.editedby
         document.getElementById('candidateId').value = candidateData.candidateId;
+        document.getElementById('nemoID').innerHTML = candidateData.candidateId;
         document.getElementById('edit_candidate_c_rank').value = candidateData.c_rank;
         nationalityFetch(candidateData.nationality)
         .then(nationality => {
