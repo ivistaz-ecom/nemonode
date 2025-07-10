@@ -589,7 +589,7 @@ document
       vendor_id:
         document.getElementById("edit_candidate_vendor_id").value || "",
       us_visa: document.getElementById("edit_candidate_us_visa").value || "",
-      userId: document.getElementById("edit_candidate_userId").value || "",
+      userId: localStorage.getItem('userId') ?? 0,
       nearestAirport: document.getElementById("nearest_airport").value || "",
       totalChild: document.getElementById("totalChild").value || "",
     };
