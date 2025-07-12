@@ -663,14 +663,30 @@ app.post('/upload4', upload4.single('file'), (req, res) => {
         res.status(400).send('Error uploading file');
     }
 });
-app.post('/upload5', upload5.single('file'), (req, res) => {
+
+const uploadContract = multer({ storage: multer.memoryStorage() });
+
+app.post("/upload5", uploadContract.single("file"), (req, res) => {
+    const addExt = req.body.addExt ?? "";
+    const prefix = addExt === "Yes" ? "ext_" : "";
+    const timestamp = new Date().toISOString().replace(/[-:.T]/g, "").slice(0, 14);
+    const originalName = req.file.originalname;
+    const newFileName = `${timestamp}_${prefix}${originalName}`;
+    const targetPath = path.join(__dirname, "views/public/uploads/contract", newFileName);
+
+    // Write file manually to disk
+    fs.writeFileSync(targetPath, req.file.buffer);
+    res.status(200).send({filename:newFileName});
+});
+
+/* app.post('/upload5', upload5.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;
         res.status(200).send({filename});
     } else {
         res.status(400).send('Error uploading file');
     }
-});
+}); */
 app.post('/upload6', upload6.single('file'), (req, res) => {
     if (req.file) {
         const filename = req.file.filename;

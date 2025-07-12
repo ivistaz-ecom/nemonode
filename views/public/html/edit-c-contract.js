@@ -82,6 +82,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     const contractExtension = urlParams.get('contractExtension');
     const contractExtensionDays = urlParams.get('contractExtensionDays');    
     const created_by = urlParams.get('created_by');
+    const extdocuments = urlParams.get('extdocuments');
 
     
 
@@ -105,7 +106,12 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
     document.getElementById('editcontracts_reason').value = reason_for_sign_off;
     document.getElementById('editcontract_aoa_num').value = aoa_number;
     document.getElementById('editcontract_emigrate').value = emigrate_number;
-    document.getElementById('prevDoc').value = documents;
+    document.getElementById('prevDoc').value = `${documents}`;
+    if(extdocuments!=="") {
+        document.getElementById('extDoc').style.display ="block";
+        document.getElementById('extDoc').innerHTML = `${extdocuments.replaceAll(':;', '<br/>')}`;  
+    }
+    
     document.getElementById('prevAoa').value = aoa;
     document.getElementById('created_by').value = created_by;
     document.getElementById('contract_opening_balance').value = openingBalance;
@@ -410,6 +416,29 @@ function formatDate(dateString) {
 
   document.getElementById('contractForm').addEventListener('submit', async function (event) {
     event.preventDefault();
+    
+    const prevDoc = document.getElementById('prevDoc').value.trim();
+    if(prevDoc!=="") {
+        Swal.fire({
+            title: "Are you sure you want to add the contract extension file?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            denyButtonText: `No Update Contract`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                updateContract('Yes');
+            } else if (result.isDenied) {
+                updateContract();
+            }
+        });
+    }else {
+        updateContract();
+    }
+})
+
+async function updateContract(addExt='No') {
     const decodedToken = decodeToken(token);
     const contractId = document.getElementById('contractId').value;
     const urlParams = new URLSearchParams(window.location.search);
@@ -472,6 +501,7 @@ function formatDate(dateString) {
     if (documentFile) {
         const documentFormData = new FormData();
         documentFormData.append('file', documentFile);
+        documentFormData.append('addExt', addExt);
 
         try {
             const response = await axios.post('/upload5', documentFormData, {
@@ -555,7 +585,8 @@ function formatDate(dateString) {
         bondStore,
         cdc_passport,
         contractExtension,
-        contractExtensionDays
+        contractExtensionDays,
+        addExt
     };
 
     try {
@@ -585,7 +616,7 @@ function formatDate(dateString) {
         });
         console.error('Error updating contract:', err);
     }
-})
+}
 
 
 function viewCandidate(id) {

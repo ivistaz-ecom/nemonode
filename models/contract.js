@@ -66,9 +66,12 @@ const Contract = sequelize.define('Contract', {
     reason_for_sign_off:{
         type:DataTypes.STRING
     },
-        documents:{
-            type:DataTypes.STRING,
-        },
+    documents:{
+        type:DataTypes.STRING,
+    },
+    extdocuments:{
+        type:DataTypes.STRING,
+    },
     aoa:{
         type:DataTypes.STRING,
     },

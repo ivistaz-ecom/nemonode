@@ -1419,6 +1419,9 @@ const update_contractdetails = async (req, res) => {
         const contract = await Contract.findByPk(contractId);
 
         if (contract) {
+
+            const addExt = updatedContractData.addExt;
+
             // Update fields
             contract.rank = updatedContractData.rank;
             contract.company = updatedContractData.company;
@@ -1469,12 +1472,20 @@ const update_contractdetails = async (req, res) => {
 
             // Conditionally update the documents and aoa fields
             if (updatedContractData.documentFile) {
+                if(addExt==="Yes") {                    
+                    const extdocuments = contract.extdocuments ?? '';
+                    if(extdocuments!==null && extdocuments!=="") {
+                        contract.extdocuments = `${extdocuments}:;${updatedContractData.documentFile}`; 
+                    }else {
+                        contract.extdocuments = `${updatedContractData.documentFile}`; 
+                    }                    
+                }else {
                 contract.documents = updatedContractData.documentFile; // Assuming 'documents' is a file path or something similar
+                }
             }
             if (updatedContractData.aoaFile) {
                 contract.aoa = updatedContractData.aoaFile; // Assuming 'aoa' is a file path or something similar
             }
-
             // Save the changes
             await contract.save();
 

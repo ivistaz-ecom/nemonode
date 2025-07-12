@@ -1160,7 +1160,16 @@ async function fetchAndDisplayContractDetails(id) {
         contract.sign_on,
         contract.eoc
       );
-
+      const extdocuments = contract?.extdocuments ?? '';
+      let displayExtDoc = '';
+      if(extdocuments!==null && extdocuments!=="") {
+        const extdocumentsSplit = extdocuments.split(':;');
+        if(extdocumentsSplit.length>0) {
+          extdocumentsSplit.forEach((extDoc) => {
+            displayExtDoc+=`<a href='${config.APIURL}views/public/uploads/contract/${extDoc}' target="_blank">${extDoc}</a><br/><br/>`
+          })
+        }
+      }
       row.innerHTML = `
                 <td>${index++}</td>
                 <td>${contract.rank}</td>
@@ -1183,11 +1192,10 @@ async function fetchAndDisplayContractDetails(id) {
                 <td>${contract.reason_for_sign_off}</td>
                 <td>${contract.aoa_number}</td>
                 <td>${contract.emigrate_number}</td>
-                <td>${contract.documents}</td>
                 <td><a href='${config.APIURL}views/public/uploads/contract/${
         contract.documents
       }' target="_blank">Click here to view Document!</a></td>
-                <td>${contract.aoa}</td>
+                <td>${displayExtDoc}</td>
                 <td><a href='${config.APIURL}views/public/uploads/aoa/${
         contract.aoa
       }' target="_blank">Click here to view AOA!</a></td>
@@ -1268,7 +1276,7 @@ async function fetchAndDisplayContractDetails(id) {
                     '${contract.cdc_passport}',
                     '${contract.contractExtension}',
                     '${contract.contractExtensionDays}',
-                    '${contract.created_by}')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
+                    '${contract.created_by}', '${extdocuments}')">                        <i onMouseOver="this.style.color='seagreen'" onMouseOut="this.style.color='gray'" class="fa fa-pencil"></i>
                     </button>
                     <button class="btn border-0 m-0 p-0" onclick="deleteContract('${
                       contract.id
@@ -1366,7 +1374,8 @@ function editContract(
   cdc_passport,
   contractExtension,
   contractExtensionDays,
-  created_by
+  created_by,
+  extdocuments
 ) {
   // Construct the query parameters string
   const queryParams = `?candidateId=${candidateId}&id=${id}&rank=${encodeURIComponent(
@@ -1441,7 +1450,7 @@ function editContract(
     bondStore
   )}&cdc_passport=${cdc_passport}&contractExtension=${contractExtension}&contractExtensionDays=${contractExtensionDays}&created_by=${encodeURIComponent(
     created_by
-  )}}`;
+  )}&extdocuments=${extdocuments}`;
 
   // Open edit-c-contract.html in a new tab with query parameters
   window.open(`edit-c-contract.html${queryParams}`, "_blank");
