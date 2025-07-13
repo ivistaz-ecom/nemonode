@@ -31,7 +31,7 @@ const list = async (req, res) => {
       countWhere.designationStatus = status;
     }
 
-    let query = `SELECT a.docID, a.docNumber, a.docIssuePlace, a.docTypeID, a.docIssueDate, a.docExpiryDate, a.docFile, b.empdoctypeName FROM employeedocument  AS a LEFT JOIN empdoctype AS b ON a.docTypeID=b.empdoctypeID WHERE ${where} ORDER BY docID DESC LIMIT ${
+    let query = `SELECT a.docID, a.docNumber, a.docName, a.docIssuePlace, a.docTypeID, a.docIssueDate, a.docExpiryDate, a.docFile, b.empdoctypeName FROM employeedocument  AS a LEFT JOIN empdoctype AS b ON a.docTypeID=b.empdoctypeID WHERE ${where} ORDER BY docID DESC LIMIT ${
       page - 1
     }, ${limit} `;
 
@@ -67,6 +67,7 @@ const save = async (req, res) => {
         empID,
         docTypeID:request?.docTypeID?? '',
         docNumber:request?.docNumber?? '',
+        docName:request?.docName?? '',
         docIssuePlace:request?.docIssuePlace?? '',
         docIssueDate:request?.docIssueDate?? null,
         docExpiryDate:request?.docExpiryDate?? null,
@@ -122,6 +123,7 @@ const update = async (req, res) => {
       const updateData = {
         docTypeID:request?.docTypeID?? '',
         docNumber:request?.docNumber?? '',
+        docName:request?.docName?? '',
         docIssuePlace:request?.docIssuePlace?? '',
         docIssueDate:request?.docIssueDate?? null,
         docExpiryDate:request?.docExpiryDate?? null,
@@ -129,7 +131,6 @@ const update = async (req, res) => {
         docUpdatedBy:employeeID,
         docUpdatedOn:new Date()
       }
-
       await employeedocument.update(updateData, {
         where: { docID: ID },
       });

@@ -19,10 +19,6 @@ const employeefamily = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    familyHealthInsurance: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     familyTitle: {
       type: DataTypes.STRING,
       allowNull: false,

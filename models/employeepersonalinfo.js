@@ -29,22 +29,14 @@ const employeepersonalinfo = sequelize.define('employeepersonalinfo', {
         type: DataTypes.DATE,
         allowNull: true,
     },
-    spouseName: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     personalEmailId: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    ccEmail: {
+    nomineeEmail: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    bccEmail: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },    
+    }, 
     religion: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -84,10 +76,6 @@ const employeepersonalinfo = sequelize.define('employeepersonalinfo', {
     extraCurricularInterest: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    WEF: {
-        type: DataTypes.DATE,
-        allowNull: false,
     }
 },{timestamps:false,    tableName: 'employeepersonalinfo',
 });

@@ -21,6 +21,10 @@ const employeedocument = sequelize.define('employeedocument', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    docName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },    
     docIssuePlace: {
         type: DataTypes.STRING,
         allowNull: false,

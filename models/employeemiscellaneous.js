@@ -25,94 +25,22 @@ const employeemiscellaneous = sequelize.define('employeemiscellaneous', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    Caste: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     ShoeSize: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    WarmClothSize: {
+    ShirtSize: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    ModeOfEntry: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    Module: {
+    TShirtSize: {
         type: DataTypes.STRING,
         allowNull: true,
     },    
-    InternalProgram: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    SuperAnnuationType: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     countryOfBirth: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    SuperAnnuationId: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    MedicalPolicy: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    GLReference: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    Currency: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    PlaceOfPosting: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    RainCoatProvided: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    InternationalEmployee: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    EmployeeManager: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    ServiceInceptionYear: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    CertificateNo: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    AadharNo: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    PANNo: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    PANValidated: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    WEF: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    }
 },{timestamps:false,    tableName: 'employeemiscellaneous',
 });
 

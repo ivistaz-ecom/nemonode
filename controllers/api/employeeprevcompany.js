@@ -1,6 +1,8 @@
 const employeeprevcompany = require("../../models/employeeprevcompany");
 const sequelize = require("../../util/database");
 const { Op } = require("sequelize");
+const fs = require("fs");
+const path = require("path");
 const { base64decode } = require("nodejs-base64");
 const moduleName = 'Past Employment'
 
@@ -68,15 +70,14 @@ const save = async (req, res) => {
     const empID = base64decode(request.empID);
     console.log(empID, 'empIDempID')
     try {
-      const newUser = await employeeprevcompany.create({
+
+      const saveData = {
         empID:empID,
         companyName:request?.companyName ?? '',
         leavingDate:request?.leavingDate,
         typeOfBusiness:request?.typeOfBusiness,
         JoiningDate:request?.JoiningDate ?? '',
-        withinGroup:request?.withinGroup ?? '',
         reportingToDesignation:request?.reportingToDesignation ?? '',
-        noofReportees:request?.noofReportees ?? '',
         department:request?.department ?? '',
         designationJoining:request?.designationJoining ?? '',
         designationLeaving:request?.designationLeaving ?? '',
@@ -86,8 +87,6 @@ const save = async (req, res) => {
         achievements:request?.achievements ?? '',
         financialYear:request?.financialYear ?? '',
         lastSalaryDrawn:request?.lastSalaryDrawn ?? '',
-        gratuityPayment:request?.gratuityPayment ?? '',
-        leaveEncashmentPayment:request?.leaveEncashmentPayment ?? '',
         PFOfficeName:request?.PFOfficeName ?? '',
         PFNumber:request?.PFNumber ?? '',
         PFAmountTransfered:request?.PFAmountTransfered ?? '',
@@ -99,10 +98,24 @@ const save = async (req, res) => {
         rawTax:request?.rawTax ?? '',
         surcharge:request?.surcharge ?? '',
         cess:request?.cess ?? '',
-        attachment:request?.attachment ?? '',
         createdBy:employeeID,
         createdOn:new Date()
-      });
+      }
+
+      if (req.file) {
+        try {
+          console.log(req.file, process.cwd(), "/employeedoc/prevcompany", 'req.filereq.filereq.file')
+          const timestamp = new Date().toISOString().replace(/[-:.T]/g, "").slice(0, 14);
+          const originalName = req.file.originalname;
+          const newFileName = `${timestamp}_${originalName}`;
+          const targetPath = path.join(process.cwd(), "/employeedoc/prevcompany", newFileName);
+          // Write file manually to disk
+          fs.writeFileSync(targetPath, req.file.buffer);
+          saveData.attachment = newFileName
+        } catch (err) { }
+      }
+
+      const newUser = await employeeprevcompany.create(saveData);
       if(newUser!=="") {
         res.status(200).json({ success: true, message: `The ${moduleName} has been created successfully.`});
       }else {
@@ -150,14 +163,12 @@ const update = async (req, res) => {
     const request = req.body;
     const getDetail = await employeeprevcompany.findOne({ where: { prevCompID: ID } });
     if(getDetail!==null) {
-      const updateData = {
+      const saveData = {
         companyName:request?.companyName ?? '',
         leavingDate:request?.leavingDate,
         typeOfBusiness:request?.typeOfBusiness,
         JoiningDate:request?.JoiningDate ?? '',
-        withinGroup:request?.withinGroup ?? '',
         reportingToDesignation:request?.reportingToDesignation ?? '',
-        noofReportees:request?.noofReportees ?? '',
         department:request?.department ?? '',
         designationJoining:request?.designationJoining ?? '',
         designationLeaving:request?.designationLeaving ?? '',
@@ -167,8 +178,6 @@ const update = async (req, res) => {
         achievements:request?.achievements ?? '',
         financialYear:request?.financialYear ?? '',
         lastSalaryDrawn:request?.lastSalaryDrawn ?? '',
-        gratuityPayment:request?.gratuityPayment ?? '',
-        leaveEncashmentPayment:request?.leaveEncashmentPayment ?? '',
         PFOfficeName:request?.PFOfficeName ?? '',
         PFNumber:request?.PFNumber ?? '',
         PFAmountTransfered:request?.PFAmountTransfered ?? '',
@@ -184,8 +193,19 @@ const update = async (req, res) => {
         updatedBy:employeeID,
         updatedOn:new Date()
       }
+      if (req.file) {
+        try {
+          const timestamp = new Date().toISOString().replace(/[-:.T]/g, "").slice(0, 14);
+          const originalName = req.file.originalname;
+          const newFileName = `${timestamp}_${originalName}`;
+          const targetPath = path.join(process.cwd(), "employeedoc/prevcompany", newFileName);
+          // Write file manually to disk
+          fs.writeFileSync(targetPath, req.file.buffer);
+          saveData.attachment = newFileName
+        } catch (err) { }
+      }
 
-      await employeeprevcompany.update(updateData, {
+      await employeeprevcompany.update(saveData, {
         where: { prevCompID : ID },
       });
       res.status(200).json({ success: true, message: `${moduleName} updated successfully.` });

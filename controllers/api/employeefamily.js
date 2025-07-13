@@ -63,7 +63,6 @@ const save = async (req, res) => {
       const newUser = await employeefamily.create({
         familyEmpID:empID,
         familyIsDependent:request?.familyIsDependent ?? '',
-        familyHealthInsurance:request?.familyHealthInsurance,
         familyTitle:request?.familyTitle,
         familyName:request?.familyName ?? '',
         familyGender:request?.familyGender ?? '',
@@ -132,7 +131,6 @@ const update = async (req, res) => {
     if(getDetail!==null) {
       const updateData = {
         familyIsDependent:request?.familyIsDependent ?? '',
-        familyHealthInsurance:request?.familyHealthInsurance,
         familyTitle:request?.familyTitle,
         familyName:request?.familyName ?? '',
         familyGender:request?.familyGender ?? '',

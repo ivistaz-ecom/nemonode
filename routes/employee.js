@@ -2,6 +2,8 @@
 // loginRoutes.js
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
 const userAuthentication= require('../middleware/auth')
 const employeeControllers = require("../controllers/api/employee")
@@ -16,15 +18,13 @@ const empstaffcategoryControllers = require("../controllers/api/empstaffcategory
 const empcompanyControllers = require("../controllers/api/empcompany")
 const empbranchControllers = require("../controllers/api/empbranch")
 const empmodeofentryontrollers = require("../controllers/api/empmodeofentry")
-const empidentitycontrollers = require("../controllers/api/empidentity")
-const employeeidentityControllers = require("../controllers/api/employeeidentity")
 const empcityControllers = require("../controllers/api/empcity")
 const empdoctypeControllers = require("../controllers/api/empdoctype")
 const employeedocumentControllers = require("../controllers/api/employeedocument")
 const employeeskillsetControllers = require("../controllers/api/employeeskillset")
 const employeelanguageControllers = require("../controllers/api/employeelanguage")
 
-console.log('post datassssss');
+
 router.post("/designation/create", userAuthentication.authenticateEmloyee, empdesignationControllers.save)
 router.get("/designation/dropdown", userAuthentication.authenticateEmloyee, empdesignationControllers.dropdownlist)
 router.get("/designation/:ID", userAuthentication.authenticateEmloyee, empdesignationControllers.getDetails)
@@ -60,9 +60,9 @@ router.put("/industry/:ID", userAuthentication.authenticateEmloyee, empindustrym
 router.delete("/industry/:ID", userAuthentication.authenticateEmloyee, empindustrymasterControllers.deleteData)
 router.get("/industry", empindustrymasterControllers.list);
 
-router.post("/prevcompany/create", userAuthentication.authenticateEmloyee, employeeprevcompanyControllers.save)
+router.post("/prevcompany/create", userAuthentication.authenticateEmloyee,  upload.single("attachment"), employeeprevcompanyControllers.save)
 router.get("/prevcompany/:ID", userAuthentication.authenticateEmloyee, employeeprevcompanyControllers.getDetails)
-router.put("/prevcompany/:ID", userAuthentication.authenticateEmloyee, employeeprevcompanyControllers.update)
+router.put("/prevcompany/:ID", userAuthentication.authenticateEmloyee,  upload.single("attachment"), employeeprevcompanyControllers.update)
 router.delete("/prevcompany/:ID", userAuthentication.authenticateEmloyee, employeeprevcompanyControllers.deleteData)
 router.get("/prevcompany", employeeprevcompanyControllers.list);
 
@@ -100,19 +100,6 @@ router.get("/modeofentry/:ID", userAuthentication.authenticateEmloyee, empmodeof
 router.put("/modeofentry/:ID", userAuthentication.authenticateEmloyee, empmodeofentryontrollers.update)
 router.delete("/modeofentry/:ID", userAuthentication.authenticateEmloyee, empmodeofentryontrollers.deleteData)
 router.get("/modeofentry", empmodeofentryontrollers.list);
-
-router.post("/identity/create", userAuthentication.authenticateEmloyee, empidentitycontrollers.save)
-router.get("/identity/dropdown", userAuthentication.authenticateEmloyee, empidentitycontrollers.dropdownlist)
-router.get("/identity/:ID", userAuthentication.authenticateEmloyee, empidentitycontrollers.getDetails)
-router.put("/identity/:ID", userAuthentication.authenticateEmloyee, empidentitycontrollers.update)
-router.delete("/identity/:ID", userAuthentication.authenticateEmloyee, empidentitycontrollers.deleteData)
-router.get("/identity", empidentitycontrollers.list);
-
-router.post("/empidentity/create", userAuthentication.authenticateEmloyee, employeeidentityControllers.save)
-router.get("/empidentity/:ID", userAuthentication.authenticateEmloyee, employeeidentityControllers.getDetails)
-router.put("/empidentity/:ID", userAuthentication.authenticateEmloyee, employeeidentityControllers.update)
-router.delete("/empidentity/:ID", userAuthentication.authenticateEmloyee, employeeidentityControllers.deleteData)
-router.get("/empidentity", employeeidentityControllers.list);
 
 router.post("/city/create", userAuthentication.authenticateEmloyee, empcityControllers.save)
 router.get("/city/dropdown", userAuthentication.authenticateEmloyee, empcityControllers.dropdownlist)
@@ -152,13 +139,21 @@ router.post("/uploadPDFReader", employeeControllers.uploadPDFReader);
 
 
 router.post("/login", employeeControllers.loginEmployee);
-router.post("/create", userAuthentication.authenticateEmloyee, employeeControllers.createEmployee);
+router.post("/create", userAuthentication.authenticateEmloyee, upload.single("empPhoto"), employeeControllers.createEmployee);
+router.post("/generateAppointmentLetter", userAuthentication.authenticateEmloyee, employeeControllers.generateAppointmentLetter);
+router.post("/generateConfidentiality", userAuthentication.authenticateEmloyee, employeeControllers.generateConfidentiality);
+router.post("/generateConfirmationLetter", userAuthentication.authenticateEmloyee, employeeControllers.generateConfirmationLetter);
+router.post("/generateOfferLetter", userAuthentication.authenticateEmloyee, employeeControllers.generateOfferLetter);
+
 
 router.put("/updatemiscellaneous", userAuthentication.authenticateEmloyee, employeeControllers.updateMiscellaneous)
 router.put("/updatesalary", userAuthentication.authenticateEmloyee, employeeControllers.updateSalary)
+router.put("/updatePersonalinfo", userAuthentication.authenticateEmloyee, employeeControllers.updatePersonalinfo)
+
+
 router.get("/dropdown", userAuthentication.authenticateEmloyee, employeeControllers.dropdownlist)
 router.get("/:ID", userAuthentication.authenticateEmloyee, employeeControllers.getEmployeeDetails)
-router.put("/:ID", userAuthentication.authenticateEmloyee, employeeControllers.updateEmployee);
+router.put("/:ID", userAuthentication.authenticateEmloyee, upload.single("empPhoto"), employeeControllers.updateEmployee);
 router.get("/", userAuthentication.authenticateEmloyee, employeeControllers.listEmployee)
 
 

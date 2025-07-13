@@ -33,10 +33,6 @@ const employee = sequelize.define('employee', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    empMiddleName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     empLastName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -49,6 +45,10 @@ const employee = sequelize.define('employee', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    empPhoto: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },    
     empDesignation: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -61,6 +61,10 @@ const employee = sequelize.define('employee', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    empAddress: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },    
     empBloodGroup: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -72,14 +76,6 @@ const employee = sequelize.define('employee', {
     empDOJ: {
         type: DataTypes.DATE,
         allowNull: false,
-    },
-    empGratuityStartDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
-    empWEF: {
-        type: DataTypes.DATE,
-        allowNull: true,
     },
     empReportingBy: {
         type: DataTypes.INTEGER,
@@ -105,18 +101,6 @@ const employee = sequelize.define('employee', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    empTransferDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
-    empExpectedConfirmationDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
-    empProbationPeriod: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
     empConfirmationDate: {
         type: DataTypes.DATE,
         allowNull: true,
@@ -129,20 +113,8 @@ const employee = sequelize.define('employee', {
         type: DataTypes.DATE,
         allowNull: true,
     },
-    empRetirementDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
     empPayStructureAppliedFromDate: {
         type: DataTypes.DATE,
-        allowNull: true,
-    },
-    empNoticePeriodForEmployer: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    empNoticePeriodforEmployee: {
-        type: DataTypes.STRING,
         allowNull: true,
     },
     empStatus: {

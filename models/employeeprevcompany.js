@@ -31,15 +31,7 @@ const employeeprevcompany = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    withinGroup: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     reportingToDesignation: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    noofReportees: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -76,14 +68,6 @@ const employeeprevcompany = sequelize.define(
       allowNull: true,
     },
     lastSalaryDrawn: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: true,
-    },
-    gratuityPayment: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: true,
-    },
-    leaveEncashmentPayment: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: true,
     },
