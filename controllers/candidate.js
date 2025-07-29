@@ -3650,7 +3650,7 @@ const crewList = async (req, res) => {
         replacements.company = company;
     }
 
-    query += ' ORDER BY r.rankOrder ASC';
+    query += ' GROUP BY a.id ORDER BY r.rankOrder ASC';
 
     try {
         const results = await sequelize.query(query, {
