@@ -647,6 +647,7 @@ const response = await axios.get(`${config.APIURL}candidate/get-contract-details
     contractDetails.map((item)=> {
       if(item.sign_off!=="1970-01-01") {
         let resultMonth =  calculateTotalMonth(item.sign_on, item.sign_off);
+        console.log(resultMonth, item.sign_on, item.sign_off, 'item.sign_offitem.sign_off' )
         totalMonth = parseInt(totalMonth)+ parseInt(resultMonth.totalMonths);
         totalDays = parseInt(totalDays) + parseInt(resultMonth.days);
       }     
