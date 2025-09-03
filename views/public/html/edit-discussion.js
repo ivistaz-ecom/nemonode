@@ -386,6 +386,7 @@ const displayDropdown = async function () {
         option.text = rankNames[i];
         rankDropdown.appendChild(option);
     }
+    addDropdown();
 }
 
 async function fetchAndDisplayVessels() {
@@ -413,6 +414,7 @@ async function fetchAndDisplayVessels() {
             option.text = vessel.vesselName;
             vesselSelect.appendChild(option);
         });
+        addDropdown();
     } catch (error) {
         console.error('Error fetching vessels:', error);
     }
@@ -593,5 +595,14 @@ const proposedCheckbox = document.getElementById('proposed');
     }
    
      
-         
+function addDropdown() {
+    if($('.select-dropdown').length>0) {
+    $(".select-dropdown").select2({
+        placeholder: function() {
+        return $(this).data('placeholder'); // Dynamically get the data-placeholder value
+        },
+        allowClear: true,
+    });
+    }
+}
         
