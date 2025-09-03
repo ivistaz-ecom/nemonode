@@ -154,6 +154,7 @@ if (hasUserManagement && decodedToken.userGroup !== 'vendor') {
                     option.text = hospitals[i].hospitalName;
                     hospitalDropdown.appendChild(option);
                 }
+                addDropdown();
             } catch (error) {
                 console.error('Error fetching hospital names:', error);
             }
@@ -320,5 +321,17 @@ function goBack() {
         window.location.href = url;
     } else {
         console.error('Candidate ID not found in URL parameters');
+    }
+}
+
+
+function addDropdown() {
+    if($('.select-dropdown').length>0) {
+    $(".select-dropdown").select2({
+        placeholder: function() {
+        return $(this).data('placeholder'); // Dynamically get the data-placeholder value
+        },
+        allowClear: true,
+    });
     }
 }

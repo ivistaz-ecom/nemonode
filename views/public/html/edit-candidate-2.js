@@ -151,6 +151,7 @@ async function fetchAndDisplayVessels() {
       option.text = vessel.vesselName;
       vesselSelect.appendChild(option);
     });
+    addDropdown();
   } catch (error) {
     console.error("Error fetching vessels:", error);
   }
@@ -172,6 +173,7 @@ function displayDropdownOptions(dropdown, options, placeholder) {
       dropdownOption.text = option.country; // Use the appropriate property from your data
       dropdown.appendChild(dropdownOption);
     });
+    addDropdown();
   } else {
     console.error(`Invalid or empty options for ${placeholder}:`, options);
   }
@@ -199,6 +201,8 @@ const displayDropdown = async function () {
     option.text = rankNames[i];
     rankDropdown.appendChild(option);
   }
+
+  addDropdown();
 };
 
 async function fetchAndDisplayNationalities() {
@@ -703,6 +707,7 @@ async function createCompanyDropdown() {
     // If you want to clone the options for another dropdown, do it here
     // companyDropdown.appendChild(option.cloneNode(true));
   }
+  addDropdown();
 }
 
 createCompanyDropdown();
@@ -729,7 +734,20 @@ const displayUserDropdown = async function () {
       option.text = user.userName; // Assuming 'userName' and 'lastName' are the correct attributes for user name
       userDropdown.appendChild(option);
     });
+    addDropdown();
   } catch (error) {
     console.error("Error fetching users:", error);
   }
 };
+
+
+function addDropdown() {
+    if($('select').length>0) {
+    $("select").select2({
+        placeholder: function() {
+        return $(this).data('placeholder'); // Dynamically get the data-placeholder value
+        },
+        allowClear: true,
+    });
+    }
+}
