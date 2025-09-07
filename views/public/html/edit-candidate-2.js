@@ -372,6 +372,7 @@ async function displayCandidateDetails(candidateData) {
       candidateData.vendor_id;
     document.getElementById("edit_candidate_us_visa").value =
       candidateData.us_visa;
+    addDropdown();
   } catch (error) {
     console.error("Error displaying candidate details:", error);
   }
