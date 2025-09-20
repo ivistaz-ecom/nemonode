@@ -168,7 +168,7 @@
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="card">
                         <div class="card-header">Communication</div>
                         <div class="card-body">
@@ -187,20 +187,50 @@
                         </div>
                     </div>
                 </div>
-            <div class="col-2 text-center card bg-gray-200 bg-light">
-    <h4 class=" bg-gray-200 mt-3">BMI</h4>
+            <div class="col-md-2 text-center card bg-gray-200 bg-light">
+                <h4 class=" bg-gray-200 mt-3">BMI</h4>
 
-    <input
-      type="text"
-      id="Bmi"
-      name="vessel1"
-      class="form-control border"
-    />
-</div>
+                <input
+                type="text"
+                id="Bmi"
+                name="vessel1"
+                class="form-control border"
+                />
+            </div>
+            <div class="col-md-5">     
+                <div class="container border border-black-1">
+                <div class="row mb-3">                  
+                    <div class="bg-light p-2">
+                        <div>
+                            <label class="form-label">Drinking Habits</label>
+                            <div class="form-check form-check-inline p">
+                                <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
+                                <label class="form-check-label" for="drinkingYes">YES</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
+                                <label class="form-check-label" for="drinkingNo">NO</label>
+                            </div>
+                        </div>
+                    </div>                  
+                    <div class="bg-light p-2">                
+                        <label class="form-label">Any Medical issues</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
+                            <label class="form-check-label" for="medicalYes">YES</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
+                            <label class="form-check-label" for="medicalNo">NO</label>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+            </div>
 
             </div>
 
-            <div class="card mb-3 ">
+            <div class="card mb-3 " style="display: none;">
                 <div class="card-header  ">
                 <h5>TRADE AREA EXPERIENCE (indicate number of contracts)</h5>
               </div>
@@ -242,7 +272,7 @@
         </form>
     
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" style="display: none;">
             <div class="card mb-4">
                 <div class="card-header bg-light">
                   <h5 class="mb-0">
@@ -289,39 +319,10 @@
                 </div>
               </div>      
             </div>
-            <div class="col-md-6">     
-                <div class="container border border-black-1">
-                <div class="row mb-3">                  
-                    <div class="bg-light p-2">
-                        <div class="mb-2">
-                            <label class="form-label">Drinking Habits</label>
-                            <div class="form-check form-check-inline p">
-                                <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingYes">
-                                <label class="form-check-label" for="drinkingYes">YES</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="drinkingHabits" id="drinkingNo">
-                                <label class="form-check-label" for="drinkingNo">NO</label>
-                            </div>
-                        </div>
-                    </div>                  
-                    <div class="bg-light p-2">                
-                        <label class="form-label">Any Medical issues</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalYes">
-                            <label class="form-check-label" for="medicalYes">YES</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="medicalIssues" id="medicalNo">
-                            <label class="form-check-label" for="medicalNo">NO</label>
-                        </div>            
-                    </div>
-                </div>
-            </div>
-            </div>
+            
         </div>
 
-        <div class="row">
+        <div class="row" style="display: none;">
             <div class="col">
               <div class="border border-black-1">
                 <div class="bg-light p-4">
@@ -370,7 +371,7 @@
           </div>
 
 
-          <div class="col-md-12 mb-1 mt-4">
+          <div class="col-md-12 mb-1 mt-4" style="display: none;">
             <div class="border border-black-1 ">
               <div class="bg-light p-3 ">
                 <h5 class="form-label">MAIN ENGINE EXPERIENCE (indicate number of vessels)</h5>
@@ -415,7 +416,7 @@
             </div>
           </div>
 
-          <div class="row ">
+          <div class="row " style="display: none;">
             <div class="col-md-12 mb-3">
               <div class="border border-black-1">
                 <div class="bg-light pt-1 p-3">
@@ -470,7 +471,7 @@ Number of Contracts in Ranks
 </div>
 <div class="row ">
     <div class="col-5 border pt-3">
-Type or size of the vessels served    </div>
+Type or size of the vessels served<br/>(Mention TEU for containers)    </div>
     <div class="col border p-2">
        <input class="form-control"  id="psInput2">
     </div>
