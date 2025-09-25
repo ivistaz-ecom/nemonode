@@ -13,6 +13,10 @@ const Company = sequelize.define("company", {
         type:Sequelize.STRING,
         allowNull:false
     },
+    GSTNumber:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },    
     b_type: {
         type: Sequelize.STRING,
         allowNull: true,

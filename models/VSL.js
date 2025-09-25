@@ -37,6 +37,10 @@ const Vsl = sequelize.define('Vsl', {
     vesselKWT:{
         type:DataTypes.STRING
     },
+    vesselCode: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     tableName: 'vsls',
     timestamps: false,
