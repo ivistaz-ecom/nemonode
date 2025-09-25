@@ -197,7 +197,7 @@ const generatePO = async (req, res) => {
       // Step 3: remove duplicates
       const uniqueIds = [...new Set(allIds)];
     
-      const candidatequery = `SELECT candidateId, CONCAT(fname,' ',lname) AS name, c_rank FROM candidates WHERE candidateId  IN (${uniqueIds.join(",")})`;
+      const candidatequery = `SELECT candidateId, CONCAT(fname,' ',lname) AS name, c_rank FROM Candidates WHERE candidateId  IN (${uniqueIds.join(",")})`;
       const candidateresult = await sequelize.query(candidatequery, {
         type: sequelize.QueryTypes.SELECT,
       });
