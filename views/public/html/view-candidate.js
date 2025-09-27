@@ -152,7 +152,6 @@ document
 
     // Get the candidateId from the URL parameter
     const candidateId = urlParams.get("id");
-    
     fetchAndDisplayDocumentDetails(candidateId);
   });
 
@@ -766,6 +765,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetchAndDisplayEvaluationData(candidateId);
     updateCandidatePhoto(candidateId);
     fetchAndDisplayFiles(candidateId);
+    validateDocuments(candidateId);
     const hasUserManagement = decodedToken.userManagement;
     const vendorManagement = decodedToken.vendorManagement;
     console.log(vendorManagement);
@@ -1710,6 +1710,27 @@ function displayEvaluationData(evaluationData) {
 
 // Call the function to fetch and display evaluation data
 fetchAndDisplayEvaluationData();
+
+
+async function validateDocuments(id) {
+  // Simulate fetching the photo value from a database or other source
+  // Set the fetched photo value to the input field
+  try {
+    const response = await axios.get(
+      `${config.APIURL}candidate/validate-candidate-documents/${id}`,
+      { headers: { Authorization: token } }
+    );
+    if(response.data.success===false) {
+      $('#document-error').html(response.data.message).show();
+      $('#add-contact').hide();
+    }else {
+      $('#document-error').html('').hide();
+      $('#add-contact').show();
+    }
+  } catch (error) {
+    console.error("Error fetching evaluation data:", error);
+  } 
+}
 
 async function updateCandidatePhoto(id) {
   // Simulate fetching the photo value from a database or other source

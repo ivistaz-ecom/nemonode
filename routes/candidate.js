@@ -139,5 +139,6 @@ router.get('/user-stats',userAuthentication.authenticate,candidateControllers.ge
 router.get('/single-user-stats',userAuthentication.authenticate,candidateControllers.getSelectedUserStats);
 router.get('/stats-list',userAuthentication.authenticate,candidateControllers.getStatsList);
 router.get('/medical-stats-list',userAuthentication.authenticate,candidateControllers.getMedicalStatsList);
+router.get('/validate-candidate-documents/:id',userAuthentication.authenticate,candidateControllers.validateCandidateDocuments);
 
 module.exports = router;

@@ -5749,6 +5749,199 @@ const getavailableCandidate = async (req, res) => {
     }
 };
 
+const validateCandidateDocuments = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found', success: false });
+        }
+        const readOnly = user.dataValues.readOnly;
+        const userGroup = user.dataValues.userGroup;
+        const candidateId = req.params.id;
+
+        const candquery = `SELECT c_rank FROM Candidates WHERE candidateId='${candidateId}'`;
+       
+       
+        const candDetails = await sequelize.query(candquery, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        if(candDetails.length>0) {
+            const candDetail = candDetails[0];
+
+            const officers = [
+            '2ND OFFICER',
+            '3RD OFFICER',
+            'CHIEF OFFICER',
+            'Deck Cadet',
+            'TME',
+            'MASTER',
+            'TUG MASTER',
+            'NCV MASTER',
+            'NCV CHIEF OFFICER',
+            'NCV NWKO',
+            'PANAMA MASTER',
+            'PANAMA CHIEF OFFICER',
+            'PANAMA 2ND OFFICER',
+            'PANAMA 3RD OFFICER',
+            'DREDGER OPERATOR',
+            'IV MASTER',
+            'JUNIOR OFFICER',
+            'RADIO OFFICER',
+            'DPO',
+            'DREDGE MASTER',
+            'SAFETY OFFICER',
+            '2ND ENGINEER',
+            '3RD ENGINEER',
+            '4TH ENGINEER',
+            'ADDL. CHIEF ENGINEER',
+            'CHIEF ENGINEER',
+            'ELECTRICAL OFFICER',
+            'NCV CHIEF ENGINEER',
+            'NCV 2ND ENGINEER',
+            'NCV 3RD ENGINEER',
+            'NCV 4TH ENGINEER',
+            'PANAMA CENG',
+            'PANAMA 2ND ENGINEER',
+            'PANAMA 3ENG',
+            'PANAMA 4ENG',
+            'GAS ENGINEER',
+            'IV ENGINEER',
+            '2ND ASST ENGINEER',
+            'IV 2ND DRIVER',
+            'ELECTRO TECHNICAL OFFICER'
+            ]
+           const ratings = [
+            'BOSUN',
+            'AB',
+            'IV BOSUN',
+            'OS',
+            'TR OS',
+            'PUMPMAN',
+            'REPAIR TEAM FITTER',
+            'RPTM CLEANER',
+            'Motorman',
+            'WIPER',
+            'FITTER-DECK',
+            'FITTER-ENGINE',
+            'TR WIPER',
+            'OS',
+            'MTM/OILER',
+            'TR OS',
+            'WELDER',
+            'IV FITTER',
+            'IV OILER',
+            'FITTER',
+            'TRAINEE OS'
+           ]
+           let type = '';
+           if(officers.indexOf(candDetail.c_rank)>=0) {
+            type='officers'
+           }else if(ratings.indexOf(candDetail.c_rank)>=0) {
+            type='ratings'
+           }
+            
+            query = `SELECT * FROM cdocuments WHERE candidateId='${candidateId}'`;
+            listData = await sequelize.query(query, {
+                type: sequelize.QueryTypes.SELECT
+            });
+
+        
+            // Define equivalence groups
+            let aliasGroups  = [];
+            if(type==='officers') {
+                aliasGroups = [
+                    ['Passport'],
+                    ['National Seaman Book', 'Seamans Book'],
+                    ['COC'],
+                    ['SID'],
+                    ['AFF','FPFF'],
+                    ['PSCRB', 'PST'],
+                    ['MEDICARE','MFA', 'EFA'],
+                    ['SSO','STSDSD']
+                ];                
+            }else if(type==='ratings') {
+                aliasGroups  = [
+                    ['Passport'],
+                    ['National Seaman Book', 'Seamans Book'],
+                    ['COP'],
+                    ['SID'],
+                    ['AFF','FPFF'],
+                    ['PSCRB', 'PST'],
+                    ['MEDICARE','MFA', 'EFA'],
+                    ['SSO','STSDSD']
+                ];
+            }
+            if(aliasGroups.length>0) {
+                
+                // Normalize DB documents
+                const availableDocs = listData.map(d => d.document.toLowerCase());
+
+                const missingDocs = [];
+
+                for (const group of aliasGroups) {
+                    // Check if at least one alias from this group exists in DB
+                    const found = group.some(alias =>
+                        availableDocs.includes(alias.toLowerCase())
+                    );
+                    if (!found) {
+                        missingDocs.push(group.join(" / ")); // representative
+                    }
+                }
+                
+                let missingDocs_ = '';
+                if(missingDocs.length>0) {
+                    missingDocs_+=missingDocs.join(', ');
+                }
+                const medicalquery = `SELECT id FROM medicals WHERE candidateId='${candidateId}' AND place!='' AND place IS NOT NULL`;
+                const medicalDetails = await sequelize.query(medicalquery, {
+                    type: sequelize.QueryTypes.SELECT
+                });
+                if(medicalDetails.length===0) {
+                    if(missingDocs_!==""){
+                        missingDocs_+=', ';
+                    }
+                    missingDocs_+= 'Medicals';
+                }
+
+                const bankquery = `SELECT id FROM bank WHERE candidateId='${candidateId}' AND account_num!='' AND account_num IS NOT NULL`;
+                const bankDetails = await sequelize.query(bankquery, {
+                    type: sequelize.QueryTypes.SELECT
+                });
+                if(bankDetails.length===0) {
+                    if(missingDocs_!==""){
+                        missingDocs_+=', ';
+                    }
+                    missingDocs_+= 'Bank Details';
+                }
+
+                const nkdquery = `SELECT id FROM candidatenkds WHERE candidateId='${candidateId}' AND kin_name!='' AND kin_name IS NOT NULL`;
+                const nkdDetails = await sequelize.query(nkdquery, {
+                    type: sequelize.QueryTypes.SELECT
+                });
+                if(nkdDetails.length===0) {
+                    if(missingDocs_!==""){
+                        missingDocs_+=', ';
+                    }
+                    missingDocs_+= 'NKD';
+                }
+                if(missingDocs_==="") {
+                    res.status(200).json({success: true});
+                }else {
+                    res.status(200).json({ message: missingDocs_, success: false });
+                }
+            }else {
+                res.status(500).json({ message: "Invalid candidate", success: false });
+            }
+        }else {
+            res.status(500).json({  message: "Invalid candidate", success: false });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err, message: "Internal Server Error", success: false });
+    }
+};
 
 
 
@@ -5873,5 +6066,6 @@ module.exports = {
    getSelectedUserStats,
    getStatsList,
    getMedicalStatsList,
-   getavailableCandidate
+   getavailableCandidate,
+   validateCandidateDocuments
 };

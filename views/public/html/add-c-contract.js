@@ -121,6 +121,7 @@ const id = candidateId;
     await fetchAndDisplayVesselType();
     await fetchAndDisplayDropdowns();
     await fetchAndDisplayCompanies();
+    await validateDocuments(id)
     
     let dropdownItems = document.querySelectorAll(".dropdown-item");
 
@@ -178,6 +179,23 @@ const id = candidateId;
         });
     });
 });
+
+async function validateDocuments(id) {
+  // Simulate fetching the photo value from a database or other source
+  // Set the fetched photo value to the input field
+  try {
+    const response = await axios.get(
+      `${config.APIURL}candidate/validate-candidate-documents/${id}`,
+      { headers: { Authorization: token } }
+    );
+    if(response.data.success===false) {
+        alert(response.data.message)
+        window.location.href = `view-candidate.html?id=${id}`;
+    }
+  } catch (error) {
+    console.error("Error fetching evaluation data:", error);
+  } 
+}
 
 
 async function handleContractForm(event) {

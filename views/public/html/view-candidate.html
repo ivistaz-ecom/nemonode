@@ -1089,14 +1089,17 @@
                       <div class="content-wrapper p-3 mb-5 rounded-3">
                         <div class="w-100">
                           <div class="">
-                            <div class="d-flex justify-content-end">
-                              <a
-                                id="addCont"
-                                class="btn btn-danger text-white m-3 mt-0"
-                                href="#"
-                                onclick="addContract()"
-                                >Add new Contract</a
-                              >
+                            <div class="alert alert-danger" id="document-error"  style="display: none;" role="alert">This is a danger alert — check it out!</div>
+                            <div style="display: none;" id="add-contact">
+                              <div class="d-flex justify-content-end" >
+                                <a
+                                  id="addCont"
+                                  class="btn btn-danger text-white m-3 mt-0"
+                                  href="#"
+                                  onclick="addContract()"
+                                  >Add new Contract</a
+                                >
+                              </div>
                             </div>
                             <h4
                               class="text-center mb-0 rounded-0 shadow-none border border-dark card p-3"
@@ -1749,7 +1752,7 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
-    <script src="./view-candidate.js"></script>
+    <script src="./view-candidate.js?v=1"></script>
     <!-- Page JS -->
     <script src="../assets/js/pages-account-settings-account.js"></script>
 
