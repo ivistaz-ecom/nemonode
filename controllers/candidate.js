@@ -5853,9 +5853,9 @@ const validateCandidateDocuments = async (req, res) => {
             if(type==='officers') {
                 aliasGroups = [
                     ['Passport'],
-                    ['National Seaman Book', 'Seamans Book'],
-                    ['COC'],
-                    ['SID'],
+                    ['National Seaman Book', 'Seamans Book', 'INDIAN CDC', 'PANAMA CDC', 'CYPRUS CDC', 'St. K&N CDC', 'LIBERIAN CDC', 'MARSHALL ISLAND CDC', 'THAILAND CDC', 'PALAU CDC', 'NIGERIAN CDC', 'BANGLADESH CDC', 'ETHIOPIA CDC', 'UKRAINE CDC', 'EGYPT CDC', 'SRILANKA CDC', 'CHINA CDC', 'RUSSIA CDC', 'GEORGIAN CDC', 'PHILIPPINES CDC', 'GABON CDC'],
+                    ['COC', 'PART-A', 'COURSE COMPLETION'],
+                    ['SEAFARER ID'],
                     ['AFF','FPFF'],
                     ['PSCRB', 'PST'],
                     ['MEDICARE','MFA', 'EFA'],
@@ -5864,9 +5864,9 @@ const validateCandidateDocuments = async (req, res) => {
             }else if(type==='ratings') {
                 aliasGroups  = [
                     ['Passport'],
-                    ['National Seaman Book', 'Seamans Book'],
-                    ['COP'],
-                    ['SID'],
+                    ['National Seaman Book', 'Seamans Book', 'INDIAN CDC', 'PANAMA CDC', 'CYPRUS CDC', 'St. K&N CDC', 'LIBERIAN CDC', 'MARSHALL ISLAND CDC', 'THAILAND CDC', 'PALAU CDC', 'NIGERIAN CDC', 'BANGLADESH CDC', 'ETHIOPIA CDC', 'UKRAINE CDC', 'EGYPT CDC', 'SRILANKA CDC', 'CHINA CDC', 'RUSSIA CDC', 'GEORGIAN CDC', 'PHILIPPINES CDC', 'GABON CDC'],
+                    ['COP', 'WATCH KEEPING', 'GENERAL PURPOSE RATING'],
+                    ['SEAFARER ID'],
                     ['AFF','FPFF'],
                     ['PSCRB', 'PST'],
                     ['MEDICARE','MFA', 'EFA'],
