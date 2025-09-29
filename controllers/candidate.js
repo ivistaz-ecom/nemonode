@@ -5894,7 +5894,7 @@ const validateCandidateDocuments = async (req, res) => {
                 if(missingDocs.length>0) {
                     missingDocs_+=missingDocs.join(', ');
                 }
-                const medicalquery = `SELECT id FROM medicals WHERE candidateId='${candidateId}' AND place!='' AND place IS NOT NULL`;
+                const medicalquery = `SELECT id FROM Medicals WHERE candidateId='${candidateId}' AND place!='' AND place IS NOT NULL`;
                 const medicalDetails = await sequelize.query(medicalquery, {
                     type: sequelize.QueryTypes.SELECT
                 });
