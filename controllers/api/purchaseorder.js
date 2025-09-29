@@ -223,8 +223,8 @@ const generatePO = async (req, res) => {
      
       (async () => {
         const browser = await puppeteer.launch({
-          headless:true,
-          arg:['--no-sandbox', '--disable-setuid-sandbox']
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         const page = await browser.newPage();
 
