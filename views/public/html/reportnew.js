@@ -1009,8 +1009,14 @@ function viewCandidate(candidateId) {
 }
 
 async function checkingDocument(documentList, documentType) {
+
   if (Array.isArray(documentList) && documentList.length > 0 && documentType) {
-    return documentList.find(doc => doc.document.toLowerCase() === documentType) || null;
+    if(docTypes==='indian cdc') {
+      return documentList.find(doc => (doc.document.toLowerCase() === documentType || doc.document.toLowerCase() === 'national seaman book')) || null;
+    }else {
+      return documentList.find(doc => doc.document.toLowerCase() === documentType) || null;
+    }
+    
   }
   return null;
 }
