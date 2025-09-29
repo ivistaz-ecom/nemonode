@@ -222,7 +222,10 @@ const generatePO = async (req, res) => {
       }
      
       (async () => {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+          headless:true,
+          arg:['--no-sandbox', '--disable-setuid-sandbox']
+        });
         const page = await browser.newPage();
 
         // Load page content (use your HTML or page.goto)
