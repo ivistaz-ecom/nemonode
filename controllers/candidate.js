@@ -5916,7 +5916,7 @@ const validateCandidateDocuments = async (req, res) => {
                     missingDocs_+= 'Bank Details';
                 }
 
-                const nkdquery = `SELECT id FROM candidatenkds WHERE candidateId='${candidateId}' AND kin_name!='' AND kin_name IS NOT NULL`;
+                const nkdquery = `SELECT id FROM CandidateNkds WHERE candidateId='${candidateId}' AND kin_name!='' AND kin_name IS NOT NULL`;
                 const nkdDetails = await sequelize.query(nkdquery, {
                     type: sequelize.QueryTypes.SELECT
                 });
