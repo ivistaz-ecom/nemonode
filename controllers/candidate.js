@@ -5762,7 +5762,7 @@ const validateCandidateDocuments = async (req, res) => {
         const candidateId = req.params.id;
 
         const candquery = `SELECT c_rank FROM Candidates WHERE candidateId='${candidateId}'`;
-       
+       console.log(candquery, 'candquerycandquerycandquery')
        
         const candDetails = await sequelize.query(candquery, {
             type: sequelize.QueryTypes.SELECT
