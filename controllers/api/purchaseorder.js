@@ -209,15 +209,16 @@ const generatePO = async (req, res) => {
         <b>MASTER & OWNERS OF VESSEL M.V. ${poData.vesselName.toUpperCase()}</b><br>
       <b>${poData.companyName.toUpperCase()}</b><br>
         ${poData.branchAddress}<br>
-        CONTACT PERSON: ${poData.branchContactPerson}<br/>
-        MOBILE NUMBER: ${poData.branchContactPhone}`;
+        ${poData.branchContactPerson!=="" && poData.branchContactPerson!==null?`CONTACT PERSON: ${poData.branchContactPerson}<br/>`:''}
+        ${poData.branchContactPhone!=="" && poData.branchContactPhone!==null?`MOBILE NUMBER: ${poData.branchContactPhone}`:''}
+        `;
       } else {
         leftAddress = `
          <b>MASTER & OWNERS OF VESSEL M.V. ${poData.vesselName.toUpperCase()}</b><br>
         <b>${poData.company_name.toUpperCase()}</b><br>
         ${poData.address}<br>
-        CONTACT PERSON: ${poData.contact_person}<br/>
-        MOBILE NUMBER: ${poData.phone}<br/>
+        ${poData.contact_person!=="" && poData.contact_person!==null?`CONTACT PERSON: ${poData.contact_person}<br/>`:''}
+        ${poData.phone!=="" && poData.phone!==null?`MOBILE NUMBER: ${poData.phone}<br/>`:''}
         ${poData.GSTNumber !== "" && poData.GSTNumber !== null ? `GST NUMBER:${poData.GSTNumber}` : ""}`;
       }
      
