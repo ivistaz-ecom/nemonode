@@ -403,7 +403,7 @@ const generatePO = async (req, res) => {
           </tr>
           <tr>
             <td class="right" style="border-left:none !important; border-right:none !important; border-bottom:none !important;">
-              <b>Total Amount INR</b>
+              <b>Total Amount ${poData.poCurrency}</b>
             </td>
             <td class="right" style="border-left:none !important;border-right:none !important;border-bottom:none !important;">
                <b>${parseFloat(poData.poGrandTotal).toLocaleString()}</b>

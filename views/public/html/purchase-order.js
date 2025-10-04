@@ -489,6 +489,9 @@ function changeAmount(evt) {
   });
 }
 function removeSelectError(name) {
+  if(name==='poCurrency') {
+    $('#currency_disply').html($('#poCurrency').val());
+  }
   $(`.sel-${name} .select2-selection`).removeClass("error");
 }
 function removeTextError(name) {

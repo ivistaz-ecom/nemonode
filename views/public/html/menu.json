@@ -217,6 +217,21 @@
         ]
     },
     {
+        "title": "Purchase Order",
+        "link": "",
+        "icon": "bx-file",
+        "allowtoshow":false,
+        "type": "link",
+        "active":"purchase-order",
+        "submenu": [
+            {
+                "title": "Purchase Order",
+                "link": "purchase-order.html",
+                "active":"purchase-order"
+            }
+        ]
+    },
+    {
         "title": "Candidate Management",
         "link": "",
         "type": "static",
