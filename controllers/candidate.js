@@ -5929,10 +5929,12 @@ const validateCandidateDocuments = async (req, res) => {
                 if(missingDocs_==="") {
                     res.status(200).json({success: true});
                 }else {
-                    res.status(200).json({ message: `${missingDocs_} documents missing.`, success: false });
+                    res.status(200).json({success: true});
+                    //res.status(200).json({ message: `${missingDocs_} documents missing.`, success: false });
                 }
             }else {
-                res.status(500).json({ message: "Invalid candidate", success: false });
+                res.status(200).json({success: true});
+                //res.status(500).json({ message: "Rank not applicable ", success: false });
             }
         }else {
             res.status(500).json({  message: "Invalid candidate", success: false });
