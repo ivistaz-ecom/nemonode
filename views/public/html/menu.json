@@ -216,21 +216,7 @@
             }
         ]
     },
-    {
-        "title": "Purchase Order",
-        "link": "",
-        "icon": "bx-file",
-        "allowtoshow":true,
-        "type": "link",
-        "active":"purchase-order",
-        "submenu": [
-            {
-                "title": "Purchase Order",
-                "link": "purchase-order.html",
-                "active":"purchase-order"
-            }
-        ]
-    },
+   
     {
         "title": "Candidate Management",
         "link": "",
@@ -359,5 +345,15 @@
         "submenu": [],
         "traget":"_blank",
         "active":"crewplanner"
+    },
+    {
+        "title": "Purchase Order",
+        "link": "purchase-order.html",
+        "icon": "bx-file",
+        "type": "link",
+        "allowtoshow":true,
+        "submenu": [],
+        "traget":"",
+        "active":"purchase-order"
     }
 ]
