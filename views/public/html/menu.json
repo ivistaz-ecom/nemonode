@@ -220,7 +220,7 @@
         "title": "Purchase Order",
         "link": "",
         "icon": "bx-file",
-        "allowtoshow":false,
+        "allowtoshow":true,
         "type": "link",
         "active":"purchase-order",
         "submenu": [
