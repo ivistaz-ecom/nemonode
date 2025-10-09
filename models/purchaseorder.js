@@ -89,6 +89,10 @@ const purchaseorder = sequelize.define('purchaseorder', {
         type: DataTypes.DECIMAL(11, 2),
         allowNull: false,
     },
+    poNote :{
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     poCreatedBy: {
         type: DataTypes.INTEGER,
         allowNull: false,  

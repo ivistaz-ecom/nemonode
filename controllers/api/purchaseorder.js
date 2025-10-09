@@ -144,6 +144,7 @@ const createPO = async (req, res) => {
       poInsuranceAmount: request?.insurance_amount ?? "",
       poOtherAmount: request?.other_amount ?? "",
       poGrandTotal: request?.grand_total ?? "",
+      poNote:request?.poNote ?? "",
       poCreatedBy: userId,
       poCreateOn: new Date(),
     };
@@ -221,7 +222,7 @@ const generatePO = async (req, res) => {
         ${poData.phone!=="" && poData.phone!==null?`MOBILE NUMBER: ${poData.phone}<br/>`:''}
         ${poData.GSTNumber !== "" && poData.GSTNumber !== null ? `GST NUMBER:${poData.GSTNumber}` : ""}`;
       }
-     
+      const poNote = poData?.poNote ?? '';
       (async () => {
         const browser = await puppeteer.launch({
           headless: true,
@@ -375,6 +376,8 @@ const generatePO = async (req, res) => {
       <td style="border-top:none !important; width:50%; font-size:11px; padding:10px">
         <p>
        ${leftAddress}
+       ${poNote!==""?`<br/>Note:${poNote}`:''}
+
       </p>
       </td>
       <td style="border-top:none !important; width:50%;  font-size:10px;  padding-top:10px">

@@ -458,6 +458,7 @@ async function createNewPO() {
       other_amount: calValue?.other_amount || 0,
       lessDiscount: calValue?.LessDiscount || 0,
       grand_total: calValue?.grand_total || 0,
+      poNote:$('#poNote').val()
     };
     try {
       showLoader("createPO");
