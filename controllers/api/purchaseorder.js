@@ -134,12 +134,7 @@ const createPO = async (req, res) => {
       poCurrency: request?.poCurrency ?? "",
       posubTotal: request?.subTotal ?? "",
       poLessDiscount: request?.lessDiscount ?? "",
-      poGSTPercentage: request?.gst_percentage ?? "",
       poGSTAmount: request?.gst_amount ?? "",
-      poIGSTPercentage: request?.igst_percentage ?? "",
-      poIGSTAmount: request?.igst_amount ?? "",
-      poVatPercentage: request?.vat_percentage ?? "",
-      poVatAmount: request?.vat_amount ?? "",
       poDelCharges: request?.del_charges ?? "",
       poInsuranceAmount: request?.insurance_amount ?? "",
       poOtherAmount: request?.other_amount ?? "",
@@ -161,6 +156,8 @@ const createPO = async (req, res) => {
             poItemQuantity: item.quantity ?? "",
             poItemUnit: item.unit ?? "",
             poItemRate: item.rate ?? "",
+            poGSTValue: item.gstValue ?? "",
+            poGSTAmount: item.gstAmount ?? "",
             poItemTotalRate: item.totalRate ?? "",
           };
           await purchaseorderitem.create(itemData);
@@ -337,6 +334,8 @@ const generatePO = async (req, res) => {
         <th style="width:40px">Unit</th>
         <th style="width:40px">Currency</th>
         <th style="width:60px">Rate</th>
+        <th style="width:60px">Tax(%)</th>
+        <th style="width:60px">Tax Amount</th>
         <th style="width:60px">Total</th>
       </tr>
     </thead>
@@ -361,9 +360,13 @@ const generatePO = async (req, res) => {
             <td class="center-align">${parseInt(index) + 1}</td>
             <td>${item.categoryName}</td>
             <td>${finalCandidate}</td>
-            <td class="center-align">${item.poItemQuantity}</td><td class="center-align">${item.poItemUnit}</td><td class="center-align">${poData.poCurrency}</td><td class="right">${
-            item.poItemRate
-          }</td><td class="right">${item.poItemTotalRate}</td>
+            <td class="center-align">${item.poItemQuantity}</td>
+            <td class="center-align">${item.poItemUnit}</td>
+            <td class="center-align">${poData.poCurrency}</td>
+            <td class="right">${parseFloat(item.poItemRate).toFixed(2)}</td>
+            <td class="right">${item.poGSTValue}</td>
+            <td class="right">${(item.poGSTAmount!=="")?parseFloat(item.poGSTAmount).toFixed('2'):''}</td>
+            <td class="right">${parseFloat(item.poItemTotalRate).toFixed('2')}</td>
           </tr>
          `;
         })
@@ -386,23 +389,19 @@ const generatePO = async (req, res) => {
             <td class="no-border right">
               <b>Currency:</b> ${poData.poCurrency}<br>
               Less discount<br>
-              ${parseFloat(poData.poGSTPercentage) > 0 ? `Add GST % ${parseFloat(poData.poGSTPercentage).toLocaleString()}%<br>` : ""}
-              ${parseFloat(poData.poIGSTPercentage) > 0 ? `Add IGST % ${parseFloat(poData.poIGSTPercentage).toLocaleString()}%<br>` : ""}
+              ${parseFloat(poData.poGSTAmount) > 0 ? `Add GST<br>` : ""}
               ${parseFloat(poData.poInsuranceAmount) > 0 ? `Add Insurance<br>` : ""}
-              ${parseFloat(poData.poVatPercentage) > 0 ? `Add VAT % ${parseFloat(poData.poVatPercentage).toLocaleString()}%<br>` : ""}
               ${parseFloat(poData.poDelCharges) > 0 ? `Add Del.Charges<br>` : ""}
               ${parseFloat(poData.poOtherAmount) > 0 ? `Other<br>` : ""}
               
             </td>
             <td class="no-border right">
               <b>${poData.posubTotal}</b><br>
-              <b>${parseFloat(poData.poLessDiscount) > 0 ? parseFloat(poData.poLessDiscount).toLocaleString() : ""}</b><br>
-              ${parseFloat(poData.poGSTAmount) > 0 ? `<b>${parseFloat(poData.poGSTAmount).toLocaleString()}</b><br>` : ""}
-              ${parseFloat(poData.poIGSTAmount) > 0 ? `<b>${parseFloat(poData.poIGSTAmount).toLocaleString()}</b><br>` : ""}
-              ${parseFloat(poData.poInsuranceAmount) > 0 ? `<b>${parseFloat(poData.poInsuranceAmount).toLocaleString()}</b><br>` : ""}
-              ${parseFloat(poData.poVatAmount) > 0 ? `<b>${parseFloat(poData.poVatAmount).toLocaleString()}</b><br>` : ""}
-              ${parseFloat(poData.poDelCharges) > 0 ? `<b>${parseFloat(poData.poDelCharges).toLocaleString()}</b><br>` : ""}
-              ${parseFloat(poData.poOtherAmount) > 0 ? `<b>${parseFloat(poData.poOtherAmount).toLocaleString()}</b><br>` : ""}
+              <b>${parseFloat(poData.poLessDiscount) > 0 ? parseFloat(poData.poLessDiscount).toFixed('2') : ""}</b><br>
+              ${parseFloat(poData.poGSTAmount) > 0 ? `<b>${parseFloat(poData.poGSTAmount).toFixed('2')}</b><br>` : ""}
+              ${parseFloat(poData.poInsuranceAmount) > 0 ? `<b>${parseFloat(poData.poInsuranceAmount).toFixed('2')}</b><br>` : ""}
+              ${parseFloat(poData.poDelCharges) > 0 ? `<b>${parseFloat(poData.poDelCharges).toFixed('2')}</b><br>` : ""}
+              ${parseFloat(poData.poOtherAmount) > 0 ? `<b>${parseFloat(poData.poOtherAmount).toFixed('2')}</b><br>` : ""}
             </td>
           </tr>
           <tr>
@@ -410,7 +409,7 @@ const generatePO = async (req, res) => {
               <b>Total Amount ${poData.poCurrency}</b>
             </td>
             <td class="right" style="border-left:none !important;border-right:none !important;border-bottom:none !important;">
-               <b>${parseFloat(poData.poGrandTotal).toLocaleString()}</b>
+               <b>${parseFloat(poData.poGrandTotal).toFixed('2')}</b>
             </td>
           </tr>
         </table>

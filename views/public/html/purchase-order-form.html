@@ -201,53 +201,40 @@
                               <th style="width: 100px">Qty</th>
                               <th style="width: 150px">Unit</th>
                               <th style="width: 150px">Rate</th>
+                              <th style="width: 150px">Tax(%)</th>
+                              <th style="width: 150px">Tax Amount</th>
                               <th style="width: 100px">Total</th>
                             </tr>
                           </thead>
                           <tbody id="po-item"></tbody>
                           <tfoot>
                             <tr>
-                              <td colspan="7" class="right-align"><b>Total</b></td>
+                              <td colspan="9" class="right-align"><b>Total</b></td>
                               <td class="right-align" id="subTotal"></td>
                             </tr>
                             <tr>
                               <td colspan="2" class="right-align"><b>Note</b></td>
-                              <td colspan="6"><input type="text" class="form-control" id="poNote"    placeholder="Note" /></td>
+                              <td colspan="8"><input type="text" class="form-control" id="poNote"    placeholder="Note" /></td>
                             </tr>
                             <tr>
-                              <td colspan="7" class="right-align"><b>Less discount</b></td>
-                              <td class="right-align"><input type="text" class="form-control" id="LessDiscount"   onkeyup="changeAmount(this)"  placeholder="Rate" /></td>
+                              <td colspan="8" class="right-align"><b>Less discount(-)</b></td>
+                              <td colspan="2" class="right-align"><input type="text" class="form-control" id="LessDiscount"   onkeydown="changeAmount(this)"  placeholder="Rate" /></td>
                             </tr>
                             <tr>
-                              <td colspan="6" class="right-align"><b>Add GST%</b></td>
-                              <td><input type="text" class="form-control" id="gst_percentage" placeholder="Rate"  onkeyup="changeAmount(this)" /></td>
-                              <td class="right-align" id="gst_amount"></td>
+                              <td colspan="8" class="right-align"><b>Add Insurance</b></td>
+                              <td colspan="2" class="right-align"><input type="text" class="form-control" id="insurance_amount"   onkeydown="changeAmount(this)"  placeholder="Rate" /></td>
                             </tr>
                             <tr>
-                              <td colspan="6" class="right-align"><b>Add IGST %</b></td>
-                              <td><input type="text" class="form-control" id="igst_percentage" onkeyup="changeAmount(this)"  placeholder="Rate" /></td>
-                              <td class="right-align" id="igst_amount"></td>
+                              <td colspan="8" class="right-align"><b>Add Del.Charges</b></td>
+                              <td colspan="2" class="right-align"><input type="text" class="form-control" onkeydown="changeAmount(this)"  id="del_charges" placeholder="Rate" /></td>
                             </tr>
                             <tr>
-                              <td colspan="7" class="right-align"><b>Add Insurance</b></td>
-                              <td class="right-align"><input type="text" class="form-control" id="insurance_amount"   onkeyup="changeAmount(this)"  placeholder="Rate" /></td>
+                              <td colspan="8" class="right-align"><b>Other</b></td>
+                              <td colspan="2" class="right-align"><input type="text" class="form-control" onkeydown="changeAmount(this)" id="other_amount" placeholder="Rate" /></td>
                             </tr>
                             <tr>
-                              <td colspan="6" class="right-align"><b>Add VAT %</b></td>
-                              <td><input type="text" class="form-control" id="vat_percentage" onkeyup="changeAmount(this) "placeholder="Rate" /></td>
-                              <td class="right-align" id="vat_amount"></td>
-                            </tr>
-                            <tr>
-                              <td colspan="7" class="right-align"><b>Add Del.Charges</b></td>
-                              <td class="right-align"><input type="text" class="form-control" onkeyup="changeAmount(this)"  id="del_charges" placeholder="Rate" /></td>
-                            </tr>
-                            <tr>
-                              <td colspan="7" class="right-align"><b>Other</b></td>
-                              <td class="right-align"><input type="text" class="form-control" onkeyup="changeAmount(this)" id="other_amount" placeholder="Rate" /></td>
-                            </tr>
-                            <tr>
-                              <td colspan="7" class="right-align"><b>Total Amount <span id="currency_disply"></span></b></td>
-                              <td class="right-align" id="grand_total"></td>
+                              <td colspan="8" class="right-align"><b>Total Amount <span id="currency_disply"></span></b></td>
+                              <td colspan="2" class="right-align" id="grand_total"></td>
                             </tr>
                           </tfoot>
                         </tr>

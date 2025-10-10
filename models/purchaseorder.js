@@ -48,28 +48,8 @@ const purchaseorder = sequelize.define('purchaseorder', {
     poLessDiscount: {
         type: DataTypes.DECIMAL(11, 2),
         allowNull: true,
-    },     
-    poGSTPercentage: {
-        type: DataTypes.DECIMAL(11, 2),
-        allowNull: true,
     },
     poGSTAmount: {
-        type: DataTypes.DECIMAL(11, 2),
-        allowNull: true,
-    },
-    poIGSTPercentage: {
-        type: DataTypes.DECIMAL(11, 2),
-        allowNull: true,
-    },
-    poIGSTAmount: {
-        type: DataTypes.DECIMAL(11, 2),
-        allowNull: true,
-    },
-    poVatPercentage: {
-        type: DataTypes.DECIMAL(11, 2),
-        allowNull: true,
-    },
-    poVatAmount: {
         type: DataTypes.DECIMAL(11, 2),
         allowNull: true,
     },

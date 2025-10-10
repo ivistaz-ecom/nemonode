@@ -33,6 +33,14 @@ const purchaseorderitem = sequelize.define('purchaseorderitem', {
         type: DataTypes.DECIMAL(11, 2),
         allowNull: true,
     },
+    poGSTValue: {
+        type: DataTypes.DECIMAL(11, 2),
+        allowNull: true,
+    },
+    poGSTAmount: {
+        type: DataTypes.DECIMAL(11, 2),
+        allowNull: true,
+    },
     poItemTotalRate: {
         type: DataTypes.DECIMAL(11, 2),
         allowNull: true,

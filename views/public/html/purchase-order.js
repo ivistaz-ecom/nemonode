@@ -6,6 +6,8 @@ let itemList = [
     quantity: "",
     unit: "",
     rate: "",
+    gstValue: "",
+    gstAmount: "",
     totalRate: 0.0,
   },
 ];
@@ -227,6 +229,8 @@ function addItem() {
     quantity: "",
     unit: "",
     rate: "",
+    gstValue: "",
+    gstAmount: "",
     totalRate: 0.0,
   });
   console.log(itemList, "itemListitemListb");
@@ -237,8 +241,12 @@ function displyitem(focusID = "") {
   let finalData = "";
   let subTotal = 0;
   itemList.forEach((item, index) => {
-    console.log(item, "itemitemitemitem");
-    const totalAmount = item.quantity !== "" && item.rate !== "" ? parseFloat(parseInt(item.quantity) * parseFloat(item.rate)).toFixed("2") : "0.00";
+
+    let totalAmount = item.quantity !== "" && item.rate !== "" ? parseFloat(parseInt(item.quantity) * parseFloat(item.rate)).toFixed("2") : "0.00";    
+    const gstAmount =  item.gstValue !== "" && parseFloat(item.gstValue)>0 ? parseFloat((parseFloat(item.gstValue)/100) * parseFloat(totalAmount)).toFixed("2") : "0.00";
+    if(item.gstValue !== "" && parseFloat(item.gstValue)>0) {
+      totalAmount = parseFloat(parseFloat(totalAmount) + parseFloat(gstAmount)).toFixed("2");
+    }
     subTotal += parseFloat(totalAmount);
     let cateogryList_ = cateogryList.map((citem) => {
       return `<option value="${citem.value}" ${item.cateogry == citem.value ? 'selected="selected"' : ""}>${citem.label}</option>`;
@@ -289,6 +297,14 @@ function displyitem(focusID = "") {
       item.rate
     }" />
                     </td>
+                    <td valign="top">
+                    <input type="text" pattern="[0-9]*"  class="form-control ${
+                      rateError ? "error" : ""
+                    }" id="gstValue_${index}" placeholder="GST%" onchange="changeValue('${index}', 'gstValue', 'gstValue_${index}', this)" onkeyup="changeValue('${index}', 'gstValue', 'gstValue_${index}', this)" value="${
+      item.gstValue
+    }" />
+                    </td>
+                    <td valign="top" class="right-align">${gstAmount}</td>
                     <td valign="top" class="right-align">${totalAmount}</td>
                 </tr>`;
   });
@@ -302,44 +318,15 @@ function displyitem(focusID = "") {
 }
 function calculateAmount(subTotal) {
   $("#subTotal").html(subTotal.toFixed("2"));
-  const gst_percentage = $("#gst_percentage").val() || 0;
-  let gst_amount = 0;
-  if (parseFloat(subTotal) > 0 && parseFloat(gst_percentage) > 0) {
-    gst_amount = parseFloat(subTotal * (parseFloat(gst_percentage) / 100));
-    $("#gst_amount").html(parseFloat(gst_amount).toFixed(2));
-  } else {
-    $("#gst_amount").html("");
-  }
-
-  const igst_percentage = $("#igst_percentage").val() || 0;
-  let igst_amount = 0;
-  if (parseFloat(subTotal) > 0 && parseFloat(igst_percentage) > 0) {
-    igst_amount = parseFloat(subTotal * (parseFloat(igst_percentage) / 100));
-    $("#igst_amount").html(parseFloat(igst_amount).toFixed(2));
-  } else {
-    $("#igst_amount").html("");
-  }
-
-  const vat_percentage = $("#vat_percentage").val() || 0;
-  let vat_amount = 0;
-  if (parseFloat(subTotal) > 0 && parseFloat(vat_percentage) > 0) {
-    vat_amount = parseFloat(subTotal * (parseFloat(vat_percentage) / 100));
-    $("#vat_amount").html(parseFloat(vat_amount).toFixed(2));
-  } else {
-    $("#vat_amount").html("");
-  }
   const del_charges = $("#del_charges").val() || 0;
   const insurance_amount = $("#insurance_amount").val() || 0;
   const other_amount = $("#other_amount").val() || 0;
   const LessDiscount = $("#LessDiscount").val() || 0;
-
+  console.log(LessDiscount, 'LessDiscountLessDiscountLessDiscount')
   let grand_total = 0;
   if (subTotal > 0) {
     grand_total =
       parseFloat(subTotal) +
-      parseFloat(gst_amount) +
-      parseFloat(igst_amount) +
-      parseFloat(vat_amount) +
       parseFloat(del_charges) +
       parseFloat(insurance_amount) +
       parseFloat(other_amount) -
@@ -348,7 +335,7 @@ function calculateAmount(subTotal) {
   } else {
     $("#grand_total").html("");
   }
-  return { gst_percentage, gst_amount, igst_percentage, igst_amount, vat_percentage, vat_amount, del_charges, insurance_amount, other_amount, grand_total, LessDiscount };
+  return { del_charges, insurance_amount, other_amount, grand_total, LessDiscount };
 }
 async function createNewPO() {
   let error = 0;
@@ -424,8 +411,14 @@ async function createNewPO() {
   } else {
     let finalItem = [];
     let subTotal = 0;
+    let totalTaxAmount = 0;
     itemList.map((citem) => {
-      const totalAmount = citem.quantity !== "" && citem.rate !== "" ? parseFloat(parseInt(citem.quantity) * parseFloat(citem.rate)).toFixed("2") : "0.00";
+      let totalAmount = citem.quantity !== "" && citem.rate !== "" ? parseFloat(parseInt(citem.quantity) * parseFloat(citem.rate)).toFixed("2") : "0.00";
+       const gstAmount =  citem.gstValue !== "" && parseFloat(citem.gstValue)>0 ? parseFloat((parseFloat(citem.gstValue)/100) * parseFloat(totalAmount)).toFixed("2") : "0.00";
+       totalTaxAmount+= parseFloat(gstAmount);
+      if(citem.gstValue !== "" && parseFloat(citem.gstValue)>0 && parseFloat(totalAmount)>0) {
+        totalAmount = parseFloat(parseFloat(totalAmount) + parseFloat(gstAmount)).toFixed("2");
+      }
       subTotal += parseFloat(totalAmount);
       finalItem.push({
         cateogry: citem.cateogry,
@@ -433,6 +426,8 @@ async function createNewPO() {
         quantity: citem.quantity,
         unit: citem.unit,
         rate: citem.rate,
+        gstValue: citem.gstValue,
+        gstAmount: gstAmount,
         totalRate: totalAmount,
       });
     });
@@ -446,13 +441,8 @@ async function createNewPO() {
       vendor_ref,
       poCurrency,
       finalItem,
-      subTotal,
-      gst_percentage: calValue?.gst_percentage || 0,
-      gst_amount: calValue?.gst_amount || 0,
-      igst_percentage: calValue?.igst_percentage || 0,
-      igst_amount: calValue?.igst_amount || 0,
-      vat_percentage: calValue?.vat_percentage || 0,
-      vat_amount: calValue?.vat_amount || 0,
+      subTotal: parseFloat(subTotal) - parseFloat(totalTaxAmount),
+      gst_amount: totalTaxAmount,
       del_charges: calValue?.del_charges || 0,
       insurance_amount: calValue?.insurance_amount || 0,
       other_amount: calValue?.other_amount || 0,
@@ -460,6 +450,8 @@ async function createNewPO() {
       grand_total: calValue?.grand_total || 0,
       poNote:$('#poNote').val()
     };
+    console.log(poDatas, 'poDataspoDataspoDataspoDatas');
+    //return false;
     try {
       showLoader("createPO");
       const serverResponse = await axios.post(`${config.APIURL}api/purchase/createPO`, poDatas, { headers: { Authorization: token } });
@@ -501,8 +493,11 @@ function removeTextError(name) {
 
 async function changeValue(index, filedName, focusID, e) {
   let value = e.value;
-  if (filedName === "quantity" || filedName === "rate") {
+  if (filedName === "quantity" || filedName === "rate" || filedName ==='gstValue') {
     value = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+    if(filedName ==='gstValue' && value>100) {
+      value = 100;
+    }
   }
 
   if (filedName === "candidates") {
