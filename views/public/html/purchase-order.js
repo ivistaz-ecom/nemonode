@@ -306,6 +306,7 @@ function displyitem(focusID = "") {
                     </td>
                     <td valign="top" class="right-align">${gstAmount}</td>
                     <td valign="top" class="right-align">${totalAmount}</td>
+                    <td  valign="top" class="center-align"><i onmouseover="this.style.color='red'" onmouseout="this.style.color='gray'" onclick="removeItem(${index})" class="fa fa-trash" style="color: gray;"></i></td>
                 </tr>`;
   });
   $("#po-item").html(finalData);
@@ -315,6 +316,24 @@ function displyitem(focusID = "") {
     el.focus();
     el.setSelectionRange(el.value.length, el.value.length);
   }
+}
+function removeItem(removeID) {
+  let itemList_ = itemList;
+  itemList_.splice(removeID);
+  if(itemList_.length<=0) {
+    itemList_ = [{
+      cateogry: "",
+      candidates: [],
+      quantity: "",
+      unit: "",
+      rate: "",
+      gstValue: "",
+      gstAmount: "",
+      totalRate: 0.0,
+    }]
+  }
+  itemList = itemList_;
+  displyitem();  
 }
 function calculateAmount(subTotal) {
   $("#subTotal").html(subTotal.toFixed("2"));
