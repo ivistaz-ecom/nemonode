@@ -156,7 +156,7 @@ const createPO = async (req, res) => {
             poItemQuantity: item.quantity ?? "",
             poItemUnit: item.unit ?? "",
             poItemRate: item.rate ?? "",
-            poGSTValue: item.gstValue ?? "",
+            poGSTValue: item.gstValue ?? null,
             poGSTAmount: item.gstAmount ?? "",
             poItemTotalRate: item.totalRate ?? "",
           };
