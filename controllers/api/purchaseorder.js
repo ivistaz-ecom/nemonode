@@ -149,6 +149,7 @@ const createPO = async (req, res) => {
       if (finalItem.length > 0 && poID !== "" && poID !== null) {
         finalItem.map(async (item) => {
           const candidateids = item.candidates.length > 0 ? item.candidates.map((c) => c.ID).join(",") : "";
+          const gstValue = item.gstValue ?? '';
           const itemData = {
             poID: poID,
             poItemCateogryID: item.cateogry ?? "",
@@ -156,7 +157,7 @@ const createPO = async (req, res) => {
             poItemQuantity: item.quantity ?? "",
             poItemUnit: item.unit ?? "",
             poItemRate: item.rate ?? "",
-            poGSTValue: item.gstValue ?? null,
+            poGSTValue: gstValue!=="" ? gstValue : null,
             poGSTAmount: item.gstAmount ?? "",
             poItemTotalRate: item.totalRate ?? "",
           };
