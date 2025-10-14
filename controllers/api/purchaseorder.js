@@ -117,9 +117,11 @@ const createPO = async (req, res) => {
       vesselCode = vesselDetails[0].vesselCode;
     }
     const today = new Date();
-    let month = today.getMonth().toString();
+    let month =  today.getMonth().toString();
     if (parseFloat(month) + 1 <= 9) {
       month = `0${parseFloat(month) + 1}`;
+    }else {
+      month = `${parseFloat(month) + 1}`;
     }
     const year = today.getFullYear().toString().slice(-2);
     const poNumber = `${vesselCode}/${month}${year}/${poIncNumber}/${potype_}`;
@@ -365,8 +367,8 @@ const generatePO = async (req, res) => {
             <td class="center-align">${item.poItemUnit}</td>
             <td class="center-align">${poData.poCurrency}</td>
             <td class="right">${parseFloat(item.poItemRate).toFixed(2)}</td>
-            <td class="right">${item.poGSTValue}</td>
-            <td class="right">${(item.poGSTAmount!=="")?parseFloat(item.poGSTAmount).toFixed('2'):''}</td>
+            <td class="right">${(item.poGSTValue!==null)?item.poGSTValue:''}</td>
+            <td class="right">${(item.poGSTAmount!=="" && parseFloat(item.poGSTAmount)>0)?parseFloat(item.poGSTAmount).toFixed('2'):''}</td>
             <td class="right">${parseFloat(item.poItemTotalRate).toFixed('2')}</td>
           </tr>
          `;
