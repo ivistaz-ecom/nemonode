@@ -1198,9 +1198,17 @@ const add_discussiondetails= async (req, res) => {
 
 const add_discussionplusdetails = async (req, res) => {
     try {
+
         // Extract data from the request body
-        const { companyname, join_date, discussion, reason, post_by, reminder, r_date, created_date, discussionconnected } = req.body;
+        const { companyname, join_date, reason, post_by, reminder, r_date, created_date, discussionconnected, reference_check_text, reference_check } = req.body;
+        let discussion  = req.body?.discussion;
         console.log("Reason",reason)
+        if(reference_check===true && reference_check_text!=="") {
+            if(discussion!=="") {
+                discussion+=' ';
+            }
+            discussion+=`Reference Check: ${reference_check_text}`;
+        }
         const candidateId = req.params.id;
 
         // Ensure default values for optional fields
@@ -1212,6 +1220,7 @@ const add_discussionplusdetails = async (req, res) => {
             const plainCandidate = await candidateDetails.get({ plain: true });
             rankName = plainCandidate?.c_rank ?? '';
         }
+
 
         // Create a new discussion entry in the database
         const newDiscussion = await Discussion.create({
