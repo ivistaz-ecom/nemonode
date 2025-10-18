@@ -280,6 +280,7 @@ const getAllCandidates = async (req, res) => {
                 order: [['candidateId', 'DESC']],
                 offset,
                 limit,
+                logging: console.log, 
             });
             totalCount = await Candidate.count(); // Count all candidates without pagination
         } else if (userGroup == 'vendor' && readOnly) {
