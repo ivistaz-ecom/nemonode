@@ -255,7 +255,7 @@ const getAllCandidates = async (req, res) => {
         }
         const readOnly = user.dataValues.readOnly;
         const userGroup = user.dataValues.userGroup;
-        console.log('User Group:', userGroup);
+        console.log('User Group:', userGroup, readOnly);
 
         let page = parseInt(req.query.page) || 1; // Get the page from query parameters, default to 1
         let limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
