@@ -2,6 +2,8 @@
 // loginRoutes.js
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
 const userAuthentication= require('../middleware/auth')
 const purchaseorderControllers = require("../controllers/api/purchaseorder")
@@ -14,7 +16,7 @@ const vendorControllers = require("../controllers/api/povendor")
 router.get("/getNemoDetails", userAuthentication.authenticate, purchaseorderControllers.getNemoDetails)
 router.get("/list", userAuthentication.authenticate, purchaseorderControllers.getList)
 router.get("/generatePO", /* userAuthentication.authenticate, */ purchaseorderControllers.generatePO)
-router.post("/createPO",  userAuthentication.authenticate, purchaseorderControllers.createPO)
+router.post("/createPO",  userAuthentication.authenticate,  upload.single("invoice"), purchaseorderControllers.createPO)
 
 router.post("/branch/create", userAuthentication.authenticate, branchControllers.save)
 router.get("/branch/dropdown", userAuthentication.authenticate, branchControllers.dropdownlist)

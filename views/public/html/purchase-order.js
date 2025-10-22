@@ -49,6 +49,13 @@ async function loadPOList(page = 1, limit = 10) {
     if (vendor !== "" && vendor !== null) {
       addParam += `&vendor=${vendor}`;
     }
+    const fromDate = $("#po_from_date").val();
+    const toDate = $("#po_to_date").val();
+    if (fromDate !== "" && fromDate !== null && toDate !== "" && toDate !== null) {
+      addParam += `&fromDate=${fromDate}&toDate=${toDate}`;
+    }else if (fromDate !== "" && fromDate !== null) {
+      addParam += `&fromDate=${fromDate}`;
+    }
 
     const response = await axios.get(`${config.APIURL}api/purchase/list?page=${page}&limit=${limit}${addParam}`, { headers: { Authorization: token } });
     const list = response.data.result;
@@ -65,6 +72,7 @@ async function loadPOList(page = 1, limit = 10) {
           <td>${result.vendorName}</td>
           <td>${result.vesselName}</td>
           <td>${result.poCurrency} ${result.poGrandTotal}</td>
+          <td>${result.poInvoice!=="" && result.poInvoice!==null?`<a href="${config.APIURL}uploads/poinvoice/${result.poInvoice}" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true" title="View Invoice"></i></a>`:``}</td>
           <td><a href="javascript:;" onclick="viewPO('${result.poID}', this)"><i class="fa fa-file-pdf" aria-hidden="true"></i></a></td>
         `;
         statsBody.appendChild(row);
@@ -451,6 +459,11 @@ async function createNewPO() {
       });
     });
     const calValue = calculateAmount(subTotal);
+    const formData = new FormData();
+    const invoice = document.getElementById("invoice").files[0];
+    if (invoice) {
+        formData.append("invoice", invoice);
+      }
     const poDatas = {
       branch,
       potype,
@@ -459,7 +472,7 @@ async function createNewPO() {
       po_date,
       vendor_ref,
       poCurrency,
-      finalItem,
+      finalItem:JSON.stringify(finalItem),
       subTotal: parseFloat(subTotal) - parseFloat(totalTaxAmount),
       gst_amount: totalTaxAmount,
       del_charges: calValue?.del_charges || 0,
@@ -469,11 +482,14 @@ async function createNewPO() {
       grand_total: calValue?.grand_total || 0,
       poNote:$('#poNote').val()
     };
-    console.log(poDatas, 'poDataspoDataspoDataspoDatas');
-    //return false;
+    for (const key in poDatas) {
+      if (poDatas.hasOwnProperty(key)) {
+        formData.append(key, poDatas[key]);
+      }
+    }
     try {
       showLoader("createPO");
-      const serverResponse = await axios.post(`${config.APIURL}api/purchase/createPO`, poDatas, { headers: { Authorization: token } });
+      const serverResponse = await axios.post(`${config.APIURL}api/purchase/createPO`, formData, { headers: { Authorization: token, "Content-Type": "multipart/form-data", } });
       const successMsg = serverResponse?.data?.message ?? '';
       alert(successMsg);
       setTimeout(() => {

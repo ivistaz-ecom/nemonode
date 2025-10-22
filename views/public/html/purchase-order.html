@@ -139,6 +139,14 @@
                       <label for="company_management" class="col-form-label">Vendor</label>
                       <select class="form-select" id="vendor" name="vendor" onchange="removeSelectError('vendor')"></select>
                     </div>
+                    <div class="col-md-3">
+                      <label for="po_from_date" class="col-form-label">PO Form Date</label>
+                      <input type="date" class="form-control" id="po_from_date" placeholder="Select PO Form Date" />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="po_date" class="col-form-label">PO To Date</label>
+                      <input type="date" class="form-control" id="po_to_date" placeholder="Select PO To Date"  />
+                    </div>
                      <div class="col-md-2" style="margin-top: 33px;">
                     <button type="button" class="btn btn-primary" id="serachPO" onclick="serachPO()">Search PO</button>
                     </div>
@@ -160,6 +168,7 @@
                         <th scope="col" style="font-size: 8px">Vendor</th>
                         <th scope="col" style="font-size: 8px">Vessel</th>
                         <th scope="col" style="font-size: 8px">Total</th>
+                        <th scope="col" style="font-size: 8px">Invoice</th>
                         <th scope="col" style="font-size: 8px">Action</th>
                       </tr>
                     </thead>

@@ -70,7 +70,11 @@ const purchaseorder = sequelize.define('purchaseorder', {
         allowNull: false,
     },
     poNote :{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    poInvoice :{
+        type: DataTypes.STRING,
         allowNull: true,
     },
     poCreatedBy: {

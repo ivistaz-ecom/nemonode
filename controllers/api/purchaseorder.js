@@ -41,6 +41,8 @@ const getList = async (req, res) => {
     const potype = req.query.potype || '';
     const POvessel = req.query.POvessel || '';
     const vendor = req.query.vendor || '';
+    const fromDate = req.query.fromDate || '';
+    const toDate = req.query.toDate || '';
     let addParam = '';
     if(searchpo_number!=="") {
       addParam+=` AND poNumber LIKE '%${searchpo_number}%'`
@@ -57,8 +59,13 @@ const getList = async (req, res) => {
     if(vendor!=="") {
       addParam+=` AND poVendor='${vendor}'`
     }
+    if(fromDate!=="" && toDate!=="") {
+      addParam+=` AND poDate>='${fromDate}' AND poDate<='${toDate}'`
+    }else if(fromDate!=="") {
+      addParam+=` AND poDate='${fromDate}'`
+    }
   
-
+    
 
     const query = `SELECT a.*, vesselName, vendorName FROM purchaseorder AS a INNER JOIN vsls ON a.poVessel=id INNER JOIN povendor ON a.poVendor=vendorID WHERE poID IS NOT NULL ${addParam}  ORDER BY poID DESC LIMIT ${offset}, ${limit}`;
     const result = await sequelize.query(query, {
@@ -89,8 +96,10 @@ const createPO = async (req, res) => {
     const userId = req.user.id;
     const request = req.body;
     const POvessel = request?.POvessel ?? "";
-    const finalItem = request?.finalItem ?? [];
+    const finalItem = request?.finalItem ?? "";
     const potype = request?.potype ?? "";
+    console.log(req.file, request, 'req.filereq.file')
+    
     let potype_ = "O";
     if (potype === "Owners") {
       potype_ = "C";
@@ -125,7 +134,7 @@ const createPO = async (req, res) => {
     }
     const year = today.getFullYear().toString().slice(-2);
     const poNumber = `${vesselCode}/${month}${year}/${poIncNumber}/${potype_}`;
-    const poData = {
+    let poData = {
       poNumber: poNumber,
       poType: request?.potype ?? "",
       pobranchID: request?.branch ?? "",
@@ -145,11 +154,24 @@ const createPO = async (req, res) => {
       poCreatedBy: userId,
       poCreateOn: new Date(),
     };
+    if (req.file) {
+      try {
+        const timestamp = new Date().toISOString().replace(/[-:.T]/g, "").slice(0, 14);
+        const originalName = req.file.originalname;
+        const newFileName = `${timestamp}_${originalName}`;
+        const targetPath = path.join(process.cwd(), "uploads/poinvoice", newFileName);
+        // Write file manually to disk
+        fs.writeFileSync(targetPath, req.file.buffer);
+        poData.poInvoice = newFileName
+      } catch (err) {
+      }
+    }
     const createPODetails = await purchaseorder.create(poData);
     if (createPODetails !== "") {
       const poID = createPODetails?.poID ?? "";
-      if (finalItem.length > 0 && poID !== "" && poID !== null) {
-        finalItem.map(async (item) => {
+      if (finalItem!=="" && poID !== "" && poID !== null) {
+        const finalItem_ = JSON.parse(finalItem);
+        finalItem_.map(async (item) => {
           const candidateids = item.candidates.length > 0 ? item.candidates.map((c) => c.ID).join(",") : "";
           const gstValue = item.gstValue ?? '';
           const itemData = {
