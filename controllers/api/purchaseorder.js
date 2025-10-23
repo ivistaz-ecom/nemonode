@@ -154,18 +154,6 @@ const createPO = async (req, res) => {
       poCreatedBy: userId,
       poCreateOn: new Date(),
     };
-    if (req.file) {
-      try {
-        const timestamp = new Date().toISOString().replace(/[-:.T]/g, "").slice(0, 14);
-        const originalName = req.file.originalname;
-        const newFileName = `${timestamp}_${originalName}`;
-        const targetPath = path.join(process.cwd(), "uploads/poinvoice", newFileName);
-        // Write file manually to disk
-        fs.writeFileSync(targetPath, req.file.buffer);
-        poData.poInvoice = newFileName
-      } catch (err) {
-      }
-    }
     const createPODetails = await purchaseorder.create(poData);
     if (createPODetails !== "") {
       const poID = createPODetails?.poID ?? "";
@@ -195,6 +183,55 @@ const createPO = async (req, res) => {
     res.status(400).json({ success: false, message: `Internal Server Error ${err}` });
   }
 };
+
+const uploadPoInvoice = async (req, res) => {
+  try {
+    const poID = req.body?.poID ?? "";
+
+    if (!poID) {
+      return res.status(400).json({ success: false, message: "Missing PO ID" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "Please upload a file" });
+    }
+
+    // Generate unique filename
+    const timestamp = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 14);
+    const originalName = req.file.originalname.replace(/\s+/g, "_");
+    const newFileName = `${timestamp}_${originalName}`;
+    const targetDir = path.join(process.cwd(), "uploads/poinvoice");
+    const targetPath = path.join(targetDir, newFileName);
+
+    // Ensure upload directory exists
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+
+    // Save file
+    await fs.promises.writeFile(targetPath, req.file.buffer);
+
+    // Update database
+    await purchaseorder.update(
+      { poInvoice: newFileName },
+      { where: { poID } }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Invoice uploaded successfully",
+      fileName: newFileName
+    });
+
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    return res.status(500).json({
+      success: false,
+      message: `Internal Server Error: ${err.message}`
+    });
+  }
+};
+
 
 const generatePO = async (req, res) => {
   try {
@@ -528,4 +565,4 @@ const imageUrlToDataUri = async (url) => {
   });
 };
 
-module.exports = { generatePO, createPO, getNemoDetails, getList };
+module.exports = { generatePO, createPO, getNemoDetails, getList, uploadPoInvoice };

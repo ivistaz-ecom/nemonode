@@ -72,7 +72,8 @@ async function loadPOList(page = 1, limit = 10) {
           <td>${result.vendorName}</td>
           <td>${result.vesselName}</td>
           <td>${result.poCurrency} ${result.poGrandTotal}</td>
-          <td>${result.poInvoice!=="" && result.poInvoice!==null?`<a href="${config.APIURL}uploads/poinvoice/${result.poInvoice}" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true" title="View Invoice"></i></a>`:``}</td>
+          <td id="po-invoice-${result.poID}">${result.poInvoice!=="" && result.poInvoice!==null?`<a href="${config.APIURL}uploads/poinvoice/${result.poInvoice}" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true" title="View Invoice"></i></a>`:`<input type="file" id="${result.poID}" style="display:none" onchange="handleFileUpload(event, '${result.poID}')" />
+            <i class="fa fa-upload" aria-hidden="true" style="cursor:pointer" onclick="triggerUpload('${result.poID}')">`}</td>
           <td><a href="javascript:;" onclick="viewPO('${result.poID}', this)"><i class="fa fa-file-pdf" aria-hidden="true"></i></a></td>
         `;
         statsBody.appendChild(row);
@@ -92,6 +93,39 @@ async function loadPOList(page = 1, limit = 10) {
     console.error("Error fetching vessels:", error);
   }
 }
+function triggerUpload(id) {
+  document.getElementById(id).click();
+}
+ function handleFileUpload(event, poID) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("invoice", file);
+    formData.append("poID", poID);
+
+    axios.post(`${config.APIURL}api/purchase/uploadPoInvoice`, formData, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "multipart/form-data"
+      }
+    })
+    .then(res => {
+      console.log("Upload success:", res.data);
+      if(res.data.success===true) {
+      alert("Invoice uploaded successfully!");
+      $(`#po-invoice-${poID}`).html(`<a href="${config.APIURL}uploads/poinvoice/${res.data.fileName}" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true" title="View Invoice"></i></a>`);
+      }else {
+        alert("Upload failed!");
+      }
+      // optionally reload or update row
+    })
+    .catch(err => {
+      console.error("Upload failed:", err);
+      alert("Upload failed!");
+    });
+  }
+
 async function viewPO(poID) {
   showLoader("po-list");
   try {
@@ -222,7 +256,6 @@ async function fetchAndDisplayVendor() {
 async function fetchAndDisplayCategory() {
   try {
     const serverResponse = await axios.get(`${config.APIURL}api/purchase/category/dropdown`, { headers: { Authorization: token } });
-    console.log(serverResponse);
     cateogryList = serverResponse.data.result; // Fix here
     displyitem();
   } catch (error) {
@@ -349,7 +382,6 @@ function calculateAmount(subTotal) {
   const insurance_amount = $("#insurance_amount").val() || 0;
   const other_amount = $("#other_amount").val() || 0;
   const LessDiscount = $("#LessDiscount").val() || 0;
-  console.log(LessDiscount, 'LessDiscountLessDiscountLessDiscount')
   let grand_total = 0;
   if (subTotal > 0) {
     grand_total =
@@ -460,10 +492,6 @@ async function createNewPO() {
     });
     const calValue = calculateAmount(subTotal);
     const formData = new FormData();
-    const invoice = document.getElementById("invoice").files[0];
-    if (invoice) {
-        formData.append("invoice", invoice);
-      }
     const poDatas = {
       branch,
       potype,
