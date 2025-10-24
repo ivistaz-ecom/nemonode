@@ -1407,8 +1407,9 @@ const delete_candidate = async (req, res) => {
 const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
-        const user = await User.findByPk(id)
+        const user = await User.findByPk(req.user.id)
         console.log("hello",user)
+
         let userGroup = user.dataValues.userGroup
 
         console.log(':::::>>>>>',userGroup, candidateId)
