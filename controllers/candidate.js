@@ -1409,8 +1409,26 @@ const get_contractdetails= async (req, res) => {
         const candidateId = req.params.id;
         const user = await User.findByPk(req.user.id)
         console.log("hello",user)
-
-        let userGroup = user.dataValues.userGroup
+         let userGroup = user.dataValues.userGroup
+         if(userGroup==='vendor') {
+            if(user!==null) {
+                const userVendor = user?.userVendor ?? '';
+                console.log(userVendor, 'userVendoruserVendoruserVendor')
+                if(userVendor!==null) {
+                    const veselquery = `SELECT id FROM vsls WHERE vsl_company='${userVendor}'`;
+                    console.log(veselquery, 'vveselqueryveselquery')
+                    const veselqueryList = await sequelize.query(query, {
+                        type: sequelize.QueryTypes.SELECT
+                    });
+                    if(veselqueryList.length>0) {
+                        const vesselIds = veselqueryList.map(item => item.id).join(",");
+                        console.log(vesselIds, 'vesselIdsvesselIdsvesselIds')
+                    }
+                }
+                
+            }
+         }
+    
 
         console.log(':::::>>>>>',userGroup, candidateId)
 
