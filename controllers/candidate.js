@@ -1408,21 +1408,22 @@ const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
         const user = await User.findByPk(req.user.id)
-        console.log("hello",user)
-         let userGroup = user.dataValues.userGroup
-         if(userGroup==='vendor') {
+        let userGroup = user.dataValues.userGroup
+        let vesselWhere = '';
+        if(userGroup==='vendor') {
             if(user!==null) {
                 const userVendor = user?.userVendor ?? '';
-                console.log(userVendor, 'userVendoruserVendoruserVendor')
                 if(userVendor!==null) {
                     const veselquery = `SELECT id FROM vsls WHERE vsl_company='${userVendor}'`;
-                    console.log(veselquery, 'vveselqueryveselquery')
                     const veselqueryList = await sequelize.query(veselquery, {
                         type: sequelize.QueryTypes.SELECT
                     });
                     if(veselqueryList.length>0) {
                         const vesselIds = veselqueryList.map(item => item.id).join(",");
-                        console.log(vesselIds, 'vesselIdsvesselIdsvesselIds')
+                        if(vesselIds!=="") {
+                            vesselWhere = ` AND vslName IN (${vesselIds}) `;
+                        }
+                        
                     }
                 }
                 
@@ -1430,9 +1431,10 @@ const get_contractdetails= async (req, res) => {
          }
     
 
-        console.log(':::::>>>>>',userGroup, candidateId)
+        console.log(':::::>>>>>',candidateId)
 
-         const query = `SELECT a.*, b.userName, c.vesselName AS vlsName, vesselGRT, vesselEngine,vesselKWT, vesselFlag FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id LEFT JOIN vsls AS c ON a.vslName=c.id WHERE candidateId='${candidateId}'`;
+         const query = `SELECT a.*, b.userName, c.vesselName AS vlsName, vesselGRT, vesselEngine,vesselKWT, vesselFlag FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id LEFT JOIN vsls AS c ON a.vslName=c.id WHERE candidateId='${candidateId}' ${vesselWhere}`;
+         console.log(query, 'queryqueryquery')
         const contractDetails = await sequelize.query(query, {
             type: sequelize.QueryTypes.SELECT
         });
