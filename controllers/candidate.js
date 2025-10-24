@@ -1407,7 +1407,11 @@ const delete_candidate = async (req, res) => {
 const get_contractdetails= async (req, res) => {
     try {
         const candidateId = req.params.id;
-        console.log(':::::>>>>>',candidateId)
+        const user = await User.findByPk(id)
+        console.log("hello",user)
+        let userGroup = user.dataValues.userGroup
+
+        console.log(':::::>>>>>',userGroup, candidateId)
 
          const query = `SELECT a.*, b.userName, c.vesselName AS vlsName, vesselGRT, vesselEngine,vesselKWT, vesselFlag FROM contract AS a LEFT JOIN Users AS b ON a.created_by=b.id LEFT JOIN vsls AS c ON a.vslName=c.id WHERE candidateId='${candidateId}'`;
         const contractDetails = await sequelize.query(query, {
