@@ -1417,7 +1417,7 @@ const get_contractdetails= async (req, res) => {
                 if(userVendor!==null) {
                     const veselquery = `SELECT id FROM vsls WHERE vsl_company='${userVendor}'`;
                     console.log(veselquery, 'vveselqueryveselquery')
-                    const veselqueryList = await sequelize.query(query, {
+                    const veselqueryList = await sequelize.query(veselquery, {
                         type: sequelize.QueryTypes.SELECT
                     });
                     if(veselqueryList.length>0) {
