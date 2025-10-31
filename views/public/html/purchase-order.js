@@ -71,10 +71,10 @@ async function loadPOList(page = 1, limit = 10) {
           <td>${result.poDate}</td>
           <td>${result.vendorName}</td>
           <td>${result.vesselName}</td>
-          <td>${result.poCurrency} ${result.poGrandTotal}</td>
+          <td>${result.poCurrency} ${result.poGrandTotal}</td>          
+          <td><a href="javascript:;" onclick="viewPO('${result.poID}', this)"><i class="fa fa-file-pdf" aria-hidden="true"></i></a></td>
           <td id="po-invoice-${result.poID}">${result.poInvoice!=="" && result.poInvoice!==null?`<a href="${config.APIURL}uploads/poinvoice/${result.poInvoice}" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true" title="View Invoice"></i></a>`:`<input type="file" id="${result.poID}" style="display:none" onchange="handleFileUpload(event, '${result.poID}')" />
             <i class="fa fa-upload" aria-hidden="true" style="cursor:pointer" onclick="triggerUpload('${result.poID}')">`}</td>
-          <td><a href="javascript:;" onclick="viewPO('${result.poID}', this)"><i class="fa fa-file-pdf" aria-hidden="true"></i></a></td>
         `;
         statsBody.appendChild(row);
       });
